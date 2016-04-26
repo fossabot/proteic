@@ -34,6 +34,14 @@ describe('Linechart', () => {
       }, Error, 'Missing constructor parameters');
     });
 
+    it('throws an error if the number of parameters is greater than 2', () => {
+      assert.throws(() => {
+        var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
+        var config = {}
+        new Linechart(data, config, 'foo')
+      }, Error, 'Unrecognized number of paremeters');
+    });
+
     it('will construct a line chart given some data', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var chart = new Linechart(data);
