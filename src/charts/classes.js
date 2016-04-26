@@ -31,6 +31,7 @@ class Chart {
   _initializeSVGContext() {
     this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
   }
+
   /**
    * @param  {Object} data Data object. This method infer the type of data, which could be:
    * Array: Data is an static object.
@@ -134,6 +135,7 @@ class Flow extends Chart {
   constructor() {
     super();
   }
+  
   draw(data) {
     //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
     //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.

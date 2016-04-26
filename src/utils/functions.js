@@ -27,16 +27,16 @@ var utils = utils || {
     var _toString = Object.prototype.toString;
     var _parser = (x) => { return x; };
     var _getItem = (x) => {
-      return _parser((x !== null && typeof x === "object" && x[o.prop]) || x);
+      return _parser((x !== null && typeof x === 'object' && x[o.prop]) || x);
     };
 
     if (!(array instanceof Array) || !array.length) {
       return [];
     }
-    if (_toString.call(o) !== "[object Object]") {
+    if (_toString.call(o) !== '[object Object]') {
       o = {};
     }
-    if (typeof o.parser !== "function") {
+    if (typeof o.parser !== 'function') {
       o.parser = _parser;
     }
     o.desc = o.desc ? -1 : 1;

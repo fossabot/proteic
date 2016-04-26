@@ -49,8 +49,5 @@ class SvgChart {
         this.events.leave = config.events.leave || _default[this.cType].events.leave;
         this._sortData = config.sortData || _default[this.cType].sortData;
         this.style = config.style || _default[this.cType].style;
-    };
-
-
-
+    }
 }

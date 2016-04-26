@@ -20,7 +20,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
         var href = image.getAttribute('xlink:href');
         if (href) {
           if (isExternal(href.value)) {
-            console.warn("Cannot render embedded images linking to external hosts: " + href.value);
+            console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
             return;
           }
         }
@@ -40,7 +40,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
           }
         }
         img.onerror = function () {
-          console.error("Could not load " + href);
+          console.error('Could not load ' + href);
           left--;
           if (left == 0) {
             callback();
@@ -51,18 +51,18 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
   }
 
   function styles(el, selectorRemap) {
-    var css = "";
+    var css = '';
     var sheets = document.styleSheets;
     for (var i = 0; i < sheets.length; i++) {
       if (isExternal(sheets[i].href)) {
-        console.warn("Cannot include styles from other hosts: " + sheets[i].href);
+        console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
         continue;
       }
       var rules = sheets[i].cssRules;
       if (rules != null) {
         for (var j = 0; j < rules.length; j++) {
           var rule = rules[j];
-          if (typeof (rule.style) != "undefined") {
+          if (typeof (rule.style) != 'undefined') {
             var match = null;
             try {
               match = el.querySelector(rule.selectorText);
@@ -71,7 +71,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
             }
             if (match) {
               var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
-              css += selector + " { " + rule.style.cssText + " }\n";
+              css += selector + ' { ' + rule.style.cssText + ' }\n';
             } else if (rule.cssText.match(/^@font-face/)) {
               css += rule.cssText + '\n';
             }
@@ -84,10 +84,10 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
   utils.svgAsDataUri = function (el, options, cb) {
     options = options || {};
     options.scale = options.scale || 1;
-    var xmlns = "http://www.w3.org/2000/xmlns/";
+    var xmlns = 'http://www.w3.org/2000/xmlns/';
 
     inlineImages(el, function () {
-      var outer = document.createElement("div");
+      var outer = document.createElement('div');
       var clone = el.cloneNode(true);
       var width, height;
       if (el.tagName == 'svg') {
@@ -104,18 +104,18 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
         clone = svg;
       }
 
-      clone.setAttribute("version", "1.1");
-      clone.setAttributeNS(xmlns, "xmlns", "http://www.w3.org/2000/svg");
-      clone.setAttributeNS(xmlns, "xmlns:xlink", "http://www.w3.org/1999/xlink");
-      clone.setAttribute("width", width * options.scale);
-      clone.setAttribute("height", height * options.scale);
-      clone.setAttribute("viewBox", "0 0 " + width + " " + height);
+      clone.setAttribute('version', '1.1');
+      clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+      clone.setAttribute('width', width * options.scale);
+      clone.setAttribute('height', height * options.scale);
+      clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
       outer.appendChild(clone);
 
       var css = styles(el, options.selectorRemap);
       var s = document.createElement('style');
       s.setAttribute('type', 'text/css');
-      s.innerHTML = "<![CDATA[\n" + css + "\n]]>";
+      s.innerHTML = '<![CDATA[\n' + css + '\n]]>';
       var defs = document.createElement('defs');
       defs.appendChild(s);
       clone.insertBefore(defs, clone.firstChild);

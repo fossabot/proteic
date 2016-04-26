@@ -12,7 +12,7 @@ class SvgStreamgraphStrategy extends SvgChart {
             .ticks(d3.time.days);
 
         this.yAxis = d3.svg.axis().scale(this.y);
-    };
+    }
 
 	/**
 	 * Renders a barchart based on data object
