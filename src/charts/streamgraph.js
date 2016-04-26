@@ -49,19 +49,11 @@ class Streamgraph extends Flow {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum){
-    var config = this.config;
-    var maxNumberOfElements = config.maxNumberOfElements;
     if(!this.datum){
       this.datum = [];
     }
     this.datum = this.datum.concat(datum);
-    if(maxNumberOfElements && maxNumberOfElements > 0){
-      if(this.datum.length > maxNumberOfElements){
-        for(let i = 0; i < datum.length; i++){
-          this.datum.shift();
-        }
-      }
-    }
+    console.log('to draw', JSON.stringify(this.datum));
     super.draw(this.datum);
   }
 }

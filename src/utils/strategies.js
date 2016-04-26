@@ -5,7 +5,7 @@ const strategies = {
   Linechart(data, config) {
     return new SvgLinechartStrategy(data, config, 'Linechart');
   },
-  Streamgraph(data, k) {
+  Streamgraph(data, config) {
     return new SvgStreamgraphStrategy(data, config, 'Streamgraph');
   }
 };

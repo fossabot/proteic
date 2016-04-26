@@ -67,13 +67,13 @@ class Chart {
       };
     }
 
-
     //private streaming functions, only available when using websockets
     this.start = () => {
       _initialize();
     }
     this.stop = () => {
-      this.ws.close();
+      if (this.ws)
+        this.ws.close();
     }
   }
 
@@ -113,9 +113,6 @@ class Chart {
 
 }
 
-
-
-
 /**
  * Basic chart. This class in inherited in all basic charts implementatios.
  * This is a non-instanciable chart. Instanciable charts are: bar, line, point.
@@ -135,5 +132,11 @@ class Basic extends Chart {
 class Flow extends Chart {
   constructor() {
     super();
+  }
+  draw(data) {
+    //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
+    //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
+    data = JSON.parse(JSON.stringify(data));
+    super.draw(data);
   }
 }

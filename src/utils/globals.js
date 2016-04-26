@@ -4,11 +4,11 @@
  */
 const _default = {
   Barchart: {
-    style:{
-      '.axis':{
+    style: {
+      '.axis': {
         'font': '10px sans-serif'
       },
-      '.axis path,.axis line':{
+      '.axis path,.axis line': {
         'fill': 'none',
         'stroke': '#000',
         'shape-rendering': 'crispEdges'
@@ -68,14 +68,14 @@ const _default = {
     },
     width: 600,
     height: 250,
-    style:{
+    style: {
       'path': {
         'stroke': '#11D3BC',
         'stroke-width': 2,
-        'fill':  'none'
+        'fill': 'none'
       },
       '.axis': {
-         'font': '10px sans-serif'
+        'font': '10px sans-serif'
       },
       '.axis path,.axis line': {
         'fill': 'none',
@@ -126,20 +126,36 @@ const _default = {
     }
   },
   Streamgraph: {
+    selector: '#chart',
+    xDateFormat: '%m/%d/%y',
+    colorScale: {
+      from: 'orange',
+      to: 'blue'
+    },
+    style: {
+      '.axis': {
+        'font': '10px sans-serif'
+      },
+
+      '.axis path,.axis line': {
+        'fill': 'none',
+        'stroke': '#000',
+        'shape-rendering': 'crispEdges'
+      }
+    },
     margin: {
       top: 20,
       right: 20,
       bottom: 30,
       left: 50
     },
-    width: 600,
-    height: 250,
+    width: 900,
+    height: 300,
     ticks: 5, // ticks for y axis.
     tooltip(object) {
       return 'Info: ' + JSON.stringify(object);
     },
     tickLabel: '',
-    selector: '#chart',
     events: {
       down() {
         d3.select(this).classed('hover', false);

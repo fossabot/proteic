@@ -29,6 +29,7 @@
     "karma-coverage": "^0.5.5",
     "karma-mocha": "^0.2.2",
     "mocha": "^2.4.5",
+    "moment": "^2.13.0",
     "socket.io": "^1.4.5",
     "socketio": "^1.0.0"
   }
