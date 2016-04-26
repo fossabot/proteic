@@ -27,7 +27,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.colors = d3.scale.category20();
 
-    this.keyFunction = (d => d.x);
+    this.keyFunction = ((d) => d.x);
   };
 
 	/**
@@ -39,8 +39,8 @@ class SvgLinechartStrategy extends SvgChart {
     super.draw(data);
     //Re-scale axis
     // this.x.domain([0, d3.max(data, function (d) { return d.x; })]);
-    this.x.domain([d3.min(data, d => d.x), d3.max(data, d => d.x)]);
-    this.y.domain([0, d3.max(data, d => d.y)]);
+    this.x.domain([d3.min(data, (d) => d.x), d3.max(data, (d) => d.x)]);
+    this.y.domain([0, d3.max(data, (d) => d.y)]);
 
     //Create a transition effect for axis rescaling
     this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);

@@ -25,7 +25,7 @@ class SvgBarchartStrategy extends SvgChart {
       .ticks(this.ticks, this.tickLabel);
 
     this.colors = d3.scale.category20();
-    this.keyFunction = (d => d.x);
+    this.keyFunction = ((d) => d.x);
 
   };
 
@@ -40,7 +40,7 @@ class SvgBarchartStrategy extends SvgChart {
 
     //Re-scale axis
     this.x.domain(data.map(this.keyFunction));
-    var max = d3.max(data, d => d[this.yAxisName]);
+    var max = d3.max(data, (d) => d[this.yAxisName]);
     this.y.domain([0, max]);
 
     //Create a transition effect for axis rescaling
@@ -53,7 +53,7 @@ class SvgBarchartStrategy extends SvgChart {
     bars.enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("height", d => this.height - this.y(d[this.yAxisName]))
+      .attr("height", (d) => this.height - this.y(d[this.yAxisName]))
       .attr("fill", (d, i) => this.colors(i))
       //namespaces let us to provide more than one functon for the same event
       .on('mousedown.user', this.events.down)
@@ -74,10 +74,10 @@ class SvgBarchartStrategy extends SvgChart {
     bars
       .transition()
       .duration(300)
-      .attr("x", d => this.x(d[this.xAxisName]))
+      .attr("x", (d) => this.x(d[this.xAxisName]))
       .attr("width", this.x.rangeBand())
-      .attr("y", d => this.y(d[this.yAxisName]))
-      .attr("height", d => (this.height - this.y(d[this.yAxisName])));
+      .attr("y", (d) => this.y(d[this.yAxisName]))
+      .attr("height", (d) => (this.height - this.y(d[this.yAxisName])));
 
     this._applyCSS();
   }

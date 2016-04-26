@@ -8,7 +8,7 @@ class SvgStreamgraphStrategy extends SvgChart {
         this.format = d3.time.format(this.xDateformat);
         this.xAxis = d3.svg.axis()
             .scale(this.x)
-            .orient("bottom")
+            .orient('bottom')
             .ticks(d3.time.days);
 
         this.yAxis = d3.svg.axis().scale(this.y);
@@ -20,6 +20,12 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * 
 	 */
     draw(data) {
+        var layers = null;
+        var nColors = null; //number of colors = different keys
+        var fromColor = this.colorScale.from;
+        var toColor = this.colorScale.to;
+        var colorrange = chroma.scale([fromColor, toColor]).colors(nColors); //color range based on user preferences
+
         //Initialize data
         if (!this._initialized) {
             this._initialize();
@@ -29,46 +35,42 @@ class SvgStreamgraphStrategy extends SvgChart {
             d.date = this.format.parse(d.date);
             d.value = +d.value;
         });
-         this.stack = d3.layout.stack()
-            .offset("silhouette")
-            .values(d => d.values)
-            .x(d => d.date)
-            .y(d => d.value);
+        this.stack = d3.layout.stack()
+            .offset('silhouette')
+            .values((d) => d.values)
+            .x((d) => d.date)
+            .y((d) => d.value);
 
         this.nest = d3.nest()
-            .key(d => d.key);
+            .key((d) => d.key);
 
         this.area = d3.svg.area()
-            .interpolate("cardinal")
-            .x(d => this.x(d.date))
-            .y0(d => this.y(d.y0))
-            .y1(d => this.y(d.y0 + d.y));
-            
-            console.log(data);
-        var layers = this.stack(this.nest.entries(data));
+            .interpolate('cardinal')
+            .x((d) => this.x(d.date))
+            .y0((d) => this.y(d.y0))
+            .y1((d) => this.y(d.y0 + d.y));
 
-        this.x.domain(d3.extent(data, d => d.date));
-        this.y.domain([0, d3.max(data, d => (d.y0 + d.y))]);
+        layers = this.stack(this.nest.entries(data));
 
-        var nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
-        var fromColor = this.colorScale.from;
-        var toColor = this.colorScale.to;
-        var colorrange = chroma.scale([fromColor, toColor]).colors(nColors);
+        this.x.domain(d3.extent(data, (d) => d.date));
+        this.y.domain([0, d3.max(data, (d) => (d.y0 + d.y))]);
+
+        nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
 
         this.z = d3.scale.ordinal().range(colorrange);
         var context = this;
-        this.svg.selectAll(".layer")
+        this.svg.selectAll('.layer')
             .data(layers)
             .enter()
-            .append("path")
-            .attr("class", "layer")
-            .attr("d", d => this.area(d.values))
+            .append('path')
+            .attr('class', 'layer')
+            .attr('d', (d) => this.area(d.values))
 
 
-            .style("fill", (d, i) => this.z(i));
+            .style('fill', (d, i) => this.z(i));
 
-        this.svg.selectAll(".layer")
-            .attr("opacity", 1)
+        this.svg.selectAll('.layer')
+            .attr('opacity', 1)
             .on('mousedown.user', this.events.down)
             .on('mouseup.user', this.events.up)
             .on('mouseleave.user', this.events.leave)
@@ -76,18 +78,18 @@ class SvgStreamgraphStrategy extends SvgChart {
             .on('click.user', this.events.click);
 
         var vertical = d3.select(this.selector)
-            .append("div")
-            .attr("class", "remove")
-            .style("position", "absolute")
-            .style("z-index", "19")
-            .style("width", "1px")
-            .style("height", "380px")
-            .style("top", "10px")
-            .style("bottom", "30px")
-            .style("left", "0px")
-            .style("background", "#000000");
+            .append('div')
+            .attr('class', 'remove')
+            .style('position', 'absolute')
+            .style('z-index', '19')
+            .style('width', '1px')
+            .style('height', '380px')
+            .style('top', '10px')
+            .style('bottom', '30px')
+            .style('left', '0px')
+            .style('background', '#000000');
 
-console.log('drawing');
+        console.log('drawing');
         this._applyCSS();
     };
 
@@ -95,24 +97,24 @@ console.log('drawing');
         var width = this.width + this.margin.left + this.margin.right;
         var height = this.height + this.margin.left + this.margin.right;
 
-        this.svg = d3.select(this.selector).append("svg")
+        this.svg = d3.select(this.selector).append('svg')
             .attr({ 'width': width, 'height': height })
-            .append("g")
-            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+            .append('g')
+            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
-        this.svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + this.height + ")")
+        this.svg.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + this.height + ')')
             .call(this.xAxis);
 
-        this.svg.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(" + this.width + ", 0)")
-            .call(this.yAxis.orient("right"));
+        this.svg.append('g')
+            .attr('class', 'y axis')
+            .attr('transform', 'translate(' + this.width + ', 0)')
+            .call(this.yAxis.orient('right'));
 
-        this.svg.append("g")
-            .attr("class", "y axis")
-            .call(this.yAxis.orient("left"));
+        this.svg.append('g')
+            .attr('class', 'y axis')
+            .call(this.yAxis.orient('left'));
 
         this._initialized = true;
     };

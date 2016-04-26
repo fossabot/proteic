@@ -1,5 +1,4 @@
-var utils = utils || {};
-utils = {
+var utils = utils || {
   isArray(d) {
     return d && d.constructor === Array && d instanceof Array;
   },
@@ -9,11 +8,11 @@ utils = {
   },
 
   getNumberOfDifferentArrayKeys(array, field) {
+    var keys = [];
+
     if (!array || !array.length) {
       return 0;
     }
-
-    var keys = [];
 
     for (let i = 0; i < array.length; i++) {
       var element = field ? array[i][field] : array[i];
@@ -26,23 +25,25 @@ utils = {
 
   sortBy(array, o) {
     var _toString = Object.prototype.toString;
-    var _parser = function(x) { return x; };
-    var _getItem = function(x) {
-      return _parser((x !== null && typeof x === "object" && x[this.prop]) || x);
+    var _parser = (x) => { return x; };
+    var _getItem = (x) => {
+      return _parser((x !== null && typeof x === "object" && x[o.prop]) || x);
     };
 
-    if (!(array instanceof Array) || !array.length)
+    if (!(array instanceof Array) || !array.length) {
       return [];
-    if (_toString.call(o) !== "[object Object]")
+    }
+    if (_toString.call(o) !== "[object Object]") {
       o = {};
-    if (typeof o.parser !== "function")
+    }
+    if (typeof o.parser !== "function") {
       o.parser = _parser;
-    o.desc = !!o.desc ? -1 : 1;
-    return array.sort(function(a, b) {
+    }
+    o.desc = o.desc ? -1 : 1;
+    return array.sort((a, b) => {
       a = _getItem.call(o, a);
       b = _getItem.call(o, b);
       return o.desc * (a < b ? -1 : +(a > b));
     });
   }
-
 };
