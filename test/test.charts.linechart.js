@@ -30,7 +30,7 @@ describe('Linechart', () => {
   describe('constructor()', () => {
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
-        new Linechart()
+        var linechart = new Linechart();
       }, Error, 'Missing constructor parameters');
     });
 
@@ -38,7 +38,7 @@ describe('Linechart', () => {
       assert.throws(() => {
         var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
         var config = {}
-        new Linechart(data, config, 'foo')
+        var linechart = new Linechart(data, config, 'foo');
       }, Error, 'Unrecognized number of paremeters');
     });
 
@@ -59,7 +59,7 @@ describe('Linechart', () => {
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
-        new Linechart(data)
+        var linechart = new Linechart(data);
       }, TypeError, 'Wrong data format');
     });
   });
