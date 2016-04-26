@@ -1,15 +1,14 @@
-describe('Utils', function() {
+describe('Utils', () => {
 
-  describe('functions', function() {
+  describe('functions', () => {
 
     it('utils.isArray()', () => {
       assert.isOk(utils.isArray([]));
       assert.isOk(utils.isArray([1, 2, 3, 4]));
-      assert.isOk(utils.isArray([{ "a": "b" }]));
-      assert.isNotOk(utils.isArray(undefined));
+      assert.isOk(utils.isArray([{ 'a': 'b' }]));
       assert.isNotOk(utils.isArray(null));
       assert.isNotOk(utils.isArray(false));
-      assert.isNotOk(utils.isArray(""));
+      assert.isNotOk(utils.isArray(''));
       assert.isNotOk(utils.isArray(1000));
       assert.isNotOk(utils.isArray(0x0));
       assert.isNotOk(utils.isArray(new Object()));
