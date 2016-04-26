@@ -5,7 +5,7 @@ const concat = require('gulp-concat');
 const server = require('karma').Server;
 
 
-gulp.task('concat', function() {
+gulp.task('concat', () => {
   return gulp.src([
     './src/utils/globals.js',
     './src/utils/svg.js',
@@ -13,17 +13,17 @@ gulp.task('concat', function() {
     './src/charts/barchart.js',
     './src/charts/streamgraph.js'
   ])
-  .pipe(concat('proteus-charts.js'))
-  .pipe(gulp.dest('./dist/'));
-}); 
+    .pipe(concat('proteus-charts.js'))
+    .pipe(gulp.dest('./dist/'));
+});
 
-gulp.task('minify', function() {
+gulp.task('minify', () => {
   return gulp.src('./dist/es5/proteus-charts.js')
     .pipe(uglify().on('error', gutil.log))
     .pipe(gulp.dest('./min'));
 });
 
-gulp.task('test', function (done) {
+gulp.task('test', (done) => {
   new server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true

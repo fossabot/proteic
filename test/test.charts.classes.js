@@ -1,6 +1,6 @@
-describe('Charts', function() {
+describe('Charts', () => {
 
-  describe('Chart(), Flow(), Basic()', function() {
+  describe('Chart(), Flow(), Basic()', () => {
 
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
