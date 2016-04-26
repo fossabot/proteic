@@ -20,11 +20,11 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * 
 	 */
     draw(data) {
-        var layers = null;
+        var layers = null; //streamgraph layers
         var nColors = null; //number of colors = different keys
         var fromColor = this.colorScale.from;
         var toColor = this.colorScale.to;
-        var colorrange = chroma.scale([fromColor, toColor]).colors(nColors); //color range based on user preferences
+        var colorrange = null; //color range based on user preferences
 
         //Initialize data
         if (!this._initialized) {
@@ -56,9 +56,10 @@ class SvgStreamgraphStrategy extends SvgChart {
         this.y.domain([0, d3.max(data, (d) => (d.y0 + d.y))]);
 
         nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
-
+        colorrange = chroma.scale([fromColor, toColor]).colors(nColors);  
+        
         this.z = d3.scale.ordinal().range(colorrange);
-        var context = this;
+
         this.svg.selectAll('.layer')
             .data(layers)
             .enter()

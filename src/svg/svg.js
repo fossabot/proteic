@@ -1,8 +1,9 @@
 class SvgChart {
 
     constructor(data, config, cType) {
-        if (new.target === SvgChart) {
-            throw new Error(new.target + ' is non-instanciable');
+        var clazz = this.constructor.name;
+        if (clazz === 'SvgChart') {
+            throw new Error(clazz + ' is non-instanciable');
         }
         this._initialized = false;
         this.cType = cType;

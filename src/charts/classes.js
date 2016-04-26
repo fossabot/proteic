@@ -8,8 +8,9 @@
 class Chart {
 
   constructor() {
-    if (new.target === Chart || new.target === Basic || new.target === Flow) {
-      throw new Error(new.target + ' is non-instanciable');
+    var clazz = this.constructor.name;
+    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow') {
+      throw new Error(clazz + ' is non-instanciable');
     }
   }
 
