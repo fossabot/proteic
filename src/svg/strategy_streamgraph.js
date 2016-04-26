@@ -92,7 +92,7 @@ class SvgStreamgraphStrategy extends SvgChart {
 
         console.log('drawing');
         this._applyCSS();
-    };
+    }
 
     _initialize() {
         var width = this.width + this.margin.left + this.margin.right;
@@ -118,7 +118,7 @@ class SvgStreamgraphStrategy extends SvgChart {
             .call(this.yAxis.orient('left'));
 
         this._initialized = true;
-    };
+    }
 
 	/**
 	 * This method adds config options to the chart context.
@@ -132,5 +132,5 @@ class SvgStreamgraphStrategy extends SvgChart {
         super._loadConfigOnContext(config);
         this.colorScale = config.colorScale || _default.Streamgraph.colorScale;
         this.xDateformat = config.xDateFormat || _default.Streamgraph.xDateFormat;
-    };
-};
+    }
+}

@@ -1,4 +1,5 @@
 class SvgBarchartStrategy extends SvgChart {
+  
   constructor(data, config, cType) {
     super(data, config, cType);
     //Create range function
@@ -26,9 +27,7 @@ class SvgBarchartStrategy extends SvgChart {
 
     this.colors = d3.scale.category20();
     this.keyFunction = ((d) => d.x);
-
-  };
-
+  }
 
 	/**
 	 * Renders a barchart based on data object
@@ -106,7 +105,7 @@ class SvgBarchartStrategy extends SvgChart {
       .call(this.yAxis)
       .append("text");
     this._initialized = true;
-  };
+  }
 
 	/**
 	 * This method adds config options to the chart context.
@@ -118,5 +117,5 @@ class SvgBarchartStrategy extends SvgChart {
       config.events = {};
     }
     super._loadConfigOnContext(config);
-  };
+  }
 };

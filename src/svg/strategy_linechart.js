@@ -28,7 +28,7 @@ class SvgLinechartStrategy extends SvgChart {
     this.colors = d3.scale.category20();
 
     this.keyFunction = ((d) => d.x);
-  };
+  }
 
 	/**
 	 * Renders a linechart based on data object
@@ -92,7 +92,7 @@ class SvgLinechartStrategy extends SvgChart {
       .on('click.user', this.events.click);
 
     this._applyCSS();
-  };
+  }
 
 
   _initialize() {
@@ -122,7 +122,7 @@ class SvgLinechartStrategy extends SvgChart {
       .call(this.yAxis)
       .append('text');
     this._initialized = true;
-  };
+  }
 
 	/**
 	 * This method adds config options to the chart context.
@@ -136,5 +136,6 @@ class SvgLinechartStrategy extends SvgChart {
     super._loadConfigOnContext(config);
     this.markers = config.markers || _default.Linechart.markers;
     return this;
-  };
-};
+  }
+  
+}
