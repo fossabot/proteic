@@ -74,8 +74,9 @@ class Chart {
       _initialize();
     }
     this.stop = () => {
-      if (this.ws)
+      if (this.ws){
         this.ws.close();
+      }
     }
   }
 
