@@ -8,9 +8,6 @@ class SvgLinechartStrategy extends SvgChart {
     this.x = d3.scale.linear().range([0, this.width]);
     this.y = d3.scale.linear().range([this.height, 0]);
 
-    var width = this.width - this.margin.left - this.margin.right;
-    var height = this.height - this.margin.top - this.margin.bottom;
-
     //Create scale
     this.xAxis = d3.svg.axis()
       .scale(this.x)
@@ -47,14 +44,13 @@ class SvgLinechartStrategy extends SvgChart {
     this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
 
     // Bind data
-    var x = this.x
-    var y = this.y
     var line = d3.svg.line()
-      .x(function (d) { return x(d.x); })
-      .y(function (d) { return y(d.y) });
+      .x((d) => this.x(d.x))
+      .y((d) => this.y(d.y));
 
     // Create path and bind data to it
-    var path = this.svg.select('path')
+    var path = this.svg
+      .select('path')
       .datum(data, this.keyFunction)
       .attr('d', line);
 
@@ -63,10 +59,12 @@ class SvgLinechartStrategy extends SvgChart {
       switch (this.markers.shape) {
         case 'circle':
           var markers = this.svg.selectAll('circle').data(data, this.keyFunction);
-          // markers.remove();
-          markers.enter().append('circle')
-            .attr('cx', function (d) { return x(d.x); })
-            .attr('cy', function (d) { return y(d.y); })
+
+          markers
+            .enter()
+            .append('circle')
+            .attr('cx', (d) => this.x(d.x))
+            .attr('cy', (d) => this.y(d.y))
             .attr('r', this.markers.size)
             .style({
               'fill': this.markers.color,
@@ -76,8 +74,8 @@ class SvgLinechartStrategy extends SvgChart {
 
           markers
             .transition()
-            .attr('cx', function (d) { return x(d.x); })
-            .attr('cy', function (d) { return y(d.y); })
+            .attr('cx', (d) => this.x(d.x))
+            .attr('cy', (d) => this.y(d.y))
             .duration(0);
           break;
       }
@@ -121,6 +119,8 @@ class SvgLinechartStrategy extends SvgChart {
       .attr('stroke-dasharray', '5, 5')
       .call(this.yAxis)
       .append('text');
+
+    //Initialize SVG
     this._initialized = true;
   }
 
@@ -135,7 +135,9 @@ class SvgLinechartStrategy extends SvgChart {
     }
     super._loadConfigOnContext(config);
     this.markers = config.markers || _default.Linechart.markers;
+
+    //Just for testing purposes
     return this;
   }
-  
+
 }

@@ -96,7 +96,6 @@ class Chart {
    * @return {[String]} Image in data-url format
    */
   toPNG(cb) {
-    console.log(this);
     utils.svgAsDataUri(d3.select(this.config.selector + ' svg')[0][0], {}, (uri, err) => {
       if (err) {
         throw Error('Error converting to image ' + err);
