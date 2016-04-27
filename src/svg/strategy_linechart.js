@@ -81,6 +81,8 @@ class SvgLinechartStrategy extends SvgChart {
             .attr('cy', (d) => this.y(d.y))
             .duration(0);
           break;
+        default:
+          throw Error('Not a valid marker shape: ' + this.markers.shape);
       }
     }
 

@@ -125,7 +125,7 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
     _loadConfigOnContext(config) {
-        var config = config || { events: {} };
+        config = config || { events: {} };
         if (!config.events) {
             config.events = {};
         }
