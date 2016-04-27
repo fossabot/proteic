@@ -33,6 +33,9 @@ class SvgLinechartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
+    var line = null;
+    var path = null;
+    var markers = null;
     super.draw(data);
     //Re-scale axis
     // this.x.domain([0, d3.max(data, function (d) { return d.x; })]);
@@ -44,12 +47,12 @@ class SvgLinechartStrategy extends SvgChart {
     this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
 
     // Bind data
-    var line = d3.svg.line()
+    line = d3.svg.line()
       .x((d) => this.x(d.x))
       .y((d) => this.y(d.y));
 
     // Create path and bind data to it
-    var path = this.svg
+    path = this.svg
       .select('path')
       .datum(data, this.keyFunction)
       .attr('d', line);
@@ -58,7 +61,7 @@ class SvgLinechartStrategy extends SvgChart {
     if (this.markers) {
       switch (this.markers.shape) {
         case 'circle':
-          var markers = this.svg.selectAll('circle').data(data, this.keyFunction);
+          markers = this.svg.selectAll('circle').data(data, this.keyFunction);
 
           markers
             .enter()

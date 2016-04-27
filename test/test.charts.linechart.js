@@ -37,7 +37,7 @@ describe('Linechart', () => {
     it('throws an error if the number of parameters is greater than 2', () => {
       assert.throws(() => {
         var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
-        var config = {}
+        var config = {};
         var linechart = new Linechart(data, config, 'foo');
       }, Error, 'Unrecognized number of paremeters');
     });

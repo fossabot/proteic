@@ -33,11 +33,13 @@ class SvgBarchartStrategy extends SvgChart {
 	 */
   draw(data) {
     var bars = null;
+    var max = Number.MIN_VALUE;
+    
     super.draw(data);
 
     //Re-scale axis
     this.x.domain(data.map(this.keyFunction));
-    var max = d3.max(data, (d) => d[this.yAxisName]);
+    max = d3.max(data, (d) => d[this.yAxisName]);
     this.y.domain([0, max]);
 
     //Create a transition effect for axis rescaling

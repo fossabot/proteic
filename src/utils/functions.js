@@ -9,13 +9,14 @@ var utils = utils || {
 
   getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
+    var element = null;
 
     if (!array || !array.length) {
       return 0;
     }
 
     for (let i = 0; i < array.length; i++) {
-      var element = field ? array[i][field] : array[i];
+      element = field ? array[i][field] : array[i];
       if (element) {
         keys.push(element);
       }

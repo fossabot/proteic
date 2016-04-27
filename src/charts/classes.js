@@ -1,5 +1,7 @@
 'use strict';
-/* globals Svg, _default */
+/**
+ * globals Svg, _default
+ */
 
 /**
  * Base class. This class is inherited in all charts implementations.
@@ -22,7 +24,7 @@ class Chart {
       data: this.data,
       config: this.config,
       cType: this.constructor.name
-    }
+    };
   }
 
   /**

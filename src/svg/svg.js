@@ -26,9 +26,11 @@ class SvgChart {
 
     _applyCSS() {
         var style = this.style;
+        var styleValue = null;
+        
         for (let key in style) {
-            var value = style[key];
-            d3.selectAll(key).style(value);
+            styleValue = style[key];
+            d3.selectAll(key).style(styleValue);
         }
     }
 
