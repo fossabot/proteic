@@ -100,7 +100,7 @@ class SvgLinechartStrategy extends SvgChart {
     //Create a global 'g' (group) element
     this.svg = d3
       .select(this.selector).append('svg')
-      .attr({ 'width': width, 'height': height })
+      .attr({ width, height })
       .append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 

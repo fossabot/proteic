@@ -1,4 +1,4 @@
-describe('Barchart', function () {
+describe('Barchart', () => {
   beforeEach(() => {
     //Append default chart div
     var div = document.createElement('div');
@@ -7,14 +7,14 @@ describe('Barchart', function () {
   });
 
   afterEach(() => {
-    var el = document.getElementById( 'chart' );
+    var el = document.getElementById('chart');
     el.parentNode.removeChild(el);
   });
 
-  describe('constructor()', function () {
+  describe('constructor()', () => {
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
-        new Barchart()
+        var barchart = new Barchart();
       }, Error, 'Missing constructor parameters');
     });
 
@@ -27,19 +27,19 @@ describe('Barchart', function () {
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
-        new Barchart(data)
+        var barchart = new Barchart(data);
       }, TypeError, 'Wrong data format');
     });
   });
 
-  describe('chart functions ', function () {
+  describe('chart functions ', () => {
     it('toPNG()', (done) => {
       var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
       var chart = new Barchart(data);
       chart.draw();
 
       //wait for image creation
-      setTimeout(function () {
+      setTimeout(() => {
         var result = chart.toPNG((uri) => {
           assert.isOk(uri);
         });

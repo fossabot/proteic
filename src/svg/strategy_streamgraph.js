@@ -56,8 +56,8 @@ class SvgStreamgraphStrategy extends SvgChart {
         this.y.domain([0, d3.max(data, (d) => (d.y0 + d.y))]);
 
         nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
-        colorrange = chroma.scale([fromColor, toColor]).colors(nColors);  
-        
+        colorrange = chroma.scale([fromColor, toColor]).colors(nColors);
+
         this.z = d3.scale.ordinal().range(colorrange);
 
         this.svg.selectAll('.layer')
@@ -99,7 +99,7 @@ class SvgStreamgraphStrategy extends SvgChart {
         var height = this.height + this.margin.left + this.margin.right;
 
         this.svg = d3.select(this.selector).append('svg')
-            .attr({ 'width': width, 'height': height })
+            .attr({ width, height })
             .append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 

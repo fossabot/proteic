@@ -3,7 +3,7 @@ describe('SvgLinechartStrategy', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250, height = 100;
-      var config = { width: width, height: height };
+      var config = { width, height };
       
       var svg = new SvgLinechartStrategy(data, config, 'Linechart');
       var result = svg._loadConfigOnContext(config);
