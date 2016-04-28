@@ -63,7 +63,7 @@ describe('Linechart', () => {
     it('should construct a line chart with some custom configuration', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250;
-      var config = { width: width};
+      var config = {width};
       var defaultMargin = _default.Linechart.margin;
       var chart = new Linechart(data, config);
       chart.draw();
