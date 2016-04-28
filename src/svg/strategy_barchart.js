@@ -1,7 +1,7 @@
 class SvgBarchartStrategy extends SvgChart {
 
-  constructor(data, config, cType) {
-    super(data, config, cType);
+  constructor(chartContext) {
+    super(chartContext);
     //Create range function
     this.xAxisName = 'x';
     this.yAxisName = 'y';

@@ -94,10 +94,9 @@ const _default = {
       outlineColor: '#537780',
       outlineWidth: 2
     },
-    tooltip(object) {
-      return 'Info: ' + JSON.stringify(object);
+    tooltip(text) {
+      return text;
     },
-    tickLabel: '',
     events: {
       down() {
         d3.select(this).classed('hover', false);
@@ -106,18 +105,21 @@ const _default = {
         d3.select(this)
           .transition()
           .duration(50)
-          .style('stroke-width', 3);
+          .attr('r', 7)
+        ;
       },
       leave() {
         d3.select(this)
           .transition()
           .duration(50)
+          .attr('r', 5)
           .style('stroke-width', 2);
       },
       click(d, i) {
         console.log(d, i);
       }
     },
+    tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {

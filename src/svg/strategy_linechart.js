@@ -1,6 +1,6 @@
 class SvgLinechartStrategy extends SvgChart {
-  constructor(data, config, cType) {
-    super(data, config, cType);
+  constructor(chartContext) {
+    super(chartContext);
     //Create range function
     this.xAxisName = 'x';
     this.yAxisName = 'y';
@@ -86,8 +86,15 @@ class SvgLinechartStrategy extends SvgChart {
       }
     }
 
-    // Add events to the line
-    path
+    // Add tooltips to the markers
+    if (this.tooltip) {
+      markers
+        .append('title')
+        .text(this.tooltip((d) => this.x(d.x)));
+    }
+
+    // Add events to the markers
+    markers
       .on('mousedown.user', this.events.down)
       .on('mouseup.user', this.events.up)
       .on('mouseleave.user', this.events.leave)
@@ -134,12 +141,20 @@ class SvgLinechartStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-    config = config || { events: {} };
+    config = config || { events: {}, markers: {}};
     if (!config.events) {
       config.events = {};
     }
+    if (!config.markers) {
+      config.markers = {};
+    }
     super._loadConfigOnContext(config);
-    this.markers = config.markers || _default.Linechart.markers;
+    this.markers = {}
+    this.markers.color = config.markers.color || _default.Linechart.markers.color
+    this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor
+    this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth
+    this.markers.shape = config.markers.shape || _default.Linechart.markers.shape
+    this.markers.size = config.markers.size || _default.Linechart.markers.size
 
     //Just for testing purposes
     return this;
