@@ -53,7 +53,6 @@ class Streamgraph extends Flow {
       this.datum = [];
     }
     this.datum = this.datum.concat(datum);
-    console.log('to draw', JSON.stringify(this.datum));
     super.draw(this.datum);
   }
 }

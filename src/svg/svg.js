@@ -39,7 +39,7 @@ class SvgChart {
         this.width = config.width ||  _default[this.cType].width;
         this.height = config.height ||  _default[this.cType].height;
         this.ticks = config.ticks ||  _default[this.cType].ticks;
-        this.tickLabel = config.tickLabel || _default[this.cType].tickLabel
+        this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
         this.selector = config.selector || _default[this.cType].selector;
         this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
         this.tooltip = config.tooltip || _default[this.cType].tooltip;

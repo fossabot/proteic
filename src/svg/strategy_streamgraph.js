@@ -1,7 +1,7 @@
 class SvgStreamgraphStrategy extends SvgChart {
 
-    constructor(data, config, cType) {
-        super(data, config, cType);
+    constructor(chartContext) {
+        super(chartContext);
         this.x = d3.time.scale().range([0, this.width]);
         this.y = d3.scale.linear().range([this.height - 10, 0]);
 
@@ -90,7 +90,6 @@ class SvgStreamgraphStrategy extends SvgChart {
             .style('left', '0px')
             .style('background', '#000000');
 
-        console.log('drawing');
         this._applyCSS();
     }
 
