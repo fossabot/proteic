@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/proteus-h2020/proteus-charts.svg?branch=development)](https://travis-ci.org/proteus-h2020/proteus-charts)
 [![devDependency Status](https://david-dm.org/proteus-h2020/proteus-charts/dev-status.svg)](https://david-dm.org/0xNacho/proteus-charts#info=devDependencies)
 [![Dependency Status](https://david-dm.org/proteus-h2020/proteus-charts.svg)](https://david-dm.org/0xNacho/proteus-charts)
-[![codecov.io](https://codecov.io/github/proteus-h2020/proteus-charts/coverage.svg?branch=development)](https://codecov.io/github/proteus-h2020/proteus-charts?branch=development)
+[![codecov](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/828f75b1887540969e7e79937715198b)](https://www.codacy.com/app/nachogarcia91/proteus-charts)
 
 HTML5 and CSS3 charts.
