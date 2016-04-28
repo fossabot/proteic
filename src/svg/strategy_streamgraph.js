@@ -90,7 +90,6 @@ class SvgStreamgraphStrategy extends SvgChart {
             .style('left', '0px')
             .style('background', '#000000');
 
-        console.log('drawing');
         this._applyCSS();
     }
 

@@ -123,4 +123,4 @@ class SvgBarchartStrategy extends SvgChart {
     //Just for testing purposes
     return this;
   }
-};
+}

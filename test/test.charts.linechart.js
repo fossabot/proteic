@@ -4,7 +4,7 @@ describe('SvgLinechartStrategy', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250, height = 100;
       var config = { width, height };
-      
+
       var svg = new SvgLinechartStrategy(data, config, 'Linechart');
       var result = svg._loadConfigOnContext(config);
       result.should.have.property('width').equals(width);
@@ -51,7 +51,7 @@ describe('Linechart', () => {
     it('should construct a line chart with some custom configuration', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250, height = 100;
-      var config = { width: width, height: height };
+      var config = { width, height };
       var chart = new Linechart(data, config);
       assert.isOk(chart);
     });
