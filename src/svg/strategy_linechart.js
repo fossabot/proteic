@@ -149,12 +149,12 @@ class SvgLinechartStrategy extends SvgChart {
       config.markers = {};
     }
     super._loadConfigOnContext(config);
-    this.markers = {}
-    this.markers.color = config.markers.color || _default.Linechart.markers.color
-    this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor
-    this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth
-    this.markers.shape = config.markers.shape || _default.Linechart.markers.shape
-    this.markers.size = config.markers.size || _default.Linechart.markers.size
+    this.markers = {};
+    this.markers.color = config.markers.color || _default.Linechart.markers.color;
+    this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
+    this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
+    this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
+    this.markers.size = config.markers.size || _default.Linechart.markers.size;
 
     //Just for testing purposes
     return this;

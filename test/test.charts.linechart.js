@@ -17,7 +17,7 @@ describe('SvgLinechartStrategy', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250, height = 100;
       var config = { width, height };
-      var svg = new SvgLinechartStrategy({data, config, cType: 'Linechart'});
+      var svg = new SvgLinechartStrategy({ data, config, cType: 'Linechart' });
       var result = svg._loadConfigOnContext(config);
       result.should.have.property('width').equals(width);
       result.should.have.property('height').equals(height);
@@ -63,14 +63,14 @@ describe('Linechart', () => {
     it('should construct a line chart with some custom configuration', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250;
-      var config = {width};
+      var config = { width };
       var defaultMargin = _default.Linechart.margin;
       var chart = new Linechart(data, config);
       chart.draw();
       assert.isOk(chart);
 
       var svg = document.getElementsByTagName('svg')[0];
-      parseInt(svg.getAttribute("width")).should.equals(width + defaultMargin.left + defaultMargin.right);
+      parseInt(svg.getAttribute('width')).should.equals(width + defaultMargin.left + defaultMargin.right);
     });
 
     it.skip('should construct a line chart with streaming data', function(done) {
@@ -110,5 +110,26 @@ describe('Linechart', () => {
         done();
       }, 600);
     });
+
+    it('addSerie(): should return an error because serie needs to be an object', () => {
+      assert.throws(() => {
+        var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
+        var chart = new Linechart(data);
+        chart.draw();
+        chart.addSerie([{}, {}], true);
+      }, Error);
+    });
+    
+    it('addSeries(): should return an error because serie needs to be an array', () => {
+      assert.throws(() => {
+        var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
+        var chart = new Linechart(data);
+        chart.draw();
+        
+        var serie = {};
+        chart.addSeries(serie);
+      }, Error);
+    });
+    
   });
 });

@@ -81,6 +81,31 @@ class Chart {
       }
     }
   }
+    
+  addSerie(serie, autodraw = true){
+    if(!serie || !utils.isObject(serie)){
+      throw Error('\'serie\' should be an object. Instead: ' + series);
+    }
+    
+    this.data.push(serie);
+    
+    if(autodraw){
+      this.draw();
+    }
+  }
+  
+  
+  addSeries(series, autodraw = true){
+    if(!series || series.constructor !== Array){
+      throw Error('\'series\' should be an array. Instead: ' + series);
+    }
+    
+    this.data = this.data.concat(series);
+    
+    if(autodraw){
+      this.draw();
+    }
+  }
 
   /**
    * Renders data on barchart. Only allowed when data is an array of static data.
