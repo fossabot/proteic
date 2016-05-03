@@ -5,28 +5,37 @@ const concat = require('gulp-concat');
 const server = require('karma').Server;
 
 
-
-gulp.task('concat', function() {
+gulp.task('concat', () => {
   return gulp.src([
-  	'./src/utils/globals.js',
-  	'./src/utils/svg.js',
-  	'./src/charts/classes.js'
-  	])
+    './src/utils/globals.js',
+    './src/utils/svg.js',
+    './src/charts/classes.js',
+    './src/charts/barchart.js',
+    './src/charts/streamgraph.js'
+  ])
     .pipe(concat('proteus-charts.js'))
     .pipe(gulp.dest('./dist/'));
-});	
+});
 
-gulp.task('minify', function() {
+gulp.task('minify', () => {
   return gulp.src('./dist/es5/proteus-charts.js')
     .pipe(uglify().on('error', gutil.log))
     .pipe(gulp.dest('./min'));
 });
 
-gulp.task('test', function (done) {
-	new server({
-		configFile: __dirname + '/karma.conf.js',
-		singleRun: true
-	}, done).start();
+gulp.task('test', (done) => {
+  // const fork = require('child_process').fork;
+  // const ws = fork('./websocket-server.js');
+  //
+  // ws.on('close', (code, signal) => {
+  //   console.log(
+  //     `WebSocket process terminated due to receipt of signal ${signal}`);
+  // });
+
+  new server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 gulp.task('default', ['test', 'concat', 'minify']);

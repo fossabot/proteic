@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Wed Apr 06 2016 14:18:09 GMT+0200 (CEST)
 
-module.exports = function(config) {
+module.exports =  (config) => {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,7 +15,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/**/*.js',
+      'src/utils/*.js',
+      'src/svg/svg.js',
+      'src/svg/*.js',
+      'src/charts/classes.js',
+      'src/charts/barchart.js',
+      'src/charts/linechart.js',
+      'src/charts/streamgraph.js',
       'test/*.js',
       'node_modules/d3/d3.min.js'
     ],
@@ -29,14 +35,29 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/**/!(globals).js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: [
+      'progress',
+      // Output code coverage files
+      'coverage'
+    ],
 
+    coverageReporter: {
+      reporters: [
+        // generates ./coverage/lcov.info
+        {type:'lcovonly', subdir: '.'},
+        // generates ./coverage/coverage-final.json
+        {type:'json', subdir: '.'},
+        // generates HTML reports
+        {type : 'html', dir : 'coverage/'}
+      ]
+    },
 
     // web server port
     port: 9876,
@@ -57,7 +78,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeES6: {
         base: 'Chrome',
-        flags: ['--js-flags="--javascript-harmony"', '--no-sandbox']
+        flags: ['--javascript-harmony', '--no-sandbox']
       }
     },
 
@@ -73,5 +94,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};
