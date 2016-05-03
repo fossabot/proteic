@@ -24,6 +24,14 @@ gulp.task('minify', () => {
 });
 
 gulp.task('test', (done) => {
+  // const fork = require('child_process').fork;
+  // const ws = fork('./websocket-server.js');
+  //
+  // ws.on('close', (code, signal) => {
+  //   console.log(
+  //     `WebSocket process terminated due to receipt of signal ${signal}`);
+  // });
+
   new server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true

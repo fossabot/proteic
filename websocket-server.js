@@ -7,6 +7,11 @@ io.on('connection', (socket) => {
 	console.log('user connected');
 });
 
+io.on('end', (msg) => {
+	console.log('closing websocket')
+	process.exit();
+});
+
 setInterval(() => {
 	var data = [];
 	for (var i = 0; i < 3; i++) {

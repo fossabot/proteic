@@ -73,6 +73,22 @@ describe('Linechart', () => {
       parseInt(svg.getAttribute('width')).should.equals(width + defaultMargin.left + defaultMargin.right);
     });
 
+    it.skip('should construct a line chart with streaming data', function(done) {
+      this.timeout(5000);
+      var streamingData = {
+        endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
+      };
+      var chart = new Linechart(streamingData);
+      chart.start();
+
+      setTimeout(() => {
+        // assert.isOk(chart);
+        // chart.stop();
+        // chart.ws.send('end');
+        done();
+      }, 3000);
+    });
+
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
