@@ -156,6 +156,7 @@ class Chart {
 
     this.events[eventName] = action;
     this._svg.on(this.events);
+    return this;
   }
 
 }
