@@ -98,11 +98,22 @@ describe('Linechart', () => {
     it('addSerie(): should return an error because serie needs to be an object', () => {
       assert.throws(() => {
         var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
-        var chart = new Barchart(data);
+        var chart = new Linechart(data);
         chart.draw();
         chart.addSerie([{}, {}], true);
       }, Error);
     });
-
+    
+    it('addSeries(): should return an error because serie needs to be an array', () => {
+      assert.throws(() => {
+        var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
+        var chart = new Linechart(data);
+        chart.draw();
+        
+        var serie = {};
+        chart.addSeries(serie);
+      }, Error);
+    });
+    
   });
 });
