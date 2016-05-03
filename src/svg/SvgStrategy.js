@@ -10,4 +10,7 @@ class SvgStrategy {
     draw(data) {
         this.strategy.draw(data);
     }
+    on(events){
+        this.strategy.on(events);
+    }
 }

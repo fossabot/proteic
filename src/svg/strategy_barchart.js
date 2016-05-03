@@ -34,7 +34,7 @@ class SvgBarchartStrategy extends SvgChart {
   draw(data) {
     var bars = null;
     var max = Number.MIN_VALUE;
-    
+
     super.draw(data);
 
     //Re-scale axis
@@ -61,6 +61,8 @@ class SvgBarchartStrategy extends SvgChart {
       .on('mouseover.user', this.events.over)
       .on('click.user', this.events.click);
 
+    this.interactiveElements = bars;
+    
     bars.exit()
       .transition()
       .duration(300)

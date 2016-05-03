@@ -100,7 +100,9 @@ class SvgLinechartStrategy extends SvgChart {
       .on('mouseleave.user', this.events.leave)
       .on('mouseover.user', this.events.over)
       .on('click.user', this.events.click);
-
+      
+    this.interactiveElements = markers;
+    
     this._applyCSS();
   }
 

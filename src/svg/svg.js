@@ -8,6 +8,8 @@ class SvgChart {
         this._initialized = false;
         this.cType = chartContext.cType;
         this._loadConfigOnContext(chartContext.config);
+        
+        this.interactiveElements = null;
     }
 
     draw(data) {
@@ -33,7 +35,16 @@ class SvgChart {
             d3.selectAll(key).style(styleValue);
         }
     }
-
+    
+    on(events = {}){
+        for(let key in events){
+            var action = events[key];
+            this.interactiveElements.on(key + '.user', action);
+        }
+        
+    }
+    
+    
     _loadConfigOnContext(config) {
         this.margin = config.margin || _default[this.cType].margin;
         this.width = config.width ||  _default[this.cType].width;

@@ -6,6 +6,10 @@ var utils = utils || {
   isObject(d) {
     return d && d.constructor === Object && d instanceof Object;
   },
+  
+  isFunction(func){
+     return func && {}.toString.call(func) === '[object Function]';
+  },
 
   getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];

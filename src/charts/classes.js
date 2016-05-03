@@ -14,6 +14,7 @@ class Chart {
     if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow') {
       throw new Error(clazz + ' is non-instanciable');
     }
+    this.events = {};
   }
 
   /**
@@ -76,33 +77,42 @@ class Chart {
       _initialize();
     }
     this.stop = () => {
-      if (this.ws){
+      if (this.ws) {
         this.ws.close();
       }
     }
   }
-    
-  addSerie(serie, autodraw = true){
-    if(!serie || !utils.isObject(serie)){
+
+  /**
+  * Add a new serie to the current data.
+  * @param  {object} new serie
+  * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
+  */
+  addSerie(serie, autodraw = true) {
+    if (!serie || !utils.isObject(serie)) {
       throw Error('\'serie\' should be an object. Instead: ' + series);
     }
-    
+
     this.data.push(serie);
-    
-    if(autodraw){
+
+    if (autodraw) {
       this.draw();
     }
   }
-  
-  
-  addSeries(series, autodraw = true){
-    if(!series || series.constructor !== Array){
+
+  /**
+   * Add new series (array) to the current data.
+   * @param  {Array} series Array of data
+   * @autodraw {Boolean} Auto re-draw the current chart after adding new series
+   */
+  addSeries(series, autodraw = true) {
+    if (!series || series.constructor !== Array) {
       throw Error('\'series\' should be an array. Instead: ' + series);
     }
-    
+
     this.data = this.data.concat(series);
-    
-    if(autodraw){
+
+    if (autodraw) {
       this.draw();
     }
   }
@@ -134,10 +144,18 @@ class Chart {
   }
 
   /**
-   * on event
+   * On method. Define custom events (click, over, down and up).
    */
   on(eventName, action) {
-    console.log(eventName, action);
+    if (!eventName || typeof eventName !== "string") {
+      throw Error('eventName should be a string. Instead: ' + eventName);
+    }
+    if (!action || !utils.isFunction(action)) {
+      throw Error('action should be a function. Instead: ' + eventName);
+    }
+
+    this.events[eventName] = action;
+    this._svg.on(this.events);
   }
 
 }
@@ -162,7 +180,7 @@ class Flow extends Chart {
   constructor() {
     super();
   }
-  
+
   draw(data) {
     //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
     //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
