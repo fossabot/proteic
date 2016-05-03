@@ -70,7 +70,7 @@ describe('Linechart', () => {
       assert.isOk(chart);
 
       var svg = document.getElementsByTagName('svg')[0];
-      parseInt(svg.getAttribute("width")).should.equals(width + defaultMargin.left + defaultMargin.right);
+      parseInt(svg.getAttribute('width')).should.equals(width + defaultMargin.left + defaultMargin.right);
     });
 
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
