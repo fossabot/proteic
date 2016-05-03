@@ -46,6 +46,15 @@ describe('Barchart', () => {
         done();
       }, 500);
     });
+
+    it('addSerie(): should return an error because serie needs to be an object', () => {
+      assert.throws(() => {
+        var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
+        var chart = new Barchart(data);
+        chart.draw();
+        chart.addSerie([{}, {}], true);
+      }, Error);
+    });
   });
 
 });

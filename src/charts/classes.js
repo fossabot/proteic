@@ -83,10 +83,12 @@ class Chart {
   }
     
   addSerie(serie, autodraw = true){
-    if(!serie || typeof serie !== "object"){
+    if(!serie || !utils.isObject(serie)){
       throw Error('\'serie\' should be an object. Instead: ' + series);
     }
+    
     this.data.push(serie);
+    
     if(autodraw){
       this.draw();
     }
@@ -97,8 +99,12 @@ class Chart {
     if(!series || series.constructor !== Array){
       throw Error('\'series\' should be an array. Instead: ' + series);
     }
+    
     this.data = this.data.concat(series);
-    this.draw();
+    
+    if(autodraw){
+      this.draw();
+    }
   }
 
   /**
