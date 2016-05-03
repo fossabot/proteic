@@ -1,41 +1,39 @@
-
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
 <!--[if gt IE 8]><!-->
- <html class="no-js" lang="">
+<html class='no-js' lang=''>
 <!--<![endif]-->
-    <head>
-        <style>
-            .axis {
-              font: 10px sans-serif;
-            }
-            .axis path,
-            .axis line {
-              fill: none;
-              stroke: #000;
-              shape-rendering: crispEdges;
-            }
-            .x.axis path {
-              display: none;
-            }
-        </style>
-      </head>
-    <body>
-        <div id="chart"></div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="../node_modules/d3/d3.min.js"></script>
-        <script src="../src/utils/globals.js"></script>
-        <script src="../src/utils/svgBarchart.js"></script>
-        <script src="../src/charts/classes.js" type="text/javascript"></script>
-        <script>
-          var data = {
-            endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket',
+
+<head>
+  <style></style>
+</head>
+
+<body>
+  <div id='chart'></div>
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+  <script src='../node_modules/d3/d3.min.js'></script>
+  <script src='../src/utils/functions.js'></script>
+  <script src='../src/utils/image.js'></script>
+  <script src='../src/utils/globals.js'></script>
+  <script src='../src/utils/strategies.js'></script>
+  <script src='../src/svg/SvgStrategy.js'></script>
+  <script src='../src/svg/svg.js'></script>
+  <script src='../src/svg/strategy_barchart.js'></script>
+  <script src='../src/charts/classes.js' type='text/javascript'></script>
+  <script src='../src/charts/barchart.js' type='text/javascript'></script>
+
+  <script>
+    var data = {
+            endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
           };
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
           barchart = new Barchart(data);
-        </script>
-    </body>
+          //Start streaming
+          barchart.start()
+  </script>
+</body>
+
 </html>
