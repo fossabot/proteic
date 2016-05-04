@@ -114,6 +114,58 @@ class Colors {
   static sequentialGreenBrownCb() {
     return d3.scale.linear().range(palette_sequential_green_brown_cb);
   }
+
+  static diverging_spectral1() {
+    return d3.scale.linear().range(palette_diverging_spectral1);
+  }
+
+  static diverging_spectral2() {
+    return d3.scale.linear().range(palette_diverging_spectral2);
+  }
+
+  static diverging_spectral3() {
+    return d3.scale.linear().range(palette_diverging_spectral3);
+  }
+
+  static diverging_brown_turquoise() {
+    return d3.scale.linear().range(palette_diverging_brown_turquoise);
+  }
+
+  static diverging_orange_pink() {
+    return d3.scale.linear().range(palette_diverging_orange_pink);
+  }
+
+  static diverging_red_blue() {
+    return d3.scale.linear().range(palette_diverging_red_blue);
+  }
+
+  static diverging_red_grey() {
+    return d3.scale.linear().range(palette_diverging_red_grey);
+  }
+
+  static diverging_orange_violet() {
+    return d3.scale.linear().range(palette_diverging_orange_violet);
+  }
+
+  static diverging_purple_green() {
+    return d3.scale.linear().range(palette_diverging_purple_green);
+  }
+
+  static diverging_violet_green() {
+    return d3.scale.linear().range(palette_diverging_violet_green);
+  }
+
+  static diverging_red_green() {
+    return d3.scale.linear().range(palette_diverging_red_green);
+  }
+
+  static diverging_brown_green() {
+    return d3.scale.linear().range(palette_diverging_brown_green);
+  }
+
+  static diverging_brown_turquoise() {
+    return d3.scale.linear().range(palette_diverging_brown_turquoise);
+  }
 }
 
 /**
@@ -534,4 +586,212 @@ const palette_sequential_green_brown_cb = [
   '#232613',
   '#1e2012',
   '#191a10'
+];
+
+const palette_diverging_spectral1 = [
+  '#98141f',
+  '#ab332c',
+  '#bf5040',
+  '#d5705b',
+  '#e4a57f',
+  '#f3d6a6',
+  '#f5f2b8',
+  '#cfdbb1',
+  '#a4c4a9',
+  '#71ada1',
+  '#4e868f',
+  '#2e637d',
+  '#06456c'
+];
+
+const palette_diverging_spectral2 = [
+  '#d43d4f',
+  '#df564b',
+  '#eb6d45',
+  '#f08e53',
+  '#f8b96f',
+  '#fee08b',
+  '#f5f2b8',
+  '#d7e5b1',
+  '#b5d7aa',
+  '#8ec8a3',
+  '#6abda3',
+  '#4fa4b5',
+  '#3489be'
+];
+
+const palette_diverging_spectral3 = [
+  '#651035',
+  '#ae1143',
+  '#c9314b',
+  '#dd7257',
+  '#eeb27a',
+  '#feeb9e',
+  '#f5f2b8',
+  '#cadfba',
+  '#96cabb',
+  '#50b4bb',
+  '#3eaecc',
+  '#206791',
+  '#0c2c63'
+];
+
+const palette_diverging_brown_turquoise = [
+  '#3f3128',
+  '#683828',
+  '#933624',
+  '#d5705b',
+  '#db9c5e',
+  '#feeb9e',
+  '#f5f2b8',
+  '#cfdbb1',
+  '#a4c4a9',
+  '#71ada1',
+  '#628f85',
+  '#53746d',
+  '#475b57'
+];
+
+const palette_diverging_orange_pink = [
+  '#e7511e',
+  '#eb6929',
+  '#ee7f37',
+  '#f29446',
+  '#f9c083',
+  '#ffe9c3',
+  '#ffeee3',
+  '#f9cfc1',
+  '#f3a9ab',
+  '#db6882',
+  '#c71360',
+  '#891953',
+  '#4b1c47'
+];
+
+const palette_diverging_red_blue = [
+  '#b2172b',
+  '#c4443e',
+  '#d76a5a',
+  '#ed937e',
+  '#f4b8a2',
+  '#fcdbc7',
+  '#efefef',
+  '#bfcad5',
+  '#8ba7bc',
+  '#4d87a5',
+  '#3c7ca0',
+  '#28729b',
+  '#036896'
+];
+
+const palette_diverging_red_grey = [
+  '#b2172b',
+  '#c54532',
+  '#da6c3b',
+  '#f29446',
+  '#f8bc67',
+  '#fee08b',
+  '#efece5',
+  '#c9c5c1',
+  '#a5a19f',
+  '#808080',
+  '#666666',
+  '#333333',
+  '#000000'
+];
+
+const palette_diverging_orange_violet = [
+  '#98141f',
+  '#ab332c',
+  '#f9bc47',
+  '#fdcf66',
+  '#fede8d',
+  '#ffecb3',
+  '#f9eff6',
+  '#e8d0e3',
+  '#a4c4a9',
+  '#a973aa',
+  '#834f96',
+  '#622181',
+  '#402357'
+];
+
+const palette_diverging_purple_green = [
+  '#59194b',
+  '#85134b',
+  '#c71360',
+  '#db6882',
+  '#eba7a8',
+  '#fce0ca',
+  '#faefe1',
+  '#dbd9aa',
+  '#b9c26e',
+  '#94ad31',
+  '#728b2b',
+  '#546c25',
+  '#39521f'
+];
+
+const palette_diverging_violet_green = [
+  '#55296e',
+  '#75408e',
+  '#8a5fa0',
+  '#a081b5',
+  '#beadcf',
+  '#ddd7e7',
+  '#eae8ed',
+  '#c1d4bc',
+  '#93be86',
+  '#58a951',
+  '#3c853e',
+  '#23662f',
+  '#084a22'
+];
+
+const palette_diverging_red_green = [
+  '#b2172b',
+  '#c5403c',
+  '#d96453',
+  '#ef8972',
+  '#f6b49c',
+  '#fcdbc7',
+  '#f9ebde',
+  '#dad6a8',
+  '#b9c16d',
+  '#94ad31',
+  '#728b2b',
+  '#546c25',
+  '#39521f'
+];
+
+const palette_diverging_brown_green = [
+  '#735146',
+  '#846454',
+  '#977a65',
+  '#aa9177',
+  '#c2ad91',
+  '#dbcaad',
+  '#edebd6',
+  '#c4d6aa',
+  '#94bf7c',
+  '#58a951',
+  '#3c853e',
+  '#23662f',
+  '#084a22'
+];
+
+const palette_diverging_brown_turquoise = [
+  '#8b5219',
+  '#a46821',
+  '#bf812c',
+  '#cfa151',
+  '#e2c489',
+  '#f6e8c3',
+  '#f5f1df',
+  '#cbdccc',
+  '#9cc6b9',
+  '#60afa6',
+  '#359790',
+  '#1d7d75',
+  '#00665e'
 ];
