@@ -15,6 +15,7 @@ module.exports =  (config) => {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/d3/d3.min.js',
       'src/utils/*.js',
       'src/svg/svg.js',
       'src/svg/*.js',
@@ -22,8 +23,7 @@ module.exports =  (config) => {
       'src/charts/barchart.js',
       'src/charts/linechart.js',
       'src/charts/streamgraph.js',
-      'test/*.js',
-      'node_modules/d3/d3.min.js'
+      'test/*.js'
     ],
 
 
