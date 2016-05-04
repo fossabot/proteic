@@ -9,22 +9,51 @@
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
+    <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/vendor.js'></script>
+    <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>
 </head>
 
 <body>
     <div class='container-fluid'>
-        <div class='col-md-6' id='linechart'></div>
-        <div class='col-md-6' id='barchart'></div>
+        <div class='col-md-5' id='linechart'></div>
+        <script>
+            var data =[
+                {x:1, y:3},
+                {x:2, y:12},
+                {x:3, y:21},
+                {x:4,y:5},
+                {x:5,y:5},
+                {x:6,y:34},
+                {x:7,y:4},
+                {x:8,y:12},
+                {x:9,y:32},
+                {x:10,y:15},
+                {x:13,y:5},
+                {x:12,y:2}
+            ];
+        //Default config uses #chart selector
+        linechart = new Linechart(data, {'selector': '#linechart'});
+        linechart.draw();
+        </script>
+        <div class='col-md-5' id='barchart'></div>
         <!--Update data -->
-        <div class='col-md-6' id='stream_linechart'></div>
-        <div class='col-md-6' id='stream_barchart'></div>
+        <div class='col-md-5' id='stream_linechart'></div>
+        <script>
+            let stream_linechart = new Linechart([{x:1, y:30},{x:2, y:21}], {'selector': '#linechart'});
+            let streamLinechartIndex = 3;
+            setInterval(() =>{
+                stream_linechart.addSerie({x:streamLinechartIndex, y:Math.random() * 100});
+                streamLinechartIndex++;
+            }, 800);
+        </script>
+        <div class='col-md-5' id='stream_barchart'></div>
     </div>
 
 
+    <!-- vendor.js contains: d3.js-->
 
-    <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/vendor.js'></script>
-    <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>
     <script>
+        /** 
         var data =[
             {x:1, y:3},
             {x:2, y:12},
@@ -44,8 +73,7 @@
         linechart.draw();
         
         barchart = new Barchart(data, {'selector': '#barchart'});
-        barchart.draw();
-               
+        barchart.draw();**/
     </script>
 </body>
 
