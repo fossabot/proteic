@@ -66,10 +66,11 @@ describe('Linechart', () => {
       var config = { width };
       var defaultMargin = _default.Linechart.margin;
       var chart = new Linechart(data, config);
-      var svg = document.getElementsByTagName('svg')[0];
+      var svg = null;
 
       chart.draw();
       assert.isOk(chart);
+      svg = document.getElementsByTagName('svg')[0]
 
       parseInt(svg.getAttribute('width')).should.equals(width + defaultMargin.left + defaultMargin.right);
     });
