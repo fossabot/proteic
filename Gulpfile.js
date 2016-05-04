@@ -35,8 +35,16 @@ gulp.task('concat', ['babel'], () => {
     './lib/charts/linechart.js',
     './lib/charts/streamgraph.js'
 
+  ]).pipe(concat(libname + '.js'))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('vendor', () => {
+  return gulp.src([
+    './node_modules/d3/d3.min.js'
+
   ])
-    .pipe(concat(libname + '.js'))
+    .pipe(concat('vendor.js'))
     .pipe(gulp.dest('dist'));
 });
 
@@ -54,6 +62,6 @@ gulp.task('test', (done) => {
   }, done).start();
 });
 
-gulp.task('default', ['test', 'babel', 'concat', 'minify']);
+gulp.task('default', ['test', 'babel', 'vendor', 'concat', 'minify']);
 
-gulp.task('build', ['minify']);
+gulp.task('build', ['vendor', 'minify']);
