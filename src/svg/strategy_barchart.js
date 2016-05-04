@@ -22,7 +22,7 @@ class SvgBarchartStrategy extends SvgChart {
       .tickPadding(20)
       .ticks(this.ticks, this.tickLabel);
 
-    this.colors = d3.scale.category20();
+    this.colors = scaleCategory1;;
     this.keyFunction = ((d) => d.x);
   }
 
