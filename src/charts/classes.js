@@ -117,6 +117,23 @@ class Chart {
     }
   }
 
+  removeSerie(serie, autodraw = true) {
+    if (!serie || !utils.isObject(serie)) {
+      throw Error('\'serie\' should be an object. Instead: ' + series);
+    }
+
+    this.data.some((item, index, array) => {
+      var equals = (JSON.stringify(item) === JSON.stringify(serie));
+      if (equals) {
+        return this.data.splice(index, 1);
+      }
+    });
+
+    if (autodraw) {
+      this.draw();
+    }
+  }
+
   /**
    * Renders data on barchart. Only allowed when data is an array of static data.
    * @param  {Array} data Array of data
