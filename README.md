@@ -22,6 +22,9 @@ Open your browser on http://localhost:8888 and visit the examples folder.
 
 `node websocket-server.js`
 
+## Examples
+
+See a full list of examples on: [http://proteus-h2020.github.io/proteus-charts/](http://proteus-h2020.github.io/proteus-charts/)
 ## Testing on a local environment
 If you are running tests on your local machine, yo need to do the following:
 
