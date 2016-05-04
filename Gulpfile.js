@@ -7,8 +7,15 @@ const concat = require('gulp-concat');
 const server = require('karma').Server;
 const babel = require('gulp-babel');
 const rename = require('gulp-rename');
+const jshint = require('gulp-jshint');
 
 const libname = 'proteus-charts';
+
+gulp.task('syntax', () => {
+  return gulp.src('src/**/*.js')
+      .pipe(jshint())
+      .pipe(jshint.reporter('default'));
+});
 
 gulp.task('babel', () => {
   return gulp.src('src/**/*.js')
@@ -35,7 +42,8 @@ gulp.task('concat', ['babel'], () => {
     './lib/charts/linechart.js',
     './lib/charts/streamgraph.js'
 
-  ]).pipe(concat(libname + '.js'))
+  ])
+    .pipe(concat(libname + '.js'))
     .pipe(gulp.dest('dist'));
 });
 
@@ -62,6 +70,6 @@ gulp.task('test', (done) => {
   }, done).start();
 });
 
-gulp.task('default', ['test', 'babel', 'vendor', 'concat', 'minify']);
+gulp.task('default', ['test', 'syntax', 'babel', 'vendor', 'concat', 'minify']);
 
-gulp.task('build', ['vendor', 'minify']);
+gulp.task('build', ['syntax', 'vendor', 'minify']);

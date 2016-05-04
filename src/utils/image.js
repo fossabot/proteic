@@ -5,14 +5,14 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
 //private functions
 (function () {
   function isExternal(url) {
-    return url && url.lastIndexOf('http', 0) == 0 && url.lastIndexOf(window.location.host) == -1;
+    return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
   }
 
 
   function inlineImages(el, callback) {
     var images = el.querySelectorAll('image');
     var left = images.length;
-    if (left == 0) {
+    if (left === 0) {
       callback();
     }
     for (var i = 0; i < images.length; i++) {
@@ -42,7 +42,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
         img.onerror = function () {
           console.error('Could not load ' + href);
           left--;
-          if (left == 0) {
+          if (left === 0) {
             callback();
           }
         }
@@ -90,7 +90,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
       var outer = document.createElement('div');
       var clone = el.cloneNode(true);
       var width, height;
-      if (el.tagName == 'svg') {
+      if (el.tagName === 'svg') {
         width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));
         height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));
       } else {
