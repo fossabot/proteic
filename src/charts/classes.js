@@ -1,7 +1,4 @@
 'use strict';
-/**
- * globals Svg, _default
- */
 
 /**
  * Base class. This class is inherited in all charts implementations.

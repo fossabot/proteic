@@ -38,7 +38,7 @@ class SvgChart {
     
     on(events = {}){
         for(let key in events){
-            var action = events[key];
+            let action = events[key];
             this.interactiveElements.on(key + '.user', action);
         }
         
