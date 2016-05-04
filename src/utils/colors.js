@@ -3,12 +3,36 @@
  */
 class Colors {
 
-  /**
-   * Returns an ordinal scale for category1 palette.
-   * @returns {*} D3 scale for category1 palette.
-   */
-  static getCategoricalScale(palette) {
-    return d3.scale.ordinal().range(palette);
+  static category1() {
+    return d3.scale.ordinal().range(palette_category1);
+  }
+
+  static category2() {
+    return d3.scale.ordinal().range(palette_category2);
+  }
+
+  static category3() {
+    return d3.scale.ordinal().range(palette_category3);
+  }
+
+  static category4() {
+    return d3.scale.ordinal().range(palette_category4);
+  }
+
+  static category5() {
+    return d3.scale.ordinal().range(palette_category5);
+  }
+
+  static category6() {
+    return d3.scale.ordinal().range(palette_category6);
+  }
+
+  static category7() {
+    return d3.scale.ordinal().range(palette_category7);
+  }
+
+  static category8() {
+    return d3.scale.ordinal().range(palette_category8);
   }
 }
 

@@ -43,8 +43,7 @@ class SvgChart {
         }
         
     }
-    
-    
+
     _loadConfigOnContext(config) {
         this.margin = config.margin || _default[this.cType].margin;
         this.width = config.width ||  _default[this.cType].width;
@@ -62,5 +61,6 @@ class SvgChart {
         this.events.leave = config.events.leave || _default[this.cType].events.leave;
         this._sortData = config.sortData || _default[this.cType].sortData;
         this.style = config.style || _default[this.cType].style;
+        this.colorScale = config.colorScale || _default[this.cType].colorScale;
     }
 }

@@ -17,6 +17,8 @@ const _default = {
         'display': 'none'
       }
     },
+    // Set the color scale for the chart. You can use Proteus scales or any D3 scale
+    colorScale: Colors.category7(),
     margin: {
       top: 20,
       right: 20,

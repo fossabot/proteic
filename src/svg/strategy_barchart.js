@@ -22,7 +22,6 @@ class SvgBarchartStrategy extends SvgChart {
       .tickPadding(20)
       .ticks(this.ticks, this.tickLabel);
 
-    this.colors = Colors.getCategoricalScale(palette_category1);
     this.keyFunction = ((d) => d.x);
   }
 
@@ -53,7 +52,7 @@ class SvgBarchartStrategy extends SvgChart {
       .append('rect')
       .attr('class', 'bar')
       .attr('height', (d) => this.height - this.y(d[this.yAxisName]))
-      .attr('fill', (d, i) => this.colors(i))
+      .attr('fill', (d, i) => this.colorScale(i))
       //namespaces let us to provide more than one functon for the same event
       .on('mousedown.user', this.events.down)
       .on('mouseup.user', this.events.up)
