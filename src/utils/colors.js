@@ -1,6 +1,3 @@
-/**
- * This file contains color palettes and scales for each palette
- */
 const palette_category1 = [
   '#e1c8df',
   '#9ecd9d',
@@ -13,7 +10,16 @@ const palette_category1 = [
   '#acd9d6'
 ];
 
-var scaleCategory1 = d3.scale
-  .ordinal()
-  .range(palette_category1);
+/**
+ * Colors utility class. Provides scales for each color palette.
+ */
+class Colors {
 
+  /**
+   * Returns an ordinal scale for category1 palette.
+   * @returns {*} D3 scale for category1 palette.
+   */
+  static scaleCategory1() {
+    return d3.scale.ordinal().range(palette_category1);
+  }
+}
