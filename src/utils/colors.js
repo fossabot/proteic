@@ -163,8 +163,8 @@ class Colors {
     return d3.scale.linear().range(palette_diverging_brown_green);
   }
 
-  static diverging_brown_turquoise() {
-    return d3.scale.linear().range(palette_diverging_brown_turquoise);
+  static diverging_lightBrown_turquoise() {
+    return d3.scale.linear().range(palette_diverging_lightBrown_turquoise);
   }
 }
 
@@ -780,7 +780,7 @@ const palette_diverging_brown_green = [
   '#084a22'
 ];
 
-const palette_diverging_brown_turquoise = [
+const palette_diverging_lightBrown_turquoise = [
   '#8b5219',
   '#a46821',
   '#bf812c',
