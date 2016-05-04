@@ -36,3 +36,5 @@ node_modules
 
 # IDE
 .idea
+#ES5 Code
+lib
