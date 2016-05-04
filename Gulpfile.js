@@ -10,17 +10,16 @@ const rename = require('gulp-rename');
 
 const libname = 'proteus-charts';
 
-gulp.task('babel', (cb) => {
-  let task = gulp.src('src/**/*.js')
+gulp.task('babel', () => {
+  return gulp.src('src/**/*.js')
     .pipe(babel({
       presets: ['es2015']
     }))
     .pipe(gulp.dest('lib/'));
-  setTimeout(cb, 2000);
 });
 
-gulp.task('concat', ['babel'], (cb) => {
-  let task = gulp.src([
+gulp.task('concat', ['babel'], () => {
+  return gulp.src([
     './lib/utils/functions.js',
     './lib/utils/image.js',
     './lib/utils/strategies.js',
@@ -39,18 +38,13 @@ gulp.task('concat', ['babel'], (cb) => {
   ])
     .pipe(concat(libname + '.js'))
     .pipe(gulp.dest('dist'));
-
-  setTimeout(cb, 4000);
 });
 
-//+ libname + '.min.js'
-gulp.task('minify', ['concat'], (cb) => {
-  let task = gulp.src('dist/' + libname + '.js')
+gulp.task('minify', ['concat'], () => {
+  return gulp.src('dist/' + libname + '.js')
     .pipe(uglify())
     .pipe(rename(libname + '.min.js'))
     .pipe(gulp.dest('dist'));
-
-  setTimeout(cb, 6000);
 });
 
 gulp.task('test', (done) => {
@@ -61,3 +55,5 @@ gulp.task('test', (done) => {
 });
 
 gulp.task('default', ['test', 'babel', 'concat', 'minify']);
+
+gulp.task('build', ['minify']);
