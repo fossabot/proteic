@@ -32,9 +32,9 @@
     "jshint": "^2.9.2",
     "karma": "^0.13.22",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.2.3",
-    "karma-coverage": "^0.5.5",
-    "karma-mocha": "^0.2.2",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
     "mocha": "^2.4.5",
     "socket.io": "^1.4.5"
   }
