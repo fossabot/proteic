@@ -9,8 +9,14 @@
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
+    <!--
     <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/vendor.js'></script>
     <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>
+    -->
+
+    <script src='../dist/vendor.js'></script>
+    <script src='../dist/proteus-charts.js'></script>
+
 </head>
 
 <body>
@@ -39,10 +45,10 @@
         <!--Update data -->
         <div class='col-md-5' id='stream_linechart'></div>
         <script>
-            let stream_linechart = new Linechart([{x:1, y:30},{x:2, y:21}], {'selector': '#linechart'});
+            let stream_linechart = new Linechart([{x:1, y:30},{x:2, y:21}], {'selector': '#stream_linechart'});
             let streamLinechartIndex = 3;
             setInterval(() =>{
-                stream_linechart.addSerie({x:streamLinechartIndex, y:Math.random() * 100});
+                stream_linechart.addPoint({x:streamLinechartIndex, y:Math.random() * 100});
                 streamLinechartIndex++;
             }, 800);
         </script>

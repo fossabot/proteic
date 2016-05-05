@@ -81,16 +81,16 @@ class Chart {
   }
 
   /**
-  * Add a new serie to the current data.
+  * Add a new point to a given serie.
   * @param  {object} new serie
   * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
   */
-  addSerie(serie, autodraw = true) {
-    if (!serie || !utils.isObject(serie)) {
-      throw Error('\'serie\' should be an object. Instead: ' + series);
+  addPoint(point, autodraw = true) {
+    if (!point || !utils.isObject(point)) {
+      throw Error('\'point\' should be an object. Instead: ' + point);
     }
 
-    this.data.push(serie);
+    this.data.push(point);
 
     if (autodraw) {
       this.draw();
@@ -98,29 +98,29 @@ class Chart {
   }
 
   /**
-   * Add new series (array) to the current data.
-   * @param  {Array} series Array of data
+   * Add new points (array) to a given serie.
+   * @param  {Array} points Array of data
    * @autodraw {Boolean} Auto re-draw the current chart after adding new series
    */
-  addSeries(series, autodraw = true) {
-    if (!series || series.constructor !== Array) {
-      throw Error('\'series\' should be an array. Instead: ' + series);
+  addPoints(points, autodraw = true) {
+    if (!points || points.constructor !== Array) {
+      throw Error('\'points\' should be an array. Instead: ' + points);
     }
 
-    this.data = this.data.concat(series);
+    this.data = this.data.concat(points);
 
     if (autodraw) {
       this.draw();
     }
   }
 
-  removeSerie(serie, autodraw = true) {
-    if (!serie || !utils.isObject(serie)) {
-      throw Error('\'serie\' should be an object. Instead: ' + series);
+  removePoint(point, autodraw = true) {
+    if (!point || !utils.isObject(point)) {
+      throw Error('\'point\' should be an object. Instead: ' + point);
     }
 
     this.data.some((item, index, array) => {
-      var equals = (JSON.stringify(item) === JSON.stringify(serie));
+      var equals = (JSON.stringify(item) === JSON.stringify(point));
       if (equals) {
         return this.data.splice(index, 1);
       }
