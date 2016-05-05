@@ -45,6 +45,19 @@ class SvgChart {
     }
 
     _loadConfigOnContext(config) {
+        config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {}};
+        if (!config.events) {
+            config.events = {};
+        }
+        if (!config.markers) {
+            config.markers = {};
+        }
+        if (!config.xaxis) {
+            config.xaxis = {};
+        }
+        if (!config.yaxis) {
+            config.yaxis = {};
+        }
         this.margin = config.margin || _default[this.cType].margin;
         this.width = config.width ||  _default[this.cType].width;
         this.height = config.height ||  _default[this.cType].height;
@@ -62,5 +75,7 @@ class SvgChart {
         this._sortData = config.sortData || _default[this.cType].sortData;
         this.style = config.style || _default[this.cType].style;
         this.colorScale = config.colorScale || _default[this.cType].colorScale;
+        this.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
+        this.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
     }
 }

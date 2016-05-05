@@ -17,6 +17,12 @@ const _default = {
         'display': 'none'
       }
     },
+    xaxis: {
+      label: 'X'
+    },
+    yaxis: {
+      label: 'Y'
+    },
     // Set the color scale for the chart. You can use Proteus scales or any D3 scale
     colorScale: Colors.category7(),
     margin: {
@@ -62,6 +68,12 @@ const _default = {
   },
   Linechart: {
     selector: '#chart',
+    xaxis: {
+      label: 'X'
+    },
+    yaxis: {
+      label: 'Y'
+    },
     margin: {
       top: 20,
       right: 20,

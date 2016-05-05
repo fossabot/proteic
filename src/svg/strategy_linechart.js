@@ -132,6 +132,21 @@ class SvgLinechartStrategy extends SvgChart {
       .call(this.yAxis)
       .append('text');
 
+    // Append axes labels
+    this.svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'xaxis-label')
+      .attr('x', this.width / 2)
+      .attr('y', this.height + this.margin.bottom)
+      .text(this.xAxisLabel);
+    this.svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'yaxis-label')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', - this.height / 2)
+      .attr('y', - this.margin.left / 1.3)
+      .text(this.yAxisLabel);
+
     //Initialize SVG
     this._initialized = true;
   }
@@ -141,13 +156,6 @@ class SvgLinechartStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-    config = config || { events: {}, markers: {}};
-    if (!config.events) {
-      config.events = {};
-    }
-    if (!config.markers) {
-      config.markers = {};
-    }
     super._loadConfigOnContext(config);
     this.markers = {};
     this.markers.color = config.markers.color || _default.Linechart.markers.color;
