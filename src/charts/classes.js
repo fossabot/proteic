@@ -67,7 +67,7 @@ class Chart {
           this.keepDrawing(data);
         }, 50);
       };
-    }
+    };
 
     //private streaming functions, only available when using websockets
     this.start = () => {
@@ -161,7 +161,7 @@ class Chart {
    * On method. Define custom events (click, over, down and up).
    */
   on(eventName, action) {
-    if (!eventName || typeof eventName !== "string") {
+    if (!eventName || typeof eventName !== 'string') {
       throw Error('eventName should be a string. Instead: ' + eventName);
     }
     if (!action || !utils.isFunction(action)) {

@@ -22,9 +22,8 @@ describe('Utils', () => {
       assert.isNotOk(utils.isObject([{}]));
       assert.isNotOk(utils.isObject([{}, {}]));
     });
-    
+
     it('utils.isFunction()', () => {
-      assert.isOk(utils.isFunction(function test(){}));
       assert.isOk(utils.isFunction((d) => d));
       assert.isNotOk(utils.isFunction(''));
       assert.isNotOk(utils.isFunction({}));
