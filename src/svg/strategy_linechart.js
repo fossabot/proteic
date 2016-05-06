@@ -51,7 +51,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     // Create path and bind data to it
     path = this.svg
-      .select('path')
+      .append('path')
       .datum(data, this.keyFunction)
       .attr('d', line);
 
@@ -106,46 +106,7 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
-    var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.left + this.margin.right;
-
-    //Create a global 'g' (group) element
-    this.svg = d3
-      .select(this.selector).append('svg')
-      .attr({ width, height })
-      .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-    // Append the line path
-    this.svg.append('path');
-
-    //Append a new group with 'x' aXis
-    this.svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(this.xAxis);
-
-    //Append a new group with 'y' aXis
-    this.svg.append('g')
-      .attr('class', 'y axis')
-      .attr('stroke-dasharray', '5, 5')
-      .call(this.yAxis)
-      .append('text');
-
-    // Append axes labels
-    this.svg.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'xaxis-label')
-      .attr('x', this.width / 2)
-      .attr('y', this.height + this.margin.bottom)
-      .text(this.xAxisLabel);
-    this.svg.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'yaxis-label')
-      .attr('transform', 'rotate(-90)')
-      .attr('x', - this.height / 2)
-      .attr('y', - this.margin.left / 1.3)
-      .text(this.yAxisLabel);
+    super._initialize();
 
     //Initialize SVG
     this._initialized = true;
