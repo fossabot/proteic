@@ -37,6 +37,12 @@ class SvgChart {
             .append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
+        //Create tooltip (d3-tip)
+        if(this.tooltip){
+            this.tooltip = d3.tip().attr('class', 'd3-tip').html(this.tooltip);
+            this.svg.call(this.tooltip);
+        }
+        
         //Append a new group with 'x' aXis
         this.svg.append('g')
             .attr('class', 'x axis')

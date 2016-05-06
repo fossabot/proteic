@@ -34,8 +34,8 @@ const _default = {
     width: '80%', // %, auto, or numeric 
     height: 250,
     ticks: 5, // ticks for y axis.
-    tooltip(object) {
-      return 'Info: ' + JSON.stringify(object);
+    tooltip(data) { // Allows HTML
+      return 'Object info: ' + JSON.stringify(data);
     },
     tickLabel: '',
     selector: '#chart',

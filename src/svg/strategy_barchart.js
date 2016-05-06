@@ -60,8 +60,14 @@ class SvgBarchartStrategy extends SvgChart {
       .on('mouseover.user', this.events.over)
       .on('click.user', this.events.click);
 
+    if (this.tooltip) {
+      bars.on('mouseover.tip', this.tooltip.show)
+        .on('mouseout.tip', this.tooltip.hide)
+    }
+
+
     this.interactiveElements = bars;
-    
+
     bars.exit()
       .transition()
       .duration(300)
