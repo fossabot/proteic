@@ -5,10 +5,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <title>proteus-charts by proteus-h2020</title>
-
-  <link rel="stylesheet" href="stylesheets/styles.css">
-  <link rel="stylesheet" href="stylesheets/github-light.css">
   <meta name="viewport" content="width=device-width">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -17,43 +16,56 @@
 </head>
 
 <body>
-  <div class="wrapper">
-    <header>
-      <h1>proteus-charts</h1>
-      <p>:chart: :chart_with_upwards_trend: HTML5 and CSS3 charts :chart_with_downwards_trend: :bar_chart:. Ready for batch
-        and streaming data.</p>
-
-      <p class="view"><a href="https://github.com/proteus-h2020/proteus-charts">View the Project on GitHub <small>proteus-h2020/proteus-charts</small></a></p>
-
-
-      <ul>
-        <li><a href="https://github.com/proteus-h2020/proteus-charts/zipball/master">Download <strong>ZIP File</strong></a></li>
-        <li><a href="https://github.com/proteus-h2020/proteus-charts/tarball/master">Download <strong>TAR Ball</strong></a></li>
-        <li><a href="https://github.com/proteus-h2020/proteus-charts">View On <strong>GitHub</strong></a></li>
-      </ul>
-    </header>
-    <section>
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-      <p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page
-        content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>,
-        select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code>        branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
-
-      <h3>
-<a id="simpleLineChart" class="anchor" href="#simpleLineChart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple Linechart</h3>
-     <p>
-       <div id="chart_simpleLineChart"></div>
-     </p>
-      <script>
-        var data = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
-  var simpleLineChart = new Linechart(data, {selector: '#simpleLineChart', style: {width:300, height:150}});
-  simpleLineChart.draw();
-
-      </script>
-
-      <script src="javascripts/scale.fix.js"></script>
-
+  <!--Simple linechart -->
+  <div class="col-md-6">
+    <h3>Simple Linechart</h3>
+    <div id="simpleLineChart"></div>
+    <script>
+      var simpleLineChartData = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
+      var simpleLineChart = new Linechart(simpleLineChartData, {selector: '#simpleLineChart'});
+      simpleLineChart.draw();
+    </script>
+  </div>
+  <!--Simple barchart -->
+  <h3>Simple Barchart</h3>
+  <div class="col-md-6">
+    <div id="simpleBarchart"></div>
+    <script>
+      let simpleBarchartData = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
+      let simpleBarchart = new Barchart(simpleBarchartData, {selector: '#simpleBarchart'});
+      simpleBarchart.draw();
+    </script>
+  </div>
+  <!--Simple linechart -->
+  <h3>Simple Linechart</h3>
+  <div class="col-md-6">
+    <div id="simpleLineChart"></div>
+    <script>
+      let indexStreamingLine =10; 
+      let streamingLineChartData = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
+      let streamingLineChart = new Linechart(streamingLineChartData, {selector: '#simpleLineChart'});
+      streamingLineChart.draw();
+      setInterval(()=>{
+        streamingLineChartData.push({x:(++indexStreamingLine), y: Math.random() * (100)});
+        streamingLineChart.draw();
+      }, 2000);
+    </script>
+  </div>
+  <!--Simple barchart -->
+  <h3>Simple Barchart</h3>
+  <div class="col-md-6">
+    <div id="simpleBarchart"></div>
+    <script>
+      let indexStreamingBar =10; 
+      let streamingBarChartData = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
+      let streamingBarChart = new Barchart(streamingBarChartData, {selector: '#simpleBarchart'});
+      streamingBarChart.draw();
+      setInterval(()=>{
+        streamingBarChartData.push({x:(++indexStreamingBar), y: Math.random() * (100)});
+        streamingBarChart.draw();
+      }, 2000);
+    </script>
+  </div>
 </body>
 
 </html>
