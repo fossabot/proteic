@@ -31,7 +31,7 @@ const _default = {
       bottom: 30,
       left: 50
     },
-    width: 600,
+    width: '80%', // %, auto, or numeric 
     height: 250,
     ticks: 5, // ticks for y axis.
     tooltip(object) {
