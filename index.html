@@ -42,10 +42,12 @@
 
       <h3>
 <a id="simpleLineChart" class="anchor" href="#simpleLineChart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple Linechart</h3>
-      <div id="chart_simpleLineChart"></div>
+     <p>
+       <div id="chart_simpleLineChart"></div>
+     </p>
       <script>
         var data = [{x:1, y:3},{x:2, y:5}, {x:10, y:1}];  
-  var simpleLineChart = new Linechart(data, {selector: '#simpleLineChart'});
+  var simpleLineChart = new Linechart(data, {selector: '#simpleLineChart', style: {width:300, height:150}});
   simpleLineChart.draw();
 
       </script>
