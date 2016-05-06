@@ -94,44 +94,8 @@ class SvgStreamgraphStrategy extends SvgChart {
     }
 
     _initialize() {
-        var width = this.width + this.margin.left + this.margin.right;
-        var height = this.height + this.margin.left + this.margin.right;
-
-        this.svg = d3.select(this.selector).append('svg')
-            .attr({ width, height })
-            .append('g')
-            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-        this.svg.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + this.height + ')')
-            .call(this.xAxis);
-
-        this.svg.append('g')
-            .attr('class', 'y axis')
-            .attr('transform', 'translate(' + this.width + ', 0)')
-            .call(this.yAxis.orient('right'));
-
-        this.svg.append('g')
-            .attr('class', 'y axis')
-            .call(this.yAxis.orient('left'));
-
-      // Append axes labels
-      this.svg.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('class', 'xaxis-label')
-        .attr('x', this.width / 2)
-        .attr('y', this.height + this.margin.bottom)
-        .text(this.xAxisLabel);
-      this.svg.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('class', 'yaxis-label')
-        .attr('transform', 'rotate(-90)')
-        .attr('x', - this.height / 2)
-        .attr('y', - this.margin.left / 1.3)
-        .text(this.yAxisLabel);
-
-        this._initialized = true;
+      super._initialize();
+      this._initialized = true;
     }
 
 	/**

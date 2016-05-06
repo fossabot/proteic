@@ -18,7 +18,7 @@ const _default = {
       }
     },
     xaxis: {
-      label: 'X'
+      label: ''
     },
     yaxis: {
       label: 'Y'
