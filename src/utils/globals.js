@@ -148,6 +148,12 @@ const _default = {
       from: 'orange',
       to: 'blue'
     },
+    xaxis: {
+      label: ''
+    },
+    yaxis: {
+      label: ''
+    },
     style: {
       '.axis': {
         'font': '10px sans-serif'
