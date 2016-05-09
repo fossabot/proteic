@@ -8,13 +8,15 @@ const server = require('karma').Server;
 const babel = require('gulp-babel');
 const rename = require('gulp-rename');
 const jshint = require('gulp-jshint');
-
+const protractor = require("gulp-protractor").protractor;
+const webdriver_update = require('gulp-protractor').webdriver_update;
+const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
   return gulp.src('src/**/*.js')
-      .pipe(jshint())
-      .pipe(jshint.reporter('default'));
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('babel', () => {
@@ -63,13 +65,38 @@ gulp.task('minify', ['concat'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('test', (done) => {
+gulp.task('test:unit', (done) => {
   new server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('default', ['test', 'syntax', 'babel', 'vendor', 'concat', 'minify']);
+// Downloads the selenium webdriver
+gulp.task('webdriver_update', webdriver_update);
 
-gulp.task('build', ['syntax', 'vendor', 'minify']);
+// Start the standalone selenium server
+// NOTE: This is not needed if you reference the
+// seleniumServerJar in your protractor.conf.js
+gulp.task('webdriver_standalone', webdriver_standalone);
+
+// Protractor test runner task
+gulp.task('test:e2e', ['webdriver_update'], () => {
+  gulp.src([])
+    .pipe(protractor({
+      configFile: 'protractor.conf.js'
+    }))
+    .on('end', () => {
+      console.log('E2E Testing complete');
+      process.exit(0);
+    })
+    .on('error', (err) => {
+      console.error('E2E Tests failed:');
+      console.error(err);
+      process.exit(1);
+    });
+});
+
+gulp.task('test', ['test:unit', 'test:e2e']);
+gulp.task('build', ['test', 'syntax', 'vendor', 'minify']);
+gulp.task('default', ['test', 'build']);

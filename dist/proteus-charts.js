@@ -12,6 +12,17 @@ var utils = utils || {
   isFunction: function isFunction(func) {
     return func && {}.toString.call(func) === '[object Function]';
   },
+  isNumeric: function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  },
+  isPercentage: function isPercentage(n) {
+    var split = null;
+    if (!n || typeof n !== 'string') {
+      return false;
+    }
+    split = n.split('%');
+    return split.length === 2 && +split[0] >= 0 && +split[0] <= 100;
+  },
   getNumberOfDifferentArrayKeys: function getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
     var element = null;
@@ -63,13 +74,13 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
 //private functions
 (function () {
   function isExternal(url) {
-    return url && url.lastIndexOf('http', 0) == 0 && url.lastIndexOf(window.location.host) == -1;
+    return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
   }
 
   function inlineImages(el, callback) {
     var images = el.querySelectorAll('image');
     var left = images.length;
-    if (left == 0) {
+    if (left === 0) {
       callback();
     }
     for (var i = 0; i < images.length; i++) {
@@ -99,7 +110,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
         img.onerror = function () {
           console.error('Could not load ' + href);
           left--;
-          if (left == 0) {
+          if (left === 0) {
             callback();
           }
         };
@@ -147,7 +158,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
       var outer = document.createElement('div');
       var clone = el.cloneNode(true);
       var width, height;
-      if (el.tagName == 'svg') {
+      if (el.tagName === 'svg') {
         width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));
         height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));
       } else {
@@ -529,6 +540,12 @@ var _default = {
         'display': 'none'
       }
     },
+    xaxis: {
+      label: ''
+    },
+    yaxis: {
+      label: 'Y'
+    },
     // Set the color scale for the chart. You can use Proteus scales or any D3 scale
     colorScale: Colors.category7(),
     margin: {
@@ -537,11 +554,12 @@ var _default = {
       bottom: 30,
       left: 50
     },
-    width: 600,
+    width: '80%', // %, auto, or numeric
     height: 250,
     ticks: 5, // ticks for y axis.
-    tooltip: function tooltip(object) {
-      return 'Info: ' + JSON.stringify(object);
+    tooltip: function tooltip(data) {
+      // Allows HTML
+      return 'Object info: ' + JSON.stringify(data);
     },
 
     tickLabel: '',
@@ -569,6 +587,12 @@ var _default = {
   },
   Linechart: {
     selector: '#chart',
+    xaxis: {
+      label: 'X'
+    },
+    yaxis: {
+      label: 'Y'
+    },
     margin: {
       top: 20,
       right: 20,
@@ -603,8 +627,8 @@ var _default = {
       outlineColor: '#537780',
       outlineWidth: 2
     },
-    tooltip: function tooltip(text) {
-      return text;
+    tooltip: function tooltip(data) {
+      return JSON.stringify(data);
     },
 
     events: {
@@ -635,6 +659,12 @@ var _default = {
     colorScale: {
       from: 'orange',
       to: 'blue'
+    },
+    xaxis: {
+      label: ''
+    },
+    yaxis: {
+      label: ''
     },
     style: {
       '.axis': {
@@ -750,6 +780,31 @@ var SvgChart = function () {
             }
         }
     }, {
+        key: '_initialize',
+        value: function _initialize() {
+            var width = this.width + this.margin.left + this.margin.right;
+            var height = this.height + this.margin.left + this.margin.right;
+
+            //Create a global 'g' (group) element
+            this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+            //Create tooltip (d3-tip)
+            if (this.tooltip) {
+                this.tooltip = d3.tip().attr('class', 'd3-tip').html(this.tooltip);
+                this.svg.call(this.tooltip);
+            }
+
+            //Append a new group with 'x' aXis
+            this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
+
+            //Append a new group with 'y' aXis
+            this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '5, 5').call(this.yAxis).append('text');
+
+            // Append axes labels
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'xaxis-label').attr('x', this.width / 2).attr('y', this.height + this.margin.bottom).text(this.xAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'yaxis-label').attr('transform', 'rotate(-90)').attr('x', -this.height / 2).attr('y', -this.margin.left / 1.3).text(this.yAxisLabel);
+        }
+    }, {
         key: '_applyCSS',
         value: function _applyCSS() {
             var style = this.style;
@@ -771,14 +826,45 @@ var SvgChart = function () {
             }
         }
     }, {
+        key: '_calculateWidth',
+        value: function _calculateWidth(width) {
+            if (width === 'auto') {
+                return d3.select(this.selector).node().getBoundingClientRect().width;
+            } else if (utils.isNumeric(width)) {
+                //check container width TODO
+                return width;
+            } else if (utils.isPercentage(width)) {
+                var containerWidth = void 0,
+                    percentage = void 0;
+                containerWidth = d3.select(this.selector).node().getBoundingClientRect().width;
+                percentage = width.split('%')[0];
+                return Math.round(percentage * containerWidth / 100);
+            } else {
+                throw Error('Unknow chart width: ' + width);
+            }
+        }
+    }, {
         key: '_loadConfigOnContext',
         value: function _loadConfigOnContext(config) {
+            config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+            if (!config.events) {
+                config.events = {};
+            }
+            if (!config.markers) {
+                config.markers = {};
+            }
+            if (!config.xaxis) {
+                config.xaxis = {};
+            }
+            if (!config.yaxis) {
+                config.yaxis = {};
+            }
+            this.selector = config.selector || _default[this.cType].selector;
             this.margin = config.margin || _default[this.cType].margin;
-            this.width = config.width || _default[this.cType].width;
+            this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
             this.height = config.height || _default[this.cType].height;
             this.ticks = config.ticks || _default[this.cType].ticks;
             this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
-            this.selector = config.selector || _default[this.cType].selector;
             this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
             this.tooltip = config.tooltip || _default[this.cType].tooltip;
             this.events = {};
@@ -790,6 +876,8 @@ var SvgChart = function () {
             this._sortData = config.sortData || _default[this.cType].sortData;
             this.style = config.style || _default[this.cType].style;
             this.colorScale = config.colorScale || _default[this.cType].colorScale;
+            this.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
+            this.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
         }
     }]);
 
@@ -872,6 +960,10 @@ var SvgBarchartStrategy = function (_SvgChart) {
       //namespaces let us to provide more than one functon for the same event
       .on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
 
+      if (this.tooltip) {
+        bars.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
+      }
+
       this.interactiveElements = bars;
 
       bars.exit().transition().duration(300).attr('y', this.y(0)).attr('height', this.height - this.y(0)).style('fill-opacity', 1e-6).style().remove();
@@ -889,16 +981,7 @@ var SvgBarchartStrategy = function (_SvgChart) {
   }, {
     key: '_initialize',
     value: function _initialize() {
-      var width = this.width + this.margin.left + this.margin.right;
-      var height = this.height + this.margin.left + this.margin.right;
-      //Create a global 'g' (group) element
-      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-      //Append a new group with 'x' aXis
-      this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
-
-      //Append a new group with 'y' aXis
-      this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '5, 5').call(this.yAxis).append('text');
+      _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), '_initialize', this).call(this);
 
       //Initialize SVG
       this._initialized = true;
@@ -1003,7 +1086,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
       });
 
       // Create path and bind data to it
-      path = this.svg.select('path').datum(data, this.keyFunction).attr('d', line);
+      path = this.svg.append('path').datum(data, this.keyFunction).attr('d', line);
 
       // Append markers to line
       if (this.markers) {
@@ -1034,9 +1117,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
 
       // Add tooltips to the markers
       if (this.tooltip) {
-        markers.append('title').text(this.tooltip(function (d) {
-          return _this2.x(d.x);
-        }));
+        markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
       }
 
       // Add events to the markers
@@ -1049,20 +1130,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
   }, {
     key: '_initialize',
     value: function _initialize() {
-      var width = this.width + this.margin.left + this.margin.right;
-      var height = this.height + this.margin.left + this.margin.right;
-
-      //Create a global 'g' (group) element
-      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-      // Append the line path
-      this.svg.append('path');
-
-      //Append a new group with 'x' aXis
-      this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
-
-      //Append a new group with 'y' aXis
-      this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '5, 5').call(this.yAxis).append('text');
+      _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), '_initialize', this).call(this);
 
       //Initialize SVG
       this._initialized = true;
@@ -1076,13 +1144,6 @@ var SvgLinechartStrategy = function (_SvgChart) {
   }, {
     key: '_loadConfigOnContext',
     value: function _loadConfigOnContext(config) {
-      config = config || { events: {}, markers: {} };
-      if (!config.events) {
-        config.events = {};
-      }
-      if (!config.markers) {
-        config.markers = {};
-      }
       _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
       this.markers = {};
       this.markers.color = config.markers.color || _default.Linechart.markers.color;
@@ -1204,17 +1265,7 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
     }, {
         key: '_initialize',
         value: function _initialize() {
-            var width = this.width + this.margin.left + this.margin.right;
-            var height = this.height + this.margin.left + this.margin.right;
-
-            this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-            this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
-
-            this.svg.append('g').attr('class', 'y axis').attr('transform', 'translate(' + this.width + ', 0)').call(this.yAxis.orient('right'));
-
-            this.svg.append('g').attr('class', 'y axis').call(this.yAxis.orient('left'));
-
+            _get(Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_initialize', this).call(this);
             this._initialized = true;
         }
 
@@ -1239,9 +1290,6 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
     return SvgStreamgraphStrategy;
 }(SvgChart);
 'use strict';
-/**
- * globals Svg, _default
- */
 
 /**
  * Base class. This class is inherited in all charts implementations.
@@ -1350,21 +1398,21 @@ var Chart = function () {
     }
 
     /**
-    * Add a new serie to the current data.
+    * Add a new point to a given serie.
     * @param  {object} new serie
     * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
     */
 
   }, {
-    key: 'addSerie',
-    value: function addSerie(serie) {
+    key: 'addPoint',
+    value: function addPoint(point) {
       var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
-      if (!serie || !utils.isObject(serie)) {
-        throw Error('\'serie\' should be an object. Instead: ' + series);
+      if (!point || !utils.isObject(point)) {
+        throw Error('\'point\' should be an object. Instead: ' + point);
       }
 
-      this.data.push(serie);
+      this.data.push(point);
 
       if (autodraw) {
         this.draw();
@@ -1372,39 +1420,39 @@ var Chart = function () {
     }
 
     /**
-     * Add new series (array) to the current data.
-     * @param  {Array} series Array of data
+     * Add new points (array) to a given serie.
+     * @param  {Array} points Array of data
      * @autodraw {Boolean} Auto re-draw the current chart after adding new series
      */
 
   }, {
-    key: 'addSeries',
-    value: function addSeries(series) {
+    key: 'addPoints',
+    value: function addPoints(points) {
       var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
-      if (!series || series.constructor !== Array) {
-        throw Error('\'series\' should be an array. Instead: ' + series);
+      if (!points || points.constructor !== Array) {
+        throw Error('\'points\' should be an array. Instead: ' + points);
       }
 
-      this.data = this.data.concat(series);
+      this.data = this.data.concat(points);
 
       if (autodraw) {
         this.draw();
       }
     }
   }, {
-    key: 'removeSerie',
-    value: function removeSerie(serie) {
+    key: 'removePoint',
+    value: function removePoint(point) {
       var _this2 = this;
 
       var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
-      if (!serie || !utils.isObject(serie)) {
-        throw Error('\'serie\' should be an object. Instead: ' + series);
+      if (!point || !utils.isObject(point)) {
+        throw Error('\'point\' should be an object. Instead: ' + point);
       }
 
       this.data.some(function (item, index, array) {
-        var equals = JSON.stringify(item) === JSON.stringify(serie);
+        var equals = JSON.stringify(item) === JSON.stringify(point);
         if (equals) {
           return _this2.data.splice(index, 1);
         }
@@ -1455,7 +1503,7 @@ var Chart = function () {
   }, {
     key: 'on',
     value: function on(eventName, action) {
-      if (!eventName || typeof eventName !== "string") {
+      if (!eventName || typeof eventName !== 'string') {
         throw Error('eventName should be a string. Instead: ' + eventName);
       }
       if (!action || !utils.isFunction(action)) {
