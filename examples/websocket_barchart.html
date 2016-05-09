@@ -7,13 +7,15 @@
 <!--<![endif]-->
 
 <head>
-  <style></style>
+  <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
 </head>
 
 <body>
   <div id='chart'></div>
   <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
   <script src='../node_modules/d3/d3.min.js'></script>
+  <script src='../node_modules/d3-tip/index.js'></script>
+
   <script src='../src/utils/functions.js'></script>
   <script src='../src/utils/image.js'></script>
   <script src='../src/utils/strategies.js'></script>
@@ -33,7 +35,7 @@
           //Chart uses #chart selector by default
           barchart = new Barchart(data);
           //Start streaming
-          barchart.start()
+          barchart.start();
   </script>
 </body>
 
