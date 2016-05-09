@@ -108,8 +108,8 @@ const _default = {
       outlineColor: '#537780',
       outlineWidth: 2
     },
-    tooltip(text) {
-      return text;
+    tooltip(data) {
+      return JSON.stringify(data);
     },
     events: {
       down() {

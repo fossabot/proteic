@@ -86,9 +86,8 @@ class SvgLinechartStrategy extends SvgChart {
 
     // Add tooltips to the markers
     if (this.tooltip) {
-      markers
-        .append('title')
-        .text(this.tooltip((d) => this.x(d.x)));
+      markers.on('mouseover.tip', this.tooltip.show)
+        .on('mouseout.tip', this.tooltip.hide);
     }
 
     // Add events to the markers
