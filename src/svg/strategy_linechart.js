@@ -22,8 +22,6 @@ class SvgLinechartStrategy extends SvgChart {
       .tickPadding(20)
       .ticks(this.ticks, this.tickLabel);
 
-    this.colors = d3.scale.category20();
-
     this.keyFunction = ((d) => d.x);
   }
 
@@ -53,7 +51,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     // Create path and bind data to it
     path = this.svg
-      .select('path')
+      .append('path')
       .datum(data, this.keyFunction)
       .attr('d', line);
 
@@ -88,9 +86,8 @@ class SvgLinechartStrategy extends SvgChart {
 
     // Add tooltips to the markers
     if (this.tooltip) {
-      markers
-        .append('title')
-        .text(this.tooltip((d) => this.x(d.x)));
+      markers.on('mouseover.tip', this.tooltip.show)
+        .on('mouseout.tip', this.tooltip.hide);
     }
 
     // Add events to the markers
@@ -108,31 +105,7 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
-    var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.left + this.margin.right;
-
-    //Create a global 'g' (group) element
-    this.svg = d3
-      .select(this.selector).append('svg')
-      .attr({ width, height })
-      .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-    // Append the line path
-    this.svg.append('path');
-
-    //Append a new group with 'x' aXis
-    this.svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(this.xAxis);
-
-    //Append a new group with 'y' aXis
-    this.svg.append('g')
-      .attr('class', 'y axis')
-      .attr('stroke-dasharray', '5, 5')
-      .call(this.yAxis)
-      .append('text');
+    super._initialize();
 
     //Initialize SVG
     this._initialized = true;
@@ -143,13 +116,6 @@ class SvgLinechartStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-    config = config || { events: {}, markers: {}};
-    if (!config.events) {
-      config.events = {};
-    }
-    if (!config.markers) {
-      config.markers = {};
-    }
     super._loadConfigOnContext(config);
     this.markers = {};
     this.markers.color = config.markers.color || _default.Linechart.markers.color;

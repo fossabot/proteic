@@ -22,15 +22,30 @@ describe('Utils', () => {
       assert.isNotOk(utils.isObject([{}]));
       assert.isNotOk(utils.isObject([{}, {}]));
     });
-    
+
     it('utils.isFunction()', () => {
-      assert.isOk(utils.isFunction(function(){}));
       assert.isOk(utils.isFunction((d) => d));
-      assert.isNotOk(utils.isFunction(""));
+      assert.isNotOk(utils.isFunction(''));
       assert.isNotOk(utils.isFunction({}));
       assert.isNotOk(utils.isFunction([]));
     });
-
+    
+    it('utils.isPercentage()', () => {
+      assert.isOk(utils.isPercentage('100%'));
+      assert.isOk(utils.isPercentage('1%'));
+      assert.isNotOk(utils.isPercentage('131%'));
+      assert.isNotOk(utils.isPercentage({}));
+      assert.isNotOk(utils.isPercentage([]));
+    });
+    
+    it('utils.isNumeric()', () => {
+      assert.isOk(utils.isNumeric(324));
+      assert.isOk(utils.isNumeric("324"));
+      assert.isNotOk(utils.isNumeric('131%'));
+      assert.isNotOk(utils.isNumeric({}));
+      assert.isNotOk(utils.isNumeric([]));
+    });
+    
     it('utils.getArrayDifferentKeys() - simple array', () => {
       assert.strictEqual(utils.getNumberOfDifferentArrayKeys([1]), 1);
       assert.strictEqual(utils.getNumberOfDifferentArrayKeys([1, 2, 3]), 3);

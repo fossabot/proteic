@@ -17,17 +17,25 @@ const _default = {
         'display': 'none'
       }
     },
+    xaxis: {
+      label: ''
+    },
+    yaxis: {
+      label: 'Y'
+    },
+    // Set the color scale for the chart. You can use Proteus scales or any D3 scale
+    colorScale: Colors.category7(),
     margin: {
       top: 20,
       right: 20,
       bottom: 30,
       left: 50
     },
-    width: 600,
+    width: '80%', // %, auto, or numeric 
     height: 250,
     ticks: 5, // ticks for y axis.
-    tooltip(object) {
-      return 'Info: ' + JSON.stringify(object);
+    tooltip(data) { // Allows HTML
+      return 'Object info: ' + JSON.stringify(data);
     },
     tickLabel: '',
     selector: '#chart',
@@ -60,6 +68,12 @@ const _default = {
   },
   Linechart: {
     selector: '#chart',
+    xaxis: {
+      label: 'X'
+    },
+    yaxis: {
+      label: 'Y'
+    },
     margin: {
       top: 20,
       right: 20,
@@ -94,8 +108,8 @@ const _default = {
       outlineColor: '#537780',
       outlineWidth: 2
     },
-    tooltip(text) {
-      return text;
+    tooltip(data) {
+      return JSON.stringify(data);
     },
     events: {
       down() {
@@ -133,6 +147,12 @@ const _default = {
     colorScale: {
       from: 'orange',
       to: 'blue'
+    },
+    xaxis: {
+      label: ''
+    },
+    yaxis: {
+      label: ''
     },
     style: {
       '.axis': {

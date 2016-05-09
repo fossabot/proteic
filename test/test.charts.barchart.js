@@ -60,10 +60,11 @@ describe('Barchart', () => {
       assert.throws(() => {
         var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
         var chart = new Barchart(data);
-        chart.draw();
-
         var serie = {};
+        
+        chart.draw();        
         chart.addSeries(serie);
+        
       }, Error);
     });
   });

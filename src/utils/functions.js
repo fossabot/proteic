@@ -10,7 +10,23 @@ var utils = utils || {
   isFunction(func){
      return func && {}.toString.call(func) === '[object Function]';
   },
-
+  
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  },
+  
+  isPercentage(n){
+    let split = null;
+    if(!n || typeof n !== 'string'){
+      return false;
+    }
+    split =  n.split('%');
+    return split.length === 2 
+      && (+split[0] >= 0) 
+      && (+split[0] <=100);
+    
+  },
+  
   getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
     var element = null;

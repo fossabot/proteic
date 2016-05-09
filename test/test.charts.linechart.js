@@ -15,8 +15,10 @@ describe('SvgLinechartStrategy', () => {
   describe('_loadConfigOnContext(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
-      var width = 250, height = 100;
-      var config = { width, height };
+      var width = 250
+      var height = 100;
+      var margin = {left:0, right:0, top:0, bottom:0};
+      var config = { width, height, margin };
       var svg = new SvgLinechartStrategy({ data, config, cType: 'Linechart' });
       var result = svg._loadConfigOnContext(config);
       result.should.have.property('width').equals(width);
@@ -63,28 +65,28 @@ describe('Linechart', () => {
     it('should construct a line chart with some custom configuration', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var width = 250;
-      var config = { width };
-      var defaultMargin = _default.Linechart.margin;
+      var margin = {left:0, right:0, top:0, bottom:0};
+      var config = { width, margin };
       var chart = new Linechart(data, config);
+      var svg = null;
+
       chart.draw();
       assert.isOk(chart);
+      svg = document.getElementsByTagName('svg')[0]
 
-      var svg = document.getElementsByTagName('svg')[0];
-      parseInt(svg.getAttribute('width')).should.equals(width + defaultMargin.left + defaultMargin.right);
+      parseInt(svg.getAttribute('width')).should.equals(width);
     });
 
-    it.skip('should construct a line chart with streaming data', function(done) {
-      this.timeout(5000);
+    it.skip('should construct a line chart with streaming data', function (done) {
       var streamingData = {
         endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
       };
       var chart = new Linechart(streamingData);
+      
+      this.timeout(5000);
       chart.start();
 
       setTimeout(() => {
-        // assert.isOk(chart);
-        // chart.stop();
-        // chart.ws.send('end');
         done();
       }, 3000);
     });
@@ -119,17 +121,18 @@ describe('Linechart', () => {
         chart.addSerie([{}, {}], true);
       }, Error);
     });
-    
+
     it('addSeries(): should return an error because serie needs to be an array', () => {
       assert.throws(() => {
         var data = [{ x: 0, y: 1 }, { x: 1, y: 2 }];
         var chart = new Linechart(data);
-        chart.draw();
-        
         var serie = {};
+
+        chart.draw();
         chart.addSeries(serie);
+
       }, Error);
     });
-    
+
   });
 });
