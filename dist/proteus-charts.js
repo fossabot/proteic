@@ -789,8 +789,8 @@ var SvgChart = function () {
             this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
             //Create tooltip (d3-tip)
-            if (this.tooltip) {
-                this.tooltip = d3.tip().attr('class', 'd3-tip').html(this.tooltip);
+            if (this.tip) {
+                this.tooltip = d3.tip().attr('class', 'd3-tip').html(this.tip);
                 this.svg.call(this.tooltip);
             }
 
@@ -866,7 +866,8 @@ var SvgChart = function () {
             this.ticks = config.ticks || _default[this.cType].ticks;
             this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
             this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
-            this.tooltip = config.tooltip || _default[this.cType].tooltip;
+            //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
+            this.tip = config.tooltip || _default[this.cType].tooltip;
             this.events = {};
             this.events.down = config.events.down || _default[this.cType].events.down;
             this.events.up = config.events.up || _default[this.cType].events.up;

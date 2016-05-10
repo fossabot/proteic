@@ -12,6 +12,8 @@ const protractor = require("gulp-protractor").protractor;
 const webdriver_update = require('gulp-protractor').webdriver_update;
 const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const webserver = require('gulp-webserver');
+const shell = require('gulp-shell');
+
 
 const libname = 'proteus-charts';
 
@@ -51,10 +53,15 @@ gulp.task('concat', ['babel'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('vendor', () => {
-  return gulp.src([
-    './node_modules/d3/d3.min.js'
 
+gulp.task('vendor:compile', shell.task([
+  'cd node_modules/d3-tip && make',
+]))
+
+gulp.task('vendor', ['vendor:compile'], () => {
+  return gulp.src([
+    './node_modules/d3/d3.min.js',
+    './node_modules/d3-tip/d3-tip.min.js'
   ])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('dist'));
@@ -99,7 +106,7 @@ gulp.task('test:e2e', ['webdriver_update', 'webserver'], (cb) => {
     });
 });
 
-gulp.task('webserver', function() {
+gulp.task('webserver', function () {
   return gulp.src('')
     .pipe(webserver({
       livereload: false,

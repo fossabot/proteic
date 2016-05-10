@@ -38,11 +38,21 @@ class SvgChart {
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
         //Create tooltip (d3-tip)
-        if(this.tooltip){
-            this.tooltip = d3.tip().attr('class', 'd3-tip').html(this.tooltip);
+        if (this.tip) {
+            this.tooltip = d3.tip()
+                .attr('class', 'd3-tip')
+                .style({
+                    'line-height': 1,
+                    'padding': '12px',
+                    'background': 'rgba(0, 0, 0, 0.8)',
+                    'color': '#fff',
+                    'border-radius': '2px',
+                    'pointer-events': 'none'
+                })
+                .html(this.tip);
             this.svg.call(this.tooltip);
         }
-        
+
         //Append a new group with 'x' aXis
         this.svg.append('g')
             .attr('class', 'x axis')
@@ -108,7 +118,7 @@ class SvgChart {
                 .width;
             percentage = width.split('%')[0];
             return Math.round(percentage * containerWidth / 100);
-        }else{
+        } else {
             throw Error('Unknow chart width: ' + width);
         }
 
@@ -137,7 +147,8 @@ class SvgChart {
         this.ticks = config.ticks || _default[this.cType].ticks;
         this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
         this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
-        this.tooltip = config.tooltip || _default[this.cType].tooltip;
+        //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
+        this.tip = config.tooltip || _default[this.cType].tooltip;
         this.events = {};
         this.events.down = config.events.down || _default[this.cType].events.down;
         this.events.up = config.events.up || _default[this.cType].events.up;
