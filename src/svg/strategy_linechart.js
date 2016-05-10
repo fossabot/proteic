@@ -50,8 +50,7 @@ class SvgLinechartStrategy extends SvgChart {
       .y((d) => this.y(d.y));
 
     // Create path and bind data to it
-    path = this.svg
-      .append('path')
+    this.path
       .datum(data, this.keyFunction)
       .attr('d', line);
 
@@ -105,7 +104,62 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
-    super._initialize();
+    var width = this.width + this.margin.left + this.margin.right;
+    var height = this.height + this.margin.left + this.margin.right;
+
+    //Create a global 'g' (group) element
+    this.svg = d3
+      .select(this.selector).append('svg')
+      .attr({ width, height })
+      .append('g')
+      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+    this.path = this.svg
+      .append('path')
+
+    //Create tooltip (d3-tip)
+    if (this.tip) {
+      this.tooltip = d3.tip()
+        .attr('class', 'd3-tip')
+        .style({
+          'line-height': 1,
+          'padding': '12px',
+          'background': 'rgba(0, 0, 0, 0.8)',
+          'color': '#fff',
+          'border-radius': '2px',
+          'pointer-events': 'none'
+        })
+        .html(this.tip);
+      this.svg.call(this.tooltip);
+    }
+
+    //Append a new group with 'x' aXis
+    this.svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + this.height + ')')
+      .call(this.xAxis);
+
+    //Append a new group with 'y' aXis
+    this.svg.append('g')
+      .attr('class', 'y axis')
+      .attr('stroke-dasharray', '5, 5')
+      .call(this.yAxis)
+      .append('text');
+
+    // Append axes labels
+    this.svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'xaxis-label')
+      .attr('x', this.width / 2)
+      .attr('y', this.height + this.margin.bottom)
+      .text(this.xAxisLabel);
+    this.svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'yaxis-label')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', - this.height / 2)
+      .attr('y', - this.margin.left / 1.3)
+      .text(this.yAxisLabel);
 
     //Initialize SVG
     this._initialized = true;
