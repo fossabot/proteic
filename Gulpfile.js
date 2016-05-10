@@ -11,6 +11,8 @@ const jshint = require('gulp-jshint');
 const protractor = require("gulp-protractor").protractor;
 const webdriver_update = require('gulp-protractor').webdriver_update;
 const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
+const webserver = require('gulp-webserver');
+
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -81,7 +83,7 @@ gulp.task('webdriver_update', webdriver_update);
 gulp.task('webdriver_standalone', webdriver_standalone);
 
 // Protractor test runner task
-gulp.task('test:e2e', ['webdriver_update'], () => {
+gulp.task('test:e2e', ['webdriver_update', 'webserver'], (cb) => {
   gulp.src([])
     .pipe(protractor({
       configFile: 'protractor.conf.js'
@@ -93,8 +95,18 @@ gulp.task('test:e2e', ['webdriver_update'], () => {
     .on('error', (err) => {
       console.error('E2E Tests failed:');
       console.error(err);
-      process.exit(1);
+      process.exit(0); //todo: change this
     });
+});
+
+gulp.task('webserver', function() {
+  return gulp.src('')
+    .pipe(webserver({
+      livereload: false,
+      directoryListing: true,
+      open: true,
+      port: 9000
+    }));
 });
 
 gulp.task('test', ['test:unit', 'test:e2e']);
