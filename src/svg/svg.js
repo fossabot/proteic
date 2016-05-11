@@ -192,4 +192,14 @@ class SvgChart {
             this.interactiveElements.on(userEvents[key], null);
         }
     }
+    _updateXaxis(){
+        this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
+    }
+    _updateYaxis(){
+        this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+    }
+    _updateAxis() {
+        this._updateXaxis();
+        this._updateYaxis();
+    }
 }

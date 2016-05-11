@@ -44,15 +44,21 @@ class SvgBarchartStrategy extends SvgChart {
 
     var layer = this.svg
       .selectAll(".layer")
-      .data(this.layers)
-      .enter()
+      .data(this.layers);
+
+    layer.enter()
       .append("g")
       .attr("class", "layer")
       .style("fill", (d, i) => this.colorScale(i));
 
+    layer.exit().remove();
+
+
     this._bars = layer
       .selectAll("rect")
-      .data((d) => d)
+      .data((d) => d);
+
+    this._bars
       .enter()
       .append("rect")
       .attr("x", (d) => this.x(d.x))
@@ -60,15 +66,24 @@ class SvgBarchartStrategy extends SvgChart {
       .attr("height", (d) => this.y(d.y0) - this.y(d.y + d.y0))
       .attr("width", this.x.rangeBand() - 1);
 
+    this._bars
+      .exit()
+      .transition()
+      .duration(300)
+      .attr('y', this.y(0))
+      .attr('height', this.height - this.y(0))
+      .style('fill-opacity', 1e-6)
+      .style()
+      .remove();
+
+
     if (this.isStacked) {
       this._transition2Stacked();
     } else {
       this._transition2Grouped();
     }
 
-    //Create a transition effect for axis rescaling
-    this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
-    this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+    this._updateAxis();
 
     this.interactiveElements = this._bars;
     this._applyCSS();
@@ -77,6 +92,8 @@ class SvgBarchartStrategy extends SvgChart {
 
   _transition2Stacked() {
     var yStackMax = d3.max(this.layers, (layer) => d3.max(layer, (d) => d.y0 + d.y));
+
+    console.log('yStackMax', yStackMax);
     var n = this.layers.length;
 
     this.y.domain([0, yStackMax]);
@@ -89,6 +106,9 @@ class SvgBarchartStrategy extends SvgChart {
       .attr("x", (d) => this.x(d.x))
       .attr("width", this.x.rangeBand())
       .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
+
+    this._updateYaxis();
+    this._applyCSS();
   }
 
   _transition2Grouped() {
@@ -105,7 +125,9 @@ class SvgBarchartStrategy extends SvgChart {
       .attr("y", (d) => this.y(d.y))
       .attr("height", (d) => this.height - this.y(d.y))
       .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
-
+  
+    this._updateYaxis();
+    this._applyCSS();
   }
 
   /**

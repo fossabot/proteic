@@ -7,7 +7,7 @@ describe('Simple barchart', () => {
     });
 
     it('should have a correct number of elemenets', () => {
-        browser.executeScript('return barchart').then(function (barchart) {
+        browser.executeScript('return barchart').then( (barchart) => {
             expect(1).toEqual(barchart.data.length);
         });
     });
