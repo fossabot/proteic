@@ -139,6 +139,7 @@ class Chart {
     if (!utils.isArray(data)) {
       throw new TypeError('draw method is only allowed with static data.');
     }
+    data = JSON.parse(JSON.stringify(data));
     this._svg.draw(data);
   }
 

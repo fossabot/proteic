@@ -161,4 +161,35 @@ class SvgChart {
         this.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
         this.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
     }
+
+    _endAllTransitions(transition, callback) {
+        var n;
+        if (transition.empty()) {
+            callback();
+        }
+        else {
+            n = transition.size();
+            transition.each("end", () => {
+                n--;
+                if (n === 0) {
+                    callback();
+                }
+            });
+        }
+    }
+
+    _removeUserEvents() {
+        var userEvents = [
+            'mousedown.user',
+            'mouseup.user',
+            'mouseleave.user',
+            'mouseover.user',
+            'click.user',
+            'mouseover.tip',
+            'mouseout.tip'
+        ];
+        for (let key in userEvents) {
+            this.interactiveElements.on(userEvents[key], null);
+        }
+    }
 }

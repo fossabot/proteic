@@ -32,7 +32,7 @@ const _default = {
       left: 50
     },
     width: '80%', // %, auto, or numeric 
-    height: 250,
+    height: 350,
     ticks: 5, // ticks for y axis.
     tooltip(data) { // Allows HTML
       return 'Object info: ' + JSON.stringify(data);
