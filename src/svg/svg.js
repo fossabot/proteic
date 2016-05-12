@@ -169,7 +169,7 @@ class SvgChart {
         }
         else {
             n = transition.size();
-            transition.each("end", () => {
+            transition.each('end', () => {
                 n--;
                 if (n === 0) {
                     callback();

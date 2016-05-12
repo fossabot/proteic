@@ -43,28 +43,28 @@ class SvgBarchartStrategy extends SvgChart {
     this.x.domain(this.layers[0].map((d) => d[this.xAxisName]));
 
     var layer = this.svg
-      .selectAll(".layer")
+      .selectAll('.layer')
       .data(this.layers);
 
     layer.enter()
-      .append("g")
-      .attr("class", "layer")
-      .style("fill", (d, i) => this.colorScale(i));
+      .append('g')
+      .attr('class', 'layer')
+      .style('fill', (d, i) => this.colorScale(i));
 
     layer.exit().remove();
 
 
     this._bars = layer
-      .selectAll("rect")
+      .selectAll('rect')
       .data((d) => d);
 
     this._bars
       .enter()
-      .append("rect")
-      .attr("x", (d) => this.x(d.x))
-      .attr("y", (d) => this.y(d.y + d.y0))
-      .attr("height", (d) => this.y(d.y0) - this.y(d.y + d.y0))
-      .attr("width", this.x.rangeBand() - 1);
+      .append('rect')
+      .attr('x', (d) => this.x(d.x))
+      .attr('y', (d) => this.y(d.y + d.y0))
+      .attr('height', (d) => this.y(d.y0) - this.y(d.y + d.y0))
+      .attr('width', this.x.rangeBand() - 1);
 
     this._bars
       .exit()
@@ -100,11 +100,11 @@ class SvgBarchartStrategy extends SvgChart {
 
     this._bars.transition()
       .duration(200)
-      .attr("y", (d) => this.y(d.y0 + d.y))
-      .attr("height", (d) => this.y(d.y0) - this.y(d.y0 + d.y))
+      .attr('y', (d) => this.y(d.y0 + d.y))
+      .attr('height', (d) => this.y(d.y0) - this.y(d.y0 + d.y))
       .transition()
-      .attr("x", (d) => this.x(d.x))
-      .attr("width", this.x.rangeBand())
+      .attr('x', (d) => this.x(d.x))
+      .attr('width', this.x.rangeBand())
       .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
 
     this._updateYaxis();
@@ -119,11 +119,11 @@ class SvgBarchartStrategy extends SvgChart {
 
     this._bars.transition()
       .duration(200)
-      .attr("x", (d, i, j) => this.x(d.x) + this.x.rangeBand() / n * j)
-      .attr("width", this.x.rangeBand() / n)
+      .attr('x', (d, i, j) => this.x(d.x) + this.x.rangeBand() / n * j)
+      .attr('width', this.x.rangeBand() / n)
       .transition()
-      .attr("y", (d) => this.y(d.y))
-      .attr("height", (d) => this.height - this.y(d.y))
+      .attr('y', (d) => this.y(d.y))
+      .attr('height', (d) => this.height - this.y(d.y))
       .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
   
     this._updateYaxis();
@@ -150,12 +150,13 @@ class SvgBarchartStrategy extends SvgChart {
 
 
   _initialize() {
+    var transition = null;
     super._initialize();
     this.svg[0][0].addEventListener('transition', (e) => {
       //remove current user events
       this._removeUserEvents();
 
-      var transition = e.detail.type;
+      transition = e.detail.type;
       if (transition === 'grouped') {
         this._transition2Grouped();
       }
