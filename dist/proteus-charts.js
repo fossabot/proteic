@@ -752,13 +752,6 @@ var _default = {
       }
     },
     ticks: 5, // ticks for y axis.
-    markers: {
-      shape: 'circle',
-      size: 5,
-      color: '#FFFCCA',
-      outlineColor: '#537780',
-      outlineWidth: 2
-    },
     tooltip: function tooltip(data) {
       return JSON.stringify(data);
     },
@@ -1647,19 +1640,20 @@ var SvgMultiSeriesLinechartStrategy = function (_SvgChart) {
               }).attr('cy', function (d) {
                 return _this2.y(d.y);
               }).duration(0);
+
               break;
             default:
               throw Error('Not a valid marker shape: ' + this.markers.shape);
           }
-        }
 
-        // Add tooltips to the markers
-        if (this.tooltip) {
-          markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
-        }
+          // Add tooltips to the markers
+          if (this.tooltip) {
+            markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
+          }
 
-        // Add events to the markers
-        markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
+          // Add events to the markers
+          markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
+        }
 
         this.interactiveElements = markers;
       }
@@ -1711,12 +1705,16 @@ var SvgMultiSeriesLinechartStrategy = function (_SvgChart) {
     key: '_loadConfigOnContext',
     value: function _loadConfigOnContext(config) {
       _get(Object.getPrototypeOf(SvgMultiSeriesLinechartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-      this.markers = {};
-      this.markers.color = config.markers.color || _default.Linechart.markers.color;
-      this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
-      this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
-      this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
-      this.markers.size = config.markers.size || _default.Linechart.markers.size;
+
+      if (_default.MultiSeriesLinechart.markers) {
+        config.markers = {};
+        this.markers = {};
+        this.markers.color = config.markers.color || _default.MultiSeriesLinechart.markers.color;
+        this.markers.outlineColor = config.markers.outlineColor || _default.MultiSeriesLinechart.markers.outlineColor;
+        this.markers.outlineWidth = config.markers.outlineWidth || _default.MultiSeriesLinechart.markers.outlineWidth;
+        this.markers.shape = config.markers.shape || _default.MultiSeriesLinechart.markers.shape;
+        this.markers.size = config.markers.size || _default.MultiSeriesLinechart.markers.size;
+      }
 
       //Just for testing purposes
       return this;

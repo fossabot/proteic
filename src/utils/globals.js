@@ -240,13 +240,6 @@ const _default = {
       }
     },
     ticks: 5, // ticks for y axis.
-    markers: {
-      shape: 'circle',
-      size: 5,
-      color: '#FFFCCA',
-      outlineColor: '#537780',
-      outlineWidth: 2
-    },
     tooltip(data) {
       return JSON.stringify(data);
     },
