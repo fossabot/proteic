@@ -6,27 +6,29 @@ var utils = utils || {
   isObject(d) {
     return d && d.constructor === Object && d instanceof Object;
   },
-  
-  isFunction(func){
-     return func && {}.toString.call(func) === '[object Function]';
+
+  isFunction(func) {
+    return func && {}.toString.call(func) === '[object Function]';
   },
-  
+
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   },
-  
-  isPercentage(n){
+
+  isPercentage(n) {
     let split = null;
-    if(!n || typeof n !== 'string'){
+    let number = null;
+    if (!n || typeof n !== 'string') {
       return false;
     }
-    split =  n.split('%');
-    return split.length === 2 
-      && (+split[0] >= 0) 
-      && (+split[0] <=100);
-    
+    split = n.split('%');
+    number = (+split[0]);
+    return split.length === 2
+      && (number >= 0)
+      && (number <= 100);
+
   },
-  
+
   getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
     var element = null;

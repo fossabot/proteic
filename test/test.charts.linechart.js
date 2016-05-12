@@ -72,7 +72,7 @@ describe('Linechart', () => {
 
       chart.draw();
       assert.isOk(chart);
-      svg = document.getElementsByTagName('svg')[0]
+      svg = document.getElementsByTagName('svg')[0];
 
       parseInt(svg.getAttribute('width')).should.equals(width);
     });
