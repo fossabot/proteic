@@ -43,9 +43,11 @@ gulp.task('concat', ['babel'], () => {
     './lib/svg/strategy_barchart.js',
     './lib/svg/strategy_linechart.js',
     './lib/svg/strategy_streamgraph.js',
+    './lib/svg/strategy_multiseries_linechart.js',
     './lib/charts/classes.js',
     './lib/charts/barchart.js',
     './lib/charts/linechart.js',
+    './lib/charts/multiseries_linechart.js',
     './lib/charts/streamgraph.js'
 
   ])
