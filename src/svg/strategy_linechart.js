@@ -35,10 +35,16 @@ class SvgLinechartStrategy extends SvgChart {
     var path = null;
     var markers = null;
     super.draw(data);
+
     //Re-scale axis
-    // this.x.domain([0, d3.max(data, function (d) { return d.x; })]);
-    this.x.domain([d3.min(data, (d) => d.x), d3.max(data, (d) => d.x)]);
-    this.y.domain([0, d3.max(data, (d) => d.y)]);
+    this.x.domain([d3.min(data, (series) => {
+      return d3.min(series.values, (d) => d.x);
+    }), d3.max(data, (series) => {
+      return d3.max(series.values, (d) => d.x);
+    })]);
+    this.y.domain([0, d3.max(data, (series) => {
+      return d3.max(series.values, (d) => d.y);
+    })]);
 
     //Create a transition effect for axis rescaling
     this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
@@ -49,55 +55,71 @@ class SvgLinechartStrategy extends SvgChart {
       .x((d) => this.x(d.x))
       .y((d) => this.y(d.y));
 
-    // Create path and bind data to it
-    this.path
-      .datum(data, this.keyFunction)
-      .attr('d', line);
-
-    // Append markers to line
-    if (this.markers) {
-      switch (this.markers.shape) {
-        case 'circle':
-          markers = this.svg.selectAll('circle').data(data, this.keyFunction);
-
-          markers
-            .enter()
-            .append('circle')
-            .attr('cx', (d) => this.x(d.x))
-            .attr('cy', (d) => this.y(d.y))
-            .attr('r', this.markers.size)
-            .style({
-              'fill': this.markers.color,
-              'stroke': this.markers.outlineColor,
-              'stroke-width': this.markers.outlineWidth
-            });
-
-          markers
-            .transition()
-            .attr('cx', (d) => this.x(d.x))
-            .attr('cy', (d) => this.y(d.y))
-            .duration(0);
-          break;
-        default:
-          throw Error('Not a valid marker shape: ' + this.markers.shape);
+    for (var series in data) {
+      if (!this.paths) {
+        this.svg.append('path')
+        // .datum(data[series].values, this.keyFunction)
+          .data(data[series].values)
+          .style('stroke', this.colorScale(series))
+          .attr('class', data[series].key)
+          .attr('d', line(data[series].values));
       }
     }
+    this.paths = true;
 
-    // Add tooltips to the markers
-    if (this.tooltip) {
-      markers.on('mouseover.tip', this.tooltip.show)
-        .on('mouseout.tip', this.tooltip.hide);
+    for (var series in data) {
+      // Create path and bind data to it
+      this.svg.select('.' + data[series].key)
+        // .datum(data[series].values, this.keyFunction)
+        .data(data[series].values)
+        .style('stroke', this.colorScale(series))
+        .attr('d', line(data[series].values));
+
+      // Append markers to line
+      if (this.markers) {
+        switch (this.markers.shape) {
+          case 'circle':
+            markers = this.svg.selectAll('circle').data(data[series].values, this.keyFunction);
+
+            markers
+              .enter()
+              .append('circle')
+              .attr('cx', (d) => this.x(d.x))
+              .attr('cy', (d) => this.y(d.y))
+              .attr('r', this.markers.size)
+              .style({
+                'fill': this.markers.color,
+                'stroke': this.markers.outlineColor,
+                'stroke-width': this.markers.outlineWidth
+              });
+            markers.exit().remove();
+            markers
+              .transition()
+              .attr('cx', (d) => this.x(d.x))
+              .attr('cy', (d) => this.y(d.y))
+              .duration(0);
+            break;
+          default:
+            throw Error('Not a valid marker shape: ' + this.markers.shape);
+        }
+      }
+
+      // Add tooltips to the markers
+      if (this.tooltip) {
+        markers.on('mouseover.tip', this.tooltip.show)
+          .on('mouseout.tip', this.tooltip.hide);
+      }
+
+      // Add events to the markers
+      markers
+        .on('mousedown.user', this.events.down)
+        .on('mouseup.user', this.events.up)
+        .on('mouseleave.user', this.events.leave)
+        .on('mouseover.user', this.events.over)
+        .on('click.user', this.events.click);
+
+      this.interactiveElements = markers;
     }
-
-    // Add events to the markers
-    markers
-      .on('mousedown.user', this.events.down)
-      .on('mouseup.user', this.events.up)
-      .on('mouseleave.user', this.events.leave)
-      .on('mouseover.user', this.events.over)
-      .on('click.user', this.events.click);
-      
-    this.interactiveElements = markers;
     
     this._applyCSS();
   }
@@ -113,9 +135,6 @@ class SvgLinechartStrategy extends SvgChart {
       .attr({ width, height })
       .append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-    this.path = this.svg
-      .append('path')
 
     //Create tooltip (d3-tip)
     if (this.tip) {

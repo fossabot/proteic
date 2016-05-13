@@ -68,5 +68,15 @@ var utils = utils || {
       b = _getItem.call(o, b);
       return o.desc * (a < b ? -1 : +(a > b));
     });
+  },
+
+  findElement(arr, propName, propValue) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i][propName] === propValue) {
+        return arr[i];
+      }
+    }
+    return null;
+    // will return undefined if not found; you could return a default instead
   }
 };

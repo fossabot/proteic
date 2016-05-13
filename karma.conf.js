@@ -18,6 +18,7 @@ module.exports =  (config) => {
       'node_modules/d3/d3.min.js',
       'node_modules/d3-tip/index.js',
       'src/utils/*.js',
+      'src/datasources/*.js',
       'src/svg/svg.js',
       'src/svg/*.js',
       'src/charts/classes.js',

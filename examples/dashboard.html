@@ -18,6 +18,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Required meta tags always come first -->
   <meta charset="utf-8">
@@ -25,7 +26,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
+    crossorigin="anonymous">
 
   <!-- Proteus scripts -->
   <!--<script src='https://cdn.rawgit.com/proteus-h2020/proteus-charts/development/dist/vendor.js'></script>-->
@@ -34,46 +36,56 @@
   <script src="../dist/proteus-charts.js"></script>
 
 </head>
+
 <body>
-<!-- Load data -->
-<script>
-  var data = {
-    endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
+  <!-- Load data -->
+  <script>
+    var data = {
+    endpoint: 'ws://localhost:8787/websocket'
   };
-</script>
+  
+  var wsConnection = new WebsocketConnection(data);
+  </script>
 
-<!-- #    DASHBOARD    # -->
+  <!-- #    DASHBOARD    # -->
 
-<div class='container'>
-  <div class="row">
-    <h1 class="display-1">Proteus Dashboard Demo</h1>
-  </div>
-  <div class='col-md-5' id='linechart'>
-    <script>
-      linechart = new MultiSeriesLinechart(data, {
+  <div class='container'>
+    <div class="row">
+      <h1 class="display-1">Proteus Dashboard Demo</h1>
+    </div>
+    <div class="row">
+      <button class="btn btn-info col-md-5" onclick="barchart.start()">Start/Resume</button>
+      <button class="btn btn-info col-md-5" onclick="barchart.stop()">Stop/Pause</button>
+    </div>
+    <hr/>
+    <div class='col-md-5' id='linechart'>
+      <script>
+        var linechart = new Linechart(data, {
         selector: "#linechart",
         maxNumberOfElements: 10,
         width: 'auto',
         height: 200,
       });
       linechart.start();
-    </script>
-  </div>
-  <div class='col-md-5' id='barchart'>
-    <script>
-      barchart = new Barchart(data, {
+      </script>
+    </div>
+    <div class='col-md-5' id='barchart'>
+      <script>
+        var barchart = new Barchart(data, {
         selector: "#barchart",
         maxNumberOfElements: 10,
         width: 'auto',
         height: 200,
       });
       barchart.start();
-    </script>
+      </script>
+    </div>
   </div>
-</div>
 
-<!-- jQuery first, then Bootstrap JS. -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+  <!-- jQuery first, then Bootstrap JS. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

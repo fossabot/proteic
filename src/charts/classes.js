@@ -33,54 +33,6 @@ class Chart {
   }
 
   /**
-   * @param  {Object} data Data object. This method infer the type of data, which could be:
-   * Array: Data is an static object.
-   * Object: Data is a data source we need to connect to, in order to receive a stream of data.
-   */
-  _inferDataSource(data) {
-    if (utils.isObject(data)) {
-      this._initializeWebsocketDataSource(data);
-    } else if (!utils.isArray(data)) {
-      throw new TypeError('Wrong data format');
-    }
-  }
-
-  /**
-   * Initialize a connecton between browser and server through a Websocket connections
-   * @param  {Object} source Connection details.
-   */
-  _initializeWebsocketDataSource(source) {
-    let _initialize = () => {
-      this.ws = new WebSocket(source.endpoint);
-
-      this.ws.onopen = () => {
-      };
-
-      this.ws.onerror = (e) => {
-        throw new Error('Error with websocket connection', e);
-      };
-
-      this.ws.onmessage = (event) => {
-        //var data = JSON.parse(event.data).points;
-        var data = JSON.parse(event.data.substr(2))[1];
-        setTimeout(() => {
-          this.keepDrawing(data);
-        }, 50);
-      };
-    };
-
-    //private streaming functions, only available when using websockets
-    this.start = () => {
-      _initialize();
-    }
-    this.stop = () => {
-      if (this.ws) {
-        this.ws.close();
-      }
-    }
-  }
-
-  /**
   * Add a new point to a given serie.
   * @param  {object} new serie
   * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
@@ -174,7 +126,60 @@ class Chart {
     return this;
   }
 
+
+  /**
+   * Streaming functions. Only available when data is a datasource, instead of an array.
+   */
+  start() {
+    if (!this.datasource) {
+      throw Error('You cannot start a streaming if data is not a datasource');
+    }
+    this.datasource.start();
+  }
+  stop() {
+    if (!this.datasource) {
+      throw Error('You cannot start a streaming if data is not a datasource');
+    }
+    this.datasource.stop();
+  }
+
+  _configureDatasource() {
+    this.datasource.configure(this.reactor);
+    this.reactor.registerEvent('onmessage');
+    this.reactor.registerEvent('onerror');
+    this.reactor.registerEvent('onopen');
+
+    this.reactor.addEventListener('onmessage', (data) => {
+      this.keepDrawing(data);
+    });
+
+    this.reactor.addEventListener('onopen', (e) => {
+      console.debug('Connected to websocket endpoint.', e);
+    });
+
+    this.reactor.addEventListener('onerror', (error) => {
+      console.error('An error has occured: ', error);
+    });
+  }
+
+  pause() {
+    if (!this.datasource) {
+      throw ('You need a datasource to pause a streaming');
+    }
+    this.reactor.removeEventListener('onmessage');
+  }
+
+  resume() {
+    if (!this.datasource) {
+      throw ('You need a datasource to resume a streaming');
+    }
+    
+    this.reactor.addEventListener('onmessage', (data) => {
+      this.keepDrawing(data);
+    });
+  }
 }
+
 
 /**
  * Basic chart. This class in inherited in all basic charts implementatios.
@@ -184,6 +189,7 @@ class Chart {
 class Basic extends Chart {
   constructor() {
     super();
+    this.reactor = new Reactor();
   }
 }
 

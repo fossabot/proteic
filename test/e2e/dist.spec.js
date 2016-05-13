@@ -15,4 +15,10 @@ describe('Vendor script', () => {
         });
     });
 
+    it('chart should include reactors', () => {
+        browser.executeScript('return linechart.reactor').then((reactor) => {
+            expect(reactor).not.toBe(undefined);
+        });
+    });
+
 });
