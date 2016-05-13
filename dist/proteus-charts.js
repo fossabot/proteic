@@ -65,6 +65,15 @@ var utils = utils || {
       b = _getItem.call(o, b);
       return o.desc * (a < b ? -1 : +(a > b));
     });
+  },
+  findElement: function findElement(arr, propName, propValue) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i][propName] === propValue) {
+        return arr[i];
+      }
+    }
+    return null;
+    // will return undefined if not found; you could return a default instead
   }
 };
 'use strict';
@@ -209,9 +218,6 @@ var strategies = {
   },
   Streamgraph: function Streamgraph(chartContext) {
     return new SvgStreamgraphStrategy(chartContext);
-  },
-  MultiSeriesLinechart: function MultiSeriesLinechart(chartContext) {
-    return new SvgMultiSeriesLinechartStrategy(chartContext);
   }
 };
 'use strict';
@@ -598,6 +604,7 @@ var _default = {
     yaxis: {
       label: 'Y'
     },
+    colorScale: Colors.category7(),
     margin: {
       top: 20,
       right: 20,
@@ -652,7 +659,7 @@ var _default = {
     },
     tickLabel: '',
     transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
+    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
       descending: false,
       prop: 'x'
@@ -710,74 +717,6 @@ var _default = {
         console.log(d, i);
       }
     },
-    transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-      descending: false,
-      prop: 'x'
-    }
-  },
-  MultiSeriesLinechart: {
-    selector: '#chart',
-    colorScale: Colors.category7(),
-    xaxis: {
-      label: 'X'
-    },
-    yaxis: {
-      label: 'Y'
-    },
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
-    },
-    width: 600,
-    height: 250,
-    style: {
-      'path': {
-        'stroke-width': 2,
-        'fill': 'none'
-      },
-      '.axis': {
-        'font': '10px sans-serif'
-      },
-      '.axis path,.axis line': {
-        'fill': 'none',
-        'stroke': '#000',
-        'shape-rendering': 'crispEdge'
-      },
-      '.x.axis path': {
-        'display': 'none'
-      }
-    },
-    ticks: 5, // ticks for y axis.
-    markers: {
-      shape: 'circle',
-      size: 5,
-      color: '#FFFCCA',
-      outlineColor: '#537780',
-      outlineWidth: 2
-    },
-    tooltip: function tooltip(data) {
-      return JSON.stringify(data);
-    },
-
-    events: {
-      down: function down() {
-        d3.select(this).classed('hover', false);
-      },
-      over: function over() {
-        d3.select(this).transition().duration(50).attr('r', 7);
-      },
-      leave: function leave() {
-        d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
-      },
-      click: function click(d, i) {
-        console.log(d, i);
-      }
-    },
-    tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
@@ -1273,15 +1212,21 @@ var SvgLinechartStrategy = function (_SvgChart) {
       var path = null;
       var markers = null;
       _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), 'draw', this).call(this, data);
+
       //Re-scale axis
-      // this.x.domain([0, d3.max(data, function (d) { return d.x; })]);
-      this.x.domain([d3.min(data, function (d) {
-        return d.x;
-      }), d3.max(data, function (d) {
-        return d.x;
+      this.x.domain([d3.min(data, function (series) {
+        return d3.min(series.values, function (d) {
+          return d.x;
+        });
+      }), d3.max(data, function (series) {
+        return d3.max(series.values, function (d) {
+          return d.x;
+        });
       })]);
-      this.y.domain([0, d3.max(data, function (d) {
-        return d.y;
+      this.y.domain([0, d3.max(data, function (series) {
+        return d3.max(series.values, function (d) {
+          return d.y;
+        });
       })]);
 
       //Create a transition effect for axis rescaling
@@ -1295,45 +1240,58 @@ var SvgLinechartStrategy = function (_SvgChart) {
         return _this2.y(d.y);
       });
 
-      // Create path and bind data to it
-      this.path.datum(data, this.keyFunction).attr('d', line);
-
-      // Append markers to line
-      if (this.markers) {
-        switch (this.markers.shape) {
-          case 'circle':
-            markers = this.svg.selectAll('circle').data(data, this.keyFunction);
-
-            markers.enter().append('circle').attr('cx', function (d) {
-              return _this2.x(d.x);
-            }).attr('cy', function (d) {
-              return _this2.y(d.y);
-            }).attr('r', this.markers.size).style({
-              'fill': this.markers.color,
-              'stroke': this.markers.outlineColor,
-              'stroke-width': this.markers.outlineWidth
-            });
-
-            markers.transition().attr('cx', function (d) {
-              return _this2.x(d.x);
-            }).attr('cy', function (d) {
-              return _this2.y(d.y);
-            }).duration(0);
-            break;
-          default:
-            throw Error('Not a valid marker shape: ' + this.markers.shape);
+      for (var series in data) {
+        if (!this.paths) {
+          this.svg.append('path')
+          // .datum(data[series].values, this.keyFunction)
+          .data(data[series].values).style('stroke', this.colorScale(series)).attr('class', data[series].key).attr('d', line(data[series].values));
         }
       }
+      this.paths = true;
 
-      // Add tooltips to the markers
-      if (this.tooltip) {
-        markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
+      for (var series in data) {
+        // Create path and bind data to it
+        this.svg.select('.' + data[series].key)
+        // .datum(data[series].values, this.keyFunction)
+        .data(data[series].values).style('stroke', this.colorScale(series)).attr('d', line(data[series].values));
+
+        // Append markers to line
+        if (this.markers) {
+          switch (this.markers.shape) {
+            case 'circle':
+              markers = this.svg.selectAll('circle').data(data[series].values, this.keyFunction);
+
+              markers.enter().append('circle').attr('cx', function (d) {
+                return _this2.x(d.x);
+              }).attr('cy', function (d) {
+                return _this2.y(d.y);
+              }).attr('r', this.markers.size).style({
+                'fill': this.markers.color,
+                'stroke': this.markers.outlineColor,
+                'stroke-width': this.markers.outlineWidth
+              });
+              markers.exit().remove();
+              markers.transition().attr('cx', function (d) {
+                return _this2.x(d.x);
+              }).attr('cy', function (d) {
+                return _this2.y(d.y);
+              }).duration(0);
+              break;
+            default:
+              throw Error('Not a valid marker shape: ' + this.markers.shape);
+          }
+        }
+
+        // Add tooltips to the markers
+        if (this.tooltip) {
+          markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
+        }
+
+        // Add events to the markers
+        markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
+
+        this.interactiveElements = markers;
       }
-
-      // Add events to the markers
-      markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
-
-      this.interactiveElements = markers;
 
       this._applyCSS();
     }
@@ -1345,8 +1303,6 @@ var SvgLinechartStrategy = function (_SvgChart) {
 
       //Create a global 'g' (group) element
       this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-      this.path = this.svg.append('path');
 
       //Create tooltip (d3-tip)
       if (this.tip) {
@@ -1779,61 +1735,6 @@ var Chart = function () {
     }
 
     /**
-     * @param  {Object} data Data object. This method infer the type of data, which could be:
-     * Array: Data is an static object.
-     * Object: Data is a data source we need to connect to, in order to receive a stream of data.
-     */
-
-  }, {
-    key: '_inferDataSource',
-    value: function _inferDataSource(data) {
-      if (utils.isObject(data)) {
-        this._initializeWebsocketDataSource(data);
-      } else if (!utils.isArray(data)) {
-        throw new TypeError('Wrong data format');
-      }
-    }
-
-    /**
-     * Initialize a connecton between browser and server through a Websocket connections
-     * @param  {Object} source Connection details.
-     */
-
-  }, {
-    key: '_initializeWebsocketDataSource',
-    value: function _initializeWebsocketDataSource(source) {
-      var _this = this;
-
-      var _initialize = function _initialize() {
-        _this.ws = new WebSocket(source.endpoint);
-
-        _this.ws.onopen = function () {};
-
-        _this.ws.onerror = function (e) {
-          throw new Error('Error with websocket connection', e);
-        };
-
-        _this.ws.onmessage = function (event) {
-          //var data = JSON.parse(event.data).points;
-          var data = JSON.parse(event.data.substr(2))[1];
-          setTimeout(function () {
-            _this.keepDrawing(data);
-          }, 50);
-        };
-      };
-
-      //private streaming functions, only available when using websockets
-      this.start = function () {
-        _initialize();
-      };
-      this.stop = function () {
-        if (_this.ws) {
-          _this.ws.close();
-        }
-      };
-    }
-
-    /**
     * Add a new point to a given serie.
     * @param  {object} new serie
     * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
@@ -1879,7 +1780,7 @@ var Chart = function () {
   }, {
     key: 'removePoint',
     value: function removePoint(point) {
-      var _this2 = this;
+      var _this = this;
 
       var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
@@ -1890,7 +1791,7 @@ var Chart = function () {
       this.data.some(function (item, index, array) {
         var equals = JSON.stringify(item) === JSON.stringify(point);
         if (equals) {
-          return _this2.data.splice(index, 1);
+          return _this.data.splice(index, 1);
         }
       });
 
@@ -1951,6 +1852,70 @@ var Chart = function () {
       this._svg.on(this.events);
       return this;
     }
+
+    /**
+     * Streaming functions. Only available when data is a datasource, instead of an array.
+     */
+
+  }, {
+    key: 'start',
+    value: function start() {
+      if (!this.datasource) {
+        throw Error('You cannot start a streaming if data is not a datasource');
+      }
+      this.datasource.start();
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      if (!this.datasource) {
+        throw Error('You cannot start a streaming if data is not a datasource');
+      }
+      this.datasource.stop();
+    }
+  }, {
+    key: '_configureDatasource',
+    value: function _configureDatasource() {
+      var _this2 = this;
+
+      this.datasource.configure(this.reactor);
+      this.reactor.registerEvent('onmessage');
+      this.reactor.registerEvent('onerror');
+      this.reactor.registerEvent('onopen');
+
+      this.reactor.addEventListener('onmessage', function (data) {
+        _this2.keepDrawing(data);
+      });
+
+      this.reactor.addEventListener('onopen', function (e) {
+        console.debug('Connected to websocket endpoint.', e);
+      });
+
+      this.reactor.addEventListener('onerror', function (error) {
+        console.error('An error has occured: ', error);
+      });
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      if (!this.datasource) {
+        throw 'You need a datasource to pause a streaming';
+      }
+      this.reactor.removeEventListener('onmessage');
+    }
+  }, {
+    key: 'resume',
+    value: function resume() {
+      var _this3 = this;
+
+      if (!this.datasource) {
+        throw 'You need a datasource to resume a streaming';
+      }
+
+      this.reactor.addEventListener('onmessage', function (data) {
+        _this3.keepDrawing(data);
+      });
+    }
   }]);
 
   return Chart;
@@ -1967,7 +1932,10 @@ var Basic = function (_Chart) {
   function Basic() {
     _classCallCheck(this, Basic);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this));
+    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this));
+
+    _this4.reactor = new Reactor();
+    return _this4;
   }
 
   return Basic;
@@ -2034,20 +2002,24 @@ var Barchart = function (_Basic) {
       throw new Error('Missing constructor parameters');
     }
 
-    _this._inferDataSource(arguments[0]);
+    var dataFormat = arguments[0].constructor.name;
+    var nArguments = arguments.length;
 
-    switch (arguments.length) {
-      case 1:
-        _this.data = arguments[0];
-        _this.config = _default[_this.constructor.name];
+    switch (dataFormat) {
+      case 'WebsocketDatasource':
+        _this.datasource = arguments[0];
+        _this.data = [];
+        _this._configureDatasource();
         break;
-      case 2:
+      case 'Array':
         _this.data = arguments[0];
-        _this.config = arguments[1];
         break;
       default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
+        throw TypeError('Wrong data format');
     }
+    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
+
     _this._initializeSVGContext();
     return _this;
   }
@@ -2138,20 +2110,24 @@ var Linechart = function (_Basic) {
       throw new Error('Missing constructor parameters');
     }
 
-    _this._inferDataSource(arguments[0]);
+    var dataFormat = arguments[0].constructor.name;
+    var nArguments = arguments.length;
 
-    switch (arguments.length) {
-      case 1:
-        _this.data = arguments[0];
-        _this.config = _default[_this.constructor.name];
+    switch (dataFormat) {
+      case 'WebsocketDatasource':
+        _this.datasource = arguments[0];
+        _this.data = [];
+        _this._configureDatasource();
         break;
-      case 2:
+      case 'Array':
         _this.data = arguments[0];
-        _this.config = arguments[1];
         break;
       default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
+        throw TypeError('Wrong data format');
     }
+    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
+
     _this._initializeSVGContext();
     return _this;
   }
@@ -2182,13 +2158,18 @@ var Linechart = function (_Basic) {
       var config = this.config;
       var maxNumberOfElements = config.maxNumberOfElements;
       if (!this.datum) {
-        this.datum = [];
+        this.datum = datum;
+      } else {
+        for (var i = 0; i < datum.length; i++) {
+          this.datum[i].values = this.datum[i].values.concat(datum[i].values);
+        }
       }
-      this.datum = this.datum.concat(datum);
       if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.datum.length > maxNumberOfElements) {
-          for (var i = 0; i < datum.length; i++) {
-            this.datum.shift();
+        for (var i = 0; i < datum.length; i++) {
+          if (this.datum[i].values.length > maxNumberOfElements) {
+            for (var j = 0; j < datum[i].values.length; j++) {
+              this.datum[i].values.shift();
+            }
           }
         }
       }

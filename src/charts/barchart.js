@@ -18,20 +18,28 @@ class Barchart extends Basic {
       throw new Error('Missing constructor parameters');
     }
 
-    this._inferDataSource(arguments[0]);
 
-    switch (arguments.length) {
-      case 1:
-        this.data = arguments[0];
-        this.config = _default[this.constructor.name];
+
+    let dataFormat = arguments[0].constructor.name;
+    let nArguments = arguments.length;
+
+    switch (dataFormat) {
+      case 'WebsocketDatasource':
+        this.datasource = arguments[0];
+        this.data = [];
+        this._configureDatasource();
         break;
-      case 2:
+      case 'Array':
         this.data = arguments[0];
-        this.config = arguments[1];
         break;
       default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
+        throw TypeError('Wrong data format');
     }
+    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+    this.config = (nArguments == 1)
+      ? _default[this.constructor.name]
+      : arguments[1];
+
     this._initializeSVGContext();
   }
 
@@ -43,13 +51,13 @@ class Barchart extends Basic {
   draw(data = this.data) {
     super.draw(data);
   }
-  
-  fire(event, data){
+
+  fire(event, data) {
     var element = this._svg.strategy.svg;
-    if(!element || !element[0][0]){
+    if (!element || !element[0][0]) {
       throw Error('Cannot fire events because SVG dom element is not yet initialized');
     }
-    element[0][0].dispatchEvent(new CustomEvent(event, {detail:{type:data}}));
+    element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
   }
 
   /**
@@ -72,5 +80,6 @@ class Barchart extends Basic {
     }
     super.draw(this.datum);
   }
+
 
 }
