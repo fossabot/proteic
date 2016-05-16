@@ -10,5 +10,8 @@ const strategies = {
   },
   MultiSeriesLinechart(chartContext) {
     return new SvgMultiSeriesLinechartStrategy(chartContext);
+  },
+  Gauge(chartContext) {
+    return new SvgGaugeStrategy(chartContext);
   }
 };

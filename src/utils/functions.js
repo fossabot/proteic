@@ -68,5 +68,9 @@ var utils = utils || {
       b = _getItem.call(o, b);
       return o.desc * (a < b ? -1 : +(a > b));
     });
+  },
+
+  deg2rad(deg) {
+    return deg * Math.PI / 180;
   }
 };
