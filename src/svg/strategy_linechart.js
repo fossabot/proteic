@@ -154,6 +154,7 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
+
     super._initialize();
     this._initialized = true;
   }
