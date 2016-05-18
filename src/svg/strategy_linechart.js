@@ -5,15 +5,32 @@ class SvgLinechartStrategy extends SvgChart {
     this.xAxisName = 'x';
     this.yAxisName = 'y';
 
-    this.x = d3.scale.linear().range([0, this.width]);
+    //Create scales
+    switch(this.xDataType) {
+      case 'Numeric':
+        this.x = d3.scale.linear().range([0, this.width]);
+        this.xAxis = d3.svg.axis()
+          .scale(this.x)
+          .orient('bottom')
+          .ticks(10);
+        break;
+      case 'Date':
+        this.x = d3.time.scale().range([0, this.width]);
+        this.format = d3.time.format(this.xDateformat);
+        this.xAxis = d3.svg.axis()
+          .scale(this.x)
+          .orient('bottom')
+          .ticks(d3.time.days);
+        break;
+      default:
+        this.x = d3.scale.linear().range([0, this.width]);
+        this.xAxis = d3.svg.axis()
+          .scale(this.x)
+          .orient('bottom')
+          .ticks(10);
+    }
+
     this.y = d3.scale.linear().range([this.height, 0]);
-
-    //Create scale
-    this.xAxis = d3.svg.axis()
-      .scale(this.x)
-      .orient('bottom')
-      .ticks(10);
-
     this.yAxis = d3.svg.axis()
       .scale(this.y)
       .orient('left')
@@ -35,6 +52,17 @@ class SvgLinechartStrategy extends SvgChart {
     var path = null;
     var markers = null;
     super.draw(data);
+
+    if (this.xDataType === 'Date') {
+      //Force x axis to be a date and y-axis to be a number
+      var format = this.format;
+      for (var series in data) {
+        data[series].values.forEach((d) => {
+          d.x = format.parse(d.x);
+          d.y = +d.y;
+        });
+      }
+    }
 
     //Re-scale axis
     this.x.domain([d3.min(data, (series) => {
@@ -126,61 +154,8 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
-    var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.left + this.margin.right;
 
-    //Create a global 'g' (group) element
-    this.svg = d3
-      .select(this.selector).append('svg')
-      .attr({ width, height })
-      .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-    //Create tooltip (d3-tip)
-    if (this.tip) {
-      this.tooltip = d3.tip()
-        .attr('class', 'd3-tip')
-        .style({
-          'line-height': 1,
-          'padding': '12px',
-          'background': 'rgba(0, 0, 0, 0.8)',
-          'color': '#fff',
-          'border-radius': '2px',
-          'pointer-events': 'none'
-        })
-        .html(this.tip);
-      this.svg.call(this.tooltip);
-    }
-
-    //Append a new group with 'x' aXis
-    this.svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(this.xAxis);
-
-    //Append a new group with 'y' aXis
-    this.svg.append('g')
-      .attr('class', 'y axis')
-      .attr('stroke-dasharray', '5, 5')
-      .call(this.yAxis)
-      .append('text');
-
-    // Append axes labels
-    this.svg.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'xaxis-label')
-      .attr('x', this.width / 2)
-      .attr('y', this.height + this.margin.bottom)
-      .text(this.xAxisLabel);
-    this.svg.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'yaxis-label')
-      .attr('transform', 'rotate(-90)')
-      .attr('x', - this.height / 2)
-      .attr('y', - this.margin.left / 1.3)
-      .text(this.yAxisLabel);
-
-    //Initialize SVG
+    super._initialize();
     this._initialized = true;
   }
 
@@ -196,6 +171,9 @@ class SvgLinechartStrategy extends SvgChart {
     this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
     this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
     this.markers.size = config.markers.size || _default.Linechart.markers.size;
+
+    this.xDataType = config.xDataType || _default.Linechart.xDataType;
+    this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
 
     //Just for testing purposes
     return this;
