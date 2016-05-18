@@ -276,6 +276,8 @@ const _default = {
   Gauge: {
     selector: '#chart',
     colorScale: Colors.diverging_red_blue(),
+    minLevel: 0,
+    maxLevel: 100,
     xaxis: {
       label: 'X'
     },

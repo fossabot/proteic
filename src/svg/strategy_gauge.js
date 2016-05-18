@@ -1,15 +1,12 @@
 class SvgGaugeStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
-
-
+    
     // TODO extract to config
-    this.minLevel = 0;
-    this.maxLevel = 100;
     this.minAngle = -90;
     this.maxAngle = 90;
     this.needleLenghtRatio = 0.8;
-    this.majorTicks = 5; // TODO this.ticks
+    this.scaleTicks = 5;
     this.ringWidth = 50;
     this.ringMargin = 20;
     this.labelInset = 10;
@@ -26,9 +23,9 @@ class SvgGaugeStrategy extends SvgChart {
       .range([0, 180])
       .domain([this.minLevel, this.maxLevel]);
 
-    this.scaleMarks = this.scale.ticks(this.majorTicks);
-    this.tickData = d3.range(this.majorTicks)
-      .map(() => 1 / this.majorTicks);
+    this.scaleMarks = this.scale.ticks(this.scaleTicks);
+    this.tickData = d3.range(this.scaleTicks)
+      .map(() => 1 / this.scaleTicks);
 
     this.keyFunction = ((d) => d.x);
     this.translation = (() => 'translate(' + this.r + ',' + this.r + ')');
@@ -151,6 +148,8 @@ class SvgGaugeStrategy extends SvgChart {
   _loadConfigOnContext(config) {
     super._loadConfigOnContext(config);
 
+    this.minLevel = config.minLevel || _default.Gauge.minLevel;
+    this.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
 
     //Just for testing purposes
     return this;
