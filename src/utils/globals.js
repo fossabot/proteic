@@ -84,7 +84,7 @@ const _default = {
     width: 600,
     height: 250,
     style: {
-      'path': {
+      '.line': {
         'stroke': '#11D3BC',
         'stroke-width': 2,
         'fill': 'none'
