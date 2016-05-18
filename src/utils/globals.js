@@ -86,7 +86,6 @@ const _default = {
     height: 250,
     style: {
       '.line': {
-        'stroke': '#11D3BC',
         'stroke-width': 2,
         'fill': 'none'
       },
