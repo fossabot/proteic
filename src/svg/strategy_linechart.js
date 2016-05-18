@@ -20,7 +20,7 @@ class SvgLinechartStrategy extends SvgChart {
         this.xAxis = d3.svg.axis()
           .scale(this.x)
           .orient('bottom')
-          .ticks(d3.time.days);
+          .ticks(15);
         break;
       default:
         this.x = d3.scale.linear().range([0, this.width]);
@@ -108,7 +108,6 @@ class SvgLinechartStrategy extends SvgChart {
         switch (this.markers.shape) {
           case 'circle':
             markers = this.svg.selectAll('circle').data(data[series].values, this.keyFunction);
-
             markers
               .enter()
               .append('circle')
@@ -154,6 +153,7 @@ class SvgLinechartStrategy extends SvgChart {
 
 
   _initialize() {
+
     super._initialize();
     this._initialized = true;
   }

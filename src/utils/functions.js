@@ -69,7 +69,6 @@ var utils = utils || {
       return o.desc * (a < b ? -1 : +(a > b));
     });
   },
-
   findElement(arr, propName, propValue) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i][propName] === propValue) {
@@ -77,5 +76,9 @@ var utils = utils || {
       }
     }
     return null;
+    // will return undefined if not found; you could return a default instead
+  },
+  deg2rad(deg) {
+    return deg * Math.PI / 180;
   }
 };

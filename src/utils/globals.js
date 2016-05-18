@@ -35,7 +35,8 @@ const _default = {
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip(data) { // Allows HTML
-      return 'Object info: ' + JSON.stringify(data);
+      return '<b>Eje x</b>: ' + data.x + '<br/>'
+        + '<b>Eje y</b>: ' + data.y;
     },
     tickLabel: '',
     selector: '#chart',
@@ -87,7 +88,7 @@ const _default = {
       'path': {
         'stroke': '#11D3BC',
         'stroke-width': 2,
-        'fill': 'none'
+        'fill': 'red'
       },
       '.axis': {
         'font': '10px sans-serif'
@@ -200,6 +201,67 @@ const _default = {
     },
     transitionDuration: 300,
     maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+      descending: false,
+      prop: 'x'
+    }
+  },
+  Gauge: {
+    selector: '#chart',
+    colorScale: Colors.diverging_red_blue(),
+    minLevel: 0,
+    maxLevel: 100,
+    xaxis: {
+      label: 'X'
+    },
+    yaxis: {
+      label: 'Y'
+    },
+    margin: {
+      top: 20,
+      right: 20,
+      bottom: 30,
+      left: 50
+    },
+    width: '80%', // %, auto, or numeric 
+    height: 350,
+    style: {},
+    ticks: 5, // ticks for y axis.
+    markers: {
+      shape: 'circle',
+      size: 5,
+      color: '#FFFCCA',
+      outlineColor: '#537780',
+      outlineWidth: 2
+    },
+    tooltip(data) {
+      return JSON.stringify(data);
+    },
+    events: {
+      down() {
+        d3.select(this).classed('hover', false);
+      },
+      over() {
+        d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('r', 7)
+          ;
+      },
+      leave() {
+        d3.select(this)
+          .transition()
+          .duration(50)
+          .attr('r', 5)
+          .style('stroke-width', 2);
+      },
+      click(d, i) {
+        console.log(d, i);
+      }
+    },
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
       descending: false,
       prop: 'x'

@@ -1,14 +1,14 @@
 'use strict';
 
 /**
- * Linechart implementation. This charts belongs to 'Basic' family.
+ * Gauge implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Linechart extends Basic {
+class Gauge extends Basic {
 
   /**
-   * Linechart constructor. It needs (at least) one argument to start: data.
-   * Optionally, you can indicate a second argument that includes all the chart options. If you
+   * Gauge constructor. It needs (at least) one argument to start: data.
+   * Optionally, you can indicate a second argument that includes all the chart options. If you 
    * do not specify this, '_default' object is used by default.
    */
   constructor(data, config) {
@@ -50,56 +50,33 @@ class Linechart extends Basic {
     super.draw(data);
   }
 
+  fire(event, data) {
+    var element = this._svg.strategy.svg;
+    if (!element || !element[0][0]) {
+      throw Error('Cannot fire events because SVG dom element is not yet initialized');
+    }
+    element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
+  }
+
   /**
    * Add new data to the current graph. If it is empty, this creates a new one.
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (datum.key !== 'max') return;
-
-    let dType = datum.constructor.name;
-    let dLength = 0;
-    let config = this.config;
-    let maxNumberOfElements = config.maxNumberOfElements;
-
-    //find serie
-    let serie = utils.findElement(this.data, 'key', datum.key);
-        
-    if (!serie || !serie.values) {
-      serie = {
-        key: datum.key,
-        values: []
-      };
-      this.data.push(serie);
+    var config = this.config;
+    var maxNumberOfElements = config.maxNumberOfElements;
+    if (!this.datum) {
+      this.datum = [];
     }
-
-    if (dType === 'Array') {
-      serie.values = serie.values.concat(datum);
-      dLength = datum.length;
-    }
-    else if (dType === 'Object') {
-      let element = utils.findElement(serie.values, 'x', datum.x);
-
-      if (element) {
-        element.y = datum.y;
-      }
-      else {
-        serie.values.push(datum);
-      }
-      dLength = 1;
-    }
-    else {
-      throw TypeError('Unknown data type' + dType);
-    }
-
+    this.datum = this.datum.concat(datum);
     if (maxNumberOfElements && maxNumberOfElements > 0) {
-      if (this.data.length > maxNumberOfElements) {
-        for (let i = 0; i < dLength; i++) {
-          this.data.shift();
+      if (this.datum.length > maxNumberOfElements) {
+        for (let i = 0; i < datum.length; i++) {
+          this.datum.shift();
         }
       }
     }
-
-    super.draw(this.data);
+    super.draw(this.datum);
   }
+
 }

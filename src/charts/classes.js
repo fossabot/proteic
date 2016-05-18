@@ -126,25 +126,6 @@ class Chart {
     return this;
   }
 
-
-  /**
-   * Streaming functions. Only available when data is a datasource, instead of an array.
-   */
-  /** 
-  start() {
-    if (!this.datasource) {
-      throw Error('You cannot start a streaming if data is not a datasource');
-    }
-    this.datasource.start();
-  }
-  stop() {
-    if (!this.datasource) {
-      throw Error('You cannot start a streaming if data is not a datasource');
-    }
-    this.datasource.stop();
-  }
-  */
-
   _configureDatasource() {
     this.datasource.configure(this.reactor);
     this.reactor.registerEvent('onmessage');

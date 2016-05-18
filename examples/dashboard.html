@@ -9,13 +9,6 @@
 <html class='no-js' lang=''>
 <!--<![endif]-->
 
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +34,7 @@
   <!-- Load data -->
   <script>
     var data = {
-    endpoint: 'ws://localhost:8787/websocket'
+    endpoint: 'ws://192.168.4.245:8787/websocket'
   };
   
   var wsConnection = new WebsocketDatasource(data);
@@ -58,36 +51,60 @@
       <button class="btn btn-info col-md-5" onclick="wsConnection.stop()">Stop/Pause</button>
     </div>
     <hr/>
-    <div class='col-md-5' id='linechart'>
-      <script>
-        /**
-        var linechart = new Linechart(wsConnection, {
+    <div class='col-md-5' id='linechart'></div>
+    <div class='col-md-5' id='barchart'></div>
+    <div class='col-md-5' id='gauge'></div>
+
+
+  </div>
+
+
+  </div>
+  <script>
+    var linechart = new Linechart(wsConnection, {
         selector: "#linechart",
         maxNumberOfElements: 10,
         width: 'auto',
         height: 200,
+        xDataType: 'Date',
+        xDateFormat: '%Y-%m-%dT%H:%M:%SZ',
+        maxNumberOfElements: 10
       });
       //linechart.start();
-       */
-      </script>
-    </div>
-    <div class='col-md-5' id='barchart'>
-      <script>
-        
-        var barchart = new Barchart(wsConnection, {
+  </script>
+  <script>
+    var barchart = new Barchart(wsConnection, {
         selector: "#barchart",
-        maxNumberOfElements: 10,
+        maxNumberOfElements: 2,
         width: 'auto',
         height: 200,
       });
       //barchart.start();
-      </script>
+  </script>
+  <script>
+    var gData = [{x: 86}];
+    //Default config uses #chart selector
+    gauge = new Gauge(gData, {
+      min: 0,
+      max: 100,
+      selector: '#gauge'
+    });
+    
+    setTimeout(() => {
+      gauge.draw();
+      setInterval(()=>{
+        var datum = Math.round(Math.random() * 100);
+        gData[0].x  = datum;
+        gauge.draw();
+        
+      },1000);
+    }, 3000);
       
-      <script>
-        wsConnection.start();  
-      </script>
-    </div>
-  </div>
+  </script>
+
+  <script>
+    wsConnection.start();
+  </script>
 
   <!-- jQuery first, then Bootstrap JS. -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

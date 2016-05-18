@@ -17,9 +17,7 @@ class Barchart extends Basic {
     if (!arguments.length) {
       throw new Error('Missing constructor parameters');
     }
-
-
-
+    
     let dataFormat = arguments[0].constructor.name;
     let nArguments = arguments.length;
 
@@ -90,7 +88,6 @@ class Barchart extends Basic {
     else if (dType === 'Object') {
 
       let element = utils.findElement(serie.values, 'x', datum.x);
-      console.log('element', element);
 
       if (element) {
         element.y = datum.y;
@@ -111,8 +108,6 @@ class Barchart extends Basic {
         }
       }
     }
-
-    console.log(this.data);
     super.draw(this.data);
   }
 

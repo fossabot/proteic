@@ -7,8 +7,8 @@ describe('Simple linechart', () => {
   });
 
   it('should have a correct number of elemenets', () => {
-    browser.executeScript('return linechart').then(function (linechart) {
-      expect(12).toEqual(linechart.data.length);
+    browser.executeScript('return linechart').then( (linechart) => {
+      expect(1).toEqual(linechart.data.length);
     });
   });
 
