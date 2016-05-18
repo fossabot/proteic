@@ -18,20 +18,26 @@ class Linechart extends Basic {
       throw new Error('Missing constructor parameters');
     }
 
-    this._inferDataSource(arguments[0]);
+    let dataFormat = arguments[0].constructor.name;
+    let nArguments = arguments.length;
 
-    switch(arguments.length){
-      case 1:
-        this.data = arguments[0];
-        this.config = _default[this.constructor.name];
+    switch (dataFormat) {
+      case 'WebsocketDatasource':
+        this.datasource = arguments[0];
+        this.data = [];
+        this._configureDatasource();
         break;
-      case 2:
+      case 'Array':
         this.data = arguments[0];
-        this.config = arguments[1];
         break;
       default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
+        throw TypeError('Wrong data format');
     }
+    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+    this.config = (nArguments == 1)
+      ? _default[this.constructor.name]
+      : arguments[1];
+      
     this._initializeSVGContext();
   }
 
@@ -52,13 +58,18 @@ class Linechart extends Basic {
     var config = this.config;
     var maxNumberOfElements = config.maxNumberOfElements;
     if (!this.datum) {
-      this.datum = [];
+      this.datum = datum;
+    } else {
+      for (var i = 0; i < datum.length; i++) {
+        this.datum[i].values = this.datum[i].values.concat(datum[i].values);
+      }
     }
-    this.datum = this.datum.concat(datum);
     if (maxNumberOfElements && maxNumberOfElements > 0) {
-      if (this.datum.length > maxNumberOfElements) {
-        for (let i = 0; i < datum.length; i++) {
-          this.datum.shift();
+      for (var i = 0; i < datum.length; i++) {
+        if (this.datum[i].values.length > maxNumberOfElements) {
+          for (let j = 0; j < datum[i].values.length; j++) {
+            this.datum[i].values.shift();
+          }
         }
       }
     }

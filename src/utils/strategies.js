@@ -8,9 +8,6 @@ const strategies = {
   Streamgraph(chartContext) {
     return new SvgStreamgraphStrategy(chartContext);
   },
-  MultiSeriesLinechart(chartContext) {
-    return new SvgMultiSeriesLinechartStrategy(chartContext);
-  },
   Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
   }

@@ -21,6 +21,11 @@
   <script src='../src/utils/strategies.js'></script>
   <script src='../src/utils/colors.js'></script>
   <script src='../src/utils/globals.js'></script>
+  <script src='../src/utils/ProteusEvent.js'></script>
+  <script src='../src/datasources/Datasource.js'></script>
+
+  <script src='../src/datasources/WebsocketDatasource.js'></script>
+
   <script src='../src/svg/SvgStrategy.js'></script>
   <script src='../src/svg/svg.js'></script>
   <script src='../src/svg/strategy_barchart.js'></script>
@@ -30,10 +35,13 @@
   <script>
     var data = {
             endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
+            //endpoint: 'ws://localhost:8787/websocket'
           };
+    var dataSource = new WebsocketDatasource(data);
+    
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
-          barchart = new Barchart(data);
+          barchart = new Barchart(dataSource);
           //Start streaming
           barchart.start();
   </script>

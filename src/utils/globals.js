@@ -74,6 +74,7 @@ const _default = {
     yaxis: {
       label: 'Y'
     },
+    colorScale: Colors.category7(),
     margin: {
       top: 20,
       right: 20,
@@ -120,7 +121,7 @@ const _default = {
           .transition()
           .duration(50)
           .attr('r', 7)
-        ;
+          ;
       },
       leave() {
         d3.select(this)
@@ -135,7 +136,7 @@ const _default = {
     },
     tickLabel: '',
     transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
+    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
       descending: false,
       prop: 'x'
@@ -144,10 +145,7 @@ const _default = {
   Streamgraph: {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
-    colorScale: {
-      from: 'orange',
-      to: 'blue'
-    },
+    colorScale: Colors.category5(),
     xaxis: {
       label: ''
     },
@@ -158,11 +156,13 @@ const _default = {
       '.axis': {
         'font': '10px sans-serif'
       },
-
       '.axis path,.axis line': {
         'fill': 'none',
         'stroke': '#000',
         'shape-rendering': 'crispEdges'
+      },
+      '.x.axis path': {
+        'display': 'none'
       }
     },
     margin: {
@@ -198,74 +198,6 @@ const _default = {
         console.log(d, i);
       }
     },
-    transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-      descending: false,
-      prop: 'x'
-    }
-  },
-  MultiSeriesLinechart: {
-    selector: '#chart',
-    colorScale: Colors.category7(),
-    xaxis: {
-      label: 'X'
-    },
-    yaxis: {
-      label: 'Y'
-    },
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
-    },
-    width: 600,
-    height: 250,
-    style: {
-      'path': {
-        'stroke-width': 2,
-        'fill': 'none'
-      },
-      '.axis': {
-        'font': '10px sans-serif'
-      },
-      '.axis path,.axis line': {
-        'fill': 'none',
-        'stroke': '#000',
-        'shape-rendering': 'crispEdge'
-      },
-      '.x.axis path': {
-        'display': 'none'
-      }
-    },
-    ticks: 5, // ticks for y axis.
-    tooltip(data) {
-      return JSON.stringify(data);
-    },
-    events: {
-      down() {
-        d3.select(this).classed('hover', false);
-      },
-      over() {
-        d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('r', 7)
-        ;
-      },
-      leave() {
-        d3.select(this)
-          .transition()
-          .duration(50)
-          .attr('r', 5)
-          .style('stroke-width', 2);
-      },
-      click(d, i) {
-        console.log(d, i);
-      }
-    },
-    tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
@@ -333,5 +265,5 @@ const _default = {
       descending: false,
       prop: 'x'
     }
-  },
+  }
 };
