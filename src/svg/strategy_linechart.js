@@ -12,7 +12,7 @@ class SvgLinechartStrategy extends SvgChart {
         this.xAxis = d3.svg.axis()
           .scale(this.x)
           .orient('bottom')
-          .ticks(10);
+          .ticks(5);
         break;
       case 'Date':
         this.x = d3.time.scale().range([0, this.width]);
@@ -89,7 +89,7 @@ class SvgLinechartStrategy extends SvgChart {
         // .datum(data[series].values, this.keyFunction)
           .data(data[series].values)
           .style('stroke', this.colorScale(series))
-          .attr('class', data[series].key)
+          .attr('class', "line " + data[series].key)
           .attr('d', line(data[series].values));
       }
     }
@@ -147,7 +147,7 @@ class SvgLinechartStrategy extends SvgChart {
 
       this.interactiveElements = markers;
     }
-    
+
     this._applyCSS();
   }
 

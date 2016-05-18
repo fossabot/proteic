@@ -620,7 +620,7 @@ var _default = {
     width: 600,
     height: 250,
     style: {
-      'path': {
+      '.line': {
         'stroke': '#11D3BC',
         'stroke-width': 2,
         'fill': 'red'
@@ -640,7 +640,7 @@ var _default = {
     ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',
-      size: 5,
+      size: 2,
       color: '#FFFCCA',
       outlineColor: '#537780',
       outlineWidth: 2
@@ -1384,7 +1384,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
     switch (_this.xDataType) {
       case 'Numeric':
         _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(10);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(5);
         break;
       case 'Date':
         _this.x = d3.time.scale().range([0, _this.width]);
@@ -1464,7 +1464,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
         if (!this.paths) {
           this.svg.append('path')
           // .datum(data[series].values, this.keyFunction)
-          .data(data[series].values).style('stroke', this.colorScale(series)).attr('class', data[series].key).attr('d', line(data[series].values));
+          .data(data[series].values).style('stroke', this.colorScale(series)).attr('class', "line " + data[series].key).attr('d', line(data[series].values));
         }
       }
       this.paths = true;
