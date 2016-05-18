@@ -73,7 +73,6 @@ var utils = utils || {
       }
     }
     return null;
-    // will return undefined if not found; you could return a default instead
   }
 };
 'use strict';
@@ -726,6 +725,71 @@ var _default = {
 };
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProteusEvent = function () {
+    function ProteusEvent(name) {
+        _classCallCheck(this, ProteusEvent);
+
+        this.name = name;
+        this.callbacks = [];
+    }
+
+    _createClass(ProteusEvent, [{
+        key: "registerCallback",
+        value: function registerCallback(cb) {
+            this.callbacks.push(cb);
+        }
+    }]);
+
+    return ProteusEvent;
+}();
+
+var Reactor = function () {
+    function Reactor() {
+        _classCallCheck(this, Reactor);
+
+        this.events = {};
+    }
+
+    _createClass(Reactor, [{
+        key: "registerEvent",
+        value: function registerEvent(eventName) {
+            var event = new ProteusEvent(eventName);
+            this.events[eventName] = event;
+        }
+    }, {
+        key: "dispatchEvent",
+        value: function dispatchEvent(eventName, args) {
+            if (this.events[eventName]) {
+                this.events[eventName].callbacks.forEach(function (cb) {
+                    cb(args);
+                });
+            }
+        }
+    }, {
+        key: "addEventListener",
+        value: function addEventListener(eventName, cb) {
+            //check if eventName already exists
+
+            if (this.events[eventName]) {
+                this.events[eventName].registerCallback(cb);
+            }
+        }
+    }, {
+        key: "removeEventListener",
+        value: function removeEventListener(eventName) {
+            var event = this.events[eventName];
+            event.callbacks = [];
+        }
+    }]);
+
+    return Reactor;
+}();
+"use strict";
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Datasource = function Datasource() {
@@ -772,8 +836,8 @@ var WebsocketDatasource = function (_Datasource) {
                 _this2.reactor.dispatchEvent('onerror', e);
             };
             this.ws.onmessage = function (e) {
-                //var data = JSON.parse(event.data).points;
-                var data = JSON.parse(event.data.substr(2))[1];
+                //var data = JSON.parse(event.data.substr(2))[1];
+                var data = JSON.parse(e.data);
                 _this2.reactor.dispatchEvent('onmessage', data);
             };
         }
@@ -1723,23 +1787,21 @@ var Chart = function () {
     /**
      * Streaming functions. Only available when data is a datasource, instead of an array.
      */
-
-  }, {
-    key: 'start',
-    value: function start() {
+    /** 
+    start() {
       if (!this.datasource) {
         throw Error('You cannot start a streaming if data is not a datasource');
       }
       this.datasource.start();
     }
-  }, {
-    key: 'stop',
-    value: function stop() {
+    stop() {
       if (!this.datasource) {
         throw Error('You cannot start a streaming if data is not a datasource');
       }
       this.datasource.stop();
     }
+    */
+
   }, {
     key: '_configureDatasource',
     value: function _configureDatasource() {
@@ -1923,20 +1985,52 @@ var Barchart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
+      if (datum.key !== 'avg') return;
+
+      var dType = datum.constructor.name;
+      var dLength = 0;
       var config = this.config;
       var maxNumberOfElements = config.maxNumberOfElements;
-      if (!this.datum) {
-        this.datum = [];
+
+      //find serie
+      var serie = utils.findElement(this.data, 'key', datum.key);
+
+      if (!serie || !serie.values) {
+        serie = {
+          key: datum.key,
+          values: []
+        };
+        this.data.push(serie);
       }
-      this.datum = this.datum.concat(datum);
+
+      if (dType === 'Array') {
+        serie.values = serie.values.concat(datum);
+        dLength = datum.length;
+      } else if (dType === 'Object') {
+
+        var element = utils.findElement(serie.values, 'x', datum.x);
+        console.log('element', element);
+
+        if (element) {
+          element.y = datum.y;
+        } else {
+          serie.values.push(datum);
+        }
+        dLength = 1;
+      } else {
+        throw TypeError('Unknown data type' + dType);
+      }
+
       if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.datum.length > maxNumberOfElements) {
-          for (var i = 0; i < datum.length; i++) {
-            this.datum.shift();
+        if (this.data.length > maxNumberOfElements) {
+          for (var i = 0; i < dLength; i++) {
+            this.data.shift();
           }
         }
       }
-      _get(Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, this.datum);
+
+      console.log(this.data);
+      _get(Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, this.data);
     }
   }]);
 
@@ -2022,25 +2116,45 @@ var Linechart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
+      if (datum.key !== 'max') return;
+
+      var dType = datum.constructor.name;
+      var dLength = 0;
       var config = this.config;
       var maxNumberOfElements = config.maxNumberOfElements;
-      if (!this.datum) {
-        this.datum = datum;
-      } else {
-        for (var i = 0; i < datum.length; i++) {
-          this.datum[i].values = this.datum[i].values.concat(datum[i].values);
-        }
+
+      //find serie
+      var serie = utils.findElement(this.data, 'key', datum.key);
+
+      if (!serie || !serie.values) {
+        serie = {
+          key: datum.key,
+          values: []
+        };
+        this.data.push(serie);
       }
+
+      if (dType === 'Array') {
+        //this.data = this.data.concat(datum);
+        serie.values = serie.values.concat(datum);
+        dLength = datum.length;
+      } else if (dType === 'Object') {
+        serie.values.push(datum);
+        dLength = 1;
+      } else {
+        throw TypeError('Unknown data type' + dType);
+      }
+
       if (maxNumberOfElements && maxNumberOfElements > 0) {
-        for (var i = 0; i < datum.length; i++) {
-          if (this.datum[i].values.length > maxNumberOfElements) {
-            for (var j = 0; j < datum[i].values.length; j++) {
-              this.datum[i].values.shift();
-            }
+        if (this.data.length > maxNumberOfElements) {
+          for (var i = 0; i < dLength; i++) {
+            this.data.shift();
           }
         }
       }
-      _get(Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, this.datum);
+
+      console.log(this.data);
+      _get(Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, this.data);
     }
   }]);
 

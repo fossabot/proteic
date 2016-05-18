@@ -77,6 +77,5 @@ var utils = utils || {
       }
     }
     return null;
-    // will return undefined if not found; you could return a default instead
   }
 };

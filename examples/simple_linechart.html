@@ -13,6 +13,7 @@
 <body>
 
     <div id='chart'></div>
+    <br/>
     <div id='chart-temporal'></div>
 
     <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
@@ -62,7 +63,8 @@
 
         temporalLinechart = new Linechart(temporalData, {
             xDataType: 'Date',
-            xDateFormat: '%m/%d/%y'
+            xDateFormat: '%m/%d/%y',
+            selector: '#chart-temporal'
         });
         temporalLinechart.draw();
     </script>

@@ -31,7 +31,7 @@
 
     <script src='../src/svg/strategy_linechart.js'></script>
     <script src='../src/charts/classes.js' type='text/javascript'></script>
-    <script src='../src/charts/inechart.js' type='text/javascript'></script>
+    <script src='../src/charts/linechart.js' type='text/javascript'></script>
 
     <script>
         var data = {
@@ -43,7 +43,7 @@
           //Chart uses #chart selector by default
         linechart = new Linechart(dataSource);
           //Start streaming
-        linechart.start()
+        dataSource.start()
     </script>
 </body>
 

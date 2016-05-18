@@ -44,7 +44,7 @@
     endpoint: 'ws://localhost:8787/websocket'
   };
   
-  var wsConnection = new WebsocketConnection(data);
+  var wsConnection = new WebsocketDatasource(data);
   </script>
 
   <!-- #    DASHBOARD    # -->
@@ -54,30 +54,37 @@
       <h1 class="display-1">Proteus Dashboard Demo</h1>
     </div>
     <div class="row">
-      <button class="btn btn-info col-md-5" onclick="barchart.start()">Start/Resume</button>
-      <button class="btn btn-info col-md-5" onclick="barchart.stop()">Stop/Pause</button>
+      <button class="btn btn-info col-md-5" onclick="wsConnection.start()">Start/Resume</button>
+      <button class="btn btn-info col-md-5" onclick="wsConnection.stop()">Stop/Pause</button>
     </div>
     <hr/>
     <div class='col-md-5' id='linechart'>
       <script>
-        var linechart = new Linechart(data, {
+        /**
+        var linechart = new Linechart(wsConnection, {
         selector: "#linechart",
         maxNumberOfElements: 10,
         width: 'auto',
         height: 200,
       });
-      linechart.start();
+      //linechart.start();
+       */
       </script>
     </div>
     <div class='col-md-5' id='barchart'>
       <script>
-        var barchart = new Barchart(data, {
+        
+        var barchart = new Barchart(wsConnection, {
         selector: "#barchart",
         maxNumberOfElements: 10,
         width: 'auto',
         height: 200,
       });
-      barchart.start();
+      //barchart.start();
+      </script>
+      
+      <script>
+        wsConnection.start();  
       </script>
     </div>
   </div>

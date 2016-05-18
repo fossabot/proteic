@@ -130,6 +130,7 @@ class Chart {
   /**
    * Streaming functions. Only available when data is a datasource, instead of an array.
    */
+  /** 
   start() {
     if (!this.datasource) {
       throw Error('You cannot start a streaming if data is not a datasource');
@@ -142,6 +143,7 @@ class Chart {
     }
     this.datasource.stop();
   }
+  */
 
   _configureDatasource() {
     this.datasource.configure(this.reactor);
