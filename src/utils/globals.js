@@ -121,7 +121,7 @@ const _default = {
           .transition()
           .duration(50)
           .attr('r', 7)
-        ;
+          ;
       },
       leave() {
         d3.select(this)
@@ -145,10 +145,7 @@ const _default = {
   Streamgraph: {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
-    colorScale: {
-      from: 'orange',
-      to: 'blue'
-    },
+    colorScale: Colors.category5(),
     xaxis: {
       label: ''
     },
@@ -159,11 +156,13 @@ const _default = {
       '.axis': {
         'font': '10px sans-serif'
       },
-
       '.axis path,.axis line': {
         'fill': 'none',
         'stroke': '#000',
         'shape-rendering': 'crispEdges'
+      },
+      '.x.axis path': {
+        'display': 'none'
       }
     },
     margin: {

@@ -9,9 +9,13 @@ class SvgStreamgraphStrategy extends SvgChart {
         this.xAxis = d3.svg.axis()
             .scale(this.x)
             .orient('bottom')
-            .ticks(d3.time.days);
+            .ticks(d3.time.weeks);
 
-        this.yAxis = d3.svg.axis().scale(this.y);
+        this.yAxis = d3.svg.axis().scale(this.y).orient('left')
+      .innerTickSize(-this.width)
+      .outerTickSize(0)
+      .tickPadding(20)
+      .ticks(this.ticks, this.tickLabel);
     }
 
 	/**
@@ -20,11 +24,8 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * 
 	 */
     draw(data) {
-        var layers = null; //streamgraph layers
+        var dataLayered = null; //streamgraph layers
         var nColors = null; //number of colors = different keys
-        var fromColor = this.colorScale.from;
-        var toColor = this.colorScale.to;
-        var colorrange = null; //color range based on user preferences
 
         //Initialize data
         if (!this._initialized) {
@@ -50,25 +51,31 @@ class SvgStreamgraphStrategy extends SvgChart {
             .y0((d) => this.y(d.y0))
             .y1((d) => this.y(d.y0 + d.y));
 
-        layers = this.stack(this.nest.entries(data));
+        dataLayered = this.stack(this.nest.entries(data));
+        
 
         this.x.domain(d3.extent(data, (d) => d.date));
         this.y.domain([0, d3.max(data, (d) => (d.y0 + d.y))]);
 
         nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
-        colorrange = chroma.scale([fromColor, toColor]).colors(nColors);
 
-        this.z = d3.scale.ordinal().range(colorrange);
 
-        this.svg.selectAll('.layer')
-            .data(layers)
+        this.z = this.colorScale;
+        
+        this._layers = this.svg
+            .selectAll('.layer')
+            .data(dataLayered);
+
+        this._layers
             .enter()
             .append('path')
             .attr('class', 'layer')
             .attr('d', (d) => this.area(d.values))
-
-
             .style('fill', (d, i) => this.z(i));
+            
+        this._layers
+            .exit()
+            .remove();
 
         this.svg.selectAll('.layer')
             .attr('opacity', 1)
@@ -77,19 +84,10 @@ class SvgStreamgraphStrategy extends SvgChart {
             .on('mouseleave.user', this.events.leave)
             .on('mouseover.user', this.events.over)
             .on('click.user', this.events.click);
+        
+        this._updateAxis();
 
-        var vertical = d3.select(this.selector)
-            .append('div')
-            .attr('class', 'remove')
-            .style('position', 'absolute')
-            .style('z-index', '19')
-            .style('width', '1px')
-            .style('height', '380px')
-            .style('top', '10px')
-            .style('bottom', '30px')
-            .style('left', '0px')
-            .style('background', '#000000');
-
+        this.interactiveElements = this._layers;
         this._applyCSS();
     }
 
