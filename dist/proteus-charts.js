@@ -668,10 +668,7 @@ var _default = {
   Streamgraph: {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
-    colorScale: {
-      from: 'orange',
-      to: 'blue'
-    },
+    colorScale: Colors.category5(),
     xaxis: {
       label: ''
     },
@@ -682,11 +679,13 @@ var _default = {
       '.axis': {
         'font': '10px sans-serif'
       },
-
       '.axis path,.axis line': {
         'fill': 'none',
         'stroke': '#000',
         'shape-rendering': 'crispEdges'
+      },
+      '.x.axis path': {
+        'display': 'none'
       }
     },
     margin: {
@@ -725,6 +724,70 @@ var _default = {
     }
   }
 };
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Datasource = function Datasource() {
+    _classCallCheck(this, Datasource);
+};
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WebsocketDatasource = function (_Datasource) {
+    _inherits(WebsocketDatasource, _Datasource);
+
+    function WebsocketDatasource(source) {
+        _classCallCheck(this, WebsocketDatasource);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WebsocketDatasource).call(this));
+
+        _this.source = source;
+        return _this;
+    }
+
+    _createClass(WebsocketDatasource, [{
+        key: 'configure',
+        value: function configure(reactor) {
+            this.reactor = reactor;
+        }
+    }, {
+        key: 'start',
+        value: function start() {
+            var _this2 = this;
+
+            this.ws = new WebSocket(this.source.endpoint);
+
+            this.ws.onopen = function (e) {
+                _this2.reactor.dispatchEvent('onopen', e);
+            };
+            this.ws.onerror = function (e) {
+                _this2.reactor.dispatchEvent('onerror', e);
+            };
+            this.ws.onmessage = function (e) {
+                //var data = JSON.parse(event.data).points;
+                var data = JSON.parse(event.data.substr(2))[1];
+                _this2.reactor.dispatchEvent('onmessage', data);
+            };
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            if (this.ws) {
+                this.ws.close();
+            }
+        }
+    }]);
+
+    return WebsocketDatasource;
+}(Datasource);
 'use strict';
 
 /**
@@ -1378,9 +1441,9 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
         _this.y = d3.scale.linear().range([_this.height - 10, 0]);
 
         _this.format = d3.time.format(_this.xDateformat);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(d3.time.days);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(d3.time.weeks);
 
-        _this.yAxis = d3.svg.axis().scale(_this.y);
+        _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
         return _this;
     }
 
@@ -1396,11 +1459,8 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
         value: function draw(data) {
             var _this2 = this;
 
-            var layers = null; //streamgraph layers
+            var dataLayered = null; //streamgraph layers
             var nColors = null; //number of colors = different keys
-            var fromColor = this.colorScale.from;
-            var toColor = this.colorScale.to;
-            var colorrange = null; //color range based on user preferences
 
             //Initialize data
             if (!this._initialized) {
@@ -1431,7 +1491,7 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
                 return _this2.y(d.y0 + d.y);
             });
 
-            layers = this.stack(this.nest.entries(data));
+            dataLayered = this.stack(this.nest.entries(data));
 
             this.x.domain(d3.extent(data, function (d) {
                 return d.date;
@@ -1441,20 +1501,24 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
             })]);
 
             nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
-            colorrange = chroma.scale([fromColor, toColor]).colors(nColors);
 
-            this.z = d3.scale.ordinal().range(colorrange);
+            this.z = this.colorScale;
 
-            this.svg.selectAll('.layer').data(layers).enter().append('path').attr('class', 'layer').attr('d', function (d) {
+            this._layers = this.svg.selectAll('.layer').data(dataLayered);
+
+            this._layers.enter().append('path').attr('class', 'layer').attr('d', function (d) {
                 return _this2.area(d.values);
             }).style('fill', function (d, i) {
                 return _this2.z(i);
             });
 
+            this._layers.exit().remove();
+
             this.svg.selectAll('.layer').attr('opacity', 1).on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
 
-            var vertical = d3.select(this.selector).append('div').attr('class', 'remove').style('position', 'absolute').style('z-index', '19').style('width', '1px').style('height', '380px').style('top', '10px').style('bottom', '30px').style('left', '0px').style('background', '#000000');
+            this._updateAxis();
 
+            this.interactiveElements = this._layers;
             this._applyCSS();
         }
     }, {
@@ -2017,20 +2081,24 @@ var Streamgraph = function (_Flow) {
       throw new Error('Missing constructor parameters');
     }
 
-    _this._inferDataSource(arguments[0]);
+    var dataFormat = arguments[0].constructor.name;
+    var nArguments = arguments.length;
 
-    switch (arguments.length) {
-      case 1:
-        _this.data = arguments[0];
-        _this.config = _default;
+    switch (dataFormat) {
+      case 'WebsocketDatasource':
+        _this.datasource = arguments[0];
+        _this.data = [];
+        _this._configureDatasource();
         break;
-      case 2:
+      case 'Array':
         _this.data = arguments[0];
-        _this.config = arguments[1];
         break;
       default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
+        throw TypeError('Wrong data format');
     }
+    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
+
     _this._initializeSVGContext();
     return _this;
   }
