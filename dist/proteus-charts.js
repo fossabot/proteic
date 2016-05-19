@@ -621,9 +621,8 @@ var _default = {
     height: 250,
     style: {
       '.line': {
-        'stroke': '#11D3BC',
         'stroke-width': 2,
-        'fill': 'red'
+        'fill': 'none'
       },
       '.axis': {
         'font': '10px sans-serif'
@@ -640,7 +639,7 @@ var _default = {
     ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',
-      size: 2,
+      size: 5,
       color: '#FFFCCA',
       outlineColor: '#537780',
       outlineWidth: 2
@@ -904,8 +903,8 @@ var WebsocketDatasource = function (_Datasource) {
                 }
             };
             this.ws.onmessage = function (e) {
-                //var data = JSON.parse(event.data.substr(2))[1];
-                var data = JSON.parse(e.data);
+                var data = JSON.parse(event.data.substr(2))[1];
+                //var data = JSON.parse(e.data);
                 for (var rIndex in _this2.reactors) {
                     var reactor = _this2.reactors[rIndex];
                     reactor.dispatchEvent('onmessage', data);
@@ -2077,6 +2076,40 @@ var Basic = function (_Chart) {
     return _this4;
   }
 
+  _createClass(Basic, [{
+    key: 'keepDrawing',
+    value: function keepDrawing(datum) {
+      var config = this.config;
+      var maxNumberOfElements = config.maxNumberOfElements;
+
+      if (!datum) {
+        console.warn('attemp to draw null datum');
+        return;
+      }
+
+      if (datum.constructor.name === 'Array') {
+        for (var i in datum) {
+          this.keepDrawing(datum[i]);
+        }
+      } else {
+        //Find serie or initialize this.
+        var serie = utils.findElement(this.data, 'key', datum.key);
+        if (!serie || !serie.values) {
+          serie = {
+            key: datum.key,
+            values: []
+          };
+          this.data.push(serie);
+        }
+        //use addToSerie()
+
+        serie.values = serie.values.concat(datum.values);
+      }
+      this.draw(this.data);
+      return this.data;
+    }
+  }]);
+
   return Basic;
 }(Chart);
 
@@ -2195,49 +2228,48 @@ var Barchart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
+      _get(Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum);
+      /**
       if (datum.key !== 'avg') return;
-
-      var dType = datum.constructor.name;
-      var dLength = 0;
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      //find serie
-      var serie = utils.findElement(this.data, 'key', datum.key);
-
-      if (!serie || !serie.values) {
+       let dType = datum.constructor.name;
+      let dLength = 0;
+      let config = this.config;
+      let maxNumberOfElements = config.maxNumberOfElements;
+       //find serie
+      let serie = utils.findElement(this.data, 'key', datum.key);
+       if (!serie || !serie.values) {
         serie = {
           key: datum.key,
           values: []
         };
         this.data.push(serie);
       }
-
-      if (dType === 'Array') {
+       if (dType === 'Array') {
         serie.values = serie.values.concat(datum);
         dLength = datum.length;
-      } else if (dType === 'Object') {
-
-        var element = utils.findElement(serie.values, 'x', datum.x);
-
-        if (element) {
+      }
+      else if (dType === 'Object') {
+         let element = utils.findElement(serie.values, 'x', datum.x);
+         if (element) {
           element.y = datum.y;
-        } else {
+        }
+        else {
           serie.values.push(datum);
         }
         dLength = 1;
-      } else {
+      }
+      else {
         throw TypeError('Unknown data type' + dType);
       }
-
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
+       if (maxNumberOfElements && maxNumberOfElements > 0) {
         if (this.data.length > maxNumberOfElements) {
-          for (var i = 0; i < dLength; i++) {
+          for (let i = 0; i < dLength; i++) {
             this.data.shift();
           }
         }
       }
-      _get(Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, this.data);
+      super.draw(this.data);
+      **/
     }
   }]);
 
@@ -2323,49 +2355,7 @@ var Linechart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      if (datum.key !== 'max') return;
-
-      var dType = datum.constructor.name;
-      var dLength = 0;
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      //find serie
-      var serie = utils.findElement(this.data, 'key', datum.key);
-
-      if (!serie || !serie.values) {
-        serie = {
-          key: datum.key,
-          values: []
-        };
-        this.data.push(serie);
-      }
-
-      if (dType === 'Array') {
-        serie.values = serie.values.concat(datum);
-        dLength = datum.length;
-      } else if (dType === 'Object') {
-        var element = utils.findElement(serie.values, 'x', datum.x);
-
-        if (element) {
-          element.y = datum.y;
-        } else {
-          serie.values.push(datum);
-        }
-        dLength = 1;
-      } else {
-        throw TypeError('Unknown data type' + dType);
-      }
-
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.data.length > maxNumberOfElements) {
-          for (var i = 0; i < dLength; i++) {
-            this.data.shift();
-          }
-        }
-      }
-
-      _get(Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, this.data);
+      return _get(Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum);
     }
   }]);
 
@@ -2569,3 +2559,21 @@ var Gauge = function (_Basic) {
 
   return Gauge;
 }(Basic);
+'use strict';
+
+(function () {
+    window['ProteusFactory'] = {
+        create: function create(params) {
+            switch (params.type) {
+                case 'Linechart':
+                    return new Linechart(params.data, params.config);
+                case 'Barchart':
+                    return new Barchart(params.data, params.config);
+                case 'Gauge':
+                    return new Gauge(params.data, params.config);
+                case 'Streamgraph':
+                    return new Streamgraph(params.data, params.config);
+            }
+        }
+    };
+})();
