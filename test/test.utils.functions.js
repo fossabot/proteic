@@ -79,5 +79,18 @@ describe('Utils', () => {
       assert.deepEqual(expectedResult, result);
     });
 
+    describe('utils.deg2rad()', () => {
+      it('should convert degrees to radians', () => {
+        var pi = Math.PI;
+        assert.equal(utils.deg2rad(0), 0);
+        assert.equal(utils.deg2rad(45), pi / 4);
+        assert.equal(utils.deg2rad(60), pi / 3);
+        assert.equal(utils.deg2rad(90), pi / 2);
+        assert.equal(utils.deg2rad(180), pi);
+        assert.equal(utils.deg2rad(270), (3 * pi) / 2);
+        assert.equal(utils.deg2rad(360), 2 * pi);
+        assert.equal(utils.deg2rad(-90), -(pi / 2));
+      });
+    });
   });
 });
