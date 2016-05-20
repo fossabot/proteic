@@ -55,7 +55,7 @@ class Linechart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (datum.key !== 'max') return;
+    if (datum.key !== 'max') { return; }
 
     let dType = datum.constructor.name;
     let dLength = 0;

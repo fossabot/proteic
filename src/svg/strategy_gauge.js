@@ -38,15 +38,11 @@ class SvgGaugeStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
+    var needleLen = null;
+
     super.draw(data);
-
     this.datum = data[data.length - 1];
-
-    // console.log(data[data.length - 1].x);
-
-    var needleLen = this.needleLenghtRatio * (this.r);
-
-    // this.needle.remove();
+    needleLen = this.needleLenghtRatio * (this.r);
 
     // Append needle
     if (!this.needle) {
@@ -71,6 +67,8 @@ class SvgGaugeStrategy extends SvgChart {
   _initialize() {
     var width = this.width + this.margin.left + this.margin.right;
     var height = this.height + this.margin.left + this.margin.right;
+    var labels = null;
+    var arcs = null;
 
     //Create a global 'g' (group) element
     this.svg = d3
@@ -91,12 +89,12 @@ class SvgGaugeStrategy extends SvgChart {
         return utils.deg2rad(this.minAngle + (ratio * this.range));
       })
       .endAngle((d, i) => {
-        var ratio = d * (i+1);
+        var ratio = d * (i + 1);
         return utils.deg2rad(this.minAngle + (ratio * this.range));
       });
 
     // Append the ring
-    var arcs = this.svg.append('g')
+    arcs = this.svg.append('g')
       .attr('class', 'arc')
       .attr('transform', this.translation);
 
@@ -110,7 +108,7 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('d', this.arc);
 
     // Apend the scale labels
-    var labels = this.svg.append('g')
+    labels = this.svg.append('g')
       .attr('class', 'labels')
       .attr('transform', this.translation);
 
@@ -121,7 +119,7 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('transform', (d) => {
         var ratio = this.scale(d);
         var newAngle = this.minAngle + (ratio * this.range);
-        return 'rotate(' + newAngle +') translate(0,' +(this.labelInset - this.r) +')';
+        return 'rotate(' + newAngle +') translate(0,' + (this.labelInset - this.r) +')';
       })
       .text((d) => d);
 

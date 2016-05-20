@@ -51,11 +51,13 @@ class SvgLinechartStrategy extends SvgChart {
     var line = null;
     var path = null;
     var markers = null;
+    var format = this.format;
+
     super.draw(data);
 
     if (this.xDataType === 'Date') {
       //Force x axis to be a date and y-axis to be a number
-      var format = this.format;
+
       for (var series in data) {
         data[series].values.forEach((d) => {
           d.x = format.parse(d.x);
@@ -89,7 +91,7 @@ class SvgLinechartStrategy extends SvgChart {
         // .datum(data[series].values, this.keyFunction)
           .data(data[series].values)
           .style('stroke', this.colorScale(series))
-          .attr('class', "line " + data[series].key)
+          .attr('class', 'line ' + data[series].key)
           .attr('d', line(data[series].values));
       }
     }
