@@ -79,6 +79,29 @@ describe('Utils', () => {
       assert.deepEqual(expectedResult, result);
     });
 
+    describe('utils.findElement()', () => {
+      it('should find an element in a key/value array', () => {
+        var a = [
+          {key: 'a', value: 0},
+          {key: 'b', value: 1},
+          {key: 'c', value: 2},
+          {key: 'd', value: 3}
+        ];
+        assert.deepEqual(utils.findElement(a, 'key', 'a'), {key: 'a', value: 0});
+        assert.deepEqual(utils.findElement(a, 'key', 'c'), {key: 'c', value: 2});
+        assert.deepEqual(utils.findElement(a, 'key', 'd'), {key: 'd', value: 3});
+      });
+      it('should return null when the element is not found', () => {
+        var a = [
+          {key: 'a', value: 0},
+          {key: 'b', value: 1},
+          {key: 'c', value: 2},
+          {key: 'd', value: 3}
+        ];
+        assert.deepEqual(utils.findElement(a, 'key', 'e'), null);
+      });
+    });
+
     describe('utils.deg2rad()', () => {
       it('should convert degrees to radians', () => {
         var pi = Math.PI;

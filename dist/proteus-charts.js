@@ -66,6 +66,7 @@ var utils = utils || {
       return o.desc * (a < b ? -1 : +(a > b));
     });
   },
+  // From: http://stackoverflow.com/a/7075589/2563749
   findElement: function findElement(arr, propName, propValue) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i][propName] === propValue) {

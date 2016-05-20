@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/proteus-h2020/proteus-charts.svg?branch=development)](https://travis-ci.org/proteus-h2020/proteus-charts)
 [![Dependency Status](https://www.versioneye.com/user/projects/57303069a0ca35004baf8700/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57303069a0ca35004baf8700)
 [![codecov](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development)
+[![codecov](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/master/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteus-charts)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/828f75b1887540969e7e79937715198b)](https://www.codacy.com/app/nachogarcia91/proteus-charts)
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteus-charts.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteus-charts)
 

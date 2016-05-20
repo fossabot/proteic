@@ -76,7 +76,7 @@ var utils = utils || {
       }
     }
     return null;
-    // will return undefined if not found; you could return a default instead
+    // will return null if not found; you could return a default instead
   },
   deg2rad(deg) {
     return deg * Math.PI / 180;
