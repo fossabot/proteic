@@ -1,3 +1,4 @@
+/* jshint node: true */
 'use strict';
 
 const gulp = require('gulp');
@@ -62,8 +63,8 @@ gulp.task('concat', ['babel'], () => {
 
 
 gulp.task('vendor:compile', shell.task([
-  'cd node_modules/d3-tip && make',
-]))
+  'cd node_modules/d3-tip && make'
+]));
 
 gulp.task('vendor', ['vendor:compile'], () => {
   return gulp.src([
@@ -97,7 +98,7 @@ gulp.task('webdriver_update', webdriver_update);
 gulp.task('webdriver_standalone', webdriver_standalone);
 
 // Protractor test runner task
-gulp.task('test:e2e', ['webdriver_update', 'webserver'], (cb) => {
+gulp.task('test:e2e', ['webdriver_update', 'webserver'], () => {
   gulp.src([])
     .pipe(protractor({
       configFile: 'protractor.conf.js'
