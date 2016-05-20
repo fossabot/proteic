@@ -12,5 +12,5 @@
                     return new Streamgraph(params.data, params.config);
             }
         }
-    }
+    };
 })();

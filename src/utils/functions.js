@@ -23,9 +23,9 @@ var utils = utils || {
     }
     split = n.split('%');
     number = (+split[0]);
-    return split.length === 2
-      && (number >= 0)
-      && (number <= 100);
+    return split.length === 2 &&
+      (number >= 0) &&
+      (number <= 100);
 
   },
 

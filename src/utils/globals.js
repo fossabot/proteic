@@ -35,8 +35,8 @@ const _default = {
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip(data) { // Allows HTML
-      return '<b>Eje x</b>: ' + data.x + '<br/>'
-        + '<b>Eje y</b>: ' + data.y;
+      return '<b>Eje x</b>: ' + data.x + '<br/>' +
+        '<b>Eje y</b>: ' + data.y;
     },
     tickLabel: '',
     selector: '#chart',

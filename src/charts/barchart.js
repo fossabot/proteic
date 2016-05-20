@@ -34,8 +34,8 @@ class Barchart extends Basic {
         throw TypeError('Wrong data format');
     }
     //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    this.config = (nArguments == 1)
-      ? _default[this.constructor.name]
+    this.config = (nArguments == 1) ?
+      _default[this.constructor.name]
       : arguments[1];
 
     this._initializeSVGContext();

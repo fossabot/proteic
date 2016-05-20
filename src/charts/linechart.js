@@ -34,8 +34,7 @@ class Linechart extends Basic {
         throw TypeError('Wrong data format');
     }
     //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    this.config = (nArguments == 1)
-      ? _default[this.constructor.name]
+    this.config = (nArguments == 1) ? _default[this.constructor.name]
       : arguments[1];
 
     this._initializeSVGContext();
@@ -55,7 +54,9 @@ class Linechart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (datum.key !== 'max') { return; }
+    if (datum.key !== 'max') {
+      return;
+    }
 
     let dType = datum.constructor.name;
     let dLength = 0;
@@ -64,7 +65,7 @@ class Linechart extends Basic {
 
     //find serie
     let serie = utils.findElement(this.data, 'key', datum.key);
-        
+
     if (!serie || !serie.values) {
       serie = {
         key: datum.key,

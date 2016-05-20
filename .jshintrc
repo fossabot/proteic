@@ -9,6 +9,7 @@
     "_default": false,
     "strategies": false,
     "utils": false,
-    "console": false
+    "console": false,
+    "CustomEvent": false
   }
 }

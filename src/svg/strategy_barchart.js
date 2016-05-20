@@ -7,7 +7,7 @@ class SvgBarchartStrategy extends SvgChart {
     //Create range function
     this.xAxisName = 'x';
     this.yAxisName = 'y';
-    this.x = d3.scale.ordinal().rangeRoundBands([0, this.width], .1);
+    this.x = d3.scale.ordinal().rangeRoundBands([0, this.width], 0.1);
     this.y = d3.scale.linear().range([this.height, 0]);
     this.stack = d3.layout.stack();
 
