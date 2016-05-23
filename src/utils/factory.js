@@ -14,5 +14,5 @@
                     throw TypeError('Unknow chart type' + params.type);
             }
         }
-    }
+    };
 })();

@@ -140,8 +140,7 @@ class SvgChart {
         }
         this.selector = config.selector || _default[this.cType].selector;
         this.margin = config.margin || _default[this.cType].margin;
-        this.width = config.width
-            ? this._calculateWidth(config.width) - this.margin.left - this.margin.right
+        this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right
             : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
         this.height = config.height || _default[this.cType].height;
         this.ticks = config.ticks || _default[this.cType].ticks;
