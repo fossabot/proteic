@@ -12,42 +12,52 @@
 
 <body>
 
-    <div id='chart'></div>
-    <br/>
-    <div id='chart-temporal'></div>
+  <div id='chart'></div>
+  <br/>
+  <div id='chart-temporal'></div>
 
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
-    <script src='../node_modules/d3/d3.min.js'></script>
-    <script src='../node_modules/d3-tip/index.js'></script>
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+  <script src='../node_modules/d3/d3.min.js'></script>
+  <script src='../node_modules/d3-tip/index.js'></script>
 
-    <script src='../src/utils/functions.js'></script>
-    <script src='../src/utils/image.js'></script>
-    <script src='../src/utils/strategies.js'></script>
-    <script src='../src/utils/colors.js'></script>
-    <script src='../src/utils/globals.js'></script>
-    <script src='../src/utils/ProteusEvent.js'></script>
+  <script src='../src/utils/functions.js'></script>
+  <script src='../src/utils/image.js'></script>
+  <script src='../src/utils/strategies.js'></script>
+  <script src='../src/utils/colors.js'></script>
+  <script src='../src/utils/globals.js'></script>
+  <script src='../src/utils/ProteusEvent.js'></script>
 
-    <script src='../src/svg/SvgStrategy.js'></script>
-    <script src='../src/svg/svg.js'></script>
+  <script src='../src/svg/SvgStrategy.js'></script>
+  <script src='../src/svg/svg.js'></script>
 
-    <script src='../src/svg/strategy_linechart.js'></script>
-    <script src='../src/charts/classes.js' type='text/javascript'></script>
-    <script src='../src/charts/linechart.js' type='text/javascript'></script>
+  <script src='../src/svg/strategy_linechart.js'></script>
+  <script src='../src/charts/classes.js' type='text/javascript'></script>
+  <script src='../src/charts/linechart.js' type='text/javascript'></script>
 
-    <script>
-        var data = [
-            {
-                key: 'series1',
-                values: [
-                    {x:5, y:3},
-                    {x:7, y:12},
-                    {x:8, y:21}
-                ]
-            }
-        ];
-        //Default config uses #chart selector
-        linechart = new Linechart(data);
-        linechart.draw();
+  <script>
+    var data = [
+      {
+        key: 'series1',
+        values: [
+            {x:3, y:5},
+            {x:6, y:5},
+            {x:8, y:21},
+            {x:9, y:0}
+        ]
+      },
+      {
+        key: 'series2',
+        values: [
+          {x:3, y:4},
+          {x:6, y:4},
+          {x:8, y:20},
+          {x:9, y:12}
+        ]
+      }
+    ];
+    //Default config uses #chart selector
+    linechart = new Linechart(data);
+    linechart.draw();
 
         var temporalData = [
             {
@@ -67,7 +77,7 @@
             selector: '#chart-temporal'
         });
         temporalLinechart.draw();
-    </script>
+  </script>
 </body>
 
 </html>

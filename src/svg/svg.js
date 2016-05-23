@@ -62,7 +62,7 @@ class SvgChart {
         //Append a new group with 'y' aXis
         this.svg.append('g')
             .attr('class', 'y axis')
-            .attr('stroke-dasharray', '5, 5')
+            .attr('stroke-dasharray', '1, 2')
             .call(this.yAxis)
             .append('text');
 
