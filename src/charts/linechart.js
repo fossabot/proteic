@@ -55,51 +55,6 @@ class Linechart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (datum.key !== 'max') return;
-
-    let dType = datum.constructor.name;
-    let dLength = 0;
-    let config = this.config;
-    let maxNumberOfElements = config.maxNumberOfElements;
-
-    //find serie
-    let serie = utils.findElement(this.data, 'key', datum.key);
-        
-    if (!serie || !serie.values) {
-      serie = {
-        key: datum.key,
-        values: []
-      };
-      this.data.push(serie);
-    }
-
-    if (dType === 'Array') {
-      serie.values = serie.values.concat(datum);
-      dLength = datum.length;
-    }
-    else if (dType === 'Object') {
-      let element = utils.findElement(serie.values, 'x', datum.x);
-
-      if (element) {
-        element.y = datum.y;
-      }
-      else {
-        serie.values.push(datum);
-      }
-      dLength = 1;
-    }
-    else {
-      throw TypeError('Unknown data type' + dType);
-    }
-
-    if (maxNumberOfElements && maxNumberOfElements > 0) {
-      if (this.data.length > maxNumberOfElements) {
-        for (let i = 0; i < dLength; i++) {
-          this.data.shift();
-        }
-      }
-    }
-
-    super.draw(this.data);
+    return super.keepDrawing(datum);
   }
 }

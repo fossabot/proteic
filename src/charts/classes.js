@@ -156,7 +156,7 @@ class Chart {
     if (!this.datasource) {
       throw ('You need a datasource to resume a streaming');
     }
-    
+
     this.reactor.addEventListener('onmessage', (data) => {
       this.keepDrawing(data);
     });
@@ -173,6 +173,38 @@ class Basic extends Chart {
   constructor() {
     super();
     this.reactor = new Reactor();
+  }
+
+  keepDrawing(datum) {
+    let config = this.config;
+    let maxNumberOfElements = config.maxNumberOfElements;
+
+    if (!datum) {
+      console.warn('attemp to draw null datum');
+      return;
+    }
+
+    if (datum.constructor.name === 'Array') {
+      for (let i in datum) {
+        this.keepDrawing(datum[i]);
+      }
+    }
+    else {
+      //Find serie or initialize this.
+      let serie = utils.findElement(this.data, 'key', datum.key);
+      if (!serie || !serie.values) {
+        serie = {
+          key: datum.key,
+          values: []
+        };
+        this.data.push(serie);
+      }
+      //use addToSerie()
+      
+      serie.values = serie.values.concat(datum.values);
+    }
+    this.draw(this.data);
+    return this.data;
   }
 }
 
