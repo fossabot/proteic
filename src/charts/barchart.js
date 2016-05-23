@@ -63,6 +63,8 @@ class Barchart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
+    super.keepDrawing(datum);
+    /**
     if (datum.key !== 'avg') return;
 
     let dType = datum.constructor.name;
@@ -109,6 +111,7 @@ class Barchart extends Basic {
       }
     }
     super.draw(this.data);
+    **/
   }
 
 
