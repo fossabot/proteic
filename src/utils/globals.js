@@ -15,6 +15,9 @@ const _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
     xaxis: {
@@ -99,6 +102,9 @@ const _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
     ticks: 5, // ticks for y axis.
@@ -163,6 +169,9 @@ const _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
     margin: {

@@ -69,13 +69,13 @@ class SvgChart {
         // Append axes labels
         this.svg.append('text')
             .attr('text-anchor', 'middle')
-            .attr('class', 'xaxis-label')
+            .attr('class', 'x axis label')
             .attr('x', this.width / 2)
             .attr('y', this.height + this.margin.bottom)
             .text(this.xAxisLabel);
         this.svg.append('text')
             .attr('text-anchor', 'middle')
-            .attr('class', 'yaxis-label')
+            .attr('class', 'y axis label')
             .attr('transform', 'rotate(-90)')
             .attr('x', - this.height / 2)
             .attr('y', - this.margin.left / 1.3)

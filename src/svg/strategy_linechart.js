@@ -148,7 +148,6 @@ class SvgLinechartStrategy extends SvgChart {
     this._applyCSS();
   }
 
-
   _initialize() {
 
     super._initialize();
@@ -174,5 +173,4 @@ class SvgLinechartStrategy extends SvgChart {
     //Just for testing purposes
     return this;
   }
-
 }
