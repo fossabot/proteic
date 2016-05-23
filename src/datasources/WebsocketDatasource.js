@@ -25,8 +25,8 @@ class WebsocketDatasource extends Datasource {
             }
         };
         this.ws.onmessage = (e) => {
-            //var data = JSON.parse(event.data.substr(2))[1];
-            var data = JSON.parse(e.data);
+            var data = JSON.parse(event.data.substr(2))[1];
+            //var data = JSON.parse(e.data);
             for (let rIndex in this.reactors) {
                 let reactor = this.reactors[rIndex];
                 reactor.dispatchEvent('onmessage', data);

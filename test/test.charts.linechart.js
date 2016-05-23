@@ -134,5 +134,15 @@ describe('Linechart', () => {
       }, Error);
     });
 
+
+    it('keepDrawing() ', () => {
+      var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }];
+      var chart = new Linechart(data);
+      var newSerieElement = { key: 'serie1', values: [{ x: 2, y: 30 }] };
+      var chartData = chart.keepDrawing(newSerieElement);
+      data[0].values.push({ x: 2, y: 30 });
+      assert.equal(chartData, data);
+    });
+
   });
 });

@@ -10,6 +10,8 @@
                     return new Gauge(params.data, params.config);
                 case 'Streamgraph':
                     return new Streamgraph(params.data, params.config);
+                default:
+                    throw TypeError('Unknow chart type' + params.type);
             }
         }
     };
