@@ -79,6 +79,8 @@ const _default = {
       label: 'Y'
     },
     colorScale: Colors.category7(),
+    area: true,
+    areaOpacity: 0.4,
     margin: {
       top: 20,
       right: 20,

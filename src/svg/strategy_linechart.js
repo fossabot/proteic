@@ -50,6 +50,7 @@ class SvgLinechartStrategy extends SvgChart {
 	 */
   draw(data) {
     var lineGen = null;
+    var areaGen = null;
     var format = this.format;
     var s = null;
     // var path = null;
@@ -85,6 +86,12 @@ class SvgLinechartStrategy extends SvgChart {
       .x((d) => this.x(d.x))
       .y((d) => this.y(d.y));
 
+    // Area generator
+    areaGen = d3.svg.area()
+      .x((d) => this.x(d.x))
+      .y0(this.height )
+      .y1((d) => this.y(d.y));
+
     var series = this.svg.selectAll('.series')
       .data(data)
       .enter().append('g')
@@ -93,15 +100,34 @@ class SvgLinechartStrategy extends SvgChart {
         return this.colorScale(i);
       });
 
+    // Append lines
     var line = series.append('path')
-      .attr('class', 'line')
-      .attr('d', (d) => lineGen(d.values))
-      .style('stroke', (d, i) => this.colorScale(i));
+      .attr('class', 'line');
 
+    // Bind data to lines
     var path = this.svg.selectAll('path')
       .data(data, this.seriesKeyFunction)
       .style('stroke', (d, i) => this.colorScale(i))
-      .attr('d', (d) => lineGen(d.values));
+      .style('fill', (d, i) => this.colorScale(i))
+
+    // Draw area when requested
+    if (this.area) {
+      line
+        .attr('d', (d) => areaGen(d.values))
+        .style('stroke', (d, i) => this.colorScale(i));
+
+      path
+        .style('fill-opacity', this.areaOpacity)
+        .attr('class', 'area')
+        .attr('d', (d) => areaGen(d.values));
+    } else {
+      line
+        .attr('d', (d) => lineGen(d.values))
+        .style('stroke', (d, i) => this.colorScale(i));
+
+      path
+        .attr('d', (d) => lineGen(d.values));
+    }
 
     // Append markers to lines
     if (this.markers) {
@@ -167,6 +193,8 @@ class SvgLinechartStrategy extends SvgChart {
     this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
     this.markers.size = config.markers.size || _default.Linechart.markers.size;
 
+    this.area = config.area || _default.Linechart.area;
+    this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
     this.xDataType = config.xDataType || _default.Linechart.xDataType;
     this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
 
