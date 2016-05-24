@@ -50,6 +50,9 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(this.datum.x) - 90})`)
       .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`);
 
+    this.svg.select('.text-indicator')
+      .text(this.datum.x);
+
     this._applyCSS();
   }
 
@@ -130,6 +133,13 @@ class SvgGaugeStrategy extends SvgChart {
     this.svg.append('g')
       .attr('class', 'needle');
 
+    this.svg.append('text')
+      .attr('class', 'text-indicator')
+      .attr('transform', this.translation)
+      .attr('x', 0)
+      .attr('y', 100)
+      .text('0');
+
     //Initialize SVG
     this._initialized = true;
   }
@@ -152,6 +162,7 @@ class SvgGaugeStrategy extends SvgChart {
     this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
     this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
     this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
+    this.numericIndicator = config.numericIndicator || _default.Gauge.numericIndicator;
 
     //Just for testing purposes
     return this;
