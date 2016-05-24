@@ -12,6 +12,23 @@ class Chart {
       throw new Error(clazz + ' is non-instanciable');
     }
     this.events = {};
+
+    //Create chaining api
+    Chart.prototype.custom = new Object();
+
+    var customProperties = [];
+    for (let p in _default[this.constructor.name]) {
+      //hasOwnProperty?
+      customProperties.push(p);
+    }
+
+    customProperties.forEach((property) => {
+      Chart.prototype["custom"][property] = function (value) {
+        console.debug('changing property', property, 'to', value, this);
+        //create apply method to apply changes
+        return this;
+      }
+    })
   }
 
   /**
@@ -161,6 +178,7 @@ class Chart {
       this.keepDrawing(data);
     });
   }
+
 }
 
 
@@ -200,7 +218,7 @@ class Basic extends Chart {
         this.data.push(serie);
       }
       //use addToSerie()
-      
+
       serie.values = serie.values.concat(datum.values);
     }
     this.draw(this.data);
