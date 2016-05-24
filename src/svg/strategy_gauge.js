@@ -11,7 +11,7 @@ class SvgGaugeStrategy extends SvgChart {
     this.angleScale = d3.scale
       .linear()
       .domain([this.minLevel, this.maxLevel])
-      .range([0, 180]);
+      .range([90 + this.minAngle, 90 + this.maxAngle]);
 
     this.colorScale.domain([0, 1]);
 
@@ -36,7 +36,7 @@ class SvgGaugeStrategy extends SvgChart {
     this.datum = data[data.length - 1];
     needleLen = this.needleLenghtRatio * (this.r);
 
-    // Append needle
+    // Append the needle
     if (!this.needle) {
       this.needle = this.svg.append('path')
         .attr('class', 'needle')

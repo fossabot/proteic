@@ -223,7 +223,7 @@ const _default = {
     minLevel: 0,
     maxLevel: 100,
     minAngle: -90,
-    maxAngle: 90,
+    maxAngle: 180,
     ringWidth: 50,
     ringMargin: 20,
     labelInset: 10,
