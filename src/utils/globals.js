@@ -246,9 +246,12 @@ const _default = {
     style: {
       '.labels': {
         'font': '18px sans-serif'
+      },
+      '.needle': {
+        'fill': '#555555'
       }
     },
-    ticks: 5, // ticks for y axis.
+    ticks: 10, // ticks for y axis.
     markers: {
       shape: 'circle',
       size: 5,

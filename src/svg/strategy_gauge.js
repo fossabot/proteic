@@ -42,15 +42,13 @@ class SvgGaugeStrategy extends SvgChart {
         .attr('class', 'needle')
         .datum(this.datum.x)
         .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(d) - 90})`)
-        .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`)
-        .attr('fill', this.needleColor);
+        .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`);
     }
 
     this.needle
       .transition()
       .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(this.datum.x) - 90})`)
-      .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`)
-      .attr('fill', this.needleColor);
+      .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`);
 
     this._applyCSS();
   }
@@ -123,9 +121,8 @@ class SvgGaugeStrategy extends SvgChart {
 
     // Append needle nut
     this.svg.append('circle')
-      .attr('class', 'needle-nut')
+      .attr('class', 'needle')
       .attr('transform', this.translation)
-      .attr('fill', this.needleColor)
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', this.needleNutRadius);
@@ -155,8 +152,7 @@ class SvgGaugeStrategy extends SvgChart {
     this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
     this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
     this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
-    this.needleColor = '#444444';
-    
+
     //Just for testing purposes
     return this;
   }
