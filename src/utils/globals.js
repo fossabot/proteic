@@ -221,6 +221,13 @@ const _default = {
     colorScale: Colors.diverging_red_blue(),
     minLevel: 0,
     maxLevel: 100,
+    minAngle: -90,
+    maxAngle: 90,
+    ringWidth: 50,
+    ringMargin: 20,
+    labelInset: 10,
+    needleNutRadius: 25,
+    needleLenghtRatio: 0.8,
     xaxis: {
       label: 'X'
     },
@@ -233,9 +240,13 @@ const _default = {
       bottom: 30,
       left: 50
     },
-    width: '80%', // %, auto, or numeric 
-    height: 350,
-    style: {},
+    width: '50%', // %, auto, or numeric
+    height: 500,
+    style: {
+      '.labels': {
+        'font': '18px sans-serif'
+      }
+    },
     ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',

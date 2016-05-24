@@ -1908,7 +1908,7 @@ var SvgGaugeStrategy = function (_SvgChart) {
     _this.minAngle = -90;
     _this.maxAngle = 90;
     _this.needleLenghtRatio = 0.8;
-    _this.scaleTicks = 5;
+    _this.ticks = 5;
     _this.ringWidth = 50;
     _this.ringMargin = 20;
     _this.labelInset = 10;
@@ -1919,9 +1919,9 @@ var SvgGaugeStrategy = function (_SvgChart) {
 
     _this.angleScale = d3.scale.linear().range([0, 180]).domain([_this.minLevel, _this.maxLevel]);
 
-    _this.scaleMarks = _this.scale.ticks(_this.scaleTicks);
-    _this.tickData = d3.range(_this.scaleTicks).map(function () {
-      return 1 / _this.scaleTicks;
+    _this.scaleMarks = _this.scale.ticks(_this.ticks);
+    _this.tickData = d3.range(_this.ticks).map(function () {
+      return 1 / _this.ticks;
     });
 
     _this.keyFunction = function (d) {

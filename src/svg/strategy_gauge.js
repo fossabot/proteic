@@ -1,16 +1,6 @@
 class SvgGaugeStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
-    
-    // TODO extract to config
-    this.minAngle = -90;
-    this.maxAngle = 90;
-    this.needleLenghtRatio = 0.8;
-    this.scaleTicks = 5;
-    this.ringWidth = 50;
-    this.ringMargin = 20;
-    this.labelInset = 10;
-    this.needleNutRadius = 25;
 
     //Create scale
     this.scale = d3.scale
@@ -23,9 +13,9 @@ class SvgGaugeStrategy extends SvgChart {
       .range([0, 180])
       .domain([this.minLevel, this.maxLevel]);
 
-    this.scaleMarks = this.scale.ticks(this.scaleTicks);
-    this.tickData = d3.range(this.scaleTicks)
-      .map(() => 1 / this.scaleTicks);
+    this.scaleMarks = this.scale.ticks(this.ticks);
+    this.tickData = d3.range(this.ticks)
+      .map(() => 1 / this.ticks);
 
     this.keyFunction = ((d) => d.x);
     this.translation = (() => 'translate(' + this.r + ',' + this.r + ')');
@@ -33,8 +23,8 @@ class SvgGaugeStrategy extends SvgChart {
   }
 
 	/**
-	 * Renders a linechart based on data object
-	 * @param  {Object} data Data Object. Contains an array with x and y properties.
+	 * Renders a gauge chart based on data object
+	 * @param  {Object} data Data Object. Contains a numeric value.
 	 * 
 	 */
   draw(data) {
@@ -148,6 +138,14 @@ class SvgGaugeStrategy extends SvgChart {
 
     this.minLevel = config.minLevel || _default.Gauge.minLevel;
     this.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
+    this.minAngle = config.minAngle || _default.Gauge.minAngle;
+    this.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
+    this.ticks = config.ticks || _default.Gauge.ticks;
+    this.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
+    this.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
+    this.labelInset = config.labelInset || _default.Gauge.labelInset;
+    this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
+    this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
 
     //Just for testing purposes
     return this;
