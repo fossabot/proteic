@@ -229,6 +229,7 @@ const _default = {
     labelInset: 10,
     needleNutRadius: 25,
     needleLenghtRatio: 0.8,
+    numericIndicator: true,
     xaxis: {
       label: 'X'
     },
@@ -245,7 +246,12 @@ const _default = {
     height: 500,
     style: {
       '.labels': {
-        'font': '18px sans-serif'
+        'font': '18px sans-serif',
+        'text-anchor': 'middle'
+      },
+      '.text-indicator': {
+        'font': '48px sans-serif',
+        'text-anchor': 'middle'
       },
       '.needle': {
         'fill': '#555555'
