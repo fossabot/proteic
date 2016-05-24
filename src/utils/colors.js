@@ -36,135 +36,135 @@ class Colors {
   }
 
   static sequentialYellow() {
-    return d3.scale.linear().range(paletteSequentialYellow);
+    return d3.scale.quantile().range(paletteSequentialYellow);
   }
 
   static sequentialRedOrange() {
-    return d3.scale.linear().range(paletteSequentialRedOrange);
+    return d3.scale.quantile().range(paletteSequentialRedOrange);
   }
 
   static sequentialRed() {
-    return d3.scale.linear().range(paletteSequentialRed);
+    return d3.scale.quantile().range(paletteSequentialRed);
   }
 
   static sequentialPink() {
-    return d3.scale.linear().range(paletteSequentialPink);
+    return d3.scale.quantile().range(paletteSequentialPink);
   }
 
   static sequentialPurplePink() {
-    return d3.scale.linear().range(paletteSequentialPurplePink);
+    return d3.scale.quantile().range(paletteSequentialPurplePink);
   }
 
   static sequentialPurple() {
-    return d3.scale.linear().range(paletteSequentialPurple);
+    return d3.scale.quantile().range(paletteSequentialPurple);
   }
 
   static sequentialBlue() {
-    return d3.scale.linear().range(paletteSequentialBlue);
+    return d3.scale.quantile().range(paletteSequentialBlue);
   }
 
   static sequentialLightBlue() {
-    return d3.scale.linear().range(paletteSequentialLightBlue);
+    return d3.scale.quantile().range(paletteSequentialLightBlue);
   }
 
   static sequentialBlueViolet() {
-    return d3.scale.linear().range(paletteSequentialBlueViolet);
+    return d3.scale.quantile().range(paletteSequentialBlueViolet);
   }
 
   static sequentialTurquoise() {
-    return d3.scale.linear().range(paletteSequentialTurquoise);
+    return d3.scale.quantile().range(paletteSequentialTurquoise);
   }
 
   static sequentialLightGreen() {
-    return d3.scale.linear().range(paletteSequentialLightGreen);
+    return d3.scale.quantile().range(paletteSequentialLightGreen);
   }
 
   static sequentialDarkGreen() {
-    return d3.scale.linear().range(paletteSequentialDarkGreen);
+    return d3.scale.quantile().range(paletteSequentialDarkGreen);
   }
 
   static sequentialGreenBrown() {
-    return d3.scale.linear().range(paletteSequentialGreenBrown);
+    return d3.scale.quantile().range(paletteSequentialGreenBrown);
   }
 
   static sequentialBrown() {
-    return d3.scale.linear().range(paletteSequentialBrown);
+    return d3.scale.quantile().range(paletteSequentialBrown);
   }
 
   static sequentialGrey() {
-    return d3.scale.linear().range(paletteSequentialGrey);
+    return d3.scale.quantile().range(paletteSequentialGrey);
   }
 
   static sequentialVioletCb() {
-    return d3.scale.linear().range(paletteSequentialVioletCb);
+    return d3.scale.quantile().range(paletteSequentialVioletCb);
   }
 
   static sequentialPinkCb() {
-    return d3.scale.linear().range(paletteSequentialPinkCb);
+    return d3.scale.quantile().range(paletteSequentialPinkCb);
   }
 
   static sequentialBlueCb() {
-    return d3.scale.linear().range(paletteSequentialBlueCb);
+    return d3.scale.quantile().range(paletteSequentialBlueCb);
   }
 
   static sequentialGreenCb() {
-    return d3.scale.linear().range(paletteSequentialGreenCb);
+    return d3.scale.quantile().range(paletteSequentialGreenCb);
   }
 
   static sequentialGreenBrownCb() {
-    return d3.scale.linear().range(paletteSequentialGreenBrownCb);
+    return d3.scale.quantile().range(paletteSequentialGreenBrownCb);
   }
 
   static diverging_spectral1() {
-    return d3.scale.linear().range(paletteDivergingSpectral1);
+    return d3.scale.quantile().range(paletteDivergingSpectral1);
   }
 
   static diverging_spectral2() {
-    return d3.scale.linear().range(paletteDivergingSpectral2);
+    return d3.scale.quantile().range(paletteDivergingSpectral2);
   }
 
   static diverging_spectral3() {
-    return d3.scale.linear().range(paletteDivergingSpectral3);
+    return d3.scale.quantile().range(paletteDivergingSpectral3);
   }
 
   static diverging_brown_turquoise() {
-    return d3.scale.linear().range(paletteDivergingBrownTurquoise);
+    return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
   }
 
   static diverging_orange_pink() {
-    return d3.scale.linear().range(paletteDivergingBrownTurquoise);
+    return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
   }
 
   static diverging_red_blue() {
-    return d3.scale.linear().range(paletteDivergingRedBlue);
+    return d3.scale.quantile().range(paletteDivergingRedBlue);
   }
 
   static diverging_red_grey() {
-    return d3.scale.linear().range(paletteDivergingRedGrey);
+    return d3.scale.quantile().range(paletteDivergingRedGrey);
   }
 
   static diverging_orange_violet() {
-    return d3.scale.linear().range(paletteDivergingOrangeViolet);
+    return d3.scale.quantile().range(paletteDivergingOrangeViolet);
   }
 
   static diverging_purple_green() {
-    return d3.scale.linear().range(paletteDivergingPurpleGreen);
+    return d3.scale.quantile().range(paletteDivergingPurpleGreen);
   }
 
   static diverging_violet_green() {
-    return d3.scale.linear().range(paletteDivergingVioletGreen);
+    return d3.scale.quantile().range(paletteDivergingVioletGreen);
   }
 
   static diverging_red_green() {
-    return d3.scale.linear().range(paletteDivergingRedGreen);
+    return d3.scale.quantile().range(paletteDivergingRedGreen);
   }
 
   static diverging_brown_green() {
-    return d3.scale.linear().range(paletteDivergingBrownGreen);
+    return d3.scale.quantile().range(paletteDivergingBrownGreen);
   }
 
   static diverging_lightBrown_turquoise() {
-    return d3.scale.linear().range(palette_divergingLightBrownTurquoise);
+    return d3.scale.quantile().range(palette_divergingLightBrownTurquoise);
   }
 }
 

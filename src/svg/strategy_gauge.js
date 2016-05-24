@@ -5,13 +5,15 @@ class SvgGaugeStrategy extends SvgChart {
     //Create scale
     this.scale = d3.scale
       .linear()
-      .range([0, 1])
-      .domain([this.minLevel, this.maxLevel]);
+      .domain([this.minLevel, this.maxLevel])
+      .range([0, 1]);
 
     this.angleScale = d3.scale
       .linear()
-      .range([0, 180])
-      .domain([this.minLevel, this.maxLevel]);
+      .domain([this.minLevel, this.maxLevel])
+      .range([0, 180]);
+    
+    this.colorScale.domain([0, 1]);
 
     this.scaleMarks = this.scale.ticks(this.ticks);
     this.tickData = d3.range(this.ticks)
@@ -88,13 +90,18 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('class', 'arc')
       .attr('transform', this.translation);
 
+    // console.log(this.colorScale(0.2));
     // Append the ring sectors
     arcs.selectAll('path')
       .data(this.tickData)
       .enter().append('path')
     // ID for textPath linking
       .attr('id', (d, i) => 'sector-' + i)
-      .attr('fill', (d, i) => this.colorScale(d * i * 5))
+      .attr('fill', (d, i) => {
+        console.log(this.colorScale(d*i));
+        // console.log(d * (i + 1));
+        return this.colorScale(d * i);
+      })
       .attr('d', this.arc);
 
     // Apend the scale labels
