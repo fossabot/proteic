@@ -12,7 +12,7 @@ class SvgGaugeStrategy extends SvgChart {
       .linear()
       .domain([this.minLevel, this.maxLevel])
       .range([0, 180]);
-    
+
     this.colorScale.domain([0, 1]);
 
     this.scaleMarks = this.scale.ticks(this.ticks);
@@ -43,14 +43,14 @@ class SvgGaugeStrategy extends SvgChart {
         .datum(this.datum.x)
         .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(d) - 90})`)
         .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`)
-        .attr('fill', 'indigo');
+        .attr('fill', this.needleColor);
     }
 
     this.needle
       .transition()
       .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(this.datum.x) - 90})`)
       .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`)
-      .attr('fill', 'indigo');
+      .attr('fill', this.needleColor);
 
     this._applyCSS();
   }
@@ -90,19 +90,20 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('class', 'arc')
       .attr('transform', this.translation);
 
-    // console.log(this.colorScale(0.2));
     // Append the ring sectors
-    arcs.selectAll('path')
+    var arcPaths = arcs.selectAll('path')
       .data(this.tickData)
       .enter().append('path')
     // ID for textPath linking
       .attr('id', (d, i) => 'sector-' + i)
-      .attr('fill', (d, i) => {
-        console.log(this.colorScale(d*i));
-        // console.log(d * (i + 1));
-        return this.colorScale(d * i);
-      })
       .attr('d', this.arc);
+
+    // Fill colors
+    if (this.invertColorScale) {
+      arcPaths.attr('fill', (d, i) => this.colorScale(1 - d * i));
+    } else {
+      arcPaths.attr('fill', (d, i) => this.colorScale(d * i));
+    }
 
     // Apend the scale labels
     labels = this.svg.append('g')
@@ -124,7 +125,7 @@ class SvgGaugeStrategy extends SvgChart {
     this.svg.append('circle')
       .attr('class', 'needle-nut')
       .attr('transform', this.translation)
-      .attr('fill', 'indigo')
+      .attr('fill', this.needleColor)
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', this.needleNutRadius);
@@ -153,7 +154,9 @@ class SvgGaugeStrategy extends SvgChart {
     this.labelInset = config.labelInset || _default.Gauge.labelInset;
     this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
     this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-
+    this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
+    this.needleColor = '#444444';
+    
     //Just for testing purposes
     return this;
   }

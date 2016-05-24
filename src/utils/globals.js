@@ -219,6 +219,7 @@ const _default = {
   Gauge: {
     selector: '#chart',
     colorScale: Colors.diverging_red_blue(),
+    invertColorScale: true,
     minLevel: 0,
     maxLevel: 100,
     minAngle: -90,
