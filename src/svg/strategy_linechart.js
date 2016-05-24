@@ -103,31 +103,37 @@ class SvgLinechartStrategy extends SvgChart {
     // Append lines
     var line = series.append('path')
       .attr('class', 'line');
+    var area = series.append('path')
+      .attr('class', 'area');
 
     // Bind data to lines
     var path = this.svg.selectAll('path')
       .data(data, this.seriesKeyFunction)
       .style('stroke', (d, i) => this.colorScale(i))
-      .style('fill', (d, i) => this.colorScale(i))
+      .style('fill', (d, i) => this.colorScale(i));
 
     // Draw area when requested
     if (this.area) {
-      line
+      var areaPath = this.svg.selectAll('.area')
+        .data(data, this.seriesKeyFunction)
+        .style('stroke', (d, i) => this.colorScale(i))
+        .style('fill', (d, i) => this.colorScale(i));
+
+      area
         .attr('d', (d) => areaGen(d.values))
         .style('stroke', (d, i) => this.colorScale(i));
 
-      path
+      areaPath
         .style('fill-opacity', this.areaOpacity)
-        .attr('class', 'area')
         .attr('d', (d) => areaGen(d.values));
-    } else {
+    }
       line
         .attr('d', (d) => lineGen(d.values))
         .style('stroke', (d, i) => this.colorScale(i));
 
       path
         .attr('d', (d) => lineGen(d.values));
-    }
+
 
     // Append markers to lines
     if (this.markers) {

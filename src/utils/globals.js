@@ -79,7 +79,7 @@ const _default = {
       label: 'Y'
     },
     colorScale: Colors.category7(),
-    area: true,
+    area: false,
     areaOpacity: 0.4,
     margin: {
       top: 20,
@@ -93,6 +93,9 @@ const _default = {
       '.line': {
         'stroke-width': 2,
         'fill': 'none'
+      },
+      '.area': {
+        'stroke-width': 0
       },
       '.axis': {
         'font': '10px sans-serif'
@@ -254,7 +257,7 @@ const _default = {
         'text-anchor': 'middle'
       },
       '.needle': {
-        'fill': '#555555'
+        'fill': '#666666'
       }
     },
     ticks: 10, // ticks for y axis.
