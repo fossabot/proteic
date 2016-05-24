@@ -29,6 +29,23 @@ var utils = utils || {
 
   },
 
+  keys(array, field) {
+    var keys = new Set();
+    var element = null;
+
+    if (!array || !array.length) {
+      return [];
+    }
+
+    for (let i = 0; i < array.length; i++) {
+      element = field ? array[i][field] : array[i];
+      if (element) {
+        keys.add(element);
+      }
+    }
+    return keys;
+  },
+
   getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
     var element = null;
@@ -82,3 +99,11 @@ var utils = utils || {
     return deg * Math.PI / 180;
   }
 };
+
+
+//Extends Set functionality
+Set.prototype.equals = function (as) {
+  if (as.size !== this.size) return false;
+  for (var a of as) if (!this.has(a)) return false;
+  return true;
+}
