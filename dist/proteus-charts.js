@@ -25,6 +25,22 @@ var utils = utils || {
     number = +split[0];
     return split.length === 2 && number >= 0 && number <= 100;
   },
+  keys: function keys(array, field) {
+    var keys = new Set();
+    var element = null;
+
+    if (!array || !array.length) {
+      return [];
+    }
+
+    for (var i = 0; i < array.length; i++) {
+      element = field ? array[i][field] : array[i];
+      if (element) {
+        keys.add(element);
+      }
+    }
+    return keys;
+  },
   getNumberOfDifferentArrayKeys: function getNumberOfDifferentArrayKeys(array, field) {
     var keys = [];
     var element = null;
@@ -66,7 +82,6 @@ var utils = utils || {
       return o.desc * (a < b ? -1 : +(a > b));
     });
   },
-  // From: http://stackoverflow.com/a/7075589/2563749
   findElement: function findElement(arr, propName, propValue) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i][propName] === propValue) {
@@ -74,11 +89,41 @@ var utils = utils || {
       }
     }
     return null;
-    // will return undefined if not found; you could return a default instead
+    // will return null if not found; you could return a default instead
   },
   deg2rad: function deg2rad(deg) {
     return deg * Math.PI / 180;
   }
+};
+
+//Extends Set functionality
+Set.prototype.equals = function (as) {
+  if (as.size !== this.size) return false;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = as[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var a = _step.value;
+      if (!this.has(a)) return false;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return true;
 };
 'use strict';
 
@@ -118,7 +163,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
           ctx.drawImage(img, 0, 0);
           image.setAttribute('xlink:href', canvas.toDataURL('image/png'));
           left--;
-          if (left == 0) {
+          if (left === 0) {
             callback();
           }
         };
@@ -142,7 +187,7 @@ var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C
         continue;
       }
       var rules = sheets[i].cssRules;
-      if (rules != null) {
+      if (rules !== null) {
         for (var j = 0; j < rules.length; j++) {
           var rule = rules[j];
           if (typeof rule.style != 'undefined') {
@@ -285,167 +330,167 @@ var Colors = function () {
   }, {
     key: 'sequentialYellow',
     value: function sequentialYellow() {
-      return d3.scale.linear().range(paletteSequentialYellow);
+      return d3.scale.quantile().range(paletteSequentialYellow);
     }
   }, {
     key: 'sequentialRedOrange',
     value: function sequentialRedOrange() {
-      return d3.scale.linear().range(paletteSequentialRedOrange);
+      return d3.scale.quantile().range(paletteSequentialRedOrange);
     }
   }, {
     key: 'sequentialRed',
     value: function sequentialRed() {
-      return d3.scale.linear().range(paletteSequentialRed);
+      return d3.scale.quantile().range(paletteSequentialRed);
     }
   }, {
     key: 'sequentialPink',
     value: function sequentialPink() {
-      return d3.scale.linear().range(paletteSequentialPink);
+      return d3.scale.quantile().range(paletteSequentialPink);
     }
   }, {
     key: 'sequentialPurplePink',
     value: function sequentialPurplePink() {
-      return d3.scale.linear().range(paletteSequentialPurplePink);
+      return d3.scale.quantile().range(paletteSequentialPurplePink);
     }
   }, {
     key: 'sequentialPurple',
     value: function sequentialPurple() {
-      return d3.scale.linear().range(paletteSequentialPurple);
+      return d3.scale.quantile().range(paletteSequentialPurple);
     }
   }, {
     key: 'sequentialBlue',
     value: function sequentialBlue() {
-      return d3.scale.linear().range(paletteSequentialBlue);
+      return d3.scale.quantile().range(paletteSequentialBlue);
     }
   }, {
     key: 'sequentialLightBlue',
     value: function sequentialLightBlue() {
-      return d3.scale.linear().range(paletteSequentialLightBlue);
+      return d3.scale.quantile().range(paletteSequentialLightBlue);
     }
   }, {
     key: 'sequentialBlueViolet',
     value: function sequentialBlueViolet() {
-      return d3.scale.linear().range(paletteSequentialBlueViolet);
+      return d3.scale.quantile().range(paletteSequentialBlueViolet);
     }
   }, {
     key: 'sequentialTurquoise',
     value: function sequentialTurquoise() {
-      return d3.scale.linear().range(paletteSequentialTurquoise);
+      return d3.scale.quantile().range(paletteSequentialTurquoise);
     }
   }, {
     key: 'sequentialLightGreen',
     value: function sequentialLightGreen() {
-      return d3.scale.linear().range(paletteSequentialLightGreen);
+      return d3.scale.quantile().range(paletteSequentialLightGreen);
     }
   }, {
     key: 'sequentialDarkGreen',
     value: function sequentialDarkGreen() {
-      return d3.scale.linear().range(paletteSequentialDarkGreen);
+      return d3.scale.quantile().range(paletteSequentialDarkGreen);
     }
   }, {
     key: 'sequentialGreenBrown',
     value: function sequentialGreenBrown() {
-      return d3.scale.linear().range(paletteSequentialGreenBrown);
+      return d3.scale.quantile().range(paletteSequentialGreenBrown);
     }
   }, {
     key: 'sequentialBrown',
     value: function sequentialBrown() {
-      return d3.scale.linear().range(paletteSequentialBrown);
+      return d3.scale.quantile().range(paletteSequentialBrown);
     }
   }, {
     key: 'sequentialGrey',
     value: function sequentialGrey() {
-      return d3.scale.linear().range(paletteSequentialGrey);
+      return d3.scale.quantile().range(paletteSequentialGrey);
     }
   }, {
     key: 'sequentialVioletCb',
     value: function sequentialVioletCb() {
-      return d3.scale.linear().range(paletteSequentialVioletCb);
+      return d3.scale.quantile().range(paletteSequentialVioletCb);
     }
   }, {
     key: 'sequentialPinkCb',
     value: function sequentialPinkCb() {
-      return d3.scale.linear().range(paletteSequentialPinkCb);
+      return d3.scale.quantile().range(paletteSequentialPinkCb);
     }
   }, {
     key: 'sequentialBlueCb',
     value: function sequentialBlueCb() {
-      return d3.scale.linear().range(paletteSequentialBlueCb);
+      return d3.scale.quantile().range(paletteSequentialBlueCb);
     }
   }, {
     key: 'sequentialGreenCb',
     value: function sequentialGreenCb() {
-      return d3.scale.linear().range(paletteSequentialGreenCb);
+      return d3.scale.quantile().range(paletteSequentialGreenCb);
     }
   }, {
     key: 'sequentialGreenBrownCb',
     value: function sequentialGreenBrownCb() {
-      return d3.scale.linear().range(paletteSequentialGreenBrownCb);
+      return d3.scale.quantile().range(paletteSequentialGreenBrownCb);
     }
   }, {
     key: 'diverging_spectral1',
     value: function diverging_spectral1() {
-      return d3.scale.linear().range(paletteDivergingSpectral1);
+      return d3.scale.quantile().range(paletteDivergingSpectral1);
     }
   }, {
     key: 'diverging_spectral2',
     value: function diverging_spectral2() {
-      return d3.scale.linear().range(paletteDivergingSpectral2);
+      return d3.scale.quantile().range(paletteDivergingSpectral2);
     }
   }, {
     key: 'diverging_spectral3',
     value: function diverging_spectral3() {
-      return d3.scale.linear().range(paletteDivergingSpectral3);
+      return d3.scale.quantile().range(paletteDivergingSpectral3);
     }
   }, {
     key: 'diverging_brown_turquoise',
     value: function diverging_brown_turquoise() {
-      return d3.scale.linear().range(paletteDivergingBrownTurquoise);
+      return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
     }
   }, {
     key: 'diverging_orange_pink',
     value: function diverging_orange_pink() {
-      return d3.scale.linear().range(paletteDivergingBrownTurquoise);
+      return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
     }
   }, {
     key: 'diverging_red_blue',
     value: function diverging_red_blue() {
-      return d3.scale.linear().range(paletteDivergingRedBlue);
+      return d3.scale.quantile().range(paletteDivergingRedBlue);
     }
   }, {
     key: 'diverging_red_grey',
     value: function diverging_red_grey() {
-      return d3.scale.linear().range(paletteDivergingRedGrey);
+      return d3.scale.quantile().range(paletteDivergingRedGrey);
     }
   }, {
     key: 'diverging_orange_violet',
     value: function diverging_orange_violet() {
-      return d3.scale.linear().range(paletteDivergingOrangeViolet);
+      return d3.scale.quantile().range(paletteDivergingOrangeViolet);
     }
   }, {
     key: 'diverging_purple_green',
     value: function diverging_purple_green() {
-      return d3.scale.linear().range(paletteDivergingPurpleGreen);
+      return d3.scale.quantile().range(paletteDivergingPurpleGreen);
     }
   }, {
     key: 'diverging_violet_green',
     value: function diverging_violet_green() {
-      return d3.scale.linear().range(paletteDivergingVioletGreen);
+      return d3.scale.quantile().range(paletteDivergingVioletGreen);
     }
   }, {
     key: 'diverging_red_green',
     value: function diverging_red_green() {
-      return d3.scale.linear().range(paletteDivergingRedGreen);
+      return d3.scale.quantile().range(paletteDivergingRedGreen);
     }
   }, {
     key: 'diverging_brown_green',
     value: function diverging_brown_green() {
-      return d3.scale.linear().range(paletteDivergingBrownGreen);
+      return d3.scale.quantile().range(paletteDivergingBrownGreen);
     }
   }, {
     key: 'diverging_lightBrown_turquoise',
     value: function diverging_lightBrown_turquoise() {
-      return d3.scale.linear().range(palette_divergingLightBrownTurquoise);
+      return d3.scale.quantile().range(palette_divergingLightBrownTurquoise);
     }
   }]);
 
@@ -556,6 +601,9 @@ var _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
     xaxis: {
@@ -606,12 +654,16 @@ var _default = {
   Linechart: {
     selector: '#chart',
     xaxis: {
-      label: 'X'
+      label: 'X',
+      ticks: 5
     },
     yaxis: {
-      label: 'Y'
+      label: 'Y',
+      ticks: 5
     },
     colorScale: Colors.category7(),
+    area: false,
+    areaOpacity: 0.4,
     margin: {
       top: 20,
       right: 20,
@@ -625,6 +677,9 @@ var _default = {
         'stroke-width': 2,
         'fill': 'none'
       },
+      '.area': {
+        'stroke-width': 0
+      },
       '.axis': {
         'font': '10px sans-serif'
       },
@@ -635,9 +690,11 @@ var _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
-    ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',
       size: 5,
@@ -692,6 +749,9 @@ var _default = {
       },
       '.x.axis path': {
         'display': 'none'
+      },
+      '.x.axis.label, .y.axis.label': {
+        'font': '12px sans-serif'
       }
     },
     margin: {
@@ -732,8 +792,17 @@ var _default = {
   Gauge: {
     selector: '#chart',
     colorScale: Colors.diverging_red_blue(),
+    invertColorScale: true,
     minLevel: 0,
     maxLevel: 100,
+    minAngle: -90,
+    maxAngle: 180,
+    ringWidth: 50,
+    ringMargin: 20,
+    labelInset: 10,
+    needleNutRadius: 25,
+    needleLenghtRatio: 0.8,
+    numericIndicator: true,
     xaxis: {
       label: 'X'
     },
@@ -746,10 +815,22 @@ var _default = {
       bottom: 30,
       left: 50
     },
-    width: '80%', // %, auto, or numeric
-    height: 350,
-    style: {},
-    ticks: 5, // ticks for y axis.
+    width: '50%', // %, auto, or numeric
+    height: 500,
+    style: {
+      '.labels': {
+        'font': '18px sans-serif',
+        'text-anchor': 'middle'
+      },
+      '.text-indicator': {
+        'font': '48px sans-serif',
+        'text-anchor': 'middle'
+      },
+      '.needle': {
+        'fill': '#666666'
+      }
+    },
+    ticks: 10, // ticks for y axis.
     markers: {
       shape: 'circle',
       size: 5,
@@ -904,8 +985,8 @@ var WebsocketDatasource = function (_Datasource) {
                 }
             };
             this.ws.onmessage = function (e) {
-                //var data = JSON.parse(event.data.substr(2))[1];
-                var data = JSON.parse(e.data);
+                var data = JSON.parse(event.data.substr(2))[1];
+                //var data = JSON.parse(e.data);
                 for (var rIndex in _this2.reactors) {
                     var reactor = _this2.reactors[rIndex];
                     reactor.dispatchEvent('onmessage', data);
@@ -1015,11 +1096,11 @@ var SvgChart = function () {
             this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
 
             //Append a new group with 'y' aXis
-            this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '5, 5').call(this.yAxis).append('text');
+            this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '1, 2').call(this.yAxis).append('text');
 
             // Append axes labels
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'xaxis-label').attr('x', this.width / 2).attr('y', this.height + this.margin.bottom).text(this.xAxisLabel);
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'yaxis-label').attr('transform', 'rotate(-90)').attr('x', -this.height / 2).attr('y', -this.margin.left / 1.3).text(this.yAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'x axis label').attr('x', this.width / 2).attr('y', this.height + this.margin.bottom).text(this.xAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'y axis label').attr('transform', 'rotate(-90)').attr('x', -this.height / 2).attr('y', -this.margin.left / 1.3).text(this.yAxisLabel);
         }
     }, {
         key: '_applyCSS',
@@ -1081,6 +1162,8 @@ var SvgChart = function () {
             this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
             this.height = config.height || _default[this.cType].height;
             this.ticks = config.ticks || _default[this.cType].ticks;
+            this.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
+            this.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
             this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
             this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
             //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
@@ -1165,7 +1248,7 @@ var SvgBarchartStrategy = function (_SvgChart) {
 
     _this.xAxisName = 'x';
     _this.yAxisName = 'y';
-    _this.x = d3.scale.ordinal().rangeRoundBands([0, _this.width], .1);
+    _this.x = d3.scale.ordinal().rangeRoundBands([0, _this.width], 0.1);
     _this.y = d3.scale.linear().range([_this.height, 0]);
     _this.stack = d3.layout.stack();
 
@@ -1384,23 +1467,26 @@ var SvgLinechartStrategy = function (_SvgChart) {
     switch (_this.xDataType) {
       case 'Numeric':
         _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(5);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
         break;
       case 'Date':
         _this.x = d3.time.scale().range([0, _this.width]);
         _this.format = d3.time.format(_this.xDateformat);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(15);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
         break;
       default:
         _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(10);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
     }
 
     _this.y = d3.scale.linear().range([_this.height, 0]);
-    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
+    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.yticks, _this.tickLabel);
 
     _this.keyFunction = function (d) {
       return d.x;
+    };
+    _this.seriesKeyFunction = function (d) {
+      return d.key;
     };
     return _this;
   }
@@ -1417,18 +1503,18 @@ var SvgLinechartStrategy = function (_SvgChart) {
     value: function draw(data) {
       var _this2 = this;
 
-      var line = null;
-      var path = null;
-      var markers = null;
+      var lineGen = null;
+      var areaGen = null;
       var format = this.format;
+      var s = null;
+      // var path = null;
 
       _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), 'draw', this).call(this, data);
 
       if (this.xDataType === 'Date') {
         //Force x axis to be a date and y-axis to be a number
-
-        for (var series in data) {
-          data[series].values.forEach(function (d) {
+        for (s = 0; s < data.length; s++) {
+          data[s].values.forEach(function (d) {
             d.x = format.parse(d.x);
             d.y = +d.y;
           });
@@ -1451,58 +1537,118 @@ var SvgLinechartStrategy = function (_SvgChart) {
         });
       })]);
 
+      var isOverlapping = function isOverlapping(rect1, rect2) {
+        console.log(rect1.right + " " + rect2.left);
+        return rect1.right > rect2.left || rect1.left < rect2.right;
+      };
+
+      var tickLabels = d3.selectAll('.x.axis g.tick')[0];
+      for (var i = 0; i < tickLabels.length - 1; i++) {
+        console.log(isOverlapping(tickLabels[i].getBoundingClientRect(), tickLabels[i + 1].getBoundingClientRect()));
+
+        if (isOverlapping(tickLabels[i].getBoundingClientRect(), tickLabels[i + 1].getBoundingClientRect())) {
+          this.xAxis.ticks(this.xticks);
+        };
+      }
+
+      var labelsWidth = 0;
+      d3.selectAll('.x.axis g.tick').each(function (d, i) {
+        // console.log(this.getBoundingClientRect().width);
+        labelsWidth += this.getBoundingClientRect().width;
+      });
+
+      var axisWidth = this.svg.select('.x.axis').node().getBoundingClientRect().width;
+      console.log("---");
+      // console.log(labelsWidth);
+      // console.log(axisWidth);
+      // console.log(this.width);
+
       //Create a transition effect for axis rescaling
       this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
       this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
 
-      // Bind data
-      line = d3.svg.line().x(function (d) {
+      // Line generator
+      lineGen = d3.svg.line().x(function (d) {
         return _this2.x(d.x);
       }).y(function (d) {
         return _this2.y(d.y);
       });
 
-      for (var series in data) {
-        if (!this.paths) {
-          this.svg.append('path')
-          // .datum(data[series].values, this.keyFunction)
-          .data(data[series].values).style('stroke', this.colorScale(series)).attr('class', 'line ' + data[series].key).attr('d', line(data[series].values));
-        }
+      // Area generator
+      areaGen = d3.svg.area().x(function (d) {
+        return _this2.x(d.x);
+      }).y0(this.height).y1(function (d) {
+        return _this2.y(d.y);
+      });
+
+      var series = this.svg.selectAll('.series').data(data).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
+        return _this2.colorScale(i);
+      });
+
+      // Append lines
+      var line = series.append('path').attr('class', 'line');
+      var area = series.append('path').attr('class', 'area');
+
+      // Bind data to lines
+      var path = this.svg.selectAll('path').data(data, this.seriesKeyFunction).style('stroke', function (d, i) {
+        return _this2.colorScale(i);
+      }).style('fill', function (d, i) {
+        return _this2.colorScale(i);
+      });
+
+      // Draw area when requested
+      if (this.area) {
+        var areaPath = this.svg.selectAll('.area').data(data, this.seriesKeyFunction).style('stroke', function (d, i) {
+          return _this2.colorScale(i);
+        }).style('fill', function (d, i) {
+          return _this2.colorScale(i);
+        });
+
+        area.attr('d', function (d) {
+          return areaGen(d.values);
+        }).style('stroke', function (d, i) {
+          return _this2.colorScale(i);
+        });
+
+        areaPath.style('fill-opacity', this.areaOpacity).attr('d', function (d) {
+          return areaGen(d.values);
+        });
       }
-      this.paths = true;
+      line.attr('d', function (d) {
+        return lineGen(d.values);
+      }).style('stroke', function (d, i) {
+        return _this2.colorScale(i);
+      });
 
-      for (var series in data) {
-        // Create path and bind data to it
-        this.svg.select('.' + data[series].key)
-        // .datum(data[series].values, this.keyFunction)
-        .data(data[series].values).style('stroke', this.colorScale(series)).attr('d', line(data[series].values));
+      path.attr('d', function (d) {
+        return lineGen(d.values);
+      });
 
-        // Append markers to line
-        if (this.markers) {
-          switch (this.markers.shape) {
-            case 'circle':
-              markers = this.svg.selectAll('circle').data(data[series].values, this.keyFunction);
-              markers.enter().append('circle').attr('cx', function (d) {
-                return _this2.x(d.x);
-              }).attr('cy', function (d) {
-                return _this2.y(d.y);
-              }).attr('r', this.markers.size).style({
-                'fill': this.markers.color,
-                'stroke': this.markers.outlineColor,
-                'stroke-width': this.markers.outlineWidth
-              });
-              markers.exit().remove();
-              markers.transition().attr('cx', function (d) {
-                return _this2.x(d.x);
-              }).attr('cy', function (d) {
-                return _this2.y(d.y);
-              }).duration(0);
-              break;
-            default:
-              throw Error('Not a valid marker shape: ' + this.markers.shape);
-          }
+      // Append markers to lines
+      if (this.markers) {
+        switch (this.markers.shape) {
+          case 'circle':
+            var markers = this.svg.selectAll('.series').selectAll('circle').data(function (d, i) {
+              return d.values;
+            });
+            markers.enter().append('circle').attr('cx', function (d) {
+              return _this2.x(d.x);
+            }).attr('cy', function (d) {
+              return _this2.y(d.y);
+            }).attr('r', this.markers.size).style({
+              'fill': 'white',
+              'stroke-width': this.markers.outlineWidth
+            });
+            markers.exit().remove();
+            markers.transition().attr('cx', function (d) {
+              return _this2.x(d.x);
+            }).attr('cy', function (d) {
+              return _this2.y(d.y);
+            }).duration(0);
+            break;
+          default:
+            throw Error('Not a valid marker shape: ' + this.markers.shape);
         }
-
         // Add tooltips to the markers
         if (this.tooltip) {
           markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
@@ -1540,6 +1686,8 @@ var SvgLinechartStrategy = function (_SvgChart) {
       this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
       this.markers.size = config.markers.size || _default.Linechart.markers.size;
 
+      this.area = config.area || _default.Linechart.area;
+      this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
       this.xDataType = config.xDataType || _default.Linechart.xDataType;
       this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
 
@@ -1577,6 +1725,8 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
         _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(d3.time.weeks);
 
         _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
+
+        _this.keys = null;
         return _this;
     }
 
@@ -1595,6 +1745,18 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
             var dataLayered = null; //streamgraph layers
             var nColors = null; //number of colors = different keys
 
+            if (!this.keys) {
+                //Fist draw
+                this.keys = utils.keys(data, 'key');
+            } else {
+                if (!this.keys.equals(utils.keys(data, 'key'))) {
+                    console.warn('Attemping to draw a streamgraph with a different set of keys after initialization. Skipping.');
+                    console.log(this.keys);
+                    console.log(utils.keys(data, 'key'));
+                    return;
+                }
+            }
+
             //Initialize data
             if (!this._initialized) {
                 this._initialize();
@@ -1604,6 +1766,7 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
                 d.date = _this2.format.parse(d.date);
                 d.value = +d.value;
             });
+
             this.stack = d3.layout.stack().offset('silhouette').values(function (d) {
                 return d.values;
             }).x(function (d) {
@@ -1633,19 +1796,25 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
                 return d.y0 + d.y;
             })]);
 
-            nColors = utils.getNumberOfDifferentArrayKeys(data, 'key');
+            nColors = utils.keys(data, 'key').size;
 
             this.z = this.colorScale;
 
-            this._layers = this.svg.selectAll('.layer').data(dataLayered);
+            var series = this.svg.selectAll('.series').data(dataLayered).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
+                return _this2.colorScale(i);
+            });
 
-            this._layers.enter().append('path').attr('class', 'layer').attr('d', function (d) {
+            series.append('path');
+
+            var layers = this.svg.selectAll('path').data(dataLayered, function (d) {
+                return d.key;
+            });
+
+            layers.attr('class', 'layer').attr('d', function (d) {
                 return _this2.area(d.values);
             }).style('fill', function (d, i) {
                 return _this2.z(i);
             });
-
-            this._layers.exit().remove();
 
             this.svg.selectAll('.layer').attr('opacity', 1).on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
 
@@ -1901,23 +2070,15 @@ var SvgGaugeStrategy = function (_SvgChart) {
   function SvgGaugeStrategy(chartContext) {
     _classCallCheck(this, SvgGaugeStrategy);
 
-    // TODO extract to config
+    //Create scale
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgGaugeStrategy).call(this, chartContext));
 
-    _this.minAngle = -90;
-    _this.maxAngle = 90;
-    _this.needleLenghtRatio = 0.8;
-    _this.ticks = 5;
-    _this.ringWidth = 50;
-    _this.ringMargin = 20;
-    _this.labelInset = 10;
-    _this.needleNutRadius = 25;
+    _this.scale = d3.scale.linear().domain([_this.minLevel, _this.maxLevel]).range([0, 1]);
 
-    //Create scale
-    _this.scale = d3.scale.linear().range([0, 1]).domain([_this.minLevel, _this.maxLevel]);
+    _this.angleScale = d3.scale.linear().domain([_this.minLevel, _this.maxLevel]).range([90 + _this.minAngle, 90 + _this.maxAngle]);
 
-    _this.angleScale = d3.scale.linear().range([0, 180]).domain([_this.minLevel, _this.maxLevel]);
+    _this.colorScale.domain([0, 1]);
 
     _this.scaleMarks = _this.scale.ticks(_this.ticks);
     _this.tickData = d3.range(_this.ticks).map(function () {
@@ -1935,8 +2096,8 @@ var SvgGaugeStrategy = function (_SvgChart) {
   }
 
   /**
-   * Renders a linechart based on data object
-   * @param  {Object} data Data Object. Contains an array with x and y properties.
+   * Renders a gauge chart based on data object
+   * @param  {Object} data Data Object. Contains a numeric value.
    * 
    */
 
@@ -1952,16 +2113,18 @@ var SvgGaugeStrategy = function (_SvgChart) {
       this.datum = data[data.length - 1];
       needleLen = this.needleLenghtRatio * this.r;
 
-      // Append needle
+      // Append the needle
       if (!this.needle) {
         this.needle = this.svg.append('path').attr('class', 'needle').datum(this.datum.x).attr('transform', function (d) {
           return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(d) - 90) + ')';
-        }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0).attr('fill', 'indigo');
+        }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0);
       }
 
       this.needle.transition().attr('transform', function (d) {
         return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(_this2.datum.x) - 90) + ')';
-      }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0).attr('fill', 'indigo');
+      }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0);
+
+      this.svg.select('.text-indicator').text(this.datum.x);
 
       this._applyCSS();
     }
@@ -1994,13 +2157,22 @@ var SvgGaugeStrategy = function (_SvgChart) {
       arcs = this.svg.append('g').attr('class', 'arc').attr('transform', this.translation);
 
       // Append the ring sectors
-      arcs.selectAll('path').data(this.tickData).enter().append('path')
+      var arcPaths = arcs.selectAll('path').data(this.tickData).enter().append('path')
       // ID for textPath linking
       .attr('id', function (d, i) {
         return 'sector-' + i;
-      }).attr('fill', function (d, i) {
-        return _this3.colorScale(d * i * 5);
       }).attr('d', this.arc);
+
+      // Fill colors
+      if (this.invertColorScale) {
+        arcPaths.attr('fill', function (d, i) {
+          return _this3.colorScale(1 - d * i);
+        });
+      } else {
+        arcPaths.attr('fill', function (d, i) {
+          return _this3.colorScale(d * i);
+        });
+      }
 
       // Apend the scale labels
       labels = this.svg.append('g').attr('class', 'labels').attr('transform', this.translation);
@@ -2015,9 +2187,11 @@ var SvgGaugeStrategy = function (_SvgChart) {
       });
 
       // Append needle nut
-      this.svg.append('circle').attr('class', 'needle-nut').attr('transform', this.translation).attr('fill', 'indigo').attr('cx', 0).attr('cy', 0).attr('r', this.needleNutRadius);
+      this.svg.append('circle').attr('class', 'needle').attr('transform', this.translation).attr('cx', 0).attr('cy', 0).attr('r', this.needleNutRadius);
 
       this.svg.append('g').attr('class', 'needle');
+
+      this.svg.append('text').attr('class', 'text-indicator').attr('transform', this.translation).attr('x', 0).attr('y', 100).text('0');
 
       //Initialize SVG
       this._initialized = true;
@@ -2035,6 +2209,16 @@ var SvgGaugeStrategy = function (_SvgChart) {
 
       this.minLevel = config.minLevel || _default.Gauge.minLevel;
       this.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
+      this.minAngle = config.minAngle || _default.Gauge.minAngle;
+      this.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
+      this.ticks = config.ticks || _default.Gauge.ticks;
+      this.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
+      this.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
+      this.labelInset = config.labelInset || _default.Gauge.labelInset;
+      this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
+      this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
+      this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
+      this.numericIndicator = config.numericIndicator || _default.Gauge.numericIndicator;
 
       //Just for testing purposes
       return this;
@@ -2069,6 +2253,23 @@ var Chart = function () {
       throw new Error(clazz + ' is non-instanciable');
     }
     this.events = {};
+
+    //Create chaining api
+    Chart.prototype.custom = new Object();
+
+    var customProperties = [];
+    for (var p in _default[this.constructor.name]) {
+      //hasOwnProperty?
+      customProperties.push(p);
+    }
+
+    customProperties.forEach(function (property) {
+      Chart.prototype["custom"][property] = function (value) {
+        console.debug('changing property', property, 'to', value, this);
+        //create apply method to apply changes
+        return this;
+      };
+    });
   }
 
   /**
@@ -2279,6 +2480,40 @@ var Basic = function (_Chart) {
     return _this4;
   }
 
+  _createClass(Basic, [{
+    key: 'keepDrawing',
+    value: function keepDrawing(datum) {
+      var config = this.config;
+      var maxNumberOfElements = config.maxNumberOfElements;
+
+      if (!datum) {
+        console.warn('attemp to draw null datum');
+        return;
+      }
+
+      if (datum.constructor.name === 'Array') {
+        for (var i in datum) {
+          this.keepDrawing(datum[i]);
+        }
+      } else {
+        //Find serie or initialize this.
+        var serie = utils.findElement(this.data, 'key', datum.key);
+        if (!serie || !serie.values) {
+          serie = {
+            key: datum.key,
+            values: []
+          };
+          this.data.push(serie);
+        }
+        //use addToSerie()
+
+        serie.values = serie.values.concat(datum.values);
+      }
+      this.draw(this.data);
+      return this.data;
+    }
+  }]);
+
   return Basic;
 }(Chart);
 
@@ -2397,49 +2632,48 @@ var Barchart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
+      _get(Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum);
+      /**
       if (datum.key !== 'avg') return;
-
-      var dType = datum.constructor.name;
-      var dLength = 0;
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      //find serie
-      var serie = utils.findElement(this.data, 'key', datum.key);
-
-      if (!serie || !serie.values) {
+       let dType = datum.constructor.name;
+      let dLength = 0;
+      let config = this.config;
+      let maxNumberOfElements = config.maxNumberOfElements;
+       //find serie
+      let serie = utils.findElement(this.data, 'key', datum.key);
+       if (!serie || !serie.values) {
         serie = {
           key: datum.key,
           values: []
         };
         this.data.push(serie);
       }
-
-      if (dType === 'Array') {
+       if (dType === 'Array') {
         serie.values = serie.values.concat(datum);
         dLength = datum.length;
-      } else if (dType === 'Object') {
-
-        var element = utils.findElement(serie.values, 'x', datum.x);
-
-        if (element) {
+      }
+      else if (dType === 'Object') {
+         let element = utils.findElement(serie.values, 'x', datum.x);
+         if (element) {
           element.y = datum.y;
-        } else {
+        }
+        else {
           serie.values.push(datum);
         }
         dLength = 1;
-      } else {
+      }
+      else {
         throw TypeError('Unknown data type' + dType);
       }
-
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
+       if (maxNumberOfElements && maxNumberOfElements > 0) {
         if (this.data.length > maxNumberOfElements) {
-          for (var i = 0; i < dLength; i++) {
+          for (let i = 0; i < dLength; i++) {
             this.data.shift();
           }
         }
       }
-      _get(Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, this.data);
+      super.draw(this.data);
+      **/
     }
   }]);
 
@@ -2525,51 +2759,7 @@ var Linechart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      if (datum.key !== 'max') {
-        return;
-      }
-
-      var dType = datum.constructor.name;
-      var dLength = 0;
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      //find serie
-      var serie = utils.findElement(this.data, 'key', datum.key);
-
-      if (!serie || !serie.values) {
-        serie = {
-          key: datum.key,
-          values: []
-        };
-        this.data.push(serie);
-      }
-
-      if (dType === 'Array') {
-        serie.values = serie.values.concat(datum);
-        dLength = datum.length;
-      } else if (dType === 'Object') {
-        var element = utils.findElement(serie.values, 'x', datum.x);
-
-        if (element) {
-          element.y = datum.y;
-        } else {
-          serie.values.push(datum);
-        }
-        dLength = 1;
-      } else {
-        throw TypeError('Unknown data type' + dType);
-      }
-
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.data.length > maxNumberOfElements) {
-          for (var i = 0; i < dLength; i++) {
-            this.data.shift();
-          }
-        }
-      }
-
-      _get(Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, this.data);
+      return _get(Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum);
     }
   }]);
 
@@ -2697,7 +2887,7 @@ var Streamgraph = function (_Flow) {
 
   /**
    * Streamgraph constructor. It needs (at least) one argument to start: data.
-   * Optionally, you can indicate a second argument that includes all the chart options. If you 
+   * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
 
@@ -2787,7 +2977,7 @@ var Gauge = function (_Basic) {
 
   /**
    * Gauge constructor. It needs (at least) one argument to start: data.
-   * Optionally, you can indicate a second argument that includes all the chart options. If you 
+   * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
 
@@ -2887,6 +3077,8 @@ var Gauge = function (_Basic) {
                     return new Gauge(params.data, params.config);
                 case 'Streamgraph':
                     return new Streamgraph(params.data, params.config);
+                default:
+                    throw TypeError('Unknow chart type' + params.type);
             }
         }
     };

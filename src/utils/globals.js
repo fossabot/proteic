@@ -73,10 +73,12 @@ const _default = {
   Linechart: {
     selector: '#chart',
     xaxis: {
-      label: 'X'
+      label: 'X',
+      ticks: 5
     },
     yaxis: {
-      label: 'Y'
+      label: 'Y',
+      ticks: 5
     },
     colorScale: Colors.category7(),
     area: false,
@@ -112,7 +114,6 @@ const _default = {
         'font': '12px sans-serif'
       }
     },
-    ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',
       size: 5,

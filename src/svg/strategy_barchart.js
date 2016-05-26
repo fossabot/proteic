@@ -87,6 +87,19 @@ class SvgBarchartStrategy extends SvgChart {
 
     this.interactiveElements = this._bars;
     this._applyCSS();
+
+    // Check overlapping axis labels
+    var labelsWidth = 0;
+    this.svg.selectAll('.x.axis g.tick text')
+      .each(function() {
+        labelsWidth += this.getBBox().width;
+      });
+    if (labelsWidth > this.width) {
+      this.xticks = null;
+      this.xAxis.ticks(this.xticks);
+      this.svg.selectAll("g.x.axis")
+        .call(this.xAxis);
+    }
   }
 
 
