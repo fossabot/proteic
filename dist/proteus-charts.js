@@ -620,7 +620,7 @@ var _default = {
       bottom: 30,
       left: 50
     },
-    width: '80%', // %, auto, or numeric
+    width: '100%', // %, auto, or numeric
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip: function tooltip(data) {
@@ -670,7 +670,7 @@ var _default = {
       bottom: 30,
       left: 50
     },
-    width: 600,
+    width: '100%', // %, auto, or numeric
     height: 250,
     style: {
       '.line': {
@@ -760,7 +760,7 @@ var _default = {
       bottom: 30,
       left: 50
     },
-    width: 900,
+    width: '100%', // %, auto, or numeric
     height: 300,
     ticks: 5, // ticks for y axis.
     tooltip: function tooltip(object) {
@@ -816,7 +816,7 @@ var _default = {
       left: 50
     },
     width: '50%', // %, auto, or numeric
-    height: 500,
+    height: 250,
     style: {
       '.labels': {
         'font': '18px sans-serif',
@@ -1319,6 +1319,17 @@ var SvgBarchartStrategy = function (_SvgChart) {
 
       this.interactiveElements = this._bars;
       this._applyCSS();
+
+      // Check overlapping axis labels
+      var labelsWidth = 0;
+      this.svg.selectAll('.x.axis g.tick text').each(function () {
+        labelsWidth += this.getBBox().width;
+      });
+      if (labelsWidth > this.width) {
+        this.xticks = null;
+        this.xAxis.ticks(this.xticks);
+        this.svg.selectAll("g.x.axis").call(this.xAxis);
+      }
     }
   }, {
     key: '_transition2Stacked',
@@ -1537,32 +1548,6 @@ var SvgLinechartStrategy = function (_SvgChart) {
         });
       })]);
 
-      var isOverlapping = function isOverlapping(rect1, rect2) {
-        console.log(rect1.right + " " + rect2.left);
-        return rect1.right > rect2.left || rect1.left < rect2.right;
-      };
-
-      var tickLabels = d3.selectAll('.x.axis g.tick')[0];
-      for (var i = 0; i < tickLabels.length - 1; i++) {
-        console.log(isOverlapping(tickLabels[i].getBoundingClientRect(), tickLabels[i + 1].getBoundingClientRect()));
-
-        if (isOverlapping(tickLabels[i].getBoundingClientRect(), tickLabels[i + 1].getBoundingClientRect())) {
-          this.xAxis.ticks(this.xticks);
-        };
-      }
-
-      var labelsWidth = 0;
-      d3.selectAll('.x.axis g.tick').each(function (d, i) {
-        // console.log(this.getBoundingClientRect().width);
-        labelsWidth += this.getBoundingClientRect().width;
-      });
-
-      var axisWidth = this.svg.select('.x.axis').node().getBoundingClientRect().width;
-      console.log("---");
-      // console.log(labelsWidth);
-      // console.log(axisWidth);
-      // console.log(this.width);
-
       //Create a transition effect for axis rescaling
       this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
       this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
@@ -1661,6 +1646,17 @@ var SvgLinechartStrategy = function (_SvgChart) {
       }
 
       this._applyCSS();
+
+      // Check overlapping axis labels
+      var labelsWidth = 0;
+      this.svg.selectAll('.x.axis g.tick text').each(function () {
+        labelsWidth += this.getBBox().width;
+      });
+      if (labelsWidth > this.width) {
+        this.xticks = null;
+        this.xAxis.ticks(this.xticks);
+        this.svg.selectAll("g.x.axis").call(this.xAxis);
+      }
     }
   }, {
     key: '_initialize',
@@ -1685,8 +1681,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
       this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
       this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
       this.markers.size = config.markers.size || _default.Linechart.markers.size;
-
-      this.area = config.area || _default.Linechart.area;
+      this.area = typeof config.area === 'undefined' ? _default.Linechart.area : config.area;
       this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
       this.xDataType = config.xDataType || _default.Linechart.xDataType;
       this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
@@ -1862,208 +1857,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SvgMultiSeriesLinechartStrategy = function (_SvgChart) {
-  _inherits(SvgMultiSeriesLinechartStrategy, _SvgChart);
-
-  function SvgMultiSeriesLinechartStrategy(chartContext) {
-    _classCallCheck(this, SvgMultiSeriesLinechartStrategy);
-
-    //Create range function
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgMultiSeriesLinechartStrategy).call(this, chartContext));
-
-    _this.xAxisName = 'x';
-    _this.yAxisName = 'y';
-
-    _this.x = d3.scale.linear().range([0, _this.width]);
-    _this.y = d3.scale.linear().range([_this.height, 0]);
-
-    //Create scale
-    _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(10);
-
-    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
-
-    _this.keyFunction = function (d) {
-      return d.x;
-    };
-    return _this;
-  }
-
-  /**
-   * Renders a linechart based on data object
-   * @param  {Object} data Data Object. Contains an array with x and y properties.
-   * 
-   */
-
-
-  _createClass(SvgMultiSeriesLinechartStrategy, [{
-    key: 'draw',
-    value: function draw(data) {
-      var _this2 = this;
-
-      var line = null;
-      var path = null;
-      var markers = null;
-      _get(Object.getPrototypeOf(SvgMultiSeriesLinechartStrategy.prototype), 'draw', this).call(this, data);
-
-      //Re-scale axis
-      this.x.domain([d3.min(data, function (series) {
-        return d3.min(series.values, function (d) {
-          return d.x;
-        });
-      }), d3.max(data, function (series) {
-        return d3.max(series.values, function (d) {
-          return d.x;
-        });
-      })]);
-      this.y.domain([0, d3.max(data, function (series) {
-        return d3.max(series.values, function (d) {
-          return d.y;
-        });
-      })]);
-
-      //Create a transition effect for axis rescaling
-      this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
-      this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
-
-      // Bind data
-      line = d3.svg.line().x(function (d) {
-        return _this2.x(d.x);
-      }).y(function (d) {
-        return _this2.y(d.y);
-      });
-
-      for (var series in data) {
-        if (!this.paths) {
-          this.svg.append('path')
-          // .datum(data[series].values, this.keyFunction)
-          .data(data[series].values).style('stroke', this.colorScale(series)).attr('class', data[series].key).attr('d', line(data[series].values));
-        }
-      }
-      this.paths = true;
-
-      for (var series in data) {
-        // Create path and bind data to it
-        this.svg.select('.' + data[series].key)
-        // .datum(data[series].values, this.keyFunction)
-        .data(data[series].values).style('stroke', this.colorScale(series)).attr('d', line(data[series].values));
-
-        // Append markers to line
-        if (this.markers) {
-          switch (this.markers.shape) {
-            case 'circle':
-              markers = this.svg.selectAll('circle').data(data[series].values, this.keyFunction);
-
-              markers.enter().append('circle').attr('cx', function (d) {
-                return _this2.x(d.x);
-              }).attr('cy', function (d) {
-                return _this2.y(d.y);
-              }).attr('r', this.markers.size).style({
-                'fill': this.markers.color,
-                'stroke': this.markers.outlineColor,
-                'stroke-width': this.markers.outlineWidth
-              });
-
-              markers.transition().attr('cx', function (d) {
-                return _this2.x(d.x);
-              }).attr('cy', function (d) {
-                return _this2.y(d.y);
-              }).duration(0);
-
-              break;
-            default:
-              throw Error('Not a valid marker shape: ' + this.markers.shape);
-          }
-
-          // Add tooltips to the markers
-          if (this.tooltip) {
-            markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
-          }
-
-          // Add events to the markers
-          markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
-        }
-
-        this.interactiveElements = markers;
-      }
-
-      this._applyCSS();
-    }
-  }, {
-    key: '_initialize',
-    value: function _initialize() {
-      var width = this.width + this.margin.left + this.margin.right;
-      var height = this.height + this.margin.left + this.margin.right;
-
-      //Create a global 'g' (group) element
-      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-      //Create tooltip (d3-tip)
-      if (this.tip) {
-        this.tooltip = d3.tip().attr('class', 'd3-tip').style({
-          'line-height': 1,
-          'padding': '12px',
-          'background': 'rgba(0, 0, 0, 0.8)',
-          'color': '#fff',
-          'border-radius': '2px',
-          'pointer-events': 'none'
-        }).html(this.tip);
-        this.svg.call(this.tooltip);
-      }
-
-      //Append a new group with 'x' aXis
-      this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
-
-      //Append a new group with 'y' aXis
-      this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '5, 5').call(this.yAxis).append('text');
-
-      // Append axes labels
-      this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'xaxis-label').attr('x', this.width / 2).attr('y', this.height + this.margin.bottom).text(this.xAxisLabel);
-      this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'yaxis-label').attr('transform', 'rotate(-90)').attr('x', -this.height / 2).attr('y', -this.margin.left / 1.3).text(this.yAxisLabel);
-
-      //Initialize SVG
-      this._initialized = true;
-    }
-
-    /**
-     * This method adds config options to the chart context.
-     * @param  {Object} config Config object
-     */
-
-  }, {
-    key: '_loadConfigOnContext',
-    value: function _loadConfigOnContext(config) {
-      _get(Object.getPrototypeOf(SvgMultiSeriesLinechartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-
-      if (_default.MultiSeriesLinechart.markers) {
-        config.markers = {};
-        this.markers = {};
-        this.markers.color = config.markers.color || _default.MultiSeriesLinechart.markers.color;
-        this.markers.outlineColor = config.markers.outlineColor || _default.MultiSeriesLinechart.markers.outlineColor;
-        this.markers.outlineWidth = config.markers.outlineWidth || _default.MultiSeriesLinechart.markers.outlineWidth;
-        this.markers.shape = config.markers.shape || _default.MultiSeriesLinechart.markers.shape;
-        this.markers.size = config.markers.size || _default.MultiSeriesLinechart.markers.size;
-      }
-
-      //Just for testing purposes
-      return this;
-    }
-  }]);
-
-  return SvgMultiSeriesLinechartStrategy;
-}(SvgChart);
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var SvgGaugeStrategy = function (_SvgChart) {
   _inherits(SvgGaugeStrategy, _SvgChart);
 
@@ -2191,7 +1984,9 @@ var SvgGaugeStrategy = function (_SvgChart) {
 
       this.svg.append('g').attr('class', 'needle');
 
-      this.svg.append('text').attr('class', 'text-indicator').attr('transform', this.translation).attr('x', 0).attr('y', 100).text('0');
+      if (this.numericIndicator) {
+        this.svg.append('text').attr('class', 'text-indicator').attr('transform', this.translation).attr('x', 0).attr('y', 100).text('0');
+      }
 
       //Initialize SVG
       this._initialized = true;
@@ -2217,9 +2012,8 @@ var SvgGaugeStrategy = function (_SvgChart) {
       this.labelInset = config.labelInset || _default.Gauge.labelInset;
       this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
       this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-      this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
-      this.numericIndicator = config.numericIndicator || _default.Gauge.numericIndicator;
-
+      this.invertColorScale = typeof config.invertColorScale === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
+      this.numericIndicator = typeof config.numericIndicator === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
       //Just for testing purposes
       return this;
     }
@@ -2768,106 +2562,6 @@ var Linechart = function (_Basic) {
 'use strict';
 
 /**
- * Linechart implementation. This charts belongs to 'Basic' family.
- * It is inherited on 'Basic'.
- */
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MultiSeriesLinechart = function (_Basic) {
-  _inherits(MultiSeriesLinechart, _Basic);
-
-  /**
-   * Linechart constructor. It needs (at least) one argument to start: data.
-   * Optionally, you can indicate a second argument that includes all the chart options. If you
-   * do not specify this, '_default' object is used by default.
-   */
-
-  function MultiSeriesLinechart(data, config) {
-    _classCallCheck(this, MultiSeriesLinechart);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MultiSeriesLinechart).call(this));
-
-    if (!arguments.length) {
-      throw new Error('Missing constructor parameters');
-    }
-
-    _this._inferDataSource(arguments[0]);
-
-    switch (arguments.length) {
-      case 1:
-        _this.data = arguments[0];
-        _this.config = _default[_this.constructor.name];
-        break;
-      case 2:
-        _this.data = arguments[0];
-        _this.config = arguments[1];
-        break;
-      default:
-        throw Error('Unrecognized number of paremeters: ' + arguments);
-    }
-    _this._initializeSVGContext();
-    return _this;
-  }
-
-  /**
-   * Renders a data object on the chart.
-   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
-   * specify this param, this.data will be used instead.
-   */
-
-
-  _createClass(MultiSeriesLinechart, [{
-    key: 'draw',
-    value: function draw() {
-      var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
-
-      _get(Object.getPrototypeOf(MultiSeriesLinechart.prototype), 'draw', this).call(this, data);
-    }
-
-    /**
-     * Add new data to the current graph. If it is empty, this creates a new one.
-     * @param  {[Object]} datum data to be rendered
-     */
-
-  }, {
-    key: 'keepDrawing',
-    value: function keepDrawing(datum) {
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-      if (!this.datum) {
-        this.datum = datum;
-      } else {
-        for (var i = 0; i < datum.length; i++) {
-          this.datum[i].values = this.datum[i].values.concat(datum[i].values);
-        }
-      }
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
-        for (var i = 0; i < datum.length; i++) {
-          if (this.datum[i].values.length > maxNumberOfElements) {
-            for (var j = 0; j < datum[i].values.length; j++) {
-              this.datum[i].values.shift();
-            }
-          }
-        }
-      }
-      _get(Object.getPrototypeOf(MultiSeriesLinechart.prototype), 'draw', this).call(this, this.datum);
-    }
-  }]);
-
-  return MultiSeriesLinechart;
-}(Basic);
-'use strict';
-
-/**
  * Streamgraph implementation. This charts belongs to 'Flow' family.
  * It is inherited on 'Flow'.
  */
@@ -3066,7 +2760,7 @@ var Gauge = function (_Basic) {
 'use strict';
 
 (function () {
-    window['ProteusFactory'] = {
+    window.ProteusFactory = {
         create: function create(params) {
             switch (params.type) {
                 case 'Linechart':

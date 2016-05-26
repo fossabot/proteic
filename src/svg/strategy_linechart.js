@@ -211,8 +211,7 @@ class SvgLinechartStrategy extends SvgChart {
     this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
     this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
     this.markers.size = config.markers.size || _default.Linechart.markers.size;
-
-    this.area = config.area || _default.Linechart.area;
+    this.area = typeof(config.area) === 'undefined' ?  _default.Linechart.area : config.area;
     this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
     this.xDataType = config.xDataType || _default.Linechart.xDataType;
     this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
