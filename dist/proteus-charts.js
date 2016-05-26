@@ -815,7 +815,7 @@ var _default = {
       left: 50
     },
     width: '50%', // %, auto, or numeric
-    height: 500,
+    height: 250,
     style: {
       '.labels': {
         'font': '18px sans-serif',
