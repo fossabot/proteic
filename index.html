@@ -8,21 +8,41 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="assets/css/main.css" />
+
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
 	<style>
-		.chart {
-			margin-bottom: 10px;
+		.chart {}
+		
+		.chart:after {
+			content: "";
+			display: table;
+			clear: both;
 		}
 		
 		.chartbox {
 			background-color: white;
+			-moz-border-radius: 5px 1px / 1px 5px;
+			border-radius: 5px 1px / 1px 5px;
+			width: 50%;
+			float: left;
 			width: 50%;
 		}
 		
 		.chartcode {
 			width: 50%;
+			float: right;
+			width: 50%;
+			padding-left: 32px;
+		}
+		
+		@media screen and (max-width: 480px) {
+			.chartbox,
+			.chartcode {
+				float: none;
+				width: auto;
+			}
 		}
 	</style>
 </head>
@@ -49,7 +69,7 @@
 		<!-- Intro -->
 		<section id="intro" class="wrapper style1 fullscreen fade-up">
 			<div class="inner">
-				<h1>proteus-charts</h1>
+				<h1 class="major">proteus-charts</h1>
 				<p>An awesome web visualization library for both streaming and batch data.</p>
 				<p>Give it a try, you'll love it.😍 😍 😍</p>
 				<ul class="actions">
@@ -108,32 +128,57 @@
 		<section id="two" class="wrapper style3 fade-up">
 			<div class="inner">
 				<h2>proteus-charts</h2>
+
 				<!-- Simple Linechart -->
 				<h3>Simple linechart</h3>
 				<div class="chart">
 					<div class="chartbox" id="linechart"></div>
 					<div class="chartcode">
-						<pre>
-							<code class="javascript">
+						<code class="javascript">
 								var linechart = new Linechart(data);
 								linechart.draw();
 							</code>
-						</pre>
 					</div>
 				</div>
+				<hr/>
 				<!-- Simple Barchart -->
 				<h3>Simple barchart</h3>
 				<div class="chart">
 					<div class="chartbox" id="barchart"></div>
 					<div class="chartcode">
-						<pre>
-							<code class="javascript">
+						<code class="javascript">
 								var barchart = new Barchart(data);
 								barchart.draw();
 							</code>
-						</pre>
 					</div>
 				</div>
+				<hr/>
+
+				<!-- Simple Streamgraph -->
+				<h3>Simple barchart</h3>
+				<div class="chart">
+					<div class="chartbox" id="streamgraph"></div>
+					<div class="chartcode">
+						<code class="javascript">
+								var streamgraph = new Streamgraph(sData);
+								streamgraph.draw();
+							</code>
+					</div>
+				</div>
+				<hr/>
+
+				<!-- Simple Gauge -->
+				<h3>Simple barchart</h3>
+				<div class="chart">
+					<div class="chartbox" id="gaugegraph"></div>
+					<div class="chartcode">
+						<code class="javascript">
+								var gauge = new Gauge(gData);
+								gauge.draw();
+							</code>
+					</div>
+				</div>
+				<hr/>
 
 
 				<h3>Features</h3>
@@ -268,6 +313,9 @@
 	<!-- example chart -->
 	<script src="assets/js/charts/linechart.js"></script>
 	<script src="assets/js/charts/barchart.js"></script>
+	<script src="assets/js/charts/streamgraph.js"></script>
+	<script src="assets/js/charts/gauge.js"></script>
+
 	<script>
 		hljs.initHighlightingOnLoad();
 		$(document).ready(function() {
