@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/highlights.css">
 
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -134,10 +135,10 @@
 				<div class="chart">
 					<div class="chartbox" id="linechart"></div>
 					<div class="chartcode">
-						<code class="javascript">
-								var linechart = new Linechart(data);
-								linechart.draw();
-							</code>
+						<pre>
+							<code class="Javascript">var linechart = new Linechart(data);
+linechart.draw();</code>
+						</pre>
 					</div>
 				</div>
 				<hr/>
@@ -146,10 +147,10 @@
 				<div class="chart">
 					<div class="chartbox" id="barchart"></div>
 					<div class="chartcode">
-						<code class="javascript">
-								var barchart = new Barchart(data);
-								barchart.draw();
-							</code>
+						<pre>
+							<code class="Javascript">var barchart = new Barchart(data);
+barchart.draw();</code>
+						</pre>
 					</div>
 				</div>
 				<hr/>
@@ -159,10 +160,10 @@
 				<div class="chart">
 					<div class="chartbox" id="streamgraph"></div>
 					<div class="chartcode">
-						<code class="javascript">
-								var streamgraph = new Streamgraph(sData);
-								streamgraph.draw();
-							</code>
+						<pre>
+							<code class="Javascript">var streamgraph = new Streamgraph(sData);
+streamgraph.draw();</code>
+						</pre>
 					</div>
 				</div>
 				<hr/>
@@ -172,14 +173,17 @@
 				<div class="chart">
 					<div class="chartbox" id="gaugegraph"></div>
 					<div class="chartcode">
-						<code class="javascript">
-								var gauge = new Gauge(gData);
-								gauge.draw();
-							</code>
+						<pre>
+							<code class="Javascript">var gauge = new Gauge(gData);
+gauge.draw();</code>
+						</pre>
 					</div>
 				</div>
 				<hr/>
 
+				<ul class="actions">
+					<li><a href="#" class="button">See the full catalogue here</a></li>
+				</ul>
 
 				<h3>Features</h3>
 				<div class="features">
@@ -317,11 +321,8 @@
 	<script src="assets/js/charts/gauge.js"></script>
 
 	<script>
-		hljs.initHighlightingOnLoad();
 		$(document).ready(function() {
-			$('pre code').each(function(i, block) {
-				hljs.highlightBlock(block);
-			});
+			hljs.initHighlightingOnLoad();
 		});
 	</script>
 
