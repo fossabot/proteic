@@ -34,7 +34,7 @@ const _default = {
       bottom: 30,
       left: 50
     },
-    width: '80%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric 
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip(data) { // Allows HTML
@@ -87,7 +87,7 @@ const _default = {
       bottom: 30,
       left: 50
     },
-    width: 600,
+    width: '100%', // %, auto, or numeric 
     height: 250,
     style: {
       '.line': {
@@ -185,7 +185,7 @@ const _default = {
       bottom: 30,
       left: 50
     },
-    width: 900,
+    width: '100%', // %, auto, or numeric 
     height: 300,
     ticks: 5, // ticks for y axis.
     tooltip(object) {

@@ -14,8 +14,6 @@ const webdriver_update = require('gulp-protractor').webdriver_update;
 const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const webserver = require('gulp-webserver');
 const shell = require('gulp-shell');
-
-
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -47,12 +45,10 @@ gulp.task('concat', ['babel'], () => {
     './lib/svg/strategy_barchart.js',
     './lib/svg/strategy_linechart.js',
     './lib/svg/strategy_streamgraph.js',
-    './lib/svg/strategy_multiseries_linechart.js',
     './lib/svg/strategy_gauge.js',
     './lib/charts/classes.js',
     './lib/charts/barchart.js',
     './lib/charts/linechart.js',
-    './lib/charts/multiseries_linechart.js',
     './lib/charts/streamgraph.js',
     './lib/charts/gauge.js',
     './lib/utils/factory.js'
@@ -76,7 +72,7 @@ gulp.task('vendor', ['vendor:compile'], () => {
 });
 
 gulp.task('minify', ['concat'], () => {
-  return gulp.src('dist/' + libname + '.js')
+  gulp.src('dist/' + libname + '.js')
     .pipe(uglify())
     .pipe(rename(libname + '.min.js'))
     .pipe(gulp.dest('dist'));
@@ -88,7 +84,7 @@ gulp.task('test:unit', (done) => {
     singleRun: true
   }, done).start();
 });
-
+/**
 // Downloads the selenium webdriver
 gulp.task('webdriver_update', webdriver_update);
 
@@ -105,25 +101,29 @@ gulp.task('test:e2e', ['webdriver_update', 'webserver'], () => {
     }))
     .on('end', () => {
       console.log('E2E Testing complete');
-      process.exit(0);
+      w.emit('kill');
+      //process.exit(0);
     })
     .on('error', (err) => {
       console.error('E2E Tests failed:');
       console.error(err);
-      process.exit(0); //todo: change this
+      w.emit('kill');
+      //process.exit(0); //todo: change this
     });
 });
 
 gulp.task('webserver', function () {
-  return gulp.src('')
+  w =  gulp.src('')
     .pipe(webserver({
       livereload: false,
       directoryListing: true,
       open: true,
-      port: 9000
+      port: 9001
     }));
 });
+*/
+//gulp.task('test', ['test:unit', 'test:e2e']);
+gulp.task('test', ['test:unit']);
 
-gulp.task('test', ['test:unit', 'test:e2e']);
 gulp.task('build', ['test', 'syntax', 'vendor', 'minify']);
 gulp.task('default', ['test', 'build']);

@@ -95,7 +95,7 @@ class SvgGaugeStrategy extends SvgChart {
     var arcPaths = arcs.selectAll('path')
       .data(this.tickData)
       .enter().append('path')
-    // ID for textPath linking
+      // ID for textPath linking
       .attr('id', (d, i) => 'sector-' + i)
       .attr('d', this.arc);
 
@@ -118,7 +118,7 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('transform', (d) => {
         var ratio = this.scale(d);
         var newAngle = this.minAngle + (ratio * this.range);
-        return 'rotate(' + newAngle +') translate(0,' + (this.labelInset - this.r) +')';
+        return 'rotate(' + newAngle + ') translate(0,' + (this.labelInset - this.r) + ')';
       })
       .text((d) => d);
 
@@ -133,12 +133,14 @@ class SvgGaugeStrategy extends SvgChart {
     this.svg.append('g')
       .attr('class', 'needle');
 
-    this.svg.append('text')
-      .attr('class', 'text-indicator')
-      .attr('transform', this.translation)
-      .attr('x', 0)
-      .attr('y', 100)
-      .text('0');
+    if (this.numericIndicator) {
+      this.svg.append('text')
+        .attr('class', 'text-indicator')
+        .attr('transform', this.translation)
+        .attr('x', 0)
+        .attr('y', 100)
+        .text('0');
+    }
 
     //Initialize SVG
     this._initialized = true;
@@ -161,9 +163,8 @@ class SvgGaugeStrategy extends SvgChart {
     this.labelInset = config.labelInset || _default.Gauge.labelInset;
     this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
     this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-    this.invertColorScale = config.invertColorScale || _default.Gauge.invertColorScale;
-    this.numericIndicator = config.numericIndicator || _default.Gauge.numericIndicator;
-
+    this.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
+    this.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
     //Just for testing purposes
     return this;
   }

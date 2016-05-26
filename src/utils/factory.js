@@ -1,5 +1,5 @@
 (() => {
-    window['ProteusFactory'] = {
+    window.ProteusFactory = {
         create(params) {
             switch (params.type) {
                 case 'Linechart':
