@@ -323,10 +323,22 @@ const _default = {
         'stroke': '#fff',
         'stroke-width': 2,
         'shape-rendering': 'crispEdge'
+      },
+      '.infobox': {
+        'text-anchor': 'middle',
+        'alignment-baseline': 'central',
+        'fill': 'black'
+      },
+      '.infobox .name': {
+        'font': '28px sans-serif'
+      },
+      '.infobox .value': {
+        'font': '24px sans-serif',
+        'transform': 'translate(0, 1.5em)'
       }
     },
     tooltip(data) {
-      return JSON.stringify(data);
+      return data.name + ': ' + data.value;
     },
     events: {
       down() {

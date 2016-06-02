@@ -13,6 +13,7 @@ class SvgSunburstStrategy extends SvgChart {
     if (!this._initialized) {
       this._initialize();
     }
+
     // Remove all the paths before redrawing
     this._removePaths();
 
@@ -32,10 +33,62 @@ class SvgSunburstStrategy extends SvgChart {
       .data(partition.nodes(data))
       .enter().append('path')
       .attr('d', this.arcGen)
-      .style('fill', (d) => this.colorScale((d.children ? d : d.parent).name))
-      .on('click', (d) => this._zoom(d))
-      .append('title')
-      .text((d) => d.name + '\n' + d.value);
+      .style('fill', (d) => {
+        if (!d.parent) {
+          return 'white';
+        } else {
+          return this.colorScale((d.children ? d : d.parent).name);
+        }
+      });
+
+    // Create infobox
+    var infobox = this.svg
+      .append('g')
+      .attr('class', 'infobox')
+      .attr('pointer-events', 'none');
+    // Append central circle
+    // infobox.append('circle')
+    //   .attr('cx', 0)
+    //   .attr('cy', 0)
+    //   .attr('r', 90)
+    //   .attr('fill', 'rgba(255, 255, 255, 0.7)')
+      // .attr('fill', 'white')
+      // .attr('pointer-events', 'none');
+    infobox.append('text')
+      .attr('class', 'name')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('pointer-events', 'none');
+    infobox.append('text')
+      .attr('class', 'value')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('pointer-events', 'none');
+
+
+    paths
+      .on('mouseover', (d) => {
+        var ancestors = this._getAncestors(d);
+        // Fade all the arcs
+        d3.selectAll('path')
+          .style('opacity', 0.4);
+        d3.selectAll('path')
+          .filter((node) => ancestors.indexOf(node) >= 0)
+          .style('opacity', 1);
+        // Hightlight the hovered arc
+        // d.parent ?
+        //   d3.select(this).style('opacity', 1) :
+        //   d3.select('.infobox .name').style('font-weight', 'bold');
+      })
+      .on('mouseout', function(d) {
+        d3.selectAll('path').style('opacity', 1);
+        d3.select('.infobox .name').style('font-weight', 'normal');
+      })
+      .on('click', (d) => {
+        this._zoom(d);
+        this.svg.select('.infobox .name').text(d.name);
+        this.svg.select('.infobox .value').text(d.value);
+      });
 
     d3.select(self.frameElement).style('height', this.height + 'px');
 
@@ -51,11 +104,11 @@ class SvgSunburstStrategy extends SvgChart {
   _zoom(d) {
     this.svg
       .transition()
-      .duration(750)
+      .duration(450)
       .tween('scale', () => {
         var xd = d3.interpolate(this.x.domain(), [d.x, d.x + d.dx]),
           yd = d3.interpolate(this.y.domain(), [d.y, 1]),
-          yr = d3.interpolate(this.y.range(), [d.y ? 20 : 0, this.radius]);
+          yr = d3.interpolate(this.y.range(), [d.y ? 30 : 0, this.radius]);
         return (t) => {
           this.x.domain(xd(t));
           this.y.domain(yd(t)).range(yr(t));
@@ -63,6 +116,23 @@ class SvgSunburstStrategy extends SvgChart {
       })
       .selectAll('path')
       .attrTween('d', (d) => () => this.arcGen(d) );
+  }
+
+
+  /**
+   * From: http://bl.ocks.org/kerryrodden/7090426
+   * @param node
+   * @returns {Array}
+   * @private
+   */
+  _getAncestors(node) {
+    var path = [];
+    var current = node;
+    while (current.parent) {
+      path.unshift(current);
+      current = current.parent;
+    }
+    return path;
   }
 
   /**
@@ -87,13 +157,29 @@ class SvgSunburstStrategy extends SvgChart {
     this.y = d3.scale.sqrt()
       .range([0, this.radius]);
 
-    //Create a global 'g' (group) element
+    // Create a global 'g' (group) element
     this.svg = d3
       .select(this.selector).append('svg')
       .attr({ width, height })
       .append('g')
-      .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+      .attr('transform', 'translate(' + width / 2 + ',' + (height / 2) + ')');
 
+
+    //Create tooltip (d3-tip)
+    // if (this.tip) {
+    //   this.tooltip = d3.tip()
+    //     .attr('class', 'd3-tip')
+    //     .style({
+    //       'line-height': 1,
+    //       'padding': '12px',
+    //       'background': 'rgba(0, 0, 0, 0.8)',
+    //       'color': '#fff',
+    //       'border-radius': '2px',
+    //       'pointer-events': 'none',
+    //     })
+    //     .html(this.tip);
+    //   this.svg.call(this.tooltip);
+    // }
 
     //Initialize SVG
     this._initialized = true;
