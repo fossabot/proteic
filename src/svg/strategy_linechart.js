@@ -12,7 +12,7 @@ class SvgLinechartStrategy extends SvgChart {
         this.xAxis = d3.svg.axis()
           .scale(this.x)
           .orient('bottom')
-          .ticks(5);
+          .ticks(this.xticks);
         break;
       case 'Date':
         this.x = d3.time.scale().range([0, this.width]);
@@ -20,14 +20,14 @@ class SvgLinechartStrategy extends SvgChart {
         this.xAxis = d3.svg.axis()
           .scale(this.x)
           .orient('bottom')
-          .ticks(15);
+          .ticks(this.xticks);
         break;
       default:
         this.x = d3.scale.linear().range([0, this.width]);
         this.xAxis = d3.svg.axis()
           .scale(this.x)
           .orient('bottom')
-          .ticks(10);
+          .ticks(this.xticks);
     }
 
     this.y = d3.scale.linear().range([this.height, 0]);
@@ -37,7 +37,7 @@ class SvgLinechartStrategy extends SvgChart {
       .innerTickSize(-this.width)
       .outerTickSize(0)
       .tickPadding(20)
-      .ticks(this.ticks, this.tickLabel);
+      .ticks(this.yticks, this.tickLabel);
 
     this.keyFunction = ((d) => d.x);
     this.seriesKeyFunction = ((d) => d.key);
@@ -178,6 +178,19 @@ class SvgLinechartStrategy extends SvgChart {
     }
 
     this._applyCSS();
+
+    // Check overlapping axis labels
+    var labelsWidth = 0;
+    this.svg.selectAll('.x.axis g.tick text')
+      .each(function() {
+        labelsWidth += this.getBBox().width;
+      });
+    if (labelsWidth > this.width) {
+      this.xticks = null;
+      this.xAxis.ticks(this.xticks);
+      this.svg.selectAll("g.x.axis")
+        .call(this.xAxis);
+    }
   }
 
   _initialize() {

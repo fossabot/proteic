@@ -654,10 +654,12 @@ var _default = {
   Linechart: {
     selector: '#chart',
     xaxis: {
-      label: 'X'
+      label: 'X',
+      ticks: 5
     },
     yaxis: {
-      label: 'Y'
+      label: 'Y',
+      ticks: 5
     },
     colorScale: Colors.category7(),
     area: false,
@@ -693,7 +695,6 @@ var _default = {
         'font': '12px sans-serif'
       }
     },
-    ticks: 5, // ticks for y axis.
     markers: {
       shape: 'circle',
       size: 5,
@@ -1161,6 +1162,8 @@ var SvgChart = function () {
             this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
             this.height = config.height || _default[this.cType].height;
             this.ticks = config.ticks || _default[this.cType].ticks;
+            this.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
+            this.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
             this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
             this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
             //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
@@ -1316,6 +1319,17 @@ var SvgBarchartStrategy = function (_SvgChart) {
 
       this.interactiveElements = this._bars;
       this._applyCSS();
+
+      // Check overlapping axis labels
+      var labelsWidth = 0;
+      this.svg.selectAll('.x.axis g.tick text').each(function () {
+        labelsWidth += this.getBBox().width;
+      });
+      if (labelsWidth > this.width) {
+        this.xticks = null;
+        this.xAxis.ticks(this.xticks);
+        this.svg.selectAll("g.x.axis").call(this.xAxis);
+      }
     }
   }, {
     key: '_transition2Stacked',
@@ -1464,20 +1478,20 @@ var SvgLinechartStrategy = function (_SvgChart) {
     switch (_this.xDataType) {
       case 'Numeric':
         _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(5);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
         break;
       case 'Date':
         _this.x = d3.time.scale().range([0, _this.width]);
         _this.format = d3.time.format(_this.xDateformat);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(15);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
         break;
       default:
         _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(10);
+        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
     }
 
     _this.y = d3.scale.linear().range([_this.height, 0]);
-    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
+    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.yticks, _this.tickLabel);
 
     _this.keyFunction = function (d) {
       return d.x;
@@ -1632,6 +1646,17 @@ var SvgLinechartStrategy = function (_SvgChart) {
       }
 
       this._applyCSS();
+
+      // Check overlapping axis labels
+      var labelsWidth = 0;
+      this.svg.selectAll('.x.axis g.tick text').each(function () {
+        labelsWidth += this.getBBox().width;
+      });
+      if (labelsWidth > this.width) {
+        this.xticks = null;
+        this.xAxis.ticks(this.xticks);
+        this.svg.selectAll("g.x.axis").call(this.xAxis);
+      }
     }
   }, {
     key: '_initialize',

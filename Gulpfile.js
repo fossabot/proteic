@@ -14,6 +14,7 @@ const webdriver_update = require('gulp-protractor').webdriver_update;
 const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const webserver = require('gulp-webserver');
 const shell = require('gulp-shell');
+const jsinspect = require('gulp-jsinspect');
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -83,6 +84,14 @@ gulp.task('test:unit', (done) => {
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
+});
+
+gulp.task('jsinspect', () => {
+  return gulp.src([
+    'src/**/*.js',
+    '!dist/**/*.js',
+    '!src/utils/colors.js'
+  ]).pipe(jsinspect());
 });
 /**
 // Downloads the selenium webdriver

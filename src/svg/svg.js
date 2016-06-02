@@ -144,6 +144,8 @@ class SvgChart {
             : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
         this.height = config.height || _default[this.cType].height;
         this.ticks = config.ticks || _default[this.cType].ticks;
+        this.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
+        this.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
         this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
         this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
         //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
