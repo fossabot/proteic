@@ -25,7 +25,10 @@ var data = [
 var linechart = new Linechart(data);
 linechart.draw();
 ```
-## Features
+You can see a full list of examples on: [http://proteus-h2020.github.io/proteus-charts/](http://proteus-h2020.github.io/proteus-charts/)
+
+Features
+--------
 - Ready for batch and streaming data
 - Streaming support via WebSockets
 - Configurable charts via JSON
@@ -36,13 +39,20 @@ linechart.draw();
   - Gauge chart
   - Sunburst diagram
   - More comming Soon™
-## Running the examples
+
+Running the examples
+--------------------
 ```bash
 git clone https://github.com/proteus-h2020/proteus-charts && cd proteus-charts
 npm install
 npm run serve
 ```
 Now you can browse on http://localhost:8888 and see the full list of working examples
+
+
+Contribute
+----------
+Proteus Charts its an Open Source project. We encourage you to read our [contribution guidelines](https://github.com/proteus-h2020/proteus-charts/blob/master/CONTRIBUTING.md) and help us with the development process.
 
 ## Examples
 
