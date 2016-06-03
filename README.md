@@ -15,7 +15,7 @@ Creating a chart with Proteus Charts is as easy as:
 <script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>
 ```
 - Creating some charts:
-```
+```js
 var linechart = new Linechart(data);
 linechart.draw();
 ```
