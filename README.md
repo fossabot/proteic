@@ -16,6 +16,12 @@ Creating a chart with Proteus Charts is as easy as:
 ```
 - Creating some charts:
 ```js
+var data = [
+  {
+    'key': 'serie1',
+    values: [{x:0, y:1}, {x:1, y:4}]
+  }
+];
 var linechart = new Linechart(data);
 linechart.draw();
 ```
