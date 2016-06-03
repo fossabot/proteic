@@ -1,25 +1,32 @@
-# proteus-charts 
+proteus-charts 
+==============
 [![Build Status](https://travis-ci.org/proteus-h2020/proteus-charts.svg?branch=development)](https://travis-ci.org/proteus-h2020/proteus-charts)
 [![Dependency Status](https://www.versioneye.com/user/projects/57303069a0ca35004baf8700/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57303069a0ca35004baf8700)
 [![codecov](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/828f75b1887540969e7e79937715198b)](https://www.codacy.com/app/nachogarcia91/proteus-charts)
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteus-charts.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteus-charts)
 
-HTML5 and CSS3 charts.
+An awesome web visualization library for both streaming and batch data. It is part of the broader [PROTEUS project](http://www.proteus-bigdata.com/). 
 
+Creating a chart with Proteus Charts is as easy as:
 
-## How to run
-`cd proteus-charts`
+- Including the dependencies: 
+```html
+<script src='https://rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>
+```
+- Creating some charts:
+```
+var linechart = new Linechart(data);
+linechart.draw();
+```
 
-`npm install`
-
-`npm serve`
-
-Open your browser on http://localhost:8888 and visit the examples folder.
-
-**Note**: If you wan to run the websocket_* examples, you need to start a websocket server in the background. This project provides a very basic implementation of this (it sends random data every half second):
-
-`node websocket-server.js`
+## Running the examples
+```bash
+git clone https://github.com/proteus-h2020/proteus-charts && cd proteus-charts
+npm install
+npm run serve
+```
+Now you can browse on http://localhost:8888 and see the full list of working examples
 
 ## Examples
 
