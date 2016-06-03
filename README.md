@@ -19,7 +19,17 @@ Creating a chart with Proteus Charts is as easy as:
 var linechart = new Linechart(data);
 linechart.draw();
 ```
-
+## Features
+- Ready for batch and streaming data
+- Streaming support via WebSockets
+- Configurable charts via JSON
+- Available charts:
+  - Bar chart
+  - Line chart
+  - Stream graph
+  - Gauge chart
+  - Sunburst diagram
+  - More comming Soon™
 ## Running the examples
 ```bash
 git clone https://github.com/proteus-h2020/proteus-charts && cd proteus-charts
