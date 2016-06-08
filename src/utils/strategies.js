@@ -10,5 +10,8 @@ const strategies = {
   },
   Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
+  },
+  Swimlane(chartContext) {
+    return new SvgSwimlaneStrategy(chartContext);
   }
 };
