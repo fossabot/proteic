@@ -34,8 +34,17 @@ class Basic extends Chart {
       }
 
       this._addByMode(serie, d, mode);
-
     }
+    
+    //Loop series and check the maxNumberOfElements
+    for(let i in this.data){
+      let serie = this.data[i];
+      while(serie.values.length > maxNumberOfElements){
+        serie.values.splice(0,1);
+      }
+    }
+
+
     this.draw(this.data);
   }
 

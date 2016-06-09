@@ -78,7 +78,7 @@ _default.Linechart = {
     },
     tickLabel: '',
     transitionDuration: 300,
-    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
+    maxNumberOfElements: 100, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
         descending: true,
         prop: 'x'

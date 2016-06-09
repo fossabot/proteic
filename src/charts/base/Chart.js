@@ -5,7 +5,7 @@
  */
 class Chart {
 
-    constructor(data, config) {
+    constructor(d, config) {
         var clazz = this.constructor.name;
         if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
             throw new Error(clazz + ' is non-instanciable');
@@ -14,21 +14,21 @@ class Chart {
         this.events = {};
         this.reactor = new Reactor();
 
-        if (!data && !config) {
+        if (!d && !config) {
             throw new Error('Missing constructor parameters');
         }
 
-        let dataFormat = data.constructor.name;
-        let nArguments = (data && config) ? 2 : 1;
+        let dataFormat = d.constructor.name;
+        let nArguments = (d && config) ? 2 : 1;
 
         switch (dataFormat) {
             case 'WebsocketDatasource':
-                this.datasource = data;
+                this.datasource = d;
                 this.data = [];
                 this._configureDatasource();
                 break;
             case 'Array':
-                this.data = data;
+                this.data = d;
                 break;
             default:
                 throw TypeError('Wrong data format');
