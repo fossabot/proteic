@@ -37,7 +37,7 @@ class Barchart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    return super.keepDrawing(datum, 'replace');
+    super.keepDrawing(datum, 'replace');
   }
 
 

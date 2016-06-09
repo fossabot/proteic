@@ -80,7 +80,7 @@ _default.Linechart = {
     transitionDuration: 300,
     maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
-        descending: false,
+        descending: true,
         prop: 'x'
     }
 };

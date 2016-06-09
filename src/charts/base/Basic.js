@@ -13,6 +13,7 @@ class Basic extends Chart {
   keepDrawing(datum, mode) {
     let config = this.config;
     let maxNumberOfElements = config.maxNumberOfElements;
+    var d = null;
 
     if (!datum) {
       console.warn('attemp to draw null datum');
@@ -20,7 +21,7 @@ class Basic extends Chart {
     }
 
     for (let i in datum) {
-      var d = datum[i];
+      d = datum[i];
 
       //Find serie or initialize this.
       let serie = utils.findElement(this.data, 'key', d.key);
@@ -36,10 +37,11 @@ class Basic extends Chart {
 
     }
     this.draw(this.data);
-    return this.data;
   }
 
-
+  /**
+   * Add data to a serie depending on its mode (add or replace)
+   */
   _addByMode(serie, d, mode) {
     if (mode === 'add') {
       serie.values = serie.values.concat(d.values);
