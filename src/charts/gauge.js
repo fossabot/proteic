@@ -24,33 +24,14 @@ class Gauge extends Basic {
     super.draw(data);
   }
 
-  fire(event, data) {
-    var element = this._svg.strategy.svg;
-    if (!element || !element[0][0]) {
-      throw Error('Cannot fire events because SVG dom element is not yet initialized');
-    }
-    element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
-  }
 
   /**
    * Add new data to the current graph. If it is empty, this creates a new one.
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    var config = this.config;
-    var maxNumberOfElements = config.maxNumberOfElements;
-    if (!this.datum) {
-      this.datum = [];
-    }
-    this.datum = this.datum.concat(datum);
-    if (maxNumberOfElements && maxNumberOfElements > 0) {
-      if (this.datum.length > maxNumberOfElements) {
-        for (let i = 0; i < datum.length; i++) {
-          this.datum.shift();
-        }
-      }
-    }
-    super.draw(this.datum);
+    this.data = [datum[0]];
+    super.draw();
   }
 
 }
