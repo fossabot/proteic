@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
@@ -8,9 +7,10 @@ class Chart {
 
   constructor() {
     var clazz = this.constructor.name;
-    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow') {
+    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
       throw new Error(clazz + ' is non-instanciable');
     }
+    
     this.events = {};
 
     //Create chaining api
@@ -29,6 +29,7 @@ class Chart {
         return this;
       }
     })
+    this.reactor = new Reactor();
   }
 
   /**
@@ -47,57 +48,6 @@ class Chart {
    */
   _initializeSVGContext() {
     this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
-  }
-
-  /**
-  * Add a new point to a given serie.
-  * @param  {object} new serie
-  * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
-  */
-  addPoint(point, autodraw = true) {
-    if (!point || !utils.isObject(point)) {
-      throw Error('\'point\' should be an object. Instead: ' + point);
-    }
-
-    this.data.push(point);
-
-    if (autodraw) {
-      this.draw();
-    }
-  }
-
-  /**
-   * Add new points (array) to a given serie.
-   * @param  {Array} points Array of data
-   * @autodraw {Boolean} Auto re-draw the current chart after adding new series
-   */
-  addPoints(points, autodraw = true) {
-    if (!points || points.constructor !== Array) {
-      throw Error('\'points\' should be an array. Instead: ' + points);
-    }
-
-    this.data = this.data.concat(points);
-
-    if (autodraw) {
-      this.draw();
-    }
-  }
-
-  removePoint(point, autodraw = true) {
-    if (!point || !utils.isObject(point)) {
-      throw Error('\'point\' should be an object. Instead: ' + point);
-    }
-
-    this.data.some((item, index, array) => {
-      var equals = (JSON.stringify(item) === JSON.stringify(point));
-      if (equals) {
-        return this.data.splice(index, 1);
-      }
-    });
-
-    if (autodraw) {
-      this.draw();
-    }
   }
 
   /**
@@ -179,67 +129,4 @@ class Chart {
     });
   }
 
-}
-
-
-/**
- * Basic chart. This class in inherited in all basic charts implementatios.
- * This is a non-instanciable chart. Instanciable charts are: bar, line, point.
- */
-
-class Basic extends Chart {
-  constructor() {
-    super();
-    this.reactor = new Reactor();
-  }
-
-  keepDrawing(datum) {
-    let config = this.config;
-    let maxNumberOfElements = config.maxNumberOfElements;
-
-    if (!datum) {
-      console.warn('attemp to draw null datum');
-      return;
-    }
-
-    if (datum.constructor.name === 'Array') {
-      for (let i in datum) {
-        this.keepDrawing(datum[i]);
-      }
-    }
-    else {
-      //Find serie or initialize this.
-      let serie = utils.findElement(this.data, 'key', datum.key);
-      if (!serie || !serie.values) {
-        serie = {
-          key: datum.key,
-          values: []
-        };
-        this.data.push(serie);
-      }
-      //use addToSerie()
-
-      serie.values = serie.values.concat(datum.values);
-    }
-    this.draw(this.data);
-    return this.data;
-  }
-}
-
-/**
- * Flow chart. This class in inherited in all basic charts implementatios.
- * This is a non-instanciable chart. Instanciable charts are: stremgraph and so on.
- */
-
-class Flow extends Chart {
-  constructor() {
-    super();
-  }
-
-  draw(data) {
-    //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
-    //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
-    data = JSON.parse(JSON.stringify(data));
-    super.draw(data);
-  }
 }

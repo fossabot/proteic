@@ -13,63 +13,94 @@ class SvgSwimlaneStrategy {
     this.items = data.items;
     this.miniHeight = this.lanes.length * 12 + 50
     this.mainHeight = this.height - this.miniHeight - 50;
-    
-    var now = new Date();
+
     var dMin = d3.time.sunday(d3.min(this.items, (d) => new Date(d.start)))
     var dMax = d3.max(this.items, (d) => new Date(d.end));
-
+    
+    this.now = new Date();
+    
     this.x = d3.time.scale().domain([dMin, dMax]).range([0, this.width]);
     this.x1 = d3.time.scale().range([0, this.width]);
     this.ext = d3.extent(this.lanes, (d) => d.id);
     this.y1 = d3.scale.linear().domain([this.ext[0], this.ext[1] + 1]).range([0, this.mainHeight]);
     this.y2 = d3.scale.linear().domain([this.ext[0], this.ext[1] + 1]).range([0, this.miniHeight]);
-    this.now = now;
-    
+
     if (!this._initialized) {
       this._initialize();
     }
 
-    // draw the lanes for the main chart
-    this.main.append('g').selectAll('.laneLines')
-      .data(this.lanes)
-      .enter().append('line')
-      .attr('x1', 0)
-      .attr('y1', (d) => d3.round(this.y1(d.id)) + 0.5)
-      .attr('x2', this.width)
-      .attr('y2', (d) => d3.round(this.y1(d.id)) + 0.5)
-      .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
+    // draw the items
+    this.itemRects = this.main.append('g')
+      .attr('clip-path', 'url(#clip)');
 
-    this.main.append('g').selectAll('.laneText')
-      .data(this.lanes)
-      .enter().append('text')
-      .text((d) => d.label)
-      .attr('x', -10)
-      .attr('y', (d) => this.y1(d.id + .5))
-      .attr('dy', '0.5ex')
-      .attr('text-anchor', 'end')
-      .attr('class', 'laneText');
+    this.mini.append('g').selectAll('miniItems')
+      .data(this.getPaths(this.items))
+      .enter().append('path')
+      .attr('class', (d) => 'miniItem ' + d.class)
+      .attr('d', (d) => d.path);
 
-    // draw the lanes for the mini chart
+    var self = this;
+    // invisible hit area to move around the selection window
+    this.mini.append('rect')
+      .attr('pointer-events', 'painted')
+      .attr('width', this.width)
+      .attr('height', this.miniHeight)
+      .attr('visibility', 'hidden')
+      .on('mouseup', function () {
+        var origin = d3.mouse(this);
+        var point = self.x.invert(origin[0]);
+        var halfExtent = (self.brush.extent()[1].getTime() - self.brush.extent()[0].getTime()) / 2;
+        var start = new Date(point.getTime() - halfExtent)
+        var end = new Date(point.getTime() + halfExtent);
+        self.brush.extent([start, end]);
+        self.display(self);
+      });
+
+    // draw the selection area
+    var self = this;
+    this.brush = d3.svg.brush()
+      .x(this.x)
+      .extent([d3.time.monday(this.now), d3.time.saturday.ceil(this.now)])
+      .on("brush", () => this.display(this));
+
     this.mini.append('g')
-      .selectAll('.laneLines')
-      .data(this.lanes)
-      .enter().append('line')
-      .attr('x1', 0)
-      .attr('y1', (d) => d3.round(this.y2(d.id)) + 0.5)
-      .attr('x2', this.width)
-      .attr('y2', (d) => d3.round(this.y2(d.id)) + 0.5)
-      .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
+      .attr('class', 'x brush')
+      .call(this.brush)
+      .selectAll('rect')
+      .attr('y', 1)
+      .attr('height', this.miniHeight - 1);
 
-    this.mini.append('g')
-      .selectAll('.laneText')
-      .data(this.lanes)
-      .enter().append('text')
-      .text((d) => d.label)
-      .attr('x', -10)
-      .attr('y', (d) => this.y2(d.id + .5))
-      .attr('dy', '0.5ex')
-      .attr('text-anchor', 'end')
-      .attr('class', 'laneText');
+    this.mini.selectAll('rect.background').remove();
+    this.display(self);
+
+
+  }
+
+  _initialize() {
+    this.svg = d3.select(this.selector)
+      .append('svg:svg')
+      .attr('width', this.width + this.margin.right + this.margin.left)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('class', 'chart');
+
+    this.svg.append('defs').append('clipPath')
+      .attr('id', 'clip')
+      .append('rect')
+      .attr('width', this.width)
+      .attr('height', this.mainHeight);
+
+    this.main = this.svg.append('g')
+      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
+      .attr('width', this.width)
+      .attr('height', this.mainHeight)
+      .attr('class', 'main');
+
+    this.mini = this.svg.append('g')
+      .attr('transform', 'translate(' + this.margin.left + ',' + (this.mainHeight + 60) + ')')
+      .attr('width', this.width)
+      .attr('height', this.miniHeight)
+      .attr('class', 'mini');
+    this._initialized = true;
 
     // draw the x axis
     this.xDateAxis = d3.svg.axis()
@@ -125,6 +156,48 @@ class SvgSwimlaneStrategy {
       .selectAll('text')
       .attr('dx', 5)
       .attr('dy', 12);
+      
+    // draw the lanes for the main chart
+    this.main.append('g').selectAll('.laneLines')
+      .data(this.lanes)
+      .enter().append('line')
+      .attr('x1', 0)
+      .attr('y1', (d) => d3.round(this.y1(d.id)) + 0.5)
+      .attr('x2', this.width)
+      .attr('y2', (d) => d3.round(this.y1(d.id)) + 0.5)
+      .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
+
+    this.main.append('g').selectAll('.laneText')
+      .data(this.lanes)
+      .enter().append('text')
+      .text((d) => d.label)
+      .attr('x', -10)
+      .attr('y', (d) => this.y1(d.id + .5))
+      .attr('dy', '0.5ex')
+      .attr('text-anchor', 'end')
+      .attr('class', 'laneText');
+
+    // draw the lanes for the mini chart
+    this.mini.append('g')
+      .selectAll('.laneLines')
+      .data(this.lanes)
+      .enter().append('line')
+      .attr('x1', 0)
+      .attr('y1', (d) => d3.round(this.y2(d.id)) + 0.5)
+      .attr('x2', this.width)
+      .attr('y2', (d) => d3.round(this.y2(d.id)) + 0.5)
+      .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
+
+    this.mini.append('g')
+      .selectAll('.laneText')
+      .data(this.lanes)
+      .enter().append('text')
+      .text((d) => d.label)
+      .attr('x', -10)
+      .attr('y', (d) => this.y2(d.id + .5))
+      .attr('dy', '0.5ex')
+      .attr('text-anchor', 'end')
+      .attr('class', 'laneText');
 
     // draw a line representing today's date
     this.main.append('line')
@@ -134,84 +207,11 @@ class SvgSwimlaneStrategy {
       .attr('clip-path', 'url(#clip)');
 
     this.mini.append('line')
-      .attr('x1', this.x(now) + 0.5)
+      .attr('x1', this.x(this.now) + 0.5)
       .attr('y1', 0)
-      .attr('x2', this.x(now) + 0.5)
+      .attr('x2', this.x(this.now) + 0.5)
       .attr('y2', this.miniHeight)
       .attr('class', 'todayLine');
-
-    // draw the items
-    this.itemRects = this.main.append('g')
-      .attr('clip-path', 'url(#clip)');
-
-    this.mini.append('g').selectAll('miniItems')
-      .data(this.getPaths(this.items))
-      .enter().append('path')
-      .attr('class', (d) => 'miniItem ' + d.class)
-      .attr('d', (d) => d.path);
-
-    var self = this;
-    // invisible hit area to move around the selection window
-    this.mini.append('rect')
-      .attr('pointer-events', 'painted')
-      .attr('width', this.width)
-      .attr('height', this.miniHeight)
-      .attr('visibility', 'hidden')
-      .on('mouseup', function () {
-        var origin = d3.mouse(this);
-        var point = self.x.invert(origin[0]);
-        var halfExtent = (self.brush.extent()[1].getTime() - self.brush.extent()[0].getTime()) / 2;
-        var start = new Date(point.getTime() - halfExtent)
-        var end = new Date(point.getTime() + halfExtent);
-        self.brush.extent([start, end]);
-        self.display(self);
-      });
-
-    // draw the selection area
-    var self = this;
-    this.brush = d3.svg.brush()
-      .x(this.x)
-      .extent([d3.time.monday(now), d3.time.saturday.ceil(now)])
-      .on("brush", () => this.display(self));
-
-    this.mini.append('g')
-      .attr('class', 'x brush')
-      .call(this.brush)
-      .selectAll('rect')
-      .attr('y', 1)
-      .attr('height', this.miniHeight - 1);
-
-    this.mini.selectAll('rect.background').remove();
-    this.display(self);
-
-
-  }
-
-  _initialize() {
-    this.svg = d3.select(this.selector)
-      .append('svg:svg')
-      .attr('width', this.width + this.margin.right + this.margin.left)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .attr('class', 'chart');
-
-    this.svg.append('defs').append('clipPath')
-      .attr('id', 'clip')
-      .append('rect')
-      .attr('width', this.width)
-      .attr('height', this.mainHeight);
-
-    this.main = this.svg.append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
-      .attr('width', this.width)
-      .attr('height', this.mainHeight)
-      .attr('class', 'main');
-
-    this.mini = this.svg.append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + (this.mainHeight + 60) + ')')
-      .attr('width', this.width)
-      .attr('height', this.miniHeight)
-      .attr('class', 'mini');
-    this._initialized = true;
   }
 
 	/**
