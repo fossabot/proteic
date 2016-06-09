@@ -37,7 +37,7 @@ gulp.task('concat', ['babel'], () => {
     './lib/utils/image.js',
     './lib/utils/strategies.js',
     './lib/utils/colors.js',
-    './lib/utils/globals.js',
+    './lib/utils/defaults/*.js',
     './lib/utils/ProteusEvent.js',
     './lib/datasources/Datasource.js',
     './lib/datasources/WebsocketDatasource.js',
