@@ -38,6 +38,7 @@ Features
   - Stream graph
   - Gauge chart
   - Sunburst diagram
+  - Swimlane diagram
   - More comming Soon™
 
 Running the examples
