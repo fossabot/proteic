@@ -6,8 +6,8 @@
  */
 
 class Basic extends Chart {
-    constructor() {
-        super();
+    constructor(data, config) {
+        super(data, config);
     }
 
     keepDrawing(datum) {
@@ -34,7 +34,6 @@ class Basic extends Chart {
                 };
                 this.data.push(serie);
             }
-            //use addToSerie()
 
             serie.values = serie.values.concat(datum.values);
         }

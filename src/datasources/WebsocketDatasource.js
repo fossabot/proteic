@@ -10,6 +10,7 @@ class WebsocketDatasource extends Datasource {
     }
 
     start() {
+        super.start();
         this.ws = new WebSocket(this.source.endpoint);
 
         this.ws.onopen = (e) => {
@@ -35,6 +36,7 @@ class WebsocketDatasource extends Datasource {
     }
 
     stop() {
+        super.stop();
         if (this.ws) {
             this.ws.close();
         }
