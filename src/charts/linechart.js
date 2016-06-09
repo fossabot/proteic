@@ -29,6 +29,6 @@ class Linechart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    return super.keepDrawing(datum);
+    return super.keepDrawing(datum, 'add');
   }
 }

@@ -6,38 +6,49 @@
  */
 
 class Basic extends Chart {
-    constructor(data, config) {
-        super(data, config);
+  constructor(data, config) {
+    super(data, config);
+  }
+
+  keepDrawing(datum, mode) {
+    let config = this.config;
+    let maxNumberOfElements = config.maxNumberOfElements;
+
+    if (!datum) {
+      console.warn('attemp to draw null datum');
+      return;
     }
 
-    keepDrawing(datum) {
-        let config = this.config;
-        let maxNumberOfElements = config.maxNumberOfElements;
+    for (let i in datum) {
+      var d = datum[i];
 
-        if (!datum) {
-            console.warn('attemp to draw null datum');
-            return;
-        }
+      //Find serie or initialize this.
+      let serie = utils.findElement(this.data, 'key', d.key);
+      if (!serie || !serie.values) {
+        serie = {
+          key: d.key,
+          values: []
+        };
+        this.data.push(serie);
+      }
 
-        if (datum.constructor.name === 'Array') {
-            for (let i in datum) {
-                this.keepDrawing(datum[i]);
-            }
-        }
-        else {
-            //Find serie or initialize this.
-            let serie = utils.findElement(this.data, 'key', datum.key);
-            if (!serie || !serie.values) {
-                serie = {
-                    key: datum.key,
-                    values: []
-                };
-                this.data.push(serie);
-            }
+      this._addByMode(serie, d, mode);
 
-            serie.values = serie.values.concat(datum.values);
-        }
-        this.draw(this.data);
-        return this.data;
     }
+    this.draw(this.data);
+    return this.data;
+  }
+
+
+  _addByMode(serie, d, mode) {
+    if (mode === 'add') {
+      serie.values = serie.values.concat(d.values);
+    }
+    else if (mode === 'replace') {
+      serie.values = d.values;
+    }
+    else {
+      throw Error('Unknow keepDrawing mode:  ' + mode);
+    }
+  }
 }

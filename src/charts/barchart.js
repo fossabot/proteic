@@ -37,33 +37,7 @@ class Barchart extends Basic {
    * @param  {[Object]} datum data to be rendered
    */
   keepDrawing(datum) {
-    let config = this.config;
-    let maxNumberOfElements = config.maxNumberOfElements;
-
-    if (!datum) {
-      console.warn('attemp to draw null datum');
-      return;
-    }
-
-    if (datum.constructor.name === 'Array') {
-      for (let i in datum) {
-        this.keepDrawing(datum[i]);
-      }
-    }
-    else {
-      //Find serie or initialize this.
-      let serie = utils.findElement(this.data, 'key', datum.key);
-      if (!serie || !serie.values) {
-        serie = {
-          key: datum.key,
-          values: []
-        };
-        this.data.push(serie);
-      }
-      serie.values = datum.values;
-    }
-    this.draw(this.data);
-    return this.data;
+    return super.keepDrawing(datum, 'replace');
   }
 
 

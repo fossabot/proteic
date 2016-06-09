@@ -36,7 +36,6 @@ class SvgBarchartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
-    console.log(data);
     super.draw(data);
     this.values = data.map((d) => d.values);
     this.layers = this.stack(this.values);
