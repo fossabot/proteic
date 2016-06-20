@@ -70,8 +70,10 @@ class SvgSunburstStrategy extends SvgChart {
       .on('mouseover', (d) => {
         var ancestors = this._getAncestors(d);
         // Fade all the arcs
-        d3.selectAll('path')
-          .style('opacity', 0.4);
+        if (ancestors.length > 0) {
+          d3.selectAll('path')
+              .style('opacity', 0.3);
+        }
         d3.selectAll('path')
           .filter((node) => ancestors.indexOf(node) >= 0)
           .style('opacity', 1);
@@ -79,16 +81,21 @@ class SvgSunburstStrategy extends SvgChart {
         // d.parent ?
         //   d3.select(this).style('opacity', 1) :
         //   d3.select('.infobox .name').style('font-weight', 'bold');
+          this.svg.select('.infobox .name').text(d.name);
+          this.svg.select('.infobox .value').text(d.value);
       })
       .on('mouseout', function(d) {
         d3.selectAll('path').style('opacity', 1);
         d3.select('.infobox .name').style('font-weight', 'normal');
+        d3.select('.infobox .name').text('');
+        d3.select('.infobox .value').text('');
       })
-      .on('click', (d) => {
-        this._zoom(d);
-        this.svg.select('.infobox .name').text(d.name);
-        this.svg.select('.infobox .value').text(d.value);
-      });
+      // .on('click', (d) => {
+      //   this._zoom(d);
+      //   this.svg.select('.infobox .name').text(d.name);
+      //   this.svg.select('.infobox .value').text(d.value);
+      // })
+    ;
 
     d3.select(self.frameElement).style('height', this.height + 'px');
 
