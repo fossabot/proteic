@@ -12,6 +12,9 @@ const strategies = {
     return new SvgGaugeStrategy(chartContext);
   },
   Sunburst(chartContext) {
-    return new SvgSunburstStrategy(chartContext)
+    return new SvgSunburstStrategy(chartContext);
+  },
+  Swimlane(chartContext) {
+    return new SvgSwimlaneStrategy(chartContext);
   }
 };

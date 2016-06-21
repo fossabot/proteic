@@ -14,6 +14,7 @@ const webdriver_update = require('gulp-protractor').webdriver_update;
 const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const webserver = require('gulp-webserver');
 const shell = require('gulp-shell');
+const jsinspect = require('gulp-jsinspect');
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -36,7 +37,7 @@ gulp.task('concat', ['babel'], () => {
     './lib/utils/image.js',
     './lib/utils/strategies.js',
     './lib/utils/colors.js',
-    './lib/utils/globals.js',
+    './lib/utils/defaults/*.js',
     './lib/utils/ProteusEvent.js',
     './lib/datasources/Datasource.js',
     './lib/datasources/WebsocketDatasource.js',
@@ -47,7 +48,11 @@ gulp.task('concat', ['babel'], () => {
     './lib/svg/strategy_streamgraph.js',
     './lib/svg/strategy_gauge.js',
     './lib/svg/strategy_sunburst.js',
-    './lib/charts/classes.js',
+    './lib/charts/base/Chart.js',
+    './lib/charts/base/Basic.js',
+    './lib/charts/base/Flow.js',
+    './lib/charts/base/Temporal.js',
+    './lib/charts/base/Hierarchical.js',
     './lib/charts/barchart.js',
     './lib/charts/linechart.js',
     './lib/charts/streamgraph.js',
@@ -85,6 +90,14 @@ gulp.task('test:unit', (done) => {
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
+});
+
+gulp.task('jsinspect', () => {
+  return gulp.src([
+    'src/**/*.js',
+    '!dist/**/*.js',
+    '!src/utils/colors.js'
+  ]).pipe(jsinspect());
 });
 /**
 // Downloads the selenium webdriver

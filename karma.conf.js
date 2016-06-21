@@ -18,11 +18,15 @@ module.exports =  (config) => {
     files: [
       'node_modules/d3/d3.min.js',
       'node_modules/d3-tip/index.js',
-      'src/utils/*.js',
+      'src/utils/**/*.js',
       'src/datasources/*.js',
       'src/svg/svg.js',
       'src/svg/*.js',
-      'src/charts/classes.js',
+      'src/charts/base/Chart.js',
+      'src/charts/base/Temporal.js',
+      'src/charts/base/Flow.js',
+      'src/charts/base/Hierarchical.js',
+      'src/charts/base/Basic.js',
       'src/charts/*.js',
       'test/*.js'
     ],
@@ -36,7 +40,7 @@ module.exports =  (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/!(globals).js': ['coverage']
+      'src/utils/defaults/!(*).js': ['coverage']
     },
 
 

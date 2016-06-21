@@ -20,7 +20,7 @@
   <script src='../src/utils/image.js'></script>
   <script src='../src/utils/strategies.js'></script>
   <script src='../src/utils/colors.js'></script>
-  <script src='../src/utils/globals.js'></script>
+  <script src='../src/utils/defaults/gauge.js'></script>
   <script src='../src/utils/ProteusEvent.js'></script>
   <script src='../src/datasources/Datasource.js'></script>
   <script src='../src/datasources/WebsocketDatasource.js'></script>
@@ -28,12 +28,13 @@
   <script src='../src/svg/SvgStrategy.js'></script>
   <script src='../src/svg/svg.js'></script>
   <script src='../src/svg/strategy_gauge.js'></script>
-  <script src='../src/charts/classes.js' type='text/javascript'></script>
+  <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
+  <script src='../src/charts/base/Basic.js' type='text/javascript'></script>
   <script src='../src/charts/gauge.js' type='text/javascript'></script>
 
   <script>
     var data = {
-            endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
+            endpoint: 'ws://192.168.3.32:3000/gauge'
           };
           
     var wsEndpoint = new WebsocketDatasource(data);

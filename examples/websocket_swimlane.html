@@ -8,7 +8,47 @@
 
 <head>
     <style>
-
+        .mini text {
+            font: 9px sans-serif;
+        }
+        
+        .main text {
+            font: 12px sans-serif;
+        }
+        
+        .month text {
+            text-anchor: start;
+        }
+        
+        .todayLine {
+            stroke: blue;
+            stroke-width: 1.5;
+        }
+        
+        .axis line,
+        .axis path {
+            stroke: black;
+        }
+        
+        .miniItem {
+            stroke-width: 6;
+        }
+        
+        .future {
+            stroke: gray;
+            fill: #ddd;
+        }
+        
+        .past {
+            stroke: green;
+            fill: lightgreen;
+        }
+        
+        .brush .extent {
+            stroke: gray;
+            fill: blue;
+            fill-opacity: .165;
+        }
     </style>
 </head>
 
@@ -22,27 +62,27 @@
     <script src='../src/utils/image.js'></script>
     <script src='../src/utils/strategies.js'></script>
     <script src='../src/utils/colors.js'></script>
-  <script src='../src/utils/defaults/linechart.js'></script>
+    <script src='../src/utils/defaults/swimlane.js'></script>
     <script src='../src/utils/ProteusEvent.js'></script>
     <script src='../src/datasources/Datasource.js'></script>
     <script src='../src/datasources/WebsocketDatasource.js'></script>
     <script src='../src/svg/SvgStrategy.js'></script>
     <script src='../src/svg/svg.js'></script>
 
-    <script src='../src/svg/strategy_linechart.js'></script>
+    <script src='../src/svg/strategy_swimlane.js'></script>
     <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
     <script src='../src/charts/base/Basic.js' type='text/javascript'></script>
-    <script src='../src/charts/linechart.js' type='text/javascript'></script>
+    <script src='../src/charts/swimlane.js' type='text/javascript'></script>
 
     <script>
         var data = {
-            endpoint: 'ws://192.168.3.32:3000/multiseriesLinechart'
+            endpoint: 'ws://192.168.3.32:3000/swimlane'
           };
         var dataSource = new WebsocketDatasource(data);
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
 
-        linechart = new Linechart(dataSource);
+        swimlane = new Swimlane(dataSource);
           //Start streaming
         dataSource.start()
     </script>

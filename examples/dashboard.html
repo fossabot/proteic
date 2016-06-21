@@ -33,11 +33,7 @@
 <body>
   <!-- Load data -->
   <script>
-    var data = {
-    endpoint: 'ws://192.168.4.245:8787/websocket'
-  };
-  
-  var wsConnection = new WebsocketDatasource(data);
+
   </script>
 
   <!-- #    DASHBOARD    # -->
@@ -61,6 +57,11 @@
 
   </div>
   <script>
+    var data = {
+      endpoint: 'ws://192.168.3.32:3000/websocket'
+    };
+  
+    var wsConnection = new WebsocketDatasource(data);
     var linechart = new Linechart(wsConnection, {
         selector: "#linechart",
         maxNumberOfElements: 10,
@@ -73,7 +74,12 @@
       //linechart.start();
   </script>
   <script>
-    var barchart = new Barchart(wsConnection, {
+    var dataBarchart = {
+      endpoint: 'ws://192.168.3.32:3000/barchart'
+    };
+  
+  var wsBarchartConnection = new WebsocketDatasource(dataBarchart);
+    var barchart = new Barchart(wsBarchartConnection, {
         selector: "#barchart",
         maxNumberOfElements: 2,
         width: 'auto',
@@ -82,28 +88,24 @@
       //barchart.start();
   </script>
   <script>
-    var gData = [{x: 86}];
+    var dataGauge = {
+      endpoint: 'ws://192.168.3.32:3000/gauge'
+    };
+  
+    var wsGaugeConnection = new WebsocketDatasource(dataGauge);
     //Default config uses #chart selector
-    gauge = new Gauge(gData, {
+    gauge = new Gauge(wsGaugeConnection, {
       min: 0,
       max: 100,
       selector: '#gauge'
     });
     
-    setTimeout(() => {
-      gauge.draw();
-      setInterval(()=>{
-        var datum = Math.round(Math.random() * 100);
-        gData[0].x  = datum;
-        gauge.draw();
-        
-      },1000);
-    }, 3000);
-      
   </script>
 
   <script>
     wsConnection.start();
+    wsBarchartConnection.start();
+    //wsGaugeConnection.start();
   </script>
 
   <!-- jQuery first, then Bootstrap JS. -->

@@ -99,11 +99,3 @@ var utils = utils || {
     return deg * Math.PI / 180;
   }
 };
-
-
-//Extends Set functionality
-Set.prototype.equals = function (as) {
-  if (as.size !== this.size) return false;
-  for (var a of as) if (!this.has(a)) return false;
-  return true;
-}

@@ -270,6 +270,9 @@ var strategies = {
   },
   Gauge: function Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
+  },
+  Swimlane: function Swimlane(chartContext) {
+    return new SvgSwimlaneStrategy(chartContext);
   }
 };
 'use strict';
@@ -584,219 +587,82 @@ var paletteDivergingBrownGreen = ['#735146', '#846454', '#977a65', '#aa9177', '#
 var palette_divergingLightBrownTurquoise = ['#8b5219', '#a46821', '#bf812c', '#cfa151', '#e2c489', '#f6e8c3', '#f5f1df', '#cbdccc', '#9cc6b9', '#60afa6', '#359790', '#1d7d75', '#00665e'];
 'use strict';
 
-/**
- * This object is used as a default one for those charts that do not have any user configuration.
- * @type {Object}
- */
-var _default = {
-  Barchart: {
+var _default = _default || {};
+
+_default.Barchart = {
     style: {
-      '.axis': {
-        'font': '10px sans-serif'
-      },
-      '.axis path,.axis line': {
-        'fill': 'none',
-        'stroke': '#000',
-        'shape-rendering': 'crispEdges'
-      },
-      '.x.axis path': {
-        'display': 'none'
-      },
-      '.x.axis.label, .y.axis.label': {
-        'font': '12px sans-serif'
-      }
+        '.axis': {
+            'font': '10px sans-serif'
+        },
+        '.axis path,.axis line': {
+            'fill': 'none',
+            'stroke': '#000',
+            'shape-rendering': 'crispEdges'
+        },
+        '.x.axis path': {
+            'display': 'none'
+        },
+        '.x.axis.label, .y.axis.label': {
+            'font': '12px sans-serif'
+        }
     },
     xaxis: {
-      label: ''
+        label: ''
     },
     yaxis: {
-      label: 'Y'
+        label: 'Y'
     },
     // Set the color scale for the chart. You can use Proteus scales or any D3 scale
     colorScale: Colors.category7(),
     margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
     },
     width: '100%', // %, auto, or numeric
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip: function tooltip(data) {
-      // Allows HTML
-      return '<b>Eje x</b>: ' + data.x + '<br/>' + '<b>Eje y</b>: ' + data.y;
+        // Allows HTML
+        return '<b>Eje x</b>: ' + data.x + '<br/>' + '<b>Eje y</b>: ' + data.y;
     },
 
     tickLabel: '',
     selector: '#chart',
     events: {
-      down: function down() {
-        d3.select(this).classed('hover', false);
-      },
-      over: function over() {
-        d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
-      },
-      leave: function leave() {
-        d3.select(this).transition().duration(150).attr('fill-opacity', 1);
-      },
-      click: function click(d, i) {
-        console.log(d, i);
-      }
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 1);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
     },
     transitionDuration: 300,
     maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
-      descending: false,
-      prop: 'x'
+        descending: false,
+        prop: 'x'
     }
-  },
-  Linechart: {
-    selector: '#chart',
-    xaxis: {
-      label: 'X',
-      ticks: 5
-    },
-    yaxis: {
-      label: 'Y',
-      ticks: 5
-    },
-    colorScale: Colors.category7(),
-    area: false,
-    areaOpacity: 0.4,
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
-    },
-    width: '100%', // %, auto, or numeric
-    height: 250,
-    style: {
-      '.line': {
-        'stroke-width': 2,
-        'fill': 'none'
-      },
-      '.area': {
-        'stroke-width': 0
-      },
-      '.axis': {
-        'font': '10px sans-serif'
-      },
-      '.axis path,.axis line': {
-        'fill': 'none',
-        'stroke': '#000',
-        'shape-rendering': 'crispEdge'
-      },
-      '.x.axis path': {
-        'display': 'none'
-      },
-      '.x.axis.label, .y.axis.label': {
-        'font': '12px sans-serif'
-      }
-    },
-    markers: {
-      shape: 'circle',
-      size: 5,
-      color: '#FFFCCA',
-      outlineColor: '#537780',
-      outlineWidth: 2
-    },
-    tooltip: function tooltip(data) {
-      return JSON.stringify(data);
-    },
+};
+'use strict';
 
-    events: {
-      down: function down() {
-        d3.select(this).classed('hover', false);
-      },
-      over: function over() {
-        d3.select(this).transition().duration(50).attr('r', 7);
-      },
-      leave: function leave() {
-        d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
-      },
-      click: function click(d, i) {
-        console.log(d, i);
-      }
-    },
-    tickLabel: '',
-    transitionDuration: 300,
-    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-      descending: false,
-      prop: 'x'
-    }
-  },
-  Streamgraph: {
-    selector: '#chart',
-    xDateFormat: '%m/%d/%y',
-    colorScale: Colors.category5(),
-    xaxis: {
-      label: ''
-    },
-    yaxis: {
-      label: ''
-    },
-    style: {
-      '.axis': {
-        'font': '10px sans-serif'
-      },
-      '.axis path,.axis line': {
-        'fill': 'none',
-        'stroke': '#000',
-        'shape-rendering': 'crispEdges'
-      },
-      '.x.axis path': {
-        'display': 'none'
-      },
-      '.x.axis.label, .y.axis.label': {
-        'font': '12px sans-serif'
-      }
-    },
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
-    },
-    width: '100%', // %, auto, or numeric
-    height: 300,
-    ticks: 5, // ticks for y axis.
-    tooltip: function tooltip(object) {
-      return 'Info: ' + JSON.stringify(object);
-    },
+var _default = _default || {};
 
-    tickLabel: '',
-    events: {
-      down: function down() {
-        d3.select(this).classed('hover', false);
-      },
-      over: function over() {
-        d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
-      },
-      leave: function leave() {
-        d3.select(this).transition().duration(150).attr('fill-opacity', 1);
-      },
-      click: function click(d, i) {
-        console.log(d, i);
-      }
-    },
-    transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-      descending: false,
-      prop: 'x'
-    }
-  },
-  Gauge: {
+_default.Gauge = {
     selector: '#chart',
     colorScale: Colors.diverging_red_blue(),
     invertColorScale: true,
     minLevel: 0,
     maxLevel: 100,
     minAngle: -90,
-    maxAngle: 180,
+    maxAngle: 90,
     ringWidth: 50,
     ringMargin: 20,
     labelInset: 10,
@@ -804,66 +670,234 @@ var _default = {
     needleLenghtRatio: 0.8,
     numericIndicator: true,
     xaxis: {
-      label: 'X'
+        label: 'X'
     },
     yaxis: {
-      label: 'Y'
+        label: 'Y'
     },
     margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 50
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
     },
     width: '50%', // %, auto, or numeric
     height: 250,
     style: {
-      '.labels': {
-        'font': '18px sans-serif',
-        'text-anchor': 'middle'
-      },
-      '.text-indicator': {
-        'font': '48px sans-serif',
-        'text-anchor': 'middle'
-      },
-      '.needle': {
-        'fill': '#666666'
-      }
+        '.labels': {
+            'font': '18px sans-serif',
+            'text-anchor': 'middle'
+        },
+        '.text-indicator': {
+            'font': '48px sans-serif',
+            'text-anchor': 'middle'
+        },
+        '.needle': {
+            'fill': '#666666'
+        }
     },
     ticks: 10, // ticks for y axis.
     markers: {
-      shape: 'circle',
-      size: 5,
-      color: '#FFFCCA',
-      outlineColor: '#537780',
-      outlineWidth: 2
+        shape: 'circle',
+        size: 5,
+        color: '#FFFCCA',
+        outlineColor: '#537780',
+        outlineWidth: 2
     },
     tooltip: function tooltip(data) {
-      return JSON.stringify(data);
+        return JSON.stringify(data);
     },
 
     events: {
-      down: function down() {
-        d3.select(this).classed('hover', false);
-      },
-      over: function over() {
-        d3.select(this).transition().duration(50).attr('r', 7);
-      },
-      leave: function leave() {
-        d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
-      },
-      click: function click(d, i) {
-        console.log(d, i);
-      }
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(50).attr('r', 7);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
     },
     tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
-      descending: false,
-      prop: 'x'
+        descending: false,
+        prop: 'x'
     }
-  }
+};
+'use strict';
+
+var _default = _default || {};
+
+_default.Linechart = {
+    selector: '#chart',
+    xaxis: {
+        label: 'X',
+        ticks: 5
+    },
+    yaxis: {
+        label: 'Y',
+        ticks: 5
+    },
+    colorScale: Colors.category7(),
+    area: false,
+    areaOpacity: 0.4,
+    margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
+    },
+    width: '100%', // %, auto, or numeric
+    height: 250,
+    style: {
+        '.line': {
+            'stroke-width': 2,
+            'fill': 'none'
+        },
+        '.area': {
+            'stroke-width': 0
+        },
+        '.axis': {
+            'font': '10px sans-serif'
+        },
+        '.axis path,.axis line': {
+            'fill': 'none',
+            'stroke': '#000',
+            'shape-rendering': 'crispEdge'
+        },
+        '.x.axis path': {
+            'display': 'none'
+        },
+        '.x.axis.label, .y.axis.label': {
+            'font': '12px sans-serif'
+        }
+    },
+    markers: {
+        shape: 'circle',
+        size: 5,
+        color: '#FFFCCA',
+        outlineColor: '#537780',
+        outlineWidth: 2
+    },
+    tooltip: function tooltip(data) {
+        return JSON.stringify(data);
+    },
+
+    events: {
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(50).attr('r', 7);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
+    },
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    }
+};
+'use strict';
+
+var _default = _default || {};
+
+_default.Streamgraph = {
+    selector: '#chart',
+    xDateFormat: '%m/%d/%y',
+    colorScale: Colors.category5(),
+    xaxis: {
+        label: ''
+    },
+    yaxis: {
+        label: ''
+    },
+    style: {
+        '.axis': {
+            'font': '10px sans-serif'
+        },
+        '.axis path,.axis line': {
+            'fill': 'none',
+            'stroke': '#000',
+            'shape-rendering': 'crispEdges'
+        },
+        '.x.axis path': {
+            'display': 'none'
+        },
+        '.x.axis.label, .y.axis.label': {
+            'font': '12px sans-serif'
+        }
+    },
+    margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
+    },
+    width: '100%', // %, auto, or numeric
+    height: 300,
+    ticks: 5, // ticks for y axis.
+    tooltip: function tooltip(object) {
+        return 'Info: ' + JSON.stringify(object);
+    },
+
+    tickLabel: '',
+    events: {
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 1);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
+    },
+    transitionDuration: 300,
+    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    }
+
+};
+'use strict';
+
+var _default = _default || {};
+
+_default.Swimlane = {
+    selector: '#chart',
+    margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
+    },
+    width: '99%', // %, auto, or numeric
+    height: 550,
+    events: {
+        down: function down() {},
+        over: function over() {},
+        up: function up() {},
+        click: function click() {},
+        leave: function leave() {}
+    }
 };
 "use strict";
 
@@ -985,8 +1019,8 @@ var WebsocketDatasource = function (_Datasource) {
                 }
             };
             this.ws.onmessage = function (e) {
-                var data = JSON.parse(event.data.substr(2))[1];
-                //var data = JSON.parse(e.data);
+                //var data = JSON.parse(event.data.substr(2))[1];
+                var data = JSON.parse(e.data);
                 for (var rIndex in _this2.reactors) {
                     var reactor = _this2.reactors[rIndex];
                     reactor.dispatchEvent('onmessage', data);
@@ -1277,6 +1311,7 @@ var SvgBarchartStrategy = function (_SvgChart) {
     value: function draw(data) {
       var _this2 = this;
 
+      console.log(data);
       _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), 'draw', this).call(this, data);
       this.values = data.map(function (d) {
         return d.values;
@@ -2022,19 +2057,12 @@ var SvgGaugeStrategy = function (_SvgChart) {
   return SvgGaugeStrategy;
 }(SvgChart);
 'use strict';
-
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
  */
 
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2043,9 +2071,10 @@ var Chart = function () {
     _classCallCheck(this, Chart);
 
     var clazz = this.constructor.name;
-    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow') {
+    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
       throw new Error(clazz + ' is non-instanciable');
     }
+
     this.events = {};
 
     //Create chaining api
@@ -2064,6 +2093,7 @@ var Chart = function () {
         return this;
       };
     });
+    this.reactor = new Reactor();
   }
 
   /**
@@ -2089,72 +2119,6 @@ var Chart = function () {
     key: '_initializeSVGContext',
     value: function _initializeSVGContext() {
       this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
-    }
-
-    /**
-    * Add a new point to a given serie.
-    * @param  {object} new serie
-    * @autodraw {Boolean} Auto re-draw the current chart after adding the new serie
-    */
-
-  }, {
-    key: 'addPoint',
-    value: function addPoint(point) {
-      var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      if (!point || !utils.isObject(point)) {
-        throw Error('\'point\' should be an object. Instead: ' + point);
-      }
-
-      this.data.push(point);
-
-      if (autodraw) {
-        this.draw();
-      }
-    }
-
-    /**
-     * Add new points (array) to a given serie.
-     * @param  {Array} points Array of data
-     * @autodraw {Boolean} Auto re-draw the current chart after adding new series
-     */
-
-  }, {
-    key: 'addPoints',
-    value: function addPoints(points) {
-      var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      if (!points || points.constructor !== Array) {
-        throw Error('\'points\' should be an array. Instead: ' + points);
-      }
-
-      this.data = this.data.concat(points);
-
-      if (autodraw) {
-        this.draw();
-      }
-    }
-  }, {
-    key: 'removePoint',
-    value: function removePoint(point) {
-      var _this = this;
-
-      var autodraw = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      if (!point || !utils.isObject(point)) {
-        throw Error('\'point\' should be an object. Instead: ' + point);
-      }
-
-      this.data.some(function (item, index, array) {
-        var equals = JSON.stringify(item) === JSON.stringify(point);
-        if (equals) {
-          return _this.data.splice(index, 1);
-        }
-      });
-
-      if (autodraw) {
-        this.draw();
-      }
     }
 
     /**
@@ -2212,7 +2176,7 @@ var Chart = function () {
   }, {
     key: '_configureDatasource',
     value: function _configureDatasource() {
-      var _this2 = this;
+      var _this = this;
 
       this.datasource.configure(this.reactor);
       this.reactor.registerEvent('onmessage');
@@ -2220,7 +2184,7 @@ var Chart = function () {
       this.reactor.registerEvent('onopen');
 
       this.reactor.addEventListener('onmessage', function (data) {
-        _this2.keepDrawing(data);
+        _this.keepDrawing(data);
       });
 
       this.reactor.addEventListener('onopen', function (e) {
@@ -2242,82 +2206,99 @@ var Chart = function () {
   }, {
     key: 'resume',
     value: function resume() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (!this.datasource) {
         throw 'You need a datasource to resume a streaming';
       }
 
       this.reactor.addEventListener('onmessage', function (data) {
-        _this3.keepDrawing(data);
+        _this2.keepDrawing(data);
       });
     }
   }]);
 
   return Chart;
 }();
+'use strict';
 
 /**
  * Basic chart. This class in inherited in all basic charts implementatios.
  * This is a non-instanciable chart. Instanciable charts are: bar, line, point.
  */
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var Basic = function (_Chart) {
-  _inherits(Basic, _Chart);
+    _inherits(Basic, _Chart);
 
-  function Basic() {
-    _classCallCheck(this, Basic);
+    function Basic() {
+        _classCallCheck(this, Basic);
 
-    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this));
-
-    _this4.reactor = new Reactor();
-    return _this4;
-  }
-
-  _createClass(Basic, [{
-    key: 'keepDrawing',
-    value: function keepDrawing(datum) {
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      if (!datum) {
-        console.warn('attemp to draw null datum');
-        return;
-      }
-
-      if (datum.constructor.name === 'Array') {
-        for (var i in datum) {
-          this.keepDrawing(datum[i]);
-        }
-      } else {
-        //Find serie or initialize this.
-        var serie = utils.findElement(this.data, 'key', datum.key);
-        if (!serie || !serie.values) {
-          serie = {
-            key: datum.key,
-            values: []
-          };
-          this.data.push(serie);
-        }
-        //use addToSerie()
-
-        serie.values = serie.values.concat(datum.values);
-      }
-      this.draw(this.data);
-      return this.data;
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this));
     }
-  }]);
 
-  return Basic;
+    _createClass(Basic, [{
+        key: 'keepDrawing',
+        value: function keepDrawing(datum) {
+            var config = this.config;
+            var maxNumberOfElements = config.maxNumberOfElements;
+
+            if (!datum) {
+                console.warn('attemp to draw null datum');
+                return;
+            }
+
+            if (datum.constructor.name === 'Array') {
+                for (var i in datum) {
+                    this.keepDrawing(datum[i]);
+                }
+            } else {
+                //Find serie or initialize this.
+                var serie = utils.findElement(this.data, 'key', datum.key);
+                if (!serie || !serie.values) {
+                    serie = {
+                        key: datum.key,
+                        values: []
+                    };
+                    this.data.push(serie);
+                }
+                //use addToSerie()
+
+                serie.values = serie.values.concat(datum.values);
+            }
+            this.draw(this.data);
+            return this.data;
+        }
+    }]);
+
+    return Basic;
 }(Chart);
+'use strict';
 
 /**
  * Flow chart. This class in inherited in all basic charts implementatios.
  * This is a non-instanciable chart. Instanciable charts are: stremgraph and so on.
  */
 
-var Flow = function (_Chart2) {
-  _inherits(Flow, _Chart2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Flow = function (_Chart) {
+  _inherits(Flow, _Chart);
 
   function Flow() {
     _classCallCheck(this, Flow);
@@ -2336,6 +2317,25 @@ var Flow = function (_Chart2) {
   }]);
 
   return Flow;
+}(Chart);
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Temporal = function (_Chart) {
+  _inherits(Temporal, _Chart);
+
+  function Temporal() {
+    _classCallCheck(this, Temporal);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Temporal).apply(this, arguments));
+  }
+
+  return Temporal;
 }(Chart);
 'use strict';
 
@@ -2426,48 +2426,32 @@ var Barchart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      _get(Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum);
-      /**
-      if (datum.key !== 'avg') return;
-       let dType = datum.constructor.name;
-      let dLength = 0;
-      let config = this.config;
-      let maxNumberOfElements = config.maxNumberOfElements;
-       //find serie
-      let serie = utils.findElement(this.data, 'key', datum.key);
-       if (!serie || !serie.values) {
-        serie = {
-          key: datum.key,
-          values: []
-        };
-        this.data.push(serie);
+      var config = this.config;
+      var maxNumberOfElements = config.maxNumberOfElements;
+
+      if (!datum) {
+        console.warn('attemp to draw null datum');
+        return;
       }
-       if (dType === 'Array') {
-        serie.values = serie.values.concat(datum);
-        dLength = datum.length;
-      }
-      else if (dType === 'Object') {
-         let element = utils.findElement(serie.values, 'x', datum.x);
-         if (element) {
-          element.y = datum.y;
+
+      if (datum.constructor.name === 'Array') {
+        for (var i in datum) {
+          this.keepDrawing(datum[i]);
         }
-        else {
-          serie.values.push(datum);
+      } else {
+        //Find serie or initialize this.
+        var serie = utils.findElement(this.data, 'key', datum.key);
+        if (!serie || !serie.values) {
+          serie = {
+            key: datum.key,
+            values: []
+          };
+          this.data.push(serie);
         }
-        dLength = 1;
+        serie.values = datum.values;
       }
-      else {
-        throw TypeError('Unknown data type' + dType);
-      }
-       if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.data.length > maxNumberOfElements) {
-          for (let i = 0; i < dLength; i++) {
-            this.data.shift();
-          }
-        }
-      }
-      super.draw(this.data);
-      **/
+      this.draw(this.data);
+      return this.data;
     }
   }]);
 

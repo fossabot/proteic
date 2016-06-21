@@ -10,6 +10,7 @@ class WebsocketDatasource extends Datasource {
     }
 
     start() {
+        super.start();
         this.ws = new WebSocket(this.source.endpoint);
 
         this.ws.onopen = (e) => {
@@ -25,8 +26,8 @@ class WebsocketDatasource extends Datasource {
             }
         };
         this.ws.onmessage = (e) => {
-            var data = JSON.parse(event.data.substr(2))[1];
-            //var data = JSON.parse(e.data);
+            //var data = JSON.parse(event.data.substr(2))[1];
+            var data = JSON.parse(e.data);
             for (let rIndex in this.reactors) {
                 let reactor = this.reactors[rIndex];
                 reactor.dispatchEvent('onmessage', data);
@@ -35,6 +36,7 @@ class WebsocketDatasource extends Datasource {
     }
 
     stop() {
+        super.stop();
         if (this.ws) {
             this.ws.close();
         }

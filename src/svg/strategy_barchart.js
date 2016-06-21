@@ -2,8 +2,6 @@ class SvgBarchartStrategy extends SvgChart {
 
   constructor(chartContext) {
     super(chartContext);
-
-
     //Create range function
     this.xAxisName = 'x';
     this.yAxisName = 'y';
@@ -91,7 +89,7 @@ class SvgBarchartStrategy extends SvgChart {
     // Check overlapping axis labels
     var labelsWidth = 0;
     this.svg.selectAll('.x.axis g.tick text')
-      .each(function() {
+      .each(function () {
         labelsWidth += this.getBBox().width;
       });
     if (labelsWidth > this.width) {
@@ -138,7 +136,7 @@ class SvgBarchartStrategy extends SvgChart {
       .attr('y', (d) => this.y(d.y))
       .attr('height', (d) => this.height - this.y(d.y))
       .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
-  
+
     this._updateYaxis();
     this._applyCSS();
   }
@@ -172,9 +170,12 @@ class SvgBarchartStrategy extends SvgChart {
       transition = e.detail.type;
       if (transition === 'grouped') {
         this._transition2Grouped();
+        this.isStacked = false;
+
       }
       else if (transition === 'stacked') {
         this._transition2Stacked();
+        this.isStacked = true;
       }
       else {
         throw Error('Not recognized transition: ' + transition);
