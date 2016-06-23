@@ -125,7 +125,6 @@ class SvgSunburstStrategy extends SvgChart {
       .attrTween('d', (d) => () => this.arcGen(d) );
   }
 
-
   /**
    * From: http://bl.ocks.org/kerryrodden/7090426
    * @param node
