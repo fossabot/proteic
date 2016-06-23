@@ -37,7 +37,7 @@ class SvgSunburstStrategy extends SvgChart {
         if (!d.parent) {
           return 'white';
         } else {
-          return this.colorScale((d.children ? d : d.parent).name);
+          return this.colorScale(d.name);
         }
       });
 

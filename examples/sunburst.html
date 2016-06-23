@@ -33,34 +33,33 @@
   <script src='../src/charts/sunburst.js' type='text/javascript'></script>
 
   <script>
-    
-    var data = {
-      "name": "countries",
-      "children": [
-        {
-          "name": "Europe",
-          "children": [
-            { "name": "Spain",
-              "children": [
-                { "name": "Asturias", "value": 72 },
-                { "name": "Extremadura", "value": 47}
-              ]
-            },
-            {"name": "Portugal", "value": 65}
-          ],
-        }, {
-          "name": "America",
-          "children": [
-            { "name": "Chile", "value": 11}
-          ]
-        }, {
-          "name": "Africa",
-          "children": [
-            { "name": "Angola", "value": 61}
-          ]
-        }
-      ]
-    };
+
+      var data = {
+        "name": "sequences",
+        "children": [
+          { "name": "home",
+            "children": [
+              { "name": "home", "value": 50 },
+              { "name": "about",
+                "children": [
+                  { "name": "contact",
+                    "value": 25
+                  }
+                ]
+              },
+              { "name": "product",
+                "children": [
+                  { "name": "product",
+                    "children": [
+                      { "name": "cart", "value": 25 }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
 
     sunburst = new Sunburst(data);
     sunburst.draw();
