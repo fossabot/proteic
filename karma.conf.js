@@ -40,7 +40,7 @@ module.exports =  (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/utils/defaults/!(*).js': ['coverage']
+      'src/**/!(defaults)/*.js': ['coverage']
     },
 
 
@@ -94,7 +94,7 @@ module.exports =  (config) => {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous

@@ -2340,7 +2340,7 @@ var Chart = function () {
         _classCallCheck(this, Chart);
 
         var clazz = this.constructor.name;
-        if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
+        if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal' || clazz === 'Hierarchical') {
             throw new Error(clazz + ' is non-instanciable');
         }
 
