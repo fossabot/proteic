@@ -30,6 +30,7 @@ class Sunburst extends Hierarchical {
     this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);
 
     this.draw();
+
     return this.data;
   }
 
@@ -52,7 +53,7 @@ class Sunburst extends Hierarchical {
       if (i + 1 < path.length) {
         var foundChild = false;
         for (let j = 0; children !== undefined && j < children.length; j++) {
-          if (children[j].name == name) {
+          if (children[j].name === name) {
             child = children[j];
             foundChild = true;
             break;
@@ -60,8 +61,8 @@ class Sunburst extends Hierarchical {
         }
         if (!foundChild) {
           child = {
-            "name": name,
-            "children": []
+            'name': name,
+            'children': []
           };
           if (children === undefined) {
             current.children = [];
@@ -72,8 +73,8 @@ class Sunburst extends Hierarchical {
         current = child;
       } else {
         child = {
-          "name": name,
-          "value": value
+          'name': name,
+          'value': value
         };
         if (children === undefined) {
           current.children = [];

@@ -29,7 +29,7 @@ class SvgSunburstStrategy extends SvgChart {
       .outerRadius((d) =>  Math.max(0, this.y(d.y + d.dy)));
 
     // Draw the paths (arcs)
-    var paths = this.svg.selectAll('path')
+    let paths = this.svg.selectAll('path')
       .data(partition.nodes(data))
       .enter().append('path')
       .attr('d', this.arcGen)
@@ -42,7 +42,7 @@ class SvgSunburstStrategy extends SvgChart {
       });
 
     // Create infobox
-    var infobox = this.svg
+    let infobox = this.svg
       .append('g')
       .attr('class', 'infobox')
       .attr('pointer-events', 'none');
@@ -68,7 +68,7 @@ class SvgSunburstStrategy extends SvgChart {
 
     paths
       .on('mouseover', (d) => {
-        var ancestors = this._getAncestors(d);
+        let ancestors = this._getAncestors(d);
         // Fade all the arcs
         if (ancestors.length > 0) {
           d3.selectAll('path')
@@ -84,7 +84,7 @@ class SvgSunburstStrategy extends SvgChart {
           this.svg.select('.infobox .name').text(d.name);
           this.svg.select('.infobox .value').text(d.value);
       })
-      .on('mouseout', function(d) {
+      .on('mouseout', (d) => {
         d3.selectAll('path').style('opacity', 1);
         d3.select('.infobox .name').style('font-weight', 'normal');
         d3.select('.infobox .name').text('');
@@ -113,7 +113,7 @@ class SvgSunburstStrategy extends SvgChart {
       .transition()
       .duration(450)
       .tween('scale', () => {
-        var xd = d3.interpolate(this.x.domain(), [d.x, d.x + d.dx]),
+        let xd = d3.interpolate(this.x.domain(), [d.x, d.x + d.dx]),
           yd = d3.interpolate(this.y.domain(), [d.y, 1]),
           yr = d3.interpolate(this.y.range(), [d.y ? 30 : 0, this.radius]);
         return (t) => {
@@ -132,8 +132,8 @@ class SvgSunburstStrategy extends SvgChart {
    * @private
    */
   _getAncestors(node) {
-    var path = [];
-    var current = node;
+    let path = [];
+    let current = node;
     while (current.parent) {
       path.unshift(current);
       current = current.parent;
@@ -153,8 +153,8 @@ class SvgSunburstStrategy extends SvgChart {
   _initialize() {
     // super._initialize();
 
-    var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.left + this.margin.right;
+    let width = this.width + this.margin.left + this.margin.right;
+    let height = this.height + this.margin.left + this.margin.right;
     this.radius = (Math.min(width, height) / 2) - 10; // TODO 10 = margin
 
     // Create scales
@@ -169,23 +169,6 @@ class SvgSunburstStrategy extends SvgChart {
       .attr({ width, height })
       .append('g')
       .attr('transform', 'translate(' + width / 2 + ',' + (height / 2) + ')');
-
-
-    //Create tooltip (d3-tip)
-    // if (this.tip) {
-    //   this.tooltip = d3.tip()
-    //     .attr('class', 'd3-tip')
-    //     .style({
-    //       'line-height': 1,
-    //       'padding': '12px',
-    //       'background': 'rgba(0, 0, 0, 0.8)',
-    //       'color': '#fff',
-    //       'border-radius': '2px',
-    //       'pointer-events': 'none',
-    //     })
-    //     .html(this.tip);
-    //   this.svg.call(this.tooltip);
-    // }
 
     //Initialize SVG
     this._initialized = true;
