@@ -58,10 +58,35 @@ describe('Sunburst', () => {
   });
 
   describe('chart functions ', () => {
-    it.skip('toPNG()', (done) => {
+    it('toPNG()', (done) => {
       // TODO
-      var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }];
-      var chart = new Barchart(data);
+      var data = {
+        "name": "sequences",
+        "children": [
+          { "name": "home",
+            "children": [
+              { "name": "home", "value": 50 },
+              { "name": "about",
+                "children": [
+                  { "name": "contact",
+                    "value": 25
+                  }
+                ]
+              },
+              { "name": "product",
+                "children": [
+                  { "name": "product",
+                    "children": [
+                      { "name": "cart", "value": 25 }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+      var chart = new Sunburst(data);
       chart.draw();
 
       //wait for image creation
