@@ -95,36 +95,6 @@ var utils = utils || {
     return deg * Math.PI / 180;
   }
 };
-
-//Extends Set functionality
-Set.prototype.equals = function (as) {
-  if (as.size !== this.size) return false;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = as[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var a = _step.value;
-      if (!this.has(a)) return false;
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return true;
-};
 'use strict';
 
 var utils = utils || {};
@@ -271,6 +241,9 @@ var strategies = {
   Gauge: function Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
   },
+  Sunburst: function Sunburst(chartContext) {
+    return new SvgSunburstStrategy(chartContext);
+  },
   Swimlane: function Swimlane(chartContext) {
     return new SvgSwimlaneStrategy(chartContext);
   }
@@ -280,6 +253,92 @@ var strategies = {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * List of color palettes
+ */
+
+var paletteCategory1 = ['#e1c8df', '#9ecd9d', '#acd9d6', '#e4e36b', '#bfa1c5', '#e4d3b8', '#facba8', '#ced4ea', '#acd9d6'];
+
+var paletteCategory2 = ['#b6dde2', '#6394af', '#e4e9ab', '#8ea876', '#f7dce1', '#cc878f', '#fadaac', '#f29a83', '#8d7e9e'];
+
+var paletteCategory3 = ['#6b68a9', '#8cc590', '#b9487d', '#bfa1c5', '#4e6936', '#71bbc3', '#484156', '#ccaf44', '#d0553c'];
+
+var paletteCategory4 = ['#f1a30d', '#1d4763', '#84c7bc', '#c1212d', '#8fbe46', '#076837', '#563a2d', '#563a2d', '#87325d'];
+
+var paletteCategory5 = ['#f1a30d', '#0c3183', '#acd9d6', '#c1212d', '#8fbe46', '#076837', '#8a6338', '#8d2d84', '#f09bbc'];
+
+var paletteCategory6 = ['#71bbc3', '#1d4763', '#8fbe46', '#4e6936', '#ee8998', '#c1212d', '#f5af3c', '#e95e2e', '#634484'];
+
+var paletteCategory7 = ['#ea671e', '#684592', '#84b92a', '#cd131c', '#3c5ba2', '#5baddc', '#ffde06', '#5db68b', '#775e47'];
+
+var paletteCategory8 = ['#ebd646', '#a50f38', '#00a096', '#f09bbc', '#065b78', '#72722a', '#005231', '#4d4e98', '#7c4d25'];
+
+var paletteSequentialYellow = ['#fff1c6', '#fee5a7', '#fcda87', '#face64', '#f8bf4b', '#f6b030', '#f4a009', '#d28514', '#b36c17', '#955618', '#7a4317', '#613214', '#49230f'];
+
+var paletteSequentialRedOrange = ['#ffecb8', '#fbd68b', '#f7bf5e', '#f3a82f', '#df7520', '#cd4925', '#be0a26', '#a81023', '#941320', '#80141d', '#6d1419', '#5a1215', '#470f0f'];
+
+var paletteSequentialRed = ['#fde4d4', '#f1c4af', '#f7bf5e', '#db826a', '#d0614d', '#c73e36', '#be0a26', '#a81023', '#941320', '#80141d', '#6d1419', '#5a1215', '#470f0f'];
+
+var paletteSequentialPink = ['#fbe3e3', '#f9cfcc', '#f0aaa9', '#ed7e7e', '#ea647b', '#e74576', '#e41270', '#c70f65', '#aa105c', '#8d1253', '#731448', '#5a123c', '#420e30'];
+
+var paletteSequentialPurplePink = ['#f9d8e6', '#ebbed7', '#dda4c7', '#c890bb', '#b27daf', '#8a4c94', '#622181', '#622181', '#50216b', '#472060', '#3e1f55', '#361e4b', '#2d1c41'];
+
+var paletteSequentialPurple = ['#f6e8f1', '#dcc5de', '#c2a3c9', '#a980b3', '#905e9f', '#793f8e', '#622181', '#592175', '#4f216b', '#462060', '#3d1f55', '#351e4b', '#2c1c41'];
+
+var paletteSequentialBlue = ['#e5f2f9', '#d1e5f5', '#afd3ed', '#91afd7', '#738bbf', '#3c5a9e', '#0c3183', '#132a68', '#10204c', '#0b193b', '#06142f', '#051228', '#061020'];
+
+var paletteSequentialLightBlue = ['#eff8fd', '#d9eff6', '#c2e5ef', '#a8dae8', '#90cbe4', '#76b8e1', '#5baddc', '#4d96cc', '#427ebc', '#3a67ab', '#324c88', '#29366b', '#1e2354'];
+
+var paletteSequentialBlueViolet = ['#edf7e7', '#c8e3d2', '#91cdbf', '#41b5ab', '#218ba4', '#145d94', '#0c3183', '#0d2d76', '#0d2a6a', '#0e265e', '#0d2253', '#0c1e47', '#0b1a3c'];
+
+var paletteSequentialTurquoise = ['#e2ecf6', '#cadfe6', '#b1d3d6', '#94c6c6', '#74b9b6', '#4caca6', '#00a096', '#008d89', '#007b7c', '#006a6f', '#005963', '#004a57', '#063b4c'];
+
+var paletteSequentialLightGreen = ['#faf9de', '#e9efc3', '#d7e4a7', '#c5d989', '#b1ce6a', '#9cc34c', '#84b92a', '#6fa32b', '#5a8f2a', '#477c29', '#346b27', '#205b24', '#074d21'];
+
+var paletteSequentialDarkGreen = ['#eaf3e5', '#c7d5be', '#a3ba9a', '#80a078', '#5c885a', '#357442', '#00632e', '#00592b', '#004e27', '#004423', '#033a1e', '#053019', '#052613'];
+
+var paletteSequentialGreenBrown = ['#f7eccd', '#d9cba6', '#bcad82', '#a29162', '#887946', '#716330', '#5b501f', '#51461d', '#483d1b', '#3f3418', '#362b15', '#2d2311', '#231a0d'];
+
+var paletteSequentialBrown = ['#f7eccd', '#eed3ab', '#e4bb89', '#dba269', '#ad7446', '#834d2c', '#5e2f19', '#552a18', '#4c2516', '#432113', '#3a1c11', '#32180f', '#29130b'];
+
+var paletteSequentialGrey = ['#e5e8ea', '#bdbfc3', '#999a9f', '#77797f', '#595c64', '#3e444c', '#253038', '#20282e', '#1a2024', '#15181b', '#0e1112', '#070808', '#000000'];
+
+var paletteSequentialVioletCb = ['#f4f3f9', '#e0dced', '#cbc6e0', '#b7b0d4', '#948cbf', '#706baa', '#4d4e98', '#484889', '#42427a', '#3d3c6c', '#37365e', '#313050', '#2c2a44'];
+
+var paletteSequentialPinkCb = ['#fbe5ee', '#f8ccd5', '#f4b2bc', '#f096a3', '#d56976', '#bc3f52', '#a50f38', '#951735', '#851b31', '#761d2e', '#671e2a', '#581d26', '#4a1c22'];
+
+var paletteSequentialBlueCb = ['#eaf6fc', '#cfe4f4', '#cfe4f4', '#91bfe3', '#6999bb', '#417797', '#065b78', '#11536b', '#174b5f', '#194354', '#1a3b49', '#1a343f', '#192d35'];
+
+var paletteSequentialGreenCb = ['#fff7d0', '#e9e09b', '#d1ca62', '#b7b623', '#9e9e28', '#88872a', '#72722a', '#676726', '#5c5c23', '#51511f', '#47471b', '#3d3d17', '#333413'];
+
+var paletteSequentialGreenBrownCb = ['#f2edde', '#d8d1c0', '#bfb699', '#a09778', '#837b5a', '#686141', '#4f4b2c', '#3e3e1f', '#2e3313', '#292d14', '#232613', '#1e2012', '#191a10'];
+
+var paletteDivergingSpectral1 = ['#98141f', '#ab332c', '#bf5040', '#d5705b', '#e4a57f', '#f3d6a6', '#f5f2b8', '#cfdbb1', '#a4c4a9', '#71ada1', '#4e868f', '#2e637d', '#06456c'];
+
+var paletteDivergingSpectral2 = ['#d43d4f', '#df564b', '#eb6d45', '#f08e53', '#f8b96f', '#fee08b', '#f5f2b8', '#d7e5b1', '#b5d7aa', '#8ec8a3', '#6abda3', '#4fa4b5', '#3489be'];
+
+var paletteDivergingSpectral3 = ['#651035', '#ae1143', '#c9314b', '#dd7257', '#eeb27a', '#feeb9e', '#f5f2b8', '#cadfba', '#96cabb', '#50b4bb', '#3eaecc', '#206791', '#0c2c63'];
+
+var paletteDivergingBrownTurquoise = ['#3f3128', '#683828', '#933624', '#d5705b', '#db9c5e', '#feeb9e', '#f5f2b8', '#cfdbb1', '#a4c4a9', '#71ada1', '#628f85', '#53746d', '#475b57'];
+
+var paletteDivergingOrangePink = ['#e7511e', '#eb6929', '#ee7f37', '#f29446', '#f9c083', '#ffe9c3', '#ffeee3', '#f9cfc1', '#f3a9ab', '#db6882', '#c71360', '#891953', '#4b1c47'];
+
+var paletteDivergingRedBlue = ['#b2172b', '#c4443e', '#d76a5a', '#ed937e', '#f4b8a2', '#fcdbc7', '#efefef', '#bfcad5', '#8ba7bc', '#4d87a5', '#3c7ca0', '#28729b', '#036896'];
+
+var paletteDivergingRedGrey = ['#b2172b', '#c54532', '#da6c3b', '#f29446', '#f8bc67', '#fee08b', '#efece5', '#c9c5c1', '#a5a19f', '#808080', '#666666', '#333333', '#000000'];
+
+var paletteDivergingOrangeViolet = ['#98141f', '#ab332c', '#f9bc47', '#fdcf66', '#fede8d', '#ffecb3', '#f9eff6', '#e8d0e3', '#a4c4a9', '#a973aa', '#834f96', '#622181', '#402357'];
+
+var paletteDivergingPurpleGreen = ['#59194b', '#85134b', '#c71360', '#db6882', '#eba7a8', '#fce0ca', '#faefe1', '#dbd9aa', '#b9c26e', '#94ad31', '#728b2b', '#546c25', '#39521f'];
+
+var paletteDivergingVioletGreen = ['#55296e', '#75408e', '#8a5fa0', '#a081b5', '#beadcf', '#ddd7e7', '#eae8ed', '#c1d4bc', '#93be86', '#58a951', '#3c853e', '#23662f', '#084a22'];
+
+var paletteDivergingRedGreen = ['#b2172b', '#c5403c', '#d96453', '#ef8972', '#f6b49c', '#fcdbc7', '#f9ebde', '#dad6a8', '#b9c16d', '#94ad31', '#728b2b', '#546c25', '#39521f'];
+
+var paletteDivergingBrownGreen = ['#735146', '#846454', '#977a65', '#aa9177', '#c2ad91', '#dbcaad', '#edebd6', '#c4d6aa', '#94bf7c', '#58a951', '#3c853e', '#23662f', '#084a22'];
+
+var paletteDivergingLightBrownTurquoise = ['#8b5219', '#a46821', '#bf812c', '#cfa151', '#e2c489', '#f6e8c3', '#f5f1df', '#cbdccc', '#9cc6b9', '#60afa6', '#359790', '#1d7d75', '#00665e'];
 
 /**
  * Colors utility class. Provides scales for each color palette.
@@ -493,98 +552,12 @@ var Colors = function () {
   }, {
     key: 'diverging_lightBrown_turquoise',
     value: function diverging_lightBrown_turquoise() {
-      return d3.scale.quantile().range(palette_divergingLightBrownTurquoise);
+      return d3.scale.quantile().range(paletteDivergingLightBrownTurquoise);
     }
   }]);
 
   return Colors;
 }();
-
-/**
- * List of color palettes
- */
-
-var paletteCategory1 = ['#e1c8df', '#9ecd9d', '#acd9d6', '#e4e36b', '#bfa1c5', '#e4d3b8', '#facba8', '#ced4ea', '#acd9d6'];
-
-var paletteCategory2 = ['#b6dde2', '#6394af', '#e4e9ab', '#8ea876', '#f7dce1', '#cc878f', '#fadaac', '#f29a83', '#8d7e9e'];
-
-var paletteCategory3 = ['#6b68a9', '#8cc590', '#b9487d', '#bfa1c5', '#4e6936', '#71bbc3', '#484156', '#ccaf44', '#d0553c'];
-
-var paletteCategory4 = ['#f1a30d', '#1d4763', '#84c7bc', '#c1212d', '#8fbe46', '#076837', '#563a2d', '#563a2d', '#87325d'];
-
-var paletteCategory5 = ['#f1a30d', '#0c3183', '#acd9d6', '#c1212d', '#8fbe46', '#076837', '#8a6338', '#8d2d84', '#f09bbc'];
-
-var paletteCategory6 = ['#71bbc3', '#1d4763', '#8fbe46', '#4e6936', '#ee8998', '#c1212d', '#f5af3c', '#e95e2e', '#634484'];
-
-var paletteCategory7 = ['#ea671e', '#684592', '#84b92a', '#cd131c', '#3c5ba2', '#5baddc', '#ffde06', '#5db68b', '#775e47'];
-
-var paletteCategory8 = ['#ebd646', '#a50f38', '#00a096', '#f09bbc', '#065b78', '#72722a', '#005231', '#4d4e98', '#7c4d25'];
-
-var paletteSequentialYellow = ['#fff1c6', '#fee5a7', '#fcda87', '#face64', '#f8bf4b', '#f6b030', '#f4a009', '#d28514', '#b36c17', '#955618', '#7a4317', '#613214', '#49230f'];
-
-var paletteSequentialRedOrange = ['#ffecb8', '#fbd68b', '#f7bf5e', '#f3a82f', '#df7520', '#cd4925', '#be0a26', '#a81023', '#941320', '#80141d', '#6d1419', '#5a1215', '#470f0f'];
-
-var paletteSequentialRed = ['#fde4d4', '#f1c4af', '#f7bf5e', '#db826a', '#d0614d', '#c73e36', '#be0a26', '#a81023', '#941320', '#80141d', '#6d1419', '#5a1215', '#470f0f'];
-
-var paletteSequentialPink = ['#fbe3e3', '#f9cfcc', '#f0aaa9', '#ed7e7e', '#ea647b', '#e74576', '#e41270', '#c70f65', '#aa105c', '#8d1253', '#731448', '#5a123c', '#420e30'];
-
-var paletteSequentialPurplePink = ['#f9d8e6', '#ebbed7', '#dda4c7', '#c890bb', '#b27daf', '#8a4c94', '#622181', '#622181', '#50216b', '#472060', '#3e1f55', '#361e4b', '#2d1c41'];
-
-var paletteSequentialPurple = ['#f6e8f1', '#dcc5de', '#c2a3c9', '#a980b3', '#905e9f', '#793f8e', '#622181', '#592175', '#4f216b', '#462060', '#3d1f55', '#351e4b', '#2c1c41'];
-
-var paletteSequentialBlue = ['#e5f2f9', '#d1e5f5', '#afd3ed', '#91afd7', '#738bbf', '#3c5a9e', '#0c3183', '#132a68', '#10204c', '#0b193b', '#06142f', '#051228', '#061020'];
-
-var paletteSequentialLightBlue = ['#eff8fd', '#d9eff6', '#c2e5ef', '#a8dae8', '#90cbe4', '#76b8e1', '#5baddc', '#4d96cc', '#427ebc', '#3a67ab', '#324c88', '#29366b', '#1e2354'];
-
-var paletteSequentialBlueViolet = ['#edf7e7', '#c8e3d2', '#91cdbf', '#41b5ab', '#218ba4', '#145d94', '#0c3183', '#0d2d76', '#0d2a6a', '#0e265e', '#0d2253', '#0c1e47', '#0b1a3c'];
-
-var paletteSequentialTurquoise = ['#e2ecf6', '#cadfe6', '#b1d3d6', '#94c6c6', '#74b9b6', '#4caca6', '#00a096', '#008d89', '#007b7c', '#006a6f', '#005963', '#004a57', '#063b4c'];
-
-var paletteSequentialLightGreen = ['#faf9de', '#e9efc3', '#d7e4a7', '#c5d989', '#b1ce6a', '#9cc34c', '#84b92a', '#6fa32b', '#5a8f2a', '#477c29', '#346b27', '#205b24', '#074d21'];
-
-var paletteSequentialDarkGreen = ['#eaf3e5', '#c7d5be', '#a3ba9a', '#80a078', '#5c885a', '#357442', '#00632e', '#00592b', '#004e27', '#004423', '#033a1e', '#053019', '#052613'];
-
-var paletteSequentialGreenBrown = ['#f7eccd', '#d9cba6', '#bcad82', '#a29162', '#887946', '#716330', '#5b501f', '#51461d', '#483d1b', '#3f3418', '#362b15', '#2d2311', '#231a0d'];
-
-var paletteSequentialBrown = ['#f7eccd', '#eed3ab', '#e4bb89', '#dba269', '#ad7446', '#834d2c', '#5e2f19', '#552a18', '#4c2516', '#432113', '#3a1c11', '#32180f', '#29130b'];
-
-var paletteSequentialGrey = ['#e5e8ea', '#bdbfc3', '#999a9f', '#77797f', '#595c64', '#3e444c', '#253038', '#20282e', '#1a2024', '#15181b', '#0e1112', '#070808', '#000000'];
-
-var paletteSequentialVioletCb = ['#f4f3f9', '#e0dced', '#cbc6e0', '#b7b0d4', '#948cbf', '#706baa', '#4d4e98', '#484889', '#42427a', '#3d3c6c', '#37365e', '#313050', '#2c2a44'];
-
-var paletteSequentialPinkCb = ['#fbe5ee', '#f8ccd5', '#f4b2bc', '#f096a3', '#d56976', '#bc3f52', '#a50f38', '#951735', '#851b31', '#761d2e', '#671e2a', '#581d26', '#4a1c22'];
-
-var paletteSequentialBlueCb = ['#eaf6fc', '#cfe4f4', '#cfe4f4', '#91bfe3', '#6999bb', '#417797', '#065b78', '#11536b', '#174b5f', '#194354', '#1a3b49', '#1a343f', '#192d35'];
-
-var paletteSequentialGreenCb = ['#fff7d0', '#e9e09b', '#d1ca62', '#b7b623', '#9e9e28', '#88872a', '#72722a', '#676726', '#5c5c23', '#51511f', '#47471b', '#3d3d17', '#333413'];
-
-var paletteSequentialGreenBrownCb = ['#f2edde', '#d8d1c0', '#bfb699', '#a09778', '#837b5a', '#686141', '#4f4b2c', '#3e3e1f', '#2e3313', '#292d14', '#232613', '#1e2012', '#191a10'];
-
-var paletteDivergingSpectral1 = ['#98141f', '#ab332c', '#bf5040', '#d5705b', '#e4a57f', '#f3d6a6', '#f5f2b8', '#cfdbb1', '#a4c4a9', '#71ada1', '#4e868f', '#2e637d', '#06456c'];
-
-var paletteDivergingSpectral2 = ['#d43d4f', '#df564b', '#eb6d45', '#f08e53', '#f8b96f', '#fee08b', '#f5f2b8', '#d7e5b1', '#b5d7aa', '#8ec8a3', '#6abda3', '#4fa4b5', '#3489be'];
-
-var paletteDivergingSpectral3 = ['#651035', '#ae1143', '#c9314b', '#dd7257', '#eeb27a', '#feeb9e', '#f5f2b8', '#cadfba', '#96cabb', '#50b4bb', '#3eaecc', '#206791', '#0c2c63'];
-
-var paletteDivergingBrownTurquoise = ['#3f3128', '#683828', '#933624', '#d5705b', '#db9c5e', '#feeb9e', '#f5f2b8', '#cfdbb1', '#a4c4a9', '#71ada1', '#628f85', '#53746d', '#475b57'];
-
-var paletteDivergingOrangePink = ['#e7511e', '#eb6929', '#ee7f37', '#f29446', '#f9c083', '#ffe9c3', '#ffeee3', '#f9cfc1', '#f3a9ab', '#db6882', '#c71360', '#891953', '#4b1c47'];
-
-var paletteDivergingRedBlue = ['#b2172b', '#c4443e', '#d76a5a', '#ed937e', '#f4b8a2', '#fcdbc7', '#efefef', '#bfcad5', '#8ba7bc', '#4d87a5', '#3c7ca0', '#28729b', '#036896'];
-
-var paletteDivergingRedGrey = ['#b2172b', '#c54532', '#da6c3b', '#f29446', '#f8bc67', '#fee08b', '#efece5', '#c9c5c1', '#a5a19f', '#808080', '#666666', '#333333', '#000000'];
-
-var paletteDivergingOrangeViolet = ['#98141f', '#ab332c', '#f9bc47', '#fdcf66', '#fede8d', '#ffecb3', '#f9eff6', '#e8d0e3', '#a4c4a9', '#a973aa', '#834f96', '#622181', '#402357'];
-
-var paletteDivergingPurpleGreen = ['#59194b', '#85134b', '#c71360', '#db6882', '#eba7a8', '#fce0ca', '#faefe1', '#dbd9aa', '#b9c26e', '#94ad31', '#728b2b', '#546c25', '#39521f'];
-
-var paletteDivergingVioletGreen = ['#55296e', '#75408e', '#8a5fa0', '#a081b5', '#beadcf', '#ddd7e7', '#eae8ed', '#c1d4bc', '#93be86', '#58a951', '#3c853e', '#23662f', '#084a22'];
-
-var paletteDivergingRedGreen = ['#b2172b', '#c5403c', '#d96453', '#ef8972', '#f6b49c', '#fcdbc7', '#f9ebde', '#dad6a8', '#b9c16d', '#94ad31', '#728b2b', '#546c25', '#39521f'];
-
-var paletteDivergingBrownGreen = ['#735146', '#846454', '#977a65', '#aa9177', '#c2ad91', '#dbcaad', '#edebd6', '#c4d6aa', '#94bf7c', '#58a951', '#3c853e', '#23662f', '#084a22'];
-
-var palette_divergingLightBrownTurquoise = ['#8b5219', '#a46821', '#bf812c', '#cfa151', '#e2c489', '#f6e8c3', '#f5f1df', '#cbdccc', '#9cc6b9', '#60afa6', '#359790', '#1d7d75', '#00665e'];
 'use strict';
 
 var _default = _default || {};
@@ -805,9 +778,9 @@ _default.Linechart = {
     },
     tickLabel: '',
     transitionDuration: 300,
-    maxNumberOfElements: 10, // used by keepDrawing to reduce the number of elements in the current chart
+    maxNumberOfElements: 100, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
-        descending: false,
+        descending: true,
         prop: 'x'
     }
 };
@@ -876,6 +849,70 @@ _default.Streamgraph = {
         prop: 'x'
     }
 
+};
+'use strict';
+
+var _default = _default || {};
+
+_default.Sunburst = {
+    selector: '#chart',
+    colorScale: Colors.category8(),
+    margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
+    },
+    width: '50%', // %, auto, or numeric
+    height: 450,
+    style: {
+        '.labels': {
+            'font': '18px sans-serif',
+            'text-anchor': 'middle'
+        },
+        'path': {
+            'stroke': '#fff',
+            'stroke-width': 2,
+            'shape-rendering': 'crispEdge'
+        },
+        '.infobox': {
+            'text-anchor': 'middle',
+            'alignment-baseline': 'central',
+            'fill': 'black'
+        },
+        '.infobox .name': {
+            'font': '28px sans-serif'
+        },
+        '.infobox .value': {
+            'font': '24px sans-serif',
+            'transform': 'translate(0, 1.5em)'
+        }
+    },
+    tooltip: function tooltip(data) {
+        return data.name + ': ' + data.value;
+    },
+
+    events: {
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(50).attr('r', 7);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(50).attr('r', 5).style('stroke-width', 2);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
+    },
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    }
 };
 'use strict';
 
@@ -964,16 +1001,36 @@ var Reactor = function () {
 
     return Reactor;
 }();
-"use strict";
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Datasource = function Datasource() {
-    _classCallCheck(this, Datasource);
-};
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Datasource = function () {
+    function Datasource() {
+        _classCallCheck(this, Datasource);
+    }
+
+    _createClass(Datasource, [{
+        key: 'start',
+        value: function start() {
+            console.log('Starting datasource');
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            console.log('Stopping datasource');
+        }
+    }]);
+
+    return Datasource;
+}();
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1004,6 +1061,7 @@ var WebsocketDatasource = function (_Datasource) {
         value: function start() {
             var _this2 = this;
 
+            _get(Object.getPrototypeOf(WebsocketDatasource.prototype), 'start', this).call(this);
             this.ws = new WebSocket(this.source.endpoint);
 
             this.ws.onopen = function (e) {
@@ -1030,6 +1088,7 @@ var WebsocketDatasource = function (_Datasource) {
     }, {
         key: 'stop',
         value: function stop() {
+            _get(Object.getPrototypeOf(WebsocketDatasource.prototype), 'stop', this).call(this);
             if (this.ws) {
                 this.ws.close();
             }
@@ -1311,7 +1370,6 @@ var SvgBarchartStrategy = function (_SvgChart) {
     value: function draw(data) {
       var _this2 = this;
 
-      console.log(data);
       _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), 'draw', this).call(this, data);
       this.values = data.map(function (d) {
         return d.values;
@@ -1452,8 +1510,10 @@ var SvgBarchartStrategy = function (_SvgChart) {
         transition = e.detail.type;
         if (transition === 'grouped') {
           _this5._transition2Grouped();
+          _this5.isStacked = false;
         } else if (transition === 'stacked') {
           _this5._transition2Stacked();
+          _this5.isStacked = true;
         } else {
           throw Error('Not recognized transition: ' + transition);
         }
@@ -2057,6 +2117,215 @@ var SvgGaugeStrategy = function (_SvgChart) {
   return SvgGaugeStrategy;
 }(SvgChart);
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SvgSunburstStrategy = function (_SvgChart) {
+  _inherits(SvgSunburstStrategy, _SvgChart);
+
+  function SvgSunburstStrategy(chartContext) {
+    _classCallCheck(this, SvgSunburstStrategy);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SvgSunburstStrategy).call(this, chartContext));
+  }
+
+  /**
+   * Renders a barchart based on data object
+   * @param  {Object} data Data Object. Contains an array with x and y properties.
+   * 
+   */
+
+
+  _createClass(SvgSunburstStrategy, [{
+    key: 'draw',
+    value: function draw(data) {
+      var _this2 = this;
+
+      if (!this._initialized) {
+        this._initialize();
+      }
+
+      // Remove all the paths before redrawing
+      this._removePaths();
+
+      // Create layout partition
+      var partition = d3.layout.partition().value(function (d) {
+        return d.value;
+      });
+
+      // Create arc generators
+      this.arcGen = d3.svg.arc().startAngle(function (d) {
+        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x)));
+      }).endAngle(function (d) {
+        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x + d.dx)));
+      }).innerRadius(function (d) {
+        return Math.max(0, _this2.y(d.y));
+      }).outerRadius(function (d) {
+        return Math.max(0, _this2.y(d.y + d.dy));
+      });
+
+      // Draw the paths (arcs)
+      var paths = this.svg.selectAll('path').data(partition.nodes(data)).enter().append('path').attr('d', this.arcGen).style('fill', function (d) {
+        if (!d.parent) {
+          return 'white';
+        } else {
+          return _this2.colorScale(d.name);
+        }
+      });
+
+      // Create infobox
+      var infobox = this.svg.append('g').attr('class', 'infobox').attr('pointer-events', 'none');
+      // Append central circle
+      // infobox.append('circle')
+      //   .attr('cx', 0)
+      //   .attr('cy', 0)
+      //   .attr('r', 90)
+      //   .attr('fill', 'rgba(255, 255, 255, 0.7)')
+      // .attr('fill', 'white')
+      // .attr('pointer-events', 'none');
+      infobox.append('text').attr('class', 'name').attr('x', 0).attr('y', 0).attr('pointer-events', 'none');
+      infobox.append('text').attr('class', 'value').attr('x', 0).attr('y', 0).attr('pointer-events', 'none');
+
+      paths.on('mouseover', function (d) {
+        var ancestors = _this2._getAncestors(d);
+        // Fade all the arcs
+        if (ancestors.length > 0) {
+          d3.selectAll('path').style('opacity', 0.3);
+        }
+        d3.selectAll('path').filter(function (node) {
+          return ancestors.indexOf(node) >= 0;
+        }).style('opacity', 1);
+        // Hightlight the hovered arc
+        // d.parent ?
+        //   d3.select(this).style('opacity', 1) :
+        //   d3.select('.infobox .name').style('font-weight', 'bold');
+        _this2.svg.select('.infobox .name').text(d.name);
+        _this2.svg.select('.infobox .value').text(d.value);
+      }).on('mouseout', function (d) {
+        d3.selectAll('path').style('opacity', 1);
+        d3.select('.infobox .name').style('font-weight', 'normal');
+        d3.select('.infobox .name').text('');
+        d3.select('.infobox .value').text('');
+      })
+      // .on('click', (d) => {
+      //   this._zoom(d);
+      //   this.svg.select('.infobox .name').text(d.name);
+      //   this.svg.select('.infobox .value').text(d.value);
+      // })
+      ;
+
+      d3.select(self.frameElement).style('height', this.height + 'px');
+
+      this._applyCSS();
+    }
+
+    /**
+     * Zooms into the clicked arc.
+     * From: https://bl.ocks.org/mbostock/4348373
+     * @param d Current arc data
+     * @private
+     */
+
+  }, {
+    key: '_zoom',
+    value: function _zoom(d) {
+      var _this3 = this;
+
+      this.svg.transition().duration(450).tween('scale', function () {
+        var xd = d3.interpolate(_this3.x.domain(), [d.x, d.x + d.dx]),
+            yd = d3.interpolate(_this3.y.domain(), [d.y, 1]),
+            yr = d3.interpolate(_this3.y.range(), [d.y ? 30 : 0, _this3.radius]);
+        return function (t) {
+          _this3.x.domain(xd(t));
+          _this3.y.domain(yd(t)).range(yr(t));
+        };
+      }).selectAll('path').attrTween('d', function (d) {
+        return function () {
+          return _this3.arcGen(d);
+        };
+      });
+    }
+
+    /**
+     * From: http://bl.ocks.org/kerryrodden/7090426
+     * @param node
+     * @returns {Array}
+     * @private
+     */
+
+  }, {
+    key: '_getAncestors',
+    value: function _getAncestors(node) {
+      var path = [];
+      var current = node;
+      while (current.parent) {
+        path.unshift(current);
+        current = current.parent;
+      }
+      return path;
+    }
+
+    /**
+     * Removes all the paths (arcs). Doing this before each redraw prevents the
+     * transition to mess up the arcs.
+     * @private
+     */
+
+  }, {
+    key: '_removePaths',
+    value: function _removePaths() {
+      this.svg.selectAll('path').remove();
+    }
+  }, {
+    key: '_initialize',
+    value: function _initialize() {
+      // super._initialize();
+
+      var width = this.width + this.margin.left + this.margin.right;
+      var height = this.height + this.margin.left + this.margin.right;
+      this.radius = Math.min(width, height) / 2 - 10; // TODO 10 = margin
+
+      // Create scales
+      this.x = d3.scale.linear().range([0, 2 * Math.PI]);
+      this.y = d3.scale.sqrt().range([0, this.radius]);
+
+      // Create a global 'g' (group) element
+      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+
+      //Initialize SVG
+      this._initialized = true;
+    }
+
+    /**
+     * This method adds config options to the chart context.
+     * @param  {Object} config Config object
+     */
+
+  }, {
+    key: '_loadConfigOnContext',
+    value: function _loadConfigOnContext(config) {
+      config = config || { events: {} };
+      if (!config.events) {
+        config.events = {};
+      }
+      _get(Object.getPrototypeOf(SvgSunburstStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+
+      //Just for testing purposes
+      return this;
+    }
+  }]);
+
+  return SvgSunburstStrategy;
+}(SvgChart);
+'use strict';
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
@@ -2067,158 +2336,168 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Chart = function () {
-  function Chart() {
-    _classCallCheck(this, Chart);
+    function Chart(d, config) {
+        _classCallCheck(this, Chart);
 
-    var clazz = this.constructor.name;
-    if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
-      throw new Error(clazz + ' is non-instanciable');
-    }
-
-    this.events = {};
-
-    //Create chaining api
-    Chart.prototype.custom = new Object();
-
-    var customProperties = [];
-    for (var p in _default[this.constructor.name]) {
-      //hasOwnProperty?
-      customProperties.push(p);
-    }
-
-    customProperties.forEach(function (property) {
-      Chart.prototype["custom"][property] = function (value) {
-        console.debug('changing property', property, 'to', value, this);
-        //create apply method to apply changes
-        return this;
-      };
-    });
-    this.reactor = new Reactor();
-  }
-
-  /**
-   * Returns the chart context: data, configuration and chart type.
-   */
-
-
-  _createClass(Chart, [{
-    key: '_getChartContext',
-    value: function _getChartContext() {
-      return {
-        data: this.data,
-        config: this.config,
-        cType: this.constructor.name
-      };
-    }
-
-    /**
-     * Initialize the SVG context
-     */
-
-  }, {
-    key: '_initializeSVGContext',
-    value: function _initializeSVGContext() {
-      this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
-    }
-
-    /**
-     * Renders data on barchart. Only allowed when data is an array of static data.
-     * @param  {Array} data Array of data
-     */
-
-  }, {
-    key: 'draw',
-    value: function draw() {
-      var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
-
-      if (!utils.isArray(data)) {
-        throw new TypeError('draw method is only allowed with static data.');
-      }
-      data = JSON.parse(JSON.stringify(data));
-      this._svg.draw(data);
-    }
-
-    /**
-     * Returns a PNG image of the current graph
-     * @return {[String]} Image in data-url format
-     */
-
-  }, {
-    key: 'toPNG',
-    value: function toPNG(cb) {
-      utils.svgAsDataUri(d3.select(this.config.selector + ' svg')[0][0], {}, function (uri, err) {
-        if (err) {
-          throw Error('Error converting to image ' + err);
-        } else {
-          cb(uri);
+        var clazz = this.constructor.name;
+        if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal') {
+            throw new Error(clazz + ' is non-instanciable');
         }
-      });
+
+        this.events = {};
+        this.reactor = new Reactor();
+
+        if (!d && !config) {
+            throw new Error('Missing constructor parameters');
+        }
+
+        var dataFormat = d.constructor.name;
+        var nArguments = d && config ? 2 : 1;
+
+        switch (dataFormat) {
+            case 'WebsocketDatasource':
+                this.datasource = d;
+                this.data = [];
+                this._configureDatasource();
+                break;
+            case 'Array':
+                this.data = d;
+                break;
+            case 'Object':
+                this.data = d;
+                break;
+            default:
+                throw TypeError('Wrong data format');
+        }
+        //if only 1 parameter is specified, take default config. Else, take the second argument as config.
+        this.config = nArguments === 1 ? _default[this.constructor.name] : config;
+
+        this._initializeSVGContext();
     }
 
     /**
-     * On method. Define custom events (click, over, down and up).
+     * Returns the chart context: data, configuration and chart type.
      */
 
-  }, {
-    key: 'on',
-    value: function on(eventName, action) {
-      if (!eventName || typeof eventName !== 'string') {
-        throw Error('eventName should be a string. Instead: ' + eventName);
-      }
-      if (!action || !utils.isFunction(action)) {
-        throw Error('action should be a function. Instead: ' + eventName);
-      }
 
-      this.events[eventName] = action;
-      this._svg.on(this.events);
-      return this;
-    }
-  }, {
-    key: '_configureDatasource',
-    value: function _configureDatasource() {
-      var _this = this;
+    _createClass(Chart, [{
+        key: '_getChartContext',
+        value: function _getChartContext() {
+            return {
+                data: this.data,
+                config: this.config,
+                cType: this.constructor.name
+            };
+        }
 
-      this.datasource.configure(this.reactor);
-      this.reactor.registerEvent('onmessage');
-      this.reactor.registerEvent('onerror');
-      this.reactor.registerEvent('onopen');
+        /**
+         * Initialize the SVG context
+         */
 
-      this.reactor.addEventListener('onmessage', function (data) {
-        _this.keepDrawing(data);
-      });
+    }, {
+        key: '_initializeSVGContext',
+        value: function _initializeSVGContext() {
+            this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
+        }
 
-      this.reactor.addEventListener('onopen', function (e) {
-        console.debug('Connected to websocket endpoint.', e);
-      });
+        /**
+         * Renders data on barchart. Only allowed when data is an array of static data.
+         * @param  {Array} data Array of data
+         */
 
-      this.reactor.addEventListener('onerror', function (error) {
-        console.error('An error has occured: ', error);
-      });
-    }
-  }, {
-    key: 'pause',
-    value: function pause() {
-      if (!this.datasource) {
-        throw 'You need a datasource to pause a streaming';
-      }
-      this.reactor.removeEventListener('onmessage');
-    }
-  }, {
-    key: 'resume',
-    value: function resume() {
-      var _this2 = this;
+    }, {
+        key: 'draw',
+        value: function draw() {
+            var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-      if (!this.datasource) {
-        throw 'You need a datasource to resume a streaming';
-      }
+            if (!utils.isArray(data)) {
+                throw new TypeError('draw method is only allowed with static data.');
+            }
+            data = JSON.parse(JSON.stringify(data));
+            this._svg.draw(data);
+        }
 
-      this.reactor.addEventListener('onmessage', function (data) {
-        _this2.keepDrawing(data);
-      });
-    }
-  }]);
+        /**
+         * Returns a PNG image of the current graph
+         * @return {[String]} Image in data-url format
+         */
 
-  return Chart;
+    }, {
+        key: 'toPNG',
+        value: function toPNG(cb) {
+            utils.svgAsDataUri(d3.select(this.config.selector + ' svg')[0][0], {}, function (uri, err) {
+                if (err) {
+                    throw Error('Error converting to image ' + err);
+                } else {
+                    cb(uri);
+                }
+            });
+        }
+
+        /**
+         * On method. Define custom events (click, over, down and up).
+         */
+
+    }, {
+        key: 'on',
+        value: function on(eventName, action) {
+            if (!eventName || typeof eventName !== 'string') {
+                throw Error('eventName should be a string. Instead: ' + eventName);
+            }
+            if (!action || !utils.isFunction(action)) {
+                throw Error('action should be a function. Instead: ' + eventName);
+            }
+
+            this.events[eventName] = action;
+            this._svg.on(this.events);
+            return this;
+        }
+    }, {
+        key: '_configureDatasource',
+        value: function _configureDatasource() {
+            var _this = this;
+
+            this.datasource.configure(this.reactor);
+            this.reactor.registerEvent('onmessage');
+            this.reactor.registerEvent('onerror');
+            this.reactor.registerEvent('onopen');
+
+            this.reactor.addEventListener('onmessage', function (data) {
+                _this.keepDrawing(data);
+            });
+
+            this.reactor.addEventListener('onopen', function (e) {
+                console.debug('Connected to websocket endpoint.', e);
+            });
+
+            this.reactor.addEventListener('onerror', function (error) {
+                console.error('An error has occured: ', error);
+            });
+        }
+    }, {
+        key: 'pause',
+        value: function pause() {
+            if (!this.datasource) {
+                throw 'You need a datasource to pause a streaming';
+            }
+            this.reactor.removeEventListener('onmessage');
+        }
+    }, {
+        key: 'resume',
+        value: function resume() {
+            var _this2 = this;
+
+            if (!this.datasource) {
+                throw 'You need a datasource to resume a streaming';
+            }
+
+            this.reactor.addEventListener('onmessage', function (data) {
+                _this2.keepDrawing(data);
+            });
+        }
+    }]);
+
+    return Chart;
 }();
 'use strict';
 
@@ -2236,49 +2515,71 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Basic = function (_Chart) {
-    _inherits(Basic, _Chart);
+  _inherits(Basic, _Chart);
 
-    function Basic() {
-        _classCallCheck(this, Basic);
+  function Basic(data, config) {
+    _classCallCheck(this, Basic);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, data, config));
+  }
+
+  _createClass(Basic, [{
+    key: 'keepDrawing',
+    value: function keepDrawing(datum, mode) {
+      var config = this.config;
+      var maxNumberOfElements = config.maxNumberOfElements;
+      var d = null;
+
+      if (!datum) {
+        console.warn('attemp to draw null datum');
+        return;
+      }
+
+      for (var i in datum) {
+        d = datum[i];
+
+        //Find serie or initialize this.
+        var serie = utils.findElement(this.data, 'key', d.key);
+        if (!serie || !serie.values) {
+          serie = {
+            key: d.key,
+            values: []
+          };
+          this.data.push(serie);
+        }
+
+        this._addByMode(serie, d, mode);
+      }
+
+      //Loop series and check the maxNumberOfElements
+      for (var _i in this.data) {
+        var _serie = this.data[_i];
+        while (_serie.values.length > maxNumberOfElements) {
+          _serie.values.splice(0, 1);
+        }
+      }
+
+      this.draw(this.data);
     }
 
-    _createClass(Basic, [{
-        key: 'keepDrawing',
-        value: function keepDrawing(datum) {
-            var config = this.config;
-            var maxNumberOfElements = config.maxNumberOfElements;
+    /**
+     * Add data to a serie depending on its mode (add or replace)
+     */
 
-            if (!datum) {
-                console.warn('attemp to draw null datum');
-                return;
-            }
+  }, {
+    key: '_addByMode',
+    value: function _addByMode(serie, d, mode) {
+      if (mode === 'add') {
+        serie.values = serie.values.concat(d.values);
+      } else if (mode === 'replace') {
+        serie.values = d.values;
+      } else {
+        throw Error('Unknow keepDrawing mode:  ' + mode);
+      }
+    }
+  }]);
 
-            if (datum.constructor.name === 'Array') {
-                for (var i in datum) {
-                    this.keepDrawing(datum[i]);
-                }
-            } else {
-                //Find serie or initialize this.
-                var serie = utils.findElement(this.data, 'key', datum.key);
-                if (!serie || !serie.values) {
-                    serie = {
-                        key: datum.key,
-                        values: []
-                    };
-                    this.data.push(serie);
-                }
-                //use addToSerie()
-
-                serie.values = serie.values.concat(datum.values);
-            }
-            this.draw(this.data);
-            return this.data;
-        }
-    }]);
-
-    return Basic;
+  return Basic;
 }(Chart);
 'use strict';
 
@@ -2298,25 +2599,25 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Flow = function (_Chart) {
-  _inherits(Flow, _Chart);
+    _inherits(Flow, _Chart);
 
-  function Flow() {
-    _classCallCheck(this, Flow);
+    function Flow(data, config) {
+        _classCallCheck(this, Flow);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Flow).call(this));
-  }
-
-  _createClass(Flow, [{
-    key: 'draw',
-    value: function draw(data) {
-      //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself.
-      //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
-      data = JSON.parse(JSON.stringify(data));
-      _get(Object.getPrototypeOf(Flow.prototype), 'draw', this).call(this, data);
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Flow).call(this, data, config));
     }
-  }]);
 
-  return Flow;
+    _createClass(Flow, [{
+        key: 'draw',
+        value: function draw(data) {
+            //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself.
+            //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
+            data = JSON.parse(JSON.stringify(data));
+            _get(Object.getPrototypeOf(Flow.prototype), 'draw', this).call(this, data);
+        }
+    }]);
+
+    return Flow;
 }(Chart);
 'use strict';
 
@@ -2336,6 +2637,37 @@ var Temporal = function (_Chart) {
   }
 
   return Temporal;
+}(Chart);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Hierarchical = function (_Chart) {
+    _inherits(Hierarchical, _Chart);
+
+    function Hierarchical(data, config) {
+        _classCallCheck(this, Hierarchical);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Hierarchical).call(this, data, config));
+    }
+
+    _createClass(Hierarchical, [{
+        key: 'draw',
+        value: function draw() {
+            var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
+
+            data = JSON.parse(JSON.stringify(data));
+            this._svg.draw(data);
+        }
+    }]);
+
+    return Hierarchical;
 }(Chart);
 'use strict';
 
@@ -2366,32 +2698,7 @@ var Barchart = function (_Basic) {
   function Barchart(data, config) {
     _classCallCheck(this, Barchart);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Barchart).call(this));
-
-    if (!arguments.length) {
-      throw new Error('Missing constructor parameters');
-    }
-
-    var dataFormat = arguments[0].constructor.name;
-    var nArguments = arguments.length;
-
-    switch (dataFormat) {
-      case 'WebsocketDatasource':
-        _this.datasource = arguments[0];
-        _this.data = [];
-        _this._configureDatasource();
-        break;
-      case 'Array':
-        _this.data = arguments[0];
-        break;
-      default:
-        throw TypeError('Wrong data format');
-    }
-    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
-
-    _this._initializeSVGContext();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Barchart).call(this, data, config));
   }
 
   /**
@@ -2426,32 +2733,7 @@ var Barchart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-
-      if (!datum) {
-        console.warn('attemp to draw null datum');
-        return;
-      }
-
-      if (datum.constructor.name === 'Array') {
-        for (var i in datum) {
-          this.keepDrawing(datum[i]);
-        }
-      } else {
-        //Find serie or initialize this.
-        var serie = utils.findElement(this.data, 'key', datum.key);
-        if (!serie || !serie.values) {
-          serie = {
-            key: datum.key,
-            values: []
-          };
-          this.data.push(serie);
-        }
-        serie.values = datum.values;
-      }
-      this.draw(this.data);
-      return this.data;
+      _get(Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum, 'replace');
     }
   }]);
 
@@ -2486,32 +2768,7 @@ var Linechart = function (_Basic) {
   function Linechart(data, config) {
     _classCallCheck(this, Linechart);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Linechart).call(this));
-
-    if (!arguments.length) {
-      throw new Error('Missing constructor parameters');
-    }
-
-    var dataFormat = arguments[0].constructor.name;
-    var nArguments = arguments.length;
-
-    switch (dataFormat) {
-      case 'WebsocketDatasource':
-        _this.datasource = arguments[0];
-        _this.data = [];
-        _this._configureDatasource();
-        break;
-      case 'Array':
-        _this.data = arguments[0];
-        break;
-      default:
-        throw TypeError('Wrong data format');
-    }
-    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
-
-    _this._initializeSVGContext();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Linechart).call(this, data, config));
   }
 
   /**
@@ -2537,7 +2794,7 @@ var Linechart = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      return _get(Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum);
+      _get(Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum, 'add');
     }
   }]);
 
@@ -2569,35 +2826,10 @@ var Streamgraph = function (_Flow) {
    * do not specify this, '_default' object is used by default.
    */
 
-  function Streamgraph() {
+  function Streamgraph(data, config) {
     _classCallCheck(this, Streamgraph);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Streamgraph).call(this));
-
-    if (!arguments.length) {
-      throw new Error('Missing constructor parameters');
-    }
-
-    var dataFormat = arguments[0].constructor.name;
-    var nArguments = arguments.length;
-
-    switch (dataFormat) {
-      case 'WebsocketDatasource':
-        _this.datasource = arguments[0];
-        _this.data = [];
-        _this._configureDatasource();
-        break;
-      case 'Array':
-        _this.data = arguments[0];
-        break;
-      default:
-        throw TypeError('Wrong data format');
-    }
-    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    _this.config = nArguments == 1 ? _default[_this.constructor.name] : arguments[1];
-
-    _this._initializeSVGContext();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Streamgraph).call(this, data, config));
   }
 
   /**
@@ -2662,32 +2894,7 @@ var Gauge = function (_Basic) {
   function Gauge(data, config) {
     _classCallCheck(this, Gauge);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Gauge).call(this));
-
-    if (!arguments.length) {
-      throw new Error('Missing constructor parameters');
-    }
-
-    var dataFormat = arguments[0].constructor.name;
-    var nArguments = arguments.length;
-
-    switch (dataFormat) {
-      case 'WebsocketDatasource':
-        _this.datasource = arguments[0];
-        _this.data = [];
-        _this._configureDatasource();
-        break;
-      case 'Array':
-        _this.data = arguments[0];
-        break;
-      default:
-        throw TypeError('Wrong data format');
-    }
-    //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-    _this.config = nArguments === 1 ? _default[_this.constructor.name] : arguments[1];
-
-    _this._initializeSVGContext();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Gauge).call(this, data, config));
   }
 
   /**
@@ -2704,15 +2911,6 @@ var Gauge = function (_Basic) {
 
       _get(Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this, data);
     }
-  }, {
-    key: 'fire',
-    value: function fire(event, data) {
-      var element = this._svg.strategy.svg;
-      if (!element || !element[0][0]) {
-        throw Error('Cannot fire events because SVG dom element is not yet initialized');
-      }
-      element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
-    }
 
     /**
      * Add new data to the current graph. If it is empty, this creates a new one.
@@ -2722,20 +2920,8 @@ var Gauge = function (_Basic) {
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-      if (!this.datum) {
-        this.datum = [];
-      }
-      this.datum = this.datum.concat(datum);
-      if (maxNumberOfElements && maxNumberOfElements > 0) {
-        if (this.datum.length > maxNumberOfElements) {
-          for (var i = 0; i < datum.length; i++) {
-            this.datum.shift();
-          }
-        }
-      }
-      _get(Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this, this.datum);
+      this.data = [datum[0]];
+      _get(Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this);
     }
   }]);
 
@@ -2743,21 +2929,135 @@ var Gauge = function (_Basic) {
 }(Basic);
 'use strict';
 
-(function () {
-    window.ProteusFactory = {
-        create: function create(params) {
-            switch (params.type) {
-                case 'Linechart':
-                    return new Linechart(params.data, params.config);
-                case 'Barchart':
-                    return new Barchart(params.data, params.config);
-                case 'Gauge':
-                    return new Gauge(params.data, params.config);
-                case 'Streamgraph':
-                    return new Streamgraph(params.data, params.config);
-                default:
-                    throw TypeError('Unknow chart type' + params.type);
+/**
+ * Sunburst implementation. This charts belongs to 'Hierarchical' family.
+ * It is inherited on 'Hierarchical'.
+ */
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sunburst = function (_Hierarchical) {
+  _inherits(Sunburst, _Hierarchical);
+
+  /**
+   * Sunburst constructor. It needs (at least) one argument to start: data.
+   * Optionally, you can indicate a second argument that includes all the chart options. If you
+   * do not specify this, '_default' object is used by default.
+   */
+
+  function Sunburst(data, config) {
+    _classCallCheck(this, Sunburst);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sunburst).call(this, data, config));
+  }
+
+  /**
+   * Add new data to the current graph. If it is empty, this creates a new one.
+   * @param  {[Object]} datum data to be rendered
+   */
+
+
+  _createClass(Sunburst, [{
+    key: 'keepDrawing',
+    value: function keepDrawing(datum) {
+      if (this.data.constructor === Array) {
+        this.data = {};
+      }
+      var config = this.config;
+      if (!datum) {
+        console.warn('attemp to draw null datum');
+        return;
+      }
+
+      this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);
+
+      this.draw();
+
+      return this.data;
+    }
+
+    /**
+     * Inserts the new nodes into the existing tree.
+     * From: http://bl.ocks.org/kerryrodden/7090426
+     *
+     * @param pathString
+     * @param value
+     * @param data
+     * @private
+     */
+
+  }, {
+    key: '_buildTree',
+    value: function _buildTree(pathString, value, data) {
+      var path = pathString.split('/');
+      var current = data;
+      for (var i = 1; i < path.length; i++) {
+        var children = current.children;
+        var name = path[i];
+        var child;
+        if (i + 1 < path.length) {
+          var foundChild = false;
+          for (var j = 0; children !== undefined && j < children.length; j++) {
+            if (children[j].name === name) {
+              child = children[j];
+              foundChild = true;
+              break;
             }
+          }
+          if (!foundChild) {
+            child = {
+              'name': name,
+              'children': []
+            };
+            if (children === undefined) {
+              current.children = [];
+            }
+            delete current.value;
+            current.children.push(child);
+          }
+          current = child;
+        } else {
+          child = {
+            'name': name,
+            'value': value
+          };
+          if (children === undefined) {
+            current.children = [];
+          }
+          delete current.value;
+          current.children.push(child);
         }
-    };
+      }
+    }
+  }]);
+
+  return Sunburst;
+}(Hierarchical);
+'use strict';
+
+(function () {
+  window.ProteusFactory = {
+    create: function create(params) {
+      switch (params.type) {
+        case 'Linechart':
+          return new Linechart(params.data, params.config);
+        case 'Barchart':
+          return new Barchart(params.data, params.config);
+        case 'Gauge':
+          return new Gauge(params.data, params.config);
+        case 'Streamgraph':
+          return new Streamgraph(params.data, params.config);
+        case 'Sunburst':
+          return new Sunburst(params.data, params.config);
+        default:
+          throw TypeError('Unknow chart type' + params.type);
+      }
+    }
+  };
 })();
