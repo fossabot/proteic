@@ -59,7 +59,7 @@ class SvgGaugeStrategy extends SvgChart {
 
   _initialize() {
     var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.left + this.margin.right;
+    var height = this.height + this.margin.top + this.margin.bottom;
     var labels = null;
     var arcs = null;
 
@@ -71,7 +71,7 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
     this.range = this.maxAngle - this.minAngle;
-    this.r = this.width / 2;
+    this.r = ((this.width > this.height) ? this.height : this.width ) / 2;
     this.needleLength = Math.round(this.r * this.needleLenghtRatio);
 
     this.arc = d3.svg.arc()
