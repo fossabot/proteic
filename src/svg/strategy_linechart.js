@@ -160,6 +160,12 @@ class SvgLinechartStrategy extends SvgChart {
         default:
           throw Error('Not a valid marker shape: ' + this.markers.shape);
       }
+
+      markers.each(function (d, i) {
+        this.style.stroke = this.parentElement.style.stroke;
+        this.parentElement.parentElement.appendChild(this);
+      });
+
       // Add tooltips to the markers
       if (this.tooltip) {
         markers.on('mouseover.tip', this.tooltip.show)
