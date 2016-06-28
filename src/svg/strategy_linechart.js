@@ -146,6 +146,7 @@ class SvgLinechartStrategy extends SvgChart {
             .attr('cx', (d) => this.x(d.x))
             .attr('cy', (d) => this.y(d.y))
             .attr('r', this.markers.size)
+            .attr('class', 'marker')
             .style({
               'fill': 'white',
               'stroke-width': this.markers.outlineWidth
@@ -161,8 +162,13 @@ class SvgLinechartStrategy extends SvgChart {
           throw Error('Not a valid marker shape: ' + this.markers.shape);
       }
 
+      // Move the markers to the top layer to prevent occlusion by the area path.
+      // The style of the marker is copied in order to preserve the style of the line.
+      // The class 'marker-top' is set so the markers can be removed in the next tick.
+      this.svg.selectAll('.marker-top').remove();
       markers.each(function (d, i) {
         this.style.stroke = this.parentElement.style.stroke;
+        this.setAttribute('class', 'marker-top');
         this.parentElement.parentElement.appendChild(this);
       });
 
