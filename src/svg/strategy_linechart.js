@@ -191,14 +191,17 @@ class SvgLinechartStrategy extends SvgChart {
 
     this._applyCSS();
 
-    // Check overlapping axis labels
+    // Check and fix overlapping axis labels
     var labelsWidth = 0;
     this.svg.selectAll('.x.axis g.tick text')
       .each(function() {
         labelsWidth += this.getBBox().width;
       });
+    // Calculate new number of ticks
     if (labelsWidth > this.width) {
-      this.xticks = null;
+      var numberOfTicks = this.svg.select('.x').selectAll('.tick')[0].length;
+      var meanWidth = labelsWidth / numberOfTicks;
+      this.xticks = Math.floor((this.width / meanWidth) * 0.75);
       this.xAxis.ticks(this.xticks);
       this.svg.selectAll("g.x.axis")
         .call(this.xAxis);
