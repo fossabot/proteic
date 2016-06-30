@@ -15,13 +15,13 @@
 
 	<style>
 		.chart {}
-		
+
 		.chart:after {
 			content: "";
 			display: table;
 			clear: both;
 		}
-		
+
 		.chartbox {
 			background-color: white;
 			-moz-border-radius: 5px 1px / 1px 5px;
@@ -30,14 +30,14 @@
 			float: left;
 			width: 50%;
 		}
-		
+
 		.chartcode {
 			width: 50%;
 			float: right;
 			width: 50%;
 			padding-left: 32px;
 		}
-		
+
 		@media screen and (max-width: 480px) {
 			.chartbox,
 			.chartcode {
@@ -112,9 +112,14 @@
 							:). Check out how it wotks.</p>
 					</section>
 				</div>
+
+					<input type="radio" id="static-radio" name="data-format" value="static" checked>
+					<label for="static-radio">Static</label>
+					<input type="radio" id="streaming-radio" name="data-format" value="streaming">
+					<label for="streaming-radio">Streaming</label>
 				<!-- Simple Linechart -->
 				<h3>Simple linechart</h3>
-				<div class="chart">
+				<div class="chart static-data">
 					<div class="chartbox" id="linechart"></div>
 					<div class="chartcode">
 						<pre>
@@ -123,6 +128,18 @@ linechart.draw();</code>
 						</pre>
 					</div>
 				</div>
+				<div class="chart streaming-data">
+					<div class="chartbox" id="linechart-streaming"></div>
+					<div class="chartcode">
+						<pre>
+							<code class="Javascript">var data = {endpoint: 'ws://localhost:3000/linechart'};
+var dataSource = new WebsocketDatasource(data);
+var linechart = new Linechart(dataSource);
+dataSource.start()</code>
+						</pre>
+					</div>
+				</div>
+
 				<hr/>
 				<!-- Simple Barchart -->
 				<h3>Simple barchart</h3>
@@ -315,6 +332,7 @@ gauge.draw();</code>
 
 	<!-- example chart -->
 	<script src="assets/js/charts/linechart.js"></script>
+	<script src="assets/js/charts/linechart-ws.js"></script>
 	<script src="assets/js/charts/barchart.js"></script>
 	<script src="assets/js/charts/streamgraph.js"></script>
 	<script src="assets/js/charts/gauge.js"></script>
@@ -322,6 +340,17 @@ gauge.draw();</code>
 	<script>
 		$(document).ready(function() {
 			hljs.initHighlightingOnLoad();
+			$("div.streaming-data").hide();
+			$("input[name$='data-format']").on('change', function() {
+				if($(this).val() == 'static') {
+					$("div.static-data").show();
+					$("div.streaming-data").hide();
+				}
+				if($(this).val() == 'streaming') {
+					$("div.static-data").hide();
+					$("div.streaming-data").show();
+				}
+			});
 		});
 	</script>
 
