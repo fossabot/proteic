@@ -1715,7 +1715,7 @@ var SvgLinechartStrategy = function (_SvgChart) {
               return _this2.x(d.x);
             }).attr('cy', function (d) {
               return _this2.y(d.y);
-            }).attr('r', this.markers.size).style({
+            }).attr('r', this.markers.size).attr('class', 'marker').style({
               'fill': 'white',
               'stroke-width': this.markers.outlineWidth
             });
@@ -1729,6 +1729,17 @@ var SvgLinechartStrategy = function (_SvgChart) {
           default:
             throw Error('Not a valid marker shape: ' + this.markers.shape);
         }
+
+        // Move the markers to the top layer to prevent occlusion by the area path.
+        // The style of the marker is copied in order to preserve the style of the line.
+        // The class 'marker-top' is set so the markers can be removed in the next tick.
+        this.svg.selectAll('.marker-top').remove();
+        markers.each(function (d, i) {
+          this.style.stroke = this.parentElement.style.stroke;
+          this.setAttribute('class', 'marker-top');
+          this.parentElement.parentElement.appendChild(this);
+        });
+
         // Add tooltips to the markers
         if (this.tooltip) {
           markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
@@ -1742,13 +1753,16 @@ var SvgLinechartStrategy = function (_SvgChart) {
 
       this._applyCSS();
 
-      // Check overlapping axis labels
+      // Check and fix overlapping axis labels
       var labelsWidth = 0;
       this.svg.selectAll('.x.axis g.tick text').each(function () {
         labelsWidth += this.getBBox().width;
       });
+      // Calculate new number of ticks
       if (labelsWidth > this.width) {
-        this.xticks = null;
+        var numberOfTicks = this.svg.select('.x').selectAll('.tick')[0].length;
+        var meanWidth = labelsWidth / numberOfTicks;
+        this.xticks = Math.floor(this.width / meanWidth * 0.75);
         this.xAxis.ticks(this.xticks);
         this.svg.selectAll("g.x.axis").call(this.xAxis);
       }
@@ -2022,7 +2036,7 @@ var SvgGaugeStrategy = function (_SvgChart) {
       var _this3 = this;
 
       var width = this.width + this.margin.left + this.margin.right;
-      var height = this.height + this.margin.left + this.margin.right;
+      var height = this.height + this.margin.top + this.margin.bottom;
       var labels = null;
       var arcs = null;
 
@@ -2030,7 +2044,7 @@ var SvgGaugeStrategy = function (_SvgChart) {
       this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
       this.range = this.maxAngle - this.minAngle;
-      this.r = this.width / 2;
+      this.r = (this.width > this.height ? this.height : this.width) / 2;
       this.needleLength = Math.round(this.r * this.needleLenghtRatio);
 
       this.arc = d3.svg.arc().innerRadius(this.r - this.ringWidth - this.ringMargin).outerRadius(this.r - this.ringMargin).startAngle(function (d, i) {
