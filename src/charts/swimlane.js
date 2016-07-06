@@ -12,7 +12,7 @@ class Swimlane extends Chart {
    * do not specify this, '_default' object is used by default.
    */
   constructor(data, config) {
-    super();
+    super(data, config);
 
     if (!arguments.length) {
       throw new Error('Missing constructor parameters');
