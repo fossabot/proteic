@@ -15,6 +15,7 @@ const webdriver_standalone = require('gulp-protractor').webdriver_standalone;
 const webserver = require('gulp-webserver');
 const shell = require('gulp-shell');
 const jsinspect = require('gulp-jsinspect');
+const jsdoc = require('gulp-jsdoc3');
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -99,6 +100,12 @@ gulp.task('jsinspect', () => {
     '!src/utils/colors.js'
   ]).pipe(jsinspect());
 });
+
+gulp.task('doc', function (cb) {
+  gulp.src(['./src/**/*.js'], {read: false})
+      .pipe(jsdoc(cb));
+});
+
 /**
 // Downloads the selenium webdriver
 gulp.task('webdriver_update', webdriver_update);

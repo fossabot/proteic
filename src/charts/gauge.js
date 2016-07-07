@@ -27,7 +27,7 @@ class Gauge extends Basic {
 
   /**
    * Add new data to the current graph. If it is empty, this creates a new one.
-   * @param  {[Object]} datum data to be rendered
+   * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
     this.data = [datum[0]];

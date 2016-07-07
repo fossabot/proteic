@@ -17,7 +17,7 @@ class Sunburst extends Hierarchical {
 
   /**
    * Add new data to the current graph. If it is empty, this creates a new one.
-   * @param  {[Object]} datum data to be rendered
+   * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
     if (this.data.constructor === Array) { this.data = {}; }

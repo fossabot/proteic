@@ -75,7 +75,7 @@ class Chart {
 
     /**
      * Returns a PNG image of the current graph
-     * @return {[String]} Image in data-url format
+     * @return {String} Image - in data-url format
      */
     toPNG(cb) {
         utils.svgAsDataUri(d3.select(this.config.selector + ' svg')[0][0], {}, (uri, err) => {
