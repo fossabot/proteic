@@ -14,7 +14,7 @@
   "author": "Treelogic S.L.",
   "license": "MIT",
   "dependencies": {
-    "d3": "^3.5.16",
+    "d3": "^4.2.0",
     "d3-tip": "^0.6.7"
   },
   "devDependencies": {
