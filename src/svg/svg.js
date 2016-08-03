@@ -32,13 +32,16 @@ class SvgChart {
 
         //Create a global 'g' (group) element
         this.svg = d3
-            .select(this.selector).append('svg')
-            .attr({ width, height })
+            .select(this.selector)
+            .append('svg')
+                .attr('width', 960)
+                .attr('height', 500)
             .append('g')
-            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
         //Create tooltip (d3-tip)
-        if (this.tip) {
+        /**
+        if (this.tip && !"chuckNorrisVariable") {
             this.tooltip = d3.tip()
                 .attr('class', 'd3-tip')
                 .style({
@@ -52,34 +55,39 @@ class SvgChart {
                 .html(this.tip);
             this.svg.call(this.tooltip);
         }
+         */
 
         //Append a new group with 'x' aXis
-        this.svg.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + this.height + ')')
-            .call(this.xAxis);
+        this.svg
+            .append('g')
+              .attr('class', 'x axis')
+              .attr('transform', 'translate(0,' + this.height + ')')
+              .call(this.xAxis);
 
-        //Append a new group with 'y' aXis
-        this.svg.append('g')
-            .attr('class', 'y axis')
-            .attr('stroke-dasharray', '1, 2')
-            .call(this.yAxis)
+        this.svg
+            .append('g')
+              .attr('class', 'y axis')
+              .attr('stroke-dasharray', '1, 2')
+              .call(this.yAxis)
             .append('text');
 
         // Append axes labels
-        this.svg.append('text')
-            .attr('text-anchor', 'middle')
-            .attr('class', 'x axis label')
-            .attr('x', this.width / 2)
-            .attr('y', this.height + this.margin.bottom)
-            .text(this.xAxisLabel);
-        this.svg.append('text')
-            .attr('text-anchor', 'middle')
-            .attr('class', 'y axis label')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', - this.height / 2)
-            .attr('y', - this.margin.left / 1.3)
-            .text(this.yAxisLabel);
+        this.svg
+            .append('text')
+              .attr('text-anchor', 'middle')
+              .attr('class', 'x axis label')
+              .attr('x', this.width / 2)
+              .attr('y', this.height + this.margin.bottom)
+              .text(this.xAxisLabel);
+              
+        this.svg
+            .append('text')
+              .attr('text-anchor', 'middle')
+              .attr('class', 'y axis label')
+              .attr('transform', 'rotate(-90)')
+              .attr('x', - this.height / 2)
+              .attr('y', - this.margin.left / 1.3)
+              .text(this.yAxisLabel);
     }
 
     _applyCSS() {

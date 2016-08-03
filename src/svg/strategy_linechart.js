@@ -8,39 +8,51 @@ class SvgLinechartStrategy extends SvgChart {
     //Create scales
     switch(this.xDataType) {
       case 'Numeric':
-        this.x = d3.scale.linear().range([0, this.width]);
-        this.xAxis = d3.svg.axis()
-          .scale(this.x)
-          .orient('bottom')
-          .ticks(this.xticks);
+        this.x = d3.scaleLinear().range([0, this.width]);
+        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
+       // this.xAxis = d3.svg.axis()
+        //  .scale(this.x)
+         // .orient('bottom')
+          //.ticks(this.xticks);
         break;
       case 'Date':
-        this.x = d3.time.scale().range([0, this.width]);
-        this.format = d3.time.format(this.xDateformat);
-        this.xAxis = d3.svg.axis()
-          .scale(this.x)
-          .orient('bottom')
-          .ticks(this.xticks);
+        this.x = d3.scaleTime().range([0, this.width]);
+        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
+        //this.xAxis = d3.svg.axis()
+         // .scale(this.x)
+          //.orient('bottom')
+          //.ticks(this.xticks);
         break;
       default:
-        this.x = d3.scale.linear().range([0, this.width]);
-        this.xAxis = d3.svg.axis()
-          .scale(this.x)
-          .orient('bottom')
-          .ticks(this.xticks);
+        this.x = d3.scaleLinear().range([0, this.width]);
+        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
+        //this.xAxis = d3.svg.axis()
+         // .scale(this.x)
+          //.orient('bottom')
+          //.ticks(this.xticks);
     }
 
-    this.y = d3.scale.linear().range([this.height, 0]);
-    this.yAxis = d3.svg.axis()
-      .scale(this.y)
-      .orient('left')
-      .innerTickSize(-this.width)
-      .outerTickSize(0)
+    this.y = d3.scaleLinear().range([this.height, 0]);
+    this.yAxis = d3.axisLeft(this.y)
+      .tickSizeInner(-this.width)
+      .tickSizeOuter(0)
       .tickPadding(20)
       .ticks(this.yticks, this.tickLabel);
+  //  this.yAxis = d3.svg.axis()
+    //   .scale(this.y)
+      // .orient('left')
+      // .innerTickSize(-this.width)
+       //.outerTickSize(0)
+       //.tickPadding(20)
+      // .ticks(this.yticks, this.tickLabel);
 
     this.keyFunction = ((d) => d.x);
-    this.seriesKeyFunction = ((d) => d.key);
+    //this.seriesKeyFunction = ((d) => d.key);
+    this.seriesKeyFunction = function(d){
+      console.log(d);
+      return d.key;
+    };
+
   }
 
 	/**
@@ -51,7 +63,7 @@ class SvgLinechartStrategy extends SvgChart {
   draw(data) {
     var lineGen = null;
     var areaGen = null;
-    var format = this.format;
+   // var format = this.format;
     var s = null;
     // var path = null;
 
@@ -61,7 +73,8 @@ class SvgLinechartStrategy extends SvgChart {
       //Force x axis to be a date and y-axis to be a number
       for (s = 0; s < data.length; s++) {
         data[s].values.forEach((d) => {
-          d.x = format.parse(d.x);
+          //d.x = format.parse(d.x);
+          d.x = d3.timeParse(d.x);
           d.y = +d.y;
         });
       }
@@ -82,12 +95,12 @@ class SvgLinechartStrategy extends SvgChart {
     this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
 
     // Line generator
-    lineGen = d3.svg.line()
+    lineGen = d3.line()
       .x((d) => this.x(d.x))
       .y((d) => this.y(d.y));
 
     // Area generator
-    areaGen = d3.svg.area()
+    areaGen = d3.area()
       .x((d) => this.x(d.x))
       .y0(this.height )
       .y1((d) => this.y(d.y));
@@ -108,7 +121,9 @@ class SvgLinechartStrategy extends SvgChart {
 
     // Bind data to lines
     var path = this.svg.selectAll('path')
-      .data(data, this.seriesKeyFunction)
+      //.data(data, this.seriesKeyFunction)
+      .data(data)
+
       .style('stroke', (d, i) => this.colorScale(i))
       .style('fill', (d, i) => this.colorScale(i));
 
