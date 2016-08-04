@@ -44,14 +44,13 @@ class SvgChart {
         if (this.tip && !"chuckNorrisVariable") {
             this.tooltip = d3.tip()
                 .attr('class', 'd3-tip')
-                .style({
-                    'line-height': 1,
-                    'padding': '12px',
-                    'background': 'rgba(0, 0, 0, 0.8)',
-                    'color': '#fff',
-                    'border-radius': '2px',
-                    'pointer-events': 'none'
-                })
+                .style('line-height', 1)
+                .style('padding', '12px')
+                .style('background', 'rgba(0, 0, 0, 0.8)')
+                .style('color', '#fff')
+                .style('border-radius', '2px')
+                .style(pointer-events', 'none')
+
                 .html(this.tip);
             this.svg.call(this.tooltip);
         }
@@ -96,7 +95,9 @@ class SvgChart {
 
         for (let key in style) {
             styleValue = style[key];
-            d3.selectAll(key).style(styleValue);
+            for (let v in styleValue) {
+                d3.selectAll(key).style(v, styleValue[v]);
+            }
         }
     }
 

@@ -47,11 +47,7 @@ class SvgLinechartStrategy extends SvgChart {
       // .ticks(this.yticks, this.tickLabel);
 
     this.keyFunction = ((d) => d.x);
-    //this.seriesKeyFunction = ((d) => d.key);
-    this.seriesKeyFunction = function(d){
-      console.log(d);
-      return d.key;
-    };
+    this.seriesKeyFunction = ((d) => d.key);
 
   }
 
@@ -162,10 +158,8 @@ class SvgLinechartStrategy extends SvgChart {
             .attr('cy', (d) => this.y(d.y))
             .attr('r', this.markers.size)
             .attr('class', 'marker')
-            .style({
-              'fill': 'white',
-              'stroke-width': this.markers.outlineWidth
-            });
+            .style('fill', 'white')
+            .style('stroke-width', this.markers.outlineWidth);
           markers.exit().remove();
           markers
             .transition()
