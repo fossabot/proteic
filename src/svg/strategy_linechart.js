@@ -116,10 +116,8 @@ class SvgLinechartStrategy extends SvgChart {
       .attr('class', 'area');
 
     // Bind data to lines
-    var path = this.svg.selectAll('path')
-      //.data(data, this.seriesKeyFunction)
-      .data(data)
-
+    var path = this.svg.selectAll('.line')
+      .data(data, this.seriesKeyFunction)
       .style('stroke', (d, i) => this.colorScale(i))
       .style('fill', (d, i) => this.colorScale(i));
 
