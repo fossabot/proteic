@@ -3,13 +3,11 @@ class SvgGaugeStrategy extends SvgChart {
     super(chartContext);
 
     //Create scale
-    this.scale = d3.scale
-      .linear()
+    this.scale = d3.scaleLinear()
       .domain([this.minLevel, this.maxLevel])
       .range([0, 1]);
 
-    this.angleScale = d3.scale
-      .linear()
+    this.angleScale = d3.scaleLinear()
       .domain([this.minLevel, this.maxLevel])
       .range([90 + this.minAngle, 90 + this.maxAngle]);
 
@@ -65,16 +63,18 @@ class SvgGaugeStrategy extends SvgChart {
 
     //Create a global 'g' (group) element
     this.svg = d3
-      .select(this.selector).append('svg')
-      .attr({ width, height })
-      .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+        .select(this.selector)
+        .append('svg')
+        .attr('width', this.width)
+        .attr('height', this.height)
+        .append('g')
+        .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
     this.range = this.maxAngle - this.minAngle;
     this.r = ((this.width > this.height) ? this.height : this.width ) / 2;
     this.needleLength = Math.round(this.r * this.needleLenghtRatio);
 
-    this.arc = d3.svg.arc()
+    this.arc = d3.arc()
       .innerRadius(this.r - this.ringWidth - this.ringMargin)
       .outerRadius(this.r - this.ringMargin)
       .startAngle((d, i) => {

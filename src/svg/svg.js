@@ -34,8 +34,8 @@ class SvgChart {
         this.svg = d3
             .select(this.selector)
             .append('svg')
-                .attr('width', 960)
-                .attr('height', 500)
+                .attr('width', this.width)
+                .attr('height', this.height)
             .append('g')
                 .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
