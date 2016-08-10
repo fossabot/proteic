@@ -17,27 +17,37 @@ class SvgSunburstStrategy extends SvgChart {
     // Remove all the paths before redrawing
     this._removePaths();
 
+    var partition = d3.partition();
+    var root = d3.hierarchy(data).sum((d) =>  d.value);
+    partition(root);
     // Create layout partition
-    var partition = d3.layout.partition()
-      .value((d) =>  d.value);
+    // var partition = d3.partition(
+    //     root.sum((d) =>  d.value)
+    // );
 
-    // Create arc generators
-    this.arcGen = d3.svg.arc()
-      .startAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x))))
-      .endAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x + d.dx))))
-      .innerRadius((d) =>  Math.max(0, this.y(d.y)))
-      .outerRadius((d) =>  Math.max(0, this.y(d.y + d.dy)));
+    // this.arcGen = d3.arc()
+    //   .startAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x))))
+    //   .endAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x + d.dx))))
+    //   .innerRadius((d) =>  Math.max(0, this.y(d.y)))
+    //   .outerRadius((d) =>  Math.max(0, this.y(d.y + d.dy)));
+
+    // Create arc generator
+    this.arcGen = d3.arc()
+      .startAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x0))))
+      .endAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x1))))
+      .innerRadius((d) => Math.max(0, this.y(d.y0)))
+      .outerRadius((d) => Math.max(0, this.y(d.y1)));
 
     // Draw the paths (arcs)
     let paths = this.svg.selectAll('path')
-      .data(partition.nodes(data))
+      .data(root.descendants())
       .enter().append('path')
       .attr('d', this.arcGen)
       .style('fill', (d) => {
         if (!d.parent) {
           return 'white';
         } else {
-          return this.colorScale(d.name);
+          return this.colorScale(d.value);
         }
       });
 
@@ -158,15 +168,17 @@ class SvgSunburstStrategy extends SvgChart {
     this.radius = (Math.min(width, height) / 2) - 10; // TODO 10 = margin
 
     // Create scales
-    this.x = d3.scale.linear()
+    this.x = d3.scaleLinear()
       .range([0, 2 * Math.PI]);
-    this.y = d3.scale.sqrt()
+    this.y = d3.scaleSqrt()
       .range([0, this.radius]);
 
     // Create a global 'g' (group) element
     this.svg = d3
-      .select(this.selector).append('svg')
-      .attr({ width, height })
+      .select(this.selector)
+      .append('svg')
+      .attr('width', this.width)
+      .attr('height', this.height)
       .append('g')
       .attr('transform', 'translate(' + width / 2 + ',' + (height / 2) + ')');
 
