@@ -17,19 +17,10 @@ class SvgSunburstStrategy extends SvgChart {
     // Remove all the paths before redrawing
     this._removePaths();
 
+    // Create layout partition
     var partition = d3.partition();
     var root = d3.hierarchy(data).sum((d) =>  d.value);
     partition(root);
-    // Create layout partition
-    // var partition = d3.partition(
-    //     root.sum((d) =>  d.value)
-    // );
-
-    // this.arcGen = d3.arc()
-    //   .startAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x))))
-    //   .endAngle((d) =>  Math.max(0, Math.min(2 * Math.PI, this.x(d.x + d.dx))))
-    //   .innerRadius((d) =>  Math.max(0, this.y(d.y)))
-    //   .outerRadius((d) =>  Math.max(0, this.y(d.y + d.dy)));
 
     // Create arc generator
     this.arcGen = d3.arc()
@@ -47,7 +38,7 @@ class SvgSunburstStrategy extends SvgChart {
         if (!d.parent) {
           return 'white';
         } else {
-          return this.colorScale(d.value);
+          return this.colorScale(d.data.name);
         }
       });
 
@@ -57,13 +48,6 @@ class SvgSunburstStrategy extends SvgChart {
       .attr('class', 'infobox')
       .attr('pointer-events', 'none');
     // Append central circle
-    // infobox.append('circle')
-    //   .attr('cx', 0)
-    //   .attr('cy', 0)
-    //   .attr('r', 90)
-    //   .attr('fill', 'rgba(255, 255, 255, 0.7)')
-      // .attr('fill', 'white')
-      // .attr('pointer-events', 'none');
     infobox.append('text')
       .attr('class', 'name')
       .attr('x', 0)
@@ -74,7 +58,6 @@ class SvgSunburstStrategy extends SvgChart {
       .attr('x', 0)
       .attr('y', 0)
       .attr('pointer-events', 'none');
-
 
     paths
       .on('mouseover', (d) => {
@@ -88,10 +71,7 @@ class SvgSunburstStrategy extends SvgChart {
           .filter((node) => ancestors.indexOf(node) >= 0)
           .style('opacity', 1);
         // Hightlight the hovered arc
-        // d.parent ?
-        //   d3.select(this).style('opacity', 1) :
-        //   d3.select('.infobox .name').style('font-weight', 'bold');
-          this.svg.select('.infobox .name').text(d.name);
+          this.svg.select('.infobox .name').text(d.data.name);
           this.svg.select('.infobox .value').text(d.value);
       })
       .on('mouseout', (d) => {
@@ -99,13 +79,7 @@ class SvgSunburstStrategy extends SvgChart {
         d3.select('.infobox .name').style('font-weight', 'normal');
         d3.select('.infobox .name').text('');
         d3.select('.infobox .value').text('');
-      })
-      // .on('click', (d) => {
-      //   this._zoom(d);
-      //   this.svg.select('.infobox .name').text(d.name);
-      //   this.svg.select('.infobox .value').text(d.value);
-      // })
-    ;
+      });
 
     d3.select(self.frameElement).style('height', this.height + 'px');
 
