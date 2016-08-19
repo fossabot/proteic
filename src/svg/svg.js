@@ -28,14 +28,14 @@ class SvgChart {
 
     _initialize() {
         var width = this.width + this.margin.left + this.margin.right;
-        var height = this.height + this.margin.left + this.margin.right;
+        var height = this.height + this.margin.top + this.margin.bottom;
 
         //Create a global 'g' (group) element
         this.svg = d3
             .select(this.selector)
             .append('svg')
-                .attr('width', this.width)
-                .attr('height', this.height)
+                .attr('width', width)
+                .attr('height', height)
             .append('g')
                 .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
