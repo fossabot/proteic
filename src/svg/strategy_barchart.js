@@ -31,6 +31,7 @@ class SvgBarchartStrategy extends SvgChart {
     //   .tickPadding(20)
     //   .ticks(this.ticks, this.tickLabel);
     this.yAxis = d3.axisLeft(this.y)
+        .tickFormat(d3.format(','))
         .tickSizeInner(-this.width)
         .tickSizeOuter(0)
         .tickPadding(20)
@@ -55,6 +56,11 @@ class SvgBarchartStrategy extends SvgChart {
 
       // TODO IM
       // var categories = d3.keys(data[0]).filter((k) => k !== 'key' && k !== 'total');
+      /**
+           data.map(function(i){
+             c = c.concat(d3.keys(i).filter((k) => k !== 'key' && k !== 'total'));
+           });
+       */
       var c = [];
       for(var d of data) {
         c = c.concat(d3.keys(d).filter((k) => k !== 'key' && k !== 'total'));
@@ -95,8 +101,14 @@ class SvgBarchartStrategy extends SvgChart {
           .attr("height", (d) => this.y(d[0]) - this.y(d[1]))
           .attr("width", this.x.bandwidth());
 
-      console.log(barMerge);
+ //   var yStackMax = d3.max(this.data, (layer) => d3.max(layer, (d) => d.y0 + d.y));
 
+   // console.log('yStackMax', yStackMax);
+   // var n = this.layers.length;
+
+
+
+          console.log('series', series);
     // var layer = this.svg
     //   .selectAll('.layer')
     //   .data(this.layers);
