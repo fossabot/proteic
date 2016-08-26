@@ -35,20 +35,13 @@
   <script>
     
     var data = [
-                {
-                  key: 'bar1',
-                  values: [
-                    {x:"España", y:3},  
-                    {x:"Francia", y:12},
-                    {x:"UK", y:21},
-                  ]
-                }
-            ];
-            
-            //var data = [{x:1, y: 5}, {x: 3, y:6}];
-            //Default config uses #chart selector
-            barchart = new Barchart(data);
-            barchart.draw();
+      {'key': 'Bar', 'ES': 3, 'FR': 12, 'UK': 21, 'total': 36 }
+    ];
+
+    //var data = [{x:1, y: 5}, {x: 3, y:6}];
+    //Default config uses #chart selector
+    barchart = new Barchart(data);
+    barchart.draw();
   </script>
 </body>
 

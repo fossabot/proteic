@@ -14,6 +14,9 @@
 <body>
 
   <div style id='chart'></div>
+  
+  <div style id='chartGrouped'></div>
+
 
   <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
   <script src='../node_modules/d3/build/d3.min.js'></script>
@@ -36,12 +39,20 @@
     var data = [
       {"key": "ES", "2011": 3,"2012": 6,"2013": 13,"2014": 2, "total": 24},
       {"key": "FR", "2011": 6,"2012": 6,"2013": 25,"2014": 2, "total": 39},
-      {"key": "UK", "2011": 13,"2012": 12,"2013": 33,"2014": 12, "total": 80},
+      {"key": "UK", "2011": 13,"2012": 12,"2013": 33,"2014": 12, "total": 70},
       {"key": "IT", "2011": 2,"2012": 2,"2013": 2,"2014": 2, "total": 8}
     ];
             //Default config uses #chart selector
-            barchart = new Barchart(data);
-            barchart.draw();
+    var barchart = new Barchart(data);
+    barchart.draw();
+    
+    var barchartGrouped = new Barchart(data,{
+      selector: '#chartGrouped',
+      stacked: false
+    });
+    barchartGrouped.draw();
+            
+            
   </script>
 </body>
 

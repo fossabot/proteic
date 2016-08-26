@@ -1,6 +1,7 @@
 var _default = _default || {};
 
 _default.Barchart = {
+    stacked: true,
     style: {
         '.axis': {
             'font': '10px sans-serif'
