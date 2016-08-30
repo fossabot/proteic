@@ -38,30 +38,17 @@ class SvgSwimlaneStrategy {
       this._initialize();
     }
 
+    this.miniItemsPath.attr('d', null);
 
-    this.miniItems = this.mini.append('g').selectAll('miniItems');
-    this.miniItems.data(this.getPaths(this.data.items))
-      .enter().append('path')
+    console.log(this.data.items);
+    this.miniItemsPath.data(this.getPaths(this.data.items))
       .attr('class', (d) => 'miniItem ' + d.class)
       .attr('d', (d) => d.path);
-
-    this.miniItems.exit().remove();
-
-
-    // invisible hit area to move around the selection window
-    /**
-        this.mini.append('rect')
-          .attr('pointer-events', 'painted')
-          .attr('width', this.width)
-          .attr('height', this.miniHeight)
-          .attr('visibility', 'hidden');
-    **/
-
 
 
 
     // upate the item rects
-    
+
     this.rects = this.itemRects.selectAll('rect')
       .data(this.items, (d) => d.id)
       .attr('x', (d) => this.x1(new Date(d.start)))
@@ -217,21 +204,6 @@ class SvgSwimlaneStrategy {
       .attr('text-anchor', 'end')
       .attr('class', 'laneText');
 
-    // draw a line representing today's date
-    this.main.append('line')
-      .attr('y1', 0)
-      .attr('y2', this.mainHeight)
-      .attr('class', 'main todayLine')
-      .attr('clip-path', 'url(#clip)');
-
-    this.mini.append('line')
-      .attr('x1', this.x(this.now) + 0.5)
-      .attr('y1', 0)
-      .attr('x2', this.x(this.now) + 0.5)
-      .attr('y2', this.miniHeight)
-      .attr('class', 'todayLine');
-
-
     var self = this;
     this.brush = d3.brushX()
       .extent([[0, 0], [this.width, this.miniHeight]])
@@ -247,6 +219,12 @@ class SvgSwimlaneStrategy {
         self.draw();
       });
 
+    this.mini.append('rect')
+      .attr('pointer-events', 'painted')
+      .attr('width', this.width)
+      .attr('height', this.miniHeight)
+      .attr('visibility', 'hidden');
+
     this.mini
       .append('g')
       .attr('class', 'brush')
@@ -254,6 +232,11 @@ class SvgSwimlaneStrategy {
     // draw the items
     this.itemRects = this.main.append('g')
       .attr('clip-path', 'url(#clip)');
+
+
+    this.miniItemsPath = this.mini.append('g').append('path');
+  
+
   }
 
 	/**
