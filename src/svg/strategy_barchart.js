@@ -5,31 +5,18 @@ class SvgBarchartStrategy extends SvgChart {
     //Create range function
     this.xAxisName = 'x';
     this.yAxisName = 'y';
-    // this.x = d3.scale.ordinal().rangeRoundBands([0, this.width], 0.1);
     this.x = d3.scaleBand()
       .rangeRound([0, this.width])
       .padding(0.1)
       .align(0.5);
-    // this.y = d3.scale.linear().range([this.height, 0]);
+
     this.y = d3.scaleLinear().rangeRound([this.height, 0]);
 
     this.isStacked = false;
 
-    //Create axes
-    // this.xAxis = d3.svg.axis()
-    //   .scale(this.x)
-    //   .orient('bottom')
-    //   .ticks(10);
     this.xAxis = d3.axisBottom(this.x)
       .ticks(10);
 
-    // this.yAxis = d3.svg.axis()
-    //   .scale(this.y)
-    //   .orient('left')
-    //   .innerTickSize(-this.width)
-    //   .outerTickSize(0)
-    //   .tickPadding(20)
-    //   .ticks(this.ticks, this.tickLabel);
     this.yAxis = d3.axisLeft(this.y)
       .tickFormat(d3.format(','))
       .tickSizeInner(-this.width)
@@ -119,23 +106,6 @@ class SvgBarchartStrategy extends SvgChart {
       
       var context = this;
 
-
-/**
- * 
- 
- 
-     this._bars.transition()
-      .duration(200)
-      .attr('x', (d, i, j) => this.x(d.x) + this.x.rangeBand() / n * j)
-      .attr('width', this.x.rangeBand() / n)
-      .transition()
-      .attr('y', (d) => this.y(d.y))
-      .attr('height', (d) => this.height - this.y(d.y))
-      .call(this._endAllTransitions, () => this._barTransitionEnd(this._bars));
- 
-
- * 
- */
       var n  = series.length;
       var context = this;
       var barMerge = this._bar.merge(barEnter)

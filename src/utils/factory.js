@@ -12,6 +12,8 @@
           return new Streamgraph(params.data, params.config);
         case 'Sunburst':
           return new Sunburst(params.data, params.config);
+        case 'StackedArea':
+          return new StackedArea(params.data, params.config);
         default:
           throw TypeError('Unknow chart type' + params.type);
       }

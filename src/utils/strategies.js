@@ -16,5 +16,8 @@ const strategies = {
   },
   Swimlane(chartContext) {
     return new SvgSwimlaneStrategy(chartContext);
+  },
+  StackedArea(chartContext) {
+    return new SvgStackedAreaStrategy(chartContext);
   }
 };
