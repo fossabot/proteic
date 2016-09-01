@@ -2,20 +2,21 @@ class SvgStreamgraphStrategy extends SvgChart {
 
     constructor(chartContext) {
         super(chartContext);
-        this.x = d3.time.scale().range([0, this.width]);
-        this.y = d3.scale.linear().range([this.height - 10, 0]);
+        this.x = d3.scaleTime().range([0, this.width]);
 
-        this.format = d3.time.format(this.xDateformat);
-        this.xAxis = d3.svg.axis()
-            .scale(this.x)
-            .orient('bottom')
-            .ticks(d3.time.weeks);
+        this.y = d3.scaleLinear().range([this.height - 10, 0]);
+        this.z = this.colorScale;
 
-        this.yAxis = d3.svg.axis().scale(this.y).orient('left')
-            .innerTickSize(-this.width)
-            .outerTickSize(0)
+        this.xAxis = d3.axisBottom(this.x)
+            .ticks(d3.timeDay, 1)
+            .tickFormat(d3.timeFormat("%m/%d/%y"));
+
+        this.yAxis = d3.axisLeft(this.y)
+            .tickSizeInner(-this.width)
+            .tickSizeOuter(0)
             .tickPadding(20)
-            .ticks(this.ticks, this.tickLabel);
+            .ticks(this.ticks, this.tickLabel)
+            .tickFormat((d) => d);
 
         this.keys = null;
     }
@@ -26,77 +27,48 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * 
 	 */
     draw(data) {
-        var dataLayered = null; //streamgraph layers
-        var nColors = null; //number of colors = different keys
-
-        if (!this.keys) {
-            //Fist draw
-            this.keys = utils.keys(data, 'key');
-        }
-        else {
-            if (!this.keys.equals(utils.keys(data, 'key'))) {
-                console.warn('Attemping to draw a streamgraph with a different set of keys after initialization. Skipping.');
-                console.log(this.keys);
-                console.log(utils.keys(data, 'key'));
-                return;
-            }
-        }
+        var stack = null;
 
         //Initialize data
         if (!this._initialized) {
             this._initialize();
         }
-        //Force x axis to be a date and y-axis to be a number
-        data.forEach((d) => {
-            d.date = this.format.parse(d.date);
-            d.value = +d.value;
+
+        stack = d3.stack()
+            .keys(data.keys)
+            .order(d3.stackOrderAscending)
+            .offset(d3.stackOffsetNone);
+
+        data.values.forEach((d) => {
+            d.date = d3.timeParse(this.xDateformat)(d.date);
         });
 
+        var dataSeries = stack(data.values);
 
-        this.stack = d3.layout.stack()
-            .offset('silhouette')
-            .values((d) => d.values)
-            .x((d) => d.date)
-            .y((d) => d.value);
+        this.x.domain(d3.extent(data.values, (d) => d.date));
+        this.y.domain([0, d3.max(data.values, (d) => (d.total))]);
 
-        this.nest = d3.nest()
-            .key((d) => d.key);
 
-        this.area = d3.svg.area()
-            .interpolate('cardinal')
-            .x((d) => this.x(d.date))
-            .y0((d) => this.y(d.y0))
-            .y1((d) => this.y(d.y0 + d.y));
-
-        dataLayered = this.stack(this.nest.entries(data));
-
-        this.x.domain(d3.extent(data, (d) => d.date));
-        this.y.domain([0, d3.max(data, (d) => (d.y0 + d.y))]);
-
-        nColors = utils.keys(data, 'key').size;
-
-        this.z = this.colorScale;
+        var area = d3.area()
+            .curve(d3.curveCardinal)
+            .x((d) => this.x(d.data.date))
+            .y0((d) => this.y(d[0]))
+            .y1((d) => this.y(d[1]))
 
         var series = this.svg.selectAll('.series')
-            .data(dataLayered)
+            .data(dataSeries)
             .enter()
             .append('g')
             .attr('class', 'series')
-            .style('stroke', (d, i) => {
-                return this.colorScale(i);
-            });
+            .style('stroke', (d, i) => this.colorScale(i));
 
-        series.append('path');
-        
-        var layers = this.svg.selectAll('path')
-            .data(dataLayered, (d) => d.key);
-
-        layers
+        series
+            .append('path')
             .attr('class', 'layer')
-            .attr('d', (d) => this.area(d.values))
-            .style('fill', (d, i) => this.z(i));
+            .attr('d', area)
+            .style('fill', (d,i) => this.z(i));
 
-        this.svg.selectAll('.layer')
+        series
             .attr('opacity', 1)
             .on('mousedown.user', this.events.down)
             .on('mouseup.user', this.events.up)
@@ -104,10 +76,8 @@ class SvgStreamgraphStrategy extends SvgChart {
             .on('mouseover.user', this.events.over)
             .on('click.user', this.events.click);
 
-        this._updateAxis();
 
-        this.interactiveElements = this._layers;
-        this._applyCSS();
+        this._updateAxis();
     }
 
     _initialize() {

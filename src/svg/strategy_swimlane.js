@@ -6,12 +6,16 @@ class SvgSwimlaneStrategy {
     this.maxExtent = null;
   }
 
+  drawItems() {
+    
+  }
+
 	/**
 	 * Renders a linechart based on data object
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
 	 * 
 	 */
-  draw(data = this.data) {
+  draw(data) {
     this.data = data;
     this.lanes = data.lanes;
     if (this.minExtent !== null && this.maxExtent !== null) {
@@ -21,15 +25,24 @@ class SvgSwimlaneStrategy {
       this.items = data.items;
     }
 
+
     this.miniHeight = this.lanes.length * 12 + 50
     this.mainHeight = this.height - this.miniHeight - 50;
 
-    var dMin = d3.timeSunday(d3.min(this.items, (d) => new Date(d.start)))
-    var dMax = d3.max(this.items, (d) => new Date(d.end));
+    var itemsDMin = d3.timeSunday(d3.min(this.items, (d) => new Date(d.start)))
+    var itemsDMax = d3.max(this.items, (d) => new Date(d.end));
 
+    var dataDMin = d3.timeSunday(d3.min(this.data.items, (d) => new Date(d.start)))
+    var dataDMax = d3.max(this.data.items, (d) => new Date(d.end));
+    
+
+    console.log('Selected items -----', itemsDMin, itemsDMax);
+    console.log('Total data ---------', dataDMin, dataDMax);
     this.now = new Date(data.items[0].start);
 
-    this.x = d3.scaleTime().domain([dMin, dMax]).range([0, this.width]);
+    this.x = d3.scaleTime().domain([itemsDMin, itemsDMax]).range([0, this.width]);
+    this.brushX = d3.scaleTime().domain([dataDMin, dataDMax]).range([0, this.width]);
+
     this.ext = d3.extent(this.lanes, (d) => d.id);
     this.y1 = d3.scaleLinear().domain([this.ext[0], this.ext[1] + 1]).range([0, this.mainHeight]);
     this.y2 = d3.scaleLinear().domain([this.ext[0], this.ext[1] + 1]).range([0, this.miniHeight]);
@@ -38,15 +51,13 @@ class SvgSwimlaneStrategy {
       this._initialize();
     }
 
-    this.miniItemsPath.attr('d', null);
+    var newMiniPath = this.getPaths(this.data.items)[0];
 
-    console.log(this.data.items);
-    this.miniItemsPath.data(this.getPaths(this.data.items))
-      .attr('class', (d) => 'miniItem ' + d.class)
-      .attr('d', (d) => d.path);
-
-
-
+      this.miniItemsPath
+        .style('stroke', 'orange')
+        .style('stroke-width', 5)
+        .style('fill', 'lightorange')
+        .attr('d', newMiniPath.path);
     // upate the item rects
 
     this.rects = this.itemRects.selectAll('rect')
@@ -131,16 +142,16 @@ class SvgSwimlaneStrategy {
       .tickFormat(d3.timeFormat('%b %Y'))
       .tickSize(15, 0, 0);
 
+  /**
     this.x1MonthAxis = d3.axisTop(this.x1)
       .ticks(d3.timeMonday, 1)
       .tickFormat(d3.timeFormat('%b - Week %W'))
       .tickSize(15, 0, 0);
-
     this.main.append('g')
       .attr('transform', 'translate(0,' + this.mainHeight + ')')
       .attr('class', 'main axis date')
       .call(this.x1DateAxis);
-
+    
     this.main.append('g')
       .attr('transform', 'translate(0,0.5)')
       .attr('class', 'main axis month')
@@ -148,7 +159,7 @@ class SvgSwimlaneStrategy {
       .selectAll('text')
       .attr('dx', 5)
       .attr('dy', 12);
-
+**/
     this.mini.append('g')
       .attr('transform', 'translate(0,' + this.miniHeight + ')')
       .attr('class', 'axis date')
@@ -167,10 +178,10 @@ class SvgSwimlaneStrategy {
       .data(this.lanes)
       .enter().append('line')
       .attr('x1', 0)
-      .attr('y1', (d) => d3.format('d')(this.y1(d.id)) + 0.5)
+      .attr('y1', (d) => (this.y1(d.id)))
       .attr('x2', this.width)
-      .attr('y2', (d) => d3.format('d')(this.y1(d.id)) + 0.5)
-      .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
+      .attr('y2', (d) => (this.y1(d.id)))
+      .attr('stroke', 'lightgray');
 
     this.main.append('g').selectAll('.laneText')
       .data(this.lanes)
@@ -188,9 +199,9 @@ class SvgSwimlaneStrategy {
       .data(this.lanes)
       .enter().append('line')
       .attr('x1', 0)
-      .attr('y1', (d) => d3.format('d')(this.y2(d.id)) + 0.5)
+      .attr('y1', (d) => (this.y2(d.id)))
       .attr('x2', this.width)
-      .attr('y2', (d) => d3.format('d')(this.y2(d.id)) + 0.5)
+      .attr('y2', (d) => (this.y2(d.id)))
       .attr('stroke', (d) => d.label === '' ? 'white' : 'lightgray');
 
     this.mini.append('g')
@@ -207,7 +218,7 @@ class SvgSwimlaneStrategy {
     var self = this;
     this.brush = d3.brushX()
       .extent([[0, 0], [this.width, this.miniHeight]])
-      .on("end", function () {
+      .on('end', function () {
         if (!d3.event.sourceEvent) return; // Only transition after input.
         if (!d3.event.selection) return; // Ignore empty selections.
         var domain = d3.event.selection.map(self.x.invert);
@@ -215,8 +226,12 @@ class SvgSwimlaneStrategy {
         self.minExtent = domain[0];
         self.maxExtent = domain[1];
 
+        console.log(domain[0], domain[1]);
+        
+        self.x.domain([self.minExtent, self.maxExtent]);
         self.x1.domain([self.minExtent, self.maxExtent]);
-        self.draw();
+
+        self.draw(self.data);
       });
 
     this.mini.append('rect')
@@ -235,7 +250,7 @@ class SvgSwimlaneStrategy {
 
 
     this.miniItemsPath = this.mini.append('g').append('path');
-  
+
 
   }
 
@@ -263,18 +278,22 @@ class SvgSwimlaneStrategy {
 
 
 
-  getPaths() {
+  getPaths(items) {
+  // var dMin = d3.timeSunday(d3.min(this.data.items, (d) => new Date(d.start)))
+  // var dMax = d3.max(this.data.items, (d) => new Date(d.end));
+  //  this.brushX = d3.scaleTime().domain([dMin, dMax]).range([0, this.width]);
+
     var paths = {}, d, offset = .5 * this.y2(1) + 0.5, result = [];
-    for (var i = 0; i < this.data.items.length; i++) {
-      d = this.data.items[i];
+    for (var i = 0; i < items.length; i++) {
+      d = items[i];
+
       if (!paths[d.class]) paths[d.class] = '';
-      paths[d.class] += ['M', this.x(new Date(d.start)), (this.y2(d.lane) + offset), 'H', this.x(new Date(d.end))].join(' ');
+      paths[d.class] += ['M', this.brushX(new Date(d.start)), (this.y2(d.lane) + offset), 'H', this.brushX(new Date(d.end))].join(' ');
     }
 
     for (var className in paths) {
       result.push({ class: className, path: paths[className] });
     }
-
     return result;
   }
 

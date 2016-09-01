@@ -62,6 +62,7 @@ class SvgChart {
               .attr('class', 'x axis')
               .attr('transform', 'translate(0,' + this.height + ')')
               .call(this.xAxis);
+            
 
         this.svg
             .append('g')

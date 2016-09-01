@@ -66,7 +66,7 @@ class Chart {
      * @param  {Array} data Array of data
      */
     draw(data = this.data) {
-        if (!utils.isArray(data)) {
+        if (!utils.isArray(data) && !utils.isObject(data)) {
             throw new TypeError('draw method is only allowed with static data.');
         }
         data = JSON.parse(JSON.stringify(data));
