@@ -72,13 +72,13 @@ class Lineset {
       , markerOutlineWidth = config.markers.outlineWidth
       , colorScale = config.colorScale
       , events = config.events
-      , circles = null;
+      , markers = null;
 
     switch (markerShape) {
       case 'circle':
       default:
-        var circles = svg.selectAll('g.serie').selectAll('circle');
-        circles
+        svg.selectAll('g.serie')
+          .selectAll('circle')
           .data((d, i) => d.values)
           .enter()
           .append('circle')
@@ -90,12 +90,19 @@ class Lineset {
           .style('stroke-width', markerOutlineWidth);
     }
 
-    svg.selectAll('g.serie circle')
+    markers = svg.selectAll('g.serie circle');
+    markers
       .on('mousedown.user', events.down)
       .on('mouseup.user', events.up)
       .on('mouseleave.user', events.leave)
       .on('mouseover.user', events.over)
       .on('click.user', events.click);
+
+    /**markers.each(function (d, i) {
+      this.setAttribute('class', 'marker-top');
+      this.parentElement.parentElement.appendChild(this);
+    });
+    **/
   }
 
   render(svg, config) {

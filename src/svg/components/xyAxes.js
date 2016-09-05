@@ -45,9 +45,31 @@ class XYAxes {
   }
 
   transition(svg, time = 200) {
-    svg.select('.x.axis').transition().duration(time).call(this.xAxis);
-    svg.select('.y.axis').transition().duration(time).call(this.yAxis);
+    svg.select('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
+    svg.select('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
   }
+
+  xStyle() {
+    d3.select(this).selectAll('g.tick text')
+      //.style('font-weight', 'bold')
+      .style('font-size', '1.4em')
+      .style('fill', (d, i) => '#1a2127');
+
+    d3.select(this).selectAll(['path', 'line'])
+      .attr('stroke', 'gray')
+      .attr('stroke-width', .3);
+  }
+
+  yStyle() {
+    d3.select(this).selectAll('g.tick text')
+      .style('font-weight', (d, i) => utils.isEven(i) && i !== 0 ? 'bold' : 'normal')
+      .style('fill', (d, i) => !utils.isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+      .style('font-size', '1.4em');
+
+    d3.select(this).selectAll('g.tick line')
+      .style('stroke', (d, i) => utils.isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
+  }
+
   updateDomain(data) {
     var x = this.xAxis.scale()
       , y = this.yAxis.scale();
@@ -73,9 +95,8 @@ class XYAxes {
     svg
       .append('g')
       .attr('class', 'y axis')
-      .attr('stroke-dasharray', '1, 2')
+      .attr('stroke-dasharray', '1, 5')
       .call(yAxis)
       .append('text');
-
   }
 }

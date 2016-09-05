@@ -14,6 +14,9 @@ var utils = utils || {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   },
+  isEven(n) {
+    return n % 2 == 0;
+  },
 
   isPercentage(n) {
     let split = null;
