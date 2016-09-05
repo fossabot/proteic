@@ -32,7 +32,7 @@ class SvgChart {
 
         //Create a global 'g' (group) element
         this.svg = d3
-            .select(this.selector)
+            .select(this.config.selector)
             .append('svg')
                 .attr('width', width)
                 .attr('height', height)
@@ -111,7 +111,7 @@ class SvgChart {
     }
     _calculateWidth(width) {
         if (width === 'auto') {
-            return d3.select(this.selector)
+            return d3.select(this.config.selector)
                 .node()
                 .getBoundingClientRect()
                 .width;
@@ -122,7 +122,7 @@ class SvgChart {
         }
         else if (utils.isPercentage(width)) {
             let containerWidth, percentage;
-            containerWidth = d3.select(this.selector)
+            containerWidth = d3.select(this.config.selector)
                 .node()
                 .getBoundingClientRect()
                 .width;
@@ -148,29 +148,31 @@ class SvgChart {
         if (!config.yaxis) {
             config.yaxis = {};
         }
-        this.selector = config.selector || _default[this.cType].selector;
-        this.margin = config.margin || _default[this.cType].margin;
-        this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right
-            : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
-        this.height = config.height || _default[this.cType].height;
-        this.ticks = config.ticks || _default[this.cType].ticks;
-        this.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
-        this.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
-        this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
-        this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
+        this.config = {};
+        this.config.cType = this.constructor.name;
+        this.config.selector = config.selector || _default[this.cType].selector;
+        this.config.margin = config.margin || _default[this.cType].margin;
+        this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
+            : this._calculateWidth(_default[this.cType].width) - this.config.margin.left - this.config.margin.right;
+        this.config.height = config.height || _default[this.cType].height;
+        this.config.ticks = config.ticks || _default[this.cType].ticks;
+        this.config.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
+        this.config.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
+        this.config.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
+        this.config.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
         //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
-        this.tip = config.tooltip || _default[this.cType].tooltip;
-        this.events = {};
-        this.events.down = config.events.down || _default[this.cType].events.down;
-        this.events.up = config.events.up || _default[this.cType].events.up;
-        this.events.over = config.events.over || _default[this.cType].events.over;
-        this.events.click = config.events.click || _default[this.cType].events.click;
-        this.events.leave = config.events.leave || _default[this.cType].events.leave;
-        this._sortData = config.sortData || _default[this.cType].sortData;
-        this.style = config.style || _default[this.cType].style;
-        this.colorScale = config.colorScale || _default[this.cType].colorScale;
-        this.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
-        this.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
+        this.config.tip = config.tooltip || _default[this.cType].tooltip;
+        this.config.events = {};
+        this.config.events.down = config.events.down || _default[this.cType].events.down;
+        this.config.events.up = config.events.up || _default[this.cType].events.up;
+        this.config.events.over = config.events.over || _default[this.cType].events.over;
+        this.config.events.click = config.events.click || _default[this.cType].events.click;
+        this.config.events.leave = config.events.leave || _default[this.cType].events.leave;
+        this.config._sortData = config.sortData || _default[this.cType].sortData;
+        this.config.style = config.style || _default[this.cType].style;
+        this.config.colorScale = config.colorScale || _default[this.cType].colorScale;
+        this.config.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
+        this.config.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
     }
 
     _endAllTransitions(transition, callback) {

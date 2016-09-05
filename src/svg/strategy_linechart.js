@@ -1,54 +1,19 @@
 class SvgLinechartStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
-    //Create range function
-    this.xAxisName = 'x';
-    this.yAxisName = 'y';
+    var config = this.config;
 
-    //Create scales
-    switch(this.xDataType) {
-      case 'Numeric':
-        this.x = d3.scaleLinear().range([0, this.width]);
-        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
-       // this.xAxis = d3.svg.axis()
-        //  .scale(this.x)
-         // .orient('bottom')
-          //.ticks(this.xticks);
-        break;
-      case 'Date':
-        this.x = d3.scaleTime().range([0, this.width]);
-        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
-        //this.xAxis = d3.svg.axis()
-         // .scale(this.x)
-          //.orient('bottom')
-          //.ticks(this.xticks);
-        break;
-      default:
-        this.x = d3.scaleLinear().range([0, this.width]);
-        this.xAxis = d3.axisBottom(this.x).ticks(this.xticks);
-        //this.xAxis = d3.svg.axis()
-         // .scale(this.x)
-          //.orient('bottom')
-          //.ticks(this.xticks);
-    }
+    this.svgContainer = new SvgContainer(config);
+    this.axes = new XYAxes('linear', 'linear', config);
+    this.lines = null;
 
-    this.y = d3.scaleLinear().range([this.height, 0]);
-    this.yAxis = d3.axisLeft(this.y)
-      .tickSizeInner(-this.width)
-      .tickSizeOuter(0)
-      .tickPadding(20)
-      .ticks(this.yticks, this.tickLabel);
-  //  this.yAxis = d3.svg.axis()
-    //   .scale(this.y)
-      // .orient('left')
-      // .innerTickSize(-this.width)
-       //.outerTickSize(0)
-       //.tickPadding(20)
-      // .ticks(this.yticks, this.tickLabel);
 
-    this.keyFunction = ((d) => d.x);
-    this.seriesKeyFunction = ((d) => d.key);
+    this.lines = new Lineset(this.axes.xAxis, this.axes.yAxis);
 
+    //Include components in the chart container
+    this.svgContainer
+      .add(this.axes)
+      .add(this.lines);
   }
 
 	/**
@@ -57,188 +22,36 @@ class SvgLinechartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
-    var lineGen = null;
-    var areaGen = null;
-   // var format = this.format;
-    var s = null;
-    // var path = null;
+    var svg = this.svgContainer.svg
+      , config = this.config;
 
-    super.draw(data);
-
-    if (this.xDataType === 'Date') {
-      //Force x axis to be a date and y-axis to be a number
-      for (s = 0; s < data.length; s++) {
-        data[s].values.forEach((d) => {
-          //d.x = format.parse(d.x);
-          d.x = d3.timeParse(d.x);
-          d.y = +d.y;
-        });
-      }
-    }
-
-    //Re-scale axis
-    this.x.domain([d3.min(data, (series) => {
-      return d3.min(series.values, (d) => d.x);
-    }), d3.max(data, (series) => {
-      return d3.max(series.values, (d) => d.x);
-    })]);
-    this.y.domain([0, d3.max(data, (series) => {
-      return d3.max(series.values, (d) => d.y);
-    })]);
+    this.axes.updateDomain(data);
 
     //Create a transition effect for axis rescaling
-    this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
-    this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+    this.axes.transition(svg, 200);
 
-    // Line generator
-    lineGen = d3.line()
-      .x((d) => this.x(d.x))
-      .y((d) => this.y(d.y));
+    //Now update lines
+    this.lines.update(svg, config, data);
 
-    // Area generator
-    areaGen = d3.area()
-      .x((d) => this.x(d.x))
-      .y0(this.height )
-      .y1((d) => this.y(d.y));
-
-    var series = this.svg.selectAll('.series')
-      .data(data)
-      .enter().append('g')
-      .attr('class', 'series')
-      .style('stroke', (d, i) => {
-        return this.colorScale(i);
-      });
-
-    // Append lines
-    var line = series.append('path')
-      .attr('class', 'line');
-    var area = series.append('path')
-      .attr('class', 'area');
-
-    // Bind data to lines
-    var path = this.svg.selectAll('.line')
-      .data(data, this.seriesKeyFunction)
-      .style('stroke', (d, i) => this.colorScale(i))
-      .style('fill', (d, i) => this.colorScale(i));
-
-    // Draw area when requested
-    if (this.area) {
-      var areaPath = this.svg.selectAll('.area')
-        .data(data, this.seriesKeyFunction)
-        .style('stroke', (d, i) => this.colorScale(i))
-        .style('fill', (d, i) => this.colorScale(i));
-
-      area
-        .attr('d', (d) => areaGen(d.values))
-        .style('stroke', (d, i) => this.colorScale(i));
-
-      areaPath
-        .style('fill-opacity', this.areaOpacity)
-        .attr('d', (d) => areaGen(d.values));
-    }
-      line
-        .attr('d', (d) => lineGen(d.values))
-        .style('stroke', (d, i) => this.colorScale(i));
-
-      path
-        .attr('d', (d) => lineGen(d.values));
-
-
-    // Append markers to lines
-    if (this.markers) {
-      switch (this.markers.shape) {
-        case 'circle':
-              var markers = this.svg.selectAll('.series')
-                .selectAll('circle')
-            .data((d, i) => d.values);
-          markers.enter().append('circle')
-            .attr('cx', (d) => this.x(d.x))
-            .attr('cy', (d) => this.y(d.y))
-            .attr('r', this.markers.size)
-            .attr('class', 'marker')
-            .style('fill', 'white')
-            .style('stroke-width', this.markers.outlineWidth);
-          markers.exit().remove();
-          markers
-            .transition()
-            .attr('cx', (d) => this.x(d.x))
-            .attr('cy', (d) => this.y(d.y))
-            .duration(0);
-          break;
-        default:
-          throw Error('Not a valid marker shape: ' + this.markers.shape);
-      }
-
-      // Move the markers to the top layer to prevent occlusion by the area path.
-      // The style of the marker is copied in order to preserve the style of the line.
-      // The class 'marker-top' is set so the markers can be removed in the next tick.
-      this.svg.selectAll('.marker-top').remove();
-      markers.each(function (d, i) {
-        this.style.stroke = this.parentElement.style.stroke;
-        this.setAttribute('class', 'marker-top');
-        this.parentElement.parentElement.appendChild(this);
-      });
-
-      // Add tooltips to the markers
-      if (this.tooltip) {
-        markers.on('mouseover.tip', this.tooltip.show)
-          .on('mouseout.tip', this.tooltip.hide);
-      }
-
-      // Add events to the markers
-      markers
-        .on('mousedown.user', this.events.down)
-        .on('mouseup.user', this.events.up)
-        .on('mouseleave.user', this.events.leave)
-        .on('mouseover.user', this.events.over)
-        .on('click.user', this.events.click);
-
-      this.interactiveElements = markers;
-    }
-
-    this._applyCSS();
-
-    // Check and fix overlapping axis labels
-    var labelsWidth = 0;
-    this.svg.selectAll('.x.axis g.tick text')
-      .each(function() {
-        labelsWidth += this.getBBox().width;
-      });
-    // Calculate new number of ticks
-    if (labelsWidth > this.width) {
-      var numberOfTicks = this.svg.select('.x').selectAll('.tick')[0].length;
-      var meanWidth = labelsWidth / numberOfTicks;
-      this.xticks = Math.floor((this.width / meanWidth) * 0.75);
-      this.xAxis.ticks(this.xticks);
-      this.svg.selectAll("g.x.axis")
-        .call(this.xAxis);
-    }
   }
 
-  _initialize() {
-
-    super._initialize();
-    this._initialized = true;
-  }
-
-	/**
-	 * This method adds config options to the chart context.
-	 * @param  {Object} config Config object
-	 */
+  /**
+   * This method adds config options to the chart context.
+   * @param  {Object} config Config object
+   */
   _loadConfigOnContext(config) {
     super._loadConfigOnContext(config);
-    this.markers = {};
-    this.markers.color = config.markers.color || _default.Linechart.markers.color;
-    this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
-    this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
-    this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
-    this.markers.size = config.markers.size || _default.Linechart.markers.size;
-    this.area = typeof(config.area) === 'undefined' ?  _default.Linechart.area : config.area;
-    this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
-    this.xDataType = config.xDataType || _default.Linechart.xDataType;
-    this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
-
-    //Just for testing purposes
+    this.config = this.config || {};
+    this.config.markers = {};
+    this.config.markers.color = config.markers.color || _default.Linechart.markers.color;
+    this.config.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
+    this.config.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
+    this.config.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
+    this.config.markers.size = config.markers.size || _default.Linechart.markers.size;
+    this.config.area = typeof (config.area) === 'undefined' ? _default.Linechart.area : config.area;
+    this.config.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
+    this.config.xDataType = config.xDataType || _default.Linechart.xDataType;
+    this.config.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
     return this;
   }
 }

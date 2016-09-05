@@ -12,52 +12,71 @@
 
 <body>
 
-  <div id='chart'></div>
-  <br/>
-  <div id='chart-temporal'></div>
+    <div id='chart'></div>
+    <br/>
 
-  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
-  <script src='../node_modules/d3/build/d3.min.js'></script>
 
-  <script src='../src/utils/functions.js'></script>
-  <script src='../src/utils/image.js'></script>
-  <script src='../src/utils/strategies.js'></script>
-  <script src='../src/utils/colors.js'></script>
-  <script src='../src/utils/defaults/linechart.js'></script>
-  <script src='../src/utils/ProteusEvent.js'></script>
+    <div id='chartArea'></div>
 
-  <script src='../src/svg/SvgStrategy.js'></script>
-  <script src='../src/svg/svg.js'></script>
+    <div id='chart-temporal'></div>
 
-  <script src='../src/svg/strategy_linechart.js'></script>
-  <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
-  <script src='../src/charts/base/Basic.js' type='text/javascript'></script>
-  <script src='../src/charts/linechart.js' type='text/javascript'></script>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+    <script src='../node_modules/d3/build/d3.min.js'></script>
 
-  <script>
+    <script src='../src/utils/functions.js'></script>
+    <script src='../src/utils/image.js'></script>
+    <script src='../src/utils/strategies.js'></script>
+    <script src='../src/utils/colors.js'></script>
+    <script src='../src/utils/defaults/linechart.js'></script>
+    <script src='../src/utils/ProteusEvent.js'></script>
+
+    <script src='../src/svg/components/xyAxes.js'></script>
+    <script src='../src/svg/components/SvgContainer.js'></script>
+    <script src='../src/svg/components/lineset.js'></script>
+    <script src='../src/svg/components/area.js'></script>
+
+
+    <script src='../src/svg/SvgStrategy.js'></script>
+    <script src='../src/svg/svg.js'></script>
+
+    <script src='../src/svg/strategy_linechart.js'></script>
+    <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
+    <script src='../src/charts/base/Basic.js' type='text/javascript'></script>
+    <script src='../src/charts/linechart.js' type='text/javascript'></script>
+
+    <script>
+/**
     var data = [
-      {
-        key: 'series1',
-        values: [
-            {x:3, y:5},
-            {x:6, y:5},
-            {x:8, y:21},
-            {x:9, y:0}
-        ]
-      },
-      {
-        key: 'series2',
-        values: [
-          {x:3, y:4},
-          {x:6, y:4},
-          {x:8, y:20},
-          {x:9, y:12}
-        ]
-      }
-    ];
+            {key:'serie1', x:3, y:5},
+            {key:'serie1', x:6, y:5},
+            {key:'serie1', x:8, y:21},
+            {key:'serie1', x:9, y:0},
+            {key:'serie2', x:3, y:4},
+            {key:'serie2', x:6, y:4},
+            {key:'serie2', x:8, y:20},
+            {key:'serie2', x:9, y:12}
+    ]
+    
     //Default config uses #chart selector
-    linechart = new Linechart(data, {area: false});
+    linechart = new Linechart(data, {area: false, height:400});
     linechart.draw();
+**/
+
+        var dataArea = [
+            {key:'serie1', x:3, y:5, itemKey: 1},
+            {key:'serie1', x:6, y:5, itemKey: 2},
+            {key:'serie1', x:8, y:21, itemKey: 3},
+            {key:'serie1', x:9, y:0, itemKey: 4},
+            {key:'serie2', x:3, y:4, itemKey: 1},
+            {key:'serie2', x:6, y:4, itemKey: 2},
+            {key:'serie2', x:8, y:20, itemKey: 3},
+            {key:'serie2', x:9, y:12, itemKey: 4}
+    ];
+
+    areaLinechart = new Linechart(dataArea, {selector: '#chartArea', area: true, height:400});
+    areaLinechart.draw();
+
+
 /**
         var temporalData = [
             {
