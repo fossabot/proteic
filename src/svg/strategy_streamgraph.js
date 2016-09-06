@@ -2,20 +2,20 @@ class SvgStreamgraphStrategy extends SvgChart {
 
     constructor(chartContext) {
         super(chartContext);
-        this.x = d3.scaleTime().range([0, this.width]);
+        this.x = d3.scaleTime().range([0, this.config.width]);
 
-        this.y = d3.scaleLinear().range([this.height - 10, 0]);
-        this.z = this.colorScale;
+        this.y = d3.scaleLinear().range([this.config.height - 10, 0]);
+        this.z = this.config.colorScale;
 
         this.xAxis = d3.axisBottom(this.x)
             .ticks(d3.timeDay, 1)
             .tickFormat(d3.timeFormat("%m/%d/%y"));
 
         this.yAxis = d3.axisLeft(this.y)
-            .tickSizeInner(-this.width)
+            .tickSizeInner(-this.config.width)
             .tickSizeOuter(0)
             .tickPadding(20)
-            .ticks(this.ticks, this.tickLabel)
+            .ticks(this.config.ticks, this.config.tickLabel)
             .tickFormat((d) => d);
 
         this.keys = null;
@@ -27,20 +27,17 @@ class SvgStreamgraphStrategy extends SvgChart {
 	 * 
 	 */
     draw(data) {
+        var stack = null;
+
         //Initialize data
         if (!this._initialized) {
             this._initialize();
         }
 
-
-        var stack = null;
-
-
-
         stack = d3.stack()
             .keys(data.keys)
-            .order(d3.stackOrderAscending)
-            .offset(d3.stackOffsetNone);
+            .order(d3.stackOrderInsideOut)
+            .offset(d3.stackOffsetWiggle);
 
         data.values.forEach((d) => {
             d.date = d3.timeParse(this.xDateformat)(d.date);
@@ -48,9 +45,16 @@ class SvgStreamgraphStrategy extends SvgChart {
 
         var dataSeries = stack(data.values);
 
-        this.x.domain(d3.extent(data.values, (d) => d.date));
-        this.y.domain([0, d3.max(data.values, (d) => (d.total))]);
 
+        this.x.domain(d3.extent(data.values, (d) => d.date));
+        window.a = dataSeries;
+
+        this.y.domain([ 
+            d3.min(a, (serie) => d3.min(serie, (d) => d[0])),
+            d3.max(a, (serie) => d3.max(serie, (d) => d[1]))
+        ]);
+        
+        var self = this;
 
         var area = d3.area()
             .curve(d3.curveCardinal)
@@ -63,7 +67,7 @@ class SvgStreamgraphStrategy extends SvgChart {
             .enter()
             .append('g')
             .attr('class', 'series')
-            .style('stroke', (d, i) => this.colorScale(i));
+            .style('stroke', (d, i) => this.config.colorScale(i));
 
         series
             .append('path')
@@ -73,11 +77,11 @@ class SvgStreamgraphStrategy extends SvgChart {
 
         series
             .attr('opacity', 1)
-            .on('mousedown.user', this.events.down)
-            .on('mouseup.user', this.events.up)
-            .on('mouseleave.user', this.events.leave)
-            .on('mouseover.user', this.events.over)
-            .on('click.user', this.events.click);
+            .on('mousedown.user', this.config.events.down)
+            .on('mouseup.user', this.config.events.up)
+            .on('mouseleave.user', this.config.events.leave)
+            .on('mouseover.user', this.config.events.over)
+            .on('click.user', this.config.events.click);
 
 
         this._updateAxis();
@@ -98,7 +102,7 @@ class SvgStreamgraphStrategy extends SvgChart {
             config.events = {};
         }
         super._loadConfigOnContext(config);
-        this.colorScale = config.colorScale || _default.Streamgraph.colorScale;
-        this.xDateformat = config.xDateFormat || _default.Streamgraph.xDateFormat;
+        this.colorScale = config.colorScale || _default.StackedArea.colorScale;
+        this.xDateformat = config.xDateFormat || _default.StackedArea.xDateFormat;
     }
 }
