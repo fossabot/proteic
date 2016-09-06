@@ -10,11 +10,22 @@ class Barset {
 
 
   update(svg, config, data, method) {
+    var bars = null
+      , events = config.events;
+
     if (method === 'stacked') {
       this._updateStacked(svg, config, data);
     } else {
       this._updateGrouped(svg, config, data);
     }
+    
+    bars = svg.selectAll('g.serie rect');
+    bars
+      .on('mousedown.user', events.down)
+      .on('mouseup.user', events.up)
+      .on('mouseleave.user', events.leave)
+      .on('mouseover.user', events.over)
+      .on('click.user', events.click);
   }
 
   _updateStacked(svg, config, data) {
