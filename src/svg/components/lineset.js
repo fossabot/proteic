@@ -8,6 +8,7 @@ class Lineset {
       .y((d) => yAxis.scale()(d.y));
   }
 
+
   update(svg, config, data) {
     var dataSeries = d3.nest().key((d) => d.key).entries(data);
     var series = null
@@ -27,7 +28,7 @@ class Lineset {
       .attr('stroke', (d, i) => colorScale(i))
       .append('svg:path')
       .style('stroke', (d, i) => colorScale(i))
-      .style('stroke-width', 1.8)
+      .style('stroke-width', 1.3)
       .style('fill', 'none')
       .attr('d', (d) => this.lineGenerator(d.values))
       .attr('class', 'line');
@@ -39,6 +40,7 @@ class Lineset {
       this._includeMarks(svg, config, data);
     }
 
+    this.svg = svg;
   }
   _includeArea(svg, config, dataSeries) {
     var colorScale = config.colorScale
@@ -98,14 +100,20 @@ class Lineset {
       .on('mouseover.user', events.over)
       .on('click.user', events.click);
 
-    /**markers.each(function (d, i) {
-      this.setAttribute('class', 'marker-top');
-      this.parentElement.parentElement.appendChild(this);
-    });
-    **/
+    if (this['Tooltip']) {
+      markers.on('mouseover.tooltip',this['Tooltip'].enter);
+      markers.on('mouseleave.tooltip', this['Tooltip'].exit);
+
+    }
   }
 
-  render(svg, config) {
+
+
+  render(svg, config, plugin) {
     //Do nothing, since lines render only when new data is received.
+    if (plugin) {
+      plugin.render(svg, config);
+      this[plugin.constructor.name] = plugin;
+    }
   }
 }

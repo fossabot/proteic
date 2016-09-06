@@ -1,0 +1,110 @@
+
+class Barset {
+  constructor(xAxis, yAxis) {
+    this.xAxis = xAxis;
+    this.yAxis = yAxis;
+    this.lineGenerator = d3.line()
+      .x((d) => xAxis.scale()(d.x))
+      .y((d) => yAxis.scale()(d.y));
+  }
+
+
+  update(svg, config, data, method) {
+    if (method === 'stacked') {
+      this._updateStacked(svg, config, data);
+    } else {
+      this._updateGrouped(svg, config, data);
+    }
+  }
+
+  _updateStacked(svg, config, data) {
+    this._cleanCurrentSeries(svg);
+
+    var stack = d3.stack()
+      , keys = ['2011', '2012', '2013', '2014']
+      , dataSeries = stack.keys(keys)(data)
+      , colorScale = config.colorScale
+      , layer = svg.selectAll('.serie').data(dataSeries)
+      , layerEnter = layer.enter().append('g')
+      , layerMerge = null
+      , bar = null
+      , barEnter = null
+      , barMerge = null
+      , x = this.xAxis.scale()
+      , y = this.yAxis.scale();
+
+    layerMerge = layer.merge(layerEnter)
+      .attr('class', 'serie')
+      .attr('fill', (d, i) => colorScale(i));
+
+    bar = layerMerge.selectAll('rect')
+      .data((d) => d);
+
+    barEnter = bar.enter().append('rect');
+
+    barMerge = bar.merge(barEnter)
+      .attr("x", (d) => x(d.data.key))
+      .attr("y", (d) => y(d[1]))
+      .attr("height", (d) => y(d[0]) - y(d[1]))
+      .attr("width", x.bandwidth());
+  }
+
+
+  _updateGrouped(svg, config, data) {
+    this._cleanCurrentSeries(svg);
+
+    var keys = ['2011', '2012', '2013', '2014']
+      , colorScale = config.colorScale
+      , layer = svg.selectAll('.serie').data(data)
+      , layerEnter = null
+      , layerMerge = null
+      , bar = null
+      , barEnter = null
+      , barMerge = null
+      , x = this.xAxis.scale()
+      , y = this.yAxis.scale()
+      , xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()])
+      , height = config.height;
+
+    //Transform data. TODO: move it
+    data.forEach((d) => {
+      d.categories = keys.map((category) => {
+        return { category: category, value: +d[category] };
+      });
+    });
+
+    layer = svg.selectAll('.serie').data(data);
+
+    layerEnter = layer.enter().append('g')
+      .attr('transform', (d) => 'translate(' + x(d.key) + ')');
+
+    layerMerge = layer.merge(layerEnter)
+      .attr('class', 'serie')
+      .attr('transform', (d) => 'translate(' + x(d.key) + ')');
+
+    bar = layerMerge.selectAll('rect')
+      .data((d) => d.categories);
+
+    barEnter = bar.enter().append('rect');
+
+    barMerge = bar.merge(barEnter)
+      .attr('width', xGroup.bandwidth())
+      .attr("x", (d) => xGroup(d.category))
+      .attr('fill', (d, i) => colorScale(i))
+      .attr("y", (d) => y(d.value))
+      .attr("height", (d) => height - y(d.value));
+
+  }
+
+  _cleanCurrentSeries(svg) {
+    svg.selectAll('.serie').remove();
+  }
+
+  render(svg, config, plugin) {
+    //Do nothing, since lines render only when new data is received.
+    if (plugin) {
+      plugin.render(svg, config);
+      this[plugin.constructor.name] = plugin;
+    }
+  }
+}

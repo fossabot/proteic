@@ -27,67 +27,50 @@ class SvgChart {
     }
 
     _initialize() {
-        var width = this.width + this.margin.left + this.margin.right;
-        var height = this.height + this.margin.top + this.margin.bottom;
+        var width = this.config.width + this.config.margin.left + this.config.margin.right;
+        var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
 
         //Create a global 'g' (group) element
         this.svg = d3
             .select(this.config.selector)
             .append('svg')
-                .attr('width', width)
-                .attr('height', height)
+            .attr('width', width)
+            .attr('height', height)
             .append('g')
-                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-        //Create tooltip (d3-tip)
-        /**
-        if (this.tip && !"chuckNorrisVariable") {
-            this.tooltip = d3.tip()
-                .attr('class', 'd3-tip')
-                .style('line-height', 1)
-                .style('padding', '12px')
-                .style('background', 'rgba(0, 0, 0, 0.8)')
-                .style('color', '#fff')
-                .style('border-radius', '2px')
-                .style(pointer-events', 'none')
-
-                .html(this.tip);
-            this.svg.call(this.tooltip);
-        }
-         */
+            .attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
 
         //Append a new group with 'x' aXis
         this.svg
             .append('g')
-              .attr('class', 'x axis')
-              .attr('transform', 'translate(0,' + this.height + ')')
-              .call(this.xAxis);
-            
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + this.config.height + ')')
+            .call(this.xAxis);
+
 
         this.svg
             .append('g')
-              .attr('class', 'y axis')
-              .attr('stroke-dasharray', '1, 2')
-              .call(this.yAxis)
+            .attr('class', 'y axis')
+            .attr('stroke-dasharray', '1, 2')
+            .call(this.yAxis)
             .append('text');
 
         // Append axes labels
         this.svg
             .append('text')
-              .attr('text-anchor', 'middle')
-              .attr('class', 'x axis label')
-              .attr('x', this.width / 2)
-              .attr('y', this.height + this.margin.bottom)
-              .text(this.xAxisLabel);
-              
+            .attr('text-anchor', 'middle')
+            .attr('class', 'x axis label')
+            .attr('x', this.config.width / 2)
+            .attr('y', this.config.height + this.config.margin.bottom)
+            .text(this.xAxisLabel);
+
         this.svg
             .append('text')
-              .attr('text-anchor', 'middle')
-              .attr('class', 'y axis label')
-              .attr('transform', 'rotate(-90)')
-              .attr('x', - this.height / 2)
-              .attr('y', - this.margin.left / 1.3)
-              .text(this.yAxisLabel);
+            .attr('text-anchor', 'middle')
+            .attr('class', 'y axis label')
+            .attr('transform', 'rotate(-90)')
+            .attr('x', - this.config.height / 2)
+            .attr('y', - this.config.margin.left / 1.3)
+            .text(this.yAxisLabel);
     }
 
     _applyCSS() {
@@ -205,10 +188,10 @@ class SvgChart {
             this.interactiveElements.on(userEvents[key], null);
         }
     }
-    _updateXaxis(){
+    _updateXaxis() {
         this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
     }
-    _updateYaxis(){
+    _updateYaxis() {
         this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
     }
     _updateAxis() {

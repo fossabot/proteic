@@ -24,12 +24,22 @@ class Barchart extends Basic {
     super.draw(data);
   }
 
-  fire(event, data) {
-    var element = this._svg.strategy.svg;
-    if (!element || !element[0][0]) {
-      throw Error('Cannot fire events because SVG dom element is not yet initialized');
+  fire(event, data) {//TODO: improve this section
+    if(event === 'transition'){
+      if(data==='grouped'){
+        this._svg.strategy.transition2Grouped();
+      }
+      else if(data === 'stacked'){
+        this._svg.strategy.transition2Stacked();
+      }
+
+      this._svg.strategy.draw();
     }
-    element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
+   // var element = this._svg.strategy.svg;
+   // if (!element || !element[0][0]) {
+   //   throw Error('Cannot fire events because SVG dom element is not yet initialized');
+   // }
+   // element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
   }
 
   /**

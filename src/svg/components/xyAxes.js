@@ -16,16 +16,20 @@ class XYAxes {
     switch (xAxisType) {
       case 'time':
         x = d3.scaleTime().range([0, config.width]);
-        xAxis = d3.axisBottom(x).ticks(config.xticks);
         break;
       case 'linear':
         x = d3.scaleLinear().range([0, config.width]);
-        xAxis = d3.axisBottom(x).ticks(config.xticks);
+        break;
+      case 'categorical':
+        x = d3.scaleBand().rangeRound([0, config.width])
+          .padding(0.1)
+          .align(0.5);
         break;
       default:
-        throw new Error('Not allowed type for XAxis. Only allowed "time" or "linear". Got: ' + type);
+        throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
     }
-    return xAxis;
+    return d3.axisBottom(x).ticks(config.xticks);
+    ;
   }
 
   _initializeYAxis(yAxisType, config) {
@@ -34,55 +38,57 @@ class XYAxes {
 
     y = d3.scaleLinear().range([config.height, 0]);
 
-    yAxis = d3.axisLeft(y)
+    return d3.axisLeft(y)
       .tickSizeInner(-config.width)
       .tickSizeOuter(0)
       .tickPadding(20)
       .tickFormat((d) => d)
       .ticks(config.yticks, config.tickLabel);
-
-    return yAxis;
   }
 
   transition(svg, time = 200) {
-    svg.select('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
-    svg.select('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
+    svg.selectAll('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
+    svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
+
   }
 
   xStyle() {
     d3.select(this).selectAll('g.tick text')
-      //.style('font-weight', 'bold')
       .style('font-size', '1.4em')
-      .style('fill', (d, i) => '#1a2127');
+      .style('fill', (d, i) => !utils.isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+      .style('fill', (d, i) => '#1a2127')
+
 
     d3.select(this).selectAll(['path', 'line'])
       .attr('stroke', 'gray')
-      .attr('stroke-width', .3);
+      .attr('stroke-width', .3)
+
   }
 
   yStyle() {
     d3.select(this).selectAll('g.tick text')
-      .style('font-weight', (d, i) => utils.isEven(i) && i !== 0 ? 'bold' : 'normal')
+      .style('font-size', '1.4em')
       .style('fill', (d, i) => !utils.isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+      .style('font-weight', (d, i) => utils.isEven(i) && i !== 0 ? 'bold' : 'normal')
       .style('font-size', '1.4em');
 
     d3.select(this).selectAll('g.tick line')
       .style('stroke', (d, i) => utils.isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
   }
 
-  updateDomain(data) {
+  updateDomainByBBox(b) {
     var x = this.xAxis.scale()
       , y = this.yAxis.scale();
-
-    var minX = d3.min(data, (d) => d.x);
-    var maxX = d3.max(data, (d) => d.x);
-    var minY = d3.min(data, (d) => d.y);
-    var maxY = d3.max(data, (d) => d.y);
-
-    x.domain([minX, maxX]);
-    y.domain([minY, maxY]);
+    x.domain([b[0], b[1]]);
+    y.domain([b[2], b[3]]);
   }
 
+  updateDomainByKeysAndBBox(keys, yBbox) {
+    var x = this.xAxis.scale()
+      , y = this.yAxis.scale();
+    x.domain(keys);
+    y.domain([yBbox[0], yBbox[1]]);
+  }
 
   render(svg, config) {
     var yAxis = this.yAxis

@@ -5,15 +5,15 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes('linear', 'linear', config);
-    this.lines = null;
-
-
     this.lines = new Lineset(this.axes.xAxis, this.axes.yAxis);
+
+    this.tooltip = new Tooltip();
 
     //Include components in the chart container
     this.svgContainer
       .add(this.axes)
-      .add(this.lines);
+      .add(this.lines, this.tooltip)
+      .add(this.tooltip);
   }
 
 	/**
@@ -23,9 +23,12 @@ class SvgLinechartStrategy extends SvgChart {
 	 */
   draw(data) {
     var svg = this.svgContainer.svg
-      , config = this.config;
+      , config = this.config
+      , bbox = null;
 
-    this.axes.updateDomain(data);
+    bbox = this._getDomainBBox(data);
+
+    this.axes.updateDomainByBBox(bbox);
 
     //Create a transition effect for axis rescaling
     this.axes.transition(svg, 200);
@@ -33,6 +36,14 @@ class SvgLinechartStrategy extends SvgChart {
     //Now update lines
     this.lines.update(svg, config, data);
 
+  }
+
+  _getDomainBBox(data) {
+    var minX = d3.min(data, (d) => d.x)
+      , maxX = d3.max(data, (d) => d.x)
+      , minY = d3.min(data, (d) => d.y)
+      , maxY = d3.max(data, (d) => d.y);
+    return [minX, maxX, minY, maxY];
   }
 
   /**

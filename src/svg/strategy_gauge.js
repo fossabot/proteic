@@ -4,18 +4,18 @@ class SvgGaugeStrategy extends SvgChart {
 
     //Create scale
     this.scale = d3.scaleLinear()
-      .domain([this.minLevel, this.maxLevel])
+      .domain([this.config.minLevel, this.config.maxLevel])
       .range([0, 1]);
 
     this.angleScale = d3.scaleLinear()
-      .domain([this.minLevel, this.maxLevel])
-      .range([90 + this.minAngle, 90 + this.maxAngle]);
+      .domain([this.config.minLevel, this.config.maxLevel])
+      .range([90 + this.config.minAngle, 90 + this.config.maxAngle]);
 
-    this.colorScale.domain([0, 1]);
+    this.config.colorScale.domain([0, 1]);
 
-    this.scaleMarks = this.scale.ticks(this.ticks);
-    this.tickData = d3.range(this.ticks)
-      .map(() => 1 / this.ticks);
+    this.scaleMarks = this.scale.ticks(this.config.ticks);
+    this.tickData = d3.range(this.config.ticks)
+      .map(() => 1 / this.config.ticks);
 
     this.keyFunction = ((d) => d.x);
     this.translation = (() => 'translate(' + this.r + ',' + this.r + ')');
@@ -32,21 +32,23 @@ class SvgGaugeStrategy extends SvgChart {
 
     super.draw(data);
     this.datum = data[data.length - 1];
-    needleLen = this.needleLenghtRatio * (this.r);
+    needleLen = this.config.needleLenghtRatio * (this.r);
 
+
+console.log(this.config.needleNutRadius, needleLen, this.config.needleLenghtRatio, this.r);
     // Append the needle
     if (!this.needle) {
       this.needle = this.svg.append('path')
         .attr('class', 'needle')
         .datum(this.datum.x)
         .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(d) - 90})`)
-        .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`);
+        .attr('d', `M ${0 - this.config.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.config.needleNutRadius} ${0}`);
     }
 
     this.needle
       .transition()
       .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(this.datum.x) - 90})`)
-      .attr('d', `M ${0 - this.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.needleNutRadius} ${0}`);
+      .attr('d', `M ${0 - this.config.needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${this.config.needleNutRadius} ${0}`);
 
     this.svg.select('.text-indicator')
       .text(this.datum.x);
@@ -56,34 +58,34 @@ class SvgGaugeStrategy extends SvgChart {
 
 
   _initialize() {
-    var width = this.width + this.margin.left + this.margin.right;
-    var height = this.height + this.margin.top + this.margin.bottom;
+    var width = this.config.width + this.config.margin.left + this.config.margin.right;
+    var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
     var labels = null;
     var arcs = null;
 
     //Create a global 'g' (group) element
     this.svg = d3
-        .select(this.selector)
+        .select(this.config.selector)
         .append('svg')
-        .attr('width', this.width)
-        .attr('height', this.height)
+        .attr('width', this.config.width)
+        .attr('height', this.config.height)
         .append('g')
-        .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+        .attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
 
-    this.range = this.maxAngle - this.minAngle;
-    this.r = ((this.width > this.height) ? this.height : this.width ) / 2;
+    this.range = this.config.maxAngle - this.config.minAngle;
+    this.r = ((this.config.width > this.config.height) ? this.config.height : this.config.width ) / 2;
     this.needleLength = Math.round(this.r * this.needleLenghtRatio);
 
     this.arc = d3.arc()
-      .innerRadius(this.r - this.ringWidth - this.ringMargin)
-      .outerRadius(this.r - this.ringMargin)
+      .innerRadius(this.r - this.config.ringWidth - this.config.ringMargin)
+      .outerRadius(this.r - this.config.ringMargin)
       .startAngle((d, i) => {
         var ratio = d * i;
-        return utils.deg2rad(this.minAngle + (ratio * this.range));
+        return utils.deg2rad(this.config.minAngle + (ratio * this.range));
       })
       .endAngle((d, i) => {
         var ratio = d * (i + 1);
-        return utils.deg2rad(this.minAngle + (ratio * this.range));
+        return utils.deg2rad(this.config.minAngle + (ratio * this.range));
       });
 
     // Append the ring
@@ -100,10 +102,10 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('d', this.arc);
 
     // Fill colors
-    if (this.invertColorScale) {
-      arcPaths.attr('fill', (d, i) => this.colorScale(1 - d * i));
+    if (this.config.invertColorScale) {
+      arcPaths.attr('fill', (d, i) => this.config.colorScale(1 - d * i));
     } else {
-      arcPaths.attr('fill', (d, i) => this.colorScale(d * i));
+      arcPaths.attr('fill', (d, i) => this.config.colorScale(d * i));
     }
 
     // Apend the scale labels
@@ -117,8 +119,8 @@ class SvgGaugeStrategy extends SvgChart {
       .enter().append('text')
       .attr('transform', (d) => {
         var ratio = this.scale(d);
-        var newAngle = this.minAngle + (ratio * this.range);
-        return 'rotate(' + newAngle + ') translate(0,' + (this.labelInset - this.r) + ')';
+        var newAngle = this.config.minAngle + (ratio * this.range);
+        return 'rotate(' + newAngle + ') translate(0,' + (this.config.labelInset - this.r) + ')';
       })
       .text((d) => d);
 
@@ -128,12 +130,12 @@ class SvgGaugeStrategy extends SvgChart {
       .attr('transform', this.translation)
       .attr('cx', 0)
       .attr('cy', 0)
-      .attr('r', this.needleNutRadius);
+      .attr('r', this.config.needleNutRadius);
 
     this.svg.append('g')
       .attr('class', 'needle');
 
-    if (this.numericIndicator) {
+    if (this.config.numericIndicator) {
       this.svg.append('text')
         .attr('class', 'text-indicator')
         .attr('transform', this.translation)
@@ -152,19 +154,19 @@ class SvgGaugeStrategy extends SvgChart {
 	 */
   _loadConfigOnContext(config) {
     super._loadConfigOnContext(config);
-
-    this.minLevel = config.minLevel || _default.Gauge.minLevel;
-    this.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
-    this.minAngle = config.minAngle || _default.Gauge.minAngle;
-    this.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
-    this.ticks = config.ticks || _default.Gauge.ticks;
-    this.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
-    this.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
-    this.labelInset = config.labelInset || _default.Gauge.labelInset;
-    this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
-    this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-    this.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
-    this.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
+    this.config = this.config || {};
+    this.config.minLevel = config.minLevel || _default.Gauge.minLevel;
+    this.config.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
+    this.config.minAngle = config.minAngle || _default.Gauge.minAngle;
+    this.config.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
+    this.config.ticks = config.ticks || _default.Gauge.ticks;
+    this.config.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
+    this.config.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
+    this.config.labelInset = config.labelInset || _default.Gauge.labelInset;
+    this.config.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
+    this.config.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
+    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
+    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
     //Just for testing purposes
     return this;
   }
