@@ -33,7 +33,6 @@
     <script src='../src/svg/components/tooltip.js'></script>
 
     <script src='../src/svg/components/lineset.js'></script>
-    <script src='../src/svg/components/area.js'></script>
 
 
     <script src='../src/svg/SvgStrategy.js'></script>
@@ -45,35 +44,34 @@
     <script src='../src/charts/linechart.js' type='text/javascript'></script>
 
     <script>
-/**
-    var data = [
-            {key:'serie1', x:3, y:5},
-            {key:'serie1', x:6, y:5},
-            {key:'serie1', x:8, y:21},
-            {key:'serie1', x:9, y:0},
-            {key:'serie2', x:3, y:4},
-            {key:'serie2', x:6, y:4},
-            {key:'serie2', x:8, y:20},
-            {key:'serie2', x:9, y:12}
-    ]
-    
-    //Default config uses #chart selector
-    linechart = new Linechart(data, {area: false, height:400});
-    linechart.draw();
-**/
 
         var dataArea = [
-            {key:'serie1', x:3, y:5, itemKey: 1},
-            {key:'serie1', x:6, y:5, itemKey: 2},
-            {key:'serie1', x:8, y:21, itemKey: 3},
-            {key:'serie1', x:9, y:0, itemKey: 4},
-            {key:'serie2', x:3, y:4, itemKey: 1},
-            {key:'serie2', x:6, y:4, itemKey: 2},
-            {key:'serie2', x:8, y:20, itemKey: 3},
-            {key:'serie2', x:9, y:12, itemKey: 4}
+            {key:'serie1', x:1, y:5},
+            {key:'serie1', x:2, y:15},
+            {key:'serie1', x:3, y:35},
+            {key:'serie1', x:4, y:25},
+            {key:'serie1', x:5, y:12},
+            {key:'serie1', x:6, y:0},
+            {key:'serie1', x:7, y:21},
+            {key:'serie1', x:8, y:0},
+            {key:'serie2', x:1, y:4},
+            {key:'serie2', x:2, y:4},
+            {key:'serie2', x:3, y:20},
+            {key:'serie2', x:7, y:12},
+            {key:'serie2', x:5, y:14},
+            {key:'serie2', x:6, y:9},
+            {key:'serie2', x:4, y:12},
+            {key:'serie2', x:8, y:13}
     ];
 
-    areaLinechart = new Linechart(dataArea, {selector: '#chartArea', area: false, height:400});
+    areaLinechart = new Linechart(dataArea, {
+        selector: '#chartArea',
+        area: true,
+        height:400,
+        sort: {
+            field: 'x'
+        }
+    });
     areaLinechart.draw();
 
 
