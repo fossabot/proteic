@@ -66,6 +66,20 @@ class Chart {
      * @param  {Array} data Array of data
      */
     draw(data = this.data) {
+        var config = this.config
+            , sort = config.sort
+            , p = null
+            , desc = null;
+
+        if (sort) {
+            p = config.sort.field;
+            desc = config.sort.desc;
+            data.sort((e1, e2) => {
+                var a = e1[p];
+                var b = e2[p];
+                return  (a < b) ? -1 : (a > b) ? 1 : 0;
+            })
+        }
         if (!utils.isArray(data) && !utils.isObject(data)) {
             throw new TypeError('draw method is only allowed with static data.');
         }
