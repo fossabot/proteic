@@ -11,8 +11,8 @@ class Barset {
 
   update(svg, config, data, method) {
     var bars = null
-    , events = config.events;
-    
+      , events = config.events;
+
     if (method === 'stacked') {
       this._updateStacked(svg, config, data);
     } else {
@@ -31,7 +31,7 @@ class Barset {
     this._cleanCurrentSeries(svg);
 
     var stack = d3.stack()
-      , keys = ['2011', '2012', '2013', '2014']
+      , keys = this._getKeysFromData(data)
       , dataSeries = stack.keys(keys)(data)
       , colorScale = config.colorScale
       , layer = svg.selectAll('.serie').data(dataSeries)
@@ -63,7 +63,7 @@ class Barset {
   _updateGrouped(svg, config, data) {
     this._cleanCurrentSeries(svg);
 
-    var keys = ['2011', '2012', '2013', '2014']
+    var keys = this._getKeysFromData(data)
       , colorScale = config.colorScale
       , layer = svg.selectAll('.serie').data(data)
       , layerEnter = null
@@ -103,6 +103,17 @@ class Barset {
       .attr('fill', (d, i) => colorScale(i))
       .attr("y", (d) => y(d.value))
       .attr("height", (d) => height - y(d.value));
+
+  }
+
+  _getKeysFromData(data) {
+    var keys = [];
+    for (let p in data[0]) {
+      if (p !== 'total' && p !== 'key') {
+        keys.push(p);
+      }
+    }
+    return keys;
 
   }
 
