@@ -1,19 +1,19 @@
 class SvgLinechartStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
-    var config = this.config;
+    var config = this.config
+      , xDataType = config.xDataType;
+
+    console.log(xDataType);
 
     this.svgContainer = new SvgContainer(config);
-    this.axes = new XYAxes('linear', 'linear', config);
+    this.axes = new XYAxes(xDataType, 'linear', config);
     this.lines = new Lineset(this.axes.xAxis, this.axes.yAxis);
-
-    this.tooltip = new Tooltip();
 
     //Include components in the chart container
     this.svgContainer
       .add(this.axes)
-      .add(this.lines, this.tooltip)
-      .add(this.tooltip);
+      .add(this.lines);
   }
 
 	/**

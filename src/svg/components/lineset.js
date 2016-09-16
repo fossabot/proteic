@@ -100,20 +100,12 @@ class Lineset {
       .on('mouseover.user', events.over)
       .on('click.user', events.click);
 
-    if (this['Tooltip']) {
-      markers.on('mouseover.tooltip',this['Tooltip'].enter);
-      markers.on('mouseleave.tooltip', this['Tooltip'].exit);
-
-    }
+    //this.interactiveElements = markers;
   }
 
 
 
-  render(svg, config, plugin) {
+  render(svg, config) {
     //Do nothing, since lines render only when new data is received.
-    if (plugin) {
-      plugin.render(svg, config);
-      this[plugin.constructor.name] = plugin;
-    }
   }
 }

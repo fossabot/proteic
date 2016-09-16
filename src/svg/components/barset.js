@@ -25,6 +25,8 @@ class Barset {
       .on('mouseleave.user', events.leave)
       .on('mouseover.user', events.over)
       .on('click.user', events.click);
+
+    this.interactiveElements = bars;
   }
 
   _updateStacked(svg, config, data) {
@@ -121,11 +123,7 @@ class Barset {
     svg.selectAll('.serie').remove();
   }
 
-  render(svg, config, plugin) {
-    //Do nothing, since lines render only when new data is received.
-    if (plugin) {
-      plugin.render(svg, config);
-      this[plugin.constructor.name] = plugin;
-    }
+  render(svg, config) {
+    //Do nothing, since bars render only when new data is received.
   }
 }

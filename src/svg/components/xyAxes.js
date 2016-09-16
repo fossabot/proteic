@@ -14,7 +14,7 @@ class XYAxes {
       , xAxis = null;
 
     switch (xAxisType) {
-      case 'time':
+      case 'Date':
         x = d3.scaleTime().range([0, config.width]);
         break;
       case 'linear':
@@ -92,17 +92,36 @@ class XYAxes {
 
   render(svg, config) {
     var yAxis = this.yAxis
-      , xAxis = this.xAxis;
+      , xAxis = this.xAxis
+      , xAxisLabel = config.xAxisLabel
+      , yAxisLabel = config.yAxisLabel
+      , width = config.width
+      , height = config.height
+      , margin = config.margin;
     svg
       .append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + config.height + ')')
-      .call(xAxis);
+      .call(xAxis)
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'tickLabel')
+      .attr('x', width / 2)
+      .attr('y', height + margin.bottom).text(xAxisLabel);
+
+
     svg
       .append('g')
       .attr('class', 'y axis')
       .attr('stroke-dasharray', '1, 5')
       .call(yAxis)
-      .append('text');
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'tickLabel')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -height / 2)
+      .attr('y', -margin.left / 1.3)
+      .text(yAxisLabel);
+
   }
 }

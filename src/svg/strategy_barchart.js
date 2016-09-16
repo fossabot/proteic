@@ -10,7 +10,7 @@ class SvgBarchartStrategy extends SvgChart {
 
     this.svgContainer
       .add(this.axes)
-      .add(this.bars);
+      .add(this.bars, [new Tooltip()]);
 
   }
 
