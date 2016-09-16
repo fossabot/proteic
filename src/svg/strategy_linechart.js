@@ -22,11 +22,9 @@ class SvgLinechartStrategy extends SvgChart {
   draw(data) {
     var svg = this.svgContainer.svg
       , config = this.config
-      , xDataFormat = config.x.type
-      , yDataFormat = 'linear'
       , bbox = null;
 
-    this._parseData(data, xDataFormat, yDataFormat, config);
+//    this._parseData(data, xDataFormat, yDataFormat, config);
 
     bbox = this._getDomainBBox(data);
 
@@ -38,29 +36,6 @@ class SvgLinechartStrategy extends SvgChart {
     //Now update lines
     this.lines.update(svg, config, data);
 
-  }
-  //TODO: move this function to a utility class? It is used in many charts
-  _parseData(data, xDataFormat, yDataFormat, config) {
-    data.forEach((d) => {
-      //parse x coordinate
-      switch (xDataFormat) {
-        case 'time':
-          d.x = d3.timeParse(config.x.format)(d.x);
-          break;
-        case 'linear':
-          d.x = +d.x;
-          break;
-      }
-      //parse x coordinate
-      switch (yDataFormat) {
-        case 'time':
-          d.y = d3.timeFormat
-          break;
-        case 'linear':
-          d.y = +d.y;
-          break;
-      }
-    });
   }
 
   _getDomainBBox(data) {
