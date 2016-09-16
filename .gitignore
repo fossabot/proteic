@@ -38,3 +38,6 @@ node_modules
 .idea
 #ES5 Code
 lib
+
+# OSX
+.DS_Store
