@@ -43,6 +43,30 @@ class Chart {
         this._initializeSVGContext();
     }
 
+    _parseData(data, xDataFormat, yDataFormat, config) {
+        data.forEach((d) => {
+            //parse x coordinate
+            switch (xDataFormat) {
+                case 'time':
+                    d.x = d3.timeParse(config.x.format)(d.x);
+                    break;
+                case 'linear':
+                    d.x = +d.x;
+                    break;
+            }
+            //parse x coordinate
+            switch (yDataFormat) {
+                case 'time':
+                    d.y = d3.timeFormat
+                    break;
+                case 'linear':
+                    d.y = +d.y;
+                    break;
+            }
+        });
+        return data;
+    }
+
     /**
      * Returns the chart context: data, configuration and chart type.
      */
@@ -68,23 +92,27 @@ class Chart {
     draw(data = this.data) {
         var config = this.config
             , sort = config.sort
+            , xDataFormat = config.x.type
+            , yDataFormat = 'linear'
             , p = null
-            , desc = null;
+            , desc = null
+            , parsedData = null;
+
+        parsedData = this._parseData(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
 
         if (sort) {
             p = config.sort.field;
             desc = config.sort.desc;
-            data.sort((e1, e2) => {
+            parsedData.sort((e1, e2) => {
                 var a = e1[p];
                 var b = e2[p];
-                return  (a < b) ? -1 : (a > b) ? 1 : 0;
+                return (a < b) ? -1 : (a > b) ? 1 : 0;
             })
         }
-        if (!utils.isArray(data) && !utils.isObject(data)) {
-            throw new TypeError('draw method is only allowed with static data.');
-        }
-        data = JSON.parse(JSON.stringify(data));
-        this._svg.draw(data);
+       // if (!utils.isArray(parsedDatadata) && !utils.isObject(parsedData)) {
+        //    throw new TypeError('draw method is only allowed with static data.');
+        //}
+        this._svg.draw(parsedData);
     }
 
     /**
