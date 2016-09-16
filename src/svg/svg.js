@@ -131,6 +131,9 @@ class SvgChart {
         if (!config.yaxis) {
             config.yaxis = {};
         }
+        if(!config.x){
+            config.x = {};
+        }
         this.config = {};
         this.config.cType = this.constructor.name;
         this.config.selector = config.selector || _default[this.cType].selector;

@@ -2,9 +2,7 @@ class SvgLinechartStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
     var config = this.config
-      , xDataType = config.xDataType;
-
-    console.log(xDataType);
+      , xDataType = config.x.type;
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
@@ -24,7 +22,11 @@ class SvgLinechartStrategy extends SvgChart {
   draw(data) {
     var svg = this.svgContainer.svg
       , config = this.config
+      , xDataFormat = config.x.type
+      , yDataFormat = 'linear'
       , bbox = null;
+
+    this._parseData(data, xDataFormat, yDataFormat, config);
 
     bbox = this._getDomainBBox(data);
 
@@ -36,6 +38,29 @@ class SvgLinechartStrategy extends SvgChart {
     //Now update lines
     this.lines.update(svg, config, data);
 
+  }
+  //TODO: move this function to a utility class? It is used in many charts
+  _parseData(data, xDataFormat, yDataFormat, config) {
+    data.forEach((d) => {
+      //parse x coordinate
+      switch (xDataFormat) {
+        case 'time':
+          d.x = d3.timeParse(config.x.format)(d.x);
+          break;
+        case 'linear':
+          d.x = +d.x;
+          break;
+      }
+      //parse x coordinate
+      switch (yDataFormat) {
+        case 'time':
+          d.y = d3.timeFormat
+          break;
+        case 'linear':
+          d.y = +d.y;
+          break;
+      }
+    });
   }
 
   _getDomainBBox(data) {
@@ -61,8 +86,11 @@ class SvgLinechartStrategy extends SvgChart {
     this.config.markers.size = config.markers.size || _default.Linechart.markers.size;
     this.config.area = typeof (config.area) === 'undefined' ? _default.Linechart.area : config.area;
     this.config.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
-    this.config.xDataType = config.xDataType || _default.Linechart.xDataType;
-    this.config.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
+    this.config.x = {};
+    this.config.x.type = config.x.type || _default.Linechart.xDataType;
+    this.config.x.format = config.x.format || _default.Linechart.xDateFormat;
+    this.config.x.ticks = config.x.ticks;
+
     return this;
   }
 }

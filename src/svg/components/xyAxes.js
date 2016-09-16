@@ -14,7 +14,7 @@ class XYAxes {
       , xAxis = null;
 
     switch (xAxisType) {
-      case 'Date':
+      case 'time':
         x = d3.scaleTime().range([0, config.width]);
         break;
       case 'linear':
@@ -28,8 +28,7 @@ class XYAxes {
       default:
         throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
     }
-    return d3.axisBottom(x).ticks(config.xticks);
-    ;
+    return d3.axisBottom(x).ticks(config.x.xticks);
   }
 
   _initializeYAxis(yAxisType, config) {
@@ -76,6 +75,9 @@ class XYAxes {
       .style('stroke', (d, i) => utils.isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
   }
 
+  /**
+   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
+   */
   updateDomainByBBox(b) {
     var x = this.xAxis.scale()
       , y = this.yAxis.scale();
@@ -83,6 +85,9 @@ class XYAxes {
     y.domain([b[2], b[3]]);
   }
 
+  /**
+   * Used when x domain is caterogial (a set of keys) and y domain is linear.
+   */
   updateDomainByKeysAndBBox(keys, yBbox) {
     var x = this.xAxis.scale()
       , y = this.yAxis.scale();
@@ -98,6 +103,7 @@ class XYAxes {
       , width = config.width
       , height = config.height
       , margin = config.margin;
+
     svg
       .append('g')
       .attr('class', 'x axis')
