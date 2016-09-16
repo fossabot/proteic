@@ -20,7 +20,7 @@ We consider errors and omissions in documentation as a kind of bugs, so you can 
 
 ## Submission guidelines
 ### Submitting an issue
-We 
+
 
 ### Submitting a pull request
 ## Code style
