@@ -18,8 +18,8 @@ If you have any question about the use of Proteus Charts, its development, or th
 You can help us solving bugs by submitting issues to the [Github issue tracker](https://github.com/proteus-h2020/proteus-charts/issues), or by submitting a pull request with the fix.
 
 ## Submission guidelines
-
-
+### Submitting an issue
+### Submitting a pull request
 ## Code style
 ## Commit message guidelines
 ## Code of Conduct
