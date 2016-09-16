@@ -20,7 +20,7 @@ We consider errors and omissions in documentation as a kind of bugs, so you can 
 
 ## Submission guidelines
 ### Submitting an issue
-
+Please check that the bug you want to report hasn't been reported already. If it's not, go ahead and submit an issue, giving as much information about it as you may provide.
 
 ### Submitting a pull request
 ## Code style
