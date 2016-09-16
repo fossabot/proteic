@@ -42,31 +42,31 @@ class SvgBarchartStrategy extends SvgChart {
     this.data = data; // TODO: ? 
   }
   _calculateMaxGrouped(data) {
-    return 40;
+    var max = -99999999;
+    for (let i in data) {
+      let object = data[i];
+      let keys = Object.keys(object);
+      for (let k in keys) {
+        var key = keys[k];
+        if (key !== 'total' && key !== 'key' && (object[key] > max)) {
+          max = object[key];
+        }
+      }
+
+    }
+    return max;
   }
 
   _getDataKeys(data) {
     return data.map((d) => d.key);
   }
+
   transition2Stacked() {
     this.config.stacked = true;
   }
 
   transition2Grouped() {
     this.config.stacked = false;
-  }
-
-  /**
-   * This function is fired when all transitions ends.
-   * To avoid errors, this function add d3 listener (instead of adding before transitions ends).
-   */
-  _barTransitionEnd(bars) {
-
-  }
-
-
-  _initialize() {
-
   }
 
 	/**
