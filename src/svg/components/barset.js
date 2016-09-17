@@ -56,7 +56,7 @@ class Barset {
 
     barMerge = bar.merge(barEnter)
       .attr("x", (d) => x(d.data.key))
-      .attr("y", (d) => y(d[1]))
+      .attr("y", (d) => {console.log(d); return y(d[1])})
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth());
   }

@@ -6,7 +6,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
-    this.lines = new Lineset(this.axes.xAxis, this.axes.yAxis);
+    this.lines = new Lineset(this.axes.x.xAxis, this.axes.y.yAxis);
 
     //Include components in the chart container
     this.svgContainer

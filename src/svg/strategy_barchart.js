@@ -6,7 +6,7 @@ class SvgBarchartStrategy extends SvgChart {
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes('categorical', 'linear', config);
-    this.bars = new Barset(this.axes.xAxis, this.axes.yAxis);
+    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);
 
     this.svgContainer
       .add(this.axes)
