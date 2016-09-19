@@ -15,12 +15,22 @@ class Pointset {
       , markerOutlineWidth = config.markers.outlineWidth
       , colorScale = config.colorScale
       , events = config.events
-      , markers = null;
+      , markers = null
+      , points = null
+      , series = null;
 
+    svg.selectAll('g.points').remove();
+
+    series = svg.selectAll('g.points');
     switch (markerShape) {
       case 'circle':
       default:
-        svg.selectAll('g.serie')
+        points = series
+          .data(dataSeries, (d) => d.key)
+          .enter()
+          .append('g')
+          .attr('class', 'points')
+          .style('stroke', (d, i) => colorScale(i))
           .selectAll('circle')
           .data((d, i) => d.values)
           .enter()
@@ -33,7 +43,7 @@ class Pointset {
           .style('stroke-width', markerOutlineWidth);
     }
 
-    markers = svg.selectAll('g.serie circle');
+    markers = svg.selectAll('g.points circle');
     markers
       .on('mousedown.user', events.down)
       .on('mouseup.user', events.up)
