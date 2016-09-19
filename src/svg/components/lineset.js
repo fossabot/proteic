@@ -12,8 +12,6 @@ class Lineset {
     var dataSeries = d3.nest().key((d) => d.key).entries(data);
     var series = null
       , lines = null
-      , markers = config.markers
-      , area = config.area
       , colorScale = config.colorScale;
 
     svg.selectAll('g.serie').remove();

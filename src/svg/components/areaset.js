@@ -10,26 +10,41 @@ class Areaset {
         .key((d) => d.key)
         .entries(data);
 
-    var colorScale = config.colorScale
+    var series = null
+        , areas = null
+        , area = config.area
+        , colorScale = config.colorScale
         , height = config.height
-        , areaOpacity = config.areaOpacity
-        , series = null;
+        , areaOpacity = config.areaOpacity;
 
     var areaGenerator = d3.area()
         .x((d) => this.xAxis.scale()(d.x))
         .y0(height)
         .y1((d) => this.yAxis.scale()(d.y));
 
-    series = svg.selectAll('g.serie');
+    svg.selectAll('g.area').remove();
 
-    series
-        .insert('path', ':first-child') //if not :first-child, area overlaps markers.
+    series = svg.selectAll('g.area');
+    areas = series
+        .data(dataSeries, (d) => d.key)
+        .enter()
+        .append('g')
         .attr('class', 'area')
-        .data(dataSeries)
-        .style('stroke', (d, i) => colorScale(i))
+        .append('svg:path')
         .style('fill', (d, i) => colorScale(i))
         .style('fill-opacity', areaOpacity)
         .attr('d', (d) => areaGenerator(d.values));
+
+    // series
+    //     .insert('path', ':first-child') //if not :first-child, area overlaps markers.
+    //     .attr('class', 'area')
+    //     .data(dataSeries)
+    //     .style('stroke', (d, i) => colorScale(i))
+    //     .style('fill', (d, i) => colorScale(i))
+    //     .style('fill-opacity', areaOpacity)
+    //     .attr('d', (d) => areaGenerator(d.values));
+
+    this.svg = svg;
   }
 
   render(svg, config) {
