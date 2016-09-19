@@ -6,7 +6,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
-    this.lines = new Lineset(this.axes.x.xAxis, this.axes.y.yAxis);
+    this.lines = new Lineset(this.axes.x, this.axes.y);
 
     //Include components in the chart container
     this.svgContainer
@@ -14,12 +14,12 @@ class SvgLinechartStrategy extends SvgChart {
       // .add(this.lines);
 
     if (config.area) {
-      this.areas = new Areaset(this.axes.xAxis, this.axes.yAxis);
+      this.areas = new Areaset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.areas);
     }
 
     if (config.markers) {
-      this.points = new Pointset(this.axes.xAxis, this.axes.yAxis);
+      this.points = new Pointset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.points);
     }
   }

@@ -10,7 +10,7 @@ class SvgBarchartStrategy extends SvgChart {
 
     this.svgContainer
       .add(this.axes)
-      .add(this.bars, [new Tooltip()]);
+      .add(this.bars);
 
   }
 
@@ -20,45 +20,29 @@ class SvgBarchartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
-    data = data || this.data;
     var svg = this.svgContainer.svg
       , config = this.config
       , isStacked = this.config.stacked
-      , keys = this._getDataKeys(data)
+      , keys = d3.map(data, (d) => d.key).keys()
+      , stack = d3.stack().keys(["Male", "Female"])
+        .value((d, i) => d.y)
+        .order(d3.stackOrderNone)
       , yMin = 0
       , yMax = 0
-      , method = isStacked ? 'stacked' : 'grouped';
+      , method = isStacked ? 'stacked' : 'grouped'
+      , dataSeries = stack(data);
 
     yMax = isStacked
-      ? d3.max(data, (d) => d.total)
-      : this._calculateMaxGrouped(data);
+      ? d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]))
+      : d3.max(data, (serie) => d3.max(serie, (d) => d.y))
 
     this.axes.updateDomainByKeysAndBBox(keys, [yMin, yMax]);
 
     this.axes.transition(svg, 200);
 
-    this.bars.update(svg, config, data, method);
+    this.bars.update(svg, config, dataSeries, method);
 
     this.data = data; // TODO: ? 
-  }
-  _calculateMaxGrouped(data) {
-    var max = -99999999;
-    for (let i in data) {
-      let object = data[i];
-      let keys = Object.keys(object);
-      for (let k in keys) {
-        var key = keys[k];
-        if (key !== 'total' && key !== 'key' && (object[key] > max)) {
-          max = object[key];
-        }
-      }
-
-    }
-    return max;
-  }
-
-  _getDataKeys(data) {
-    return data.map((d) => d.key);
   }
 
   transition2Stacked() {

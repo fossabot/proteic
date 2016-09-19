@@ -1,11 +1,11 @@
 
 class Lineset {
-  constructor(xAxis, yAxis) {
-    this.xAxis = xAxis;
-    this.yAxis = yAxis;
+  constructor(x, y) {
+    this.xAxis = x.xAxis;
+    this.yAxis = y.yAxis;
     this.lineGenerator = d3.line()
-      .x((d) => xAxis.scale()(d.x))
-      .y((d) => yAxis.scale()(d.y));
+      .x((d) => this.xAxis.scale()(d.x))
+      .y((d) => this.yAxis.scale()(d.y));
   }
 
   update(svg, config, data) {

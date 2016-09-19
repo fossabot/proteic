@@ -1,8 +1,8 @@
 
 class Areaset {
-  constructor(xAxis, yAxis) {
-    this.xAxis = xAxis;
-    this.yAxis = yAxis;
+  constructor(x, y) {
+    this.xAxis = x.xAxis;
+    this.yAxis = y.yAxis;
   }
 
   update(svg, config, data) {

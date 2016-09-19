@@ -29,13 +29,10 @@ class Barset {
     this.interactiveElements = bars;
   }
 
-  _updateStacked(svg, config, data) {
+  _updateStacked(svg, config, dataSeries) {
     this._cleanCurrentSeries(svg);
 
-    var stack = d3.stack()
-      , keys = this._getKeysFromData(data)
-      , dataSeries = stack.keys(keys)(data)
-      , colorScale = config.colorScale
+    var colorScale = config.colorScale
       , layer = svg.selectAll('.serie').data(dataSeries)
       , layerEnter = layer.enter().append('g')
       , layerMerge = null
@@ -56,7 +53,7 @@ class Barset {
 
     barMerge = bar.merge(barEnter)
       .attr("x", (d) => x(d.data.key))
-      .attr("y", (d) => {console.log(d); return y(d[1])})
+      .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth());
   }
