@@ -15,6 +15,9 @@ var utils = utils || {
   isNumeric: function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   },
+  isEven: function isEven(n) {
+    return n % 2 == 0;
+  },
   isPercentage: function isPercentage(n) {
     var split = null;
     var number = null;
@@ -246,6 +249,9 @@ var strategies = {
   },
   Swimlane: function Swimlane(chartContext) {
     return new SvgSwimlaneStrategy(chartContext);
+  },
+  StackedArea: function StackedArea(chartContext) {
+    return new SvgStackedAreaStrategy(chartContext);
   }
 };
 'use strict';
@@ -352,207 +358,207 @@ var Colors = function () {
   _createClass(Colors, null, [{
     key: 'category1',
     value: function category1() {
-      return d3.scale.ordinal().range(paletteCategory1);
+      return d3.scaleOrdinal().range(paletteCategory1);
     }
   }, {
     key: 'category2',
     value: function category2() {
-      return d3.scale.ordinal().range(paletteCategory2);
+      return d3.scaleOrdinal().range(paletteCategory2);
     }
   }, {
     key: 'category3',
     value: function category3() {
-      return d3.scale.ordinal().range(paletteCategory3);
+      return d3.scaleOrdinal().range(paletteCategory3);
     }
   }, {
     key: 'category4',
     value: function category4() {
-      return d3.scale.ordinal().range(paletteCategory4);
+      return d3.scaleOrdinal().range(paletteCategory4);
     }
   }, {
     key: 'category5',
     value: function category5() {
-      return d3.scale.ordinal().range(paletteCategory5);
+      return d3.scaleOrdinal().range(paletteCategory5);
     }
   }, {
     key: 'category6',
     value: function category6() {
-      return d3.scale.ordinal().range(paletteCategory6);
+      return d3.scaleOrdinal().range(paletteCategory6);
     }
   }, {
     key: 'category7',
     value: function category7() {
-      return d3.scale.ordinal().range(paletteCategory7);
+      return d3.scaleOrdinal().range(paletteCategory7);
     }
   }, {
     key: 'category8',
     value: function category8() {
-      return d3.scale.ordinal().range(paletteCategory8);
+      return d3.scaleOrdinal().range(paletteCategory8);
     }
   }, {
     key: 'sequentialYellow',
     value: function sequentialYellow() {
-      return d3.scale.quantile().range(paletteSequentialYellow);
+      return d3.scaleQuantile().range(paletteSequentialYellow);
     }
   }, {
     key: 'sequentialRedOrange',
     value: function sequentialRedOrange() {
-      return d3.scale.quantile().range(paletteSequentialRedOrange);
+      return d3.scaleQuantile().range(paletteSequentialRedOrange);
     }
   }, {
     key: 'sequentialRed',
     value: function sequentialRed() {
-      return d3.scale.quantile().range(paletteSequentialRed);
+      return d3.scaleQuantile().range(paletteSequentialRed);
     }
   }, {
     key: 'sequentialPink',
     value: function sequentialPink() {
-      return d3.scale.quantile().range(paletteSequentialPink);
+      return d3.scaleQuantile().range(paletteSequentialPink);
     }
   }, {
     key: 'sequentialPurplePink',
     value: function sequentialPurplePink() {
-      return d3.scale.quantile().range(paletteSequentialPurplePink);
+      return d3.scaleQuantile().range(paletteSequentialPurplePink);
     }
   }, {
     key: 'sequentialPurple',
     value: function sequentialPurple() {
-      return d3.scale.quantile().range(paletteSequentialPurple);
+      return d3.scaleQuantile().range(paletteSequentialPurple);
     }
   }, {
     key: 'sequentialBlue',
     value: function sequentialBlue() {
-      return d3.scale.quantile().range(paletteSequentialBlue);
+      return d3.scaleQuantile().range(paletteSequentialBlue);
     }
   }, {
     key: 'sequentialLightBlue',
     value: function sequentialLightBlue() {
-      return d3.scale.quantile().range(paletteSequentialLightBlue);
+      return d3.scaleQuantile().range(paletteSequentialLightBlue);
     }
   }, {
     key: 'sequentialBlueViolet',
     value: function sequentialBlueViolet() {
-      return d3.scale.quantile().range(paletteSequentialBlueViolet);
+      return d3.scaleQuantile().range(paletteSequentialBlueViolet);
     }
   }, {
     key: 'sequentialTurquoise',
     value: function sequentialTurquoise() {
-      return d3.scale.quantile().range(paletteSequentialTurquoise);
+      return d3.scaleQuantile().range(paletteSequentialTurquoise);
     }
   }, {
     key: 'sequentialLightGreen',
     value: function sequentialLightGreen() {
-      return d3.scale.quantile().range(paletteSequentialLightGreen);
+      return d3.scaleQuantile().range(paletteSequentialLightGreen);
     }
   }, {
     key: 'sequentialDarkGreen',
     value: function sequentialDarkGreen() {
-      return d3.scale.quantile().range(paletteSequentialDarkGreen);
+      return d3.scaleQuantile().range(paletteSequentialDarkGreen);
     }
   }, {
     key: 'sequentialGreenBrown',
     value: function sequentialGreenBrown() {
-      return d3.scale.quantile().range(paletteSequentialGreenBrown);
+      return d3.scaleQuantile().range(paletteSequentialGreenBrown);
     }
   }, {
     key: 'sequentialBrown',
     value: function sequentialBrown() {
-      return d3.scale.quantile().range(paletteSequentialBrown);
+      return d3.scaleQuantile().range(paletteSequentialBrown);
     }
   }, {
     key: 'sequentialGrey',
     value: function sequentialGrey() {
-      return d3.scale.quantile().range(paletteSequentialGrey);
+      return d3.scaleQuantile().range(paletteSequentialGrey);
     }
   }, {
     key: 'sequentialVioletCb',
     value: function sequentialVioletCb() {
-      return d3.scale.quantile().range(paletteSequentialVioletCb);
+      return d3.scaleQuantile().range(paletteSequentialVioletCb);
     }
   }, {
     key: 'sequentialPinkCb',
     value: function sequentialPinkCb() {
-      return d3.scale.quantile().range(paletteSequentialPinkCb);
+      return d3.scaleQuantile().range(paletteSequentialPinkCb);
     }
   }, {
     key: 'sequentialBlueCb',
     value: function sequentialBlueCb() {
-      return d3.scale.quantile().range(paletteSequentialBlueCb);
+      return d3.scaleQuantile().range(paletteSequentialBlueCb);
     }
   }, {
     key: 'sequentialGreenCb',
     value: function sequentialGreenCb() {
-      return d3.scale.quantile().range(paletteSequentialGreenCb);
+      return d3.scaleQuantile().range(paletteSequentialGreenCb);
     }
   }, {
     key: 'sequentialGreenBrownCb',
     value: function sequentialGreenBrownCb() {
-      return d3.scale.quantile().range(paletteSequentialGreenBrownCb);
+      return d3.scaleQuantile().range(paletteSequentialGreenBrownCb);
     }
   }, {
     key: 'diverging_spectral1',
     value: function diverging_spectral1() {
-      return d3.scale.quantile().range(paletteDivergingSpectral1);
+      return d3.scaleQuantile().range(paletteDivergingSpectral1);
     }
   }, {
     key: 'diverging_spectral2',
     value: function diverging_spectral2() {
-      return d3.scale.quantile().range(paletteDivergingSpectral2);
+      return d3.scaleQuantile().range(paletteDivergingSpectral2);
     }
   }, {
     key: 'diverging_spectral3',
     value: function diverging_spectral3() {
-      return d3.scale.quantile().range(paletteDivergingSpectral3);
+      return d3.scaleQuantile().range(paletteDivergingSpectral3);
     }
   }, {
     key: 'diverging_brown_turquoise',
     value: function diverging_brown_turquoise() {
-      return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
+      return d3.scaleQuantile().range(paletteDivergingBrownTurquoise);
     }
   }, {
     key: 'diverging_orange_pink',
     value: function diverging_orange_pink() {
-      return d3.scale.quantile().range(paletteDivergingBrownTurquoise);
+      return d3.scaleQuantile().range(paletteDivergingBrownTurquoise);
     }
   }, {
     key: 'diverging_red_blue',
     value: function diverging_red_blue() {
-      return d3.scale.quantile().range(paletteDivergingRedBlue);
+      return d3.scaleQuantile().range(paletteDivergingRedBlue);
     }
   }, {
     key: 'diverging_red_grey',
     value: function diverging_red_grey() {
-      return d3.scale.quantile().range(paletteDivergingRedGrey);
+      return d3.scaleQuantile().range(paletteDivergingRedGrey);
     }
   }, {
     key: 'diverging_orange_violet',
     value: function diverging_orange_violet() {
-      return d3.scale.quantile().range(paletteDivergingOrangeViolet);
+      return d3.scaleQuantile().range(paletteDivergingOrangeViolet);
     }
   }, {
     key: 'diverging_purple_green',
     value: function diverging_purple_green() {
-      return d3.scale.quantile().range(paletteDivergingPurpleGreen);
+      return d3.scaleQuantile().range(paletteDivergingPurpleGreen);
     }
   }, {
     key: 'diverging_violet_green',
     value: function diverging_violet_green() {
-      return d3.scale.quantile().range(paletteDivergingVioletGreen);
+      return d3.scaleQuantile().range(paletteDivergingVioletGreen);
     }
   }, {
     key: 'diverging_red_green',
     value: function diverging_red_green() {
-      return d3.scale.quantile().range(paletteDivergingRedGreen);
+      return d3.scaleQuantile().range(paletteDivergingRedGreen);
     }
   }, {
     key: 'diverging_brown_green',
     value: function diverging_brown_green() {
-      return d3.scale.quantile().range(paletteDivergingBrownGreen);
+      return d3.scaleQuantile().range(paletteDivergingBrownGreen);
     }
   }, {
     key: 'diverging_lightBrown_turquoise',
     value: function diverging_lightBrown_turquoise() {
-      return d3.scale.quantile().range(paletteDivergingLightBrownTurquoise);
+      return d3.scaleQuantile().range(paletteDivergingLightBrownTurquoise);
     }
   }]);
 
@@ -563,6 +569,7 @@ var Colors = function () {
 var _default = _default || {};
 
 _default.Barchart = {
+    stacked: true,
     style: {
         '.axis': {
             'font': '10px sans-serif'
@@ -593,7 +600,7 @@ _default.Barchart = {
         bottom: 30,
         left: 50
     },
-    width: '100%', // %, auto, or numeric
+    width: '100%', // %, auto, or numeric 
     height: 350,
     ticks: 5, // ticks for y axis.
     tooltip: function tooltip(data) {
@@ -726,7 +733,7 @@ _default.Linechart = {
         bottom: 30,
         left: 50
     },
-    width: '100%', // %, auto, or numeric
+    width: '100%', // %, auto, or numeric 
     height: 250,
     style: {
         '.line': {
@@ -788,6 +795,72 @@ _default.Linechart = {
 
 var _default = _default || {};
 
+_default.StackedArea = {
+    selector: '#chart',
+    xDateFormat: '%m/%d/%y',
+    colorScale: Colors.category5(),
+    xaxis: {
+        label: ''
+    },
+    yaxis: {
+        label: ''
+    },
+    style: {
+        '.axis': {
+            'font': '10px sans-serif'
+        },
+        '.axis path,.axis line': {
+            'fill': 'none',
+            'stroke': '#000',
+            'shape-rendering': 'crispEdges'
+        },
+        '.x.axis path': {
+            'display': 'none'
+        },
+        '.x.axis.label, .y.axis.label': {
+            'font': '12px sans-serif'
+        }
+    },
+    margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 50
+    },
+    width: '100%', // %, auto, or numeric 
+    height: 300,
+    ticks: 5, // ticks for y axis.
+    tooltip: function tooltip(object) {
+        return 'Info: ' + JSON.stringify(object);
+    },
+
+    tickLabel: '',
+    events: {
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 1);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        }
+    },
+    transitionDuration: 300,
+    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    }
+
+};
+'use strict';
+
+var _default = _default || {};
+
 _default.Streamgraph = {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
@@ -820,7 +893,7 @@ _default.Streamgraph = {
         bottom: 30,
         left: 50
     },
-    width: '100%', // %, auto, or numeric
+    width: '100%', // %, auto, or numeric 
     height: 300,
     ticks: 5, // ticks for y axis.
     tooltip: function tooltip(object) {
@@ -1044,7 +1117,7 @@ var WebsocketDatasource = function (_Datasource) {
     function WebsocketDatasource(source) {
         _classCallCheck(this, WebsocketDatasource);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WebsocketDatasource).call(this));
+        var _this = _possibleConstructorReturn(this, (WebsocketDatasource.__proto__ || Object.getPrototypeOf(WebsocketDatasource)).call(this));
 
         _this.source = source;
         _this.reactors = [];
@@ -1061,7 +1134,7 @@ var WebsocketDatasource = function (_Datasource) {
         value: function start() {
             var _this2 = this;
 
-            _get(Object.getPrototypeOf(WebsocketDatasource.prototype), 'start', this).call(this);
+            _get(WebsocketDatasource.prototype.__proto__ || Object.getPrototypeOf(WebsocketDatasource.prototype), 'start', this).call(this);
             this.ws = new WebSocket(this.source.endpoint);
 
             this.ws.onopen = function (e) {
@@ -1088,7 +1161,7 @@ var WebsocketDatasource = function (_Datasource) {
     }, {
         key: 'stop',
         value: function stop() {
-            _get(Object.getPrototypeOf(WebsocketDatasource.prototype), 'stop', this).call(this);
+            _get(WebsocketDatasource.prototype.__proto__ || Object.getPrototypeOf(WebsocketDatasource.prototype), 'stop', this).call(this);
             if (this.ws) {
                 this.ws.close();
             }
@@ -1166,34 +1239,21 @@ var SvgChart = function () {
     }, {
         key: '_initialize',
         value: function _initialize() {
-            var width = this.width + this.margin.left + this.margin.right;
-            var height = this.height + this.margin.left + this.margin.right;
+            var width = this.config.width + this.config.margin.left + this.config.margin.right;
+            var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
 
             //Create a global 'g' (group) element
-            this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
-            //Create tooltip (d3-tip)
-            if (this.tip) {
-                this.tooltip = d3.tip().attr('class', 'd3-tip').style({
-                    'line-height': 1,
-                    'padding': '12px',
-                    'background': 'rgba(0, 0, 0, 0.8)',
-                    'color': '#fff',
-                    'border-radius': '2px',
-                    'pointer-events': 'none'
-                }).html(this.tip);
-                this.svg.call(this.tooltip);
-            }
+            this.svg = d3.select(this.config.selector).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
 
             //Append a new group with 'x' aXis
-            this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.height + ')').call(this.xAxis);
+            this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.config.height + ')').call(this.xAxis);
 
-            //Append a new group with 'y' aXis
             this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '1, 2').call(this.yAxis).append('text');
 
             // Append axes labels
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'x axis label').attr('x', this.width / 2).attr('y', this.height + this.margin.bottom).text(this.xAxisLabel);
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'y axis label').attr('transform', 'rotate(-90)').attr('x', -this.height / 2).attr('y', -this.margin.left / 1.3).text(this.yAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'x axis label').attr('x', this.config.width / 2).attr('y', this.config.height + this.config.margin.bottom).text(this.xAxisLabel);
+
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'y axis label').attr('transform', 'rotate(-90)').attr('x', -this.config.height / 2).attr('y', -this.config.margin.left / 1.3).text(this.yAxisLabel);
         }
     }, {
         key: '_applyCSS',
@@ -1203,7 +1263,9 @@ var SvgChart = function () {
 
             for (var key in style) {
                 styleValue = style[key];
-                d3.selectAll(key).style(styleValue);
+                for (var v in styleValue) {
+                    d3.selectAll(key).style(v, styleValue[v]);
+                }
             }
         }
     }, {
@@ -1220,14 +1282,14 @@ var SvgChart = function () {
         key: '_calculateWidth',
         value: function _calculateWidth(width) {
             if (width === 'auto') {
-                return d3.select(this.selector).node().getBoundingClientRect().width;
+                return d3.select(this.config.selector).node().getBoundingClientRect().width;
             } else if (utils.isNumeric(width)) {
                 //check container width TODO
                 return width;
             } else if (utils.isPercentage(width)) {
                 var containerWidth = void 0,
                     percentage = void 0;
-                containerWidth = d3.select(this.selector).node().getBoundingClientRect().width;
+                containerWidth = d3.select(this.config.selector).node().getBoundingClientRect().width;
                 percentage = width.split('%')[0];
                 return Math.round(percentage * containerWidth / 100);
             } else {
@@ -1250,28 +1312,33 @@ var SvgChart = function () {
             if (!config.yaxis) {
                 config.yaxis = {};
             }
-            this.selector = config.selector || _default[this.cType].selector;
-            this.margin = config.margin || _default[this.cType].margin;
-            this.width = config.width ? this._calculateWidth(config.width) - this.margin.left - this.margin.right : this._calculateWidth(_default[this.cType].width) - this.margin.left - this.margin.right;
-            this.height = config.height || _default[this.cType].height;
-            this.ticks = config.ticks || _default[this.cType].ticks;
-            this.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
-            this.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
-            this.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
-            this.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
+            if (!config.x) {
+                config.x = {};
+            }
+            this.config = {};
+            this.config.cType = this.constructor.name;
+            this.config.selector = config.selector || _default[this.cType].selector;
+            this.config.margin = config.margin || _default[this.cType].margin;
+            this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right : this._calculateWidth(_default[this.cType].width) - this.config.margin.left - this.config.margin.right;
+            this.config.height = config.height || _default[this.cType].height;
+            this.config.ticks = config.ticks || _default[this.cType].ticks;
+            this.config.xticks = config.xaxis.ticks || _default[this.cType].xaxis.ticks;
+            this.config.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
+            this.config.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
+            this.config.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
             //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
-            this.tip = config.tooltip || _default[this.cType].tooltip;
-            this.events = {};
-            this.events.down = config.events.down || _default[this.cType].events.down;
-            this.events.up = config.events.up || _default[this.cType].events.up;
-            this.events.over = config.events.over || _default[this.cType].events.over;
-            this.events.click = config.events.click || _default[this.cType].events.click;
-            this.events.leave = config.events.leave || _default[this.cType].events.leave;
-            this._sortData = config.sortData || _default[this.cType].sortData;
-            this.style = config.style || _default[this.cType].style;
-            this.colorScale = config.colorScale || _default[this.cType].colorScale;
-            this.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
-            this.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
+            this.config.tip = config.tooltip || _default[this.cType].tooltip;
+            this.config.events = {};
+            this.config.events.down = config.events.down || _default[this.cType].events.down;
+            this.config.events.up = config.events.up || _default[this.cType].events.up;
+            this.config.events.over = config.events.over || _default[this.cType].events.over;
+            this.config.events.click = config.events.click || _default[this.cType].events.click;
+            this.config.events.leave = config.events.leave || _default[this.cType].events.leave;
+            this.config._sortData = config.sortData || _default[this.cType].sortData;
+            this.config.style = config.style || _default[this.cType].style;
+            this.config.colorScale = config.colorScale || _default[this.cType].colorScale;
+            this.config.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
+            this.config.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
         }
     }, {
         key: '_endAllTransitions',
@@ -1335,26 +1402,16 @@ var SvgBarchartStrategy = function (_SvgChart) {
   function SvgBarchartStrategy(chartContext) {
     _classCallCheck(this, SvgBarchartStrategy);
 
-    //Create range function
+    var _this = _possibleConstructorReturn(this, (SvgBarchartStrategy.__proto__ || Object.getPrototypeOf(SvgBarchartStrategy)).call(this, chartContext));
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgBarchartStrategy).call(this, chartContext));
+    var config = _this.config;
 
-    _this.xAxisName = 'x';
-    _this.yAxisName = 'y';
-    _this.x = d3.scale.ordinal().rangeRoundBands([0, _this.width], 0.1);
-    _this.y = d3.scale.linear().range([_this.height, 0]);
-    _this.stack = d3.layout.stack();
+    _this.svgContainer = new SvgContainer(config);
+    _this.axes = new XYAxes('categorical', 'linear', config);
+    _this.bars = new Barset(_this.axes.xAxis, _this.axes.yAxis);
 
-    _this.isStacked = false;
+    _this.svgContainer.add(_this.axes).add(_this.bars, [new Tooltip()]);
 
-    //Create scale
-    _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(10);
-
-    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
-
-    _this.keyFunction = function (d) {
-      return d.x;
-    };
     return _this;
   }
 
@@ -1368,159 +1425,59 @@ var SvgBarchartStrategy = function (_SvgChart) {
   _createClass(SvgBarchartStrategy, [{
     key: 'draw',
     value: function draw(data) {
-      var _this2 = this;
+      data = data || this.data;
+      var svg = this.svgContainer.svg,
+          config = this.config,
+          isStacked = this.config.stacked,
+          keys = this._getDataKeys(data),
+          yMin = 0,
+          yMax = 0,
+          method = isStacked ? 'stacked' : 'grouped';
 
-      _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), 'draw', this).call(this, data);
-      this.values = data.map(function (d) {
-        return d.values;
-      });
-      this.layers = this.stack(this.values);
+      yMax = isStacked ? d3.max(data, function (d) {
+        return d.total;
+      }) : this._calculateMaxGrouped(data);
 
-      this.x.domain(this.layers[0].map(function (d) {
-        return d[_this2.xAxisName];
-      }));
+      this.axes.updateDomainByKeysAndBBox(keys, [yMin, yMax]);
 
-      var layer = this.svg.selectAll('.layer').data(this.layers);
+      this.axes.transition(svg, 200);
 
-      layer.enter().append('g').attr('class', 'layer').style('fill', function (d, i) {
-        return _this2.colorScale(i);
-      });
+      this.bars.update(svg, config, data, method);
 
-      layer.exit().remove();
-
-      this._bars = layer.selectAll('rect').data(function (d) {
-        return d;
-      });
-
-      this._bars.enter().append('rect').attr('x', function (d) {
-        return _this2.x(d.x);
-      }).attr('y', function (d) {
-        return _this2.y(d.y + d.y0);
-      }).attr('height', function (d) {
-        return _this2.y(d.y0) - _this2.y(d.y + d.y0);
-      }).attr('width', this.x.rangeBand() - 1);
-
-      this._bars.exit().transition().duration(300).attr('y', this.y(0)).attr('height', this.height - this.y(0)).style('fill-opacity', 1e-6).style().remove();
-
-      if (this.isStacked) {
-        this._transition2Stacked();
-      } else {
-        this._transition2Grouped();
-      }
-
-      this._updateAxis();
-
-      this.interactiveElements = this._bars;
-      this._applyCSS();
-
-      // Check overlapping axis labels
-      var labelsWidth = 0;
-      this.svg.selectAll('.x.axis g.tick text').each(function () {
-        labelsWidth += this.getBBox().width;
-      });
-      if (labelsWidth > this.width) {
-        this.xticks = null;
-        this.xAxis.ticks(this.xticks);
-        this.svg.selectAll("g.x.axis").call(this.xAxis);
-      }
+      this.data = data; // TODO: ? 
     }
   }, {
-    key: '_transition2Stacked',
-    value: function _transition2Stacked() {
-      var _this3 = this;
-
-      var yStackMax = d3.max(this.layers, function (layer) {
-        return d3.max(layer, function (d) {
-          return d.y0 + d.y;
-        });
-      });
-
-      console.log('yStackMax', yStackMax);
-      var n = this.layers.length;
-
-      this.y.domain([0, yStackMax]);
-
-      this._bars.transition().duration(200).attr('y', function (d) {
-        return _this3.y(d.y0 + d.y);
-      }).attr('height', function (d) {
-        return _this3.y(d.y0) - _this3.y(d.y0 + d.y);
-      }).transition().attr('x', function (d) {
-        return _this3.x(d.x);
-      }).attr('width', this.x.rangeBand()).call(this._endAllTransitions, function () {
-        return _this3._barTransitionEnd(_this3._bars);
-      });
-
-      this._updateYaxis();
-      this._applyCSS();
-    }
-  }, {
-    key: '_transition2Grouped',
-    value: function _transition2Grouped() {
-      var _this4 = this;
-
-      var yGroupMax = d3.max(this.layers, function (layer) {
-        return d3.max(layer, function (d) {
-          return d.y;
-        });
-      });
-      var n = this.layers.length;
-
-      this.y.domain([0, yGroupMax]);
-
-      this._bars.transition().duration(200).attr('x', function (d, i, j) {
-        return _this4.x(d.x) + _this4.x.rangeBand() / n * j;
-      }).attr('width', this.x.rangeBand() / n).transition().attr('y', function (d) {
-        return _this4.y(d.y);
-      }).attr('height', function (d) {
-        return _this4.height - _this4.y(d.y);
-      }).call(this._endAllTransitions, function () {
-        return _this4._barTransitionEnd(_this4._bars);
-      });
-
-      this._updateYaxis();
-      this._applyCSS();
-    }
-
-    /**
-     * This function is fired when all transitions ends.
-     * To avoid errors, this function add d3 listener (instead of adding before transitions ends).
-     */
-
-  }, {
-    key: '_barTransitionEnd',
-    value: function _barTransitionEnd(bars) {
-      bars.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
-
-      // Add tooltips to the bars
-      if (this.tooltip) {
-        bars.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
-      }
-    }
-  }, {
-    key: '_initialize',
-    value: function _initialize() {
-      var _this5 = this;
-
-      var transition = null;
-      _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), '_initialize', this).call(this);
-      this.svg[0][0].addEventListener('transition', function (e) {
-        //remove current user events
-        _this5._removeUserEvents();
-
-        transition = e.detail.type;
-        if (transition === 'grouped') {
-          _this5._transition2Grouped();
-          _this5.isStacked = false;
-        } else if (transition === 'stacked') {
-          _this5._transition2Stacked();
-          _this5.isStacked = true;
-        } else {
-          throw Error('Not recognized transition: ' + transition);
+    key: '_calculateMaxGrouped',
+    value: function _calculateMaxGrouped(data) {
+      var max = -99999999;
+      for (var i in data) {
+        var object = data[i];
+        var keys = Object.keys(object);
+        for (var k in keys) {
+          var key = keys[k];
+          if (key !== 'total' && key !== 'key' && object[key] > max) {
+            max = object[key];
+          }
         }
-      }, false);
-
-      //Initialize SVG
-      this._initialized = true;
+      }
+      return max;
+    }
+  }, {
+    key: '_getDataKeys',
+    value: function _getDataKeys(data) {
+      return data.map(function (d) {
+        return d.key;
+      });
+    }
+  }, {
+    key: 'transition2Stacked',
+    value: function transition2Stacked() {
+      this.config.stacked = true;
+    }
+  }, {
+    key: 'transition2Grouped',
+    value: function transition2Grouped() {
+      this.config.stacked = false;
     }
 
     /**
@@ -1535,8 +1492,8 @@ var SvgBarchartStrategy = function (_SvgChart) {
       if (!config.events) {
         config.events = {};
       }
-      _get(Object.getPrototypeOf(SvgBarchartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-
+      _get(SvgBarchartStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgBarchartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+      this.config.stacked = typeof config.stacked === 'undefined' ? _default[this.constructor.name].stacked : config.stacked;
       //Just for testing purposes
       return this;
     }
@@ -1562,38 +1519,17 @@ var SvgLinechartStrategy = function (_SvgChart) {
   function SvgLinechartStrategy(chartContext) {
     _classCallCheck(this, SvgLinechartStrategy);
 
-    //Create range function
+    var _this = _possibleConstructorReturn(this, (SvgLinechartStrategy.__proto__ || Object.getPrototypeOf(SvgLinechartStrategy)).call(this, chartContext));
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgLinechartStrategy).call(this, chartContext));
+    var config = _this.config,
+        xDataType = config.x.type;
 
-    _this.xAxisName = 'x';
-    _this.yAxisName = 'y';
+    _this.svgContainer = new SvgContainer(config);
+    _this.axes = new XYAxes(xDataType, 'linear', config);
+    _this.lines = new Lineset(_this.axes.xAxis, _this.axes.yAxis);
 
-    //Create scales
-    switch (_this.xDataType) {
-      case 'Numeric':
-        _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
-        break;
-      case 'Date':
-        _this.x = d3.time.scale().range([0, _this.width]);
-        _this.format = d3.time.format(_this.xDateformat);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
-        break;
-      default:
-        _this.x = d3.scale.linear().range([0, _this.width]);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(_this.xticks);
-    }
-
-    _this.y = d3.scale.linear().range([_this.height, 0]);
-    _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.yticks, _this.tickLabel);
-
-    _this.keyFunction = function (d) {
-      return d.x;
-    };
-    _this.seriesKeyFunction = function (d) {
-      return d.key;
-    };
+    //Include components in the chart container
+    _this.svgContainer.add(_this.axes).add(_this.lines);
     return _this;
   }
 
@@ -1607,172 +1543,66 @@ var SvgLinechartStrategy = function (_SvgChart) {
   _createClass(SvgLinechartStrategy, [{
     key: 'draw',
     value: function draw(data) {
-      var _this2 = this;
+      var svg = this.svgContainer.svg,
+          config = this.config,
+          xDataFormat = config.x.type,
+          yDataFormat = 'linear',
+          bbox = null;
 
-      var lineGen = null;
-      var areaGen = null;
-      var format = this.format;
-      var s = null;
-      // var path = null;
+      this._parseData(data, xDataFormat, yDataFormat, config);
 
-      _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), 'draw', this).call(this, data);
+      bbox = this._getDomainBBox(data);
 
-      if (this.xDataType === 'Date') {
-        //Force x axis to be a date and y-axis to be a number
-        for (s = 0; s < data.length; s++) {
-          data[s].values.forEach(function (d) {
-            d.x = format.parse(d.x);
-            d.y = +d.y;
-          });
-        }
-      }
-
-      //Re-scale axis
-      this.x.domain([d3.min(data, function (series) {
-        return d3.min(series.values, function (d) {
-          return d.x;
-        });
-      }), d3.max(data, function (series) {
-        return d3.max(series.values, function (d) {
-          return d.x;
-        });
-      })]);
-      this.y.domain([0, d3.max(data, function (series) {
-        return d3.max(series.values, function (d) {
-          return d.y;
-        });
-      })]);
+      this.axes.updateDomainByBBox(bbox);
 
       //Create a transition effect for axis rescaling
-      this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
-      this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+      this.axes.transition(svg, 200);
 
-      // Line generator
-      lineGen = d3.svg.line().x(function (d) {
-        return _this2.x(d.x);
-      }).y(function (d) {
-        return _this2.y(d.y);
-      });
+      //Now update lines
+      this.lines.update(svg, config, data);
+    }
+    //TODO: move this function to a utility class? It is used in many charts
 
-      // Area generator
-      areaGen = d3.svg.area().x(function (d) {
-        return _this2.x(d.x);
-      }).y0(this.height).y1(function (d) {
-        return _this2.y(d.y);
-      });
-
-      var series = this.svg.selectAll('.series').data(data).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
-        return _this2.colorScale(i);
-      });
-
-      // Append lines
-      var line = series.append('path').attr('class', 'line');
-      var area = series.append('path').attr('class', 'area');
-
-      // Bind data to lines
-      var path = this.svg.selectAll('path').data(data, this.seriesKeyFunction).style('stroke', function (d, i) {
-        return _this2.colorScale(i);
-      }).style('fill', function (d, i) {
-        return _this2.colorScale(i);
-      });
-
-      // Draw area when requested
-      if (this.area) {
-        var areaPath = this.svg.selectAll('.area').data(data, this.seriesKeyFunction).style('stroke', function (d, i) {
-          return _this2.colorScale(i);
-        }).style('fill', function (d, i) {
-          return _this2.colorScale(i);
-        });
-
-        area.attr('d', function (d) {
-          return areaGen(d.values);
-        }).style('stroke', function (d, i) {
-          return _this2.colorScale(i);
-        });
-
-        areaPath.style('fill-opacity', this.areaOpacity).attr('d', function (d) {
-          return areaGen(d.values);
-        });
-      }
-      line.attr('d', function (d) {
-        return lineGen(d.values);
-      }).style('stroke', function (d, i) {
-        return _this2.colorScale(i);
-      });
-
-      path.attr('d', function (d) {
-        return lineGen(d.values);
-      });
-
-      // Append markers to lines
-      if (this.markers) {
-        switch (this.markers.shape) {
-          case 'circle':
-            var markers = this.svg.selectAll('.series').selectAll('circle').data(function (d, i) {
-              return d.values;
-            });
-            markers.enter().append('circle').attr('cx', function (d) {
-              return _this2.x(d.x);
-            }).attr('cy', function (d) {
-              return _this2.y(d.y);
-            }).attr('r', this.markers.size).attr('class', 'marker').style({
-              'fill': 'white',
-              'stroke-width': this.markers.outlineWidth
-            });
-            markers.exit().remove();
-            markers.transition().attr('cx', function (d) {
-              return _this2.x(d.x);
-            }).attr('cy', function (d) {
-              return _this2.y(d.y);
-            }).duration(0);
+  }, {
+    key: '_parseData',
+    value: function _parseData(data, xDataFormat, yDataFormat, config) {
+      data.forEach(function (d) {
+        //parse x coordinate
+        switch (xDataFormat) {
+          case 'time':
+            d.x = d3.timeParse(config.x.format)(d.x);
             break;
-          default:
-            throw Error('Not a valid marker shape: ' + this.markers.shape);
+          case 'linear':
+            d.x = +d.x;
+            break;
         }
-
-        // Move the markers to the top layer to prevent occlusion by the area path.
-        // The style of the marker is copied in order to preserve the style of the line.
-        // The class 'marker-top' is set so the markers can be removed in the next tick.
-        this.svg.selectAll('.marker-top').remove();
-        markers.each(function (d, i) {
-          this.style.stroke = this.parentElement.style.stroke;
-          this.setAttribute('class', 'marker-top');
-          this.parentElement.parentElement.appendChild(this);
-        });
-
-        // Add tooltips to the markers
-        if (this.tooltip) {
-          markers.on('mouseover.tip', this.tooltip.show).on('mouseout.tip', this.tooltip.hide);
+        //parse x coordinate
+        switch (yDataFormat) {
+          case 'time':
+            d.y = d3.timeFormat;
+            break;
+          case 'linear':
+            d.y = +d.y;
+            break;
         }
-
-        // Add events to the markers
-        markers.on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
-
-        this.interactiveElements = markers;
-      }
-
-      this._applyCSS();
-
-      // Check and fix overlapping axis labels
-      var labelsWidth = 0;
-      this.svg.selectAll('.x.axis g.tick text').each(function () {
-        labelsWidth += this.getBBox().width;
       });
-      // Calculate new number of ticks
-      if (labelsWidth > this.width) {
-        var numberOfTicks = this.svg.select('.x').selectAll('.tick')[0].length;
-        var meanWidth = labelsWidth / numberOfTicks;
-        this.xticks = Math.floor(this.width / meanWidth * 0.75);
-        this.xAxis.ticks(this.xticks);
-        this.svg.selectAll("g.x.axis").call(this.xAxis);
-      }
     }
   }, {
-    key: '_initialize',
-    value: function _initialize() {
-
-      _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), '_initialize', this).call(this);
-      this._initialized = true;
+    key: '_getDomainBBox',
+    value: function _getDomainBBox(data) {
+      var minX = d3.min(data, function (d) {
+        return d.x;
+      }),
+          maxX = d3.max(data, function (d) {
+        return d.x;
+      }),
+          minY = d3.min(data, function (d) {
+        return d.y;
+      }),
+          maxY = d3.max(data, function (d) {
+        return d.y;
+      });
+      return [minX, maxX, minY, maxY];
     }
 
     /**
@@ -1783,19 +1613,21 @@ var SvgLinechartStrategy = function (_SvgChart) {
   }, {
     key: '_loadConfigOnContext',
     value: function _loadConfigOnContext(config) {
-      _get(Object.getPrototypeOf(SvgLinechartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-      this.markers = {};
-      this.markers.color = config.markers.color || _default.Linechart.markers.color;
-      this.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
-      this.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
-      this.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
-      this.markers.size = config.markers.size || _default.Linechart.markers.size;
-      this.area = typeof config.area === 'undefined' ? _default.Linechart.area : config.area;
-      this.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
-      this.xDataType = config.xDataType || _default.Linechart.xDataType;
-      this.xDateformat = config.xDateFormat || _default.Linechart.xDateFormat;
+      _get(SvgLinechartStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgLinechartStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+      this.config = this.config || {};
+      this.config.markers = {};
+      this.config.markers.color = config.markers.color || _default.Linechart.markers.color;
+      this.config.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
+      this.config.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
+      this.config.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
+      this.config.markers.size = config.markers.size || _default.Linechart.markers.size;
+      this.config.area = typeof config.area === 'undefined' ? _default.Linechart.area : config.area;
+      this.config.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
+      this.config.x = {};
+      this.config.x.type = config.x.type || _default.Linechart.xDataType;
+      this.config.x.format = config.x.format || _default.Linechart.xDateFormat;
+      this.config.x.ticks = config.x.ticks;
 
-      //Just for testing purposes
       return this;
     }
   }]);
@@ -1820,15 +1652,18 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
     function SvgStreamgraphStrategy(chartContext) {
         _classCallCheck(this, SvgStreamgraphStrategy);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgStreamgraphStrategy).call(this, chartContext));
+        var _this = _possibleConstructorReturn(this, (SvgStreamgraphStrategy.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy)).call(this, chartContext));
 
-        _this.x = d3.time.scale().range([0, _this.width]);
-        _this.y = d3.scale.linear().range([_this.height - 10, 0]);
+        _this.x = d3.scaleTime().range([0, _this.config.width]);
 
-        _this.format = d3.time.format(_this.xDateformat);
-        _this.xAxis = d3.svg.axis().scale(_this.x).orient('bottom').ticks(d3.time.weeks);
+        _this.y = d3.scaleLinear().range([_this.config.height - 10, 0]);
+        _this.z = _this.config.colorScale;
 
-        _this.yAxis = d3.svg.axis().scale(_this.y).orient('left').innerTickSize(-_this.width).outerTickSize(0).tickPadding(20).ticks(_this.ticks, _this.tickLabel);
+        _this.xAxis = d3.axisBottom(_this.x).ticks(d3.timeDay, 1).tickFormat(d3.timeFormat("%m/%d/%y"));
+
+        _this.yAxis = d3.axisLeft(_this.y).tickSizeInner(-_this.config.width).tickSizeOuter(0).tickPadding(20).ticks(_this.config.ticks, _this.config.tickLabel).tickFormat(function (d) {
+            return d;
+        });
 
         _this.keys = null;
         return _this;
@@ -1846,91 +1681,62 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
         value: function draw(data) {
             var _this2 = this;
 
-            var dataLayered = null; //streamgraph layers
-            var nColors = null; //number of colors = different keys
-
-            if (!this.keys) {
-                //Fist draw
-                this.keys = utils.keys(data, 'key');
-            } else {
-                if (!this.keys.equals(utils.keys(data, 'key'))) {
-                    console.warn('Attemping to draw a streamgraph with a different set of keys after initialization. Skipping.');
-                    console.log(this.keys);
-                    console.log(utils.keys(data, 'key'));
-                    return;
-                }
-            }
+            var stack = null;
 
             //Initialize data
             if (!this._initialized) {
                 this._initialize();
             }
-            //Force x axis to be a date and y-axis to be a number
-            data.forEach(function (d) {
-                d.date = _this2.format.parse(d.date);
-                d.value = +d.value;
+
+            stack = d3.stack().keys(data.keys).order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle);
+
+            data.values.forEach(function (d) {
+                d.date = d3.timeParse(_this2.xDateformat)(d.date);
             });
 
-            this.stack = d3.layout.stack().offset('silhouette').values(function (d) {
-                return d.values;
-            }).x(function (d) {
-                return d.date;
-            }).y(function (d) {
-                return d.value;
-            });
+            var dataSeries = stack(data.values);
 
-            this.nest = d3.nest().key(function (d) {
-                return d.key;
-            });
-
-            this.area = d3.svg.area().interpolate('cardinal').x(function (d) {
-                return _this2.x(d.date);
-            }).y0(function (d) {
-                return _this2.y(d.y0);
-            }).y1(function (d) {
-                return _this2.y(d.y0 + d.y);
-            });
-
-            dataLayered = this.stack(this.nest.entries(data));
-
-            this.x.domain(d3.extent(data, function (d) {
+            this.x.domain(d3.extent(data.values, function (d) {
                 return d.date;
             }));
-            this.y.domain([0, d3.max(data, function (d) {
-                return d.y0 + d.y;
+            window.a = dataSeries;
+
+            this.y.domain([d3.min(a, function (serie) {
+                return d3.min(serie, function (d) {
+                    return d[0];
+                });
+            }), d3.max(a, function (serie) {
+                return d3.max(serie, function (d) {
+                    return d[1];
+                });
             })]);
 
-            nColors = utils.keys(data, 'key').size;
+            var self = this;
 
-            this.z = this.colorScale;
-
-            var series = this.svg.selectAll('.series').data(dataLayered).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
-                return _this2.colorScale(i);
+            var area = d3.area().curve(d3.curveCardinal).x(function (d) {
+                return _this2.x(d.data.date);
+            }).y0(function (d) {
+                return _this2.y(d[0]);
+            }).y1(function (d) {
+                return _this2.y(d[1]);
             });
 
-            series.append('path');
-
-            var layers = this.svg.selectAll('path').data(dataLayered, function (d) {
-                return d.key;
+            var series = this.svg.selectAll('.series').data(dataSeries).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
+                return _this2.config.colorScale(i);
             });
 
-            layers.attr('class', 'layer').attr('d', function (d) {
-                return _this2.area(d.values);
-            }).style('fill', function (d, i) {
+            series.append('path').attr('class', 'layer').attr('d', area).style('fill', function (d, i) {
                 return _this2.z(i);
             });
 
-            this.svg.selectAll('.layer').attr('opacity', 1).on('mousedown.user', this.events.down).on('mouseup.user', this.events.up).on('mouseleave.user', this.events.leave).on('mouseover.user', this.events.over).on('click.user', this.events.click);
+            series.attr('opacity', 1).on('mousedown.user', this.config.events.down).on('mouseup.user', this.config.events.up).on('mouseleave.user', this.config.events.leave).on('mouseover.user', this.config.events.over).on('click.user', this.config.events.click);
 
             this._updateAxis();
-
-            this.interactiveElements = this._layers;
-            this._applyCSS();
         }
     }, {
         key: '_initialize',
         value: function _initialize() {
-            _get(Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_initialize', this).call(this);
+            _get(SvgStreamgraphStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_initialize', this).call(this);
             this._initialized = true;
         }
 
@@ -1946,9 +1752,9 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
             if (!config.events) {
                 config.events = {};
             }
-            _get(Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-            this.colorScale = config.colorScale || _default.Streamgraph.colorScale;
-            this.xDateformat = config.xDateFormat || _default.Streamgraph.xDateFormat;
+            _get(SvgStreamgraphStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+            this.colorScale = config.colorScale || _default.StackedArea.colorScale;
+            this.xDateformat = config.xDateFormat || _default.StackedArea.xDateFormat;
         }
     }]);
 
@@ -1973,18 +1779,17 @@ var SvgGaugeStrategy = function (_SvgChart) {
     _classCallCheck(this, SvgGaugeStrategy);
 
     //Create scale
+    var _this = _possibleConstructorReturn(this, (SvgGaugeStrategy.__proto__ || Object.getPrototypeOf(SvgGaugeStrategy)).call(this, chartContext));
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SvgGaugeStrategy).call(this, chartContext));
+    _this.scale = d3.scaleLinear().domain([_this.config.minLevel, _this.config.maxLevel]).range([0, 1]);
 
-    _this.scale = d3.scale.linear().domain([_this.minLevel, _this.maxLevel]).range([0, 1]);
+    _this.angleScale = d3.scaleLinear().domain([_this.config.minLevel, _this.config.maxLevel]).range([90 + _this.config.minAngle, 90 + _this.config.maxAngle]);
 
-    _this.angleScale = d3.scale.linear().domain([_this.minLevel, _this.maxLevel]).range([90 + _this.minAngle, 90 + _this.maxAngle]);
+    _this.config.colorScale.domain([0, 1]);
 
-    _this.colorScale.domain([0, 1]);
-
-    _this.scaleMarks = _this.scale.ticks(_this.ticks);
-    _this.tickData = d3.range(_this.ticks).map(function () {
-      return 1 / _this.ticks;
+    _this.scaleMarks = _this.scale.ticks(_this.config.ticks);
+    _this.tickData = d3.range(_this.config.ticks).map(function () {
+      return 1 / _this.config.ticks;
     });
 
     _this.keyFunction = function (d) {
@@ -2011,20 +1816,21 @@ var SvgGaugeStrategy = function (_SvgChart) {
 
       var needleLen = null;
 
-      _get(Object.getPrototypeOf(SvgGaugeStrategy.prototype), 'draw', this).call(this, data);
+      _get(SvgGaugeStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgGaugeStrategy.prototype), 'draw', this).call(this, data);
       this.datum = data[data.length - 1];
-      needleLen = this.needleLenghtRatio * this.r;
+      needleLen = this.config.needleLenghtRatio * this.r;
 
+      console.log(this.config.needleNutRadius, needleLen, this.config.needleLenghtRatio, this.r);
       // Append the needle
       if (!this.needle) {
         this.needle = this.svg.append('path').attr('class', 'needle').datum(this.datum.x).attr('transform', function (d) {
           return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(d) - 90) + ')';
-        }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0);
+        }).attr('d', 'M ' + (0 - this.config.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.config.needleNutRadius + ' ' + 0);
       }
 
       this.needle.transition().attr('transform', function (d) {
         return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(_this2.datum.x) - 90) + ')';
-      }).attr('d', 'M ' + (0 - this.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.needleNutRadius + ' ' + 0);
+      }).attr('d', 'M ' + (0 - this.config.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.config.needleNutRadius + ' ' + 0);
 
       this.svg.select('.text-indicator').text(this.datum.x);
 
@@ -2035,24 +1841,24 @@ var SvgGaugeStrategy = function (_SvgChart) {
     value: function _initialize() {
       var _this3 = this;
 
-      var width = this.width + this.margin.left + this.margin.right;
-      var height = this.height + this.margin.top + this.margin.bottom;
+      var width = this.config.width + this.config.margin.left + this.config.margin.right;
+      var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
       var labels = null;
       var arcs = null;
 
       //Create a global 'g' (group) element
-      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+      this.svg = d3.select(this.config.selector).append('svg').attr('width', this.config.width).attr('height', this.config.height).append('g').attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
 
-      this.range = this.maxAngle - this.minAngle;
-      this.r = (this.width > this.height ? this.height : this.width) / 2;
+      this.range = this.config.maxAngle - this.config.minAngle;
+      this.r = (this.config.width > this.config.height ? this.config.height : this.config.width) / 2;
       this.needleLength = Math.round(this.r * this.needleLenghtRatio);
 
-      this.arc = d3.svg.arc().innerRadius(this.r - this.ringWidth - this.ringMargin).outerRadius(this.r - this.ringMargin).startAngle(function (d, i) {
+      this.arc = d3.arc().innerRadius(this.r - this.config.ringWidth - this.config.ringMargin).outerRadius(this.r - this.config.ringMargin).startAngle(function (d, i) {
         var ratio = d * i;
-        return utils.deg2rad(_this3.minAngle + ratio * _this3.range);
+        return utils.deg2rad(_this3.config.minAngle + ratio * _this3.range);
       }).endAngle(function (d, i) {
         var ratio = d * (i + 1);
-        return utils.deg2rad(_this3.minAngle + ratio * _this3.range);
+        return utils.deg2rad(_this3.config.minAngle + ratio * _this3.range);
       });
 
       // Append the ring
@@ -2066,13 +1872,13 @@ var SvgGaugeStrategy = function (_SvgChart) {
       }).attr('d', this.arc);
 
       // Fill colors
-      if (this.invertColorScale) {
+      if (this.config.invertColorScale) {
         arcPaths.attr('fill', function (d, i) {
-          return _this3.colorScale(1 - d * i);
+          return _this3.config.colorScale(1 - d * i);
         });
       } else {
         arcPaths.attr('fill', function (d, i) {
-          return _this3.colorScale(d * i);
+          return _this3.config.colorScale(d * i);
         });
       }
 
@@ -2082,18 +1888,18 @@ var SvgGaugeStrategy = function (_SvgChart) {
       // Append scale marker labels
       labels.selectAll('text').data(this.scaleMarks).enter().append('text').attr('transform', function (d) {
         var ratio = _this3.scale(d);
-        var newAngle = _this3.minAngle + ratio * _this3.range;
-        return 'rotate(' + newAngle + ') translate(0,' + (_this3.labelInset - _this3.r) + ')';
+        var newAngle = _this3.config.minAngle + ratio * _this3.range;
+        return 'rotate(' + newAngle + ') translate(0,' + (_this3.config.labelInset - _this3.r) + ')';
       }).text(function (d) {
         return d;
       });
 
       // Append needle nut
-      this.svg.append('circle').attr('class', 'needle').attr('transform', this.translation).attr('cx', 0).attr('cy', 0).attr('r', this.needleNutRadius);
+      this.svg.append('circle').attr('class', 'needle').attr('transform', this.translation).attr('cx', 0).attr('cy', 0).attr('r', this.config.needleNutRadius);
 
       this.svg.append('g').attr('class', 'needle');
 
-      if (this.numericIndicator) {
+      if (this.config.numericIndicator) {
         this.svg.append('text').attr('class', 'text-indicator').attr('transform', this.translation).attr('x', 0).attr('y', 100).text('0');
       }
 
@@ -2109,20 +1915,20 @@ var SvgGaugeStrategy = function (_SvgChart) {
   }, {
     key: '_loadConfigOnContext',
     value: function _loadConfigOnContext(config) {
-      _get(Object.getPrototypeOf(SvgGaugeStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-
-      this.minLevel = config.minLevel || _default.Gauge.minLevel;
-      this.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
-      this.minAngle = config.minAngle || _default.Gauge.minAngle;
-      this.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
-      this.ticks = config.ticks || _default.Gauge.ticks;
-      this.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
-      this.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
-      this.labelInset = config.labelInset || _default.Gauge.labelInset;
-      this.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
-      this.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-      this.invertColorScale = typeof config.invertColorScale === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
-      this.numericIndicator = typeof config.numericIndicator === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
+      _get(SvgGaugeStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgGaugeStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+      this.config = this.config || {};
+      this.config.minLevel = config.minLevel || _default.Gauge.minLevel;
+      this.config.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
+      this.config.minAngle = config.minAngle || _default.Gauge.minAngle;
+      this.config.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
+      this.config.ticks = config.ticks || _default.Gauge.ticks;
+      this.config.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
+      this.config.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
+      this.config.labelInset = config.labelInset || _default.Gauge.labelInset;
+      this.config.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
+      this.config.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
+      this.config.invertColorScale = typeof config.invertColorScale === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
+      this.config.numericIndicator = typeof config.numericIndicator === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
       //Just for testing purposes
       return this;
     }
@@ -2148,7 +1954,7 @@ var SvgSunburstStrategy = function (_SvgChart) {
   function SvgSunburstStrategy(chartContext) {
     _classCallCheck(this, SvgSunburstStrategy);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SvgSunburstStrategy).call(this, chartContext));
+    return _possibleConstructorReturn(this, (SvgSunburstStrategy.__proto__ || Object.getPrototypeOf(SvgSunburstStrategy)).call(this, chartContext));
   }
 
   /**
@@ -2171,40 +1977,35 @@ var SvgSunburstStrategy = function (_SvgChart) {
       this._removePaths();
 
       // Create layout partition
-      var partition = d3.layout.partition().value(function (d) {
+      var partition = d3.partition();
+      var root = d3.hierarchy(data).sum(function (d) {
         return d.value;
       });
+      partition(root);
 
-      // Create arc generators
-      this.arcGen = d3.svg.arc().startAngle(function (d) {
-        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x)));
+      // Create arc generator
+      this.arcGen = d3.arc().startAngle(function (d) {
+        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x0)));
       }).endAngle(function (d) {
-        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x + d.dx)));
+        return Math.max(0, Math.min(2 * Math.PI, _this2.x(d.x1)));
       }).innerRadius(function (d) {
-        return Math.max(0, _this2.y(d.y));
+        return Math.max(0, _this2.y(d.y0));
       }).outerRadius(function (d) {
-        return Math.max(0, _this2.y(d.y + d.dy));
+        return Math.max(0, _this2.y(d.y1));
       });
 
       // Draw the paths (arcs)
-      var paths = this.svg.selectAll('path').data(partition.nodes(data)).enter().append('path').attr('d', this.arcGen).style('fill', function (d) {
+      var paths = this.svg.selectAll('path').data(root.descendants()).enter().append('path').attr('d', this.arcGen).style('fill', function (d) {
         if (!d.parent) {
           return 'white';
         } else {
-          return _this2.colorScale(d.name);
+          return _this2.colorScale(d.data.name);
         }
       });
 
       // Create infobox
       var infobox = this.svg.append('g').attr('class', 'infobox').attr('pointer-events', 'none');
       // Append central circle
-      // infobox.append('circle')
-      //   .attr('cx', 0)
-      //   .attr('cy', 0)
-      //   .attr('r', 90)
-      //   .attr('fill', 'rgba(255, 255, 255, 0.7)')
-      // .attr('fill', 'white')
-      // .attr('pointer-events', 'none');
       infobox.append('text').attr('class', 'name').attr('x', 0).attr('y', 0).attr('pointer-events', 'none');
       infobox.append('text').attr('class', 'value').attr('x', 0).attr('y', 0).attr('pointer-events', 'none');
 
@@ -2218,23 +2019,14 @@ var SvgSunburstStrategy = function (_SvgChart) {
           return ancestors.indexOf(node) >= 0;
         }).style('opacity', 1);
         // Hightlight the hovered arc
-        // d.parent ?
-        //   d3.select(this).style('opacity', 1) :
-        //   d3.select('.infobox .name').style('font-weight', 'bold');
-        _this2.svg.select('.infobox .name').text(d.name);
+        _this2.svg.select('.infobox .name').text(d.data.name);
         _this2.svg.select('.infobox .value').text(d.value);
       }).on('mouseout', function (d) {
         d3.selectAll('path').style('opacity', 1);
         d3.select('.infobox .name').style('font-weight', 'normal');
         d3.select('.infobox .name').text('');
         d3.select('.infobox .value').text('');
-      })
-      // .on('click', (d) => {
-      //   this._zoom(d);
-      //   this.svg.select('.infobox .name').text(d.name);
-      //   this.svg.select('.infobox .value').text(d.value);
-      // })
-      ;
+      });
 
       d3.select(self.frameElement).style('height', this.height + 'px');
 
@@ -2308,11 +2100,11 @@ var SvgSunburstStrategy = function (_SvgChart) {
       this.radius = Math.min(width, height) / 2 - 10; // TODO 10 = margin
 
       // Create scales
-      this.x = d3.scale.linear().range([0, 2 * Math.PI]);
-      this.y = d3.scale.sqrt().range([0, this.radius]);
+      this.x = d3.scaleLinear().range([0, 2 * Math.PI]);
+      this.y = d3.scaleSqrt().range([0, this.radius]);
 
       // Create a global 'g' (group) element
-      this.svg = d3.select(this.selector).append('svg').attr({ width: width, height: height }).append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+      this.svg = d3.select(this.selector).append('svg').attr('width', this.width).attr('height', this.height).append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
       //Initialize SVG
       this._initialized = true;
@@ -2330,7 +2122,7 @@ var SvgSunburstStrategy = function (_SvgChart) {
       if (!config.events) {
         config.events = {};
       }
-      _get(Object.getPrototypeOf(SvgSunburstStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
+      _get(SvgSunburstStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgSunburstStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
 
       //Just for testing purposes
       return this;
@@ -2424,7 +2216,21 @@ var Chart = function () {
         value: function draw() {
             var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-            if (!utils.isArray(data)) {
+            var config = this.config,
+                sort = config.sort,
+                p = null,
+                desc = null;
+
+            if (sort) {
+                p = config.sort.field;
+                desc = config.sort.desc;
+                data.sort(function (e1, e2) {
+                    var a = e1[p];
+                    var b = e2[p];
+                    return a < b ? -1 : a > b ? 1 : 0;
+                });
+            }
+            if (!utils.isArray(data) && !utils.isObject(data)) {
                 throw new TypeError('draw method is only allowed with static data.');
             }
             data = JSON.parse(JSON.stringify(data));
@@ -2433,7 +2239,7 @@ var Chart = function () {
 
         /**
          * Returns a PNG image of the current graph
-         * @return {[String]} Image in data-url format
+         * @return {String} Image - in data-url format
          */
 
     }, {
@@ -2534,7 +2340,7 @@ var Basic = function (_Chart) {
   function Basic(data, config) {
     _classCallCheck(this, Basic);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, data, config));
+    return _possibleConstructorReturn(this, (Basic.__proto__ || Object.getPrototypeOf(Basic)).call(this, data, config));
   }
 
   _createClass(Basic, [{
@@ -2618,16 +2424,16 @@ var Flow = function (_Chart) {
     function Flow(data, config) {
         _classCallCheck(this, Flow);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Flow).call(this, data, config));
+        return _possibleConstructorReturn(this, (Flow.__proto__ || Object.getPrototypeOf(Flow)).call(this, data, config));
     }
 
     _createClass(Flow, [{
         key: 'draw',
         value: function draw(data) {
-            //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself.
+            //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
             //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
             data = JSON.parse(JSON.stringify(data));
-            _get(Object.getPrototypeOf(Flow.prototype), 'draw', this).call(this, data);
+            _get(Flow.prototype.__proto__ || Object.getPrototypeOf(Flow.prototype), 'draw', this).call(this, data);
         }
     }]);
 
@@ -2647,7 +2453,7 @@ var Temporal = function (_Chart) {
   function Temporal() {
     _classCallCheck(this, Temporal);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Temporal).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Temporal.__proto__ || Object.getPrototypeOf(Temporal)).apply(this, arguments));
   }
 
   return Temporal;
@@ -2668,7 +2474,7 @@ var Hierarchical = function (_Chart) {
     function Hierarchical(data, config) {
         _classCallCheck(this, Hierarchical);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Hierarchical).call(this, data, config));
+        return _possibleConstructorReturn(this, (Hierarchical.__proto__ || Object.getPrototypeOf(Hierarchical)).call(this, data, config));
     }
 
     _createClass(Hierarchical, [{
@@ -2708,16 +2514,15 @@ var Barchart = function (_Basic) {
    * Optionally, you can indicate a second argument that includes all the chart options. If you 
    * do not specify this, '_default' object is used by default.
    */
-
   function Barchart(data, config) {
     _classCallCheck(this, Barchart);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Barchart).call(this, data, config));
+    return _possibleConstructorReturn(this, (Barchart.__proto__ || Object.getPrototypeOf(Barchart)).call(this, data, config));
   }
 
   /**
    * Renders a data object on the chart.
-   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * @param  {Object} data - This object contains the data that will be rendered on chart. If you do not
    * specify this param, this.data will be used instead.
    */
 
@@ -2727,27 +2532,37 @@ var Barchart = function (_Basic) {
     value: function draw() {
       var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-      _get(Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, data);
+      _get(Barchart.prototype.__proto__ || Object.getPrototypeOf(Barchart.prototype), 'draw', this).call(this, data);
     }
   }, {
     key: 'fire',
     value: function fire(event, data) {
-      var element = this._svg.strategy.svg;
-      if (!element || !element[0][0]) {
-        throw Error('Cannot fire events because SVG dom element is not yet initialized');
+      //TODO: improve this section
+      if (event === 'transition') {
+        if (data === 'grouped') {
+          this._svg.strategy.transition2Grouped();
+        } else if (data === 'stacked') {
+          this._svg.strategy.transition2Stacked();
+        }
+
+        this._svg.strategy.draw();
       }
-      element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
+      // var element = this._svg.strategy.svg;
+      // if (!element || !element[0][0]) {
+      //   throw Error('Cannot fire events because SVG dom element is not yet initialized');
+      // }
+      // element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
     }
 
     /**
      * Add new data to the current graph. If it is empty, this creates a new one.
-     * @param  {[Object]} datum data to be rendered
+     * @param  {Object} datum - data to be rendered
      */
 
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      _get(Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum, 'replace');
+      _get(Barchart.prototype.__proto__ || Object.getPrototypeOf(Barchart.prototype), 'keepDrawing', this).call(this, datum, 'replace');
     }
   }]);
 
@@ -2778,11 +2593,10 @@ var Linechart = function (_Basic) {
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
-
   function Linechart(data, config) {
     _classCallCheck(this, Linechart);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Linechart).call(this, data, config));
+    return _possibleConstructorReturn(this, (Linechart.__proto__ || Object.getPrototypeOf(Linechart)).call(this, data, config));
   }
 
   /**
@@ -2797,18 +2611,18 @@ var Linechart = function (_Basic) {
     value: function draw() {
       var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-      _get(Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, data);
+      _get(Linechart.prototype.__proto__ || Object.getPrototypeOf(Linechart.prototype), 'draw', this).call(this, data);
     }
 
     /**
      * Add new data to the current graph. If it is empty, this creates a new one.
-     * @param  {[Object]} datum data to be rendered
+     * @param  {Object} datum data to be rendered
      */
 
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
-      _get(Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum, 'add');
+      _get(Linechart.prototype.__proto__ || Object.getPrototypeOf(Linechart.prototype), 'keepDrawing', this).call(this, datum, 'add');
     }
   }]);
 
@@ -2839,11 +2653,10 @@ var Streamgraph = function (_Flow) {
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
-
   function Streamgraph(data, config) {
     _classCallCheck(this, Streamgraph);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Streamgraph).call(this, data, config));
+    return _possibleConstructorReturn(this, (Streamgraph.__proto__ || Object.getPrototypeOf(Streamgraph)).call(this, data, config));
   }
 
   /**
@@ -2858,12 +2671,12 @@ var Streamgraph = function (_Flow) {
     value: function draw() {
       var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-      _get(Object.getPrototypeOf(Streamgraph.prototype), 'draw', this).call(this, data);
+      _get(Streamgraph.prototype.__proto__ || Object.getPrototypeOf(Streamgraph.prototype), 'draw', this).call(this, data);
     }
 
     /**
      * Add new data to the current graph. If it is empty, this creates a new one.
-     * @param  {[Object]} datum data to be rendered
+     * @param  {Object} datum data to be rendered
      */
 
   }, {
@@ -2873,7 +2686,7 @@ var Streamgraph = function (_Flow) {
         this.datum = [];
       }
       this.datum = this.datum.concat(datum);
-      _get(Object.getPrototypeOf(Streamgraph.prototype), 'draw', this).call(this, this.datum);
+      _get(Streamgraph.prototype.__proto__ || Object.getPrototypeOf(Streamgraph.prototype), 'draw', this).call(this, this.datum);
     }
   }]);
 
@@ -2904,11 +2717,10 @@ var Gauge = function (_Basic) {
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
-
   function Gauge(data, config) {
     _classCallCheck(this, Gauge);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Gauge).call(this, data, config));
+    return _possibleConstructorReturn(this, (Gauge.__proto__ || Object.getPrototypeOf(Gauge)).call(this, data, config));
   }
 
   /**
@@ -2923,19 +2735,19 @@ var Gauge = function (_Basic) {
     value: function draw() {
       var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
 
-      _get(Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this, data);
+      _get(Gauge.prototype.__proto__ || Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this, data);
     }
 
     /**
      * Add new data to the current graph. If it is empty, this creates a new one.
-     * @param  {[Object]} datum data to be rendered
+     * @param  {Object} datum data to be rendered
      */
 
   }, {
     key: 'keepDrawing',
     value: function keepDrawing(datum) {
       this.data = [datum[0]];
-      _get(Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this);
+      _get(Gauge.prototype.__proto__ || Object.getPrototypeOf(Gauge.prototype), 'draw', this).call(this);
     }
   }]);
 
@@ -2964,16 +2776,15 @@ var Sunburst = function (_Hierarchical) {
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */
-
   function Sunburst(data, config) {
     _classCallCheck(this, Sunburst);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sunburst).call(this, data, config));
+    return _possibleConstructorReturn(this, (Sunburst.__proto__ || Object.getPrototypeOf(Sunburst)).call(this, data, config));
   }
 
   /**
    * Add new data to the current graph. If it is empty, this creates a new one.
-   * @param  {[Object]} datum data to be rendered
+   * @param  {Object} datum data to be rendered
    */
 
 
@@ -3069,6 +2880,8 @@ var Sunburst = function (_Hierarchical) {
           return new Streamgraph(params.data, params.config);
         case 'Sunburst':
           return new Sunburst(params.data, params.config);
+        case 'StackedArea':
+          return new StackedArea(params.data, params.config);
         default:
           throw TypeError('Unknow chart type' + params.type);
       }
