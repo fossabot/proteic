@@ -10,8 +10,18 @@ class SvgLinechartStrategy extends SvgChart {
 
     //Include components in the chart container
     this.svgContainer
-      .add(this.axes)
-      .add(this.lines);
+      .add(this.axes);
+      // .add(this.lines);
+
+    if (config.area) {
+      this.areas = new Areaset(this.axes.xAxis, this.axes.yAxis);
+      this.svgContainer.add(this.areas);
+    }
+
+    if (config.markers) {
+      this.points = new Pointset(this.axes.xAxis, this.axes.yAxis);
+      this.svgContainer.add(this.points);
+    }
   }
 
 	/**
@@ -35,6 +45,16 @@ class SvgLinechartStrategy extends SvgChart {
 
     //Now update lines
     this.lines.update(svg, config, data);
+
+    if (config.area) {
+      // Update areas
+      this.areas.update(svg, config, data);
+    }
+
+    if (config.markers) {
+      // Update points
+      this.points.update(svg, config, data);
+    }
 
   }
 
