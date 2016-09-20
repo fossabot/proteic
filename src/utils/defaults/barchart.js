@@ -28,7 +28,7 @@ _default.Barchart = {
     colorScale: Colors.category7(),
     margin: {
         top: 20,
-        right: 20,
+        right: 250,
         bottom: 30,
         left: 50
     },

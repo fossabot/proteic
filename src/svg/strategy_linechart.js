@@ -6,12 +6,15 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
+
     this.lines = new Lineset(this.axes.x, this.axes.y);
+    this.legend = new Legend();
 
     //Include components in the chart container
     this.svgContainer
-      .add(this.axes);
-      // .add(this.lines);
+      .add(this.axes)
+      .add(this.legend)
+      .add(this.lines);
 
     if (config.area) {
       this.areas = new Areaset(this.axes.x, this.axes.y);
@@ -42,6 +45,9 @@ class SvgLinechartStrategy extends SvgChart {
 
     //Create a transition effect for axis rescaling
     this.axes.transition(svg, 200);
+
+    // Update legend
+    this.legend.update(svg, config, data);
 
     //Now update lines
     this.lines.update(svg, config, data);
