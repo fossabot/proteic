@@ -15,7 +15,7 @@ _default.Linechart = {
     areaOpacity: 0.4,
     margin: {
         top: 20,
-        right: 20,
+        right: 250,
         bottom: 30,
         left: 50
     },

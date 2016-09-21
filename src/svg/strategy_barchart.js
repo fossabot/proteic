@@ -8,9 +8,12 @@ class SvgBarchartStrategy extends SvgChart {
     this.axes = new XYAxes('categorical', 'linear', config);
     this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);
 
+    this.legend = new Legend();
+
     this.svgContainer
       .add(this.axes)
-      .add(this.bars);
+      .add(this.bars)
+      .add(this.legend);
 
   }
 
@@ -44,6 +47,8 @@ class SvgBarchartStrategy extends SvgChart {
     data4render = isStacked ? dataSeries : data;
 
     this.bars.update(svg, config, data4render, method);
+
+    this.legend.update(svg, config, data);
 
     this.data = data; // TODO: ? 
 
