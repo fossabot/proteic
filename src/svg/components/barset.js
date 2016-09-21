@@ -75,7 +75,7 @@ class Barset {
       , xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()])
       , height = config.height;
 
-    data = d3.nest().key((d) => d.x).entries(data);
+    data = utils.dataTransformation.simple2nested(data, 'x');
 
     layer = svg.selectAll('.serie').data(data);
 
