@@ -22,27 +22,31 @@ class SvgBarchartStrategy extends SvgChart {
   draw(data) {
     var svg = this.svgContainer.svg
       , config = this.config
-      , isStacked = this.config.stacked
       , keys = d3.map(data, (d) => d.key).keys()
-      , stack = d3.stack().keys(["Male", "Female"])
-        .value((d, i) => d.y)
+      , data4stack = utils.dataTransformation.simple2stacked(data)
+      , data4render = null
+      , isStacked = this.config.stacked
+      , stack = d3.stack().keys(keys)
+        .value((d, k) => d.value[k])
         .order(d3.stackOrderNone)
       , yMin = 0
       , yMax = 0
       , method = isStacked ? 'stacked' : 'grouped'
-      , dataSeries = stack(data);
+      , dataSeries = stack(data4stack);
 
     yMax = isStacked
       ? d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]))
-      : d3.max(data, (serie) => d3.max(serie, (d) => d.y))
+      : d3.max(data, (d) => d.y)
 
-    this.axes.updateDomainByKeysAndBBox(keys, [yMin, yMax]);
-
+    this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) => d.x).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
 
-    this.bars.update(svg, config, dataSeries, method);
+    data4render = isStacked ? dataSeries : data;
+
+    this.bars.update(svg, config, data4render, method);
 
     this.data = data; // TODO: ? 
+
   }
 
   transition2Stacked() {

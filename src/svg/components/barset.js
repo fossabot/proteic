@@ -62,7 +62,7 @@ class Barset {
   _updateGrouped(svg, config, data) {
     this._cleanCurrentSeries(svg);
 
-    var keys = this._getKeysFromData(data)
+    var keys = d3.map(data, (d) => d.key).keys()
       , colorScale = config.colorScale
       , layer = svg.selectAll('.serie').data(data)
       , layerEnter = null
@@ -75,12 +75,7 @@ class Barset {
       , xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()])
       , height = config.height;
 
-    //Transform data. TODO: move it
-    data.forEach((d) => {
-      d.categories = keys.map((category) => {
-        return { category: category, value: +d[category] };
-      });
-    });
+    data = d3.nest().key((d) => d.x).entries(data);
 
     layer = svg.selectAll('.serie').data(data);
 
@@ -92,16 +87,16 @@ class Barset {
       .attr('transform', (d) => 'translate(' + x(d.key) + ')');
 
     bar = layerMerge.selectAll('rect')
-      .data((d) => d.categories);
+      .data((d) => d.values);
 
     barEnter = bar.enter().append('rect');
 
     barMerge = bar.merge(barEnter)
       .attr('width', xGroup.bandwidth())
-      .attr("x", (d) => xGroup(d.category))
+      .attr("x", (d) => xGroup(d.key))
       .attr('fill', (d, i) => colorScale(i))
-      .attr("y", (d) => y(d.value))
-      .attr("height", (d) => height - y(d.value));
+      .attr("y", (d) => y(d.y))
+      .attr("height", (d) => height - y(d.y));
 
   }
 
