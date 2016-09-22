@@ -35,8 +35,6 @@ class TimeBoxset {
 
     boxEnter = box.enter().append('rect');
 
-    console.log(x.domain());
-
     boxMerge = box.merge(boxEnter)
       .attr('width', (d) => x(new Date(d.y)) - x(new Date(d.x)))
       .attr('x', (d) => x(new Date(d.x)))

@@ -27,7 +27,7 @@ class SvgSwimlaneStrategy extends SvgChart {
   _getBBox(data){
     return [
       d3.min(data, (d) => new Date(d.x)),
-      d3.max(data, (d) => new Date(d.x))
+      d3.max(data, (d) => new Date(d.y))
     ]
   }
 
