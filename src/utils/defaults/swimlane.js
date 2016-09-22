@@ -2,6 +2,8 @@ var _default = _default || {};
 
 _default.Swimlane = {
     selector: '#chart',
+    colorScale: Colors.category3(),
+
     margin: {
         top: 20,
         right: 100,

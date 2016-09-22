@@ -3,12 +3,15 @@ class SvgSwimlaneStrategy extends SvgChart {
     super(chartContext);
     var config = this.config;
     this.svgContainer = new SvgContainer(config);
-    this.axes = new XYAxes('time', 'categorical', config);
 
+    this.axes = new XYAxes('time', 'categorical', config);
     this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);
+    this.legend = new Legend();
 
     this.svgContainer
-      .add(this.axes);
+      .add(this.axes)
+      .add(this.boxs)
+      .add(this.legend);
   }
 
 
@@ -22,6 +25,7 @@ class SvgSwimlaneStrategy extends SvgChart {
     this.axes.transition(svg, 200);
 
     this.boxs.update(svg, config, data);
+    this.legend.update(svg, config, data);
 
   }
   _getBBox(data){
