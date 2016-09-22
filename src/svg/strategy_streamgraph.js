@@ -10,10 +10,13 @@ class SvgStreamgraphStrategy extends SvgChart {
 
         this.streams = new Streamset(this.x.xAxis, this.y.yAxis);
 
+        this.legend = new Legend();
+
         //Include components in the chart container
         this.svgContainer
             .add(this.x)
             .add(this.y, false) //No render y Axis
+            .add(this.legend)
             .add(this.streams);
     }
 
@@ -36,8 +39,12 @@ class SvgStreamgraphStrategy extends SvgChart {
         this.y.updateDomainByBBox([bbox[2], bbox[3]]);
         this.x.transition(svg, 200);
         this.y.transition(svg, 200);
-       
-       this.streams.update(svg, config, dataSeries);
+
+        // Update legend
+        this.legend.update(svg, config, data);
+
+        // Update streams
+        this.streams.update(svg, config, dataSeries);
     }
 
     _getDomainBBox(data, dataSeries) {
