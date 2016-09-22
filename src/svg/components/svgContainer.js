@@ -25,8 +25,10 @@ class SvgContainer {
   }
 
 
-  add(component) {
-    component.render(this.svg, this._config);
+  add(component, render = true) {
+    if (render) {
+      component.render(this.svg, this._config);
+    }
     return this;
   }
 }
