@@ -9,12 +9,22 @@ class YAxis {
   }
 
 
-  _initializeYAxis(yAxisType, config) {
+  _initializeYAxis(yAxisType = 'linear', config) {
     var y = null
       , yAxis = null;
 
-    y = d3.scaleLinear().range([config.height, 0]);
-
+    switch (yAxisType) {
+      case 'linear':
+        y = d3.scaleLinear().range([config.height, 0]);
+        break;
+      case 'categorical':
+        y = d3.scaleBand().rangeRound([config.height, 0])
+          .padding(0.1)
+          .align(0.5);
+        break;
+      default:
+        throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
+    }
     return d3.axisLeft(y)
       .tickSizeInner(-config.width)
       .tickSizeOuter(0)
@@ -45,6 +55,11 @@ class YAxis {
   updateDomainByBBox(b) {
     var y = this.yAxis.scale();
     y.domain([b[0], b[1]]);
+  }
+
+  updateDomainByKeys(keys) {
+    var y = this.yAxis.scale();
+    y.domain(keys);
   }
 
   render(svg, config) {

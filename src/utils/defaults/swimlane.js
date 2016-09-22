@@ -4,9 +4,9 @@ _default.Swimlane = {
     selector: '#chart',
     margin: {
         top: 20,
-        right: 20,
+        right: 100,
         bottom: 30,
-        left: 50
+        left: 100
     },
     width: '99%', // %, auto, or numeric
     height: 550,

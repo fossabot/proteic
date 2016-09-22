@@ -12,86 +12,8 @@ class SvgChart {
         this.interactiveElements = null;
     }
 
-    draw(data) {
-        if (this._sortData) {
-            utils.sortBy(data, {
-                prop: this._sortData.prop,
-                desc: this._sortData.descending
-            });
-        }
-
-        if (!this._initialized) {
-            this._initialize();
-        }
-
-    }
-
-    _initialize() {
-        var width = this.config.width + this.config.margin.left + this.config.margin.right;
-        var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
-
-        //Create a global 'g' (group) element
-        this.svg = d3
-            .select(this.config.selector)
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .append('g')
-            .attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
-
-        //Append a new group with 'x' aXis
-        this.svg
-            .append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + this.config.height + ')')
-            .call(this.xAxis);
 
 
-        this.svg
-            .append('g')
-            .attr('class', 'y axis')
-            .attr('stroke-dasharray', '1, 2')
-            .call(this.yAxis)
-            .append('text');
-
-        // Append axes labels
-        this.svg
-            .append('text')
-            .attr('text-anchor', 'middle')
-            .attr('class', 'x axis label')
-            .attr('x', this.config.width / 2)
-            .attr('y', this.config.height + this.config.margin.bottom)
-            .text(this.xAxisLabel);
-
-        this.svg
-            .append('text')
-            .attr('text-anchor', 'middle')
-            .attr('class', 'y axis label')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', - this.config.height / 2)
-            .attr('y', - this.config.margin.left / 1.3)
-            .text(this.yAxisLabel);
-    }
-
-    _applyCSS() {
-        var style = this.style;
-        var styleValue = null;
-
-        for (let key in style) {
-            styleValue = style[key];
-            for (let v in styleValue) {
-                d3.selectAll(key).style(v, styleValue[v]);
-            }
-        }
-    }
-
-    on(events = {}) {
-        for (let key in events) {
-            let action = events[key];
-            this.interactiveElements.on(key + '.user', action);
-        }
-
-    }
     _calculateWidth(width) {
         if (width === 'auto') {
             return d3.select(this.config.selector)
