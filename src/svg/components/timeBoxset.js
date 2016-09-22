@@ -7,6 +7,7 @@ class TimeBoxset {
   }
   update(svg, config, data) {
     var colorScale = config.colorScale
+      , events = config.events
       , keys = d3.map(data, (d) => d.key).keys()
       , layer = svg.selectAll('.serie').data(data)
       , layerEnter = null
@@ -43,6 +44,15 @@ class TimeBoxset {
       .attr('y', (d) => y(d.key))
       .attr('fill', (d, i, j) => colorScale(parseInt(yLanesBand(d.key))))
       .attr("height", (d) => .8 * yLanes(1));
+
+
+    box = svg.selectAll('g.serie rect');
+    box
+      .on('mousedown.user', events.down)
+      .on('mouseup.user', events.up)
+      .on('mouseleave.user', events.leave)
+      .on('mouseover.user', events.over)
+      .on('click.user', events.click);
 
   }
 

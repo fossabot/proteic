@@ -35,7 +35,6 @@ class YAxis {
 
   transition(svg, time = 200) {
     svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
-
   }
 
   yStyle() {
