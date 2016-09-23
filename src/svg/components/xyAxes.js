@@ -14,7 +14,7 @@ class XYAxes {
   }
 
   /**
-   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
+   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.
    */
   updateDomainByBBox(b) {
     this.x.updateDomainByBBox([b[0], b[1]]);

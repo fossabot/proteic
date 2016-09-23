@@ -34,7 +34,7 @@ _default.Streamgraph = {
     },
     width: '100%', // %, auto, or numeric 
     height: 300,
-    ticks: 5, // ticks for y axis.
+    ticks: 5, // ticks for y dial.
     tooltip(object) {
         return 'Info: ' + JSON.stringify(object);
     },

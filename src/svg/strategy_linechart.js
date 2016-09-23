@@ -43,7 +43,7 @@ class SvgLinechartStrategy extends SvgChart {
 
     this.axes.updateDomainByBBox(bbox);
 
-    //Create a transition effect for axis rescaling
+    //Create a transition effect for dial rescaling
     this.axes.transition(svg, 200);
 
     // Update legend

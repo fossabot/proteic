@@ -126,7 +126,7 @@ class SvgSwimlaneStrategy {
       .attr('class', 'mini');
     this._initialized = true;
 
-    // draw the x axis
+    // draw the x dial
     this.xDateAxis = d3.axisBottom(this.x)
       .ticks(d3.timeMonday, (this.x.domain()[1] - this.x.domain()[0]) > 15552e6 ? 2 : 1)
       .tickFormat(d3.timeFormat('%d'))
@@ -149,12 +149,12 @@ class SvgSwimlaneStrategy {
       .tickSize(15, 0, 0);
     this.main.append('g')
       .attr('transform', 'translate(0,' + this.mainHeight + ')')
-      .attr('class', 'main axis date')
+      .attr('class', 'main dial date')
       .call(this.x1DateAxis);
     
     this.main.append('g')
       .attr('transform', 'translate(0,0.5)')
-      .attr('class', 'main axis month')
+      .attr('class', 'main dial month')
       .call(this.x1MonthAxis)
       .selectAll('text')
       .attr('dx', 5)
@@ -162,12 +162,12 @@ class SvgSwimlaneStrategy {
 **/
     this.mini.append('g')
       .attr('transform', 'translate(0,' + this.miniHeight + ')')
-      .attr('class', 'axis date')
+      .attr('class', 'dial date')
       .call(this.xDateAxis);
 
     this.mini.append('g')
       .attr('transform', 'translate(0,0.5)')
-      .attr('class', 'axis month')
+      .attr('class', 'dial month')
       .call(this.xMonthAxis)
       .selectAll('text')
       .attr('dx', 5)

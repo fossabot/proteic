@@ -41,7 +41,7 @@ _default.Gauge = {
             'fill': '#666666'
         }
     },
-    ticks: 10, // ticks for y axis.
+    ticks: 10, // ticks for y dial.
     markers: {
         shape: 'circle',
         size: 5,

@@ -42,14 +42,14 @@ class SvgChart {
         //Append a new group with 'x' aXis
         this.svg
             .append('g')
-            .attr('class', 'x axis')
+            .attr('class', 'x dial')
             .attr('transform', 'translate(0,' + this.config.height + ')')
             .call(this.xAxis);
 
 
         this.svg
             .append('g')
-            .attr('class', 'y axis')
+            .attr('class', 'y dial')
             .attr('stroke-dasharray', '1, 2')
             .call(this.yAxis)
             .append('text');
@@ -58,7 +58,7 @@ class SvgChart {
         this.svg
             .append('text')
             .attr('text-anchor', 'middle')
-            .attr('class', 'x axis label')
+            .attr('class', 'x dial label')
             .attr('x', this.config.width / 2)
             .attr('y', this.config.height + this.config.margin.bottom)
             .text(this.xAxisLabel);
@@ -66,7 +66,7 @@ class SvgChart {
         this.svg
             .append('text')
             .attr('text-anchor', 'middle')
-            .attr('class', 'y axis label')
+            .attr('class', 'y dial label')
             .attr('transform', 'rotate(-90)')
             .attr('x', - this.config.height / 2)
             .attr('y', - this.config.margin.left / 1.3)
@@ -192,10 +192,10 @@ class SvgChart {
         }
     }
     _updateXaxis() {
-        this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
+        this.svg.select('.x.dial').transition().duration(this.transitionDuration).call(this.xAxis);
     }
     _updateYaxis() {
-        this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+        this.svg.select('.y.dial').transition().duration(this.transitionDuration).call(this.yAxis);
     }
     _updateAxis() {
         this._updateXaxis();

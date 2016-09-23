@@ -34,7 +34,7 @@ _default.Barchart = {
     },
     width: '100%', // %, auto, or numeric 
     height: 350,
-    ticks: 5, // ticks for y axis.
+    ticks: 5, // ticks for y dial.
     tooltip(data) { // Allows HTML
         return '<b>Eje x</b>: ' + data.x + '<br/>' +
             '<b>Eje y</b>: ' + data.y;

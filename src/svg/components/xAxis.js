@@ -32,7 +32,7 @@ class XAxis {
   }
 
   transition(svg, time = 200) {
-    svg.selectAll('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
+    svg.selectAll('.x.dial').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
   }
 
   xStyle() {
@@ -49,7 +49,7 @@ class XAxis {
   }
 
   /**
-   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
+   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.
    */
   updateDomainByBBox(b) {
     var x = this.xAxis.scale();
@@ -73,7 +73,7 @@ class XAxis {
 
     svg
       .append('g')
-      .attr('class', 'x axis')
+      .attr('class', 'x dial')
       .attr('transform', 'translate(0,' + config.height + ')')
       .call(xAxis)
       .append('text')

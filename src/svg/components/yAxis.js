@@ -24,7 +24,7 @@ class YAxis {
   }
 
   transition(svg, time = 200) {
-    svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
+    svg.selectAll('.y.dial').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
 
   }
 
@@ -40,7 +40,7 @@ class YAxis {
   }
 
   /**
-   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
+   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.
    */
   updateDomainByBBox(b) {
     var y = this.yAxis.scale();
@@ -56,7 +56,7 @@ class YAxis {
 
     svg
       .append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y dial')
       .attr('stroke-dasharray', '1, 5')
       .call(yAxis)
       .append('text')
