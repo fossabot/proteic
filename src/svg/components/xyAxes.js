@@ -29,6 +29,11 @@ class XYAxes {
     this.y.updateDomainByBBox(bbox);
   }
 
+  updateDomainByBBoxAndKeys(bbox, keys){
+    this.x.updateDomainByBBox(bbox);
+    this.y.updateDomainByKeys(keys);
+  }
+  
   render(svg, config) {
     this.x.render(svg, config);
     this.y.render(svg, config);

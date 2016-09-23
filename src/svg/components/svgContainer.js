@@ -3,6 +3,7 @@ class SvgContainer {
   constructor(config) {
     this._config = config;
     this.svg = this._initializeSvgContainer(config);
+    this.components = Array();
   }
 
   _initializeSvgContainer(config) {
@@ -25,8 +26,12 @@ class SvgContainer {
   }
 
 
-  add(component) {
-    component.render(this.svg, this._config);
+  add(component, render = true) {
+    this.components.push(component);
+    
+    if (render) {
+      component.render(this.svg, this._config);
+    }
     return this;
   }
 }
