@@ -30,6 +30,9 @@ _default.Swimlane = {
         },
         click(d, i) {
             console.log(d, i);
+        },
+        up () {
+            
         }
     },
 };
