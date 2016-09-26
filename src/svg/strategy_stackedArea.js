@@ -2,90 +2,55 @@ class SvgStackedAreaStrategy extends SvgChart {
 
     constructor(chartContext) {
         super(chartContext);
-        this.x = d3.scaleTime().range([0, this.config.width]);
+        var config = this.config;
 
-        this.y = d3.scaleLinear().range([this.config.height, 0]);
-        this.z = this.config.colorScale;
+        this.svgContainer = new SvgContainer(config);
+        this.axes = new XYAxes('time', 'linear', config);
 
-        this.xAxis = d3.axisBottom(this.x)
-            .ticks(d3.timeDay, 1)
-            .tickFormat(d3.timeFormat("%m/%d/%y"));
+        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);
 
-        this.yAxis = d3.axisLeft(this.y)
-            .tickSizeInner(-this.config.width)
-            .tickSizeOuter(0)
-            .tickPadding(20)
-            .ticks(this.config.ticks, this.config.tickLabel)
-            .tickFormat((d) => d);
+        this.legend = new Legend();
 
-        this.keys = null;
+        //Include components in the chart container
+        this.svgContainer
+            .add(this.axes)
+            .add(this.legend)
+            .add(this.streams);
     }
 
-	/**
-	 * Renders a barchart based on data object
-	 * @param  {Object} data Data Object. Contains an array with x and y properties.
-	 * 
-	 */
     draw(data) {
-        var stack = null;
+        var svg = this.svgContainer.svg
+            , config = this.config
+            , bbox = null
+            , keys = d3.map(data, (d) => d.key).keys()
+            , data4stack = utils.dataTransformation.simple2stacked(data)
+            , stack = d3.stack()
+                .keys(keys)
+                .value((d, k) => d.value[k])
+                .order(d3.stackOrderInsideOut)
+                .offset(d3.stackOffNone)
+            , dataSeries = stack(data4stack);
 
-        //Initialize data
-        if (!this._initialized) {
-            this._initialize();
-        }
+        bbox = this._getDomainBBox(data, dataSeries);
 
-        stack = d3.stack()
-            .keys(data.keys)
-            .order(d3.stackOrderAscending)
-            .offset(d3.stackOffsetNone);
+        this.axes.updateDomainByBBox(bbox);
+        this.axes.transition(svg, 200);
 
-        data.values.forEach((d) => {
-            d.date = d3.timeParse(this.xDateformat)(d.date);
-        });
+        // Update legend
+        this.legend.update(svg, config, data);
 
-        var dataSeries = stack(data.values);
-
-        console.log('dataSeries', dataSeries);
-
-        this.x.domain(d3.extent(data.values, (d) => d.date));
-        this.y.domain([0, d3.max(data.values, (d) => (d.total))]);
-
-        var self = this;
-
-        var area = d3.area()
-            .curve(d3.curveCardinal)
-            .x((d) => this.x(d.data.date))
-            .y0((d) => this.y(d[0]))
-            .y1((d) => this.y(d[1]))
-
-        var series = this.svg.selectAll('.series')
-            .data(dataSeries)
-            .enter()
-            .append('g')
-            .attr('class', 'series')
-            .style('stroke', (d, i) => this.config.colorScale(i));
-
-        series
-            .append('path')
-            .attr('class', 'layer')
-            .attr('d', area)
-            .style('fill', (d, i) => this.z(i));
-
-        series
-            .attr('opacity', 1)
-            .on('mousedown.user', this.config.events.down)
-            .on('mouseup.user', this.config.events.up)
-            .on('mouseleave.user', this.config.events.leave)
-            .on('mouseover.user', this.config.events.over)
-            .on('click.user', this.config.events.click);
-
-
-        this._updateAxis();
+        // Update streams
+        this.streams.update(svg, config, dataSeries);
     }
 
-    _initialize() {
-        super._initialize();
-        this._initialized = true;
+
+    _getDomainBBox(data, dataSeries) {
+        var minX = d3.min(data, (d) => new Date(d.x))
+            , maxX = d3.max(data, (d) => new Date(d.x))
+            , minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0]))
+            , maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));
+
+        return [minX, maxX, minY, maxY];
     }
 
 	/**
@@ -98,7 +63,7 @@ class SvgStackedAreaStrategy extends SvgChart {
             config.events = {};
         }
         super._loadConfigOnContext(config);
-        this.colorScale = config.colorScale || _default.StackedArea.colorScale;
-        this.xDateformat = config.xDateFormat || _default.StackedArea.xDateFormat;
+        this.config.colorScale = config.colorScale || _default.Streamgraph.colorScale;
+        this.config.xDateformat = config.xDateFormat || _default.Streamgraph.xDateFormat;
     }
 }
