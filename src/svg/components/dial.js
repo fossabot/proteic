@@ -64,10 +64,7 @@ class Dial { // TODO tidy
     // Apend the scale labels
     labels = svg.append('g')
       .attr('class', 'labels')
-      .attr('transform', this.translation)
-      .style('font', 'sans-serif')
-      .style('font-size', '18px')
-      .style('text-anchor', 'middle');
+      .attr('transform', this.translation);
 
     // // Append scale marker labels
     labels.selectAll('text')
@@ -78,6 +75,9 @@ class Dial { // TODO tidy
         var newAngle = config.minAngle + (ratio * this.range);
         return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - this.r) + ')';
       })
-      .text((d) => d);
+      .text((d) => d)
+      .style('text-anchor', 'middle')
+      .style('font-family', 'sans-serif')
+      .style('font-size', '18px');
   }
 }

@@ -29,7 +29,7 @@ class NumericIndicator { // TODO tidy
       .attr('x', 0)
       .attr('y', 100)
       .text('0')
-      .style('font', 'sans-serif')
+      .style('font-family', 'sans-serif')
       .style('font-size', '48px')
       .style('text-anchor', 'middle');
   }
