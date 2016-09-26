@@ -58,7 +58,7 @@ describe('Sunburst', () => {
   });
 
   describe('chart functions ', () => {
-    it('toPNG()', (done) => {
+    it.skip('toPNG()', (done) => {
       // TODO
       var data = {
         "name": "sequences",

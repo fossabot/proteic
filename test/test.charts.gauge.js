@@ -15,14 +15,13 @@ describe('SvgGaugeStrategy', () => {
   describe('_loadConfigOnContext(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 86 }];
-      var width = 250;
-      var height = 100;
-      var margin = { left: 0, right: 0, top: 0, bottom: 0 };
-      var config = { width, height, margin };
+      var minLevel = 15;
+      var maxLevel = 103;
+      var config = { minLevel, maxLevel };
       var svg = new SvgGaugeStrategy({ data, config, cType: 'Gauge' });
-      var result = svg._loadConfigOnContext(config);
-      result.should.have.property('width').equals(width);
-      result.should.have.property('height').equals(height);
+      var resultConfig = svg._loadConfigOnContext(config).config;
+      resultConfig.should.have.property('minLevel').equals(minLevel);
+      resultConfig.should.have.property('maxLevel').equals(maxLevel);
     });
   });
 });

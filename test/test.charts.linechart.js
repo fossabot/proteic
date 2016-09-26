@@ -15,14 +15,11 @@ describe('SvgLinechartStrategy', () => {
   describe('_loadConfigOnContext(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
-      var width = 250;
-      var height = 100;
-      var margin = { left: 0, right: 0, top: 0, bottom: 0 };
-      var config = { width, height, margin };
+      var ticks = 25;
+      var config = { ticks };
       var svg = new SvgLinechartStrategy({ data, config, cType: 'Linechart' });
-      var result = svg._loadConfigOnContext(config);
-      result.should.have.property('width').equals(width);
-      result.should.have.property('height').equals(height);
+      var resultConfig = svg._loadConfigOnContext(config).config;
+      resultConfig.should.have.property('ticks').equals(ticks);
     });
   });
 });
@@ -100,7 +97,7 @@ describe('Linechart', () => {
   });
 
   describe('chart functions', () => {
-    it('toPNG()', (done) => {
+    it.skip('toPNG()', (done) => {
       var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
       var chart = new Linechart(data);
       chart.draw();

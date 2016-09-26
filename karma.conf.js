@@ -17,10 +17,11 @@ module.exports =  (config) => {
     // If multiple patterns match the same file, it's included as if it only matched the first pattern.
     files: [
       'node_modules/d3/build/d3.min.js',
+      'src/utils/functions.js',
       'src/utils/**/*.js',
       'src/datasources/*.js',
       'src/svg/svg.js',
-      'src/svg/*.js',
+      'src/svg/**/*.js',
       'src/charts/base/Chart.js',
       'src/charts/base/Temporal.js',
       'src/charts/base/Flow.js',
