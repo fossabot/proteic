@@ -4,7 +4,7 @@
  * Streamgraph implementation. This charts belongs to 'Flow' family.
  * It is inherited on 'Flow'.
  */
-class Streamgraph extends Flow {
+class Streamgraph extends Chart {
 
   /**
    * Streamgraph constructor. It needs (at least) one argument to start: data.

@@ -596,13 +596,13 @@ _default.Barchart = {
     colorScale: Colors.category7(),
     margin: {
         top: 20,
-        right: 20,
+        right: 250,
         bottom: 30,
         left: 50
     },
     width: '100%', // %, auto, or numeric 
     height: 350,
-    ticks: 5, // ticks for y axis.
+    ticks: 5, // ticks for y dial.
     tooltip: function tooltip(data) {
         // Allows HTML
         return '<b>Eje x</b>: ' + data.x + '<br/>' + '<b>Eje y</b>: ' + data.y;
@@ -676,7 +676,7 @@ _default.Gauge = {
             'fill': '#666666'
         }
     },
-    ticks: 10, // ticks for y axis.
+    ticks: 10, // ticks for y dial.
     markers: {
         shape: 'circle',
         size: 5,
@@ -729,7 +729,7 @@ _default.Linechart = {
     areaOpacity: 0.4,
     margin: {
         top: 20,
-        right: 20,
+        right: 250,
         bottom: 30,
         left: 50
     },
@@ -829,7 +829,7 @@ _default.StackedArea = {
     },
     width: '100%', // %, auto, or numeric 
     height: 300,
-    ticks: 5, // ticks for y axis.
+    ticks: 5, // ticks for y dial.
     tooltip: function tooltip(object) {
         return 'Info: ' + JSON.stringify(object);
     },
@@ -889,13 +889,13 @@ _default.Streamgraph = {
     },
     margin: {
         top: 20,
-        right: 20,
+        right: 250,
         bottom: 30,
         left: 50
     },
     width: '100%', // %, auto, or numeric 
     height: 300,
-    ticks: 5, // ticks for y axis.
+    ticks: 5, // ticks for y dial.
     tooltip: function tooltip(object) {
         return 'Info: ' + JSON.stringify(object);
     },
@@ -993,20 +993,30 @@ var _default = _default || {};
 
 _default.Swimlane = {
     selector: '#chart',
+    colorScale: Colors.category3(),
+
     margin: {
         top: 20,
-        right: 20,
+        right: 100,
         bottom: 30,
-        left: 50
+        left: 100
     },
     width: '99%', // %, auto, or numeric
     height: 550,
     events: {
-        down: function down() {},
-        over: function over() {},
-        up: function up() {},
-        click: function click() {},
-        leave: function leave() {}
+        down: function down() {
+            d3.select(this).classed('hover', false);
+        },
+        over: function over() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 0.4);
+        },
+        leave: function leave() {
+            d3.select(this).transition().duration(150).attr('fill-opacity', 1);
+        },
+        click: function click(d, i) {
+            console.log(d, i);
+        },
+        up: function up() {}
     }
 };
 "use strict";
@@ -1246,14 +1256,14 @@ var SvgChart = function () {
             this.svg = d3.select(this.config.selector).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
 
             //Append a new group with 'x' aXis
-            this.svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + this.config.height + ')').call(this.xAxis);
+            this.svg.append('g').attr('class', 'x dial').attr('transform', 'translate(0,' + this.config.height + ')').call(this.xAxis);
 
-            this.svg.append('g').attr('class', 'y axis').attr('stroke-dasharray', '1, 2').call(this.yAxis).append('text');
+            this.svg.append('g').attr('class', 'y dial').attr('stroke-dasharray', '1, 2').call(this.yAxis).append('text');
 
             // Append axes labels
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'x axis label').attr('x', this.config.width / 2).attr('y', this.config.height + this.config.margin.bottom).text(this.xAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'x dial label').attr('x', this.config.width / 2).attr('y', this.config.height + this.config.margin.bottom).text(this.xAxisLabel);
 
-            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'y axis label').attr('transform', 'rotate(-90)').attr('x', -this.config.height / 2).attr('y', -this.config.margin.left / 1.3).text(this.yAxisLabel);
+            this.svg.append('text').attr('text-anchor', 'middle').attr('class', 'y dial label').attr('transform', 'rotate(-90)').attr('x', -this.config.height / 2).attr('y', -this.config.margin.left / 1.3).text(this.yAxisLabel);
         }
     }, {
         key: '_applyCSS',
@@ -1326,7 +1336,6 @@ var SvgChart = function () {
             this.config.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
             this.config.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
             this.config.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
-            //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
             this.config.tip = config.tooltip || _default[this.cType].tooltip;
             this.config.events = {};
             this.config.events.down = config.events.down || _default[this.cType].events.down;
@@ -1367,12 +1376,12 @@ var SvgChart = function () {
     }, {
         key: '_updateXaxis',
         value: function _updateXaxis() {
-            this.svg.select('.x.axis').transition().duration(this.transitionDuration).call(this.xAxis);
+            this.svg.select('.x.dial').transition().duration(this.transitionDuration).call(this.xAxis);
         }
     }, {
         key: '_updateYaxis',
         value: function _updateYaxis() {
-            this.svg.select('.y.axis').transition().duration(this.transitionDuration).call(this.yAxis);
+            this.svg.select('.y.dial').transition().duration(this.transitionDuration).call(this.yAxis);
         }
     }, {
         key: '_updateAxis',
@@ -1408,9 +1417,11 @@ var SvgBarchartStrategy = function (_SvgChart) {
 
     _this.svgContainer = new SvgContainer(config);
     _this.axes = new XYAxes('categorical', 'linear', config);
-    _this.bars = new Barset(_this.axes.xAxis, _this.axes.yAxis);
+    _this.bars = new Barset(_this.axes.x.xAxis, _this.axes.y.yAxis);
 
-    _this.svgContainer.add(_this.axes).add(_this.bars, [new Tooltip()]);
+    _this.legend = new Legend();
+
+    _this.svgContainer.add(_this.axes).add(_this.bars).add(_this.legend);
 
     return _this;
   }
@@ -1425,49 +1436,42 @@ var SvgBarchartStrategy = function (_SvgChart) {
   _createClass(SvgBarchartStrategy, [{
     key: 'draw',
     value: function draw(data) {
-      data = data || this.data;
       var svg = this.svgContainer.svg,
           config = this.config,
+          keys = d3.map(data, function (d) {
+        return d.key;
+      }).keys(),
+          data4stack = utils.dataTransformation.simple2stacked(data),
+          data4render = null,
           isStacked = this.config.stacked,
-          keys = this._getDataKeys(data),
+          stack = d3.stack().keys(keys).value(function (d, k) {
+        return d.value[k];
+      }).order(d3.stackOrderNone),
           yMin = 0,
           yMax = 0,
-          method = isStacked ? 'stacked' : 'grouped';
+          method = isStacked ? 'stacked' : 'grouped',
+          dataSeries = stack(data4stack);
 
-      yMax = isStacked ? d3.max(data, function (d) {
-        return d.total;
-      }) : this._calculateMaxGrouped(data);
+      yMax = isStacked ? d3.max(dataSeries, function (serie) {
+        return d3.max(serie, function (d) {
+          return d[1];
+        });
+      }) : d3.max(data, function (d) {
+        return d.y;
+      });
 
-      this.axes.updateDomainByKeysAndBBox(keys, [yMin, yMax]);
-
+      this.axes.updateDomainByKeysAndBBox(d3.map(data, function (d) {
+        return d.x;
+      }).keys(), [yMin, yMax]);
       this.axes.transition(svg, 200);
 
-      this.bars.update(svg, config, data, method);
+      data4render = isStacked ? dataSeries : data;
+
+      this.bars.update(svg, config, data4render, method);
+
+      this.legend.update(svg, config, data);
 
       this.data = data; // TODO: ? 
-    }
-  }, {
-    key: '_calculateMaxGrouped',
-    value: function _calculateMaxGrouped(data) {
-      var max = -99999999;
-      for (var i in data) {
-        var object = data[i];
-        var keys = Object.keys(object);
-        for (var k in keys) {
-          var key = keys[k];
-          if (key !== 'total' && key !== 'key' && object[key] > max) {
-            max = object[key];
-          }
-        }
-      }
-      return max;
-    }
-  }, {
-    key: '_getDataKeys',
-    value: function _getDataKeys(data) {
-      return data.map(function (d) {
-        return d.key;
-      });
     }
   }, {
     key: 'transition2Stacked',
@@ -1526,10 +1530,22 @@ var SvgLinechartStrategy = function (_SvgChart) {
 
     _this.svgContainer = new SvgContainer(config);
     _this.axes = new XYAxes(xDataType, 'linear', config);
-    _this.lines = new Lineset(_this.axes.xAxis, _this.axes.yAxis);
+
+    _this.lines = new Lineset(_this.axes.x, _this.axes.y);
+    _this.legend = new Legend();
 
     //Include components in the chart container
-    _this.svgContainer.add(_this.axes).add(_this.lines);
+    _this.svgContainer.add(_this.axes).add(_this.legend).add(_this.lines);
+
+    if (config.area) {
+      _this.areas = new Areaset(_this.axes.x, _this.axes.y);
+      _this.svgContainer.add(_this.areas);
+    }
+
+    if (config.markers) {
+      _this.points = new Pointset(_this.axes.x, _this.axes.y);
+      _this.svgContainer.add(_this.points);
+    }
     return _this;
   }
 
@@ -1545,47 +1561,32 @@ var SvgLinechartStrategy = function (_SvgChart) {
     value: function draw(data) {
       var svg = this.svgContainer.svg,
           config = this.config,
-          xDataFormat = config.x.type,
-          yDataFormat = 'linear',
           bbox = null;
 
-      this._parseData(data, xDataFormat, yDataFormat, config);
+      //    this._parseData(data, xDataFormat, yDataFormat, config);
 
       bbox = this._getDomainBBox(data);
 
       this.axes.updateDomainByBBox(bbox);
 
-      //Create a transition effect for axis rescaling
+      //Create a transition effect for dial rescaling
       this.axes.transition(svg, 200);
+
+      // Update legend
+      this.legend.update(svg, config, data);
 
       //Now update lines
       this.lines.update(svg, config, data);
-    }
-    //TODO: move this function to a utility class? It is used in many charts
 
-  }, {
-    key: '_parseData',
-    value: function _parseData(data, xDataFormat, yDataFormat, config) {
-      data.forEach(function (d) {
-        //parse x coordinate
-        switch (xDataFormat) {
-          case 'time':
-            d.x = d3.timeParse(config.x.format)(d.x);
-            break;
-          case 'linear':
-            d.x = +d.x;
-            break;
-        }
-        //parse x coordinate
-        switch (yDataFormat) {
-          case 'time':
-            d.y = d3.timeFormat;
-            break;
-          case 'linear':
-            d.y = +d.y;
-            break;
-        }
-      });
+      if (config.area) {
+        // Update areas
+        this.areas.update(svg, config, data);
+      }
+
+      if (config.markers) {
+        // Update points
+        this.points.update(svg, config, data);
+      }
     }
   }, {
     key: '_getDomainBBox',
@@ -1654,90 +1655,71 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
 
         var _this = _possibleConstructorReturn(this, (SvgStreamgraphStrategy.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy)).call(this, chartContext));
 
-        _this.x = d3.scaleTime().range([0, _this.config.width]);
+        var config = _this.config;
 
-        _this.y = d3.scaleLinear().range([_this.config.height - 10, 0]);
-        _this.z = _this.config.colorScale;
+        _this.svgContainer = new SvgContainer(config);
+        _this.x = new XAxis('time', config);
+        _this.y = new YAxis('linear', config);
 
-        _this.xAxis = d3.axisBottom(_this.x).ticks(d3.timeDay, 1).tickFormat(d3.timeFormat("%m/%d/%y"));
+        _this.streams = new Streamset(_this.x.xAxis, _this.y.yAxis);
 
-        _this.yAxis = d3.axisLeft(_this.y).tickSizeInner(-_this.config.width).tickSizeOuter(0).tickPadding(20).ticks(_this.config.ticks, _this.config.tickLabel).tickFormat(function (d) {
-            return d;
-        });
+        _this.legend = new Legend();
 
-        _this.keys = null;
+        //Include components in the chart container
+        _this.svgContainer.add(_this.x).add(_this.y, false) //No render y Axis
+        .add(_this.legend).add(_this.streams);
         return _this;
     }
-
-    /**
-     * Renders a barchart based on data object
-     * @param  {Object} data Data Object. Contains an array with x and y properties.
-     * 
-     */
-
 
     _createClass(SvgStreamgraphStrategy, [{
         key: 'draw',
         value: function draw(data) {
-            var _this2 = this;
+            var svg = this.svgContainer.svg,
+                config = this.config,
+                bbox = null,
+                keys = d3.map(data, function (d) {
+                return d.key;
+            }).keys(),
+                data4stack = utils.dataTransformation.simple2stacked(data),
+                stack = d3.stack().keys(keys).value(function (d, k) {
+                return d.value[k];
+            }).order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle),
+                dataSeries = stack(data4stack);
 
-            var stack = null;
+            bbox = this._getDomainBBox(data, dataSeries);
 
-            //Initialize data
-            if (!this._initialized) {
-                this._initialize();
-            }
+            this.x.updateDomainByBBox([bbox[0], bbox[1]]);
+            this.y.updateDomainByBBox([bbox[2], bbox[3]]);
+            this.x.transition(svg, 200);
+            this.y.transition(svg, 200);
 
-            stack = d3.stack().keys(data.keys).order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle);
+            // Update legend
+            this.legend.update(svg, config, data);
 
-            data.values.forEach(function (d) {
-                d.date = d3.timeParse(_this2.xDateformat)(d.date);
-            });
-
-            var dataSeries = stack(data.values);
-
-            this.x.domain(d3.extent(data.values, function (d) {
-                return d.date;
-            }));
-            window.a = dataSeries;
-
-            this.y.domain([d3.min(a, function (serie) {
+            // Update streams
+            this.streams.update(svg, config, dataSeries);
+        }
+    }, {
+        key: '_getDomainBBox',
+        value: function _getDomainBBox(data, dataSeries) {
+            var minX = d3.min(data, function (d) {
+                return d.x;
+            }),
+                maxX = d3.max(data, function (d) {
+                return d.x;
+            }),
+                minY = d3.min(dataSeries, function (serie) {
                 return d3.min(serie, function (d) {
                     return d[0];
                 });
-            }), d3.max(a, function (serie) {
+            }),
+                maxY = d3.max(dataSeries, function (serie) {
                 return d3.max(serie, function (d) {
                     return d[1];
                 });
-            })]);
-
-            var self = this;
-
-            var area = d3.area().curve(d3.curveCardinal).x(function (d) {
-                return _this2.x(d.data.date);
-            }).y0(function (d) {
-                return _this2.y(d[0]);
-            }).y1(function (d) {
-                return _this2.y(d[1]);
             });
 
-            var series = this.svg.selectAll('.series').data(dataSeries).enter().append('g').attr('class', 'series').style('stroke', function (d, i) {
-                return _this2.config.colorScale(i);
-            });
-
-            series.append('path').attr('class', 'layer').attr('d', area).style('fill', function (d, i) {
-                return _this2.z(i);
-            });
-
-            series.attr('opacity', 1).on('mousedown.user', this.config.events.down).on('mouseup.user', this.config.events.up).on('mouseleave.user', this.config.events.leave).on('mouseover.user', this.config.events.over).on('click.user', this.config.events.click);
-
-            this._updateAxis();
-        }
-    }, {
-        key: '_initialize',
-        value: function _initialize() {
-            _get(SvgStreamgraphStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_initialize', this).call(this);
-            this._initialized = true;
+            return [minX, maxX, minY, maxY];
         }
 
         /**
@@ -1753,8 +1735,8 @@ var SvgStreamgraphStrategy = function (_SvgChart) {
                 config.events = {};
             }
             _get(SvgStreamgraphStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgStreamgraphStrategy.prototype), '_loadConfigOnContext', this).call(this, config);
-            this.colorScale = config.colorScale || _default.StackedArea.colorScale;
-            this.xDateformat = config.xDateFormat || _default.StackedArea.xDateFormat;
+            this.config.colorScale = config.colorScale || _default.Streamgraph.colorScale;
+            this.config.xDateformat = config.xDateFormat || _default.Streamgraph.xDateFormat;
         }
     }]);
 
@@ -1778,133 +1760,40 @@ var SvgGaugeStrategy = function (_SvgChart) {
   function SvgGaugeStrategy(chartContext) {
     _classCallCheck(this, SvgGaugeStrategy);
 
-    //Create scale
     var _this = _possibleConstructorReturn(this, (SvgGaugeStrategy.__proto__ || Object.getPrototypeOf(SvgGaugeStrategy)).call(this, chartContext));
 
-    _this.scale = d3.scaleLinear().domain([_this.config.minLevel, _this.config.maxLevel]).range([0, 1]);
+    var config = _this.config;
 
-    _this.angleScale = d3.scaleLinear().domain([_this.config.minLevel, _this.config.maxLevel]).range([90 + _this.config.minAngle, 90 + _this.config.maxAngle]);
+    _this.svgContainer = new SvgContainer(config);
+    _this.dial = new Dial('linear', config);
+    _this.needle = new DialNeedle('linear', config);
 
-    _this.config.colorScale.domain([0, 1]);
+    _this.svgContainer.add(_this.dial).add(_this.needle);
 
-    _this.scaleMarks = _this.scale.ticks(_this.config.ticks);
-    _this.tickData = d3.range(_this.config.ticks).map(function () {
-      return 1 / _this.config.ticks;
-    });
-
-    _this.keyFunction = function (d) {
-      return d.x;
-    };
-    _this.translation = function () {
-      return 'translate(' + _this.r + ',' + _this.r + ')';
-    };
-
+    if (config.numericIndicator) {
+      _this.numericIndicator = new NumericIndicator(config);
+      _this.svgContainer.add(_this.numericIndicator);
+    }
     return _this;
   }
 
   /**
    * Renders a gauge chart based on data object
    * @param  {Object} data Data Object. Contains a numeric value.
-   * 
+   *
    */
 
 
   _createClass(SvgGaugeStrategy, [{
     key: 'draw',
     value: function draw(data) {
-      var _this2 = this;
+      var svg = this.svgContainer.svg,
+          config = this.config;
 
-      var needleLen = null;
-
-      _get(SvgGaugeStrategy.prototype.__proto__ || Object.getPrototypeOf(SvgGaugeStrategy.prototype), 'draw', this).call(this, data);
-      this.datum = data[data.length - 1];
-      needleLen = this.config.needleLenghtRatio * this.r;
-
-      console.log(this.config.needleNutRadius, needleLen, this.config.needleLenghtRatio, this.r);
-      // Append the needle
-      if (!this.needle) {
-        this.needle = this.svg.append('path').attr('class', 'needle').datum(this.datum.x).attr('transform', function (d) {
-          return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(d) - 90) + ')';
-        }).attr('d', 'M ' + (0 - this.config.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.config.needleNutRadius + ' ' + 0);
+      this.needle.update(svg, config, data);
+      if (config.numericIndicator) {
+        this.numericIndicator.update(svg, config, data);
       }
-
-      this.needle.transition().attr('transform', function (d) {
-        return 'translate(' + _this2.r + ', ' + _this2.r + ') rotate(' + (_this2.angleScale(_this2.datum.x) - 90) + ')';
-      }).attr('d', 'M ' + (0 - this.config.needleNutRadius) + ' ' + 0 + ' L ' + 0 + ' ' + (0 - needleLen) + ' L ' + this.config.needleNutRadius + ' ' + 0);
-
-      this.svg.select('.text-indicator').text(this.datum.x);
-
-      this._applyCSS();
-    }
-  }, {
-    key: '_initialize',
-    value: function _initialize() {
-      var _this3 = this;
-
-      var width = this.config.width + this.config.margin.left + this.config.margin.right;
-      var height = this.config.height + this.config.margin.top + this.config.margin.bottom;
-      var labels = null;
-      var arcs = null;
-
-      //Create a global 'g' (group) element
-      this.svg = d3.select(this.config.selector).append('svg').attr('width', this.config.width).attr('height', this.config.height).append('g').attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')');
-
-      this.range = this.config.maxAngle - this.config.minAngle;
-      this.r = (this.config.width > this.config.height ? this.config.height : this.config.width) / 2;
-      this.needleLength = Math.round(this.r * this.needleLenghtRatio);
-
-      this.arc = d3.arc().innerRadius(this.r - this.config.ringWidth - this.config.ringMargin).outerRadius(this.r - this.config.ringMargin).startAngle(function (d, i) {
-        var ratio = d * i;
-        return utils.deg2rad(_this3.config.minAngle + ratio * _this3.range);
-      }).endAngle(function (d, i) {
-        var ratio = d * (i + 1);
-        return utils.deg2rad(_this3.config.minAngle + ratio * _this3.range);
-      });
-
-      // Append the ring
-      arcs = this.svg.append('g').attr('class', 'arc').attr('transform', this.translation);
-
-      // Append the ring sectors
-      var arcPaths = arcs.selectAll('path').data(this.tickData).enter().append('path')
-      // ID for textPath linking
-      .attr('id', function (d, i) {
-        return 'sector-' + i;
-      }).attr('d', this.arc);
-
-      // Fill colors
-      if (this.config.invertColorScale) {
-        arcPaths.attr('fill', function (d, i) {
-          return _this3.config.colorScale(1 - d * i);
-        });
-      } else {
-        arcPaths.attr('fill', function (d, i) {
-          return _this3.config.colorScale(d * i);
-        });
-      }
-
-      // Apend the scale labels
-      labels = this.svg.append('g').attr('class', 'labels').attr('transform', this.translation);
-
-      // Append scale marker labels
-      labels.selectAll('text').data(this.scaleMarks).enter().append('text').attr('transform', function (d) {
-        var ratio = _this3.scale(d);
-        var newAngle = _this3.config.minAngle + ratio * _this3.range;
-        return 'rotate(' + newAngle + ') translate(0,' + (_this3.config.labelInset - _this3.r) + ')';
-      }).text(function (d) {
-        return d;
-      });
-
-      // Append needle nut
-      this.svg.append('circle').attr('class', 'needle').attr('transform', this.translation).attr('cx', 0).attr('cy', 0).attr('r', this.config.needleNutRadius);
-
-      this.svg.append('g').attr('class', 'needle');
-
-      if (this.config.numericIndicator) {
-        this.svg.append('text').attr('class', 'text-indicator').attr('transform', this.translation).attr('x', 0).attr('y', 100).text('0');
-      }
-
-      //Initialize SVG
-      this._initialized = true;
     }
 
     /**
@@ -2181,12 +2070,37 @@ var Chart = function () {
         this._initializeSVGContext();
     }
 
-    /**
-     * Returns the chart context: data, configuration and chart type.
-     */
-
-
     _createClass(Chart, [{
+        key: '_parseData',
+        value: function _parseData(data, xDataFormat, yDataFormat, config) {
+            data.forEach(function (d) {
+                //parse x coordinate
+                switch (xDataFormat) {
+                    case 'time':
+                        d.x = d3.timeParse(config.x.format)(d.x);
+                        break;
+                    case 'linear':
+                        d.x = +d.x;
+                        break;
+                }
+                //parse x coordinate
+                switch (yDataFormat) {
+                    case 'time':
+                        d.y = d3.timeFormat;
+                        break;
+                    case 'linear':
+                        d.y = +d.y;
+                        break;
+                }
+            });
+            return data;
+        }
+
+        /**
+         * Returns the chart context: data, configuration and chart type.
+         */
+
+    }, {
         key: '_getChartContext',
         value: function _getChartContext() {
             return {
@@ -2218,23 +2132,27 @@ var Chart = function () {
 
             var config = this.config,
                 sort = config.sort,
+                xDataFormat = config.x.type,
+                yDataFormat = 'linear',
                 p = null,
-                desc = null;
+                desc = null,
+                parsedData = null;
+
+            parsedData = this._parseData(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
 
             if (sort) {
                 p = config.sort.field;
                 desc = config.sort.desc;
-                data.sort(function (e1, e2) {
+                parsedData.sort(function (e1, e2) {
                     var a = e1[p];
                     var b = e2[p];
                     return a < b ? -1 : a > b ? 1 : 0;
                 });
             }
-            if (!utils.isArray(data) && !utils.isObject(data)) {
-                throw new TypeError('draw method is only allowed with static data.');
-            }
-            data = JSON.parse(JSON.stringify(data));
-            this._svg.draw(data);
+            // if (!utils.isArray(parsedDatadata) && !utils.isObject(parsedData)) {
+            //    throw new TypeError('draw method is only allowed with static data.');
+            //}
+            this._svg.draw(parsedData);
         }
 
         /**
@@ -2245,7 +2163,7 @@ var Chart = function () {
     }, {
         key: 'toPNG',
         value: function toPNG(cb) {
-            utils.svgAsDataUri(d3.select(this.config.selector + ' svg')[0][0], {}, function (uri, err) {
+            utils.svgAsDataUri(d3.select(this.config.selector + ' svg')._groups[0][0], {}, function (uri, err) {
                 if (err) {
                     throw Error('Error converting to image ' + err);
                 } else {
@@ -2322,176 +2240,6 @@ var Chart = function () {
 'use strict';
 
 /**
- * Basic chart. This class in inherited in all basic charts implementatios.
- * This is a non-instanciable chart. Instanciable charts are: bar, line, point.
- */
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Basic = function (_Chart) {
-  _inherits(Basic, _Chart);
-
-  function Basic(data, config) {
-    _classCallCheck(this, Basic);
-
-    return _possibleConstructorReturn(this, (Basic.__proto__ || Object.getPrototypeOf(Basic)).call(this, data, config));
-  }
-
-  _createClass(Basic, [{
-    key: 'keepDrawing',
-    value: function keepDrawing(datum, mode) {
-      var config = this.config;
-      var maxNumberOfElements = config.maxNumberOfElements;
-      var d = null;
-
-      if (!datum) {
-        console.warn('attemp to draw null datum');
-        return;
-      }
-
-      for (var i in datum) {
-        d = datum[i];
-
-        //Find serie or initialize this.
-        var serie = utils.findElement(this.data, 'key', d.key);
-        if (!serie || !serie.values) {
-          serie = {
-            key: d.key,
-            values: []
-          };
-          this.data.push(serie);
-        }
-
-        this._addByMode(serie, d, mode);
-      }
-
-      //Loop series and check the maxNumberOfElements
-      for (var _i in this.data) {
-        var _serie = this.data[_i];
-        while (_serie.values.length > maxNumberOfElements) {
-          _serie.values.splice(0, 1);
-        }
-      }
-
-      this.draw(this.data);
-    }
-
-    /**
-     * Add data to a serie depending on its mode (add or replace)
-     */
-
-  }, {
-    key: '_addByMode',
-    value: function _addByMode(serie, d, mode) {
-      if (mode === 'add') {
-        serie.values = serie.values.concat(d.values);
-      } else if (mode === 'replace') {
-        serie.values = d.values;
-      } else {
-        throw Error('Unknow keepDrawing mode:  ' + mode);
-      }
-    }
-  }]);
-
-  return Basic;
-}(Chart);
-'use strict';
-
-/**
- * Flow chart. This class in inherited in all basic charts implementatios.
- * This is a non-instanciable chart. Instanciable charts are: stremgraph and so on.
- */
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Flow = function (_Chart) {
-    _inherits(Flow, _Chart);
-
-    function Flow(data, config) {
-        _classCallCheck(this, Flow);
-
-        return _possibleConstructorReturn(this, (Flow.__proto__ || Object.getPrototypeOf(Flow)).call(this, data, config));
-    }
-
-    _createClass(Flow, [{
-        key: 'draw',
-        value: function draw(data) {
-            //hack to clone object. It is because flow chart (like streamgraph) modify the original dataset to create itself. 
-            //It could be a problem in streaming scenario, where data is concatenated with new data. We need to keep the original dataset.
-            data = JSON.parse(JSON.stringify(data));
-            _get(Flow.prototype.__proto__ || Object.getPrototypeOf(Flow.prototype), 'draw', this).call(this, data);
-        }
-    }]);
-
-    return Flow;
-}(Chart);
-'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Temporal = function (_Chart) {
-  _inherits(Temporal, _Chart);
-
-  function Temporal() {
-    _classCallCheck(this, Temporal);
-
-    return _possibleConstructorReturn(this, (Temporal.__proto__ || Object.getPrototypeOf(Temporal)).apply(this, arguments));
-  }
-
-  return Temporal;
-}(Chart);
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Hierarchical = function (_Chart) {
-    _inherits(Hierarchical, _Chart);
-
-    function Hierarchical(data, config) {
-        _classCallCheck(this, Hierarchical);
-
-        return _possibleConstructorReturn(this, (Hierarchical.__proto__ || Object.getPrototypeOf(Hierarchical)).call(this, data, config));
-    }
-
-    _createClass(Hierarchical, [{
-        key: 'draw',
-        value: function draw() {
-            var data = arguments.length <= 0 || arguments[0] === undefined ? this.data : arguments[0];
-
-            data = JSON.parse(JSON.stringify(data));
-            this._svg.draw(data);
-        }
-    }]);
-
-    return Hierarchical;
-}(Chart);
-'use strict';
-
-/**
  * Barchart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
@@ -2506,8 +2254,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Barchart = function (_Basic) {
-  _inherits(Barchart, _Basic);
+var Barchart = function (_Chart) {
+  _inherits(Barchart, _Chart);
 
   /**
    * Barchart constructor. It needs (at least) one argument to start: data.
@@ -2567,7 +2315,7 @@ var Barchart = function (_Basic) {
   }]);
 
   return Barchart;
-}(Basic);
+}(Chart);
 'use strict';
 
 /**
@@ -2585,8 +2333,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Linechart = function (_Basic) {
-  _inherits(Linechart, _Basic);
+var Linechart = function (_Chart) {
+  _inherits(Linechart, _Chart);
 
   /**
    * Linechart constructor. It needs (at least) one argument to start: data.
@@ -2627,7 +2375,7 @@ var Linechart = function (_Basic) {
   }]);
 
   return Linechart;
-}(Basic);
+}(Chart);
 'use strict';
 
 /**
@@ -2645,8 +2393,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Streamgraph = function (_Flow) {
-  _inherits(Streamgraph, _Flow);
+var Streamgraph = function (_Chart) {
+  _inherits(Streamgraph, _Chart);
 
   /**
    * Streamgraph constructor. It needs (at least) one argument to start: data.
@@ -2691,7 +2439,7 @@ var Streamgraph = function (_Flow) {
   }]);
 
   return Streamgraph;
-}(Flow);
+}(Chart);
 'use strict';
 
 /**
@@ -2709,8 +2457,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Gauge = function (_Basic) {
-  _inherits(Gauge, _Basic);
+var Gauge = function (_Chart) {
+  _inherits(Gauge, _Chart);
 
   /**
    * Gauge constructor. It needs (at least) one argument to start: data.
@@ -2752,7 +2500,7 @@ var Gauge = function (_Basic) {
   }]);
 
   return Gauge;
-}(Basic);
+}(Chart);
 'use strict';
 
 /**
@@ -2768,8 +2516,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Sunburst = function (_Hierarchical) {
-  _inherits(Sunburst, _Hierarchical);
+var Sunburst = function (_Chart) {
+  _inherits(Sunburst, _Chart);
 
   /**
    * Sunburst constructor. It needs (at least) one argument to start: data.
@@ -2863,7 +2611,7 @@ var Sunburst = function (_Hierarchical) {
   }]);
 
   return Sunburst;
-}(Hierarchical);
+}(Chart);
 'use strict';
 
 (function () {

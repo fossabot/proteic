@@ -4,7 +4,7 @@
  * Barchart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Barchart extends Basic {
+class Barchart extends Chart {
 
   /**
    * Barchart constructor. It needs (at least) one argument to start: data.

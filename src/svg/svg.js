@@ -146,7 +146,6 @@ class SvgChart {
         this.config.yticks = config.yaxis.ticks || _default[this.cType].yaxis.ticks;
         this.config.tickLabel = config.tickLabel || _default[this.cType].tickLabel;
         this.config.transitionDuration = config.transitionDuration || _default[this.cType].transitionDuration;
-        //this.tooltip is d3-tip, so that renaming this bar to 'tip' is required
         this.config.tip = config.tooltip || _default[this.cType].tooltip;
         this.config.events = {};
         this.config.events.down = config.events.down || _default[this.cType].events.down;

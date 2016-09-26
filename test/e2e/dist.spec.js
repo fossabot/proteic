@@ -9,12 +9,6 @@ describe('Vendor script', () => {
         });
     });
 
-    it('d3-tip var should exist', () => {
-        browser.executeScript('return d3.tip').then((d3Tip) => {
-            expect(d3Tip).not.toBe.undefined
-        });
-    });
-
     it('chart should include reactors', () => {
         browser.executeScript('return linechart.reactor').then((reactor) => {
             expect(reactor).not.toBe.undefined;

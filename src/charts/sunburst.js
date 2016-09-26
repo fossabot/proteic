@@ -4,7 +4,7 @@
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
  * It is inherited on 'Hierarchical'.
  */
-class Sunburst extends Hierarchical {
+class Sunburst extends Chart {
 
   /**
    * Sunburst constructor. It needs (at least) one argument to start: data.

@@ -23,10 +23,6 @@ module.exports =  (config) => {
       'src/svg/svg.js',
       'src/svg/**/*.js',
       'src/charts/base/Chart.js',
-      'src/charts/base/Temporal.js',
-      'src/charts/base/Flow.js',
-      'src/charts/base/Hierarchical.js',
-      'src/charts/base/Basic.js',
       'src/charts/*.js',
       'test/*.js'
     ],
