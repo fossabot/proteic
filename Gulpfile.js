@@ -67,13 +67,12 @@ gulp.task('concat', ['babel'], () => {
 
 
 gulp.task('vendor:compile', shell.task([
-  'cd node_modules/d3-tip && make'
+  // Compile vendor dependencies
 ]));
 
 gulp.task('vendor', ['vendor:compile'], () => {
   return gulp.src([
-    './node_modules/d3/d3.min.js',
-    './node_modules/d3-tip/d3-tip.min.js'
+    './node_modules/d3/d3.min.js'
   ])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('dist'));
