@@ -1,5 +1,4 @@
-
-class Areaset {
+export class Areaset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;

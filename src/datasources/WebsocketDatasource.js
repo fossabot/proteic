@@ -1,3 +1,5 @@
+import Datasource from './Datasource'
+
 class WebsocketDatasource extends Datasource {
     constructor(source) {
         super();

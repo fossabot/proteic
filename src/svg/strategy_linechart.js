@@ -1,4 +1,13 @@
-class SvgLinechartStrategy extends SvgChart {
+import {SvgChart} from './svg'
+import {defaults} from '../utils/defaults/linechart'
+import {SvgContainer} from './components/SvgContainer'
+import {XYAxes} from './components/xyAxes'
+import {Lineset} from './components/lineset'
+import {Legend} from './components/legend'
+import {Areaset} from './components/areaset'
+import {Pointset} from './components/pointset'
+
+export class SvgLinechartStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
     var config = this.config
@@ -37,7 +46,7 @@ class SvgLinechartStrategy extends SvgChart {
       , config = this.config
       , bbox = null;
 
-//    this._parseData(data, xDataFormat, yDataFormat, config);
+    //    this._parseData(data, xDataFormat, yDataFormat, config);
 
     bbox = this._getDomainBBox(data);
 
@@ -77,19 +86,62 @@ class SvgLinechartStrategy extends SvgChart {
    * @param  {Object} config Config object
    */
   _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config);
-    this.config = this.config || {};
+    //super._loadConfigOnContext(config);
+    config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+    if (!config.events) {
+      config.events = {};
+    }
+    if (!config.markers) {
+      config.markers = {};
+    }
+    if (!config.xaxis) {
+      config.xaxis = {};
+    }
+    if (!config.yaxis) {
+      config.yaxis = {};
+    }
+    if (!config.x) {
+      config.x = {};
+    }
+    this.config = {};
+    this.config.cType = this.constructor.name;
+    this.config.selector = config.selector || defaults.selector;
+    this.config.margin = config.margin || defaults.margin;
+    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
+      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.height = config.height || defaults.height;
+    this.config.ticks = config.ticks || defaults.ticks;
+    this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;
+    this.config.yticks = config.yaxis.ticks || defaults.yaxis.ticks;
+    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
+    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
+    this.config.tip = config.tooltip || defaults.tooltip;
+    this.config.events = {};
+    this.config.events.down = config.events.down || defaults.events.down;
+    this.config.events.up = config.events.up || defaults.events.up;
+    this.config.events.over = config.events.over || defaults.events.over;
+    this.config.events.click = config.events.click || defaults.events.click;
+    this.config.events.leave = config.events.leave || defaults.events.leave;
+    this.config._sortData = config.sortData || defaults.sortData;
+    this.config.style = config.style || defaults.style;
+    this.config.colorScale = config.colorScale || defaults.colorScale;
+    this.config.xAxisLabel = config.xaxis.label || defaults.xaxis.label;
+    this.config.yAxisLabel = config.yaxis.label || defaults.yaxis.label;
+
+
+
+
     this.config.markers = {};
-    this.config.markers.color = config.markers.color || _default.Linechart.markers.color;
-    this.config.markers.outlineColor = config.markers.outlineColor || _default.Linechart.markers.outlineColor;
-    this.config.markers.outlineWidth = config.markers.outlineWidth || _default.Linechart.markers.outlineWidth;
-    this.config.markers.shape = config.markers.shape || _default.Linechart.markers.shape;
-    this.config.markers.size = config.markers.size || _default.Linechart.markers.size;
-    this.config.area = typeof (config.area) === 'undefined' ? _default.Linechart.area : config.area;
-    this.config.areaOpacity = config.areaOpacity || _default.Linechart.areaOpacity;
+    this.config.markers.color = config.markers.color || defaults.markers.color;
+    this.config.markers.outlineColor = config.markers.outlineColor || defaults.markers.outlineColor;
+    this.config.markers.outlineWidth = config.markers.outlineWidth || defaults.markers.outlineWidth;
+    this.config.markers.shape = config.markers.shape || defaults.markers.shape;
+    this.config.markers.size = config.markers.size || defaults.markers.size;
+    this.config.area = typeof (config.area) === 'undefined' ? defaults.area : config.area;
+    this.config.areaOpacity = config.areaOpacity || defaults.areaOpacity;
     this.config.x = {};
-    this.config.x.type = config.x.type || _default.Linechart.xDataType;
-    this.config.x.format = config.x.format || _default.Linechart.xDateFormat;
+    this.config.x.type = config.x.type || defaults.xDataType;
+    this.config.x.format = config.x.format || defaults.xDateFormat;
     this.config.x.ticks = config.x.ticks;
 
     return this;

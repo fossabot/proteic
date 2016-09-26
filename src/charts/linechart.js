@@ -1,10 +1,9 @@
-'use strict';
-
+import Chart from './base/Chart'
 /**
  * Linechart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Linechart extends Chart {
+export default class Linechart extends Chart {
 
   /**
    * Linechart constructor. It needs (at least) one argument to start: data.

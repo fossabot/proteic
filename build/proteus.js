@@ -1,19 +1,23 @@
-import {dispatch} from 'd3-dispatch'
-import {SvgStrategy, strategies} from '../../svg/SvgStrategy'
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (factory((global.proteus = global.proteus || {})));
+}(this, (function (exports) { 'use strict';
+
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
  */
-export default class Chart {
+class Chart$1 {
 
     constructor(d, config) {
         var clazz = this.constructor.name;
-        if (clazz === 'Graph') {
+        if (clazz === 'Chart' || clazz === 'Basic' || clazz === 'Flow' || clazz === 'Temporal' || clazz === 'Hierarchical') {
             throw new Error(clazz + ' is non-instanciable');
         }
-        //this.dispatcher = dispatch(); TODO: Re-implement reactor with d3-dispatcher
 
         this.events = {};
+        this.reactor = new Reactor();
 
         if (!d && !config) {
             throw new Error('Missing constructor parameters');
@@ -31,11 +35,15 @@ export default class Chart {
             case 'Array':
                 this.data = d;
                 break;
+            case 'Object':
+                this.data = d;
+                break;
             default:
                 throw TypeError('Wrong data format');
         }
         //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-        this.config = (nArguments === 1) ? _default[this.constructor.name] : config;
+        this.config = (nArguments === 1) ? _default[this.constructor.name]
+            : config;
 
         this._initializeSVGContext();
     }
@@ -129,8 +137,6 @@ export default class Chart {
      * On method. Define custom events (click, over, down and up).
      */
     on(eventName, action) {
-        throw Error('Not implemented');
-        /**
         if (!eventName || typeof eventName !== 'string') {
             throw Error('eventName should be a string. Instead: ' + eventName);
         }
@@ -141,13 +147,10 @@ export default class Chart {
         this.events[eventName] = action;
         this._svg.on(this.events);
         return this;
-        **/
     }
 
     _configureDatasource() {
-        throw Error('Not implemented');
-        // this.datasource.configure(this.reactor);
-        /*/
+        this.datasource.configure(this.reactor);
         this.reactor.registerEvent('onmessage');
         this.reactor.registerEvent('onerror');
         this.reactor.registerEvent('onopen');
@@ -163,24 +166,63 @@ export default class Chart {
         this.reactor.addEventListener('onerror', (error) => {
             console.error('An error has occured: ', error);
         });
-        */
     }
 
     pause() {
-        // if (!this.datasource) {
-        //    throw ('You need a datasource to pause a streaming');
-        // }
-        //this.reactor.removeEventListener('onmessage');
+        if (!this.datasource) {
+            throw ('You need a datasource to pause a streaming');
+        }
+        this.reactor.removeEventListener('onmessage');
     }
 
     resume() {
-        //if (!this.datasource) {
-        //   throw ('You need a datasource to resume a streaming');
-        // }
+        if (!this.datasource) {
+            throw ('You need a datasource to resume a streaming');
+        }
 
-        // this.reactor.addEventListener('onmessage', (data) => {
-        //     this.keepDrawing(data);
-        // });
+        this.reactor.addEventListener('onmessage', (data) => {
+            this.keepDrawing(data);
+        });
     }
 
 }
+
+/**
+ * Linechart implementation. This charts belongs to 'Basic' family.
+ * It is inherited on 'Basic'.
+ */
+class Linechart extends Chart {
+
+  /**
+   * Linechart constructor. It needs (at least) one argument to start: data.
+   * Optionally, you can indicate a second argument that includes all the chart options. If you
+   * do not specify this, '_default' object is used by default.
+   */
+  constructor(data, config) {
+    super(data, config);
+  }
+
+  /**
+   * Renders a data object on the chart.
+   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * specify this param, this.data will be used instead.
+   */
+  draw(data = this.data) {
+    super.draw(data);
+  }
+
+  /**
+   * Add new data to the current graph. If it is empty, this creates a new one.
+   * @param  {Object} datum data to be rendered
+   */
+  keepDrawing(datum) {
+    super.keepDrawing(datum, 'add');
+  }
+}
+
+exports.Chart = Chart$1;
+exports.Linechart = Linechart;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

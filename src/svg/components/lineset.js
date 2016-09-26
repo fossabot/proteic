@@ -1,5 +1,4 @@
-
-class Lineset {
+export class Lineset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;

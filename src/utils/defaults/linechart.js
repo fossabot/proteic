@@ -1,6 +1,7 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.Linechart = {
+
+export const defaults = {
     selector: '#chart',
     xaxis: {
         label: 'X',

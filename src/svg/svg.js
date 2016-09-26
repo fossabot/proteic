@@ -1,4 +1,6 @@
-class SvgChart {
+import {sortBy, isNumeric, isPercentage } from '../utils/functions'
+
+export class SvgChart {
 
     constructor(chartContext) {
         var clazz = this.constructor.name;
@@ -14,7 +16,7 @@ class SvgChart {
 
     draw(data) {
         if (this._sortData) {
-            utils.sortBy(data, {
+            sortBy(data, {
                 prop: this._sortData.prop,
                 desc: this._sortData.descending
             });
@@ -99,11 +101,11 @@ class SvgChart {
                 .getBoundingClientRect()
                 .width;
         }
-        else if (utils.isNumeric(width)) {
+        else if (isNumeric(width)) {
             //check container width TODO
             return width;
         }
-        else if (utils.isPercentage(width)) {
+        else if (isPercentage(width)) {
             let containerWidth, percentage;
             containerWidth = d3.select(this.config.selector)
                 .node()
@@ -118,6 +120,7 @@ class SvgChart {
     }
 
     _loadConfigOnContext(config) {
+        /**
         config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
         if (!config.events) {
             config.events = {};
@@ -158,6 +161,7 @@ class SvgChart {
         this.config.colorScale = config.colorScale || _default[this.cType].colorScale;
         this.config.xAxisLabel = config.xaxis.label || _default[this.cType].xaxis.label;
         this.config.yAxisLabel = config.yaxis.label || _default[this.cType].yaxis.label;
+        **/
     }
 
     _endAllTransitions(transition, callback) {

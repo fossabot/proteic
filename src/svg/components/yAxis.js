@@ -1,5 +1,6 @@
+import {isEven} from '../../utils/functions'
 
-class YAxis {
+export class YAxis {
   constructor(yAxisType, config) {
     if (config === null) {
       throw new Error('No chart context specified for XAxis');
@@ -40,12 +41,12 @@ class YAxis {
   yStyle() {
     d3.select(this).selectAll('g.tick text')
       .style('font-size', '1.4em')
-      .style('fill', (d, i) => !utils.isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
-      .style('font-weight', (d, i) => utils.isEven(i) && i !== 0 ? 'bold' : 'normal')
+      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+      .style('font-weight', (d, i) => isEven(i) && i !== 0 ? 'bold' : 'normal')
       .style('font-size', '1.4em');
 
     d3.select(this).selectAll('g.tick line')
-      .style('stroke', (d, i) => utils.isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
+      .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
   }
 
   /**

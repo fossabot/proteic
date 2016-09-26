@@ -1,8 +1,5 @@
-
-class Legend {
-  constructor() {
-
-  }
+export class Legend {
+  constructor() {}
 
   update(svg, config, data) {
     var dataSeries = d3.nest()

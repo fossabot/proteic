@@ -1,5 +1,4 @@
-
-class Pointset {
+export class Pointset {
   constructor(x, y) {
       this.xAxis = x.xAxis;
       this.yAxis = y.yAxis;

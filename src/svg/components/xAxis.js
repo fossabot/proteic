@@ -1,4 +1,6 @@
-class XAxis {
+import {isEven} from '../../utils/functions'
+
+export class XAxis {
   constructor(xAxisType, config) {
     if (config === null) {
       throw new Error('No chart context specified for XAxis');
@@ -38,7 +40,7 @@ class XAxis {
   xStyle() {
     d3.select(this).selectAll('g.tick text')
       .style('font-size', '1.4em')
-      .style('fill', (d, i) => !utils.isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
       .style('fill', (d, i) => '#1a2127')
 
 

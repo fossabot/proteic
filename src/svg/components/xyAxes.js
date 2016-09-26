@@ -1,4 +1,7 @@
-class XYAxes {
+import {XAxis} from './xAxis'
+import {YAxis} from './yAxis'
+
+export class XYAxes {
   constructor(xAxisType, yAxisType, config) {
     if (config === null) {
       throw new Error('No chart context specified for XAxis');

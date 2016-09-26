@@ -1,4 +1,4 @@
-class SvgContainer {
+export class SvgContainer {
 
   constructor(config) {
     this._config = config;
