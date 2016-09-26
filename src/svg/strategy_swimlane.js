@@ -37,7 +37,6 @@ class SvgSwimlaneStrategy extends SvgChart {
 
   _loadConfigOnContext(config) {
     super._loadConfigOnContext(config);
-    console.log(this.config);
     return this;
   }
 }
