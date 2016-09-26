@@ -10,8 +10,20 @@ utils.dataTransformation = utils.dataTransformation || {
       }
       return r;
     }).entries(data);
-  }, 
-  simple2nested(data, key = 'key'){
+  },
+  simple2nested(data, key = 'key') {
     return d3.nest().key((d) => d[key]).entries(data);
+  },
+  nested2simple(data) {
+    let array = Array();
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].values.length; j++) {
+        let key = data[i].key;
+        let x = data[i].values[j].x;
+        let y = data[i].values[j].y;
+        array.push({key: key, x: x, y: y});
+      }
+    }
+    return array;
   }
 }

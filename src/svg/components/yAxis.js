@@ -9,12 +9,22 @@ class YAxis {
   }
 
 
-  _initializeYAxis(yAxisType, config) {
+  _initializeYAxis(yAxisType = 'linear', config) {
     var y = null
       , yAxis = null;
 
-    y = d3.scaleLinear().range([config.height, 0]);
-
+    switch (yAxisType) {
+      case 'linear':
+        y = d3.scaleLinear().range([config.height, 0]);
+        break;
+      case 'categorical':
+        y = d3.scaleBand().rangeRound([config.height, 0])
+          .padding(0.1)
+          .align(0.5);
+        break;
+      default:
+        throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
+    }
     return d3.axisLeft(y)
       .tickSizeInner(-config.width)
       .tickSizeOuter(0)
@@ -24,8 +34,7 @@ class YAxis {
   }
 
   transition(svg, time = 200) {
-    svg.selectAll('.y.dial').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
-
+    svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);
   }
 
   yStyle() {
@@ -40,11 +49,16 @@ class YAxis {
   }
 
   /**
-   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.
+   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
    */
   updateDomainByBBox(b) {
     var y = this.yAxis.scale();
     y.domain([b[0], b[1]]);
+  }
+
+  updateDomainByKeys(keys) {
+    var y = this.yAxis.scale();
+    y.domain(keys);
   }
 
   render(svg, config) {
@@ -56,7 +70,7 @@ class YAxis {
 
     svg
       .append('g')
-      .attr('class', 'y dial')
+      .attr('class', 'y axis')
       .attr('stroke-dasharray', '1, 5')
       .call(yAxis)
       .append('text')

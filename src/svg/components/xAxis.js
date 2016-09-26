@@ -32,7 +32,7 @@ class XAxis {
   }
 
   transition(svg, time = 200) {
-    svg.selectAll('.x.dial').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
+    svg.selectAll('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);
   }
 
   xStyle() {
@@ -73,7 +73,7 @@ class XAxis {
 
     svg
       .append('g')
-      .attr('class', 'x dial')
+      .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + config.height + ')')
       .call(xAxis)
       .append('text')
