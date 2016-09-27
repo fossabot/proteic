@@ -1,4 +1,4 @@
-class NumericIndicator { // TODO tidy
+export class NumericIndicator { // TODO tidy
   constructor(config) {
     if (config === null) {
       throw new Error('No chart context specified for polarAxis');

@@ -1,10 +1,10 @@
-'use strict';
+import Chart from './base/Chart'
 
 /**
  * Barchart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Barchart extends Chart {
+export default class Barchart extends Chart {
 
   /**
    * Barchart constructor. It needs (at least) one argument to start: data.

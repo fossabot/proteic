@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.StackedArea = {
+export const defaults = {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
     colorScale: Colors.category5(),

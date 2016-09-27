@@ -1,10 +1,9 @@
-'use strict';
-
+import Chart from './base/Chart'
 /**
  * Streamgraph implementation. This charts belongs to 'Flow' family.
  * It is inherited on 'Flow'.
  */
-class Streamgraph extends Chart {
+export default class Streamgraph extends Chart {
 
   /**
    * Streamgraph constructor. It needs (at least) one argument to start: data.

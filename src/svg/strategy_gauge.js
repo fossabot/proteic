@@ -1,4 +1,11 @@
-class SvgGaugeStrategy extends SvgChart {
+import {SvgChart} from './svg'
+import {defaults} from '../utils/defaults/gauge'
+import {SvgContainer} from './components/SvgContainer'
+import {Dial} from './components/Dial'
+import {DialNeedle} from './components/DialNeedle'
+import {NumericIndicator} from './components/NumericIndicator'
+
+export class SvgGaugeStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
 
@@ -13,7 +20,7 @@ class SvgGaugeStrategy extends SvgChart {
       .add(this.needle);
 
     if (config.numericIndicator) {
-      this.numericIndicator  = new NumericIndicator(config);
+      this.numericIndicator = new NumericIndicator(config);
       this.svgContainer.add(this.numericIndicator)
     }
   }
@@ -38,20 +45,34 @@ class SvgGaugeStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config);
-    this.config = this.config || {};
-    this.config.minLevel = config.minLevel || _default.Gauge.minLevel;
-    this.config.maxLevel = config.maxLevel || _default.Gauge.maxLevel;
-    this.config.minAngle = config.minAngle || _default.Gauge.minAngle;
-    this.config.maxAngle = config.maxAngle || _default.Gauge.maxAngle;
-    this.config.ticks = config.ticks || _default.Gauge.ticks;
-    this.config.ringWidth = config.ringWidth || _default.Gauge.ringWidth;
-    this.config.ringMargin = config.ringMargin || _default.Gauge.ringMargin;
-    this.config.labelInset = config.labelInset || _default.Gauge.labelInset;
-    this.config.needleNutRadius = config.needleNutRadius || _default.Gauge.needleNutRadius;
-    this.config.needleLenghtRatio = config.needleLenghtRatio || _default.Gauge.needleLenghtRatio;
-    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? _default.Gauge.invertColorScale : config.invertColorScale;
-    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? _default.Gauge.numericIndicator : config.numericIndicator;
+    this.config = {};
+    this.config.cType = this.constructor.name;
+    this.config.selector = config.selector || defaults.selector;
+    this.config.margin = config.margin || defaults.margin;
+    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
+      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.height = config.height || defaults.height;
+    this.config.ticks = config.ticks || defaults.ticks;
+    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
+    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
+    this.config.tip = config.tooltip || defaults.tooltip;
+    this.config._sortData = config.sortData || defaults.sortData;
+    this.config.style = config.style || defaults.style;
+    this.config.colorScale = config.colorScale || defaults.colorScale;  
+    this.config.x = {};
+
+    this.config.minLevel = config.minLevel || defaults.minLevel;
+    this.config.maxLevel = config.maxLevel || defaults.maxLevel;
+    this.config.minAngle = config.minAngle || defaults.minAngle;
+    this.config.maxAngle = config.maxAngle || defaults.maxAngle;
+    this.config.ticks = config.ticks || defaults.ticks;
+    this.config.ringWidth = config.ringWidth || defaults.ringWidth;
+    this.config.ringMargin = config.ringMargin || defaults.ringMargin;
+    this.config.labelInset = config.labelInset || defaults.labelInset;
+    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;
+    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;
+    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;
+    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;
     //Just for testing purposes
     return this;
   }

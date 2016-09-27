@@ -1,5 +1,6 @@
+import {simple2nested} from '../../utils/dataTransformation'
 
-class Barset {
+export class Barset {
   constructor(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;
@@ -75,7 +76,7 @@ class Barset {
       , xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()])
       , height = config.height;
 
-    data = utils.dataTransformation.simple2nested(data, 'x');
+    data = simple2nested(data, 'x');
 
     layer = svg.selectAll('.serie').data(data);
 

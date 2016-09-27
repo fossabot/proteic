@@ -7,36 +7,15 @@
 <!--<![endif]-->
 
 <head>
-  <title>Simple stacked area chart</title>
-
+    <title>Simple Stacked area</title>
+    <script src='../node_modules/d3/build/d3.min.js'></script>
+    <script src='../node_modules/proteus-colors/build/proteus-colors.js'></script>
+    <script src='../build/bundle.js'></script>
 </head>
 
 <body>
 
   <div id='chart'></div>
-  <script src='../node_modules/d3/build/d3.min.js'></script>
-
-  <script src='../src/utils/functions.js'></script>
-  <script src='../src/utils/image.js'></script>
-  <script src='../src/utils/colors.js'></script>
-  <script src='../src/utils/defaults/stackedArea.js'></script>
-  <script src='../src/utils/ProteusEvent.js'></script>
-  <script src='../src/utils/strategies.js'></script>
-  <script src='../src/utils/dataTransformation.js'></script>
-
-  <script src='../src/svg/components/xAxis.js'></script>
-  <script src='../src/svg/components/yAxis.js'></script>
-
-  <script src='../src/svg/components/xyAxes.js'></script>
-  <script src='../src/svg/components/svgContainer.js'></script>
-  <script src='../src/svg/components/streamset.js'></script>
-  <script src='../src/svg/components/legend.js'></script>
-
-  <script src='../src/svg/SvgStrategy.js'></script>
-  <script src='../src/svg/svg.js'></script>
-  <script src='../src/svg/strategy_stackedArea.js'></script>
-  <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
-  <script src='../src/charts/stackedArea.js' type='text/javascript'></script>
 
   <script>
     var data = [
@@ -55,7 +34,7 @@
         {'key': 'ES', x: '01/14/13', y:90},
         {'key': 'UK', x: '01/14/13', y:10}
       ];
-        var stackedArea = new StackedArea(data);
+        var stackedArea = new Proteus.StackedArea(data, {});
         stackedArea.draw();
   </script>
 </body>

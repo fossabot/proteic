@@ -89,14 +89,16 @@ export default class Chart {
     draw(data = this.data) {
         var config = this.config
             , sort = config.sort
-            , xDataFormat = config.x.type
+            , xDataFormat = config.x ? config.x.type : null
             , yDataFormat = 'linear'
             , p = null
             , desc = null
             , parsedData = null;
-
-        parsedData = this._parseData(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
-
+        if(xDataFormat)
+            parsedData = this._parseData(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
+        else
+            parsedData = JSON.parse(JSON.stringify(data));
+            
         if (sort) {
             p = config.sort.field;
             desc = config.sort.desc;

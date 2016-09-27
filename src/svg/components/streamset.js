@@ -1,5 +1,4 @@
-
-class Streamset {
+export class Streamset {
   constructor(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;

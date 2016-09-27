@@ -16,6 +16,11 @@ const webserver = require('gulp-webserver');
 const shell = require('gulp-shell');
 const jsinspect = require('gulp-jsinspect');
 const jsdoc = require('gulp-jsdoc3');
+const watch = require('gulp-watch');
+const rollup = require('rollup');
+const sourcemaps = require('gulp-sourcemaps');
+const commonjs = require('rollup-plugin-commonjs');
+const nodeResolve = require('rollup-plugin-node-resolve');
 const libname = 'proteus-charts';
 
 gulp.task('syntax', () => {
@@ -97,50 +102,51 @@ gulp.task('jsinspect', () => {
 });
 
 gulp.task('doc', function (cb) {
-  gulp.src(['./src/**/*.js'], {read: false})
-      .pipe(jsdoc(cb));
+  gulp.src(['./src/**/*.js'], { read: false })
+    .pipe(jsdoc(cb));
 });
 
-/**
-// Downloads the selenium webdriver
-gulp.task('webdriver_update', webdriver_update);
 
-// Start the standalone selenium server
-// NOTE: This is not needed if you reference the
-// seleniumServerJar in your protractor.conf.js
-gulp.task('webdriver_standalone', webdriver_standalone);
+gulp.task('watchFiles', () => {
+  return watch('src/**/*.js', { ignoreInitial: true }).pipe(gulp.dest('build'));
+})
 
-// Protractor test runner task
-gulp.task('test:e2e', ['webdriver_update', 'webserver'], () => {
-  gulp.src([])
-    .pipe(protractor({
-      configFile: 'protractor.conf.js'
-    }))
-    .on('end', () => {
-      console.log('E2E Testing complete');
-      w.emit('kill');
-      //process.exit(0);
-    })
-    .on('error', (err) => {
-      console.error('E2E Tests failed:');
-      console.error(err);
-      w.emit('kill');
-      //process.exit(0); //todo: change this
-    });
-});
 
-gulp.task('webserver', function () {
-  w =  gulp.src('')
-    .pipe(webserver({
-      livereload: false,
-      directoryListing: true,
-      open: true,
-      port: 9001
-    }));
-});
-*/
+
 //gulp.task('test', ['test:unit', 'test:e2e']);
 gulp.task('test', ['test:unit']);
 
-gulp.task('build', ['test', 'syntax', 'vendor', 'minify']);
+//gulp.task('build', ['test', 'syntax', 'vendor', 'minify']);
+gulp.task('build', () => {
+  var cache = null;
+
+  rollup.rollup({
+    // The bundle's starting point. This file will be
+    // included, along with the minimum necessary code
+    // from its dependencies
+    entry: './index.js',
+    // If you have a bundle you want to re-use (e.g., when using a watcher to rebuild as files change),
+    // you can tell rollup use a previous bundle as its starting point.
+    // This is entirely optional!
+    cache: cache
+  }).then(function (bundle) {
+    // Generate bundle + sourcemap
+    var result = bundle.generate({
+      // output format - 'amd', 'cjs', 'es', 'iife', 'umd'
+      format: 'umd'
+    });
+
+    // Cache our bundle for later use (optional)
+    cache = bundle;
+
+    fs.writeFileSync('./build/bundle.js', result.code);
+
+  });
+
+
+
+
+
+});
+
 gulp.task('default', ['test', 'build']);

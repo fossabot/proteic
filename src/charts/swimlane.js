@@ -1,10 +1,10 @@
-'use strict';
+import Chart from './base/Chart'
 
 /**
  * Linechart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Swimlane extends Chart {
+export default class Swimlane extends Chart {
 
   /**
    * Linechart constructor. It needs (at least) one argument to start: data.

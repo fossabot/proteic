@@ -1,10 +1,10 @@
-'use strict';
+import Chart from './base/Chart'
 
 /**
  * Gauge implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-class Gauge extends Chart {
+export default class Gauge extends Chart {
 
   /**
    * Gauge constructor. It needs (at least) one argument to start: data.

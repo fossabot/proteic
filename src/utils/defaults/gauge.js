@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.Gauge = {
+export const defaults =  {
     selector: '#chart',
     colorScale: Colors.diverging_red_blue(),
     invertColorScale: true,

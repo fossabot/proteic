@@ -1,4 +1,6 @@
-class TimeBoxset {
+import {simple2nested} from '../../utils/dataTransformation'
+
+export class TimeBoxset {
 
   constructor(xAxis, yAxis) {
     this.xAxis = xAxis;
@@ -22,7 +24,7 @@ class TimeBoxset {
       , yLanes = null
       , yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys);
 
-    data = utils.dataTransformation.simple2nested(data);
+    data = simple2nested(data);
     extLanes = d3.extent(data, (d, i) => i)
     yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 

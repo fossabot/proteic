@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.Swimlane = {
+export const defaults = {
     selector: '#chart',
     colorScale: Colors.category3(),
 

@@ -1,6 +1,5 @@
 import * as Colors from 'proteus-colors';
 
-
 export const defaults = {
     selector: '#chart',
     xaxis: {

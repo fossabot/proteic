@@ -1,4 +1,6 @@
-class Dial { // TODO tidy
+import {deg2rad} from '../../utils/functions'
+
+export class Dial { // TODO tidy
   constructor(axisType, config) {
     if (config === null) {
       throw new Error('No chart context specified for polarAxis');
@@ -27,11 +29,11 @@ class Dial { // TODO tidy
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) => {
         var ratio = d * i;
-        return utils.deg2rad(config.minAngle + (ratio * this.range));
+        return deg2rad(config.minAngle + (ratio * this.range));
       })
       .endAngle((d, i) => {
         var ratio = d * (i + 1);
-        return utils.deg2rad(config.minAngle + (ratio * this.range));
+        return deg2rad(config.minAngle + (ratio * this.range));
       });
 
     this.tickData = d3.range(config.ticks)

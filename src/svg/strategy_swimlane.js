@@ -1,4 +1,12 @@
-class SvgSwimlaneStrategy extends SvgChart {
+import {SvgChart} from './svg'
+import {defaults} from '../utils/defaults/swimlane'
+import {SvgContainer} from './components/SvgContainer'
+import {XYAxes} from './components/xyAxes'
+import {TimeBoxset} from './components/timeBoxset'
+import {Legend} from './components/legend'
+
+
+export class SvgSwimlaneStrategy extends SvgChart {
   constructor(chartContext) {
     super(chartContext);
     var config = this.config;
@@ -36,7 +44,45 @@ class SvgSwimlaneStrategy extends SvgChart {
 
 
   _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config);
+    config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+    if (!config.events) {
+      config.events = {};
+    }
+    if (!config.markers) {
+      config.markers = {};
+    }
+    if (!config.xaxis) {
+      config.xaxis = {};
+    }
+    if (!config.yaxis) {
+      config.yaxis = {};
+    }
+    if (!config.x) {
+      config.x = {};
+    }
+
+console.log(defaults);
+
+    this.config = {};
+    this.config.cType = this.constructor.name;
+    this.config.selector = config.selector || defaults.selector;
+    this.config.margin = config.margin || defaults.margin;
+    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
+      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.height = config.height || defaults.height;
+    this.config.ticks = config.ticks || defaults.ticks;
+    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
+    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
+    this.config.tip = config.tooltip || defaults.tooltip;
+    this.config.events = {};
+    this.config.events.down = config.events.down || defaults.events.down;
+    this.config.events.up = config.events.up || defaults.events.up;
+    this.config.events.over = config.events.over || defaults.events.over;
+    this.config.events.click = config.events.click || defaults.events.click;
+    this.config.events.leave = config.events.leave || defaults.events.leave;
+    this.config._sortData = config.sortData || defaults.sortData;
+    this.config.style = config.style || defaults.style;
+    this.config.colorScale = config.colorScale || defaults.colorScale;
     return this;
   }
 }

@@ -1,4 +1,12 @@
-class SvgBarchartStrategy extends SvgChart {
+import {SvgChart} from './svg'
+import {defaults} from '../utils/defaults/barchart'
+import {SvgContainer} from './components/SvgContainer'
+import {XYAxes} from './components/xyAxes'
+import {Barset} from './components/barset'
+import {Legend} from './components/legend'
+import {simple2stacked} from '../utils/dataTransformation'
+
+export class SvgBarchartStrategy extends SvgChart {
 
   constructor(chartContext) {
     super(chartContext);
@@ -26,7 +34,7 @@ class SvgBarchartStrategy extends SvgChart {
     var svg = this.svgContainer.svg
       , config = this.config
       , keys = d3.map(data, (d) => d.key).keys()
-      , data4stack = utils.dataTransformation.simple2stacked(data)
+      , data4stack = simple2stacked(data)
       , data4render = null
       , isStacked = this.config.stacked
       , stack = d3.stack().keys(keys)
@@ -67,12 +75,50 @@ class SvgBarchartStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-    config = config || { events: {} };
+
+    config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
     if (!config.events) {
       config.events = {};
     }
-    super._loadConfigOnContext(config);
-    this.config.stacked = typeof (config.stacked) === 'undefined' ? _default[this.constructor.name].stacked : config.stacked;
+    if (!config.markers) {
+      config.markers = {};
+    }
+    if (!config.xaxis) {
+      config.xaxis = {};
+    }
+    if (!config.yaxis) {
+      config.yaxis = {};
+    }
+    if (!config.x) {
+      config.x = {};
+    }
+    this.config = {};
+    this.config.cType = this.constructor.name;
+    this.config.selector = config.selector || defaults.selector;
+    this.config.margin = config.margin || defaults.margin;
+    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
+      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.height = config.height || defaults.height;
+    this.config.ticks = config.ticks || defaults.ticks;
+    this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;
+    this.config.yticks = config.yaxis.ticks || defaults.yaxis.ticks;
+    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
+    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
+    this.config.tip = config.tooltip || defaults.tooltip;
+    this.config.events = {};
+    this.config.events.down = config.events.down || defaults.events.down;
+    this.config.events.up = config.events.up || defaults.events.up;
+    this.config.events.over = config.events.over || defaults.events.over;
+    this.config.events.click = config.events.click || defaults.events.click;
+    this.config.events.leave = config.events.leave || defaults.events.leave;
+    this.config._sortData = config.sortData || defaults.sortData;
+    this.config.style = config.style || defaults.style;
+    this.config.colorScale = config.colorScale || defaults.colorScale;
+    this.config.xAxisLabel = config.xaxis.label || defaults.xaxis.label;
+    this.config.yAxisLabel = config.yaxis.label || defaults.yaxis.label;
+
+
+    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;
     //Just for testing purposes
     return this;
   }

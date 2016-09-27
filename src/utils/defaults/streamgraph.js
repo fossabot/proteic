@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.Streamgraph = {
+export const defaults =  {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
     colorScale: Colors.category5(),
@@ -65,5 +65,4 @@ _default.Streamgraph = {
         descending: false,
         prop: 'x'
     }
-
 };

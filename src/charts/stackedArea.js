@@ -1,10 +1,10 @@
-'use strict';
+import Chart from './base/Chart'
 
 /**
  * StackedArea implementation. This charts belongs to 'Flow' family.
  * It is inherited on 'Flow'.
  */
-class StackedArea extends Chart {
+export default class StackedArea extends Chart {
 
   /**
    * StackedArea constructor. It needs (at least) one argument to start: data.

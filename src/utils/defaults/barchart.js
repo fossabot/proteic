@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from 'proteus-colors';
 
-_default.Barchart = {
+export const defaults = {
     stacked: true,
     style: {
         '.axis': {
