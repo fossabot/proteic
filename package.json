@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "jshint src/**/*.js",
     "pretest": "npm run build",
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf build/*",
