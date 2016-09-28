@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-dispatch'), require('d3-scale')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'd3-dispatch', 'd3-scale'], factory) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-dispatch'), require('d3')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'd3-dispatch', 'd3'], factory) :
     (factory((global.Proteus = global.Proteus || {}),global.d3,global.d3));
-}(this, (function (exports,d3Dispatch,d3Scale) { 'use strict';
+}(this, (function (exports,d3Dispatch,d3$1) { 'use strict';
 
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -693,19 +693,19 @@ const paletteDivergingLightBrownTurquoise = [
 
 
 function category3() {
-    return d3Scale.scaleOrdinal().range(paletteCategory3);
+    return d3$1.scaleOrdinal().range(paletteCategory3);
 }
 
 
 
 function category5() {
-    return d3Scale.scaleOrdinal().range(paletteCategory5);
+    return d3$1.scaleOrdinal().range(paletteCategory5);
 }
 
 
 
 function category7() {
-    return d3Scale.scaleOrdinal().range(paletteCategory7);
+    return d3$1.scaleOrdinal().range(paletteCategory7);
 }
 
 
@@ -761,7 +761,7 @@ function category7() {
 
 
 function diverging_red_blue() {
-    return d3Scale.scaleQuantile().range(paletteDivergingRedBlue);
+    return d3$1.scaleQuantile().range(paletteDivergingRedBlue);
 }
 
 const defaults = {
