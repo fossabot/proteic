@@ -1,4 +1,4 @@
-import {dispatch} from 'd3-dispatch'
+import {dispatch} from 'd3'
 import {SvgStrategy, strategies} from '../../svg/SvgStrategy'
 /**
  * Base class. This class is inherited in all charts implementations.
