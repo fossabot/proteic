@@ -1,4 +1,4 @@
-import Chart from './base/Chart'
+import Chart from './base/Chart';
 
 /**
  * StackedArea implementation. This charts belongs to 'Flow' family.

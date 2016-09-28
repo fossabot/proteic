@@ -1,4 +1,4 @@
-import Chart from './base/Chart'
+import Chart from './base/Chart';
 
 /**
  * Barchart implementation. This charts belongs to 'Basic' family.

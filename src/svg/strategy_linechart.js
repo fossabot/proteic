@@ -1,17 +1,19 @@
-import {SvgChart} from './svg'
-import {defaults} from '../utils/defaults/linechart'
-import {SvgContainer} from './components/svgContainer'
-import {XYAxes} from './components/xyAxes'
-import {Lineset} from './components/lineset'
-import {Legend} from './components/legend'
-import {Areaset} from './components/areaset'
-import {Pointset} from './components/pointset'
+import {defaults} from '../utils/defaults/linechart';
+import {SvgContainer} from './components/svgContainer';
+import {XYAxes} from './components/xyAxes';
+import {Lineset} from './components/lineset';
+import {Legend} from './components/legend';
+import {Areaset} from './components/areaset';
+import {Pointset} from './components/pointset';
+import {calculateWidth} from '../utils/screen';
 
-export class SvgLinechartStrategy extends SvgChart {
+export class SvgLinechartStrategy {
+  
   constructor(chartContext) {
-    super(chartContext);
-    var config = this.config
-      , xDataType = config.x.type;
+    this._loadConfigOnContext(chartContext.config);
+    
+    var config = this.config,
+        xDataType = config.x.type;
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
@@ -42,9 +44,9 @@ export class SvgLinechartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg
-      , config = this.config
-      , bbox = null;
+    var svg = this.svgContainer.svg,
+      config = this.config,
+      bbox = null;
 
     //    this._parseData(data, xDataFormat, yDataFormat, config);
 
@@ -74,10 +76,10 @@ export class SvgLinechartStrategy extends SvgChart {
   }
 
   _getDomainBBox(data) {
-    var minX = d3.min(data, (d) => d.x)
-      , maxX = d3.max(data, (d) => d.x)
-      , minY = d3.min(data, (d) => d.y)
-      , maxY = d3.max(data, (d) => d.y);
+    var minX = d3.min(data, (d) => d.x),
+      maxX = d3.max(data, (d) => d.x),
+      minY = d3.min(data, (d) => d.y),
+      maxY = d3.max(data, (d) => d.y);
     return [minX, maxX, minY, maxY];
   }
 
@@ -107,8 +109,8 @@ export class SvgLinechartStrategy extends SvgChart {
     this.config.cType = this.constructor.name;
     this.config.selector = config.selector || defaults.selector;
     this.config.margin = config.margin || defaults.margin;
-    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
-      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
+      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
     this.config.height = config.height || defaults.height;
     this.config.ticks = config.ticks || defaults.ticks;
     this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;
@@ -127,9 +129,6 @@ export class SvgLinechartStrategy extends SvgChart {
     this.config.colorScale = config.colorScale || defaults.colorScale;
     this.config.xAxisLabel = config.xaxis.label || defaults.xaxis.label;
     this.config.yAxisLabel = config.yaxis.label || defaults.yaxis.label;
-
-
-
 
     this.config.markers = {};
     this.config.markers.color = config.markers.color || defaults.markers.color;

@@ -1,9 +1,9 @@
-import {SvgLinechartStrategy} from './strategy_linechart'
-import {SvgBarchartStrategy} from './strategy_barchart'
-import {SvgStreamgraphStrategy} from './strategy_streamgraph'
-import {SvgStackedAreaStrategy} from './strategy_stackedArea'
-import {SvgSwimlaneStrategy} from './strategy_swimlane'
-import {SvgGaugeStrategy} from './strategy_gauge'
+import {SvgLinechartStrategy} from './strategy_linechart';
+import {SvgBarchartStrategy} from './strategy_barchart';
+import {SvgStreamgraphStrategy} from './strategy_streamgraph';
+import {SvgStackedAreaStrategy} from './strategy_stackedArea';
+import {SvgSwimlaneStrategy} from './strategy_swimlane';
+import {SvgGaugeStrategy} from './strategy_gauge';
 
 /**
  * SvgStrategy wrapper class
@@ -18,7 +18,7 @@ export class SvgStrategy {
     on(events){
         this.strategy.on(events);
     }
-};
+}
 
 export const strategies = {
   Barchart(chartContext) {

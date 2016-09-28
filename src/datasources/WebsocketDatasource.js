@@ -1,4 +1,4 @@
-import Datasource from './Datasource'
+import Datasource from './Datasource';
 
 class WebsocketDatasource extends Datasource {
     constructor(source) {

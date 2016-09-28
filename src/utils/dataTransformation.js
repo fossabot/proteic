@@ -7,11 +7,11 @@ export function simple2stacked(data) {
     }
     return r;
   }).entries(data);
-};
+}
 
 export function simple2nested(data, key = 'key') {
   return d3.nest().key((d) => d[key]).entries(data);
-};
+}
 
 export function nested2simple(data) {
   let array = Array();
@@ -24,4 +24,4 @@ export function nested2simple(data) {
     }
   }
   return array;
-};
+}

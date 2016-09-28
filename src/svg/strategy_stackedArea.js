@@ -1,15 +1,15 @@
-import {SvgChart} from './svg'
-import {defaults} from '../utils/defaults/streamgraph'
-import {SvgContainer} from './components/svgContainer'
-import {XYAxes} from './components/xyAxes'
-import {Streamset} from './components/streamset'
-import {Legend} from './components/legend'
-import {simple2stacked} from '../utils/dataTransformation'
+import {defaults} from '../utils/defaults/streamgraph';
+import {SvgContainer} from './components/svgContainer';
+import {XYAxes} from './components/xyAxes';
+import {Streamset} from './components/streamset';
+import {Legend} from './components/legend';
+import {simple2stacked} from '../utils/dataTransformation';
+import {calculateWidth} from '../utils/screen';
 
-export class SvgStackedAreaStrategy extends SvgChart {
+export class SvgStackedAreaStrategy {
 
     constructor(chartContext) {
-        super(chartContext);
+        this._loadConfigOnContext(chartContext.config);
         var config = this.config;
 
         this.svgContainer = new SvgContainer(config);
@@ -27,17 +27,17 @@ export class SvgStackedAreaStrategy extends SvgChart {
     }
 
     draw(data) {
-        var svg = this.svgContainer.svg
-            , config = this.config
-            , bbox = null
-            , keys = d3.map(data, (d) => d.key).keys()
-            , data4stack = simple2stacked(data)
-            , stack = d3.stack()
+        var svg = this.svgContainer.svg,
+            config = this.config,
+            bbox = null,
+            keys = d3.map(data, (d) => d.key).keys(),
+            data4stack = simple2stacked(data),
+            stack = d3.stack()
                 .keys(keys)
                 .value((d, k) => d.value[k])
                 .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone)
-            , dataSeries = stack(data4stack);
+                .offset(d3.stackOffNone),
+            dataSeries = stack(data4stack);
 
         bbox = this._getDomainBBox(data, dataSeries);
 
@@ -53,10 +53,10 @@ export class SvgStackedAreaStrategy extends SvgChart {
 
 
     _getDomainBBox(data, dataSeries) {
-        var minX = d3.min(data, (d) => new Date(d.x))
-            , maxX = d3.max(data, (d) => new Date(d.x))
-            , minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0]))
-            , maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));
+        var minX = d3.min(data, (d) => new Date(d.x)),
+            maxX = d3.max(data, (d) => new Date(d.x)),
+            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),
+            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));
 
         return [minX, maxX, minY, maxY];
     }
@@ -86,8 +86,8 @@ export class SvgStackedAreaStrategy extends SvgChart {
         this.config.cType = this.constructor.name;
         this.config.selector = config.selector || defaults.selector;
         this.config.margin = config.margin || defaults.margin;
-        this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
-            : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+        this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
+            : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
         this.config.height = config.height || defaults.height;
         this.config.ticks = config.ticks || defaults.ticks;
         this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;

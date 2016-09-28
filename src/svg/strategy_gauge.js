@@ -1,13 +1,13 @@
-import {SvgChart} from './svg'
-import {defaults} from '../utils/defaults/gauge'
-import {SvgContainer} from './components/svgContainer'
-import {Dial} from './components/dial'
-import {DialNeedle} from './components/dialNeedle'
-import {NumericIndicator} from './components/numericIndicator'
+import {defaults} from '../utils/defaults/gauge';
+import {SvgContainer} from './components/svgContainer';
+import {Dial} from './components/dial';
+import {DialNeedle} from './components/dialNeedle';
+import {NumericIndicator} from './components/numericIndicator';
+import {calculateWidth} from '../utils/screen';
 
-export class SvgGaugeStrategy extends SvgChart {
+export class SvgGaugeStrategy {
   constructor(chartContext) {
-    super(chartContext);
+    this._loadConfigOnContext(chartContext.config);
 
     var config = this.config;
 
@@ -21,7 +21,7 @@ export class SvgGaugeStrategy extends SvgChart {
 
     if (config.numericIndicator) {
       this.numericIndicator = new NumericIndicator(config);
-      this.svgContainer.add(this.numericIndicator)
+      this.svgContainer.add(this.numericIndicator);
     }
   }
 
@@ -31,8 +31,8 @@ export class SvgGaugeStrategy extends SvgChart {
 	 *
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg
-      , config = this.config;
+    var svg = this.svgContainer.svg,
+      config = this.config;
 
     this.needle.update(svg, config, data);
     if (config.numericIndicator) {
@@ -49,8 +49,8 @@ export class SvgGaugeStrategy extends SvgChart {
     this.config.cType = this.constructor.name;
     this.config.selector = config.selector || defaults.selector;
     this.config.margin = config.margin || defaults.margin;
-    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
-      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
+      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
     this.config.height = config.height || defaults.height;
     this.config.ticks = config.ticks || defaults.ticks;
     this.config.tickLabel = config.tickLabel || defaults.tickLabel;
@@ -58,7 +58,7 @@ export class SvgGaugeStrategy extends SvgChart {
     this.config.tip = config.tooltip || defaults.tooltip;
     this.config._sortData = config.sortData || defaults.sortData;
     this.config.style = config.style || defaults.style;
-    this.config.colorScale = config.colorScale || defaults.colorScale;  
+    this.config.colorScale = config.colorScale || defaults.colorScale;
     this.config.x = {};
 
     this.config.minLevel = config.minLevel || defaults.minLevel;

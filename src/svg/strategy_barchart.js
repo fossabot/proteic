@@ -1,15 +1,15 @@
-import {SvgChart} from './svg'
-import {defaults} from '../utils/defaults/barchart'
-import {SvgContainer} from './components/svgContainer'
-import {XYAxes} from './components/xyAxes'
-import {Barset} from './components/barset'
-import {Legend} from './components/legend'
-import {simple2stacked} from '../utils/dataTransformation'
+import {defaults} from '../utils/defaults/barchart';
+import {SvgContainer} from './components/svgContainer';
+import {XYAxes} from './components/xyAxes';
+import {Barset} from './components/barset';
+import {Legend} from './components/legend';
+import {simple2stacked} from '../utils/dataTransformation';
+import {calculateWidth} from '../utils/screen';
 
-export class SvgBarchartStrategy extends SvgChart {
+export class SvgBarchartStrategy {
 
   constructor(chartContext) {
-    super(chartContext);
+    this._loadConfigOnContext(chartContext.config);
     var config = this.config;
 
     this.svgContainer = new SvgContainer(config);
@@ -31,23 +31,23 @@ export class SvgBarchartStrategy extends SvgChart {
 	 * 
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg
-      , config = this.config
-      , keys = d3.map(data, (d) => d.key).keys()
-      , data4stack = simple2stacked(data)
-      , data4render = null
-      , isStacked = this.config.stacked
-      , stack = d3.stack().keys(keys)
+    var svg = this.svgContainer.svg,
+      config = this.config,
+      keys = d3.map(data, (d) => d.key).keys(),
+      data4stack = simple2stacked(data),
+      data4render = null,
+      isStacked = this.config.stacked,
+      stack = d3.stack().keys(keys)
         .value((d, k) => d.value[k])
-        .order(d3.stackOrderNone)
-      , yMin = 0
-      , yMax = 0
-      , method = isStacked ? 'stacked' : 'grouped'
-      , dataSeries = stack(data4stack);
+        .order(d3.stackOrderNone),
+      yMin = 0,
+      yMax = 0,
+      method = isStacked ? 'stacked' : 'grouped',
+      dataSeries = stack(data4stack);
 
-    yMax = isStacked
-      ? d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]))
-      : d3.max(data, (d) => d.y)
+    yMax = isStacked ?
+      d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1])) :
+      d3.max(data, (d) => d.y);
 
     this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) => d.x).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
@@ -75,8 +75,8 @@ export class SvgBarchartStrategy extends SvgChart {
 	 * @param  {Object} config Config object
 	 */
   _loadConfigOnContext(config) {
-
     config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+
     if (!config.events) {
       config.events = {};
     }
@@ -92,12 +92,13 @@ export class SvgBarchartStrategy extends SvgChart {
     if (!config.x) {
       config.x = {};
     }
+
     this.config = {};
     this.config.cType = this.constructor.name;
     this.config.selector = config.selector || defaults.selector;
     this.config.margin = config.margin || defaults.margin;
-    this.config.width = config.width ? this._calculateWidth(config.width) - this.config.margin.left - this.config.margin.right
-      : this._calculateWidth(defaults.width) - this.config.margin.left - this.config.margin.right;
+    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
+      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
     this.config.height = config.height || defaults.height;
     this.config.ticks = config.ticks || defaults.ticks;
     this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;

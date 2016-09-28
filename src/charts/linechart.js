@@ -1,4 +1,4 @@
-import Chart from './base/Chart'
+import Chart from './base/Chart';
 /**
  * Linechart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
