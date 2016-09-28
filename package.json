@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm run build",
     "test": "karma start -c karma.conf.js",
     "build": "rollup -c rollup.config.js"
   },
