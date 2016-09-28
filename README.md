@@ -50,6 +50,14 @@ npm run serve
 ```
 Now you can browse on http://localhost:8888 and see the full list of working examples
 
+Debug
+----------
+Every time you made a change in your code:
+```bash
+rollup  -g d3-dispatch:d3,proteus-colors:proteus -f umd -n Proteus -o build/bundle.js -- index.js
+```
+
+We're currently working on it to provide an http debug server that automatically refresh the website after every change.
 
 Contribute
 ----------
