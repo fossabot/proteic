@@ -1,3 +1,5 @@
+import { assert } from 'chai';
+
 describe('Charts', () => {
 
   describe('Chart(), Flow(), Basic()', () => {
@@ -6,15 +8,6 @@ describe('Charts', () => {
       assert.throws(() => {
         var chart = new Chart();
       }, Error);
-
-      assert.throws(() => {
-        var basic = new Basic();
-      }, Error);
-
-      assert.throws(() => {
-        var flow = new Flow();
-      }, Error);
-
     });
 
   });

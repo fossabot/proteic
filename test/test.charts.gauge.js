@@ -1,3 +1,7 @@
+import {assert} from 'chai';
+import {SvgGaugeStrategy} from '../src/svg/strategy_gauge';
+
+
 describe('SvgGaugeStrategy', () => {
 
   beforeEach(() => {
@@ -43,20 +47,20 @@ describe('Gauge', () => {
   describe('constructor()', () => {
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
-        var gauge = new Gauge();
+        var gauge = new Proteus.Gauge();
       }, Error, 'Missing constructor parameters');
     });
 
     it('should ignore parameters after the second one.', () => {
       var data = [{ x: 86 }];
       var config = {};
-      var gauge = new Gauge(data, config, 'foo');
+      var gauge = new Proteus.Gauge(data, config, 'foo');
       assert.isOk(gauge);
     });
 
     it('will construct a gauge chart given some data', () => {
       var data = [{ x: 86 }];
-      var chart = new Linechart(data);
+      var chart = new Proteus.Gauge(data, {});
       assert.isOk(chart);
     });
 
@@ -65,7 +69,7 @@ describe('Gauge', () => {
       var width = 250;
       var margin = { left: 0, right: 0, top: 0, bottom: 0 };
       var config = { width, margin };
-      var chart = new Gauge(data, config);
+      var chart = new Proteus.Gauge(data, config);
       var svg = null;
 
       chart.draw();
@@ -78,7 +82,7 @@ describe('Gauge', () => {
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
-        var gauge = new Gauge(data);
+        var gauge = new Proteus.Gauge(data, {});
       }, TypeError, 'Wrong data format');
     });
   });

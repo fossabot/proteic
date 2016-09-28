@@ -1,9 +1,9 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/gauge'
 import {SvgContainer} from './components/svgContainer'
-import {Dial} from './components/Dial'
-import {DialNeedle} from './components/DialNeedle'
-import {NumericIndicator} from './components/NumericIndicator'
+import {Dial} from './components/dial'
+import {DialNeedle} from './components/dialNeedle'
+import {NumericIndicator} from './components/numericIndicator'
 
 export class SvgGaugeStrategy extends SvgChart {
   constructor(chartContext) {

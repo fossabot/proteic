@@ -49,22 +49,6 @@ export function keys(array, field) {
   return keys;
 }
 
-export function getNumberOfDifferentArrayKeys(array, field) {
-  var keys = [];
-  var element = null;
-
-  if (!array || !array.length) {
-    return 0;
-  }
-
-  for (let i = 0; i < array.length; i++) {
-    element = field ? array[i][field] : array[i];
-    if (element) {
-      keys.push(element);
-    }
-  }
-  return d3.set(keys).size();
-}
 
 export function sortBy(array, o) {
   var _toString = Object.prototype.toString;

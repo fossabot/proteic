@@ -1,4 +1,4 @@
-import * as Colors from 'proteus-colors';
+import * as Colors from '../colors';
 
 export const defaults =  {
     selector: '#chart',

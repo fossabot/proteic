@@ -1,3 +1,6 @@
+import {assert} from 'chai';
+import {SvgLinechartStrategy} from '../src/svg/strategy_linechart'
+
 describe('SvgLinechartStrategy', () => {
 
   beforeEach(() => {
@@ -41,20 +44,20 @@ describe('Linechart', () => {
   describe('constructor()', () => {
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
-        var linechart = new Linechart();
+        var linechart = new Proteus.Linechart();
       }, Error, 'Missing constructor parameters');
     });
 
     it('should ignore parameters after the second one.', () => {
       var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
       var config = {};
-      var linechart = new Linechart(data, config, 'foo');
+      var linechart = new Proteus.Linechart(data, config, 'foo');
       assert.isOk(linechart);
     });
 
     it('will construct a line chart given some data', () => {
       var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
-      var chart = new Linechart(data);
+      var chart = new Proteus.Linechart(data, {});
       assert.isOk(chart);
     });
 
@@ -63,7 +66,7 @@ describe('Linechart', () => {
       var width = 250;
       var margin = { left: 0, right: 0, top: 0, bottom: 0 };
       var config = { width, margin };
-      var chart = new Linechart(data, config);
+      var chart = new Proteus.Linechart(data, config);
       var svg = null;
 
       chart.draw();
@@ -78,7 +81,7 @@ describe('Linechart', () => {
         endpoint: 'ws://localhost:3000/socket.io/?EIO=3&transport=websocket'
       };
       var datasource = new WebsocketDatasource(streamingData);
-      var chart = new Linechart(datasource);
+      var chart = new Proteus.Linechart(datasource, {});
 
       this.timeout(5000);
       chart.start();
@@ -91,7 +94,7 @@ describe('Linechart', () => {
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
-        var linechart = new Linechart(data);
+        var linechart = new Proteus.Linechart(data, {});
       }, TypeError, 'Wrong data format');
     });
   });
@@ -99,7 +102,7 @@ describe('Linechart', () => {
   describe('chart functions', () => {
     it.skip('toPNG()', (done) => {
       var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
-      var chart = new Linechart(data);
+      var chart = new Proteus.Linechart(data, {});
       chart.draw();
       //wait for image creation
       setTimeout(() => {
@@ -113,7 +116,7 @@ describe('Linechart', () => {
     it('addSerie(): should return an error because serie needs to be an object', () => {
       assert.throws(() => {
         var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
-        var chart = new Linechart(data);
+        var chart = new Proteus.Linechart(data, {});
         chart.draw();
         chart.addSerie([{}, {}], true);
       }, Error);
@@ -122,7 +125,7 @@ describe('Linechart', () => {
     it('addSeries(): should return an error because serie needs to be an array', () => {
       assert.throws(() => {
         var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 0, y: 2 }] }];
-        var chart = new Linechart(data);
+        var chart = new Proteus.Linechart(data, {});
         var serie = {};
 
         chart.draw();

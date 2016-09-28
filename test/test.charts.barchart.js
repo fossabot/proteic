@@ -1,3 +1,5 @@
+import { assert } from 'chai';
+
 describe('Barchart', () => {
   beforeEach(() => {
     //Append default chart div
@@ -14,23 +16,23 @@ describe('Barchart', () => {
   describe('constructor()', () => {
     it('throws a "Missing constructor parameters" if the data parameter is missing', () => {
       assert.throws(() => {
-        var barchart = new Barchart();
+        var barchart = new Proteus.Barchart();
       }, Error, 'Missing constructor parameters');
     });
 
     it('will construct a simple bar chart given some data', () => {
       var data = [
-        {x: 'Male', key:'Spain', y:30},
-        {x: 'Male', key:'France', y:20}
+        { x: 'Male', key: 'Spain', y: 30 },
+        { x: 'Male', key: 'France', y: 20 }
       ];
-      var chart = new Barchart(data);
+      var chart = new Proteus.Barchart(data, {});
       assert.isOk(chart);
     });
 
     it('throws a "Wrong data format" TypeError if data is not an object neither an array', () => {
       var data = 'wrong parameter';
       assert.throws(() => {
-        var barchart = new Barchart(data);
+        var barchart = new Proteus.Barchart(data, {});
       }, TypeError, 'Wrong data format');
     });
   });
@@ -38,7 +40,7 @@ describe('Barchart', () => {
   describe('chart functions ', () => {
     it.skip('toPNG()', (done) => {
       var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }];
-      var chart = new Barchart(data);
+      var chart = new Proteus.Barchart(data, {});
       chart.draw();
 
       //wait for image creation
@@ -53,7 +55,7 @@ describe('Barchart', () => {
     it('addSerie(): should return an error because serie needs to be an object', () => {
       assert.throws(() => {
         var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }];
-        var chart = new Barchart(data);
+        var chart = new Proteus.Barchart(data, {});
         chart.draw();
         chart.addSerie([{}, {}], true);
       }, Error);
@@ -62,7 +64,7 @@ describe('Barchart', () => {
     it('addSeries(): should return an error because serie needs to be an array', () => {
       assert.throws(() => {
         var data = [{ key: 'serie1', values: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }];
-        var chart = new Barchart(data);
+        var chart = new Proteus.Barchart(data, {});
         var serie = {};
 
         chart.draw();

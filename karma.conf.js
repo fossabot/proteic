@@ -1,7 +1,8 @@
 // Karma configuration
 // Generated on Wed Apr 06 2016 14:18:09 GMT+0200 (CEST)
+var buble = require('rollup-plugin-buble');
 
-module.exports =  (config) => {
+module.exports = (config) => {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -17,16 +18,17 @@ module.exports =  (config) => {
     // If multiple patterns match the same file, it's included as if it only matched the first pattern.
     files: [
       'node_modules/d3/build/d3.min.js',
-      'src/utils/functions.js',
-      'src/utils/**/*.js',
-      'src/datasources/*.js',
-      'src/svg/svg.js',
-      'src/svg/**/*.js',
-      'src/charts/base/Chart.js',
-      'src/charts/*.js',
-      'test/*.js'
+      'node_modules/proteus-colors/build/proteus-colors.min.js',
+      // 'src/utils/functions.js',
+      // 'src/utils/**/*.js',
+      // 'src/datasources/*.js',
+      // 'src/svg/svg.js',
+      // 'src/svg/**/*.js',
+      // 'src/charts/base/Chart.js',
+      // 'src/charts/*.js',
+      'build/bundle.js',
+      'test/test*.js'
     ],
-
 
     // list of files to exclude
     exclude: [
@@ -36,9 +38,24 @@ module.exports =  (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/!(defaults)/*.js': ['coverage']
+      'src/**/!(defaults)/*.js': ['coverage'],
+      'test/test.*.js': ['rollup']
     },
 
+    rollupPreprocessor: {
+      plugins: [
+        buble() // ES2015 compiler by the same author as Rollup
+      ],
+      // will help to prevent conflicts between different tests entries
+      format: 'iife',
+      sourceMap: 'inline',
+      globals: {
+        d3: 'd3',
+        chai: 'chai',
+       // 'proteus-colors': 'proteus-colors'
+      },
+      external: ['d3', 'chai']
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -52,11 +69,11 @@ module.exports =  (config) => {
     coverageReporter: {
       reporters: [
         // generates ./coverage/lcov.info
-        {type:'lcovonly', subdir: '.'},
+        { type: 'lcovonly', subdir: '.' },
         // generates ./coverage/coverage-final.json
-        {type:'json', subdir: '.'},
+        { type: 'json', subdir: '.' },
         // generates HTML reports
-        {type : 'html', dir : 'coverage/'}
+        { type: 'html', dir: 'coverage/' }
       ]
     },
 
