@@ -1,6 +1,6 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/gauge'
-import {SvgContainer} from './components/SvgContainer'
+import {SvgContainer} from './components/svgContainer'
 import {Dial} from './components/Dial'
 import {DialNeedle} from './components/DialNeedle'
 import {NumericIndicator} from './components/NumericIndicator'

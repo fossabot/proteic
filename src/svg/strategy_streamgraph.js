@@ -1,6 +1,6 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/streamgraph'
-import {SvgContainer} from './components/SvgContainer'
+import {SvgContainer} from './components/svgContainer'
 import {XAxis} from './components/xAxis'
 import {YAxis} from './components/yAxis'
 import {Streamset} from './components/streamset'

@@ -1,6 +1,6 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/barchart'
-import {SvgContainer} from './components/SvgContainer'
+import {SvgContainer} from './components/svgContainer'
 import {XYAxes} from './components/xyAxes'
 import {Barset} from './components/barset'
 import {Legend} from './components/legend'

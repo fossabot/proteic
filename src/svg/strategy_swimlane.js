@@ -1,6 +1,6 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/swimlane'
-import {SvgContainer} from './components/SvgContainer'
+import {SvgContainer} from './components/svgContainer'
 import {XYAxes} from './components/xyAxes'
 import {TimeBoxset} from './components/timeBoxset'
 import {Legend} from './components/legend'

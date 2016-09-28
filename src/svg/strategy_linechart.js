@@ -1,6 +1,6 @@
 import {SvgChart} from './svg'
 import {defaults} from '../utils/defaults/linechart'
-import {SvgContainer} from './components/SvgContainer'
+import {SvgContainer} from './components/svgContainer'
 import {XYAxes} from './components/xyAxes'
 import {Lineset} from './components/lineset'
 import {Legend} from './components/legend'
