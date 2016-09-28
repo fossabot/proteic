@@ -18,7 +18,6 @@ module.exports = (config) => {
     // If multiple patterns match the same file, it's included as if it only matched the first pattern.
     files: [
       'node_modules/d3/build/d3.min.js',
-      'node_modules/proteus-colors/build/proteus-colors.min.js',
       // 'src/utils/functions.js',
       // 'src/utils/**/*.js',
       // 'src/datasources/*.js',
