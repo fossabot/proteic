@@ -52,12 +52,12 @@ Now you can browse on http://localhost:8888 and see the full list of working exa
 
 Debug
 ----------
-Every time you made a change in your code:
+Every time you make a change in your code:
 ```bash
 rollup  -g d3-dispatch:d3,proteus-colors:proteus -f umd -n Proteus -o build/bundle.js -- index.js
 ```
 
-We're currently working on it to provide an http debug server that automatically refresh the website after every change.
+We're currently working to provide an http debug server that automatically refresh the website after every change.
 
 Contribute
 ----------
