@@ -6,6 +6,9 @@ proteus-charts
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/828f75b1887540969e7e79937715198b)](https://www.codacy.com/app/nachogarcia91/proteus-charts)
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteus-charts.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteus-charts)
 
+![alt text](https://github.com/proteus-h2020/proteus-charts/blob/es6-modules/images/proteo.jpg "Proteic.js")
+
+
 An awesome web visualization library for both streaming and batch data. It is part of the broader [PROTEUS project](http://www.proteus-bigdata.com/). 
 
 Creating a chart with Proteus Charts is as easy as:
