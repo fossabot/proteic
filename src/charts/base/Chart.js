@@ -107,19 +107,40 @@ export default class Chart {
         });
     }
 
-
-    keepDrawing(datum) {
-        var data = this.data,
-            datumType = datum.constructor;
+    _keepDrawingByAdding(datum) {
+       var datumType = datum.constructor;
 
         if (datumType === Array) {
-            data = this.data.concat(datum);
+            this.data = this.data.concat(datum);
         }
         else {
             data.push(datum);
         }
 
-        this.draw(data);
+        console.log('data to draw', data);
+        this.draw(this.data);
+    }
+
+    _keepDrawingByReplacing(datum) {
+        var datumType = datum.constructor;
+        if (datumType === Array) {
+            this.data = datum;
+        }
+        else {
+            //TODO: find key by datum.x and replace it with new value
+        }
+
+        this.draw(this.data);
+    }
+
+    keepDrawing(datum, method) {
+        if (method === 'add') {
+            this._keepDrawingByAdding(datum);
+        }
+        else {
+            this._keepDrawingByReplacing(datum);
+        }
+
     }
 
     _configureDatasource() {
@@ -127,7 +148,7 @@ export default class Chart {
 
         this.datasource.configure(this.dispatcher);
 
-        this.dispatcher.on('onmessage', (datum) => this.keepDrawing(datum));
+        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));
 
 
         this.dispatcher.on('onopen', (event) => {

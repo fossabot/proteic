@@ -15,12 +15,10 @@
         <meta charset="utf-8" />
     </head>
 
-</head>
-
-<body>
-    <div id='chart'></div>
-    <script>
-        var data = {
+    <body>
+        <div id='chart'></div>
+        <script>
+            var data = {
             endpoint: 'ws://192.168.3.32:3000/linechart'
           };
      var dataSource = new Proteus.WebsocketDatasource(data);
@@ -29,7 +27,7 @@
           linechart = new Proteus.Linechart(dataSource);
           //Start streaming
           dataSource.start()
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>

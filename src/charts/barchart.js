@@ -35,11 +35,6 @@ export default class Barchart extends Chart {
 
       this._svg.strategy.draw();
     }
-   // var element = this._svg.strategy.svg;
-   // if (!element || !element[0][0]) {
-   //   throw Error('Cannot fire events because SVG dom element is not yet initialized');
-   // }
-   // element[0][0].dispatchEvent(new CustomEvent(event, { detail: { type: data } }));
   }
 
   /**
