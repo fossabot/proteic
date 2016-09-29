@@ -1,4 +1,12 @@
 export {
+  default as Datasource
+} from "./src/datasources/Datasource"
+
+export {
+  default as WebsocketDatasource
+} from "./src/datasources/WebsocketDatasource"
+
+export {
   default as Linechart
 } from "./src/charts/linechart"
 

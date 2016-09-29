@@ -1,4 +1,7 @@
-class Datasource{
+export default class Datasource{
+    constructor () {
+        this.filters = [];
+    }
     
     start(){
         console.log('Starting datasource');
@@ -6,5 +9,9 @@ class Datasource{
     
     stop(){
         console.log('Stopping datasource');
+    }
+    
+    filter (filter){
+        return this;
     }
 }

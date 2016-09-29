@@ -2,9 +2,11 @@ import {
   isNumeric, isPercentage
 } from './functions';
 
+import { select } from 'd3';
+
 export function calculateWidth(widthConfig, selector) {
   if (widthConfig === 'auto') {
-    return d3.select(selector)
+    return select(selector)
       .node()
       .getBoundingClientRect()
       .width;
@@ -14,7 +16,7 @@ export function calculateWidth(widthConfig, selector) {
   }
   else if (isPercentage(widthConfig)) {
     let containerWidth, percentage;
-    containerWidth = d3.select(selector)
+    containerWidth = select(selector)
       .node()
       .getBoundingClientRect()
       .width;

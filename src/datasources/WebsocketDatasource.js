@@ -1,14 +1,16 @@
 import Datasource from './Datasource';
 
-class WebsocketDatasource extends Datasource {
+export default class WebsocketDatasource extends Datasource {
+
+
     constructor(source) {
         super();
         this.source = source;
-        this.reactors = [];
+        console.log('source', source);
     }
-
-    configure(reactor) {
-        this.reactors.push(reactor);
+    
+    configure(dispatcher) {
+        this.dispatcher = dispatcher;
     }
 
     start() {
@@ -16,24 +18,14 @@ class WebsocketDatasource extends Datasource {
         this.ws = new WebSocket(this.source.endpoint);
 
         this.ws.onopen = (e) => {
-            for (let rIndex in this.reactors) {
-                let reactor = this.reactors[rIndex];
-                reactor.dispatchEvent('onopen', e);
-            }
+            this.dispatcher.apply('onopen', this, e);
         };
         this.ws.onerror = (e) => {
-            for (let rIndex in this.reactors) {
-                let reactor = this.reactors[rIndex];
-                reactor.dispatchEvent('onerror', e);
-            }
+            this.dispatcher.apply('onerror', this, e);
         };
         this.ws.onmessage = (e) => {
-            //var data = JSON.parse(event.data.substr(2))[1];
             var data = JSON.parse(e.data);
-            for (let rIndex in this.reactors) {
-                let reactor = this.reactors[rIndex];
-                reactor.dispatchEvent('onmessage', data);
-            }
+            this.dispatcher.apply('onmessage', this, data);
         };
     }
 

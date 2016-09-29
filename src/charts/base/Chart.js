@@ -1,5 +1,7 @@
-import {dispatch} from 'd3'
-import {SvgStrategy, strategies} from '../../svg/SvgStrategy'
+import {dispatch} from 'd3';
+import {SvgStrategy, strategies} from '../../svg/SvgStrategy';
+import {svgAsDataUri} from '../../utils/image';
+import {parseDataXY} from '../../utils/dataTransformation'
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
@@ -35,34 +37,12 @@ export default class Chart {
                 throw TypeError('Wrong data format');
         }
         //if only 1 parameter is specified, take default config. Else, take the second argument as config.
-        this.config = (nArguments === 1) ? _default[this.constructor.name] : config;
+        this.config = (nArguments === 1) ? {} : config;
 
         this._initializeSVGContext();
     }
 
-    _parseData(data, xDataFormat, yDataFormat, config) {
-        data.forEach((d) => {
-            //parse x coordinate
-            switch (xDataFormat) {
-                case 'time':
-                    d.x = d3.timeParse(config.x.format)(d.x);
-                    break;
-                case 'linear':
-                    d.x = +d.x;
-                    break;
-            }
-            //parse x coordinate
-            switch (yDataFormat) {
-                case 'time':
-                    d.y = d3.timeFormat
-                    break;
-                case 'linear':
-                    d.y = +d.y;
-                    break;
-            }
-        });
-        return data;
-    }
+
 
     /**
      * Returns the chart context: data, configuration and chart type.
@@ -94,11 +74,11 @@ export default class Chart {
             , p = null
             , desc = null
             , parsedData = null;
-        if(xDataFormat)
-            parsedData = this._parseData(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
+        if (xDataFormat)
+            parsedData = parseDataXY(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
         else
             parsedData = JSON.parse(JSON.stringify(data));
-            
+
         if (sort) {
             p = config.sort.field;
             desc = config.sort.desc;
@@ -117,7 +97,7 @@ export default class Chart {
      * @return {String} Image - in data-url format
      */
     toPNG(cb) {
-        utils.svgAsDataUri(d3.select(this.config.selector + ' svg')._groups[0][0], {}, (uri, err) => {
+        svgAsDataUri(d3.select('#chart' + ' svg')._groups[0][0], {}, (uri, err) => {
             if (err) {
                 throw Error('Error converting to image ' + err);
             }
@@ -127,62 +107,36 @@ export default class Chart {
         });
     }
 
-    /**
-     * On method. Define custom events (click, over, down and up).
-     */
-    on(eventName, action) {
-        throw Error('Not implemented');
-        /**
-        if (!eventName || typeof eventName !== 'string') {
-            throw Error('eventName should be a string. Instead: ' + eventName);
+
+    keepDrawing(datum) {
+        var data = this.data,
+            datumType = datum.constructor;
+
+        if (datumType === Array) {
+            data = this.data.concat(datum);
         }
-        if (!action || !utils.isFunction(action)) {
-            throw Error('action should be a function. Instead: ' + eventName);
+        else {
+            data.push(datum);
         }
 
-        this.events[eventName] = action;
-        this._svg.on(this.events);
-        return this;
-        **/
+        this.draw(data);
     }
 
     _configureDatasource() {
-        throw Error('Not implemented');
-        // this.datasource.configure(this.reactor);
-        /*/
-        this.reactor.registerEvent('onmessage');
-        this.reactor.registerEvent('onerror');
-        this.reactor.registerEvent('onopen');
+        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');
 
-        this.reactor.addEventListener('onmessage', (data) => {
-            this.keepDrawing(data);
+        this.datasource.configure(this.dispatcher);
+
+        this.dispatcher.on('onmessage', (datum) => this.keepDrawing(datum));
+
+
+        this.dispatcher.on('onopen', (event) => {
+            console.log('onopen', event);
         });
 
-        this.reactor.addEventListener('onopen', (e) => {
-            console.debug('Connected to websocket endpoint.', e);
+        this.dispatcher.on('onerror', (error) => {
+            console.log('onerror', error);
         });
 
-        this.reactor.addEventListener('onerror', (error) => {
-            console.error('An error has occured: ', error);
-        });
-        */
     }
-
-    pause() {
-        // if (!this.datasource) {
-        //    throw ('You need a datasource to pause a streaming');
-        // }
-        //this.reactor.removeEventListener('onmessage');
-    }
-
-    resume() {
-        //if (!this.datasource) {
-        //   throw ('You need a datasource to resume a streaming');
-        // }
-
-        // this.reactor.addEventListener('onmessage', (data) => {
-        //     this.keepDrawing(data);
-        // });
-    }
-
 }

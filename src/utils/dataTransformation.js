@@ -25,3 +25,28 @@ export function nested2simple(data) {
   }
   return array;
 }
+
+
+export function parseDataXY(data, xDataFormat, yDataFormat, config) {
+  data.forEach((d) => {
+    //parse x coordinate
+    switch (xDataFormat) {
+      case 'time':
+        d.x = d3.timeParse(config.x.format)(d.x);
+        break;
+      case 'linear':
+        d.x = +d.x;
+        break;
+    }
+    //parse Y coordinate
+    switch (yDataFormat) {
+      case 'time':
+        d.y = d3.timeParse(config.y.format)(d.y);
+        break;
+      case 'linear':
+        d.y = +d.y;
+        break;
+    }
+  });
+  return data;
+}
