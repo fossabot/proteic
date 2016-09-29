@@ -12,7 +12,11 @@ export class Legend {
       , height = config.height
       , width = config.width;
 
-      
+    if(dataSeries.length === 1 && dataSeries[0].key === 'undefined'){
+      console.warn('Not showing legend, since there is a valid key');
+      return;
+    }
+    
     svg.selectAll('g.legend').remove();
     
     legend = svg.append('g').attr('class', 'legend');
