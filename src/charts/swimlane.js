@@ -29,5 +29,6 @@ export default class Swimlane extends Chart {
    * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
+    super.keepDrawing(datum, 'add');
   }
 }

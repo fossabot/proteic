@@ -25,7 +25,7 @@ module.exports = (config) => {
       // 'src/svg/**/*.js',
       // 'src/charts/base/Chart.js',
       // 'src/charts/*.js',
-      'build/bundle.min.js',
+      'build/proteic.min.js',
       'test/test*.js'
     ],
 

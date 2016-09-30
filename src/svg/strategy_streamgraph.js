@@ -56,8 +56,8 @@ export class SvgStreamgraphStrategy {
     }
 
     _getDomainBBox(data, dataSeries) {
-        var minX = d3.min(data, (d) => d.x),
-            maxX = d3.max(data, (d) => d.x),
+        var minX = d3.min(data, (d) => new Date(d.x)),
+            maxX = d3.max(data, (d) => new Date(d.x)),
             minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),
             maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));
 

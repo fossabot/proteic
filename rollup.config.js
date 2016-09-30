@@ -2,8 +2,8 @@ import buble from 'rollup-plugin-buble'
 
 export default {
   entry: 'index.js',
-  dest: 'build/bundle.min.js',
-  moduleName: 'Proteus',
+  dest: 'build/proteic.min.js',
+  moduleName: 'proteic',
   format: 'umd',
   sourceMap: true,
   plugins: [

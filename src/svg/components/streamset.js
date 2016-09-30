@@ -16,17 +16,19 @@ export class Streamset {
       , events = config.events
       , series = null;
 
-    series = svg.selectAll('.series')
+    svg.selectAll('.serie').remove();
+    
+    series = svg.selectAll('.serie')
       .data(data)
       .enter()
       .append('g')
-      .attr('class', 'series')
+      .attr('class', 'serie')
       .style('stroke', (d, i) => colorScale(i));
 
     series
       .append('path')
       .attr('class', 'layer')
-      .attr('d',this.areaGenerator)
+      .attr('d', this.areaGenerator)
       .style('fill', (d, i) => colorScale(i));
 
     series

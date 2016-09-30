@@ -9,7 +9,7 @@
 <head>
     <title>Simple linechart</title>
     <script src='../node_modules/d3/build/d3.min.js'></script>
-    <script src='../build/bundle.min.js'></script>
+    <script src='../build/proteic.min.js'></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
             {key:'serie2', x:8, y:13}
     ];
 
-    areaLinechart = new Proteus.Linechart(dataArea, {
+    areaLinechart = new proteic.Linechart(dataArea, {
         selector: '#chartArea',
         area: true,
         height:400,
@@ -85,7 +85,7 @@
           selector: '#chart-temporal'
         });
 **/
-        temporalLinechart = new Proteus.Linechart(temporalData, {
+        temporalLinechart = new proteic.Linechart(temporalData, {
             x: {
                 type: 'time',
                 format: '%m/%d/%y',

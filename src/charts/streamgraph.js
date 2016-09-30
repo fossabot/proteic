@@ -28,10 +28,7 @@ export default class Streamgraph extends Chart {
    * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (!this.datum) {
-      this.datum = [];
-    }
-    this.datum = this.datum.concat(datum);
-    super.draw(this.datum);
+    console.log('datuuuum', datum);
+    super.keepDrawing(datum, 'add');
   }
 }

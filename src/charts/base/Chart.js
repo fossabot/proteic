@@ -13,7 +13,6 @@ export default class Chart {
         if (clazz === 'Graph') {
             throw new Error(clazz + ' is non-instanciable');
         }
-        //this.dispatcher = dispatch(); TODO: Re-implement reactor with d3-dispatcher
 
         this.events = {};
 
@@ -108,8 +107,9 @@ export default class Chart {
     }
 
     _keepDrawingByAdding(datum) {
-       var datumType = datum.constructor;
+        var datumType = datum.constructor;
 
+        console.log(datumType, this.data, datum);
         if (datumType === Array) {
             this.data = this.data.concat(datum);
         }
@@ -117,7 +117,6 @@ export default class Chart {
             data.push(datum);
         }
 
-        console.log('data to draw', data);
         this.draw(this.data);
     }
 
@@ -134,6 +133,7 @@ export default class Chart {
     }
 
     keepDrawing(datum, method) {
+        console.log('config', this.config);
         if (method === 'add') {
             this._keepDrawingByAdding(datum);
         }

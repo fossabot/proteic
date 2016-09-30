@@ -50,39 +50,25 @@
             fill-opacity: .165;
         }
     </style>
+    <title>Websocket swimlane</title>
+    <script src='../node_modules/d3/build/d3.min.js'></script>
+    <script src='../build/proteic.min.js'></script>
 </head>
 
 <body>
     <div id='chart'></div>
 
-  <script src='../node_modules/d3/build/d3.min.js'></script>
-    <script src='../src/utils/functions.js'></script>
-    <script src='../src/utils/image.js'></script>
-    <script src='../src/utils/strategies.js'></script>
-    <script src='../src/utils/colors.js'></script>
-    <script src='../src/utils/defaults/swimlane.js'></script>
-    <script src='../src/utils/ProteusEvent.js'></script>
-    <script src='../src/datasources/Datasource.js'></script>
-    <script src='../src/datasources/WebsocketDatasource.js'></script>
-    <script src='../src/svg/SvgStrategy.js'></script>
-    <script src='../src/svg/svg.js'></script>
-
-    <script src='../src/svg/strategy_swimlane.js'></script>
-    <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
-
-    <script src='../src/charts/swimlane.js' type='text/javascript'></script>
-
     <script>
         var data = {
             endpoint: 'ws://192.168.3.32:3000/swimlane'
           };
-        var dataSource = new WebsocketDatasource(data);
+        var dataSource = new proteic.WebsocketDatasource(data);
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
 
-        swimlane = new Swimlane(dataSource);
+        swimlane = new proteic.Swimlane(dataSource);
           //Start streaming
-        dataSource.start()
+        dataSource.start();
     </script>
 </body>
 
