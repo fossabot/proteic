@@ -77,19 +77,11 @@
                     {key:'serie2', x: '01/10/16', y: 8},
                     {key:'serie2', x: '01/14/16', y: 5}
         ];
-/**
-        temporalLinechart = new Linechart(temporalData, {
-          xDataType: 'time',
-          xDateFormat: '%m/%d/%y',
-          xaxis: { ticks: d3.timeDays },
-          selector: '#chart-temporal'
-        });
-**/
+
         temporalLinechart = new proteic.Linechart(temporalData, {
             x: {
                 type: 'time',
-                format: '%m/%d/%y',
-                ticks: d3.timeDays
+                format: '%m/%d/%y'
             },
             sort: {
                 field : 'x'
