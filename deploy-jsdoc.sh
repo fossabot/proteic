@@ -11,7 +11,7 @@ git config --global user.email "travis@travis-ci.org"
 git config --global user.name "travis-ci"
 echo -e "Cloning the gh-pages branch...\n"
 
-git clone "https://$GH_TOKEN@github.com/proteus-h2020/proteus-charts.git" --branch=gh-pages gh-pages
+git clone "https://$GH_TOKEN@github.com/proteus-h2020/proteic.git" --branch=gh-pages gh-pages
 cd gh-pages
 cp -Rf $CURRENT_DIR/docs .
 git add -A .
