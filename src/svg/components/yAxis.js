@@ -9,6 +9,9 @@ export class YAxis {
     this.yAxis = this._initializeYAxis(yAxisType, config);
   }
 
+  rescale(width, height) {
+    this.yAxis.tickSizeInner(-width);
+  }
 
   _initializeYAxis(yAxisType = 'linear', config) {
     var y = null
@@ -49,12 +52,9 @@ export class YAxis {
       .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
   }
 
-  /**
-   * This function is used when both x and y axis update their domains by x and y max/min values, respectively. 
-   */
   updateDomainByBBox(b) {
     var y = this.yAxis.scale();
-    y.domain([b[0], b[1]]);
+    y.domain(b);
   }
 
   updateDomainByKeys(keys) {

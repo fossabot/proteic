@@ -1,4 +1,6 @@
 import Chart from './base/Chart';
+import * as defaultProperties from '../utils/defaults/swimlane';
+
 
 /**
  * Linechart implementation. This charts belongs to 'Basic' family.
@@ -13,6 +15,8 @@ export default class Swimlane extends Chart {
    */
   constructor(data, config) {
     super(data, config);
+    let keys = Object.keys(defaultProperties.defaults);
+    this._initializeAPI(keys);
   }
 
   /**

@@ -1,4 +1,6 @@
 import Chart from './base/Chart';
+import * as defaultProperties from '../utils/defaults/linechart';
+
 /**
  * Linechart implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
@@ -12,6 +14,8 @@ export default class Linechart extends Chart {
    */
   constructor(data, config) {
     super(data, config);
+    let keys = Object.keys(defaultProperties.defaults);
+    this._initializeAPI(keys);
   }
 
   /**

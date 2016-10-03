@@ -25,6 +25,15 @@ export class SvgBarchartStrategy {
 
   }
 
+  changeConfigProperty(p, v) {
+    this.config[p] = v;
+    if (p === 'width' || p === 'height') {
+      this.config.needAxisRescaling = true;
+    }
+  }
+
+
+
 	/**
 	 * Renders a barchart based on data object
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
@@ -43,7 +52,14 @@ export class SvgBarchartStrategy {
       yMin = 0,
       yMax = 0,
       method = isStacked ? 'stacked' : 'grouped',
-      dataSeries = stack(data4stack);
+      dataSeries = stack(data4stack),
+      needAxisRescaling = this.config.needAxisRescaling;
+
+    //rescale, if needed.
+    if (needAxisRescaling) {
+      this.rescale();
+    }
+
 
     yMax = isStacked ?
       d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1])) :
@@ -60,6 +76,11 @@ export class SvgBarchartStrategy {
 
     this.data = data; // TODO: ? 
 
+  }
+  
+  rescale(width = this.config.width, height = this.config.height) {
+    this.axes.rescale(width, height);
+    this.config.needAxisRescaling = false;
   }
 
   transition2Stacked() {

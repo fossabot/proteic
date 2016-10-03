@@ -26,6 +26,19 @@ export class SvgStackedAreaStrategy {
             .add(this.streams);
     }
 
+    rescale(width = this.config.width, height = this.config.height) {
+        this.axes.rescale(width, height);
+        this.config.needAxisRescaling = false;
+    }
+
+    changeConfigProperty(p, v) {
+        this.config[p] = v;
+        if (p === 'width' || p === 'height') {
+            this.config.needAxisRescaling = true;
+        }
+    }
+
+
     draw(data) {
         var svg = this.svgContainer.svg,
             config = this.config,
@@ -37,8 +50,14 @@ export class SvgStackedAreaStrategy {
                 .value((d, k) => d.value[k])
                 .order(d3.stackOrderInsideOut)
                 .offset(d3.stackOffNone),
-            dataSeries = stack(data4stack);
+            dataSeries = stack(data4stack),
+            needAxisRescaling = this.config.needAxisRescaling;
 
+        //rescale, if needed.
+        if (needAxisRescaling) {
+            this.rescale();
+        }
+        
         bbox = this._getDomainBBox(data, dataSeries);
 
         this.axes.updateDomainByBBox(bbox);

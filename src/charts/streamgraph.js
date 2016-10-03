@@ -1,4 +1,6 @@
 import Chart from './base/Chart';
+import * as defaultProperties from '../utils/defaults/streamgraph';
+
 /**
  * Streamgraph implementation. This charts belongs to 'Flow' family.
  * It is inherited on 'Flow'.
@@ -12,6 +14,8 @@ export default class Streamgraph extends Chart {
    */
   constructor(data, config) {
     super(data, config);
+    let keys = Object.keys(defaultProperties.defaults);
+    this._initializeAPI(keys);
   }
 
   /**
@@ -28,7 +32,6 @@ export default class Streamgraph extends Chart {
    * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
-    console.log('datuuuum', datum);
     super.keepDrawing(datum, 'add');
   }
 }

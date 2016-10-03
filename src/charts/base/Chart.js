@@ -41,6 +41,15 @@ export default class Chart {
         this._initializeSVGContext();
     }
 
+    _initializeAPI(properties) {
+        let clazz = this.constructor;
+        properties.forEach((method) => {
+            clazz.prototype[method] = function (value) {
+                return this.change(method, value);
+            }
+        });
+    }
+
 
 
     /**
@@ -158,6 +167,10 @@ export default class Chart {
         this.dispatcher.on('onerror', (error) => {
             console.log('onerror', error);
         });
+    }
 
+    change(property, value) {
+        this._svg.strategy.changeConfigProperty(property, value);
+        return this;
     }
 }

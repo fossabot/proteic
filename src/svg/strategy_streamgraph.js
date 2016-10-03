@@ -39,8 +39,14 @@ export class SvgStreamgraphStrategy {
                 .value((d, k) => d.value[k])
                 .order(d3.stackOrderInsideOut)
                 .offset(d3.stackOffsetWiggle),
-            dataSeries = stack(data4stack);
-
+            dataSeries = stack(data4stack),
+            needAxisRescaling = this.config.needAxisRescaling;
+            
+        //rescale, if needed.
+        if (needAxisRescaling) {
+           this.rescale();
+        }
+        
         bbox = this._getDomainBBox(data, dataSeries);
 
         this.x.updateDomainByBBox([bbox[0], bbox[1]]);
@@ -55,6 +61,20 @@ export class SvgStreamgraphStrategy {
         this.streams.update(svg, config, dataSeries);
     }
 
+  changeConfigProperty(p, v) {
+    this.config[p] = v;
+    if (p === 'width' || p === 'height') {
+      this.config.needAxisRescaling = true;
+    }
+  }
+
+  rescale(width = this.config.width, height = this.config.height) {
+    this.x.rescale(width, height);
+    this.y.rescale(width, height);
+
+    this.config.needAxisRescaling = false;
+  }
+  
     _getDomainBBox(data, dataSeries) {
         var minX = d3.min(data, (d) => new Date(d.x)),
             maxX = d3.max(data, (d) => new Date(d.x)),

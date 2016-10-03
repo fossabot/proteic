@@ -6,7 +6,7 @@ import {Legend} from './components/legend';
 import {calculateWidth} from '../utils/screen';
 
 export class SvgSwimlaneStrategy {
-  
+
   constructor(chartContext) {
     this._loadConfigOnContext(chartContext.config);
     var config = this.config;
@@ -22,11 +22,24 @@ export class SvgSwimlaneStrategy {
       .add(this.legend);
   }
 
+  changeConfigProperty(p, v) {
+    this.config[p] = v;
+    if (p === 'width' || p === 'height') {
+      this.config.needAxisRescaling = true;
+    }
+  }
+
   draw(data) {
     var svg = this.svgContainer.svg,
       config = this.config,
       keys = d3.map(data, (d) => d.key).keys(),
-      bbox = this._getBBox(data);
+      bbox = this._getBBox(data),
+      needAxisRescaling = this.config.needAxisRescaling;
+
+    //rescale, if needed.
+    if (needAxisRescaling) {
+      this.rescale();
+    }
 
     this.axes.updateDomainByBBoxAndKeys(bbox, keys);
     this.axes.transition(svg, 200);
@@ -35,6 +48,12 @@ export class SvgSwimlaneStrategy {
     this.legend.update(svg, config, data);
 
   }
+  
+  rescale(width = this.config.width, height = this.config.height) {
+    this.axes.rescale(width, height);
+    this.config.needAxisRescaling = false;
+  }
+
   _getBBox(data) {
     return [
       d3.min(data, (d) => new Date(d.x)),

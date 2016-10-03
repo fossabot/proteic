@@ -1,4 +1,5 @@
 import Chart from './base/Chart';
+import * as defaultProperties from '../utils/defaults/linechart';
 
 /**
  * Barchart implementation. This charts belongs to 'Basic' family.
@@ -13,6 +14,8 @@ export default class Barchart extends Chart {
    */
   constructor(data, config) {
     super(data, config);
+    let keys = Object.keys(defaultProperties.defaults);
+    this._initializeAPI(keys);
   }
 
   /**
@@ -25,11 +28,11 @@ export default class Barchart extends Chart {
   }
 
   fire(event, data) {//TODO: improve this section
-    if(event === 'transition'){
-      if(data==='grouped'){
+    if (event === 'transition') {
+      if (data === 'grouped') {
         this._svg.strategy.transition2Grouped();
       }
-      else if(data === 'stacked'){
+      else if (data === 'stacked') {
         this._svg.strategy.transition2Stacked();
       }
 

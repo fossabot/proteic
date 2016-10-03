@@ -8,12 +8,12 @@ import {Pointset} from './components/pointset';
 import {calculateWidth} from '../utils/screen';
 
 export class SvgLinechartStrategy {
-  
+
   constructor(chartContext) {
     this._loadConfigOnContext(chartContext.config);
-    
+
     var config = this.config,
-        xDataType = config.x.type;
+      xDataType = config.x.type;
 
     this.svgContainer = new SvgContainer(config);
     this.axes = new XYAxes(xDataType, 'linear', config);
@@ -46,7 +46,13 @@ export class SvgLinechartStrategy {
   draw(data) {
     var svg = this.svgContainer.svg,
       config = this.config,
+      needAxisRescaling = this.config.needAxisRescaling,
       bbox = null;
+
+    //rescale, if needed.
+    if (needAxisRescaling) {
+      this.rescale();
+    }
 
     //    this._parseData(data, xDataFormat, yDataFormat, config);
 
@@ -73,6 +79,18 @@ export class SvgLinechartStrategy {
       this.points.update(svg, config, data);
     }
 
+  }
+
+  changeConfigProperty(p, v) {
+    this.config[p] = v;
+    if (p === 'width' || p === 'height') {
+      this.config.needAxisRescaling = true;
+    }
+  }
+
+  rescale(width = this.config.width, height = this.config.height) {
+    this.axes.rescale(width, height);
+    this.config.needAxisRescaling = false;
   }
 
   _getDomainBBox(data) {
@@ -113,9 +131,6 @@ export class SvgLinechartStrategy {
       : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
     this.config.height = config.height || defaults.height;
     this.config.ticks = config.ticks || defaults.ticks;
-    this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;
-    this.config.yticks = config.yaxis.ticks || defaults.yaxis.ticks;
-    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
     this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
     this.config.tip = config.tooltip || defaults.tooltip;
     this.config.events = {};
@@ -124,11 +139,8 @@ export class SvgLinechartStrategy {
     this.config.events.over = config.events.over || defaults.events.over;
     this.config.events.click = config.events.click || defaults.events.click;
     this.config.events.leave = config.events.leave || defaults.events.leave;
-    this.config._sortData = config.sortData || defaults.sortData;
     this.config.style = config.style || defaults.style;
     this.config.colorScale = config.colorScale || defaults.colorScale;
-    this.config.xAxisLabel = config.xaxis.label || defaults.xaxis.label;
-    this.config.yAxisLabel = config.yaxis.label || defaults.yaxis.label;
 
     this.config.markers = {};
     this.config.markers.color = config.markers.color || defaults.markers.color;
@@ -141,7 +153,6 @@ export class SvgLinechartStrategy {
     this.config.x = {};
     this.config.x.type = config.x.type || defaults.xDataType;
     this.config.x.format = config.x.format || defaults.xDateFormat;
-    this.config.x.ticks = config.x.ticks;
 
     return this;
   }

@@ -41,4 +41,9 @@ export class XYAxes {
     this.x.render(svg, config);
     this.y.render(svg, config);
   }
+  
+  rescale(width, height){
+    this.x.rescale(width, height);
+    this.y.rescale(width, height);
+  }
 }

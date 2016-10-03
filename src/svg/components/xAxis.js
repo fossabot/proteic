@@ -10,6 +10,10 @@ export class XAxis {
   }
 
 
+  rescale(width, height) {
+    this.xAxis.scale().range([0, width]);   
+  }
+
   _initializeXAxis(xAxisType = 'linear', config) {
     var x = null
       , xAxis = null;
@@ -29,8 +33,8 @@ export class XAxis {
       default:
         throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
     }
-  
-    return d3.axisBottom(x).ticks(null);
+
+    return d3.axisBottom(x);
   }
 
   transition(svg, time = 200) {
@@ -83,5 +87,7 @@ export class XAxis {
       .attr('class', 'tickLabel')
       .attr('x', width / 2)
       .attr('y', height + margin.bottom).text(xAxisLabel);
+      
+     this.svg = svg;
   }
 }
