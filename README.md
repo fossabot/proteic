@@ -23,7 +23,7 @@ For these reasons we decided to develop a new web-based visualization library fr
 
 ##Usage
 Simply add the ``proteic.js`` script to your project and include it in your HTML:
-```javascript
+```html
 <script type="text/javascript" src="proteic.min.js"></script>
 ```
 After including the script (preferably the minified version for production environments) you are ready to use ProteicJS.
@@ -42,18 +42,14 @@ If you are interested in the project and you want to collaborate in your spare t
 
 ##Developers
 
-### Running the examples
-```bash
-git clone https://github.com/proteus-h2020/proteic && cd proteic
-npm install
-npm run-script serve
-```
-Now you can browse on http://localhost:8080/examples/ and see the full list of working examples
+We provide the following NPM Scripts to ease the development process. You can run each script like the following `npm run-script serve:watch`
 
-### Debugging
-We provide an http debug server that automatically refresh the website after every change. To use this feature run the following command:
-```bash
-npm run-script serve:watch
-```
+- `lint`: runs the JSHint linter to detect errors and problems in the code
+- `pretest`: builds the source code before testing
+- `test`: runs the tests using Karma
+- `prebuild`: removes the build directory before building to prevent errors
+- `build`: builds the source code with Rollup.js
+- `serve`: launches an http debug server on (http://localhost:8080/)[http://localhost:8080/] 
+- `serve:watch`: launches an http debug server and automatically refreshes the browser after every change
 
 
