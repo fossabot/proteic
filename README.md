@@ -41,3 +41,19 @@ If you are interested in the project and you want to collaborate in your spare t
 
 
 ##Developers
+
+### Running the examples
+```bash
+git clone https://github.com/proteus-h2020/proteic && cd proteic
+npm install
+npm run-script serve
+```
+Now you can browse on http://localhost:8080/examples/ and see the full list of working examples
+
+### Debugging
+We provide an http debug server that automatically refresh the website after every change. To use this feature run the following command:
+```bash
+npm run-script serve:watch
+```
+
+
