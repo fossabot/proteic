@@ -6,7 +6,7 @@ import {Legend} from './components/legend';
 import {simple2stacked} from '../utils/dataTransformation';
 import {calculateWidth} from '../utils/screen';
 
-export class SvgBarchartStrategy {
+export class SvgBarchartStrategy  {
 
   constructor(chartContext) {
     this._loadConfigOnContext(chartContext.config);

@@ -1,7 +1,7 @@
 import {dispatch} from 'd3';
 import {SvgStrategy, strategies} from '../../svg/SvgStrategy';
 import {svgAsDataUri} from '../../utils/image';
-import {parseDataXY} from '../../utils/dataTransformation'
+
 /**
  * Base class. This class is inherited in all charts implementations.
  * This is a non-instanciable chart.
@@ -50,8 +50,6 @@ export default class Chart {
         });
     }
 
-
-
     /**
      * Returns the chart context: data, configuration and chart type.
      */
@@ -75,29 +73,7 @@ export default class Chart {
      * @param  {Array} data Array of data
      */
     draw(data = this.data) {
-        var config = this.config
-            , sort = config.sort
-            , xDataFormat = config.x ? config.x.type : null
-            , yDataFormat = 'linear'
-            , p = null
-            , desc = null
-            , parsedData = null;
-        if (xDataFormat)
-            parsedData = parseDataXY(JSON.parse(JSON.stringify(data)), xDataFormat, yDataFormat, config); // We make a copy of data. We don't want to modify the original object.
-        else
-            parsedData = JSON.parse(JSON.stringify(data));
-
-        if (sort) {
-            p = config.sort.field;
-            desc = config.sort.desc;
-            parsedData.sort((e1, e2) => {
-                var a = e1[p];
-                var b = e2[p];
-                return (a < b) ? -1 : (a > b) ? 1 : 0;
-            })
-        }
-
-        this._svg.draw(parsedData);
+        this._svg.draw(data);
     }
 
     /**
@@ -105,7 +81,8 @@ export default class Chart {
      * @return {String} Image - in data-url format
      */
     toPNG(cb) {
-        svgAsDataUri(d3.select('#chart' + ' svg')._groups[0][0], {}, (uri, err) => {
+        var selector = this.config.selector + ' ' + 'svg';
+        svgAsDataUri(d3.select(selector)._groups[0][0], {}, (uri, err) => {
             if (err) {
                 throw Error('Error converting to image ' + err);
             }

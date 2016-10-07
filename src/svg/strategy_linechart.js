@@ -6,6 +6,8 @@ import {Legend} from './components/legend';
 import {Areaset} from './components/areaset';
 import {Pointset} from './components/pointset';
 import {calculateWidth} from '../utils/screen';
+import {convertByXYFormat} from '../utils/dataTransformation';
+import {sortByField} from '../utils/dataSorting';
 
 export class SvgLinechartStrategy {
 
@@ -48,13 +50,18 @@ export class SvgLinechartStrategy {
       config = this.config,
       needAxisRescaling = this.config.needAxisRescaling,
       bbox = null;
+      
+    //Transform data, if needed
+    convertByXYFormat(data, config);
 
+    //Sort data
+    sortByField(data, 'x');
+    
     //rescale, if needed.
     if (needAxisRescaling) {
       this.rescale();
     }
 
-    //    this._parseData(data, xDataFormat, yDataFormat, config);
 
     bbox = this._getDomainBBox(data);
 
@@ -106,23 +113,22 @@ export class SvgLinechartStrategy {
    * @param  {Object} config Config object
    */
   _loadConfigOnContext(config) {
-    //super._loadConfigOnContext(config);
-    config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+    config = config || { events: {}, markers: {}, x:{}, y:{} };
     if (!config.events) {
       config.events = {};
     }
     if (!config.markers) {
       config.markers = {};
     }
-    if (!config.xaxis) {
-      config.xaxis = {};
-    }
-    if (!config.yaxis) {
-      config.yaxis = {};
-    }
+   
     if (!config.x) {
       config.x = {};
     }
+    
+    if (!config.y) {
+      config.y = {};
+    }
+    
     this.config = {};
     this.config.cType = this.constructor.name;
     this.config.selector = config.selector || defaults.selector;
@@ -151,9 +157,11 @@ export class SvgLinechartStrategy {
     this.config.area = typeof (config.area) === 'undefined' ? defaults.area : config.area;
     this.config.areaOpacity = config.areaOpacity || defaults.areaOpacity;
     this.config.x = {};
-    this.config.x.type = config.x.type || defaults.xDataType;
-    this.config.x.format = config.x.format || defaults.xDateFormat;
-
+    this.config.x.type = config.x.type || defaults.axis.x.type;
+    this.config.x.format = config.x.format || defaults.axis.x.format;
+    this.config.y = {};
+    this.config.y.type = config.y.type || defaults.axis.y.type;
+    this.config.y.format = config.y.format || defaults.axis.x.format;
     return this;
   }
 }

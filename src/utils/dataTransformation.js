@@ -27,26 +27,40 @@ export function nested2simple(data) {
 }
 
 
-export function parseDataXY(data, xDataFormat, yDataFormat, config) {
+export function convertPropretiesToTimeFormat (data, properties, format) {
+    data.forEach((d) => {
+      properties.map((p) => {
+        d[p] = d3.timeParse(format)(d[p]);
+      });
+    });
+}
+
+export function convertByXYFormat(data, config) {
+  var xType = config.x.type,
+    yType = config.y.type,
+    xFormat = config.x.format,
+    yFormat = config.y.format;
+
   data.forEach((d) => {
     //parse x coordinate
-    switch (xDataFormat) {
+    switch (xType) {
       case 'time':
-        d.x = d3.timeParse(config.x.format)(d.x);
+        d.x = d3.timeParse(xFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
         break;
     }
     //parse Y coordinate
-    switch (yDataFormat) {
+    switch (yType) {
       case 'time':
-        d.y = d3.timeParse(config.y.format)(d.y);
+        d.y = d3.timeParse(yFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
         break;
     }
   });
+
   return data;
 }

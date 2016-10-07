@@ -6,6 +6,8 @@ import {Streamset} from './components/streamset';
 import {Legend} from './components/legend';
 import {simple2stacked} from '../utils/dataTransformation';
 import {calculateWidth} from '../utils/screen';
+import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
+import {sortByField} from '../utils/dataSorting';
 
 export class SvgStreamgraphStrategy {
 
@@ -33,6 +35,7 @@ export class SvgStreamgraphStrategy {
             config = this.config,
             bbox = null,
             keys = d3.map(data, (d) => d.key).keys(),
+            xDataFormat = this.config.x.format,
             data4stack = simple2stacked(data),
             stack = d3.stack()
                 .keys(keys)
@@ -41,7 +44,12 @@ export class SvgStreamgraphStrategy {
                 .offset(d3.stackOffsetWiggle),
             dataSeries = stack(data4stack),
             needAxisRescaling = this.config.needAxisRescaling;
-            
+       
+       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);
+        
+        //Sort data
+        sortByField(data, 'x');
+        
         //rescale, if needed.
         if (needAxisRescaling) {
            this.rescale();
@@ -89,22 +97,23 @@ export class SvgStreamgraphStrategy {
 	 * @param  {Object} config Config object
 	 */
     _loadConfigOnContext(config) {
-        config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+        config = config || { events: {}, x:{}, y:{} };
+        
+        
         if (!config.events) {
             config.events = {};
         }
         if (!config.markers) {
             config.markers = {};
         }
-        if (!config.xaxis) {
-            config.xaxis = {};
-        }
-        if (!config.yaxis) {
-            config.yaxis = {};
-        }
+
         if (!config.x) {
             config.x = {};
         }
+        if (!config.y) {
+            config.y = {};
+        }
+        
         this.config = {};
         this.config.cType = this.constructor.name;
         this.config.selector = config.selector || defaults.selector;
@@ -113,11 +122,6 @@ export class SvgStreamgraphStrategy {
             : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
         this.config.height = config.height || defaults.height;
         this.config.ticks = config.ticks || defaults.ticks;
-        this.config.xticks = config.xaxis.ticks || defaults.xaxis.ticks;
-        this.config.yticks = config.yaxis.ticks || defaults.yaxis.ticks;
-        this.config.tickLabel = config.tickLabel || defaults.tickLabel;
-        this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
-        this.config.tip = config.tooltip || defaults.tooltip;
         this.config.events = {};
         this.config.events.down = config.events.down || defaults.events.down;
         this.config.events.up = config.events.up || defaults.events.up;
@@ -127,9 +131,14 @@ export class SvgStreamgraphStrategy {
         this.config._sortData = config.sortData || defaults.sortData;
         this.config.style = config.style || defaults.style;
         this.config.colorScale = config.colorScale || defaults.colorScale;
-        this.config.xAxisLabel = config.xaxis.label || defaults.xaxis.label;
-        this.config.yAxisLabel = config.yaxis.label || defaults.yaxis.label;
         this.config.colorScale = config.colorScale || defaults.colorScale;
         this.config.xDateformat = config.xDateFormat || defaults.xDateFormat;
+        
+        this.config.x = {};
+        this.config.x.type = config.x.type || defaults.axis.x.type;
+        this.config.x.format = config.x.format || defaults.axis.x.format;
+        this.config.y = {};
+        this.config.y.type = config.y.type || defaults.axis.y.type;
+        this.config.y.format = config.y.format || defaults.axis.x.format;
     }
 }
