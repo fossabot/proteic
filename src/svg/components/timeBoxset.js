@@ -40,14 +40,15 @@ export class TimeBoxset {
     boxEnter = box.enter().append('rect');
 
     boxMerge = box.merge(boxEnter)
-      .attr('width', (d) => x(new Date(d.y)) - x(new Date(d.x)))
-      .attr('x', (d) => x(new Date(d.x)))
+      .attr('width', (d) => x(d.y) - x(d.x))
+      .attr('x', (d) => x(d.x))
       .attr('y', (d) => y(d.key))
       .attr('fill', (d, i, j) => colorScale(parseInt(yLanesBand(d.key))))
       .attr("height", (d) => .8 * yLanes(1));
 
 
     box = svg.selectAll('g.serie rect');
+    
     box
       .on('mousedown.user', events.down)
       .on('mouseup.user', events.up)

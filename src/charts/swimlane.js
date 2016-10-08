@@ -25,7 +25,7 @@ export default class Swimlane extends Chart {
    * specify this param, this.data will be used instead.
    */
   draw(data = this.data) {
-    this._svg.draw(data);
+    super.draw(data);
   }
 
   /**

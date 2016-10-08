@@ -5,6 +5,16 @@ export const defaults = {
     colorScale: Colors.category7(),
     area: false,
     areaOpacity: 0.4,
+    axis:{
+        x:{
+            type:'linear',
+            format:'%d'
+        },
+        y:{
+            type: 'linear',
+            format :'%d'
+        }
+    },
     margin: {
         top: 20,
         right: 250,

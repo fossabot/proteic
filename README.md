@@ -4,7 +4,7 @@ _In Greek mythology, Proteus is an early sea-god or god of rivers and oceanic bo
 
 [![Build Status](https://travis-ci.org/proteus-h2020/proteic.svg?branch=master)](https://travis-ci.org/proteus-h2020/proteic)
 [![Dependency Status](https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022)
-[![codecov](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteus-charts/branch/development)
+[![codecov](https://codecov.io/gh/proteus-h2020/proteic/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteic/branch/development)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4e39876ac5324eba8035c6f5ec95b52b)](https://www.codacy.com/app/0xnacho/proteic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proteus-h2020/proteic&amp;utm_campaign=Badge_Grade)
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteic)
 
