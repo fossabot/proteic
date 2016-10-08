@@ -7,7 +7,6 @@ export class SvgContainer {
   }
 
   _initializeSvgContainer(config) {
-    var translation = 'translate(' + config.margin.left + ',' + config.margin.top + ')';
     var margin = config.margin
       , selector = config.selector
       , width = config.width + margin.left + margin.right

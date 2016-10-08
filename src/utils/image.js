@@ -59,7 +59,7 @@ function styles(el, selectorRemap) {
     if (rules !== null) {
       for (var j = 0; j < rules.length; j++) {
         var rule = rules[j];
-        if (typeof (rule.style) != 'undefined') {
+        if (typeof (rule.style) !== 'undefined') {
           var match = null;
           try {
             match = el.querySelector(rule.selectorText);

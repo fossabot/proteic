@@ -45,7 +45,7 @@ export class XAxis {
     d3.select(this).selectAll('g.tick text')
       .style('font-size', '1.4em')
       .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
-      .style('fill', (d, i) => '#1a2127')
+      .style('fill', (d) => '#1a2127')
 
 
     d3.select(this).selectAll(['path', 'line'])
