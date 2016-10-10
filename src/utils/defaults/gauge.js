@@ -14,12 +14,7 @@ export const defaults =  {
     needleNutRadius: 25,
     needleLenghtRatio: 0.8,
     numericIndicator: true,
-    xaxis: {
-        label: 'X'
-    },
-    yaxis: {
-        label: 'Y'
-    },
+    label: 'km/h',
     margin: {
         top: 20,
         right: 20,

@@ -30,3 +30,7 @@ export {
   default as Gauge
 } from "./src/charts/gauge"
 
+export {
+  default as Sunburst
+} from "./src/charts/sunburst"
+

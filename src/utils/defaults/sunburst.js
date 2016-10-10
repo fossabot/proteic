@@ -1,6 +1,6 @@
-var _default = _default || {};
+import * as Colors from '../colors';
 
-_default.Sunburst = {
+export const defaults = {
     selector: '#chart',
         colorScale: Colors.category8(),
         margin: {

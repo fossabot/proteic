@@ -3,7 +3,9 @@ export function simple2stacked(data) {
     let r = {};
     for (let i in array) {
       let object = array[i];
-      r[array[i].key] = array[i].y;
+      if (object) {
+        r[object.key] = object.y;
+      }
     }
     return r;
   }).entries(data);
