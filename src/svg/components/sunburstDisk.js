@@ -41,30 +41,6 @@ export class SunburstDisk {
       .style('stroke-width', '2')
       .style('shape-rendering', 'crispEdge');
 
-      // Create infobox
-      let infobox = svg
-        .append('g')
-        .attr('class', 'infobox')
-        .attr('pointer-events', 'none')
-        .style('text-anchor', 'middle')
-        .style('alignment-baseline', 'central')
-        .style('fill', 'black');
-      // Append central circle
-      infobox.append('text')
-        .attr('class', 'name')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('pointer-events', 'none')
-        .style('font', '28px sans-serif');
-      infobox.append('text')
-        .attr('class', 'value')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('pointer-events', 'none')
-        .style('font', '24px sans-serif')
-        .style('transform', 'translate(0, 1.5em');
-
-
       paths // TODO extract events to config?
         .on('mouseover', (d) => {
           let ancestors = this._getAncestors(d);
@@ -77,15 +53,16 @@ export class SunburstDisk {
             .filter((node) => ancestors.indexOf(node) >= 0)
             .style('opacity', 1);
           // Hightlight the hovered arc
-            svg.select('.infobox .name').text(d.data.label);
-            svg.select('.infobox .value').text(d.value);
+            svg.select('.text-indicator .label').text(d.data.label);
+            svg.select('.text-indicator .value').text(d.value);
         })
         .on('mouseout', (d) => {
           d3.selectAll('path').style('opacity', 1);
-          d3.select('.infobox .name').style('font-weight', 'normal');
-          d3.select('.infobox .name').text('');
-          d3.select('.infobox .value').text('');
-        });
+          d3.select('.text-indicator .label').style('font-weight', 'normal');
+          d3.select('.text-indicator .label').text('');
+          d3.select('.text-indicator .value').text('');
+        })
+      ;
 
     // ???
     d3.select(self.frameElement).style('height', this.height + 'px');

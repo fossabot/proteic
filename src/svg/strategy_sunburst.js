@@ -2,7 +2,7 @@ import {defaults} from '../utils/defaults/barchart';
 import {SvgContainer} from './components/svgContainer';
 import {RadialAxes} from './components/radialAxes';
 import {SunburstDisk} from './components/sunburstDisk';
-import {NumericIndicator} from './components/numericIndicator';
+import {TextIndicator} from './components/textIndicator';
 import {calculateWidth} from '../utils/screen';
 
 export class SvgSunburstStrategy {
@@ -11,19 +11,20 @@ export class SvgSunburstStrategy {
     this._loadConfigOnContext(chartContext.config);
     var config = this.config;
     let radius = (Math.min(config.width, config.height) / 2) - 10;
+    let translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
     this.svgContainer = new SvgContainer(config);
-    this.svgContainer.svg.attr('transform', 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')');
+    this.svgContainer.svg.attr('transform', translation);
     this.axes = new RadialAxes(config);
     this.disk = new SunburstDisk(
       this.axes.x.xRadialAxis,
       this.axes.y.yRadialAxis,
       config);
-    // this.numericIndicator = new NumericIndicator(config);
+    this.textIndicator = new TextIndicator(config);
 
     this.svgContainer
-      .add(this.disk);
-      // .add(this.numericIndicator);
+      .add(this.disk)
+      .add(this.textIndicator);
   }
 
   draw(data) {
@@ -32,6 +33,7 @@ export class SvgSunburstStrategy {
       colorScale = this.config.colorScale;
 
     this.disk.update(svg, config, data);
+    // this.textIndicator.update(svg, 'test', 'test');
   }
 
   /**

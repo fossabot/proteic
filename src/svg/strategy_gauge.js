@@ -2,7 +2,7 @@ import {defaults} from '../utils/defaults/gauge';
 import {SvgContainer} from './components/svgContainer';
 import {Dial} from './components/dial';
 import {DialNeedle} from './components/dialNeedle';
-import {NumericIndicator} from './components/numericIndicator';
+import {TextIndicator} from './components/textIndicator';
 import {calculateWidth} from '../utils/screen';
 
 export class SvgGaugeStrategy {
@@ -20,8 +20,15 @@ export class SvgGaugeStrategy {
       .add(this.needle);
 
     if (config.numericIndicator) {
-      this.numericIndicator = new NumericIndicator(config);
-      this.svgContainer.add(this.numericIndicator);
+      let r = (
+          (config.width > config.height)
+            ? config.height
+            : config.width
+        ) / 2;
+      let indicatorOffset = r + 75;
+      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
+      this.textIndicator = new TextIndicator(config);
+      this.svgContainer.add(this.textIndicator);
     }
   }
 
@@ -31,12 +38,13 @@ export class SvgGaugeStrategy {
 	 *
 	 */
   draw(data) {
+    let datum = data[data.length - 1];
     var svg = this.svgContainer.svg,
       config = this.config;
 
     this.needle.update(svg, config, data);
     if (config.numericIndicator) {
-      this.numericIndicator.update(svg, config, data);
+      this.textIndicator.update(svg, datum.x, config.label);
     }
   }
 
@@ -73,6 +81,7 @@ export class SvgGaugeStrategy {
     this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;
     this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;
     this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;
+    this.config.label = config.label || defaults.label;
     //Just for testing purposes
     return this;
   }
