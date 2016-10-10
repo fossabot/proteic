@@ -2,17 +2,15 @@ import {SvgContainer} from './components/svgContainer';
 import {defaults} from '../utils/defaults/networkgraph';
 import {calculateWidth} from '../utils/screen';
 import {Nodeset} from './components/nodeset';
+import {SvgStrategy} from './strategy';
 
-export class SvgNetworkgraphStrategy {
 
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
+export class SvgNetworkgraphStrategy extends SvgStrategy{
 
-    var config = this.config;
-
-    this.svgContainer = new SvgContainer(config);
-
-    this.nodeset = new Nodeset(config);
+  constructor(context) {
+    super(context);
+    
+    this.nodeset = new Nodeset(this.config);
 
     //Include components in the chart container
     this.svgContainer

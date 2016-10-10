@@ -51,7 +51,6 @@ export class Nodeset {
       .enter()
       .append("circle")
       .attr("r", 5)
-      //.attr("fill", (d) => color(d.group))
       .attr("fill", (d) => "#23436f")
       .call(drag()
         .on("start", this.dragstarted)
@@ -64,8 +63,6 @@ export class Nodeset {
     this.simulation.nodes(data.nodes).on("tick", (e) => this.ticked(link, node));
 
     this.simulation.force("link").links(data.links);
-    console.log(this.simulation.nodes());
-
   }
 
   ticked(link, node) {
