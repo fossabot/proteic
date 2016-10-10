@@ -15,6 +15,23 @@ export default class Sunburst extends Chart {
     super(data, config);
   }
 
+  /**
+   * Renders a data object on the chart.
+   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * specify this param, this.data will be used instead.
+   */
+  draw(data = this.data) {
+    super.draw(data);
+  }
+
+  /**
+   * Add new data to the current graph. If it is empty, this creates a new one.
+   * @param  {Object} datum data to be rendered
+   */
+  keepDrawing(datum) {
+    super.keepDrawing(datum, 'add');
+  }
+
   // /**
   //  * Add new data to the current graph. If it is empty, this creates a new one.
   //  * @param  {Object} datum data to be rendered
