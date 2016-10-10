@@ -79,7 +79,6 @@ export class Dial { // TODO tidy
       })
       .text((d) => d)
       .style('text-anchor', 'middle')
-      .style('font-family', 'sans-serif')
-      .style('font-size', '18px');
+      .style('font', '18px Montserrat, sans-serif');
   }
 }

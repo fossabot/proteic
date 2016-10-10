@@ -40,6 +40,9 @@ export class Streamset {
       .attr('d', this.areaGenerator)
       .style('fill', (d, i) => colorScale(i));
 
+
+    series.exit().remove();
+    
     series
       .attr('opacity', 1)
       .on('mousedown.user', events.down)

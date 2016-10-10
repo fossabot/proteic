@@ -1,5 +1,5 @@
 import {defaults} from '../utils/defaults/linechart';
-import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {XYAxes} from './components/xyAxes';
 import {Lineset} from './components/lineset';
 import {Legend} from './components/legend';
@@ -9,16 +9,13 @@ import {calculateWidth} from '../utils/screen';
 import {convertByXYFormat} from '../utils/dataTransformation';
 import {sortByField} from '../utils/dataSorting';
 
-export class SvgLinechartStrategy {
+export class SvgLinechartStrategy extends SvgStrategy {
 
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
+  constructor(context) {
+    super(context);
 
-    var config = this.config,
-      xDataType = config.x.type;
 
-    this.svgContainer = new SvgContainer(config);
-    this.axes = new XYAxes(xDataType, 'linear', config);
+    this.axes = new XYAxes(this.config.x.type, 'linear', this.config);
 
     this.lines = new Lineset(this.axes.x, this.axes.y);
     this.legend = new Legend();
@@ -29,12 +26,12 @@ export class SvgLinechartStrategy {
       .add(this.legend)
       .add(this.lines);
 
-    if (config.area) {
+    if (this.config.area) {
       this.areas = new Areaset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.areas);
     }
 
-    if (config.markers) {
+    if (this.config.markers) {
       this.points = new Pointset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.points);
     }
@@ -88,17 +85,7 @@ export class SvgLinechartStrategy {
 
   }
 
-  changeConfigProperty(p, v) {
-    this.config[p] = v;
-    if (p === 'width' || p === 'height') {
-      this.config.needAxisRescaling = true;
-    }
-  }
 
-  rescale(width = this.config.width, height = this.config.height) {
-    this.axes.rescale(width, height);
-    this.config.needAxisRescaling = false;
-  }
 
   _getDomainBBox(data) {
     var minX = d3.min(data, (d) => d.x),

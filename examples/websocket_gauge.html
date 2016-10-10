@@ -6,34 +6,26 @@
 <html class='no-js' lang=''>
 <!--<![endif]-->
 
+<head>
+  <title>Websocket gauge</title>
+  <script src='../node_modules/d3/build/d3.min.js'></script>
+  <script src='../build/proteic.min.js'></script>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+
 <body>
   <div id='chart'></div>
-  <script src='../node_modules/d3/build/d3.min.js'></script>
-  <script src='../src/utils/functions.js'></script>
-  <script src='../src/utils/image.js'></script>
-  <script src='../src/utils/strategies.js'></script>
-  <script src='../src/utils/colors.js'></script>
-  <script src='../src/utils/defaults/gauge.js'></script>
-  <script src='../src/utils/ProteusEvent.js'></script>
-  <script src='../src/datasources/Datasource.js'></script>
-  <script src='../src/datasources/WebsocketDatasource.js'></script>
-
-  <script src='../src/svg/SvgStrategy.js'></script>
-  <script src='../src/svg/svg.js'></script>
-  <script src='../src/svg/strategy_gauge.js'></script>
-  <script src='../src/charts/base/Chart.js' type='text/javascript'></script>
-
-  <script src='../src/charts/gauge.js' type='text/javascript'></script>
 
   <script>
     var data = {
             endpoint: 'ws://192.168.3.32:3000/gauge'
           };
           
-    var wsEndpoint = new WebsocketDatasource(data);
+    var wsEndpoint = new proteic.WebsocketDatasource(data);
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
-          gauge = new Gauge(wsEndpoint);
+          gauge = new proteic.Gauge(wsEndpoint);
           //Start streaming
           wsEndpoint.start();
   </script>

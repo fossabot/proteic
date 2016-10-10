@@ -1,10 +1,10 @@
-'use strict';
+import Chart from './base/Chart';
+import * as defaultProperties from '../utils/defaults/sunburst';
 
 /**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
- * It is inherited on 'Hierarchical'.
  */
-class Sunburst extends Chart {
+export default class Sunburst extends Chart {
 
   /**
    * Sunburst constructor. It needs (at least) one argument to start: data.
@@ -16,23 +16,40 @@ class Sunburst extends Chart {
   }
 
   /**
+   * Renders a data object on the chart.
+   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * specify this param, this.data will be used instead.
+   */
+  draw(data = this.data) {
+    super.draw(data);
+  }
+
+  /**
    * Add new data to the current graph. If it is empty, this creates a new one.
    * @param  {Object} datum data to be rendered
    */
   keepDrawing(datum) {
-    if (this.data.constructor === Array) { this.data = {}; }
-    let config = this.config;
-    if (!datum) {
-      console.warn('attemp to draw null datum');
-      return;
-    }
-
-    this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);
-
-    this.draw();
-
-    return this.data;
+    super.keepDrawing(datum, 'add');
   }
+
+  // /**
+  //  * Add new data to the current graph. If it is empty, this creates a new one.
+  //  * @param  {Object} datum data to be rendered
+  //  */
+  // keepDrawing(datum) {
+  //   if (this.data.constructor === Array) { this.data = {}; }
+  //   let config = this.config;
+  //   if (!datum) {
+  //     console.warn('attemp to draw null datum');
+  //     return;
+  //   }
+  //
+  //   this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);
+  //
+  //   this.draw();
+  //
+  //   return this.data;
+  // }
 
   /**
    * Inserts the new nodes into the existing tree.

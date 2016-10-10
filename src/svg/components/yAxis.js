@@ -43,11 +43,8 @@ export class YAxis {
 
   yStyle() {
     d3.select(this).selectAll('g.tick text')
-      .style('font-size', '1.4em')
-      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
-      .style('font-weight', (d, i) => isEven(i) && i !== 0 ? 'bold' : 'normal')
-      .style('font-size', '1.4em');
-
+      .style('font', '1.4em Montserrat, sans-serif')
+      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127');
     d3.select(this).selectAll('g.tick line')
       .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
   }

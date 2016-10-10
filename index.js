@@ -31,5 +31,11 @@ export {
 } from "./src/charts/gauge"
 
 export {
+<<<<<<< HEAD
   default as Networkgraph
 } from "./src/charts/networkgraph"
+=======
+  default as Sunburst
+} from "./src/charts/sunburst"
+
+>>>>>>> f9e2266e2f8a92dd8d3e70dfd3fda4e84c735911
