@@ -1,19 +1,17 @@
 import {defaults} from '../utils/defaults/barchart';
-import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {XYAxes} from './components/xyAxes';
 import {Barset} from './components/barset';
 import {Legend} from './components/legend';
 import {simple2stacked} from '../utils/dataTransformation';
 import {calculateWidth} from '../utils/screen';
 
-export class SvgBarchartStrategy  {
+export class SvgBarchartStrategy extends SvgStrategy {
 
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
-    var config = this.config;
+  constructor(context) {
+    super(context);
 
-    this.svgContainer = new SvgContainer(config);
-    this.axes = new XYAxes('categorical', 'linear', config);
+    this.axes = new XYAxes('categorical', 'linear', this.config);
     this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);
 
     this.legend = new Legend();
@@ -24,14 +22,6 @@ export class SvgBarchartStrategy  {
       .add(this.legend);
 
   }
-
-  changeConfigProperty(p, v) {
-    this.config[p] = v;
-    if (p === 'width' || p === 'height') {
-      this.config.needAxisRescaling = true;
-    }
-  }
-
 
 
 	/**
@@ -78,10 +68,6 @@ export class SvgBarchartStrategy  {
 
   }
   
-  rescale(width = this.config.width, height = this.config.height) {
-    this.axes.rescale(width, height);
-    this.config.needAxisRescaling = false;
-  }
 
   transition2Stacked() {
     this.config.stacked = true;

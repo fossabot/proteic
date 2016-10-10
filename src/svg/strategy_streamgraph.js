@@ -1,5 +1,6 @@
 import {defaults} from '../utils/defaults/streamgraph';
 import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {XAxis} from './components/xAxis';
 import {YAxis} from './components/yAxis';
 import {Streamset} from './components/streamset';
@@ -9,15 +10,13 @@ import {calculateWidth} from '../utils/screen';
 import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
 import {sortByField} from '../utils/dataSorting';
 
-export class SvgStreamgraphStrategy {
+export class SvgStreamgraphStrategy extends SvgStrategy {
 
-    constructor(chartContext) {
-        this._loadConfigOnContext(chartContext.config);
-        var config = this.config;
+    constructor(context) {
+        super(context);
 
-        this.svgContainer = new SvgContainer(config);
-        this.x = new XAxis('time', config);
-        this.y = new YAxis('linear', config);
+        this.x = new XAxis('time', this.config);
+        this.y = new YAxis('linear', this.config);
 
         this.streams = new Streamset(this.x.xAxis, this.y.yAxis);
 
@@ -68,20 +67,6 @@ export class SvgStreamgraphStrategy {
         // Update streams
         this.streams.update(svg, config, dataSeries);
     }
-
-  changeConfigProperty(p, v) {
-    this.config[p] = v;
-    if (p === 'width' || p === 'height') {
-      this.config.needAxisRescaling = true;
-    }
-  }
-
-  rescale(width = this.config.width, height = this.config.height) {
-    this.x.rescale(width, height);
-    this.y.rescale(width, height);
-
-    this.config.needAxisRescaling = false;
-  }
   
     _getDomainBBox(data, dataSeries) {
         var minX = d3.min(data, (d) => new Date(d.x)),

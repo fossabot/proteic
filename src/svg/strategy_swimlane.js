@@ -1,19 +1,17 @@
 import {defaults} from '../utils/defaults/swimlane';
 import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {XYAxes} from './components/xyAxes';
 import {TimeBoxset} from './components/timeBoxset';
 import {Legend} from './components/legend';
 import {calculateWidth} from '../utils/screen';
 import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
 
-export class SvgSwimlaneStrategy {
+export class SvgSwimlaneStrategy extends SvgStrategy {
 
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
-    var config = this.config;
-    this.svgContainer = new SvgContainer(config);
-
-    this.axes = new XYAxes('time', 'categorical', config);
+  constructor(context) {
+    super(context);
+    this.axes = new XYAxes('time', 'categorical', this.config);
     this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);
     this.legend = new Legend();
 
@@ -21,13 +19,6 @@ export class SvgSwimlaneStrategy {
       .add(this.axes)
       .add(this.boxs)
       .add(this.legend);
-  }
-
-  changeConfigProperty(p, v) {
-    this.config[p] = v;
-    if (p === 'width' || p === 'height') {
-      this.config.needAxisRescaling = true;
-    }
   }
 
   draw(data) {
@@ -54,11 +45,6 @@ export class SvgSwimlaneStrategy {
 
   }
   
-  rescale(width = this.config.width, height = this.config.height) {
-    this.axes.rescale(width, height);
-    this.config.needAxisRescaling = false;
-  }
-
   _getBBox(data) {
     return [
       d3.min(data, (d) => (d.x)),

@@ -1,19 +1,19 @@
 import {defaults} from '../utils/defaults/barchart';
 import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {RadialAxes} from './components/radialAxes';
 import {SunburstDisk} from './components/sunburstDisk';
 import {TextIndicator} from './components/textIndicator';
 import {calculateWidth} from '../utils/screen';
 
-export class SvgSunburstStrategy {
+export class SvgSunburstStrategy extends SvgStrategy{
 
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
+  constructor(context) {
+    super(context);
     var config = this.config;
     let radius = (Math.min(config.width, config.height) / 2) - 10;
     let translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
-    this.svgContainer = new SvgContainer(config);
     this.svgContainer.svg.attr('transform', translation);
     this.axes = new RadialAxes(config);
     this.disk = new SunburstDisk(

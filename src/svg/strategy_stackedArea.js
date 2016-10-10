@@ -1,5 +1,6 @@
 import {defaults} from '../utils/defaults/streamgraph';
 import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {XYAxes} from './components/xyAxes';
 import {Streamset} from './components/streamset';
 import {Legend} from './components/legend';
@@ -8,14 +9,12 @@ import {calculateWidth} from '../utils/screen';
 import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
 import {sortByField} from '../utils/dataSorting';
 
-export class SvgStackedAreaStrategy {
+export class SvgStackedAreaStrategy extends SvgStrategy{
 
-    constructor(chartContext) {
-        this._loadConfigOnContext(chartContext.config);
-        var config = this.config;
-
-        this.svgContainer = new SvgContainer(config);
-        this.axes = new XYAxes('time', 'linear', config);
+    constructor(context) {
+        super(context);
+        
+        this.axes = new XYAxes('time', 'linear', this.config);
 
         this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);
 
@@ -26,18 +25,6 @@ export class SvgStackedAreaStrategy {
             .add(this.axes)
             .add(this.legend)
             .add(this.streams);
-    }
-
-    rescale(width = this.config.width, height = this.config.height) {
-        this.axes.rescale(width, height);
-        this.config.needAxisRescaling = false;
-    }
-
-    changeConfigProperty(p, v) {
-        this.config[p] = v;
-        if (p === 'width' || p === 'height') {
-            this.config.needAxisRescaling = true;
-        }
     }
 
 

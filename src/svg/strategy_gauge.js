@@ -1,17 +1,17 @@
 import {defaults} from '../utils/defaults/gauge';
 import {SvgContainer} from './components/svgContainer';
+import {SvgStrategy} from './strategy';
 import {Dial} from './components/dial';
 import {DialNeedle} from './components/dialNeedle';
 import {TextIndicator} from './components/textIndicator';
 import {calculateWidth} from '../utils/screen';
 
-export class SvgGaugeStrategy {
-  constructor(chartContext) {
-    this._loadConfigOnContext(chartContext.config);
-
+export class SvgGaugeStrategy extends SvgStrategy {
+  constructor(context) {
+    super(context);
+    
     var config = this.config;
 
-    this.svgContainer = new SvgContainer(config);
     this.dial = new Dial('linear', config);
     this.needle = new DialNeedle('linear', config);
 
@@ -21,10 +21,10 @@ export class SvgGaugeStrategy {
 
     if (config.numericIndicator) {
       let r = (
-          (config.width > config.height)
-            ? config.height
-            : config.width
-        ) / 2;
+        (config.width > config.height)
+          ? config.height
+          : config.width
+      ) / 2;
       let indicatorOffset = r + 75;
       config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
       this.textIndicator = new TextIndicator(config);
