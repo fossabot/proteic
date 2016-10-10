@@ -19,33 +19,6 @@
 
   <script>
 
-//      var data = {
-//        "name": "sequences",
-//        "children": [
-//          { "name": "home",
-//            "children": [
-//              { "name": "home", "value": 50 },
-//              { "name": "about",
-//                "children": [
-//                  { "name": "contact",
-//                    "value": 25
-//                  }
-//                ]
-//              },
-//              { "name": "product",
-//                "children": [
-//                  { "name": "product",
-//                    "children": [
-//                      { "name": "cart", "value": 25 }
-//                    ]
-//                  }
-//                ]
-//              }
-//            ]
-//          }
-//        ]
-//      };
-
     var data = [
       { "id": "root", "parent": "", "value": "0", "label": "sequences" },
       { "id": "1", "parent": "root", "value": "50", "label": "home" },
@@ -58,8 +31,7 @@
 
     sunburst = new proteic.Sunburst(data);
     sunburst.draw();
-    data.push({"id": "3.1.2", "parent": "3.1", "value": "75", "label": "cart2"});
-    sunburst.draw();
+
   </script>
 </body>
 
