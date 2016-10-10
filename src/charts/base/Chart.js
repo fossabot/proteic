@@ -95,15 +95,14 @@ export default class Chart {
     _keepDrawingByAdding(datum) {
         var datumType = datum.constructor;
 
-        console.log(datumType, this.data, datum);
         if (datumType === Array) {
             this.data = this.data.concat(datum);
         }
         else {
-            data.push(datum);
+            this.data.push(datum);
         }
-
-        this.draw(this.data);
+        
+        this.draw(JSON.parse(JSON.stringify(this.data)));
     }
 
     _keepDrawingByReplacing(datum) {
@@ -115,11 +114,10 @@ export default class Chart {
             //TODO: find key by datum.x and replace it with new value
         }
 
-        this.draw(this.data);
+        this.draw(JSON.parse(JSON.stringify(this.data)));
     }
 
     keepDrawing(datum, method) {
-        console.log('config', this.config);
         if (method === 'add') {
             this._keepDrawingByAdding(datum);
         }
