@@ -4,6 +4,7 @@ import {SvgStreamgraphStrategy} from './strategy_streamgraph';
 import {SvgStackedAreaStrategy} from './strategy_stackedArea';
 import {SvgSwimlaneStrategy} from './strategy_swimlane';
 import {SvgGaugeStrategy} from './strategy_gauge';
+import {SvgNetworkgraphStrategy} from './strategy_networkgraph';
 
 /**
  * SvgStrategy wrapper class
@@ -41,5 +42,8 @@ export const strategies = {
   },
   StackedArea(chartContext) {
     return new SvgStackedAreaStrategy(chartContext);
+  },
+  Networkgraph(chartContext) {
+    return new SvgNetworkgraphStrategy(chartContext);
   }
 };

@@ -30,3 +30,6 @@ export {
   default as Gauge
 } from "./src/charts/gauge"
 
+export {
+  default as Networkgraph
+} from "./src/charts/networkgraph"

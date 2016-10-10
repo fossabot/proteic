@@ -3,7 +3,7 @@ import * as Colors from '../colors';
 export const defaults =  {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
-    colorScale: Colors.category5(),
+    colorScale: Colors.category2(),
     axis:{
         x:{
             type:'time',

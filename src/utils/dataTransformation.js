@@ -28,13 +28,19 @@ export function nested2simple(data) {
   return array;
 }
 
+export function simple2Linked(data) {
+  var linkedData = { links: [], nodes: [] };
+  data.map((d) => d.key === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));
+  return linkedData;
+}
 
-export function convertPropretiesToTimeFormat (data, properties, format) {
-    data.forEach((d) => {
-      properties.map((p) => {
-        d[p] = d3.timeParse(format)(d[p]);
-      });
+
+export function convertPropretiesToTimeFormat(data, properties, format) {
+  data.forEach((d) => {
+    properties.map((p) => {
+      d[p] = d3.timeParse(format)(d[p]);
     });
+  });
 }
 
 export function convertByXYFormat(data, config) {
