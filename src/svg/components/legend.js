@@ -40,7 +40,7 @@ export class Legend {
       .attr("y", (d, i) => i * 25 + 7)
       .attr("dy", "0.55em")
       .text((d) => d.key)
-      .style('font', '14px sans-serif');
+      .style('font', '14px Montserrat, sans-serif');
 
   }
 

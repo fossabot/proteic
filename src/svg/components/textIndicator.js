@@ -31,7 +31,7 @@ export class TextIndicator { // TODO tidy
       .attr('y', 0)
       .attr('pointer-events', 'none')
       .text('0')
-      .style('font', '48px sans-serif')
+      .style('font', '48px Montserrat, sans-serif')
       .style('text-anchor', 'middle');
 
     indicator.append('text')
@@ -40,8 +40,7 @@ export class TextIndicator { // TODO tidy
       .attr('y', 0)
       .attr('pointer-events', 'none')
       .text('')
-      .style('font-family', 'sans-serif')
-      .style('font', '24px sans-serif')
+      .style('font', '24px Montserrat, sans-serif')
       .style('transform', 'translate(0, 1.5em')
       .style('text-anchor', 'middle');
   }
