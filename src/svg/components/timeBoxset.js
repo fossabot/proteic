@@ -8,21 +8,20 @@ export class TimeBoxset {
 
   }
   update(svg, config, data) {
-    var colorScale = config.colorScale
-      , events = config.events
-      , keys = d3.map(data, (d) => d.key).keys()
-      , layer = svg.selectAll('.serie').data(data)
-      , layerEnter = null
-      , layerMerge = null
-      , box = null
-      , boxEnter = null
-      , boxMerge = null
-      , x = this.xAxis.scale()
-      , y = this.yAxis.scale()
-      , height = config.height
-      , extLanes = null
-      , yLanes = null
-      , yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys);
+    var colorScale = config.colorScale,
+      events = config.events,
+      keys = d3.map(data, (d) => d.key).keys(),
+      layer = svg.selectAll('.serie').data(data),
+      layerEnter = null,
+      layerMerge = null,
+      box = null,
+      boxEnter = null,
+      boxMerge = null,
+      x = this.xAxis.scale(),
+      y = this.yAxis.scale(),
+      extLanes = null,
+      yLanes = null,
+      yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys);
 
     data = simple2nested(data);
     extLanes = d3.extent(data, (d, i) => i)
@@ -41,14 +40,15 @@ export class TimeBoxset {
     boxEnter = box.enter().append('rect');
 
     boxMerge = box.merge(boxEnter)
-      .attr('width', (d) => x(new Date(d.y)) - x(new Date(d.x)))
-      .attr('x', (d) => x(new Date(d.x)))
+      .attr('width', (d) => x(d.y) - x(d.x))
+      .attr('x', (d) => x(d.x))
       .attr('y', (d) => y(d.key))
       .attr('fill', (d, i, j) => colorScale(parseInt(yLanesBand(d.key))))
       .attr("height", (d) => .8 * yLanes(1));
 
 
     box = svg.selectAll('g.serie rect');
+    
     box
       .on('mousedown.user', events.down)
       .on('mouseup.user', events.up)

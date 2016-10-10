@@ -4,6 +4,7 @@ import {XYAxes} from './components/xyAxes';
 import {TimeBoxset} from './components/timeBoxset';
 import {Legend} from './components/legend';
 import {calculateWidth} from '../utils/screen';
+import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
 
 export class SvgSwimlaneStrategy {
 
@@ -32,15 +33,19 @@ export class SvgSwimlaneStrategy {
   draw(data) {
     var svg = this.svgContainer.svg,
       config = this.config,
+      dataFormat = this.config.x.format,
       keys = d3.map(data, (d) => d.key).keys(),
-      bbox = this._getBBox(data),
+      bbox = null,
       needAxisRescaling = this.config.needAxisRescaling;
 
+    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);
+    
     //rescale, if needed.
     if (needAxisRescaling) {
       this.rescale();
     }
-
+    
+    bbox = this._getBBox(data);
     this.axes.updateDomainByBBoxAndKeys(bbox, keys);
     this.axes.transition(svg, 200);
 
@@ -56,28 +61,23 @@ export class SvgSwimlaneStrategy {
 
   _getBBox(data) {
     return [
-      d3.min(data, (d) => new Date(d.x)),
-      d3.max(data, (d) => new Date(d.y))
+      d3.min(data, (d) => (d.x)),
+      d3.max(data, (d) => (d.y))
     ];
   }
 
 
   _loadConfigOnContext(config) {
-    config = config || { events: {}, markers: {}, xaxis: {}, yaxis: {} };
+    config = config || { events: {}, x: {}, y: {} };
     if (!config.events) {
       config.events = {};
     }
-    if (!config.markers) {
-      config.markers = {};
-    }
-    if (!config.xaxis) {
-      config.xaxis = {};
-    }
-    if (!config.yaxis) {
-      config.yaxis = {};
-    }
+ 
     if (!config.x) {
       config.x = {};
+    }
+        if (!config.y) {
+      config.y = {};
     }
 
     this.config = {};
@@ -100,6 +100,14 @@ export class SvgSwimlaneStrategy {
     this.config._sortData = config.sortData || defaults.sortData;
     this.config.style = config.style || defaults.style;
     this.config.colorScale = config.colorScale || defaults.colorScale;
+    
+    this.config.x = {};
+    this.config.x.type = config.x.type || defaults.axis.x.type;
+    this.config.x.format = config.x.format || defaults.axis.x.format;
+    this.config.y = {};
+    this.config.y.type = config.y.type || defaults.axis.y.type;
+    this.config.y.format = config.y.format || defaults.axis.x.format;
+  
     return this;
   }
 }

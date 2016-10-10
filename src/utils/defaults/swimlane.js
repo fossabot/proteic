@@ -3,7 +3,16 @@ import * as Colors from '../colors';
 export const defaults = {
     selector: '#chart',
     colorScale: Colors.category3(),
-
+    axis:{
+        x:{
+            type:'time',
+            format:'%y/%m/%d'
+        },
+        y:{
+            type: 'categorical',
+            format :'%s'
+        }
+    },
     margin: {
         top: 20,
         right: 100,

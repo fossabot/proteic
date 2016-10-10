@@ -1,6 +1,7 @@
 var fs = require("fs"),
-    rollup = require("rollup");
-    
+    rollup = require("rollup"),
+    abort = (error) => console.log(error);
+
 rollup.rollup({
     entry: "index.js",
     external: ['d3']
@@ -13,12 +14,12 @@ rollup.rollup({
         );
     return new Promise(function (resolve, reject) {
         fs.writeFile("build/bundle.node.js", code, "utf8", function (error) {
-            if (error) return reject(error);
-            else resolve();
+            if (error) {
+                return reject(error);
+            }
+            else { 
+                resolve();
+            }
         });
     });
 }).catch(abort);
-
-function abort(error) {
-    console.error(error.stack);
-}
