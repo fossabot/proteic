@@ -27,10 +27,15 @@ export class SvgContainer {
 
   add(component, render = true) {
     this.components.push(component);
-    
+
     if (render) {
       component.render(this.svg, this._config);
     }
     return this;
+  }
+
+  transform(translation) {
+    this.svg.attr('transform', translation);
+
   }
 }

@@ -14,7 +14,8 @@ export class SvgSunburstStrategy extends SvgStrategy{
     let radius = (Math.min(config.width, config.height) / 2) - 10;
     let translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
-    this.svgContainer.svg.attr('transform', translation);
+    this.svgContainer.transform(translation);
+    
     this.axes = new RadialAxes(config);
     this.disk = new SunburstDisk(
       this.axes.x.xRadialAxis,
