@@ -47,13 +47,13 @@ export class SvgLinechartStrategy extends SvgStrategy {
       config = this.config,
       needAxisRescaling = this.config.needAxisRescaling,
       bbox = null;
-      
+
     //Transform data, if needed
     convertByXYFormat(data, config);
 
     //Sort data
     sortByField(data, 'x');
-    
+
     //rescale, if needed.
     if (needAxisRescaling) {
       this.rescale();
@@ -100,22 +100,19 @@ export class SvgLinechartStrategy extends SvgStrategy {
    * @param  {Object} config Config object
    */
   _loadConfigOnContext(config) {
-    config = config || { events: {}, markers: {}, x:{}, y:{} };
+    config = config || { events: {}, x: {}, y: {} };
     if (!config.events) {
       config.events = {};
     }
-    if (!config.markers) {
-      config.markers = {};
-    }
-   
+
     if (!config.x) {
       config.x = {};
     }
-    
+
     if (!config.y) {
       config.y = {};
     }
-    
+
     this.config = {};
     this.config.cType = this.constructor.name;
     this.config.selector = config.selector || defaults.selector;
@@ -125,22 +122,22 @@ export class SvgLinechartStrategy extends SvgStrategy {
     this.config.height = config.height || defaults.height;
     this.config.ticks = config.ticks || defaults.ticks;
     this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
-    this.config.tip = config.tooltip || defaults.tooltip;
     this.config.events = {};
     this.config.events.down = config.events.down || defaults.events.down;
     this.config.events.up = config.events.up || defaults.events.up;
     this.config.events.over = config.events.over || defaults.events.over;
     this.config.events.click = config.events.click || defaults.events.click;
     this.config.events.leave = config.events.leave || defaults.events.leave;
-    this.config.style = config.style || defaults.style;
     this.config.colorScale = config.colorScale || defaults.colorScale;
 
-    this.config.markers = {};
-    this.config.markers.color = config.markers.color || defaults.markers.color;
-    this.config.markers.outlineColor = config.markers.outlineColor || defaults.markers.outlineColor;
-    this.config.markers.outlineWidth = config.markers.outlineWidth || defaults.markers.outlineWidth;
-    this.config.markers.shape = config.markers.shape || defaults.markers.shape;
-    this.config.markers.size = config.markers.size || defaults.markers.size;
+    if (config.markers) {
+      this.config.markers = {};
+      this.config.markers.color = config.markers.color || defaults.markers.color;
+      this.config.markers.outlineColor = config.markers.outlineColor || defaults.markers.outlineColor;
+      this.config.markers.outlineWidth = config.markers.outlineWidth || defaults.markers.outlineWidth;
+      this.config.markers.shape = config.markers.shape || defaults.markers.shape;
+      this.config.markers.size = config.markers.size || defaults.markers.size;
+    }
     this.config.area = typeof (config.area) === 'undefined' ? defaults.area : config.area;
     this.config.areaOpacity = config.areaOpacity || defaults.areaOpacity;
     this.config.x = {};
