@@ -81,13 +81,17 @@ export class XAxis {
       .append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + config.height + ')')
-      .call(xAxis)
+      .call(xAxis);
+
+    svg
       .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'tickLabel')
+      .attr('class', 'xaxis-title')
+      .attr("text-anchor", "middle")
       .attr('x', width / 2)
-      .attr('y', height + margin.bottom).text(xAxisLabel);
-      
+      .attr('y', height + 40)
+      .text(xAxisLabel)
+      .style('font', '0.8em Montserrat, sans-serif');
+
      this.svg = svg;
   }
 }

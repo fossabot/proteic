@@ -19,18 +19,18 @@ export const defaults = {
         }
     },
     xaxis: {
-        label: ''
+        label: 'Countries'
     },
     yaxis: {
-        label: 'Y'
+        label: 'People (%)'
     },
     // Set the color scale for the chart. You can use Proteus scales or any D3 scale
     colorScale: Colors.category7(),
     margin: {
         top: 20,
         right: 250,
-        bottom: 30,
-        left: 50
+        bottom: 70,
+        left: 90
     },
     width: '100%', // %, auto, or numeric 
     height: 350,

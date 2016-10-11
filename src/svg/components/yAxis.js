@@ -70,13 +70,17 @@ export class YAxis {
       .append('g')
       .attr('class', 'y axis')
       .attr('stroke-dasharray', '1, 5')
-      .call(yAxis)
+      .call(yAxis);
+
+    svg
       .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('class', 'tickLabel')
-      .attr('transform', 'rotate(-90)')
-      .attr('x', -height / 2)
-      .attr('y', -margin.left / 1.3)
-      .text(yAxisLabel);
+      .attr('class', 'yaxis-title')
+      .attr("transform", "rotate(-90)")
+      .attr("text-anchor", "middle")
+      .attr('x', 0 - height / 2)
+      .attr('y', 0 - 55)
+      .text(yAxisLabel)
+      .style('font', '0.8em Montserrat, sans-serif');
+
   }
 }
