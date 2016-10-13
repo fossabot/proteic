@@ -1,4 +1,4 @@
-import {defaults} from '../utils/defaults/streamgraph';
+import {defaults} from '../utils/defaults/stackedArea';
 import {SvgContainer} from './components/svgContainer';
 import {SvgStrategy} from './strategy';
 import {XYAxes} from './components/xyAxes';

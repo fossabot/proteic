@@ -3,12 +3,16 @@ import * as Colors from '../colors';
 export const defaults = {
     selector: '#chart',
     xDateFormat: '%m/%d/%y',
-    colorScale: Colors.category5(),
-    xaxis: {
-        label: ''
-    },
-    yaxis: {
-        label: ''
+    colorScale: Colors.category8(),
+   axis:{
+        x:{
+            type:'time',
+            format:'%y/%m/%d'
+        },
+        y:{
+            type: 'categorical',
+            format :'%s'
+        }
     },
     style: {
         '.axis': {
