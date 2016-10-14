@@ -9,7 +9,7 @@ _In Greek mythology, Proteus is an early sea-god or god of rivers and oceanic bo
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteic)
 
 <img src="https://github.com/proteus-h2020/proteic/blob/development/images/proteic.png" align="middle">
-##Examples
+##How it looks like
 
 <img width ="40%" height="40%" style="float: left;" src="https://github.com/proteus-h2020/proteic/blob/development/images/stacked.png">
 <img width ="40%" height="40%" style="float: center;" src="https://github.com/proteus-h2020/proteic/blob/development/images/stream.png">
