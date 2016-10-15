@@ -1062,6 +1062,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/charts/base/chart.js~chart#download",
+    "class/src/charts/base/Chart.js~Chart.html#instance-method-download",
+    "src/charts/base/Chart.js~Chart#download",
+    "method"
+  ],
+  [
     "src/charts/base/chart.js~chart#draw",
     "class/src/charts/base/Chart.js~Chart.html#instance-method-draw",
     "src/charts/base/Chart.js~Chart#draw",
@@ -1077,12 +1083,6 @@ window.esdocSearchIndex = [
     "src/charts/base/chart.js~chart#keepdrawing",
     "class/src/charts/base/Chart.js~Chart.html#instance-method-keepDrawing",
     "src/charts/base/Chart.js~Chart#keepDrawing",
-    "method"
-  ],
-  [
-    "src/charts/base/chart.js~chart#topng",
-    "class/src/charts/base/Chart.js~Chart.html#instance-method-toPNG",
-    "src/charts/base/Chart.js~Chart#toPNG",
     "method"
   ],
   [

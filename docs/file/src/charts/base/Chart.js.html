@@ -147,19 +147,27 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/charts/base/Chart.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {dispatch} from &apos;d3&apos;;
-import {SvgStrategy, strategies} from &apos;../../svg/SvgStrategy&apos;;
-import {svgAsDataUri} from &apos;../../utils/image&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { dispatch } from &apos;d3&apos;;
+import { SvgStrategy, strategies } from &apos;../../svg/SvgStrategy&apos;;
+import { svgAsDataUri } from &apos;../../utils/image&apos;;
 
 /**
- * Base class. This class is inherited in all charts implementations.
- * This is a non-instanciable chart.
+ *  
+ * @export
+ * @class Chart
  */
 export default class Chart {
-
+    /**
+     * This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)
+     * 
+     * @param {any} d 
+     * @param {any} config Configuration of the chart.
+     * 
+     * @memberOf Chart
+     */
     constructor(d, config) {
         var clazz = this.constructor.name;
-        if (clazz === &apos;Graph&apos;) {
+        if (clazz === &apos;Chart&apos;) {
             throw new Error(clazz + &apos; is non-instanciable&apos;);
         }
 
@@ -190,6 +198,13 @@ export default class Chart {
         this._initializeSVGContext();
     }
 
+    /**
+     * Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter
+     * 
+     * @param {any} properties An array that contains the name of the methods
+     * 
+     * @memberOf Chart
+     */
     _initializeAPI(properties) {
         let clazz = this.constructor;
         properties.forEach((method) =&gt; {
@@ -200,7 +215,11 @@ export default class Chart {
     }
 
     /**
-     * Returns the chart context: data, configuration and chart type.
+     * Return the chart context: data, configuration and type
+     * 
+     * @returns chart context
+     * 
+     * @memberOf Chart
      */
     _getChartContext() {
         return {
@@ -211,32 +230,47 @@ export default class Chart {
     }
 
     /**
-     * Initialize the SVG context
+     * Initialize the SVG context, by dinamically creating an &lt;svg&gt; tag in the specified selector. It is automatically invoked
+     * by the chart constructor
+     * 
+     * @memberOf Chart
      */
     _initializeSVGContext() {
         this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));
     }
 
     /**
-     * Renders data on barchart. Only allowed when data is an array of static data.
-     * @param  {Array} data Array of data
+     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration
+     * option change)
+     * 
+     * @param {any} [data=this.data]
+     * 
+     * @memberOf Chart
      */
     draw(data = this.data) {
         this._svg.draw(data);
     }
 
     /**
-     * Returns a PNG image of the current graph
-     * @return {String} Image - in data-url format
+     * Make and download an image of the current state of the chart.
+     * 
+     * 
+     * @memberOf Chart
      */
-    toPNG(cb) {
-        var selector = this.config.selector + &apos; &apos; + &apos;svg&apos;;
+    download() {
+        let selector = this.config.selector + &apos; &apos; + &apos;svg&apos;;
         svgAsDataUri(d3.select(selector)._groups[0][0], {}, (uri, err) =&gt; {
             if (err) {
                 throw Error(&apos;Error converting to image &apos; + err);
             }
             else {
-                cb(uri);
+                let link = document.createElement(&apos;a&apos;);
+                link.style = &apos;position: fixed; left -10000px;&apos;; // making it invisible
+                link.href = uri
+                link.download = this.constructor.name + &apos;.svg&apos;;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             }
         });
     }
@@ -250,7 +284,7 @@ export default class Chart {
         else {
             this.data.push(datum);
         }
-        
+
         this.draw(JSON.parse(JSON.stringify(this.data)));
     }
 
@@ -292,7 +326,15 @@ export default class Chart {
             console.log(&apos;onerror&apos;, error);
         });
     }
-
+    /**
+     * Change a configuration property. They all are also available through a method with the same name of the property.
+     * 
+     * @param {any} property property name
+     * @param {any} value the new property value
+     * @returns the instance of the current chart
+     * 
+     * @memberOf Chart
+     */
     change(property, value) {
         this._svg.strategy.changeConfigProperty(property, value);
         return this;

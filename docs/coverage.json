@@ -1,7 +1,7 @@
 {
-  "coverage": "13.39%",
+  "coverage": "13.98%",
   "expectCount": 336,
-  "actualCount": 45,
+  "actualCount": 47,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -38,16 +38,14 @@
     },
     "src/charts/base/Chart.js": {
       "expectCount": 11,
-      "actualCount": 3,
+      "actualCount": 5,
       "undocumentLines": [
-        147,
-        39,
-        11,
-        29,
-        28,
-        131,
-        17,
-        120
+        47,
+        37,
+        36,
+        165,
+        25,
+        154
       ]
     },
     "src/datasources/Datasource.js": {
@@ -540,18 +538,11 @@
         3
       ]
     },
-    "src/utils/defaults/stackedArea.js": {
+    "src/utils/defaults/barchart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
         3
-      ]
-    },
-    "src/utils/defaults/networkgraph.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        1
       ]
     },
     "src/utils/defaults/swimlane.js": {
@@ -568,14 +559,21 @@
         3
       ]
     },
-    "src/utils/defaults/sunburst.js": {
+    "src/utils/defaults/stackedArea.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
         3
       ]
     },
-    "src/utils/defaults/barchart.js": {
+    "src/utils/defaults/networkgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/defaults/sunburst.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [

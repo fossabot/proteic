@@ -147,7 +147,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {dispatch} from 'd3';\nimport {SvgStrategy, strategies} from '../../svg/SvgStrategy';\nimport {svgAsDataUri} from '../../utils/image';\n\n/**\n * Base class. This class is inherited in all charts implementations.\n * This is a non-instanciable chart.\n */\nexport default class Chart {\n\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Graph') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Returns the chart context: data, configuration and chart type.\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Renders data on barchart. Only allowed when data is an array of static data.\n     * @param  {Array} data Array of data\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Returns a PNG image of the current graph\n     * @return {String} Image - in data-url format\n     */\n    toPNG(cb) {\n        var selector = this.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector)._groups[0][0], {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                cb(uri);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n        \n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    _keepDrawingByReplacing(datum) {\n        var datumType = datum.constructor;\n        if (datumType === Array) {\n            this.data = datum;\n        }\n        else {\n            //TODO: find key by datum.x and replace it with new value\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
+    "content": "import { dispatch } from 'd3';\nimport { SvgStrategy, strategies } from '../../svg/SvgStrategy';\nimport { svgAsDataUri } from '../../utils/image';\n\n/**\n *  \n * @export\n * @class Chart\n */\nexport default class Chart {\n    /**\n     * This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)\n     * \n     * @param {any} d \n     * @param {any} config Configuration of the chart.\n     * \n     * @memberOf Chart\n     */\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Chart') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    /**\n     * Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter\n     * \n     * @param {any} properties An array that contains the name of the methods\n     * \n     * @memberOf Chart\n     */\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Return the chart context: data, configuration and type\n     * \n     * @returns chart context\n     * \n     * @memberOf Chart\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\n     * by the chart constructor\n     * \n     * @memberOf Chart\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration\n     * option change)\n     * \n     * @param {any} [data=this.data]\n     * \n     * @memberOf Chart\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Make and download an image of the current state of the chart.\n     * \n     * \n     * @memberOf Chart\n     */\n    download() {\n        let selector = this.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector)._groups[0][0], {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                let link = document.createElement('a');\n                link.style = 'position: fixed; left -10000px;'; // making it invisible\n                link.href = uri\n                link.download = this.constructor.name + '.svg';\n                document.body.appendChild(link);\n                link.click();\n                document.body.removeChild(link);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    _keepDrawingByReplacing(datum) {\n        var datumType = datum.constructor;\n        if (datumType === Array) {\n            this.data = datum;\n        }\n        else {\n            //TODO: find key by datum.x and replace it with new value\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n    /**\n     * Change a configuration property. They all are also available through a method with the same name of the property.\n     * \n     * @param {any} property property name\n     * @param {any} value the new property value\n     * @returns the instance of the current chart\n     * \n     * @memberOf Chart\n     */\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
   },
   {
     "__docId__": 7,
@@ -161,8 +161,18 @@
     "export": true,
     "importPath": "proteic/src/charts/base/Chart.js",
     "importStyle": "Chart",
-    "description": "Base class. This class is inherited in all charts implementations.\nThis is a non-instanciable chart.",
-    "lineNumber": 9,
+    "description": " ",
+    "lineNumber": 10,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Chart"
+      }
+    ],
     "interface": false
   },
   {
@@ -174,21 +184,34 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 11,
-    "undocument": true,
+    "description": "This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)",
+    "lineNumber": 19,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [
       {
-        "name": "d",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "d",
+        "description": ""
       },
       {
-        "name": "config",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "config",
+        "description": "Configuration of the chart."
       }
     ],
     "generator": false
@@ -203,7 +226,7 @@
     "longname": "src/charts/base/Chart.js~Chart#events",
     "access": null,
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 25,
     "undocument": true,
     "type": {
       "types": [
@@ -221,7 +244,7 @@
     "longname": "src/charts/base/Chart.js~Chart#datasource",
     "access": null,
     "description": null,
-    "lineNumber": 28,
+    "lineNumber": 36,
     "undocument": true,
     "type": {
       "types": [
@@ -239,7 +262,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 29,
+    "lineNumber": 37,
     "undocument": true,
     "type": {
       "types": [
@@ -257,7 +280,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 33,
+    "lineNumber": 41,
     "undocument": true,
     "type": {
       "types": [
@@ -275,7 +298,7 @@
     "longname": "src/charts/base/Chart.js~Chart#config",
     "access": null,
     "description": null,
-    "lineNumber": 39,
+    "lineNumber": 47,
     "undocument": true,
     "type": {
       "types": [
@@ -292,15 +315,24 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#_initializeAPI",
     "access": null,
-    "description": null,
-    "lineNumber": 44,
-    "undocument": true,
+    "description": "Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter",
+    "lineNumber": 59,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [
       {
-        "name": "properties",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "properties",
+        "description": "An array that contains the name of the methods"
       }
     ],
     "generator": false
@@ -314,13 +346,26 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#_getChartContext",
     "access": null,
-    "description": "Returns the chart context: data, configuration and chart type.",
-    "lineNumber": 56,
+    "description": "Return the chart context: data, configuration and type",
+    "lineNumber": 75,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "chart context"
+      },
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [],
     "return": {
+      "nullable": null,
       "types": [
         "*"
-      ]
+      ],
+      "spread": false,
+      "description": "chart context"
     },
     "generator": false
   },
@@ -333,8 +378,14 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#_initializeSVGContext",
     "access": null,
-    "description": "Initialize the SVG context",
-    "lineNumber": 67,
+    "description": "Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\nby the chart constructor",
+    "lineNumber": 89,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [],
     "generator": false
   },
@@ -348,7 +399,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_svg",
     "access": null,
     "description": null,
-    "lineNumber": 68,
+    "lineNumber": 90,
     "undocument": true,
     "type": {
       "types": [
@@ -365,18 +416,26 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#draw",
     "access": null,
-    "description": "Renders data on barchart. Only allowed when data is an array of static data.",
-    "lineNumber": 75,
+    "description": "Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration\noption change)",
+    "lineNumber": 101,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [
       {
         "nullable": null,
         "types": [
-          "Array"
+          "any"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": "this.data",
+        "defaultRaw": "this.data",
         "name": "data",
-        "description": "Array of data"
+        "description": ""
       }
     ],
     "generator": false
@@ -386,28 +445,19 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "toPNG",
+    "name": "download",
     "memberof": "src/charts/base/Chart.js~Chart",
-    "longname": "src/charts/base/Chart.js~Chart#toPNG",
+    "longname": "src/charts/base/Chart.js~Chart#download",
     "access": null,
-    "description": "Returns a PNG image of the current graph",
-    "lineNumber": 83,
-    "params": [
+    "description": "Make and download an image of the current state of the chart.",
+    "lineNumber": 111,
+    "unknown": [
       {
-        "name": "cb",
-        "types": [
-          "*"
-        ]
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
       }
     ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "String"
-      ],
-      "spread": false,
-      "description": "Image - in data-url format"
-    },
+    "params": [],
     "generator": false
   },
   {
@@ -420,7 +470,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_keepDrawingByAdding",
     "access": null,
     "description": null,
-    "lineNumber": 95,
+    "lineNumber": 129,
     "undocument": true,
     "params": [
       {
@@ -442,7 +492,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 99,
+    "lineNumber": 133,
     "undocument": true,
     "type": {
       "types": [
@@ -460,7 +510,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_keepDrawingByReplacing",
     "access": null,
     "description": null,
-    "lineNumber": 108,
+    "lineNumber": 142,
     "undocument": true,
     "params": [
       {
@@ -482,7 +532,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 111,
+    "lineNumber": 145,
     "undocument": true,
     "type": {
       "types": [
@@ -500,7 +550,7 @@
     "longname": "src/charts/base/Chart.js~Chart#keepDrawing",
     "access": null,
     "description": null,
-    "lineNumber": 120,
+    "lineNumber": 154,
     "undocument": true,
     "params": [
       {
@@ -528,7 +578,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_configureDatasource",
     "access": null,
     "description": null,
-    "lineNumber": 130,
+    "lineNumber": 164,
     "undocument": true,
     "params": [],
     "generator": false
@@ -543,7 +593,7 @@
     "longname": "src/charts/base/Chart.js~Chart#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 131,
+    "lineNumber": 165,
     "undocument": true,
     "type": {
       "types": [
@@ -560,27 +610,47 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#change",
     "access": null,
-    "description": null,
-    "lineNumber": 147,
-    "undocument": true,
-    "params": [
+    "description": "Change a configuration property. They all are also available through a method with the same name of the property.",
+    "lineNumber": 189,
+    "unknown": [
       {
-        "name": "property",
-        "types": [
-          "*"
-        ]
+        "tagName": "@returns",
+        "tagValue": "the instance of the current chart"
       },
       {
-        "name": "value",
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "property",
+        "description": "property name"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value",
+        "description": "the new property value"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
         "*"
-      ]
+      ],
+      "spread": false,
+      "description": "the instance of the current chart"
     },
     "generator": false
   },
