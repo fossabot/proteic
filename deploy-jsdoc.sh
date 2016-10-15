@@ -2,7 +2,8 @@
 
 CURRENT_DIR=$(pwd)
 echo "Current path: ${CURRENT_DIR}"
-
+npm install
+npm run docs
 echo -e "Publishing JSDoc...\n"
 
 cd $HOME
@@ -13,8 +14,6 @@ echo -e "Cloning the gh-pages branch...\n"
 
 git clone "https://$GH_TOKEN@github.com/proteus-h2020/proteic.git" --branch=gh-pages gh-pages
 cd gh-pages
-npm install
-npm run docs
 cp -Rf $CURRENT_DIR/docs .
 git add -A .
 git commit -m "[DOCS-$TRAVIS_BUILD_NUMBER] Generate JSDoc site (#$TRAVIS_COMMIT)."
