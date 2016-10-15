@@ -18,12 +18,10 @@ export class Streamset {
 
 
   update(svg, config, data) {
-    let colorScale = config.colorScale,
-      events = config.events,
-      series = null;
+    let series = null;
     
     //Update date format, used by areaGenerator function due to a problem when nesting with d3.
-    this.xDataFormat = config.x.format;
+    this.xDataFormat = config.xAxisFormat;
     
     svg.selectAll('.serie').remove();
 
@@ -32,24 +30,24 @@ export class Streamset {
       .enter()
       .append('g')
       .attr('class', 'serie')
-      .style('stroke', (d, i) => colorScale(i));
+      .style('stroke', (d, i) => config.colorScale(i));
 
     series
       .append('path')
       .attr('class', 'layer')
       .attr('d', this.areaGenerator)
-      .style('fill', (d, i) => colorScale(i));
+      .style('fill', (d, i) => config.colorScale(i));
 
 
     series.exit().remove();
     
     series
       .attr('opacity', 1)
-      .on('mousedown.user', events.down)
-      .on('mouseup.user', events.up)
-      .on('mouseleave.user', events.leave)
-      .on('mouseover.user', events.over)
-      .on('click.user', events.click);
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
   }
 
   render(svg, config) {

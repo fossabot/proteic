@@ -3,56 +3,37 @@ import * as Colors from '../colors';
 export const defaults = {
     selector: '#chart',
     colorScale: Colors.category7(),
-    area: false,
+    //Area
     areaOpacity: 0.4,
-    axis:{
-        x:{
-            type:'linear',
-            format:'%d'
-        },
-        y:{
-            type: 'linear',
-            format :'%d'
-        }
-    },
-    margin: {
-        top: 20,
-        right: 250,
-        bottom: 30,
-        left: 50
-    },
+
+    //Axes
+    xAxisType: 'linear',
+    xAxisFormat: '%m/%d/%y',
+    xAxisLabel: null,
+    yAxisType: 'linear',
+    yAxisFormat: '%d',
+    yAxisLabel: null,
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 30,
+    marginLeft: 50,
+    //markers
+    markerShape: 'circle',
+    markerSize: 5,
+    markerOutlineWidth: 2,
+    //Width & height
     width: '100%', // %, auto, or numeric 
     height: 250,
-    markers: {
-        shape: 'circle',
-        size: 5,
-        outlineWidth: 2
+    //Events
+    onDown(d) {
     },
-    events: {
-        down() {
-            d3.select(this).classed('hover', false);
-        },
-        over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 7)
-                ;
-        },
-        leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 5)
-                .style('stroke-width', 2);
-        },
-        click(d, i) {
-            console.log(d, i);
-        }
+    onHover(d) {
     },
-    maxNumberOfElements: 100, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-        descending: true,
-        prop: 'x'
-    }
+    onLeave(d) {
+    },
+    onClick(d) {
+    },
+
+    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

@@ -1,21 +1,19 @@
-import {defaults} from '../utils/defaults/linechart';
-import {SvgStrategy} from './strategy';
-import {XYAxes} from './components/xyAxes';
-import {Lineset} from './components/lineset';
-import {Legend} from './components/legend';
-import {Areaset} from './components/areaset';
-import {Pointset} from './components/pointset';
-import {calculateWidth} from '../utils/screen';
-import {convertByXYFormat} from '../utils/dataTransformation';
-import {sortByField} from '../utils/dataSorting';
+import { defaults } from '../utils/defaults/linechart';
+import { SvgAxis } from './base/svgAxis';
+import { XYAxes } from './components/xyAxes';
+import { Lineset } from './components/lineset';
+import { Legend } from './components/legend';
+import { Areaset } from './components/areaset';
+import { Pointset } from './components/pointset';
+import { convertByXYFormat } from '../utils/dataTransformation';
+import { sortByField } from '../utils/dataSorting';
 
-export class SvgLinechartStrategy extends SvgStrategy {
+export class SvgLinechartStrategy extends SvgAxis {
 
   constructor(context) {
     super(context);
 
-
-    this.axes = new XYAxes(this.config.x.type, 'linear', this.config);
+    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);
 
     this.lines = new Lineset(this.axes.x, this.axes.y);
     this.legend = new Legend();
@@ -26,12 +24,12 @@ export class SvgLinechartStrategy extends SvgStrategy {
       .add(this.legend)
       .add(this.lines);
 
-    if (this.config.area) {
+    if (this._checkArea(this.config)) {
       this.areas = new Areaset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.areas);
     }
 
-    if (this.config.markers) {
+    if (this._checkMarkers(this.config)) {
       this.points = new Pointset(this.axes.x, this.axes.y);
       this.svgContainer.add(this.points);
     }
@@ -73,19 +71,17 @@ export class SvgLinechartStrategy extends SvgStrategy {
     //Now update lines
     this.lines.update(svg, config, data);
 
-    if (config.area) {
+    if (config.areaOpacity > 0) {
       // Update areas
       this.areas.update(svg, config, data);
     }
 
-    if (config.markers) {
+    if (this._checkMarkers(config)) {
       // Update points
       this.points.update(svg, config, data);
     }
 
   }
-
-
 
   _getDomainBBox(data) {
     var minX = d3.min(data, (d) => d.x),
@@ -95,57 +91,26 @@ export class SvgLinechartStrategy extends SvgStrategy {
     return [minX, maxX, minY, maxY];
   }
 
+
+  _checkMarkers(config) {
+    return config.markerSize > 0;
+  }
+  _checkArea(config) {
+    return config.areaOpacity > 0;
+  }
+
   /**
    * This method adds config options to the chart context.
    * @param  {Object} config Config object
    */
   _loadConfigOnContext(config) {
-    config = config || { events: {}, x: {}, y: {} };
-    if (!config.events) {
-      config.events = {};
-    }
-
-    if (!config.x) {
-      config.x = {};
-    }
-
-    if (!config.y) {
-      config.y = {};
-    }
-
-    this.config = {};
-    this.config.cType = this.constructor.name;
-    this.config.selector = config.selector || defaults.selector;
-    this.config.margin = config.margin || defaults.margin;
-    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
-      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
-    this.config.height = config.height || defaults.height;
-    this.config.ticks = config.ticks || defaults.ticks;
-    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
-    this.config.events = {};
-    this.config.events.down = config.events.down || defaults.events.down;
-    this.config.events.up = config.events.up || defaults.events.up;
-    this.config.events.over = config.events.over || defaults.events.over;
-    this.config.events.click = config.events.click || defaults.events.click;
-    this.config.events.leave = config.events.leave || defaults.events.leave;
-    this.config.colorScale = config.colorScale || defaults.colorScale;
-
-    if (config.markers) {
-      this.config.markers = {};
-      this.config.markers.color = config.markers.color || defaults.markers.color;
-      this.config.markers.outlineColor = config.markers.outlineColor || defaults.markers.outlineColor;
-      this.config.markers.outlineWidth = config.markers.outlineWidth || defaults.markers.outlineWidth;
-      this.config.markers.shape = config.markers.shape || defaults.markers.shape;
-      this.config.markers.size = config.markers.size || defaults.markers.size;
-    }
-    this.config.area = typeof (config.area) === 'undefined' ? defaults.area : config.area;
-    this.config.areaOpacity = config.areaOpacity || defaults.areaOpacity;
-    this.config.x = {};
-    this.config.x.type = config.x.type || defaults.axis.x.type;
-    this.config.x.format = config.x.format || defaults.axis.x.format;
-    this.config.y = {};
-    this.config.y.type = config.y.type || defaults.axis.y.type;
-    this.config.y.format = config.y.format || defaults.axis.x.format;
+    super._loadConfigOnContext(config, defaults);
+    //Markers
+    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;
+    this.config.markerShape = config.markerShape || defaults.markerShape;
+    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;
+    //Area
+    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;
     return this;
   }
 }

@@ -9,7 +9,6 @@ export class TimeBoxset {
   }
   update(svg, config, data) {
     let colorScale = config.colorScale,
-      events = config.events,
       keys = d3.map(data, (d) => d.key).keys(),
       layer = svg.selectAll('.serie').data(data),
       layerEnter = null,
@@ -50,11 +49,11 @@ export class TimeBoxset {
     box = svg.selectAll('g.serie rect');
     
     box
-      .on('mousedown.user', events.down)
-      .on('mouseup.user', events.up)
-      .on('mouseleave.user', events.leave)
-      .on('mouseover.user', events.over)
-      .on('click.user', events.click);
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
 
   }
 

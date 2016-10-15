@@ -17,97 +17,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
-    crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
-  <!-- Proteus scripts -->
-  <!--<script src='https://cdn.rawgit.com/proteus-h2020/proteus-charts/development/dist/vendor.js'></script>-->
-  <!--<script src='https://cdn.rawgit.com/proteus-h2020/proteus-charts/development/dist/proteus-charts.js'></script>-->
-  <script src="../dist/vendor.js"></script>
-  <script src="../dist/proteus-charts.js"></script>
-
+	<script src='../node_modules/d3/build/d3.min.js'></script>
+	<script src='../build/proteic.min.js'></script>
 </head>
 
 <body>
-  <!-- Load data -->
-  <script>
-
-  </script>
-
-  <!-- #    DASHBOARD    # -->
-
-  <div class='container'>
-    <div class="row">
-      <h1 class="display-1">Proteus Dashboard Demo</h1>
-    </div>
-    <div class="row">
-      <button class="btn btn-info col-md-5" onclick="wsConnection.start()">Start/Resume</button>
-      <button class="btn btn-info col-md-5" onclick="wsConnection.stop()">Stop/Pause</button>
-    </div>
-    <hr/>
-    <div class='col-md-5' id='linechart'></div>
-    <div class='col-md-5' id='barchart'></div>
-    <div class='col-md-5' id='gauge'></div>
-
-
-  </div>
-
-
-  </div>
-  <script>
-    var data = {
-      endpoint: 'ws://192.168.3.32:3000/websocket'
-    };
-  
-    var wsConnection = new WebsocketDatasource(data);
-    var linechart = new Linechart(wsConnection, {
-        selector: "#linechart",
-        maxNumberOfElements: 10,
-        width: 'auto',
-        height: 200,
-        xDataType: 'Date',
-        xDateFormat: '%Y-%m-%dT%H:%M:%SZ',
-        maxNumberOfElements: 10
-      });
-      //linechart.start();
-  </script>
-  <script>
-    var dataBarchart = {
-      endpoint: 'ws://192.168.3.32:3000/barchart'
-    };
-  
-  var wsBarchartConnection = new WebsocketDatasource(dataBarchart);
-    var barchart = new Barchart(wsBarchartConnection, {
-        selector: "#barchart",
-        maxNumberOfElements: 2,
-        width: 'auto',
-        height: 200,
-      });
-      //barchart.start();
-  </script>
-  <script>
-    var dataGauge = {
-      endpoint: 'ws://192.168.3.32:3000/gauge'
-    };
-  
-    var wsGaugeConnection = new WebsocketDatasource(dataGauge);
-    //Default config uses #chart selector
-    gauge = new Gauge(wsGaugeConnection, {
-      min: 0,
-      max: 100,
-      selector: '#gauge'
-    });
-    
-  </script>
-
-  <script>
-    wsConnection.start();
-    wsBarchartConnection.start();
-    //wsGaugeConnection.start();
-  </script>
+<h1>Under construction! </h1>
+<h3>Please, help us to create a cool dashboard with some CSS framework by using some examples of our pretty charts :) </h3>
 </body>
 
 </html>

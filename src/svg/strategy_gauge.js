@@ -1,15 +1,14 @@
-import {defaults} from '../utils/defaults/gauge';
-import {SvgContainer} from './components/svgContainer';
-import {SvgStrategy} from './strategy';
-import {Dial} from './components/dial';
-import {DialNeedle} from './components/dialNeedle';
-import {TextIndicator} from './components/textIndicator';
-import {calculateWidth} from '../utils/screen';
+import { defaults } from '../utils/defaults/gauge';
+import { SvgContainer } from './components/svgContainer';
+import { Dial } from './components/dial';
+import { DialNeedle } from './components/dialNeedle';
+import { TextIndicator } from './components/textIndicator';
+import { calculateWidth } from '../utils/screen';
 
-export class SvgGaugeStrategy extends SvgStrategy {
+export class SvgGaugeStrategy {
   constructor(context) {
-    super(context);
-    
+    this._loadConfigOnContext(context.config);
+    this.svgContainer = new SvgContainer(this.config);
     let config = this.config;
 
     this.dial = new Dial('linear', config);
@@ -54,21 +53,20 @@ export class SvgGaugeStrategy extends SvgStrategy {
 	 */
   _loadConfigOnContext(config) {
     this.config = {};
-    this.config.cType = this.constructor.name;
+    //Selector
     this.config.selector = config.selector || defaults.selector;
-    this.config.margin = config.margin || defaults.margin;
-    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
-      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
+    //Margins 
+    this.config.marginTop = config.marginTop || defaults.marginTop;
+    this.config.marginLeft = config.marginLeft || defaults.marginLeft;
+    this.config.marginRight = config.marginRight || defaults.marginRight;
+    this.config.marginBottom = config.marginBottom || defaults.marginBottom;
+    //Width & height
+    this.config.width = config.width
+      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
     this.config.height = config.height || defaults.height;
-    this.config.ticks = config.ticks || defaults.ticks;
-    this.config.tickLabel = config.tickLabel || defaults.tickLabel;
-    this.config.transitionDuration = config.transitionDuration || defaults.transitionDuration;
-    this.config.tip = config.tooltip || defaults.tooltip;
-    this.config._sortData = config.sortData || defaults.sortData;
-    this.config.style = config.style || defaults.style;
-    this.config.colorScale = config.colorScale || defaults.colorScale;
-    this.config.x = {};
 
+    this.config.colorScale = config.colorScale || defaults.colorScale;
     this.config.minLevel = config.minLevel || defaults.minLevel;
     this.config.maxLevel = config.maxLevel || defaults.maxLevel;
     this.config.minAngle = config.minAngle || defaults.minAngle;
@@ -82,7 +80,8 @@ export class SvgGaugeStrategy extends SvgStrategy {
     this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;
     this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;
     this.config.label = config.label || defaults.label;
-    //Just for testing purposes
+
+
     return this;
   }
 

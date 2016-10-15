@@ -1,6 +1,6 @@
 import {defaults} from '../utils/defaults/streamgraph';
 import {SvgContainer} from './components/svgContainer';
-import {SvgStrategy} from './strategy';
+import {SvgAxis} from './base/svgAxis';
 import {XAxis} from './components/xAxis';
 import {YAxis} from './components/yAxis';
 import {Streamset} from './components/streamset';
@@ -10,7 +10,7 @@ import {calculateWidth} from '../utils/screen';
 import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
 import {sortByField} from '../utils/dataSorting';
 
-export class SvgStreamgraphStrategy extends SvgStrategy {
+export class SvgStreamgraphStrategy extends SvgAxis {
 
     constructor(context) {
         super(context);
@@ -34,7 +34,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
             config = this.config,
             bbox = null,
             keys = d3.map(data, (d) => d.key).keys(),
-            xDataFormat = this.config.x.format,
+            xDataFormat = this.config.xAxisFormat,
             data4stack = simple2stacked(data),
             stack = d3.stack()
                 .keys(keys)
@@ -82,48 +82,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
 	 * @param  {Object} config Config object
 	 */
     _loadConfigOnContext(config) {
-        config = config || { events: {}, x:{}, y:{} };
-        
-        
-        if (!config.events) {
-            config.events = {};
-        }
-        if (!config.markers) {
-            config.markers = {};
-        }
-
-        if (!config.x) {
-            config.x = {};
-        }
-        if (!config.y) {
-            config.y = {};
-        }
-        
-        this.config = {};
-        this.config.cType = this.constructor.name;
-        this.config.selector = config.selector || defaults.selector;
-        this.config.margin = config.margin || defaults.margin;
-        this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
-            : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
-        this.config.height = config.height || defaults.height;
-        this.config.ticks = config.ticks || defaults.ticks;
-        this.config.events = {};
-        this.config.events.down = config.events.down || defaults.events.down;
-        this.config.events.up = config.events.up || defaults.events.up;
-        this.config.events.over = config.events.over || defaults.events.over;
-        this.config.events.click = config.events.click || defaults.events.click;
-        this.config.events.leave = config.events.leave || defaults.events.leave;
-        this.config._sortData = config.sortData || defaults.sortData;
-        this.config.style = config.style || defaults.style;
-        this.config.colorScale = config.colorScale || defaults.colorScale;
-        this.config.colorScale = config.colorScale || defaults.colorScale;
-        this.config.xDateformat = config.xDateFormat || defaults.xDateFormat;
-        
-        this.config.x = {};
-        this.config.x.type = config.x.type || defaults.axis.x.type;
-        this.config.x.format = config.x.format || defaults.axis.x.format;
-        this.config.y = {};
-        this.config.y.type = config.y.type || defaults.axis.y.type;
-        this.config.y.format = config.y.format || defaults.axis.x.format;
+        super._loadConfigOnContext(config,defaults);
+        return this;
     }
 }

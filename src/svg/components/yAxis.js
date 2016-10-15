@@ -61,11 +61,8 @@ export class YAxis {
 
   render(svg, config) {
     let yAxis = this.yAxis,
-      yAxisLabel = config.yAxisLabel,
       width = config.width,
-      height = config.height,
-      margin = config.margin;
-
+      height = config.height;
     svg
       .append('g')
       .attr('class', 'y axis')
@@ -79,7 +76,7 @@ export class YAxis {
       .attr("text-anchor", "middle")
       .attr('x', 0 - height / 2)
       .attr('y', 0 - 55)
-      .text(yAxisLabel)
+      .text(config.yAxisLabel)
       .style('font', '0.8em Montserrat, sans-serif');
 
   }

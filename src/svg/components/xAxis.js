@@ -72,11 +72,8 @@ export class XAxis {
 
   render(svg, config) {
     let xAxis = this.xAxis,
-      xAxisLabel = config.xAxisLabel,
       width = config.width,
-      height = config.height,
-      margin = config.margin;
-
+      height = config.height;
     svg
       .append('g')
       .attr('class', 'x axis')
@@ -89,7 +86,7 @@ export class XAxis {
       .attr("text-anchor", "middle")
       .attr('x', width / 2)
       .attr('y', height + 40)
-      .text(xAxisLabel)
+      .text(config.xAxisLabel)
       .style('font', '0.8em Montserrat, sans-serif');
 
     this.svg = svg;

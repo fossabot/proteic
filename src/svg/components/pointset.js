@@ -8,11 +8,10 @@ export class Pointset {
       .key((d) => d.key)
       .entries(data),
       markers = null,
-      markerShape = config.markers.shape,
-      markerSize = config.markers.size,
-      markerOutlineWidth = config.markers.outlineWidth,
+      markerShape = config.markerShape,
+      markerSize = config.markerSize,
+      markerOutlineWidth = config.markerOutlineWidth,
       colorScale = config.colorScale,
-      events = config.events,
       points = null,
       series = null;
 
@@ -43,11 +42,11 @@ export class Pointset {
 
     markers = svg.selectAll('g.points circle');
     markers
-      .on('mousedown.user', events.down)
-      .on('mouseup.user', events.up)
-      .on('mouseleave.user', events.leave)
-      .on('mouseover.user', events.over)
-      .on('click.user', events.click);
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
 
     //this.interactiveElements = markers;
   }

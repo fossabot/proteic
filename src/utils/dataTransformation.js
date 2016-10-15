@@ -44,31 +44,25 @@ export function convertPropretiesToTimeFormat(data, properties, format) {
 }
 
 export function convertByXYFormat(data, config) {
-  var xType = config.x.type,
-    yType = config.y.type,
-    xFormat = config.x.format,
-    yFormat = config.y.format;
-
   data.forEach((d) => {
     //parse x coordinate
-    switch (xType) {
+    switch (config.xAxisType) {
       case 'time':
-        d.x = d3.timeParse(xFormat)(d.x);
+        d.x = d3.timeParse(config.xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
         break;
     }
     //parse Y coordinate
-    switch (yType) {
+    switch (config.yAxisType) {
       case 'time':
-        d.y = d3.timeParse(yFormat)(d.y);
+        d.y = d3.timeParse(config.yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
         break;
     }
   });
-
   return data;
 }

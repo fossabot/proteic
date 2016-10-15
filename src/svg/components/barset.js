@@ -1,4 +1,5 @@
 import {simple2nested} from '../../utils/dataTransformation'
+import {select} from 'd3';
 
 export class Barset {
   constructor(xAxis, yAxis) {
@@ -11,8 +12,7 @@ export class Barset {
 
 
   update(svg, config, data, method) {
-    let bars = null,
-      events = config.events;
+    let bars = null;
 
     if (method === 'stacked') {
       this._updateStacked(svg, config, data);
@@ -21,11 +21,21 @@ export class Barset {
     }
     bars = svg.selectAll('g.serie rect');
     bars
-      .on('mousedown.user', events.down)
-      .on('mouseup.user', events.up)
-      .on('mouseleave.user', events.leave)
-      .on('mouseover.user', events.over)
-      .on('click.user', events.click);
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
+      
+    /**
+    TODO: Add default events?
+    bars
+      .on('mousedown.default', config.onDown)
+      .on('mouseup.default', config.onUp)
+      .on('mouseleave.default', function (){ select(this).transition().duration(150).attr('fill-opacity', 1)})
+      .on('mouseover.default',  function (){ select(this).transition().duration(150).attr('fill-opacity', 0.9)})
+      .on('click.default', config.onClick);
+    **/
 
     this.interactiveElements = bars;
   }

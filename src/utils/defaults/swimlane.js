@@ -3,45 +3,28 @@ import * as Colors from '../colors';
 export const defaults = {
     selector: '#chart',
     colorScale: Colors.category3(),
-    axis:{
-        x:{
-            type:'time',
-            format:'%y/%m/%d'
-        },
-        y:{
-            type: 'categorical',
-            format :'%s'
-        }
+    //Axes
+    xAxisType: 'time',
+    xAxisFormat: '%y/%m/%d',
+    xAxisLabel: null,
+    yAxisType: 'categorical',
+    yAxisFormat: '%s',
+    yAxisLabel: null,
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 30,
+    marginLeft: 50,
+    //Width & height
+    width: '100%', // %, auto, or numeric 
+    height: 250,
+    //Events
+    onDown(d) {
     },
-    margin: {
-        top: 20,
-        right: 100,
-        bottom: 30,
-        left: 100
+    onHover(d) {
     },
-    width: '99%', // %, auto, or numeric
-    height: 550,
-    events: {
-        down() {
-            d3.select(this).classed('hover', false);
-        },
-        over() {
-            d3.select(this)
-                .transition()
-                .duration(150)
-                .attr('fill-opacity', 0.4);
-        },
-        leave() {
-            d3.select(this)
-                .transition()
-                .duration(150)
-                .attr('fill-opacity', 1);
-        },
-        click(d, i) {
-            console.log(d, i);
-        },
-        up () {
-            
-        }
+    onLeave(d) {
     },
+    onClick(d) {
+    }
 };
