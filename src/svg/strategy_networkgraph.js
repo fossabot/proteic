@@ -23,7 +23,7 @@ export class SvgNetworkgraphStrategy extends SvgStrategy{
 	 * 
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg,
+    let svg = this.svgContainer.svg,
       config = this.config,
       width = config.width,
       height = config.height;

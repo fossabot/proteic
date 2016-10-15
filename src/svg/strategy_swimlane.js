@@ -22,7 +22,7 @@ export class SvgSwimlaneStrategy extends SvgStrategy {
   }
 
   draw(data) {
-    var svg = this.svgContainer.svg,
+    let svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.x.format,
       keys = d3.map(data, (d) => d.key).keys(),

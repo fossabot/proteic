@@ -30,7 +30,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
             .add(this.streams);
     }
     draw(data) {
-        var svg = this.svgContainer.svg,
+        let svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
             keys = d3.map(data, (d) => d.key).keys(),
@@ -69,7 +69,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
     }
   
     _getDomainBBox(data, dataSeries) {
-        var minX = d3.min(data, (d) => new Date(d.x)),
+        let minX = d3.min(data, (d) => new Date(d.x)),
             maxX = d3.max(data, (d) => new Date(d.x)),
             minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),
             maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));

@@ -10,7 +10,7 @@ export class SvgGaugeStrategy extends SvgStrategy {
   constructor(context) {
     super(context);
     
-    var config = this.config;
+    let config = this.config;
 
     this.dial = new Dial('linear', config);
     this.needle = new DialNeedle('linear', config);
@@ -38,8 +38,8 @@ export class SvgGaugeStrategy extends SvgStrategy {
 	 *
 	 */
   draw(data) {
-    let datum = data[data.length - 1];
-    var svg = this.svgContainer.svg,
+    let datum = data[data.length - 1],
+      svg = this.svgContainer.svg,
       config = this.config;
 
     this.needle.update(svg, config, data);

@@ -30,7 +30,7 @@ export class SvgBarchartStrategy extends SvgStrategy {
 	 * 
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg,
+    let svg = this.svgContainer.svg,
       config = this.config,
       keys = d3.map(data, (d) => d.key).keys(),
       data4stack = simple2stacked(data),

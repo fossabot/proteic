@@ -43,7 +43,7 @@ export class SvgLinechartStrategy extends SvgStrategy {
 	 * 
 	 */
   draw(data) {
-    var svg = this.svgContainer.svg,
+    let svg = this.svgContainer.svg,
       config = this.config,
       needAxisRescaling = this.config.needAxisRescaling,
       bbox = null;
