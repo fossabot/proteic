@@ -9,7 +9,7 @@
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf build/*",
     "build": "rollup -c rollup.config.js",
-    "docs": "jsdoc ./src/**/*.js -d docs",
+    "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \""
   },
@@ -30,7 +30,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "codecov": "^1.0.1",
-    "jsdoc": "^3.4.0",
+    "esdoc": "^0.4.8",
     "jshint": "^2.9.2",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
