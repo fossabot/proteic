@@ -1,0 +1,54 @@
+{
+  "name": "proteic",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint src/**/*.js",
+    "pretest": "npm run build",
+    "test": "karma start -c karma.conf.js",
+    "prebuild": "rimraf build/*",
+    "build": "rollup -c rollup.config.js",
+    "docs": "esdoc -c esdoc.json",
+    "serve": "live-server",
+    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \""
+  },
+  "keywords": [
+    "d3",
+    "chart"
+  ],
+  "author": "Treelogic S.L.",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^4.2.0",
+    "d3-dispatch": "^1.0.1",
+    "d3-scale": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-es2015-rollup": "^1.2.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "codecov": "^1.0.1",
+    "esdoc": "^0.4.8",
+    "jshint": "^2.9.2",
+    "karma": "^0.13.22",
+    "karma-babel-preprocessor": "^6.0.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "karma-rollup-plugin": "^0.2.4",
+    "live-server": "^1.1.0",
+    "mocha": "^2.4.5",
+    "parallelshell": "^2.0.0",
+    "protractor": "^3.3.0",
+    "rimraf": "^2.5.4",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-buble": "^0.14.0",
+    "rollup-plugin-commonjs": "^5.0.4",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "socket.io": "^1.4.5",
+    "watch": "^0.19.2"
+  }
+}

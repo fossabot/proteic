@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="">
+  <title data-ice="title">Source | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">charts</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/barchart.js~Barchart.html">Barchart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/swimlane.js~Swimlane.html">Swimlane</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">charts/base</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/base/Chart.js~Chart.html">Chart</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">datasources</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html">Datasource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html">WebsocketDatasource</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">svg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/SvgStrategy.js~SvgStrategy.html">SvgStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_barchart.js~SvgBarchartStrategy.html">SvgBarchartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html">SvgSwimlaneStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-strategies">strategies</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">svg/base</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/base/svgAxis.js~SvgAxis.html">SvgAxis</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">svg/components</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/areaset.js~Areaset.html">Areaset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/barset.js~Barset.html">Barset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/dial.js~Dial.html">Dial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/dialNeedle.js~DialNeedle.html">DialNeedle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/legend.js~Legend.html">Legend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/lineset.js~Lineset.html">Lineset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/nodeset.js~Nodeset.html">Nodeset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/pointset.js~Pointset.html">Pointset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/radialAxes.js~RadialAxes.html">RadialAxes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/streamset.js~Streamset.html">Streamset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/sunburstDisk.js~SunburstDisk.html">SunburstDisk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/svgContainer.js~SvgContainer.html">SvgContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/textIndicator.js~TextIndicator.html">TextIndicator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/timeBoxset.js~TimeBoxset.html">TimeBoxset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/xAxis.js~XAxis.html">XAxis</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/xRadialAxis.js~XRadialAxis.html">XRadialAxis</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/xyAxes.js~XYAxes.html">XYAxes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/yAxis.js~YAxis.html">YAxis</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/components/yRadialAxis.js~YRadialAxis.html">YRadialAxis</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category1">category1</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category2">category2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category3">category3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category4">category4</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category5">category5</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category6">category6</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category7">category7</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-category8">category8</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_brown_green">diverging_brown_green</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_brown_turquoise">diverging_brown_turquoise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_lightBrown_turquoise">diverging_lightBrown_turquoise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_orange_pink">diverging_orange_pink</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_orange_violet">diverging_orange_violet</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_purple_green">diverging_purple_green</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_red_blue">diverging_red_blue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_red_green">diverging_red_green</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_red_grey">diverging_red_grey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_spectral1">diverging_spectral1</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_spectral2">diverging_spectral2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_spectral3">diverging_spectral3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-diverging_violet_green">diverging_violet_green</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialBlue">sequentialBlue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialBlueCb">sequentialBlueCb</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialBlueViolet">sequentialBlueViolet</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialBrown">sequentialBrown</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialDarkGreen">sequentialDarkGreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialGreenBrown">sequentialGreenBrown</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialGreenBrownCb">sequentialGreenBrownCb</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialGreenCb">sequentialGreenCb</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialGrey">sequentialGrey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialLightBlue">sequentialLightBlue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialLightGreen">sequentialLightGreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialPink">sequentialPink</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialPinkCb">sequentialPinkCb</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialPurple">sequentialPurple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialPurplePink">sequentialPurplePink</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialRed">sequentialRed</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialRedOrange">sequentialRedOrange</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialTurquoise">sequentialTurquoise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialVioletCb">sequentialVioletCb</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sequentialYellow">sequentialYellow</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterByPropAndBBox">filterByPropAndBBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sortByField">sortByField</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-convertByXYFormat">convertByXYFormat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-convertPropretiesToTimeFormat">convertPropretiesToTimeFormat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nested2simple">nested2simple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-simple2Linked">simple2Linked</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-simple2nested">simple2nested</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-simple2stacked">simple2stacked</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deg2rad">deg2rad</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findElement">findElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isArray">isArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEven">isEven</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isFunction">isFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isNumeric">isNumeric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isObject">isObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isPercentage">isPercentage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-keys">keys</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sortBy">sortBy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-svgAsDataUri">svgAsDataUri</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-calculateWidth">calculateWidth</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils/defaults</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">45/336</span></h1>
+
+<table class="files-summary" data-ice="files" data-use-coverage="true">
+  <thead>
+    <tr>
+      <td>File</td>
+      <td>Identifier</td>
+      <td class="coverage">Document</td>
+      <td style="display: none;">Size</td>
+      <td style="display: none;">Lines</td>
+      <td style="display: none;">Updated</td>
+    </tr>
+  </thead>
+  <tbody>
+    
+  <tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/barchart.js.html#errorLines=30">src/charts/barchart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/barchart.js~Barchart.html">Barchart</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">4/5</span></td>
+      <td style="display: none;" data-ice="size">1444 byte</td>
+      <td style="display: none;" data-ice="lines">51</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/base/Chart.js.html#errorLines=11,120,131,147,17,28,29,39">src/charts/base/Chart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/base/Chart.js~Chart.html">Chart</a></span></td>
+      <td class="coverage"><span data-ice="coverage">27 %</span><span data-ice="coverageCount" class="coverage-count">3/11</span></td>
+      <td style="display: none;" data-ice="size">4005 byte</td>
+      <td style="display: none;" data-ice="lines">150</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/gauge.js.html#errorLines=33">src/charts/gauge.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">4/5</span></td>
+      <td style="display: none;" data-ice="size">970 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/linechart.js.html">src/charts/linechart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1124 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/networkgraph.js.html">src/charts/networkgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1130 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/stackedArea.js.html#errorLines=37">src/charts/stackedArea.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">4/5</span></td>
+      <td style="display: none;" data-ice="size">1217 byte</td>
+      <td style="display: none;" data-ice="lines">41</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/streamgraph.js.html">src/charts/streamgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1130 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/sunburst.js.html">src/charts/sunburst.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">2825 byte</td>
+      <td style="display: none;" data-ice="lines">104</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/charts/swimlane.js.html">src/charts/swimlane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/charts/swimlane.js~Swimlane.html">Swimlane</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1123 byte</td>
+      <td style="display: none;" data-ice="lines">37</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/datasources/Datasource.js.html#errorLines=1,10,14,2,3,6">src/datasources/Datasource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/datasources/Datasource.js~Datasource.html">Datasource</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">276 byte</td>
+      <td style="display: none;" data-ice="lines">16</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/datasources/WebsocketDatasource.js.html#errorLines=11,12,15,17,3,31,6,8">src/datasources/WebsocketDatasource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html">WebsocketDatasource</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
+      <td style="display: none;" data-ice="size">813 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/SvgStrategy.js.html#errorLines=14,15,17,20,25">src/svg/SvgStrategy.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/SvgStrategy.js~SvgStrategy.html">SvgStrategy</a></span>
+<span><a href="variable/index.html#static-variable-strategies">strategies</a></span></td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">1422 byte</td>
+      <td style="display: none;" data-ice="lines">49</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/base/svgAxis.js.html#errorLines=11,18,24,4,6,8">src/svg/base/svgAxis.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/base/svgAxis.js~SvgAxis.html">SvgAxis</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">2363 byte</td>
+      <td style="display: none;" data-ice="lines">55</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/areaset.js.html#errorLines=1,2,3,4,46,49,7">src/svg/components/areaset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/areaset.js~Areaset.html">Areaset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/7</span></td>
+      <td style="display: none;" data-ice="size">1425 byte</td>
+      <td style="display: none;" data-ice="lines">51</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/barset.js.html#errorLines=129,14,4,5,6,7,8">src/svg/components/barset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/barset.js~Barset.html">Barset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">3547 byte</td>
+      <td style="display: none;" data-ice="lines">131</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/dial.js.html#errorLines=14,19,23,25,27,3,39,4,43,9">src/svg/components/dial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/dial.js~Dial.html">Dial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/10</span></td>
+      <td style="display: none;" data-ice="size">2386 byte</td>
+      <td style="display: none;" data-ice="lines">83</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/dialNeedle.js.html#errorLines=15,17,22,26,3,30,32,34,4,46,50,59,61,9">src/svg/components/dialNeedle.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/dialNeedle.js~DialNeedle.html">DialNeedle</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/14</span></td>
+      <td style="display: none;" data-ice="size">2353 byte</td>
+      <td style="display: none;" data-ice="lines">77</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/legend.js.html#errorLines=1,2,4,46">src/svg/components/legend.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/legend.js~Legend.html">Legend</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/4</span></td>
+      <td style="display: none;" data-ice="size">1248 byte</td>
+      <td style="display: none;" data-ice="lines">48</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/lineset.js.html#errorLines=1,10,2,3,32,35,4,5">src/svg/components/lineset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/lineset.js~Lineset.html">Lineset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
+      <td style="display: none;" data-ice="size">986 byte</td>
+      <td style="display: none;" data-ice="lines">37</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/nodeset.js.html#errorLines=10,16,22,27,35,4,5,6,68,80">src/svg/components/nodeset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/nodeset.js~Nodeset.html">Nodeset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/10</span></td>
+      <td style="display: none;" data-ice="size">2046 byte</td>
+      <td style="display: none;" data-ice="lines">82</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/pointset.js.html#errorLines=1,2,3,4,54,6">src/svg/components/pointset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/pointset.js~Pointset.html">Pointset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">1593 byte</td>
+      <td style="display: none;" data-ice="lines">56</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/radialAxes.js.html#errorLines=10,11,4,5">src/svg/components/radialAxes.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/radialAxes.js~RadialAxes.html">RadialAxes</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/4</span></td>
+      <td style="display: none;" data-ice="size">320 byte</td>
+      <td style="display: none;" data-ice="lines">12</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/streamset.js.html#errorLines=10,12,20,24,53,7,8,9">src/svg/components/streamset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/streamset.js~Streamset.html">Streamset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
+      <td style="display: none;" data-ice="size">1406 byte</td>
+      <td style="display: none;" data-ice="lines">55</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/sunburstDisk.js.html#errorLines=13,2,3,4,5,6,96">src/svg/components/sunburstDisk.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/sunburstDisk.js~SunburstDisk.html">SunburstDisk</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/7</span></td>
+      <td style="display: none;" data-ice="size">2782 byte</td>
+      <td style="display: none;" data-ice="lines">99</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/svgContainer.js.html#errorLines=1,28,3,37,5,6">src/svg/components/svgContainer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/svgContainer.js~SvgContainer.html">SvgContainer</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">938 byte</td>
+      <td style="display: none;" data-ice="lines">40</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/textIndicator.js.html#errorLines=1,10,17,2,7">src/svg/components/textIndicator.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/textIndicator.js~TextIndicator.html">TextIndicator</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/5</span></td>
+      <td style="display: none;" data-ice="size">1207 byte</td>
+      <td style="display: none;" data-ice="lines">46</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/timeBoxset.js.html#errorLines=10,3,5,6,60,7">src/svg/components/timeBoxset.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/timeBoxset.js~TimeBoxset.html">TimeBoxset</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">1727 byte</td>
+      <td style="display: none;" data-ice="lines">62</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/tooltip.js.html">src/svg/components/tooltip.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">853 byte</td>
+      <td style="display: none;" data-ice="lines">43</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/xAxis.js.html#errorLines=13,3,4,40,44,73,9,92">src/svg/components/xAxis.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/xAxis.js~XAxis.html">XAxis</a></span></td>
+      <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">2/10</span></td>
+      <td style="display: none;" data-ice="size">2358 byte</td>
+      <td style="display: none;" data-ice="lines">93</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/xRadialAxis.js.html#errorLines=2,4,9">src/svg/components/xRadialAxis.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/xRadialAxis.js~XRadialAxis.html">XRadialAxis</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">226 byte</td>
+      <td style="display: none;" data-ice="lines">10</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/xyAxes.js.html#errorLines=10,11,14,35,4,40,45,5">src/svg/components/xyAxes.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/xyAxes.js~XYAxes.html">XYAxes</a></span></td>
+      <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">2/10</span></td>
+      <td style="display: none;" data-ice="size">1196 byte</td>
+      <td style="display: none;" data-ice="lines">48</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/yAxis.js.html#errorLines=12,3,4,40,44,52,57,62,9">src/svg/components/yAxis.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/yAxis.js~YAxis.html">YAxis</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/9</span></td>
+      <td style="display: none;" data-ice="size">2161 byte</td>
+      <td style="display: none;" data-ice="lines">82</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/components/yRadialAxis.js.html#errorLines=11,2,4">src/svg/components/yRadialAxis.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/components/yRadialAxis.js~YRadialAxis.html">YRadialAxis</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">294 byte</td>
+      <td style="display: none;" data-ice="lines">13</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_barchart.js.html#errorLines=11,14,15,17,67,72,76,9">src/svg/strategy_barchart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_barchart.js~SvgBarchartStrategy.html">SvgBarchartStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">11 %</span><span data-ice="coverageCount" class="coverage-count">1/9</span></td>
+      <td style="display: none;" data-ice="size">2325 byte</td>
+      <td style="display: none;" data-ice="lines">88</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_gauge.js.html#errorLines=11,14,15,29,55,8,9">src/svg/strategy_gauge.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">3485 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_linechart.js.html#errorLines=11,13,16,18,19,28,33">src/svg/strategy_linechart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">3222 byte</td>
+      <td style="display: none;" data-ice="lines">115</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_networkgraph.js.html#errorLines=10,36,6,8">src/svg/strategy_networkgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">1/5</span></td>
+      <td style="display: none;" data-ice="size">1370 byte</td>
+      <td style="display: none;" data-ice="lines">43</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_stackedArea.js.html#errorLines=12,14,17,19,21,31">src/svg/strategy_stackedArea.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">2628 byte</td>
+      <td style="display: none;" data-ice="lines">84</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_streamgraph.js.html#errorLines=13,15,18,19,21,23,32">src/svg/strategy_streamgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/7</span></td>
+      <td style="display: none;" data-ice="size">2893 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_sunburst.js.html#errorLines=10,12,19,21,27,34,47,8">src/svg/strategy_sunburst.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
+      <td style="display: none;" data-ice="size">2185 byte</td>
+      <td style="display: none;" data-ice="lines">65</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/svg/strategy_swimlane.js.html#errorLines=10,12,14,15,16,24">src/svg/strategy_swimlane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html">SvgSwimlaneStrategy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">1602 byte</td>
+      <td style="display: none;" data-ice="lines">60</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/colors.js.html#errorLines=628,632,636,640,644,648,652,656,660,664,668,672,676,680,684,688,692,696,700,704,708,712,716,720,724,728,732,736,740,744,748,752,756,760,764,768,772,776,780,784,788">src/utils/colors.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-category1">category1</a></span>
+<span><a href="function/index.html#static-function-category2">category2</a></span>
+<span><a href="function/index.html#static-function-category3">category3</a></span>
+<span><a href="function/index.html#static-function-category4">category4</a></span>
+<span><a href="function/index.html#static-function-category5">category5</a></span>
+<span><a href="function/index.html#static-function-category6">category6</a></span>
+<span><a href="function/index.html#static-function-category7">category7</a></span>
+<span><a href="function/index.html#static-function-category8">category8</a></span>
+<span><a href="function/index.html#static-function-diverging_brown_green">diverging_brown_green</a></span>
+<span><a href="function/index.html#static-function-diverging_brown_turquoise">diverging_brown_turquoise</a></span>
+<span><a href="function/index.html#static-function-diverging_lightBrown_turquoise">diverging_lightBrown_turquoise</a></span>
+<span><a href="function/index.html#static-function-diverging_orange_pink">diverging_orange_pink</a></span>
+<span><a href="function/index.html#static-function-diverging_orange_violet">diverging_orange_violet</a></span>
+<span><a href="function/index.html#static-function-diverging_purple_green">diverging_purple_green</a></span>
+<span><a href="function/index.html#static-function-diverging_red_blue">diverging_red_blue</a></span>
+<span><a href="function/index.html#static-function-diverging_red_green">diverging_red_green</a></span>
+<span><a href="function/index.html#static-function-diverging_red_grey">diverging_red_grey</a></span>
+<span><a href="function/index.html#static-function-diverging_spectral1">diverging_spectral1</a></span>
+<span><a href="function/index.html#static-function-diverging_spectral2">diverging_spectral2</a></span>
+<span><a href="function/index.html#static-function-diverging_spectral3">diverging_spectral3</a></span>
+<span><a href="function/index.html#static-function-diverging_violet_green">diverging_violet_green</a></span>
+<span><a href="function/index.html#static-function-sequentialBlue">sequentialBlue</a></span>
+<span><a href="function/index.html#static-function-sequentialBlueCb">sequentialBlueCb</a></span>
+<span><a href="function/index.html#static-function-sequentialBlueViolet">sequentialBlueViolet</a></span>
+<span><a href="function/index.html#static-function-sequentialBrown">sequentialBrown</a></span>
+<span><a href="function/index.html#static-function-sequentialDarkGreen">sequentialDarkGreen</a></span>
+<span><a href="function/index.html#static-function-sequentialGreenBrown">sequentialGreenBrown</a></span>
+<span><a href="function/index.html#static-function-sequentialGreenBrownCb">sequentialGreenBrownCb</a></span>
+<span><a href="function/index.html#static-function-sequentialGreenCb">sequentialGreenCb</a></span>
+<span><a href="function/index.html#static-function-sequentialGrey">sequentialGrey</a></span>
+<span><a href="function/index.html#static-function-sequentialLightBlue">sequentialLightBlue</a></span>
+<span><a href="function/index.html#static-function-sequentialLightGreen">sequentialLightGreen</a></span>
+<span><a href="function/index.html#static-function-sequentialPink">sequentialPink</a></span>
+<span><a href="function/index.html#static-function-sequentialPinkCb">sequentialPinkCb</a></span>
+<span><a href="function/index.html#static-function-sequentialPurple">sequentialPurple</a></span>
+<span><a href="function/index.html#static-function-sequentialPurplePink">sequentialPurplePink</a></span>
+<span><a href="function/index.html#static-function-sequentialRed">sequentialRed</a></span>
+<span><a href="function/index.html#static-function-sequentialRedOrange">sequentialRedOrange</a></span>
+<span><a href="function/index.html#static-function-sequentialTurquoise">sequentialTurquoise</a></span>
+<span><a href="function/index.html#static-function-sequentialVioletCb">sequentialVioletCb</a></span>
+<span><a href="function/index.html#static-function-sequentialYellow">sequentialYellow</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/41</span></td>
+      <td style="display: none;" data-ice="size">13206 byte</td>
+      <td style="display: none;" data-ice="lines">789</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/dataFilter.js.html#errorLines=1">src/utils/dataFilter.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-filterByPropAndBBox">filterByPropAndBBox</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">243 byte</td>
+      <td style="display: none;" data-ice="lines">9</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/dataSorting.js.html#errorLines=1">src/utils/dataSorting.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-sortByField">sortByField</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">186 byte</td>
+      <td style="display: none;" data-ice="lines">6</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/dataTransformation.js.html#errorLines=1,14,18,31,38,46">src/utils/dataTransformation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-convertByXYFormat">convertByXYFormat</a></span>
+<span><a href="function/index.html#static-function-convertPropretiesToTimeFormat">convertPropretiesToTimeFormat</a></span>
+<span><a href="function/index.html#static-function-nested2simple">nested2simple</a></span>
+<span><a href="function/index.html#static-function-simple2Linked">simple2Linked</a></span>
+<span><a href="function/index.html#static-function-simple2nested">simple2nested</a></span>
+<span><a href="function/index.html#static-function-simple2stacked">simple2stacked</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
+      <td style="display: none;" data-ice="size">1598 byte</td>
+      <td style="display: none;" data-ice="lines">67</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/barchart.js.html#errorLines=3">src/utils/defaults/barchart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">571 byte</td>
+      <td style="display: none;" data-ice="lines">31</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/gauge.js.html#errorLines=3">src/utils/defaults/gauge.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">609 byte</td>
+      <td style="display: none;" data-ice="lines">26</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/linechart.js.html#errorLines=3">src/utils/defaults/linechart.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">805 byte</td>
+      <td style="display: none;" data-ice="lines">38</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/networkgraph.js.html#errorLines=1">src/utils/defaults/networkgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">183 byte</td>
+      <td style="display: none;" data-ice="lines">11</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/stackedArea.js.html#errorLines=3">src/utils/defaults/stackedArea.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">686 byte</td>
+      <td style="display: none;" data-ice="lines">30</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/streamgraph.js.html#errorLines=3">src/utils/defaults/streamgraph.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">688 byte</td>
+      <td style="display: none;" data-ice="lines">31</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/sunburst.js.html#errorLines=3">src/utils/defaults/sunburst.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">1759 byte</td>
+      <td style="display: none;" data-ice="lines">68</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/defaults/swimlane.js.html#errorLines=3">src/utils/defaults/swimlane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">571 byte</td>
+      <td style="display: none;" data-ice="lines">29</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/factory.js.html">src/utils/factory.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">702 byte</td>
+      <td style="display: none;" data-ice="lines">21</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/functions.js.html#errorLines=10,14,18,2,22,35,53,6,77,87">src/utils/functions.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-deg2rad">deg2rad</a></span>
+<span><a href="function/index.html#static-function-findElement">findElement</a></span>
+<span><a href="function/index.html#static-function-isArray">isArray</a></span>
+<span><a href="function/index.html#static-function-isEven">isEven</a></span>
+<span><a href="function/index.html#static-function-isFunction">isFunction</a></span>
+<span><a href="function/index.html#static-function-isNumeric">isNumeric</a></span>
+<span><a href="function/index.html#static-function-isObject">isObject</a></span>
+<span><a href="function/index.html#static-function-isPercentage">isPercentage</a></span>
+<span><a href="function/index.html#static-function-keys">keys</a></span>
+<span><a href="function/index.html#static-function-sortBy">sortBy</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/10</span></td>
+      <td style="display: none;" data-ice="size">1912 byte</td>
+      <td style="display: none;" data-ice="lines">88</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/image.js.html#errorLines=82">src/utils/image.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-svgAsDataUri">svgAsDataUri</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">4275 byte</td>
+      <td style="display: none;" data-ice="lines">127</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/utils/screen.js.html#errorLines=7">src/utils/screen.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-calculateWidth">calculateWidth</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
+      <td style="display: none;" data-ice="size">686 byte</td>
+      <td style="display: none;" data-ice="lines">28</td>
+      <td style="display: none;" data-ice="updated">2016-10-07 21:12:18 (UTC)</td>
+    </tr>
+</tbody>
+</table>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

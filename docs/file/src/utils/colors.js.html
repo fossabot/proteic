@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/utils/colors.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -146,53 +146,798 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="proteicjs-">ProteicJS </h1>
-<p><em>In Greek mythology, Proteus is an early sea-god or god of rivers and oceanic bodies of water, one of several deities whom Homer calls the &quot;Old Man of the Sea&quot;. Some who ascribe to him a specific domain call him the god of &quot;elusive sea change&quot;, which suggests the constantly changing nature of the sea or the liquid quality of water in general. He can foretell the future, but, in a mytheme familiar to several cultures, will change his shape to avoid having to; he will answer only to someone who is capable of capturing the beast. From this feature of Proteus comes the adjective protean, with the general meaning of &quot;versatile&quot;, &quot;mutable&quot;, &quot;capable of assuming many forms&quot;. &quot;Protean&quot; has positive connotations of flexibility, versatility and adaptability.</em> - <a href="https://en.wikipedia.org/wiki/Proteus">Wikipedia</a></p>
-<p><a href="https://travis-ci.org/proteus-h2020/proteic"><img src="https://travis-ci.org/proteus-h2020/proteic.svg?branch=master" alt="Build Status"></a>
-<a href="https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022"><img src="https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022/badge.svg?style=flat-square" alt="Dependency Status"></a>
-<a href="https://codecov.io/gh/proteus-h2020/proteic/branch/development"><img src="https://codecov.io/gh/proteus-h2020/proteic/branch/development/graph/badge.svg" alt="codecov"></a>
-<a href="https://www.codacy.com/app/0xnacho/proteic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proteus-h2020/proteic&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/4e39876ac5324eba8035c6f5ec95b52b" alt="Codacy Badge"></a>
-<a href="https://gitter.im/proteus-h2020/proteic"><img src="https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000" alt="Gitter"></a></p>
-<p><img src="https://github.com/proteus-h2020/proteic/blob/development/images/proteic.png"></p>
-<p>##Examples</p>
-<p><img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stacked.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stream.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/swimlane.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/linechart.png"></p>
-<p>##Motivation
-Before start developing this (awesome) library, we first analyzed hundreds of charting libraries out there. They are really good but almost all of them:</p>
-<ul>
-<li>have a really bad and unreadable code. No code patterns. Variables traveling between files. :airplane: :airplane: = <strong>Bad for developers and community</strong></li>
-<li>are really heavy. Redundant and duplicate code. :heavy_exclamation_mark: = <strong>not fast as it should be</strong></li>
-<li>lack ES6 fearures. No modules. = <strong>More code lines &amp; prone to errors</strong></li>
-<li>are developed on top of old D3.js versions. <strong>Bad performance</strong></li>
-</ul>
-<p>For these reasons we decided to develop a new web-based visualization library from scratch, by aiming to solve all the previously identified issues.</p>
-<p>##Usage
-Simply add the <code>proteic.js</code> script to your project and include it in your HTML:</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;proteic.min.js&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<p>After including the script (preferably the minified version for production environments) you are ready to use ProteicJS.</p>
-<p>##Dependencies
-Proteic.js has a unique but important dependency: <a href="https://d3js.org/">D3.js</a>. We are using the recently released version 4, which has not compatibility with previous versions. Yo can have a look into the changes <a href="https://github.com/d3/d3/blob/master/CHANGES.md">here</a>.</p>
-<p>##Examples</p>
-<p>You can visit <a href="https://proteus-h2020.github.io/proteic">this site</a> which is a build of the current project. We are still developing and constantly adding new  features but you can already use our <a href="https://github.com/proteus-h2020/proteic/releases">stable releases</a>.</p>
-<p>##Contributing
-If you are interested in the project and you want to collaborate in your spare time, you can have a look into the <a href="https://github.com/proteus-h2020/proteic/blob/development/CONTRIBUTING.md">contributing guide</a>.</p>
-<p>##Developers</p>
-<p>We provide the following NPM Scripts to ease the development process. You can run each script like the following <code>npm run-script serve:watch</code></p>
-<ul>
-<li><code>lint</code>: runs the JSHint linter to detect errors and problems in the code</li>
-<li><code>pretest</code>: builds the source code before testing</li>
-<li><code>test</code>: runs the tests using Karma</li>
-<li><code>prebuild</code>: removes the build directory before building to prevent errors</li>
-<li><code>build</code>: builds the source code with Rollup.js</li>
-<li><code>serve</code>: launches an http debug server on (<a href="http://localhost:8080/)[http://localhost:8080/">http://localhost:8080/)[http://localhost:8080/</a>] </li>
-<li><code>serve:watch</code>: launches an http debug server and automatically refreshes the browser after every change</li>
-</ul>
-<h3 id="jsdocs">JSDocs</h3>
-<p>If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/gen/">site</a></p>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils/colors.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {scaleOrdinal, scaleQuantile} from &quot;d3&quot;;
+
+const paletteCategory1 = [
+    &apos;#e1c8df&apos;,
+    &apos;#9ecd9d&apos;,
+    &apos;#acd9d6&apos;,
+    &apos;#e4e36b&apos;,
+    &apos;#bfa1c5&apos;,
+    &apos;#e4d3b8&apos;,
+    &apos;#facba8&apos;,
+    &apos;#ced4ea&apos;,
+    &apos;#acd9d6&apos;
+];
+
+const paletteCategory2 = [
+    &apos;#b6dde2&apos;,
+    &apos;#6394af&apos;,
+    &apos;#e4e9ab&apos;,
+    &apos;#8ea876&apos;,
+    &apos;#f7dce1&apos;,
+    &apos;#cc878f&apos;,
+    &apos;#fadaac&apos;,
+    &apos;#f29a83&apos;,
+    &apos;#8d7e9e&apos;
+];
+
+const paletteCategory3 = [
+    &apos;#6b68a9&apos;,
+    &apos;#8cc590&apos;,
+    &apos;#b9487d&apos;,
+    &apos;#bfa1c5&apos;,
+    &apos;#4e6936&apos;,
+    &apos;#71bbc3&apos;,
+    &apos;#484156&apos;,
+    &apos;#ccaf44&apos;,
+    &apos;#d0553c&apos;
+];
+
+const paletteCategory4 = [
+    &apos;#f1a30d&apos;,
+    &apos;#1d4763&apos;,
+    &apos;#84c7bc&apos;,
+    &apos;#c1212d&apos;,
+    &apos;#8fbe46&apos;,
+    &apos;#076837&apos;,
+    &apos;#563a2d&apos;,
+    &apos;#563a2d&apos;,
+    &apos;#87325d&apos;
+];
+
+const paletteCategory5 = [
+    &apos;#f1a30d&apos;,
+    &apos;#0c3183&apos;,
+    &apos;#acd9d6&apos;,
+    &apos;#c1212d&apos;,
+    &apos;#8fbe46&apos;,
+    &apos;#076837&apos;,
+    &apos;#8a6338&apos;,
+    &apos;#8d2d84&apos;,
+    &apos;#f09bbc&apos;
+];
+
+const paletteCategory6 = [
+    &apos;#71bbc3&apos;,
+    &apos;#1d4763&apos;,
+    &apos;#8fbe46&apos;,
+    &apos;#4e6936&apos;,
+    &apos;#ee8998&apos;,
+    &apos;#c1212d&apos;,
+    &apos;#f5af3c&apos;,
+    &apos;#e95e2e&apos;,
+    &apos;#634484&apos;
+];
+
+const paletteCategory7 = [
+    &apos;#ea671e&apos;,
+    &apos;#684592&apos;,
+    &apos;#84b92a&apos;,
+    &apos;#cd131c&apos;,
+    &apos;#3c5ba2&apos;,
+    &apos;#5baddc&apos;,
+    &apos;#ffde06&apos;,
+    &apos;#5db68b&apos;,
+    &apos;#775e47&apos;
+];
+
+const paletteCategory8 = [
+    &apos;#ebd646&apos;,
+    &apos;#a50f38&apos;,
+    &apos;#00a096&apos;,
+    &apos;#f09bbc&apos;,
+    &apos;#065b78&apos;,
+    &apos;#72722a&apos;,
+    &apos;#005231&apos;,
+    &apos;#4d4e98&apos;,
+    &apos;#7c4d25&apos;
+];
+
+const paletteSequentialYellow = [
+    &apos;#fff1c6&apos;,
+    &apos;#fee5a7&apos;,
+    &apos;#fcda87&apos;,
+    &apos;#face64&apos;,
+    &apos;#f8bf4b&apos;,
+    &apos;#f6b030&apos;,
+    &apos;#f4a009&apos;,
+    &apos;#d28514&apos;,
+    &apos;#b36c17&apos;,
+    &apos;#955618&apos;,
+    &apos;#7a4317&apos;,
+    &apos;#613214&apos;,
+    &apos;#49230f&apos;
+];
+
+const paletteSequentialRedOrange = [
+    &apos;#ffecb8&apos;,
+    &apos;#fbd68b&apos;,
+    &apos;#f7bf5e&apos;,
+    &apos;#f3a82f&apos;,
+    &apos;#df7520&apos;,
+    &apos;#cd4925&apos;,
+    &apos;#be0a26&apos;,
+    &apos;#a81023&apos;,
+    &apos;#941320&apos;,
+    &apos;#80141d&apos;,
+    &apos;#6d1419&apos;,
+    &apos;#5a1215&apos;,
+    &apos;#470f0f&apos;
+];
+
+const paletteSequentialRed = [
+    &apos;#fde4d4&apos;,
+    &apos;#f1c4af&apos;,
+    &apos;#f7bf5e&apos;,
+    &apos;#db826a&apos;,
+    &apos;#d0614d&apos;,
+    &apos;#c73e36&apos;,
+    &apos;#be0a26&apos;,
+    &apos;#a81023&apos;,
+    &apos;#941320&apos;,
+    &apos;#80141d&apos;,
+    &apos;#6d1419&apos;,
+    &apos;#5a1215&apos;,
+    &apos;#470f0f&apos;
+];
+
+const paletteSequentialPink = [
+    &apos;#fbe3e3&apos;,
+    &apos;#f9cfcc&apos;,
+    &apos;#f0aaa9&apos;,
+    &apos;#ed7e7e&apos;,
+    &apos;#ea647b&apos;,
+    &apos;#e74576&apos;,
+    &apos;#e41270&apos;,
+    &apos;#c70f65&apos;,
+    &apos;#aa105c&apos;,
+    &apos;#8d1253&apos;,
+    &apos;#731448&apos;,
+    &apos;#5a123c&apos;,
+    &apos;#420e30&apos;
+];
+
+const paletteSequentialPurplePink = [
+    &apos;#f9d8e6&apos;,
+    &apos;#ebbed7&apos;,
+    &apos;#dda4c7&apos;,
+    &apos;#c890bb&apos;,
+    &apos;#b27daf&apos;,
+    &apos;#8a4c94&apos;,
+    &apos;#622181&apos;,
+    &apos;#622181&apos;,
+    &apos;#50216b&apos;,
+    &apos;#472060&apos;,
+    &apos;#3e1f55&apos;,
+    &apos;#361e4b&apos;,
+    &apos;#2d1c41&apos;
+];
+
+const paletteSequentialPurple = [
+    &apos;#f6e8f1&apos;,
+    &apos;#dcc5de&apos;,
+    &apos;#c2a3c9&apos;,
+    &apos;#a980b3&apos;,
+    &apos;#905e9f&apos;,
+    &apos;#793f8e&apos;,
+    &apos;#622181&apos;,
+    &apos;#592175&apos;,
+    &apos;#4f216b&apos;,
+    &apos;#462060&apos;,
+    &apos;#3d1f55&apos;,
+    &apos;#351e4b&apos;,
+    &apos;#2c1c41&apos;
+];
+
+const paletteSequentialBlue = [
+    &apos;#e5f2f9&apos;,
+    &apos;#d1e5f5&apos;,
+    &apos;#afd3ed&apos;,
+    &apos;#91afd7&apos;,
+    &apos;#738bbf&apos;,
+    &apos;#3c5a9e&apos;,
+    &apos;#0c3183&apos;,
+    &apos;#132a68&apos;,
+    &apos;#10204c&apos;,
+    &apos;#0b193b&apos;,
+    &apos;#06142f&apos;,
+    &apos;#051228&apos;,
+    &apos;#061020&apos;
+];
+
+const paletteSequentialLightBlue = [
+    &apos;#eff8fd&apos;,
+    &apos;#d9eff6&apos;,
+    &apos;#c2e5ef&apos;,
+    &apos;#a8dae8&apos;,
+    &apos;#90cbe4&apos;,
+    &apos;#76b8e1&apos;,
+    &apos;#5baddc&apos;,
+    &apos;#4d96cc&apos;,
+    &apos;#427ebc&apos;,
+    &apos;#3a67ab&apos;,
+    &apos;#324c88&apos;,
+    &apos;#29366b&apos;,
+    &apos;#1e2354&apos;
+];
+
+const paletteSequentialBlueViolet = [
+    &apos;#edf7e7&apos;,
+    &apos;#c8e3d2&apos;,
+    &apos;#91cdbf&apos;,
+    &apos;#41b5ab&apos;,
+    &apos;#218ba4&apos;,
+    &apos;#145d94&apos;,
+    &apos;#0c3183&apos;,
+    &apos;#0d2d76&apos;,
+    &apos;#0d2a6a&apos;,
+    &apos;#0e265e&apos;,
+    &apos;#0d2253&apos;,
+    &apos;#0c1e47&apos;,
+    &apos;#0b1a3c&apos;
+];
+
+const paletteSequentialTurquoise = [
+    &apos;#e2ecf6&apos;,
+    &apos;#cadfe6&apos;,
+    &apos;#b1d3d6&apos;,
+    &apos;#94c6c6&apos;,
+    &apos;#74b9b6&apos;,
+    &apos;#4caca6&apos;,
+    &apos;#00a096&apos;,
+    &apos;#008d89&apos;,
+    &apos;#007b7c&apos;,
+    &apos;#006a6f&apos;,
+    &apos;#005963&apos;,
+    &apos;#004a57&apos;,
+    &apos;#063b4c&apos;
+];
+
+const paletteSequentialLightGreen = [
+    &apos;#faf9de&apos;,
+    &apos;#e9efc3&apos;,
+    &apos;#d7e4a7&apos;,
+    &apos;#c5d989&apos;,
+    &apos;#b1ce6a&apos;,
+    &apos;#9cc34c&apos;,
+    &apos;#84b92a&apos;,
+    &apos;#6fa32b&apos;,
+    &apos;#5a8f2a&apos;,
+    &apos;#477c29&apos;,
+    &apos;#346b27&apos;,
+    &apos;#205b24&apos;,
+    &apos;#074d21&apos;
+];
+
+const paletteSequentialDarkGreen = [
+    &apos;#eaf3e5&apos;,
+    &apos;#c7d5be&apos;,
+    &apos;#a3ba9a&apos;,
+    &apos;#80a078&apos;,
+    &apos;#5c885a&apos;,
+    &apos;#357442&apos;,
+    &apos;#00632e&apos;,
+    &apos;#00592b&apos;,
+    &apos;#004e27&apos;,
+    &apos;#004423&apos;,
+    &apos;#033a1e&apos;,
+    &apos;#053019&apos;,
+    &apos;#052613&apos;
+];
+
+const paletteSequentialGreenBrown = [
+    &apos;#f7eccd&apos;,
+    &apos;#d9cba6&apos;,
+    &apos;#bcad82&apos;,
+    &apos;#a29162&apos;,
+    &apos;#887946&apos;,
+    &apos;#716330&apos;,
+    &apos;#5b501f&apos;,
+    &apos;#51461d&apos;,
+    &apos;#483d1b&apos;,
+    &apos;#3f3418&apos;,
+    &apos;#362b15&apos;,
+    &apos;#2d2311&apos;,
+    &apos;#231a0d&apos;
+];
+
+const paletteSequentialBrown = [
+    &apos;#f7eccd&apos;,
+    &apos;#eed3ab&apos;,
+    &apos;#e4bb89&apos;,
+    &apos;#dba269&apos;,
+    &apos;#ad7446&apos;,
+    &apos;#834d2c&apos;,
+    &apos;#5e2f19&apos;,
+    &apos;#552a18&apos;,
+    &apos;#4c2516&apos;,
+    &apos;#432113&apos;,
+    &apos;#3a1c11&apos;,
+    &apos;#32180f&apos;,
+    &apos;#29130b&apos;
+];
+
+const paletteSequentialGrey = [
+    &apos;#e5e8ea&apos;,
+    &apos;#bdbfc3&apos;,
+    &apos;#999a9f&apos;,
+    &apos;#77797f&apos;,
+    &apos;#595c64&apos;,
+    &apos;#3e444c&apos;,
+    &apos;#253038&apos;,
+    &apos;#20282e&apos;,
+    &apos;#1a2024&apos;,
+    &apos;#15181b&apos;,
+    &apos;#0e1112&apos;,
+    &apos;#070808&apos;,
+    &apos;#000000&apos;
+];
+
+const paletteSequentialVioletCb = [
+    &apos;#f4f3f9&apos;,
+    &apos;#e0dced&apos;,
+    &apos;#cbc6e0&apos;,
+    &apos;#b7b0d4&apos;,
+    &apos;#948cbf&apos;,
+    &apos;#706baa&apos;,
+    &apos;#4d4e98&apos;,
+    &apos;#484889&apos;,
+    &apos;#42427a&apos;,
+    &apos;#3d3c6c&apos;,
+    &apos;#37365e&apos;,
+    &apos;#313050&apos;,
+    &apos;#2c2a44&apos;
+];
+
+const paletteSequentialPinkCb = [
+    &apos;#fbe5ee&apos;,
+    &apos;#f8ccd5&apos;,
+    &apos;#f4b2bc&apos;,
+    &apos;#f096a3&apos;,
+    &apos;#d56976&apos;,
+    &apos;#bc3f52&apos;,
+    &apos;#a50f38&apos;,
+    &apos;#951735&apos;,
+    &apos;#851b31&apos;,
+    &apos;#761d2e&apos;,
+    &apos;#671e2a&apos;,
+    &apos;#581d26&apos;,
+    &apos;#4a1c22&apos;
+];
+
+const paletteSequentialBlueCb = [
+    &apos;#eaf6fc&apos;,
+    &apos;#cfe4f4&apos;,
+    &apos;#cfe4f4&apos;,
+    &apos;#91bfe3&apos;,
+    &apos;#6999bb&apos;,
+    &apos;#417797&apos;,
+    &apos;#065b78&apos;,
+    &apos;#11536b&apos;,
+    &apos;#174b5f&apos;,
+    &apos;#194354&apos;,
+    &apos;#1a3b49&apos;,
+    &apos;#1a343f&apos;,
+    &apos;#192d35&apos;
+];
+
+const paletteSequentialGreenCb = [
+    &apos;#fff7d0&apos;,
+    &apos;#e9e09b&apos;,
+    &apos;#d1ca62&apos;,
+    &apos;#b7b623&apos;,
+    &apos;#9e9e28&apos;,
+    &apos;#88872a&apos;,
+    &apos;#72722a&apos;,
+    &apos;#676726&apos;,
+    &apos;#5c5c23&apos;,
+    &apos;#51511f&apos;,
+    &apos;#47471b&apos;,
+    &apos;#3d3d17&apos;,
+    &apos;#333413&apos;
+];
+
+const paletteSequentialGreenBrownCb = [
+    &apos;#f2edde&apos;,
+    &apos;#d8d1c0&apos;,
+    &apos;#bfb699&apos;,
+    &apos;#a09778&apos;,
+    &apos;#837b5a&apos;,
+    &apos;#686141&apos;,
+    &apos;#4f4b2c&apos;,
+    &apos;#3e3e1f&apos;,
+    &apos;#2e3313&apos;,
+    &apos;#292d14&apos;,
+    &apos;#232613&apos;,
+    &apos;#1e2012&apos;,
+    &apos;#191a10&apos;
+];
+
+const paletteDivergingSpectral1 = [
+    &apos;#98141f&apos;,
+    &apos;#ab332c&apos;,
+    &apos;#bf5040&apos;,
+    &apos;#d5705b&apos;,
+    &apos;#e4a57f&apos;,
+    &apos;#f3d6a6&apos;,
+    &apos;#f5f2b8&apos;,
+    &apos;#cfdbb1&apos;,
+    &apos;#a4c4a9&apos;,
+    &apos;#71ada1&apos;,
+    &apos;#4e868f&apos;,
+    &apos;#2e637d&apos;,
+    &apos;#06456c&apos;
+];
+
+const paletteDivergingSpectral2 = [
+    &apos;#d43d4f&apos;,
+    &apos;#df564b&apos;,
+    &apos;#eb6d45&apos;,
+    &apos;#f08e53&apos;,
+    &apos;#f8b96f&apos;,
+    &apos;#fee08b&apos;,
+    &apos;#f5f2b8&apos;,
+    &apos;#d7e5b1&apos;,
+    &apos;#b5d7aa&apos;,
+    &apos;#8ec8a3&apos;,
+    &apos;#6abda3&apos;,
+    &apos;#4fa4b5&apos;,
+    &apos;#3489be&apos;
+];
+
+const paletteDivergingSpectral3 = [
+    &apos;#651035&apos;,
+    &apos;#ae1143&apos;,
+    &apos;#c9314b&apos;,
+    &apos;#dd7257&apos;,
+    &apos;#eeb27a&apos;,
+    &apos;#feeb9e&apos;,
+    &apos;#f5f2b8&apos;,
+    &apos;#cadfba&apos;,
+    &apos;#96cabb&apos;,
+    &apos;#50b4bb&apos;,
+    &apos;#3eaecc&apos;,
+    &apos;#206791&apos;,
+    &apos;#0c2c63&apos;
+];
+
+const paletteDivergingBrownTurquoise = [
+    &apos;#3f3128&apos;,
+    &apos;#683828&apos;,
+    &apos;#933624&apos;,
+    &apos;#d5705b&apos;,
+    &apos;#db9c5e&apos;,
+    &apos;#feeb9e&apos;,
+    &apos;#f5f2b8&apos;,
+    &apos;#cfdbb1&apos;,
+    &apos;#a4c4a9&apos;,
+    &apos;#71ada1&apos;,
+    &apos;#628f85&apos;,
+    &apos;#53746d&apos;,
+    &apos;#475b57&apos;
+];
+
+const paletteDivergingOrangePink = [
+    &apos;#e7511e&apos;,
+    &apos;#eb6929&apos;,
+    &apos;#ee7f37&apos;,
+    &apos;#f29446&apos;,
+    &apos;#f9c083&apos;,
+    &apos;#ffe9c3&apos;,
+    &apos;#ffeee3&apos;,
+    &apos;#f9cfc1&apos;,
+    &apos;#f3a9ab&apos;,
+    &apos;#db6882&apos;,
+    &apos;#c71360&apos;,
+    &apos;#891953&apos;,
+    &apos;#4b1c47&apos;
+];
+
+const paletteDivergingRedBlue = [
+    &apos;#b2172b&apos;,
+    &apos;#c4443e&apos;,
+    &apos;#d76a5a&apos;,
+    &apos;#ed937e&apos;,
+    &apos;#f4b8a2&apos;,
+    &apos;#fcdbc7&apos;,
+    &apos;#efefef&apos;,
+    &apos;#bfcad5&apos;,
+    &apos;#8ba7bc&apos;,
+    &apos;#4d87a5&apos;,
+    &apos;#3c7ca0&apos;,
+    &apos;#28729b&apos;,
+    &apos;#036896&apos;
+];
+
+const paletteDivergingRedGrey = [
+    &apos;#b2172b&apos;,
+    &apos;#c54532&apos;,
+    &apos;#da6c3b&apos;,
+    &apos;#f29446&apos;,
+    &apos;#f8bc67&apos;,
+    &apos;#fee08b&apos;,
+    &apos;#efece5&apos;,
+    &apos;#c9c5c1&apos;,
+    &apos;#a5a19f&apos;,
+    &apos;#808080&apos;,
+    &apos;#666666&apos;,
+    &apos;#333333&apos;,
+    &apos;#000000&apos;
+];
+
+const paletteDivergingOrangeViolet = [
+    &apos;#98141f&apos;,
+    &apos;#ab332c&apos;,
+    &apos;#f9bc47&apos;,
+    &apos;#fdcf66&apos;,
+    &apos;#fede8d&apos;,
+    &apos;#ffecb3&apos;,
+    &apos;#f9eff6&apos;,
+    &apos;#e8d0e3&apos;,
+    &apos;#a4c4a9&apos;,
+    &apos;#a973aa&apos;,
+    &apos;#834f96&apos;,
+    &apos;#622181&apos;,
+    &apos;#402357&apos;
+];
+
+const paletteDivergingPurpleGreen = [
+    &apos;#59194b&apos;,
+    &apos;#85134b&apos;,
+    &apos;#c71360&apos;,
+    &apos;#db6882&apos;,
+    &apos;#eba7a8&apos;,
+    &apos;#fce0ca&apos;,
+    &apos;#faefe1&apos;,
+    &apos;#dbd9aa&apos;,
+    &apos;#b9c26e&apos;,
+    &apos;#94ad31&apos;,
+    &apos;#728b2b&apos;,
+    &apos;#546c25&apos;,
+    &apos;#39521f&apos;
+];
+
+const paletteDivergingVioletGreen = [
+    &apos;#55296e&apos;,
+    &apos;#75408e&apos;,
+    &apos;#8a5fa0&apos;,
+    &apos;#a081b5&apos;,
+    &apos;#beadcf&apos;,
+    &apos;#ddd7e7&apos;,
+    &apos;#eae8ed&apos;,
+    &apos;#c1d4bc&apos;,
+    &apos;#93be86&apos;,
+    &apos;#58a951&apos;,
+    &apos;#3c853e&apos;,
+    &apos;#23662f&apos;,
+    &apos;#084a22&apos;
+];
+
+const paletteDivergingRedGreen = [
+    &apos;#b2172b&apos;,
+    &apos;#c5403c&apos;,
+    &apos;#d96453&apos;,
+    &apos;#ef8972&apos;,
+    &apos;#f6b49c&apos;,
+    &apos;#fcdbc7&apos;,
+    &apos;#f9ebde&apos;,
+    &apos;#dad6a8&apos;,
+    &apos;#b9c16d&apos;,
+    &apos;#94ad31&apos;,
+    &apos;#728b2b&apos;,
+    &apos;#546c25&apos;,
+    &apos;#39521f&apos;
+];
+
+const paletteDivergingBrownGreen = [
+    &apos;#735146&apos;,
+    &apos;#846454&apos;,
+    &apos;#977a65&apos;,
+    &apos;#aa9177&apos;,
+    &apos;#c2ad91&apos;,
+    &apos;#dbcaad&apos;,
+    &apos;#edebd6&apos;,
+    &apos;#c4d6aa&apos;,
+    &apos;#94bf7c&apos;,
+    &apos;#58a951&apos;,
+    &apos;#3c853e&apos;,
+    &apos;#23662f&apos;,
+    &apos;#084a22&apos;
+];
+
+const paletteDivergingLightBrownTurquoise = [
+    &apos;#8b5219&apos;,
+    &apos;#a46821&apos;,
+    &apos;#bf812c&apos;,
+    &apos;#cfa151&apos;,
+    &apos;#e2c489&apos;,
+    &apos;#f6e8c3&apos;,
+    &apos;#f5f1df&apos;,
+    &apos;#cbdccc&apos;,
+    &apos;#9cc6b9&apos;,
+    &apos;#60afa6&apos;,
+    &apos;#359790&apos;,
+    &apos;#1d7d75&apos;,
+    &apos;#00665e&apos;
+];
+
+
+export function category1() {
+    return scaleOrdinal().range(paletteCategory1);
+}
+
+export function category2() {
+    return scaleOrdinal().range(paletteCategory2);
+}
+
+export function category3() {
+    return scaleOrdinal().range(paletteCategory3);
+}
+
+export function category4() {
+    return scaleOrdinal().range(paletteCategory4);
+}
+
+export function category5() {
+    return scaleOrdinal().range(paletteCategory5);
+}
+
+export function category6() {
+    return scaleOrdinal().range(paletteCategory6);
+}
+
+export function category7() {
+    return scaleOrdinal().range(paletteCategory7);
+}
+
+export function category8() {
+    return scaleOrdinal().range(paletteCategory8);
+}
+
+export function sequentialYellow() {
+    return scaleQuantile().range(paletteSequentialYellow);
+}
+
+export function sequentialRedOrange() {
+    return scaleQuantile().range(paletteSequentialRedOrange);
+}
+
+export function sequentialRed() {
+    return scaleQuantile().range(paletteSequentialRed);
+}
+
+export function sequentialPink() {
+    return scaleQuantile().range(paletteSequentialPink);
+}
+
+export function sequentialPurplePink() {
+    return scaleQuantile().range(paletteSequentialPurplePink);
+}
+
+export function sequentialPurple() {
+    return scaleQuantile().range(paletteSequentialPurple);
+}
+
+export function sequentialBlue() {
+    return scaleQuantile().range(paletteSequentialBlue);
+}
+
+export function sequentialLightBlue() {
+    return scaleQuantile().range(paletteSequentialLightBlue);
+}
+
+export function sequentialBlueViolet() {
+    return scaleQuantile().range(paletteSequentialBlueViolet);
+}
+
+export function sequentialTurquoise() {
+    return scaleQuantile().range(paletteSequentialTurquoise);
+}
+
+export function sequentialLightGreen() {
+    return scaleQuantile().range(paletteSequentialLightGreen);
+}
+
+export function sequentialDarkGreen() {
+    return scaleQuantile().range(paletteSequentialDarkGreen);
+}
+
+export function sequentialGreenBrown() {
+    return scaleQuantile().range(paletteSequentialGreenBrown);
+}
+
+export function sequentialBrown() {
+    return scaleQuantile().range(paletteSequentialBrown);
+}
+
+export function sequentialGrey() {
+    return scaleQuantile().range(paletteSequentialGrey);
+}
+
+export function sequentialVioletCb() {
+    return scaleQuantile().range(paletteSequentialVioletCb);
+}
+
+export function sequentialPinkCb() {
+    return scaleQuantile().range(paletteSequentialPinkCb);
+}
+
+export function sequentialBlueCb() {
+    return scaleQuantile().range(paletteSequentialBlueCb);
+}
+
+export function sequentialGreenCb() {
+    return scaleQuantile().range(paletteSequentialGreenCb);
+}
+
+export function sequentialGreenBrownCb() {
+    return scaleQuantile().range(paletteSequentialGreenBrownCb);
+}
+
+export function diverging_spectral1() {
+    return scaleQuantile().range(paletteDivergingSpectral1);
+}
+
+export function diverging_spectral2() {
+    return scaleQuantile().range(paletteDivergingSpectral2);
+}
+
+export function diverging_spectral3() {
+    return scaleQuantile().range(paletteDivergingSpectral3);
+}
+
+export function diverging_brown_turquoise() {
+    return scaleQuantile().range(paletteDivergingBrownTurquoise);
+}
+
+export function diverging_orange_pink() {
+    return scaleQuantile().range(paletteDivergingBrownTurquoise);
+}
+
+export function diverging_red_blue() {
+    return scaleQuantile().range(paletteDivergingRedBlue);
+}
+
+export function diverging_red_grey() {
+    return scaleQuantile().range(paletteDivergingRedGrey);
+}
+
+export function diverging_orange_violet() {
+    return scaleQuantile().range(paletteDivergingOrangeViolet);
+}
+
+export function diverging_purple_green() {
+    return scaleQuantile().range(paletteDivergingPurpleGreen);
+}
+
+export function diverging_violet_green() {
+    return scaleQuantile().range(paletteDivergingVioletGreen);
+}
+
+export function diverging_red_green() {
+    return scaleQuantile().range(paletteDivergingRedGreen);
+}
+
+export function diverging_brown_green() {
+    return scaleQuantile().range(paletteDivergingBrownGreen);
+}
+
+export function diverging_lightBrown_turquoise() {
+    return scaleQuantile().range(paletteDivergingLightBrownTurquoise);
+}</code></pre>
+
 </div>
 
 <footer class="footer">

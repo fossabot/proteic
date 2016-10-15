@@ -1,0 +1,623 @@
+{
+  "coverage": "13.39%",
+  "expectCount": 336,
+  "actualCount": 45,
+  "files": {
+    "src/svg/components/areaset.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        49,
+        46,
+        7,
+        3,
+        4
+      ]
+    },
+    "src/charts/barchart.js": {
+      "expectCount": 5,
+      "actualCount": 4,
+      "undocumentLines": [
+        30
+      ]
+    },
+    "src/svg/components/barset.js": {
+      "expectCount": 8,
+      "actualCount": 1,
+      "undocumentLines": [
+        4,
+        5,
+        8,
+        129,
+        14,
+        6,
+        7
+      ]
+    },
+    "src/charts/base/Chart.js": {
+      "expectCount": 11,
+      "actualCount": 3,
+      "undocumentLines": [
+        147,
+        39,
+        11,
+        29,
+        28,
+        131,
+        17,
+        120
+      ]
+    },
+    "src/datasources/Datasource.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        14,
+        3,
+        6,
+        10
+      ]
+    },
+    "src/svg/components/dial.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        27,
+        4,
+        9,
+        25,
+        43,
+        19,
+        23,
+        39,
+        14
+      ]
+    },
+    "src/svg/components/dialNeedle.js": {
+      "expectCount": 14,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        26,
+        34,
+        4,
+        61,
+        15,
+        9,
+        32,
+        59,
+        22,
+        30,
+        46,
+        17,
+        50
+      ]
+    },
+    "src/charts/gauge.js": {
+      "expectCount": 5,
+      "actualCount": 4,
+      "undocumentLines": [
+        33
+      ]
+    },
+    "src/svg/components/legend.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        46,
+        4
+      ]
+    },
+    "src/charts/linechart.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/svg/components/lineset.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        5,
+        35,
+        32,
+        10,
+        3,
+        4
+      ]
+    },
+    "src/charts/networkgraph.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/svg/components/nodeset.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        5,
+        27,
+        22,
+        16,
+        80,
+        10,
+        68,
+        35
+      ]
+    },
+    "src/svg/components/pointset.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        54,
+        6,
+        3,
+        4
+      ]
+    },
+    "src/svg/components/radialAxes.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        10,
+        11
+      ]
+    },
+    "src/charts/stackedArea.js": {
+      "expectCount": 5,
+      "actualCount": 4,
+      "undocumentLines": [
+        37
+      ]
+    },
+    "src/charts/streamgraph.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/svg/components/streamset.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        12,
+        8,
+        53,
+        20,
+        9,
+        24,
+        10
+      ]
+    },
+    "src/charts/sunburst.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/svg/components/sunburstDisk.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        6,
+        3,
+        96,
+        13,
+        4,
+        5
+      ]
+    },
+    "src/svg/base/svgAxis.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        11,
+        24,
+        6,
+        18,
+        8
+      ]
+    },
+    "src/svg/strategy_barchart.js": {
+      "expectCount": 9,
+      "actualCount": 1,
+      "undocumentLines": [
+        9,
+        14,
+        15,
+        11,
+        67,
+        17,
+        76,
+        72
+      ]
+    },
+    "src/svg/components/svgContainer.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        28,
+        6,
+        3,
+        5,
+        37
+      ]
+    },
+    "src/svg/strategy_gauge.js": {
+      "expectCount": 8,
+      "actualCount": 1,
+      "undocumentLines": [
+        8,
+        55,
+        9,
+        14,
+        15,
+        11,
+        29
+      ]
+    },
+    "src/svg/strategy_linechart.js": {
+      "expectCount": 8,
+      "actualCount": 1,
+      "undocumentLines": [
+        11,
+        28,
+        16,
+        13,
+        19,
+        18,
+        33
+      ]
+    },
+    "src/svg/strategy_networkgraph.js": {
+      "expectCount": 5,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        36,
+        8,
+        10
+      ]
+    },
+    "src/svg/strategy_stackedArea.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        12,
+        17,
+        14,
+        31,
+        21,
+        19
+      ]
+    },
+    "src/svg/SvgStrategy.js": {
+      "expectCount": 6,
+      "actualCount": 1,
+      "undocumentLines": [
+        14,
+        17,
+        20,
+        25,
+        15
+      ]
+    },
+    "src/svg/strategy_streamgraph.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        13,
+        15,
+        32,
+        23,
+        21,
+        18,
+        19
+      ]
+    },
+    "src/svg/strategy_sunburst.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        19,
+        47,
+        10,
+        21,
+        34,
+        12,
+        27
+      ]
+    },
+    "src/svg/strategy_swimlane.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        10,
+        14,
+        15,
+        12,
+        24,
+        16
+      ]
+    },
+    "src/charts/swimlane.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/svg/components/textIndicator.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        17,
+        7,
+        10
+      ]
+    },
+    "src/svg/components/timeBoxset.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        60,
+        10,
+        6,
+        7
+      ]
+    },
+    "src/datasources/WebsocketDatasource.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        11,
+        6,
+        12,
+        8,
+        15,
+        31,
+        17
+      ]
+    },
+    "src/svg/components/xAxis.js": {
+      "expectCount": 10,
+      "actualCount": 2,
+      "undocumentLines": [
+        3,
+        4,
+        73,
+        13,
+        92,
+        40,
+        9,
+        44
+      ]
+    },
+    "src/svg/components/xRadialAxis.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        4,
+        9
+      ]
+    },
+    "src/svg/components/xyAxes.js": {
+      "expectCount": 10,
+      "actualCount": 2,
+      "undocumentLines": [
+        4,
+        5,
+        40,
+        45,
+        14,
+        35,
+        10,
+        11
+      ]
+    },
+    "src/svg/components/yAxis.js": {
+      "expectCount": 9,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        62,
+        12,
+        40,
+        52,
+        57,
+        9,
+        44
+      ]
+    },
+    "src/svg/components/yRadialAxis.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        4,
+        11
+      ]
+    },
+    "src/utils/screen.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        7
+      ]
+    },
+    "src/utils/colors.js": {
+      "expectCount": 41,
+      "actualCount": 0,
+      "undocumentLines": [
+        628,
+        632,
+        636,
+        640,
+        644,
+        648,
+        652,
+        656,
+        784,
+        752,
+        788,
+        756,
+        768,
+        772,
+        760,
+        780,
+        764,
+        740,
+        744,
+        748,
+        776,
+        684,
+        728,
+        692,
+        712,
+        704,
+        708,
+        736,
+        732,
+        716,
+        688,
+        700,
+        672,
+        724,
+        680,
+        676,
+        668,
+        664,
+        696,
+        720,
+        660
+      ]
+    },
+    "src/utils/dataTransformation.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        46,
+        38,
+        18,
+        31,
+        14,
+        1
+      ]
+    },
+    "src/utils/defaults/linechart.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/gauge.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/stackedArea.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/networkgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/defaults/swimlane.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/streamgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/sunburst.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/barchart.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/functions.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        87,
+        77,
+        2,
+        18,
+        10,
+        14,
+        6,
+        22,
+        35,
+        53
+      ]
+    },
+    "src/utils/dataFilter.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/dataSorting.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/image.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        82
+      ]
+    }
+  }
+}

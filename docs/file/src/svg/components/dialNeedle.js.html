@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">API Document</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/svg/components/dialNeedle.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -146,53 +146,86 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="proteicjs-">ProteicJS </h1>
-<p><em>In Greek mythology, Proteus is an early sea-god or god of rivers and oceanic bodies of water, one of several deities whom Homer calls the &quot;Old Man of the Sea&quot;. Some who ascribe to him a specific domain call him the god of &quot;elusive sea change&quot;, which suggests the constantly changing nature of the sea or the liquid quality of water in general. He can foretell the future, but, in a mytheme familiar to several cultures, will change his shape to avoid having to; he will answer only to someone who is capable of capturing the beast. From this feature of Proteus comes the adjective protean, with the general meaning of &quot;versatile&quot;, &quot;mutable&quot;, &quot;capable of assuming many forms&quot;. &quot;Protean&quot; has positive connotations of flexibility, versatility and adaptability.</em> - <a href="https://en.wikipedia.org/wiki/Proteus">Wikipedia</a></p>
-<p><a href="https://travis-ci.org/proteus-h2020/proteic"><img src="https://travis-ci.org/proteus-h2020/proteic.svg?branch=master" alt="Build Status"></a>
-<a href="https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022"><img src="https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022/badge.svg?style=flat-square" alt="Dependency Status"></a>
-<a href="https://codecov.io/gh/proteus-h2020/proteic/branch/development"><img src="https://codecov.io/gh/proteus-h2020/proteic/branch/development/graph/badge.svg" alt="codecov"></a>
-<a href="https://www.codacy.com/app/0xnacho/proteic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proteus-h2020/proteic&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/4e39876ac5324eba8035c6f5ec95b52b" alt="Codacy Badge"></a>
-<a href="https://gitter.im/proteus-h2020/proteic"><img src="https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000" alt="Gitter"></a></p>
-<p><img src="https://github.com/proteus-h2020/proteic/blob/development/images/proteic.png"></p>
-<p>##Examples</p>
-<p><img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stacked.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stream.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/swimlane.png">
-<img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/linechart.png"></p>
-<p>##Motivation
-Before start developing this (awesome) library, we first analyzed hundreds of charting libraries out there. They are really good but almost all of them:</p>
-<ul>
-<li>have a really bad and unreadable code. No code patterns. Variables traveling between files. :airplane: :airplane: = <strong>Bad for developers and community</strong></li>
-<li>are really heavy. Redundant and duplicate code. :heavy_exclamation_mark: = <strong>not fast as it should be</strong></li>
-<li>lack ES6 fearures. No modules. = <strong>More code lines &amp; prone to errors</strong></li>
-<li>are developed on top of old D3.js versions. <strong>Bad performance</strong></li>
-</ul>
-<p>For these reasons we decided to develop a new web-based visualization library from scratch, by aiming to solve all the previously identified issues.</p>
-<p>##Usage
-Simply add the <code>proteic.js</code> script to your project and include it in your HTML:</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;proteic.min.js&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<p>After including the script (preferably the minified version for production environments) you are ready to use ProteicJS.</p>
-<p>##Dependencies
-Proteic.js has a unique but important dependency: <a href="https://d3js.org/">D3.js</a>. We are using the recently released version 4, which has not compatibility with previous versions. Yo can have a look into the changes <a href="https://github.com/d3/d3/blob/master/CHANGES.md">here</a>.</p>
-<p>##Examples</p>
-<p>You can visit <a href="https://proteus-h2020.github.io/proteic">this site</a> which is a build of the current project. We are still developing and constantly adding new  features but you can already use our <a href="https://github.com/proteus-h2020/proteic/releases">stable releases</a>.</p>
-<p>##Contributing
-If you are interested in the project and you want to collaborate in your spare time, you can have a look into the <a href="https://github.com/proteus-h2020/proteic/blob/development/CONTRIBUTING.md">contributing guide</a>.</p>
-<p>##Developers</p>
-<p>We provide the following NPM Scripts to ease the development process. You can run each script like the following <code>npm run-script serve:watch</code></p>
-<ul>
-<li><code>lint</code>: runs the JSHint linter to detect errors and problems in the code</li>
-<li><code>pretest</code>: builds the source code before testing</li>
-<li><code>test</code>: runs the tests using Karma</li>
-<li><code>prebuild</code>: removes the build directory before building to prevent errors</li>
-<li><code>build</code>: builds the source code with Rollup.js</li>
-<li><code>serve</code>: launches an http debug server on (<a href="http://localhost:8080/)[http://localhost:8080/">http://localhost:8080/)[http://localhost:8080/</a>] </li>
-<li><code>serve:watch</code>: launches an http debug server and automatically refreshes the browser after every change</li>
-</ul>
-<h3 id="jsdocs">JSDocs</h3>
-<p>If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/gen/">site</a></p>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/dialNeedle.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {deg2rad} from &apos;../../utils/functions&apos;
+
+export class DialNeedle { // TODO tidy
+  constructor(axisType, config) {
+    if (config === null) {
+      throw new Error(&apos;No chart context specified for polarAxis&apos;);
+    }
+
+    this.r = (
+      (config.width &gt; config.height)
+        ? config.height
+        : config.width
+      ) / 2;
+
+    this.needleLen = config.needleLenghtRatio * (this.r);
+
+    this.translation = (() =&gt;
+    &apos;translate(&apos; + this.r + &apos;,&apos; + this.r + &apos;)&apos;
+    );
+    config.colorScale.domain([0, 1]);
+
+    this.scale = d3.scaleLinear()
+        .domain([config.minLevel, config.maxLevel])
+        .range([0, 1]);
+
+    this.angleScale = d3.scaleLinear()
+      .domain([config.minLevel, config.maxLevel])
+      .range([90 + config.minAngle, 90 + config.maxAngle]);
+
+    this.scaleMarks = this.scale.ticks(config.ticks);
+
+    this.range = config.maxAngle - config.minAngle;
+
+    this.arc = d3.arc()
+      .innerRadius(this.r - config.ringWidth - config.ringMargin)
+      .outerRadius(this.r - config.ringMargin)
+      .startAngle((d, i) =&gt; {
+        let ratio = d * i;
+        return deg2rad(config.minAngle + (ratio * this.range));
+      })
+      .endAngle((d, i) =&gt; {
+        let ratio = d * (i + 1);
+        return deg2rad(config.minAngle + (ratio * this.range));
+      });
+
+    this.tickData = d3.range(config.ticks)
+      .map(() =&gt; 1 / config.ticks);
+  }
+
+  update(svg, config, data, method) {
+    let datum = data[data.length - 1];
+
+    this.needle
+      .transition()
+      .attr(&apos;transform&apos;, (d) =&gt; `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.x) - 90})`)
+      .attr(&apos;d&apos;, `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`);
+  }
+
+  render(svg, config) {
+    // Update the needle
+    this.needle = svg.append(&apos;path&apos;)
+      .attr(&apos;class&apos;, &apos;needle&apos;)
+      .datum(0)
+      .attr(&apos;transform&apos;, (d) =&gt; `translate(${this.r}, ${this.r}) rotate(${this.angleScale(d) - 90})`)
+      .attr(&apos;d&apos;, `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`)
+      .style(&apos;fill&apos;, &apos;#666666&apos;);
+
+    // Append needle nut
+    svg.append(&apos;circle&apos;)
+      .attr(&apos;class&apos;, &apos;needle&apos;)
+      .attr(&apos;transform&apos;, this.translation)
+      .attr(&apos;cx&apos;, 0)
+      .attr(&apos;cy&apos;, 0)
+      .attr(&apos;r&apos;, config.needleNutRadius)
+      .style(&apos;fill&apos;, &apos;#666666&apos;);
+  }
+
+}</code></pre>
+
 </div>
 
 <footer class="footer">
