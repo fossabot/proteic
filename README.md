@@ -56,4 +56,6 @@ We provide the following NPM Scripts to ease the development process. You can ru
 - `serve`: launches an http debug server on (http://localhost:8080/)[http://localhost:8080/] 
 - `serve:watch`: launches an http debug server and automatically refreshes the browser after every change
 
+### JSDocs
 
+If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/gen/">site</a>
