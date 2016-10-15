@@ -9,6 +9,7 @@
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf build/*",
     "build": "rollup -c rollup.config.js",
+    "docs": "jsdoc ./src/**/*.js -d docs",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \""
   },
