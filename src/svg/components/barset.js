@@ -11,8 +11,8 @@ export class Barset {
 
 
   update(svg, config, data, method) {
-    var bars = null
-      , events = config.events;
+    let bars = null,
+      events = config.events;
 
     if (method === 'stacked') {
       this._updateStacked(svg, config, data);
@@ -33,15 +33,15 @@ export class Barset {
   _updateStacked(svg, config, dataSeries) {
     this._cleanCurrentSeries(svg);
 
-    var colorScale = config.colorScale
-      , layer = svg.selectAll('.serie').data(dataSeries)
-      , layerEnter = layer.enter().append('g')
-      , layerMerge = null
-      , bar = null
-      , barEnter = null
-      , barMerge = null
-      , x = this.xAxis.scale()
-      , y = this.yAxis.scale();
+    let colorScale = config.colorScale,
+      layer = svg.selectAll('.serie').data(dataSeries),
+      layerEnter = layer.enter().append('g'),
+      layerMerge = null,
+      bar = null,
+      barEnter = null,
+      barMerge = null,
+      x = this.xAxis.scale(),
+      y = this.yAxis.scale();
 
     layerMerge = layer.merge(layerEnter)
       .attr('class', 'serie')
@@ -63,18 +63,18 @@ export class Barset {
   _updateGrouped(svg, config, data) {
     this._cleanCurrentSeries(svg);
 
-    var keys = d3.map(data, (d) => d.key).keys()
-      , colorScale = config.colorScale
-      , layer = svg.selectAll('.serie').data(data)
-      , layerEnter = null
-      , layerMerge = null
-      , bar = null
-      , barEnter = null
-      , barMerge = null
-      , x = this.xAxis.scale()
-      , y = this.yAxis.scale()
-      , xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()])
-      , height = config.height;
+    let keys = d3.map(data, (d) => d.key).keys(),
+      colorScale = config.colorScale,
+      layer = svg.selectAll('.serie').data(data),
+      layerEnter = null,
+      layerMerge = null,
+      bar = null,
+      barEnter = null,
+      barMerge = null,
+      x = this.xAxis.scale(),
+      y = this.yAxis.scale(),
+      xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+      height = config.height;
 
     data = simple2nested(data, 'x');
 
@@ -102,7 +102,7 @@ export class Barset {
   }
 
   _getKeysFromData(data) {
-    var keys = [];
+    let keys = [];
     for (let p in data[0]) {
       if (p !== 'total' && p !== 'key') {
         keys.push(p);

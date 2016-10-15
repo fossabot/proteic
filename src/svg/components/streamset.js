@@ -18,9 +18,9 @@ export class Streamset {
 
 
   update(svg, config, data) {
-    var colorScale = config.colorScale
-      , events = config.events
-      , series = null;
+    let colorScale = config.colorScale,
+      events = config.events,
+      series = null;
     
     //Update date format, used by areaGenerator function due to a problem when nesting with d3.
     this.xDataFormat = config.x.format;

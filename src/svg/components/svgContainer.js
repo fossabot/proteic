@@ -7,12 +7,13 @@ export class SvgContainer {
   }
 
   _initializeSvgContainer(config) {
-    var margin = config.margin
-      , selector = config.selector
-      , width = config.width + margin.left + margin.right
-      , height = config.height + margin.top + margin.bottom;
+    let margin = config.margin,
+      selector = config.selector,
+      width = config.width + margin.left + margin.right,
+      height = config.height + margin.top + margin.bottom,
+      svg = null;
 
-    var svg = d3
+    svg = d3
       .select(selector)
       .append('svg:svg')
       .attr('width', width)

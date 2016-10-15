@@ -11,12 +11,12 @@ export class XAxis {
 
 
   rescale(width, height) {
-    this.xAxis.scale().range([0, width]);   
+    this.xAxis.scale().range([0, width]);
   }
 
   _initializeXAxis(xAxisType = 'linear', config) {
-    var x = null
-      , xAxis = null;
+    let x = null,
+      xAxis = null;
 
     switch (xAxisType) {
       case 'time':
@@ -58,7 +58,7 @@ export class XAxis {
    * This function is used when both x and y dial update their domains by x and y max/min values, respectively.
    */
   updateDomainByBBox(b) {
-    var x = this.xAxis.scale();
+    let x = this.xAxis.scale();
     x.domain([b[0], b[1]]);
   }
 
@@ -66,16 +66,16 @@ export class XAxis {
    * Used when x domain is caterogial (a set of keys) and y domain is linear.
    */
   updateDomainByKeys(keys, yBbox) {
-    var x = this.xAxis.scale();
+    let x = this.xAxis.scale();
     x.domain(keys);
   }
 
   render(svg, config) {
-    var xAxis = this.xAxis
-      , xAxisLabel = config.xAxisLabel
-      , width = config.width
-      , height = config.height
-      , margin = config.margin;
+    let xAxis = this.xAxis,
+      xAxisLabel = config.xAxisLabel,
+      width = config.width,
+      height = config.height,
+      margin = config.margin;
 
     svg
       .append('g')
@@ -92,6 +92,6 @@ export class XAxis {
       .text(xAxisLabel)
       .style('font', '0.8em Montserrat, sans-serif');
 
-     this.svg = svg;
+    this.svg = svg;
   }
 }

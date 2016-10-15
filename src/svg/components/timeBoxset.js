@@ -8,7 +8,7 @@ export class TimeBoxset {
 
   }
   update(svg, config, data) {
-    var colorScale = config.colorScale,
+    let colorScale = config.colorScale,
       events = config.events,
       keys = d3.map(data, (d) => d.key).keys(),
       layer = svg.selectAll('.serie').data(data),
@@ -17,11 +17,11 @@ export class TimeBoxset {
       box = null,
       boxEnter = null,
       boxMerge = null,
-      x = this.xAxis.scale(),
-      y = this.yAxis.scale(),
       extLanes = null,
       yLanes = null,
-      yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys);
+      yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys),
+      x = this.xAxis.scale(),
+      y = this.yAxis.scale();
 
     data = simple2nested(data);
     extLanes = d3.extent(data, (d, i) => i)

@@ -1,26 +1,25 @@
 export class Pointset {
   constructor(x, y) {
-      this.xAxis = x.xAxis;
-      this.yAxis = y.yAxis;
+    this.xAxis = x.xAxis;
+    this.yAxis = y.yAxis;
   }
   update(svg, config, data) {
-      var dataSeries = d3.nest()
-          .key((d) => d.key)
-          .entries(data);
-
-    var markers = null
-      , markerShape = config.markers.shape
-      , markerSize = config.markers.size
-      , markerOutlineWidth = config.markers.outlineWidth
-      , colorScale = config.colorScale
-      , events = config.events
-      , markers = null
-      , points = null
-      , series = null;
+    let dataSeries = d3.nest()
+      .key((d) => d.key)
+      .entries(data),
+      markers = null,
+      markerShape = config.markers.shape,
+      markerSize = config.markers.size,
+      markerOutlineWidth = config.markers.outlineWidth,
+      colorScale = config.colorScale,
+      events = config.events,
+      points = null,
+      series = null;
 
     svg.selectAll('g.points').remove();
 
     series = svg.selectAll('g.points');
+
     switch (markerShape) {
       case 'circle':
       default:

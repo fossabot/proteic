@@ -14,8 +14,8 @@ export class YAxis {
   }
 
   _initializeYAxis(yAxisType = 'linear', config) {
-    var y = null
-      , yAxis = null;
+    let y = null,
+      yAxis = null;
 
     switch (yAxisType) {
       case 'linear':
@@ -50,21 +50,21 @@ export class YAxis {
   }
 
   updateDomainByBBox(b) {
-    var y = this.yAxis.scale();
+    let y = this.yAxis.scale();
     y.domain(b);
   }
 
   updateDomainByKeys(keys) {
-    var y = this.yAxis.scale();
+    let y = this.yAxis.scale();
     y.domain(keys);
   }
 
   render(svg, config) {
-    var yAxis = this.yAxis
-      , yAxisLabel = config.yAxisLabel
-      , width = config.width
-      , height = config.height
-      , margin = config.margin;
+    let yAxis = this.yAxis,
+      yAxisLabel = config.yAxisLabel,
+      width = config.width,
+      height = config.height,
+      margin = config.margin;
 
     svg
       .append('g')
