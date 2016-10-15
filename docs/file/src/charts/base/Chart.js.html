@@ -152,7 +152,7 @@ import { SvgStrategy, strategies } from &apos;../../svg/SvgStrategy&apos;;
 import { svgAsDataUri } from &apos;../../utils/image&apos;;
 
 /**
- *  
+ * Base class, which includes common methods for all the charts
  * @export
  * @class Chart
  */
@@ -258,8 +258,8 @@ export default class Chart {
      * @memberOf Chart
      */
     download() {
-        let selector = this.config.selector + &apos; &apos; + &apos;svg&apos;;
-        svgAsDataUri(d3.select(selector)._groups[0][0], {}, (uri, err) =&gt; {
+        let selector = this._svg.strategy.config.selector + &apos; &apos; + &apos;svg&apos;;
+        svgAsDataUri(d3.select(selector).node(), {}, (uri, err) =&gt; {
             if (err) {
                 throw Error(&apos;Error converting to image &apos; + err);
             }
