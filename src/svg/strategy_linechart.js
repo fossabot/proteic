@@ -45,7 +45,7 @@ export class SvgLinechartStrategy extends SvgStrategy {
   draw(data) {
     let svg = this.svgContainer.svg,
       config = this.config,
-      needAxisRescaling = this.config.needAxisRescaling,
+      needRescaling = this.config.needRescaling,
       bbox = null;
 
     //Transform data, if needed
@@ -55,7 +55,7 @@ export class SvgLinechartStrategy extends SvgStrategy {
     sortByField(data, 'x');
 
     //rescale, if needed.
-    if (needAxisRescaling) {
+    if (needRescaling) {
       this.rescale();
     }
 

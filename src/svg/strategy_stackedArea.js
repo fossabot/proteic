@@ -41,10 +41,10 @@ export class SvgStackedAreaStrategy extends SvgStrategy{
                 .order(d3.stackOrderInsideOut)
                 .offset(d3.stackOffNone),
             dataSeries = stack(data4stack),
-            needAxisRescaling = this.config.needAxisRescaling;
+            needRescaling = this.config.needRescaling;
 
         //rescale, if needed.
-        if (needAxisRescaling) {
+        if (needRescaling) {
             this.rescale();
         }
         

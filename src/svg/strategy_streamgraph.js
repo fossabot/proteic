@@ -42,7 +42,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
                 .order(d3.stackOrderInsideOut)
                 .offset(d3.stackOffsetWiggle),
             dataSeries = stack(data4stack),
-            needAxisRescaling = this.config.needAxisRescaling;
+            needRescaling = this.config.needRescaling;
        
        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);
         
@@ -50,7 +50,7 @@ export class SvgStreamgraphStrategy extends SvgStrategy {
         sortByField(data, 'x');
         
         //rescale, if needed.
-        if (needAxisRescaling) {
+        if (needRescaling) {
            this.rescale();
         }
         

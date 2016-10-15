@@ -27,12 +27,12 @@ export class SvgSwimlaneStrategy extends SvgStrategy {
       dataFormat = this.config.x.format,
       keys = d3.map(data, (d) => d.key).keys(),
       bbox = null,
-      needAxisRescaling = this.config.needAxisRescaling;
+      needRescaling = this.config.needRescaling;
 
     convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);
     
     //rescale, if needed.
-    if (needAxisRescaling) {
+    if (needRescaling) {
       this.rescale();
     }
     

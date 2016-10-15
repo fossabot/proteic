@@ -43,10 +43,10 @@ export class SvgBarchartStrategy extends SvgStrategy {
       yMax = 0,
       method = isStacked ? 'stacked' : 'grouped',
       dataSeries = stack(data4stack),
-      needAxisRescaling = this.config.needAxisRescaling;
+      needRescaling = this.config.needRescaling;
 
     //rescale, if needed.
-    if (needAxisRescaling) {
+    if (needRescaling) {
       this.rescale();
     }
 

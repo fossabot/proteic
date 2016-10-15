@@ -10,13 +10,13 @@ export class SvgStrategy {
     changeConfigProperty(p, v) {
         this.config[p] = v;
         if (p === 'width' || p === 'height') {
-            this.config.needAxisRescaling = true;
+            this.config.needRescaling = true;
         }
     }
 
     rescale(width = this.config.width, height = this.config.height) {
         this.axes.rescale(width, height);
-        this.config.needAxisRescaling = false;
+        this.config.needRescaling = false;
     }
 
 }
