@@ -33,6 +33,13 @@ Simply add the ``proteic.js`` script to your project and include it in your HTML
 After including the script (preferably the minified version for production environments) you are ready to use ProteicJS.
 
 As an example, here is how to create a simple Barchart with static data:
+
+```html
+<script type="text/javascript" src="proteic.min.js"></script>
+<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+<div style id='chart'></div>
+```
+
 ```js
 var data = [
   {x: 'SP', key: '- 18', y: 30},
