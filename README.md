@@ -38,9 +38,8 @@ As an example, here is how to create a simple Barchart with static data:
 <script type="text/javascript" src="proteic.min.js"></script>
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 <div style id='chart'></div>
-```
 
-```js
+<script type="text/javascript">
 var data = [
   {x: 'SP', key: '- 18', y: 30},
   {x: 'SP', key: '+ 18 - 35', y: 25},
@@ -52,6 +51,7 @@ var data = [
 
 var barchart = new proteic.Barchart(data);
 barchart.draw();
+</script>
 ```
 
 ## Dependencies
