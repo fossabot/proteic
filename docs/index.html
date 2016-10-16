@@ -176,9 +176,10 @@
 <p>As an example, here is how to create a simple Barchart with static data:</p>
 <pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;proteic.min.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; src=&quot;https://d3js.org/d3.v4.min.js&quot;&gt;&lt;/script&gt;
-&lt;div style id=&apos;chart&apos;&gt;&lt;/div&gt;</code>
-</code></pre>
-<pre><code class="lang-js"><code class="source-code prettyprint">var data = [
+&lt;div style id=&apos;chart&apos;&gt;&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+var data = [
   {x: &apos;SP&apos;, key: &apos;- 18&apos;, y: 30},
   {x: &apos;SP&apos;, key: &apos;+ 18 - 35&apos;, y: 25},
   {x: &apos;SP&apos;, key: &apos;+ 35&apos;, y: 45},
@@ -188,7 +189,8 @@
 ];
 
 var barchart = new proteic.Barchart(data);
-barchart.draw();</code>
+barchart.draw();
+&lt;/script&gt;</code>
 </code></pre>
 <h2 id="dependencies">Dependencies</h2>
 <p>Proteic.js has a unique but important dependency: <a href="https://d3js.org/">D3.js</a>. We are using the recently released version 4, which has not compatibility with previous versions. Yo can have a look into the changes <a href="https://github.com/d3/d3/blob/master/CHANGES.md">here</a>.</p>
