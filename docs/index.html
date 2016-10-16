@@ -154,13 +154,13 @@
 <a href="https://www.codacy.com/app/0xnacho/proteic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proteus-h2020/proteic&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/4e39876ac5324eba8035c6f5ec95b52b" alt="Codacy Badge"></a>
 <a href="https://gitter.im/proteus-h2020/proteic"><img src="https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000" alt="Gitter"></a></p>
 <p><img src="https://github.com/proteus-h2020/proteic/blob/development/images/proteic.png"></p>
-<p>##Examples</p>
+<h2 id="examples">Examples</h2>
 <p><img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stacked.png">
 <img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/stream.png">
 <img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/swimlane.png">
 <img width="40%" height="40%" src="https://github.com/proteus-h2020/proteic/blob/development/images/linechart.png"></p>
-<p>##Motivation
-Before start developing this (awesome) library, we first analyzed hundreds of charting libraries out there. They are really good but almost all of them:</p>
+<h2 id="motivation">Motivation</h2>
+<p>Before start developing this (awesome) library, we first analyzed hundreds of charting libraries out there. They are really good but almost all of them:</p>
 <ul>
 <li>have a really bad and unreadable code. No code patterns. Variables traveling between files. :airplane: :airplane: = <strong>Bad for developers and community</strong></li>
 <li>are really heavy. Redundant and duplicate code. :heavy_exclamation_mark: = <strong>not fast as it should be</strong></li>
@@ -168,18 +168,31 @@ Before start developing this (awesome) library, we first analyzed hundreds of ch
 <li>are developed on top of old D3.js versions. <strong>Bad performance</strong></li>
 </ul>
 <p>For these reasons we decided to develop a new web-based visualization library from scratch, by aiming to solve all the previously identified issues.</p>
-<p>##Usage
-Simply add the <code>proteic.js</code> script to your project and include it in your HTML:</p>
+<h2 id="usage">Usage</h2>
+<p>Simply add the <code>proteic.js</code> script to your project and include it in your HTML:</p>
 <pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;proteic.min.js&quot;&gt;&lt;/script&gt;</code>
 </code></pre>
 <p>After including the script (preferably the minified version for production environments) you are ready to use ProteicJS.</p>
-<p>##Dependencies
-Proteic.js has a unique but important dependency: <a href="https://d3js.org/">D3.js</a>. We are using the recently released version 4, which has not compatibility with previous versions. Yo can have a look into the changes <a href="https://github.com/d3/d3/blob/master/CHANGES.md">here</a>.</p>
-<p>##Examples</p>
+<p>As an example, here is how to create a simple Barchart with static data:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">var data = [
+  {x: &apos;SP&apos;, key: &apos;- 18&apos;, y: 30},
+  {x: &apos;SP&apos;, key: &apos;+ 18 - 35&apos;, y: 25},
+  {x: &apos;SP&apos;, key: &apos;+ 35&apos;, y: 45},
+  {x: &apos;FR&apos;, key: &apos;- 18&apos;, y: 10},
+  {x: &apos;FR&apos;, key: &apos;+ 18 - 35&apos;, y: 50},
+  {x: &apos;FR&apos;, key: &apos;+ 35&apos;, y: 40},
+];
+
+var barchart = new proteic.Barchart(data);
+barchart.draw();</code>
+</code></pre>
+<h2 id="dependencies">Dependencies</h2>
+<p>Proteic.js has a unique but important dependency: <a href="https://d3js.org/">D3.js</a>. We are using the recently released version 4, which has not compatibility with previous versions. Yo can have a look into the changes <a href="https://github.com/d3/d3/blob/master/CHANGES.md">here</a>.</p>
+<h2 id="examples">Examples</h2>
 <p>You can visit <a href="https://proteus-h2020.github.io/proteic">this site</a> which is a build of the current project. We are still developing and constantly adding new  features but you can already use our <a href="https://github.com/proteus-h2020/proteic/releases">stable releases</a>.</p>
-<p>##Contributing
-If you are interested in the project and you want to collaborate in your spare time, you can have a look into the <a href="https://github.com/proteus-h2020/proteic/blob/development/CONTRIBUTING.md">contributing guide</a>.</p>
-<p>##Developers</p>
+<h2 id="contributing">Contributing</h2>
+<p>If you are interested in the project and you want to collaborate in your spare time, you can have a look into the <a href="https://github.com/proteus-h2020/proteic/blob/development/CONTRIBUTING.md">contributing guide</a>.</p>
+<h2 id="developers">Developers</h2>
 <p>We provide the following NPM Scripts to ease the development process. You can run each script like the following <code>npm run-script serve:watch</code></p>
 <ul>
 <li><code>lint</code>: runs the JSHint linter to detect errors and problems in the code</li>
