@@ -48,7 +48,7 @@ var data = [
   {x: 'SP', key: '+ 35', y: 45},
   {x: 'FR', key: '- 18', y: 10},
   {x: 'FR', key: '+ 18 - 35', y: 50},
-  {x: 'FR', key: '+ 35', y: 40},
+  {x: 'FR', key: '+ 35', y: 40}
 ];
 
 var barchart = new proteic.Barchart(data);
