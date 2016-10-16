@@ -37,6 +37,8 @@ As an example, here is how to create a simple Barchart with static data:
 ```html
 <script type="text/javascript" src="proteic.min.js"></script>
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- By default, Proteic.js places the chart into div#chart -->
 <div style id='chart'></div>
 
 <script type="text/javascript">
