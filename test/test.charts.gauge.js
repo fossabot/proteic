@@ -16,14 +16,14 @@ describe('SvgGaugeStrategy', () => {
     el.parentNode.removeChild(el);
   });
 
-  describe('_loadConfigOnContext(config)', () => {
+  describe('_loadConfig(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 86 }];
       var minLevel = 15;
       var maxLevel = 103;
       var config = { minLevel, maxLevel };
       var svg = new SvgGaugeStrategy({ data, config, cType: 'Gauge' });
-      var resultConfig = svg._loadConfigOnContext(config).config;
+      var resultConfig = svg._loadConfig(config).config;
       resultConfig.should.have.property('minLevel').equals(minLevel);
       resultConfig.should.have.property('maxLevel').equals(maxLevel);
     });

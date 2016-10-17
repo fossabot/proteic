@@ -32,7 +32,7 @@ export class SvgNetworkgraphStrategy {
    * This method adds config options to the chart context.
    * @param  {Object} config Config object
    */
-  _loadConfigOnContext(config) {
+  _loadConfig(config) {
     this.config = {};
     this.config.margin = config.margin || defaults.margin;
     this.config.selector = config.selector || defaults.selector;

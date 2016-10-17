@@ -15,13 +15,13 @@ describe('SvgLinechartStrategy', () => {
     el.parentNode.removeChild(el);
   });
 
-  describe('_loadConfigOnContext(config)', () => {
+  describe('_loadConfig(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
       var markerSize = 20;
       var config = { markerSize };
       var svg = new SvgLinechartStrategy({ data, config, cType: 'Linechart' });
-      var resultConfig = svg._loadConfigOnContext(config).config;
+      var resultConfig = svg._loadConfig(config).config;
       resultConfig.should.have.property('markerSize').equals(markerSize);
     });
   });
