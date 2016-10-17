@@ -16,8 +16,8 @@ export const defaults = {
     //margins
     marginTop: 20,
     marginRight: 250,
-    marginBottom: 30,
-    marginLeft: 50,
+    marginBottom: 130,
+    marginLeft: 150,
     //markers
     markerShape: 'circle',
     markerSize: 5,
