@@ -8,10 +8,10 @@ export class Lineset {
   }
 
   update(svg, config, data) {
-    var dataSeries = d3.nest().key((d) => d.key).entries(data);
-    var series = null
-      , lines = null
-      , colorScale = config.colorScale;
+    let dataSeries = d3.nest().key((d) => d.key).entries(data),
+      series = null,
+      lines = null,
+      colorScale = config.colorScale;
 
     svg.selectAll('g.serie').remove();
 

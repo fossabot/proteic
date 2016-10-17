@@ -1,26 +1,24 @@
 export class Pointset {
   constructor(x, y) {
-      this.xAxis = x.xAxis;
-      this.yAxis = y.yAxis;
+    this.xAxis = x.xAxis;
+    this.yAxis = y.yAxis;
   }
   update(svg, config, data) {
-      var dataSeries = d3.nest()
-          .key((d) => d.key)
-          .entries(data);
-
-    var markers = null
-      , markerShape = config.markers.shape
-      , markerSize = config.markers.size
-      , markerOutlineWidth = config.markers.outlineWidth
-      , colorScale = config.colorScale
-      , events = config.events
-      , markers = null
-      , points = null
-      , series = null;
+    let dataSeries = d3.nest()
+      .key((d) => d.key)
+      .entries(data),
+      markers = null,
+      markerShape = config.markerShape,
+      markerSize = config.markerSize,
+      markerOutlineWidth = config.markerOutlineWidth,
+      colorScale = config.colorScale,
+      points = null,
+      series = null;
 
     svg.selectAll('g.points').remove();
 
     series = svg.selectAll('g.points');
+
     switch (markerShape) {
       case 'circle':
       default:
@@ -44,11 +42,11 @@ export class Pointset {
 
     markers = svg.selectAll('g.points circle');
     markers
-      .on('mousedown.user', events.down)
-      .on('mouseup.user', events.up)
-      .on('mouseleave.user', events.leave)
-      .on('mouseover.user', events.over)
-      .on('click.user', events.click);
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
 
     //this.interactiveElements = markers;
   }

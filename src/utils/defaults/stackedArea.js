@@ -2,68 +2,30 @@ import * as Colors from '../colors';
 
 export const defaults = {
     selector: '#chart',
-    xDateFormat: '%m/%d/%y',
-    colorScale: Colors.category5(),
-    xaxis: {
-        label: ''
-    },
-    yaxis: {
-        label: ''
-    },
-    style: {
-        '.axis': {
-            'font': '10px sans-serif'
-        },
-        '.axis path,.axis line': {
-            'fill': 'none',
-            'stroke': '#000',
-            'shape-rendering': 'crispEdges'
-        },
-        '.x.axis path': {
-            'display': 'none'
-        },
-        '.x.axis.label, .y.axis.label': {
-            'font': '12px sans-serif'
-        }
-    },
-    margin: {
-        top: 20,
-        right: 250,
-        bottom: 30,
-        left: 50
-    },
+    colorScale: Colors.category2(),
+    //Axes
+    xAxisType: 'time',
+    xAxisFormat: '%y/%m/%d',
+    xAxisLabel: null,
+    yAxisType: 'categorical',
+    yAxisFormat: '%s',
+    yAxisLabel: null,
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 30,
+    marginLeft: 50,
+    //Width & height
     width: '100%', // %, auto, or numeric 
-    height: 300,
-    ticks: 5, // ticks for y dial.
-    tooltip(object) {
-        return 'Info: ' + JSON.stringify(object);
+    height: 250,
+    //Events
+    onDown(d) {
     },
-    tickLabel: '',
-    events: {
-        down() {
-            d3.select(this).classed('hover', false);
-        },
-        over() {
-            d3.select(this)
-                .transition()
-                .duration(150)
-                .attr('fill-opacity', 0.4);
-        },
-        leave() {
-            d3.select(this)
-                .transition()
-                .duration(150)
-                .attr('fill-opacity', 1);
-        },
-        click(d, i) {
-            console.log(d, i);
-        }
+    onHover(d) {
     },
-    transitionDuration: 300,
-    maxNumberOfElements: 0, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-        descending: false,
-        prop: 'x'
-    }
-
+    onLeave(d) {
+    },
+    onClick(d) {
+    },
+    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

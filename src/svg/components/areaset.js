@@ -5,18 +5,18 @@ export class Areaset {
   }
 
   update(svg, config, data) {
-    var dataSeries = d3.nest()
+    let dataSeries = d3.nest()
         .key((d) => d.key)
         .entries(data);
 
-    var series = null
+    let series = null
         , areas = null
         , area = config.area
         , colorScale = config.colorScale
         , height = config.height
         , areaOpacity = config.areaOpacity;
 
-    var areaGenerator = d3.area()
+    let areaGenerator = d3.area()
         .x((d) => this.xAxis.scale()(d.x))
         .y0(height)
         .y1((d) => this.yAxis.scale()(d.y));

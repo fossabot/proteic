@@ -35,11 +35,11 @@ export class DialNeedle { // TODO tidy
       .innerRadius(this.r - config.ringWidth - config.ringMargin)
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) => {
-        var ratio = d * i;
+        let ratio = d * i;
         return deg2rad(config.minAngle + (ratio * this.range));
       })
       .endAngle((d, i) => {
-        var ratio = d * (i + 1);
+        let ratio = d * (i + 1);
         return deg2rad(config.minAngle + (ratio * this.range));
       });
 

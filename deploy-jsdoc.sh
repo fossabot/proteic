@@ -2,7 +2,8 @@
 
 CURRENT_DIR=$(pwd)
 echo "Current path: ${CURRENT_DIR}"
-
+npm install
+npm run docs
 echo -e "Publishing JSDoc...\n"
 
 cd $HOME
