@@ -1,7 +1,7 @@
 {
-  "coverage": "13.98%",
+  "coverage": "16.96%",
   "expectCount": 336,
-  "actualCount": 47,
+  "actualCount": 57,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -50,14 +50,9 @@
     },
     "src/datasources/Datasource.js": {
       "expectCount": 6,
-      "actualCount": 0,
+      "actualCount": 5,
       "undocumentLines": [
-        1,
-        2,
-        14,
-        3,
-        6,
-        10
+        20
       ]
     },
     "src/svg/components/dial.js": {
@@ -385,16 +380,11 @@
     },
     "src/datasources/WebsocketDatasource.js": {
       "expectCount": 8,
-      "actualCount": 0,
+      "actualCount": 5,
       "undocumentLines": [
-        3,
-        11,
-        6,
-        12,
-        8,
-        15,
-        31,
-        17
+        41,
+        30,
+        53
       ]
     },
     "src/svg/components/xAxis.js": {

@@ -148,19 +148,55 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/datasources/WebsocketDatasource.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Datasource from &apos;./Datasource&apos;;
+/**
+ * 
+ * This datasource set up a connection to a websocket server. 
+ * @export
+ * @class WebsocketDatasource
+ * @extends {Datasource}
 
+ */
 export default class WebsocketDatasource extends Datasource {
 
-
+    /**
+     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.
+     * &lt;pre class=&quot;prettyprint&quot;&gt;
+     *    var source = {
+     *      endpoint: &apos;ws://192.168.3.32:3000/pathToWebsocketEndpoint&apos;;
+     *    };
+     * 
+     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));
+     * &lt;/pre&gt;
+     * 
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
+     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. 
+     *  
+     * @memberOf WebsocketDatasource
+    
+     */
     constructor(source) {
         super();
         this.source = source;
     }
     
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf WebsocketDatasource
+     */
     configure(dispatcher) {
         this.dispatcher = dispatcher;
     }
 
+    /**
+     * 
+     * Initialize a websocket connection
+     * 
+     * @memberOf WebsocketDatasource
+    
+     */
     start() {
         super.start();
         this.ws = new WebSocket(this.source.endpoint);
@@ -169,14 +205,19 @@ export default class WebsocketDatasource extends Datasource {
             this.dispatcher.call(&apos;onopen&apos;, this, e);
         };
         this.ws.onerror = (e) =&gt; {
-            this.dispatcher.call(&apos;onerror&apos;, this, e);
+            throw new Error(&apos;An error occurred trying to reach the websocket server&apos; + e);
+            //this.dispatcher.call(&apos;onerror&apos;, this, e);
         };
         this.ws.onmessage = (e) =&gt; {
             var data = JSON.parse(e.data);
             this.dispatcher.call(&apos;onmessage&apos;, this, data);
         };
     }
-
+    /**
+     * If started, this method close the websocket connection.
+     * 
+     * @memberOf WebsocketDatasource
+    * */
     stop() {
         super.stop();
         if (this.ws) {
