@@ -10,16 +10,17 @@ import Datasource from './Datasource';
 export default class WebsocketDatasource extends Datasource {
 
     /**
-     * Creates an instance of WebsocketDatasource.
-     * 
-     * @param {any} source Example of source: <br/> 
+     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.
      * <pre class="prettyprint">
-     *    &lt;script&gt;
      *    var source = {
      *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';
      *    };
-     *    &lt;/script&gt;
-     *   </pre>
+     * 
+     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));
+     * </pre>
+     * 
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
+     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. 
      *  
      * @memberOf WebsocketDatasource
     
@@ -41,7 +42,8 @@ export default class WebsocketDatasource extends Datasource {
             this.dispatcher.call('onopen', this, e);
         };
         this.ws.onerror = (e) => {
-            this.dispatcher.call('onerror', this, e);
+            throw new Error('An error occurred trying to reach the websocket server' + e);
+            //this.dispatcher.call('onerror', this, e);
         };
         this.ws.onmessage = (e) => {
             var data = JSON.parse(e.data);
