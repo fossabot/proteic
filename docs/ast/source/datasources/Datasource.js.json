@@ -686,10 +686,10 @@
               "trailingComments": [
                 {
                   "type": "Block",
-                  "value": "*\n     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
+                  "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
                   "range": [
                     821,
-                    1058
+                    1056
                   ],
                   "loc": {
                     "start": {
@@ -711,8 +711,8 @@
                 "type": "Identifier",
                 "name": "filter",
                 "range": [
-                  1063,
-                  1069
+                  1061,
+                  1067
                 ],
                 "loc": {
                   "start": {
@@ -733,8 +733,8 @@
                     "type": "Identifier",
                     "name": "filter",
                     "range": [
-                      1070,
-                      1076
+                      1068,
+                      1074
                     ],
                     "loc": {
                       "start": {
@@ -756,8 +756,8 @@
                       "argument": {
                         "type": "ThisExpression",
                         "range": [
-                          1095,
-                          1099
+                          1093,
+                          1097
                         ],
                         "loc": {
                           "start": {
@@ -771,8 +771,8 @@
                         }
                       },
                       "range": [
-                        1088,
-                        1100
+                        1086,
+                        1098
                       ],
                       "loc": {
                         "start": {
@@ -787,8 +787,8 @@
                     }
                   ],
                   "range": [
-                    1078,
-                    1106
+                    1076,
+                    1104
                   ],
                   "loc": {
                     "start": {
@@ -804,8 +804,8 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  1069,
-                  1106
+                  1067,
+                  1104
                 ],
                 "loc": {
                   "start": {
@@ -821,8 +821,8 @@
               "kind": "method",
               "computed": false,
               "range": [
-                1063,
-                1106
+                1061,
+                1104
               ],
               "loc": {
                 "start": {
@@ -837,10 +837,10 @@
               "leadingComments": [
                 {
                   "type": "Block",
-                  "value": "*\n     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
+                  "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
                   "range": [
                     821,
-                    1058
+                    1056
                   ],
                   "loc": {
                     "start": {
@@ -859,7 +859,7 @@
           ],
           "range": [
             311,
-            1108
+            1106
           ],
           "loc": {
             "start": {
@@ -874,7 +874,7 @@
         },
         "range": [
           294,
-          1108
+          1106
         ],
         "loc": {
           "start": {
@@ -910,7 +910,7 @@
       },
       "range": [
         279,
-        1108
+        1106
       ],
       "loc": {
         "start": {
@@ -947,7 +947,7 @@
   "sourceType": "module",
   "range": [
     279,
-    1108
+    1106
   ],
   "loc": {
     "start": {
@@ -1034,10 +1034,10 @@
     },
     {
       "type": "Block",
-      "value": "*\n     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
+      "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
       "range": [
         821,
-        1058
+        1056
       ],
       "loc": {
         "start": {

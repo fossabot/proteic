@@ -148,10 +148,31 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/datasources/WebsocketDatasource.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Datasource from &apos;./Datasource&apos;;
+/**
+ * 
+ * This datasource set up a connection to a websocket server. 
+ * @export
+ * @class WebsocketDatasource
+ * @extends {Datasource}
 
+ */
 export default class WebsocketDatasource extends Datasource {
 
-
+    /**
+     * Creates an instance of WebsocketDatasource.
+     * 
+     * @param {any} source Example of source: &lt;br/&gt; 
+     * &lt;pre class=&quot;prettyprint&quot;&gt;
+     *    &amp;lt;script&amp;gt;
+     *    var source = {
+     *      endpoint: &apos;ws://192.168.3.32:3000/pathToWebsocketEndpoint&apos;;
+     *    };
+     *    &amp;lt;/script&amp;gt;
+     *   &lt;/pre&gt;
+     *  
+     * @memberOf WebsocketDatasource
+    
+     */
     constructor(source) {
         super();
         this.source = source;

@@ -1,7 +1,7 @@
 {
-  "coverage": "15.47%",
+  "coverage": "16.07%",
   "expectCount": 336,
-  "actualCount": 52,
+  "actualCount": 54,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -380,16 +380,14 @@
     },
     "src/datasources/WebsocketDatasource.js": {
       "expectCount": 8,
-      "actualCount": 0,
+      "actualCount": 2,
       "undocumentLines": [
-        3,
-        11,
-        6,
-        12,
-        8,
-        15,
-        31,
-        17
+        32,
+        33,
+        29,
+        36,
+        52,
+        38
       ]
     },
     "src/svg/components/xAxis.js": {

@@ -1527,7 +1527,7 @@
     "access": null,
     "description": null,
     "lineNumber": 11,
-    "content": "/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
+    "content": "/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
   },
   {
     "__docId__": 68,
@@ -1642,7 +1642,7 @@
     "memberof": "src/datasources/Datasource.js~Datasource",
     "longname": "src/datasources/Datasource.js~Datasource#filter",
     "access": null,
-    "description": "Filters the incoming messages. All the data input that do not comply the filter condition will be discarded",
+    "description": "Filters the incoming messages. Each data record that do not comply the filter condition will be discarded",
     "lineNumber": 52,
     "unknown": [
       {
@@ -1687,7 +1687,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Datasource from './Datasource';\n\nexport default class WebsocketDatasource extends Datasource {\n\n\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
+    "content": "import Datasource from './Datasource';\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource.\n     * \n     * @param {any} source Example of source: <br/> \n     * <pre class=\"prettyprint\">\n     *    &lt;script&gt;\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     *    &lt;/script&gt;\n     *   </pre>\n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
   },
   {
     "__docId__": 75,
@@ -1701,12 +1701,21 @@
     "export": true,
     "importPath": "proteic/src/datasources/WebsocketDatasource.js",
     "importStyle": "WebsocketDatasource",
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
+    "description": "\nThis datasource set up a connection to a websocket server. ",
+    "lineNumber": 10,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "WebsocketDatasource"
+      }
+    ],
     "interface": false,
     "extends": [
-      "src/datasources/Datasource.js~Datasource"
+      "Datasource"
     ]
   },
   {
@@ -1718,15 +1727,24 @@
     "memberof": "src/datasources/WebsocketDatasource.js~WebsocketDatasource",
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
+    "description": "Creates an instance of WebsocketDatasource.",
+    "lineNumber": 27,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "WebsocketDatasource"
+      }
+    ],
     "params": [
       {
-        "name": "source",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "source",
+        "description": "Example of source: <br/> \n<pre class=\"prettyprint\">\n   &lt;script&gt;\n   var source = {\n     endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n   };\n   &lt;/script&gt;\n  </pre>"
       }
     ],
     "generator": false
@@ -1741,7 +1759,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#source",
     "access": null,
     "description": null,
-    "lineNumber": 8,
+    "lineNumber": 29,
     "undocument": true,
     "type": {
       "types": [
@@ -1759,7 +1777,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#configure",
     "access": null,
     "description": null,
-    "lineNumber": 11,
+    "lineNumber": 32,
     "undocument": true,
     "params": [
       {
@@ -1781,7 +1799,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 33,
     "undocument": true,
     "type": {
       "types": [
@@ -1799,7 +1817,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#start",
     "access": null,
     "description": null,
-    "lineNumber": 15,
+    "lineNumber": 36,
     "undocument": true,
     "params": [],
     "generator": false
@@ -1814,7 +1832,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#ws",
     "access": null,
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 38,
     "undocument": true,
     "type": {
       "types": [
@@ -1832,7 +1850,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#stop",
     "access": null,
     "description": null,
-    "lineNumber": 31,
+    "lineNumber": 52,
     "undocument": true,
     "params": [],
     "generator": false
