@@ -9,16 +9,16 @@
           "type": "Identifier",
           "name": "Datasource",
           "range": [
-            300,
-            310
+            21,
+            31
           ],
           "loc": {
             "start": {
-              "line": 11,
+              "line": 1,
               "column": 21
             },
             "end": {
-              "line": 11,
+              "line": 1,
               "column": 31
             }
           }
@@ -33,16 +33,16 @@
                 "type": "Identifier",
                 "name": "constructor",
                 "range": [
-                  424,
-                  435
+                  37,
+                  48
                 ],
                 "loc": {
                   "start": {
-                    "line": 19,
+                    "line": 2,
                     "column": 4
                   },
                   "end": {
-                    "line": 19,
+                    "line": 2,
                     "column": 15
                   }
                 }
@@ -65,16 +65,16 @@
                           "object": {
                             "type": "ThisExpression",
                             "range": [
-                              448,
-                              452
+                              62,
+                              66
                             ],
                             "loc": {
                               "start": {
-                                "line": 20,
+                                "line": 3,
                                 "column": 8
                               },
                               "end": {
-                                "line": 20,
+                                "line": 3,
                                 "column": 12
                               }
                             }
@@ -83,31 +83,31 @@
                             "type": "Identifier",
                             "name": "filters",
                             "range": [
-                              453,
-                              460
+                              67,
+                              74
                             ],
                             "loc": {
                               "start": {
-                                "line": 20,
+                                "line": 3,
                                 "column": 13
                               },
                               "end": {
-                                "line": 20,
+                                "line": 3,
                                 "column": 20
                               }
                             }
                           },
                           "range": [
-                            448,
-                            460
+                            62,
+                            74
                           ],
                           "loc": {
                             "start": {
-                              "line": 20,
+                              "line": 3,
                               "column": 8
                             },
                             "end": {
-                              "line": 20,
+                              "line": 3,
                               "column": 20
                             }
                           }
@@ -116,62 +116,62 @@
                           "type": "ArrayExpression",
                           "elements": [],
                           "range": [
-                            463,
-                            465
+                            77,
+                            79
                           ],
                           "loc": {
                             "start": {
-                              "line": 20,
+                              "line": 3,
                               "column": 23
                             },
                             "end": {
-                              "line": 20,
+                              "line": 3,
                               "column": 25
                             }
                           }
                         },
                         "range": [
-                          448,
-                          465
+                          62,
+                          79
                         ],
                         "loc": {
                           "start": {
-                            "line": 20,
+                            "line": 3,
                             "column": 8
                           },
                           "end": {
-                            "line": 20,
+                            "line": 3,
                             "column": 25
                           }
                         }
                       },
                       "range": [
-                        448,
-                        466
+                        62,
+                        80
                       ],
                       "loc": {
                         "start": {
-                          "line": 20,
+                          "line": 3,
                           "column": 8
                         },
                         "end": {
-                          "line": 20,
+                          "line": 3,
                           "column": 26
                         }
                       }
                     }
                   ],
                   "range": [
-                    438,
-                    472
+                    52,
+                    86
                   ],
                   "loc": {
                     "start": {
-                      "line": 19,
-                      "column": 18
+                      "line": 2,
+                      "column": 19
                     },
                     "end": {
-                      "line": 21,
+                      "line": 4,
                       "column": 5
                     }
                   }
@@ -179,16 +179,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  435,
-                  472
+                  49,
+                  86
                 ],
                 "loc": {
                   "start": {
-                    "line": 19,
-                    "column": 15
+                    "line": 2,
+                    "column": 16
                   },
                   "end": {
-                    "line": 21,
+                    "line": 4,
                     "column": 5
                   }
                 }
@@ -196,59 +196,19 @@
               "kind": "constructor",
               "computed": false,
               "range": [
-                424,
-                472
+                37,
+                86
               ],
               "loc": {
                 "start": {
-                  "line": 19,
+                  "line": 2,
                   "column": 4
                 },
                 "end": {
-                  "line": 21,
+                  "line": 4,
                   "column": 5
                 }
               },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     ",
-                  "range": [
-                    317,
-                    419
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 12,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 18,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
-              "trailingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     ",
-                  "range": [
-                    478,
-                    566
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 23,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 28,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
               "static": false
             },
             {
@@ -257,16 +217,16 @@
                 "type": "Identifier",
                 "name": "start",
                 "range": [
-                  571,
-                  576
+                  96,
+                  101
                 ],
                 "loc": {
                   "start": {
-                    "line": 29,
+                    "line": 6,
                     "column": 4
                   },
                   "end": {
-                    "line": 29,
+                    "line": 6,
                     "column": 9
                   }
                 }
@@ -289,16 +249,16 @@
                             "type": "Identifier",
                             "name": "console",
                             "range": [
-                              589,
-                              596
+                              113,
+                              120
                             ],
                             "loc": {
                               "start": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 8
                               },
                               "end": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 15
                               }
                             }
@@ -307,31 +267,31 @@
                             "type": "Identifier",
                             "name": "log",
                             "range": [
-                              597,
-                              600
+                              121,
+                              124
                             ],
                             "loc": {
                               "start": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 16
                               },
                               "end": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 19
                               }
                             }
                           },
                           "range": [
-                            589,
-                            600
+                            113,
+                            124
                           ],
                           "loc": {
                             "start": {
-                              "line": 30,
+                              "line": 7,
                               "column": 8
                             },
                             "end": {
-                              "line": 30,
+                              "line": 7,
                               "column": 19
                             }
                           }
@@ -342,63 +302,63 @@
                             "value": "Starting datasource",
                             "raw": "'Starting datasource'",
                             "range": [
-                              601,
-                              622
+                              125,
+                              146
                             ],
                             "loc": {
                               "start": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 20
                               },
                               "end": {
-                                "line": 30,
+                                "line": 7,
                                 "column": 41
                               }
                             }
                           }
                         ],
                         "range": [
-                          589,
-                          623
+                          113,
+                          147
                         ],
                         "loc": {
                           "start": {
-                            "line": 30,
+                            "line": 7,
                             "column": 8
                           },
                           "end": {
-                            "line": 30,
+                            "line": 7,
                             "column": 42
                           }
                         }
                       },
                       "range": [
-                        589,
-                        624
+                        113,
+                        148
                       ],
                       "loc": {
                         "start": {
-                          "line": 30,
+                          "line": 7,
                           "column": 8
                         },
                         "end": {
-                          "line": 30,
+                          "line": 7,
                           "column": 43
                         }
                       }
                     }
                   ],
                   "range": [
-                    579,
-                    630
+                    103,
+                    154
                   ],
                   "loc": {
                     "start": {
-                      "line": 29,
-                      "column": 12
+                      "line": 6,
+                      "column": 11
                     },
                     "end": {
-                      "line": 31,
+                      "line": 8,
                       "column": 5
                     }
                   }
@@ -406,16 +366,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  576,
-                  630
+                  101,
+                  154
                 ],
                 "loc": {
                   "start": {
-                    "line": 29,
+                    "line": 6,
                     "column": 9
                   },
                   "end": {
-                    "line": 31,
+                    "line": 8,
                     "column": 5
                   }
                 }
@@ -423,59 +383,19 @@
               "kind": "method",
               "computed": false,
               "range": [
-                571,
-                630
+                96,
+                154
               ],
               "loc": {
                 "start": {
-                  "line": 29,
+                  "line": 6,
                   "column": 4
                 },
                 "end": {
-                  "line": 31,
+                  "line": 8,
                   "column": 5
                 }
               },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     ",
-                  "range": [
-                    478,
-                    566
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 23,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 28,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
-              "trailingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     ",
-                  "range": [
-                    636,
-                    752
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 33,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 39,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
               "static": false
             },
             {
@@ -484,16 +404,16 @@
                 "type": "Identifier",
                 "name": "stop",
                 "range": [
-                  757,
-                  761
+                  164,
+                  168
                 ],
                 "loc": {
                   "start": {
-                    "line": 40,
+                    "line": 10,
                     "column": 4
                   },
                   "end": {
-                    "line": 40,
+                    "line": 10,
                     "column": 8
                   }
                 }
@@ -516,16 +436,16 @@
                             "type": "Identifier",
                             "name": "console",
                             "range": [
-                              774,
-                              781
+                              180,
+                              187
                             ],
                             "loc": {
                               "start": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 8
                               },
                               "end": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 15
                               }
                             }
@@ -534,31 +454,31 @@
                             "type": "Identifier",
                             "name": "log",
                             "range": [
-                              782,
-                              785
+                              188,
+                              191
                             ],
                             "loc": {
                               "start": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 16
                               },
                               "end": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 19
                               }
                             }
                           },
                           "range": [
-                            774,
-                            785
+                            180,
+                            191
                           ],
                           "loc": {
                             "start": {
-                              "line": 41,
+                              "line": 11,
                               "column": 8
                             },
                             "end": {
-                              "line": 41,
+                              "line": 11,
                               "column": 19
                             }
                           }
@@ -569,63 +489,63 @@
                             "value": "Stopping datasource",
                             "raw": "'Stopping datasource'",
                             "range": [
-                              786,
-                              807
+                              192,
+                              213
                             ],
                             "loc": {
                               "start": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 20
                               },
                               "end": {
-                                "line": 41,
+                                "line": 11,
                                 "column": 41
                               }
                             }
                           }
                         ],
                         "range": [
-                          774,
-                          808
+                          180,
+                          214
                         ],
                         "loc": {
                           "start": {
-                            "line": 41,
+                            "line": 11,
                             "column": 8
                           },
                           "end": {
-                            "line": 41,
+                            "line": 11,
                             "column": 42
                           }
                         }
                       },
                       "range": [
-                        774,
-                        809
+                        180,
+                        215
                       ],
                       "loc": {
                         "start": {
-                          "line": 41,
+                          "line": 11,
                           "column": 8
                         },
                         "end": {
-                          "line": 41,
+                          "line": 11,
                           "column": 43
                         }
                       }
                     }
                   ],
                   "range": [
-                    764,
-                    815
+                    170,
+                    221
                   ],
                   "loc": {
                     "start": {
-                      "line": 40,
-                      "column": 11
+                      "line": 10,
+                      "column": 10
                     },
                     "end": {
-                      "line": 42,
+                      "line": 12,
                       "column": 5
                     }
                   }
@@ -633,16 +553,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  761,
-                  815
+                  168,
+                  221
                 ],
                 "loc": {
                   "start": {
-                    "line": 40,
+                    "line": 10,
                     "column": 8
                   },
                   "end": {
-                    "line": 42,
+                    "line": 12,
                     "column": 5
                   }
                 }
@@ -650,59 +570,19 @@
               "kind": "method",
               "computed": false,
               "range": [
-                757,
-                815
+                164,
+                221
               ],
               "loc": {
                 "start": {
-                  "line": 40,
+                  "line": 10,
                   "column": 4
                 },
                 "end": {
-                  "line": 42,
+                  "line": 12,
                   "column": 5
                 }
               },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     ",
-                  "range": [
-                    636,
-                    752
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 33,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 39,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
-              "trailingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
-                  "range": [
-                    821,
-                    1056
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 44,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 51,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
               "static": false
             },
             {
@@ -711,16 +591,16 @@
                 "type": "Identifier",
                 "name": "filter",
                 "range": [
-                  1061,
-                  1067
+                  231,
+                  237
                 ],
                 "loc": {
                   "start": {
-                    "line": 52,
+                    "line": 14,
                     "column": 4
                   },
                   "end": {
-                    "line": 52,
+                    "line": 14,
                     "column": 10
                   }
                 }
@@ -733,17 +613,17 @@
                     "type": "Identifier",
                     "name": "filter",
                     "range": [
-                      1068,
-                      1074
+                      239,
+                      245
                     ],
                     "loc": {
                       "start": {
-                        "line": 52,
-                        "column": 11
+                        "line": 14,
+                        "column": 12
                       },
                       "end": {
-                        "line": 52,
-                        "column": 17
+                        "line": 14,
+                        "column": 18
                       }
                     }
                   }
@@ -756,47 +636,47 @@
                       "argument": {
                         "type": "ThisExpression",
                         "range": [
-                          1093,
-                          1097
+                          263,
+                          267
                         ],
                         "loc": {
                           "start": {
-                            "line": 53,
+                            "line": 15,
                             "column": 15
                           },
                           "end": {
-                            "line": 53,
+                            "line": 15,
                             "column": 19
                           }
                         }
                       },
                       "range": [
-                        1086,
-                        1098
+                        256,
+                        268
                       ],
                       "loc": {
                         "start": {
-                          "line": 53,
+                          "line": 15,
                           "column": 8
                         },
                         "end": {
-                          "line": 53,
+                          "line": 15,
                           "column": 20
                         }
                       }
                     }
                   ],
                   "range": [
-                    1076,
-                    1104
+                    246,
+                    274
                   ],
                   "loc": {
                     "start": {
-                      "line": 52,
+                      "line": 14,
                       "column": 19
                     },
                     "end": {
-                      "line": 54,
+                      "line": 16,
                       "column": 5
                     }
                   }
@@ -804,16 +684,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  1067,
-                  1104
+                  238,
+                  274
                 ],
                 "loc": {
                   "start": {
-                    "line": 52,
-                    "column": 10
+                    "line": 14,
+                    "column": 11
                   },
                   "end": {
-                    "line": 54,
+                    "line": 16,
                     "column": 5
                   }
                 }
@@ -821,151 +701,57 @@
               "kind": "method",
               "computed": false,
               "range": [
-                1061,
-                1104
+                231,
+                274
               ],
               "loc": {
                 "start": {
-                  "line": 52,
+                  "line": 14,
                   "column": 4
                 },
                 "end": {
-                  "line": 54,
+                  "line": 16,
                   "column": 5
                 }
               },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
-                  "range": [
-                    821,
-                    1056
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 44,
-                      "column": 4
-                    },
-                    "end": {
-                      "line": 51,
-                      "column": 7
-                    }
-                  }
-                }
-              ],
               "static": false
             }
           ],
           "range": [
-            311,
-            1106
+            31,
+            276
           ],
           "loc": {
             "start": {
-              "line": 11,
-              "column": 32
+              "line": 1,
+              "column": 31
             },
             "end": {
-              "line": 55,
+              "line": 17,
               "column": 1
             }
           }
         },
         "range": [
-          294,
-          1106
+          15,
+          276
         ],
         "loc": {
           "start": {
-            "line": 11,
+            "line": 1,
             "column": 15
           },
           "end": {
-            "line": 55,
+            "line": 17,
             "column": 1
           }
         },
-        "leadingComments": [
-          {
-            "type": "Block",
-            "value": "*\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n ",
-            "range": [
-              0,
-              278
-            ],
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 10,
-                "column": 3
-              }
-            }
-          }
-        ],
+        "leadingComments": [],
         "trailingComments": []
       },
       "range": [
-        279,
-        1106
-      ],
-      "loc": {
-        "start": {
-          "line": 11,
-          "column": 0
-        },
-        "end": {
-          "line": 55,
-          "column": 1
-        }
-      },
-      "leadingComments": [
-        {
-          "type": "Block",
-          "value": "*\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n ",
-          "range": [
-            0,
-            278
-          ],
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 10,
-              "column": 3
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "sourceType": "module",
-  "range": [
-    279,
-    1106
-  ],
-  "loc": {
-    "start": {
-      "line": 11,
-      "column": 0
-    },
-    "end": {
-      "line": 55,
-      "column": 1
-    }
-  },
-  "comments": [
-    {
-      "type": "Block",
-      "value": "*\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n ",
-      "range": [
         0,
-        278
+        276
       ],
       "loc": {
         "start": {
@@ -973,82 +759,26 @@
           "column": 0
         },
         "end": {
-          "line": 10,
-          "column": 3
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     ",
-      "range": [
-        317,
-        419
-      ],
-      "loc": {
-        "start": {
-          "line": 12,
-          "column": 4
-        },
-        "end": {
-          "line": 18,
-          "column": 7
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     ",
-      "range": [
-        478,
-        566
-      ],
-      "loc": {
-        "start": {
-          "line": 23,
-          "column": 4
-        },
-        "end": {
-          "line": 28,
-          "column": 7
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     ",
-      "range": [
-        636,
-        752
-      ],
-      "loc": {
-        "start": {
-          "line": 33,
-          "column": 4
-        },
-        "end": {
-          "line": 39,
-          "column": 7
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     ",
-      "range": [
-        821,
-        1056
-      ],
-      "loc": {
-        "start": {
-          "line": 44,
-          "column": 4
-        },
-        "end": {
-          "line": 51,
-          "column": 7
+          "line": 17,
+          "column": 1
         }
       }
     }
-  ]
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    276
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 17,
+      "column": 1
+    }
+  },
+  "comments": []
 }

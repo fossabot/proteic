@@ -147,13 +147,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import WebsocketDatasource from &apos;<span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber10">proteic/src/datasources/WebsocketDatasource.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import WebsocketDatasource from &apos;<span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber3">proteic/src/datasources/WebsocketDatasource.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber10">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber3">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -173,8 +173,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>This datasource set up a connection to a websocket server. </p>
-</div>
+  
 
   
 
@@ -202,14 +201,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(source: <span>any</span>)</span>
+           <span data-ice="name"><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(source: <span>*</span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates an instance of WebsocketDatasource.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -425,14 +423,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-method-filter">filter</a></span></span><span data-ice="signature">(filter: <span>any</span>): <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-method-filter">filter</a></span></span><span data-ice="signature">(filter: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Filters the incoming messages.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -457,8 +454,7 @@
       <div>
         
         
-        <div data-ice="description"><p>Starts the stream of data</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -483,8 +479,7 @@
       <div>
         
         
-        <div data-ice="description"><p>If started, this method stops the stream of data</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -507,29 +502,18 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(source: <span>any</span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(source: <span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber6">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.</p>
-<p><pre class="prettyprint">
-   var source = {
-     endpoint: &apos;ws://192.168.3.32:3000/pathToWebsocketEndpoint&apos;;
-   };
-
-   linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));
-</pre>
-
-</p>
-<p>If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. </p>
-</div>
+  
 
   <div data-ice="override"><h4>Override:</h4><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-constructor-constructor">Datasource#constructor</a></span></div>
 
@@ -543,10 +527,9 @@
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">source</td>
-      <td data-ice="type"><span>any</span></td>
+      <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>A websocket endpoint. If invalid, this class will throw an Error.</p>
-</td>
+      <td data-ice="description"></td>
     </tr>
 </tbody>
   </table>
@@ -582,7 +565,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber12">source</a></span></span>
     </span>
   </h3>
 
@@ -622,7 +605,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber8">source</a></span></span>
     </span>
   </h3>
 
@@ -662,7 +645,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber39">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber17">source</a></span></span>
     </span>
   </h3>
 
@@ -705,7 +688,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber33">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber11">source</a></span></span>
     </span>
   </h3>
 
@@ -761,7 +744,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber15">source</a></span></span>
     </span>
   </h3>
 
@@ -801,7 +784,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber54">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/WebsocketDatasource.js.html#lineNumber31">source</a></span></span>
     </span>
   </h3>
 

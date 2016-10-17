@@ -178,7 +178,7 @@ export class SvgBarchartStrategy extends SvgAxis {
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
 	 * 
 	 */
-  draw(data = this.data) { 
+  draw(data) {
     let svg = this.svgContainer.svg,
       config = this.config,
       keys = d3.map(data, (d) =&gt; d.key).keys(),
