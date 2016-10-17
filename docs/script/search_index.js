@@ -2436,6 +2436,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/svg/strategy_networkgraph.js~svgnetworkgraphstrategy#svgcontainer",
+    "class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html#instance-member-svgContainer",
+    "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy#svgContainer",
+    "member"
+  ],
+  [
     "src/svg/strategy_stackedarea.js",
     "file/src/svg/strategy_stackedArea.js.html",
     "src/svg/strategy_stackedArea.js",

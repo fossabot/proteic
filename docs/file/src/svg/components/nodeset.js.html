@@ -184,7 +184,7 @@ export class Nodeset {
   update(svg, config, data) {
     data = simple2Linked(data);
 
-    let link = svg.append(&quot;g&quot;)
+    var link = svg.append(&quot;g&quot;)
       .attr(&quot;class&quot;, &quot;links&quot;)
       .selectAll(&quot;line&quot;)
       .data(data.links)
@@ -193,7 +193,7 @@ export class Nodeset {
       .attr(&quot;stroke&quot;, &quot;#999&quot;)
       .attr(&quot;stroke-opacity&quot;, 0.6);
 
-    let node = svg.append(&quot;g&quot;)
+    var node = svg.append(&quot;g&quot;)
       .attr(&quot;class&quot;, &quot;nodes&quot;)
       .selectAll(&quot;circle&quot;)
       .data(data.nodes)
