@@ -20,9 +20,7 @@
   "author": "Treelogic S.L.",
   "license": "MIT",
   "dependencies": {
-    "d3": "^4.2.0",
-    "d3-dispatch": "^1.0.1",
-    "d3-scale": "^1.0.3"
+    "d3": "^4.2.7"
   },
   "devDependencies": {
     "chai": "^3.5.0",
