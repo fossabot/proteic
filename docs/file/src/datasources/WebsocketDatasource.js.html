@@ -159,16 +159,17 @@
 export default class WebsocketDatasource extends Datasource {
 
     /**
-     * Creates an instance of WebsocketDatasource.
-     * 
-     * @param {any} source Example of source: &lt;br/&gt; 
+     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.
      * &lt;pre class=&quot;prettyprint&quot;&gt;
-     *    &amp;lt;script&amp;gt;
      *    var source = {
      *      endpoint: &apos;ws://192.168.3.32:3000/pathToWebsocketEndpoint&apos;;
      *    };
-     *    &amp;lt;/script&amp;gt;
-     *   &lt;/pre&gt;
+     * 
+     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));
+     * &lt;/pre&gt;
+     * 
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
+     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. 
      *  
      * @memberOf WebsocketDatasource
     
@@ -190,7 +191,8 @@ export default class WebsocketDatasource extends Datasource {
             this.dispatcher.call(&apos;onopen&apos;, this, e);
         };
         this.ws.onerror = (e) =&gt; {
-            this.dispatcher.call(&apos;onerror&apos;, this, e);
+            throw new Error(&apos;An error occurred trying to reach the websocket server&apos; + e);
+            //this.dispatcher.call(&apos;onerror&apos;, this, e);
         };
         this.ws.onmessage = (e) =&gt; {
             var data = JSON.parse(e.data);

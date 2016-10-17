@@ -1687,7 +1687,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Datasource from './Datasource';\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource.\n     * \n     * @param {any} source Example of source: <br/> \n     * <pre class=\"prettyprint\">\n     *    &lt;script&gt;\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     *    &lt;/script&gt;\n     *   </pre>\n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
+    "content": "import Datasource from './Datasource';\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n     * <pre class=\"prettyprint\">\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     * \n     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n     * </pre>\n     * \n     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. \n     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. \n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            throw new Error('An error occurred trying to reach the websocket server' + e);\n            //this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
   },
   {
     "__docId__": 75,
@@ -1727,8 +1727,8 @@
     "memberof": "src/datasources/WebsocketDatasource.js~WebsocketDatasource",
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#constructor",
     "access": null,
-    "description": "Creates an instance of WebsocketDatasource.",
-    "lineNumber": 27,
+    "description": "Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n<pre class=\"prettyprint\">\n   var source = {\n     endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n   };\n\n   linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n</pre>\n\nIf new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. ",
+    "lineNumber": 28,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1744,7 +1744,7 @@
         "spread": false,
         "optional": false,
         "name": "source",
-        "description": "Example of source: <br/> \n<pre class=\"prettyprint\">\n   &lt;script&gt;\n   var source = {\n     endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n   };\n   &lt;/script&gt;\n  </pre>"
+        "description": "A websocket endpoint. If invalid, this class will throw an Error."
       }
     ],
     "generator": false
@@ -1759,7 +1759,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#source",
     "access": null,
     "description": null,
-    "lineNumber": 29,
+    "lineNumber": 30,
     "undocument": true,
     "type": {
       "types": [
@@ -1777,7 +1777,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#configure",
     "access": null,
     "description": null,
-    "lineNumber": 32,
+    "lineNumber": 33,
     "undocument": true,
     "params": [
       {
@@ -1799,7 +1799,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 33,
+    "lineNumber": 34,
     "undocument": true,
     "type": {
       "types": [
@@ -1817,7 +1817,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#start",
     "access": null,
     "description": null,
-    "lineNumber": 36,
+    "lineNumber": 37,
     "undocument": true,
     "params": [],
     "generator": false
@@ -1832,7 +1832,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#ws",
     "access": null,
     "description": null,
-    "lineNumber": 38,
+    "lineNumber": 39,
     "undocument": true,
     "type": {
       "types": [
@@ -1850,7 +1850,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#stop",
     "access": null,
     "description": null,
-    "lineNumber": 52,
+    "lineNumber": 54,
     "undocument": true,
     "params": [],
     "generator": false

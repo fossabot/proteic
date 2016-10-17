@@ -382,12 +382,12 @@
       "expectCount": 8,
       "actualCount": 2,
       "undocumentLines": [
-        32,
         33,
-        29,
-        36,
-        52,
-        38
+        34,
+        30,
+        37,
+        54,
+        39
       ]
     },
     "src/svg/components/xAxis.js": {
