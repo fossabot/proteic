@@ -145,22 +145,10 @@ export default class Chart {
         else {
             this.data.push(datum);
         }
-
         this.draw(JSON.parse(JSON.stringify(this.data)));
     }
 
-    _keepDrawingByReplacing(datum) {
-        var datumType = datum.constructor;
-        if (datumType === Array) {
-            this.data = datum;
-        }
-        else {
-            //TODO: find key by datum.x and replace it with new value
-        }
 
-        this.draw(JSON.parse(JSON.stringify(this.data)));
-    }
-    
     /**
      * 
      * This method add a data record / array of data into the current data. 
@@ -196,7 +184,7 @@ export default class Chart {
             console.log('onerror', error);
         });
     }
-    
+
     /**
      * Change a configuration property. They all are also available through a method with the same name of the property.
      * 

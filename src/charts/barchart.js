@@ -47,6 +47,24 @@ export default class Barchart extends Chart {
   keepDrawing(datum) {
     super.keepDrawing(datum, 'replace');
   }
+  
+  _keepDrawingByReplacing(datum) {
+    let datumType = datum.constructor;
+    if (datumType === Array) {
+      this.data = datum;
+    }
+    else {
+      for (let i = 0; i < this.data.length; i++) {
+        var d = this.data[i];
+        if (d.x === datum.x) {
+          this.data[i] = datum;
+          break;
+        }
+      }
+    }
+
+    this.draw(JSON.parse(JSON.stringify(this.data)));
+  }
 
 
 }
