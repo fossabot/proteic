@@ -1,8 +1,29 @@
 import Datasource from './Datasource';
+/**
+ * 
+ * This datasource set up a connection to a websocket server. 
+ * @export
+ * @class WebsocketDatasource
+ * @extends {Datasource}
 
+ */
 export default class WebsocketDatasource extends Datasource {
 
-
+    /**
+     * Creates an instance of WebsocketDatasource.
+     * 
+     * @param {any} source Example of source: <br/> 
+     * <pre class="prettyprint">
+     *    &lt;script&gt;
+     *    var source = {
+     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';
+     *    };
+     *    &lt;/script&gt;
+     *   </pre>
+     *  
+     * @memberOf WebsocketDatasource
+    
+     */
     constructor(source) {
         super();
         this.source = source;

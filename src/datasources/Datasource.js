@@ -42,7 +42,7 @@ export default class Datasource {
     }
 
     /**
-     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded
+     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
      * 
      * @param {any} filter A filter condition
      * @returns this
