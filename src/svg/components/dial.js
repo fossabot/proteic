@@ -73,8 +73,8 @@ export class Dial { // TODO tidy
       .data(this.scaleMarks)
       .enter().append('text')
       .attr('transform', (d) => {
-        var ratio = this.scale(d);
-        var newAngle = config.minAngle + (ratio * this.range);
+        let ratio = this.scale(d);
+        let newAngle = config.minAngle + (ratio * this.range);
         return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - this.r) + ')';
       })
       .text((d) => d)

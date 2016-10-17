@@ -7,19 +7,19 @@
 <!--<![endif]-->
 
 <head>
-    <title>Simple linechart</title>
-    <script src='../node_modules/d3/build/d3.min.js'></script>
-    <script src='../build/proteic.min.js'></script>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<title>Simple linechart</title>
+	<script src='../node_modules/d3/build/d3.min.js'></script>
+	<script src='../build/proteic.min.js'></script>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 
 <body>
-    <div id='chartArea'></div>
+	<div id='chart'></div>
 
-    <div id='chart-temporal'></div>
+	<div id='chart-temporal'></div>
 
 
-    <script>
+	<script>
         var dataArea = [
             {key:'serie1', x:1, y:5},
             {key:'serie1', x:2, y:15},
@@ -40,12 +40,15 @@
     ];
 
     areaLinechart = new proteic.Linechart(dataArea, {
-        selector: '#chartArea',
+        selector: '#chart',
         area: true,
-        height:400,
-        sort: {
-            field: 'x'
-        }
+        width: '90%',
+        height: 400,
+        onClick: (d) => console.log('clicking', d),
+        onUp: (d) => console.log('upping', d),
+        onHover: (d) => console.log('hovering', d),
+        onDown: (d) => console.log('downing', d),
+        onLeave: (d) => console.log('leaving', d),
     });
     areaLinechart.draw();
     
@@ -77,14 +80,12 @@
         ];
 
         temporalLinechart = new proteic.Linechart(temporalData, {
-            x: {
-                type: 'time',
-                format: '%m/%d/%y'
-            },
-            sort: {
-                field : 'x'
-            },
-          selector: '#chart-temporal'
+            xAxisType: 'time',
+            xAxisFormat: '%m/%d/%y',
+            selector: '#chart-temporal',
+            width: '90%',
+            markerSize: 0, // No markers,
+            areaOpacity: 0 // No area
         });
         temporalLinechart.draw();
 

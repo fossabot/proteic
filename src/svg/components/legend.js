@@ -2,15 +2,14 @@ export class Legend {
   constructor() {}
 
   update(svg, config, data) {
-    var dataSeries = d3.nest()
+    let dataSeries = d3.nest()
         .key((d) => d.key)
-        .entries(data)
-      , legend = null
-      , entries = null
-      , entries = null
-      , colorScale = config.colorScale
-      , height = config.height
-      , width = config.width;
+        .entries(data),
+      legend = null,
+      entries = null,
+      colorScale = config.colorScale,
+      height = config.height,
+      width = config.width;
 
     if(dataSeries.length === 1 && dataSeries[0].key === 'undefined'){
       console.warn('Not showing legend, since there is a valid key');

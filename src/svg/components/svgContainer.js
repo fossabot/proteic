@@ -7,19 +7,19 @@ export class SvgContainer {
   }
 
   _initializeSvgContainer(config) {
-    var margin = config.margin
-      , selector = config.selector
-      , width = config.width + margin.left + margin.right
-      , height = config.height + margin.top + margin.bottom;
+      let selector = config.selector,
+      width = config.width + config.marginLeft + config.marginRight,
+      height = config.height + config.marginTop + config.marginBottom,
+      svg = null;
 
-    var svg = d3
+    svg = d3
       .select(selector)
       .append('svg:svg')
       .attr('width', width)
       .attr('height', height)
       .append('g')
       .attr('class', 'chartContainer')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + config.marginLeft + ',' + config.marginTop + ')');
 
     return svg;
   }

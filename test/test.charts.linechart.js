@@ -18,11 +18,11 @@ describe('SvgLinechartStrategy', () => {
   describe('_loadConfigOnContext(config)', () => {
     it('should apply the default configuration if a custom one is ommited', () => {
       var data = [{ x: 0, y: 1 }, { x: 0, y: 2 }];
-      var ticks = 25;
-      var config = { ticks };
+      var markerSize = 20;
+      var config = { markerSize };
       var svg = new SvgLinechartStrategy({ data, config, cType: 'Linechart' });
       var resultConfig = svg._loadConfigOnContext(config).config;
-      resultConfig.should.have.property('ticks').equals(ticks);
+      resultConfig.should.have.property('markerSize').equals(markerSize);
     });
   });
 });

@@ -2,7 +2,7 @@ import * as Colors from '../colors';
 
 export const defaults =  {
     selector: '#chart',
-    colorScale: Colors.diverging_red_blue(),
+    colorScale: Colors.diverging_spectral2(),
     invertColorScale: true,
     minLevel: 0,
     maxLevel: 100,
@@ -15,65 +15,13 @@ export const defaults =  {
     needleLenghtRatio: 0.8,
     numericIndicator: true,
     label: 'km/h',
-    margin: {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 50
-    },
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 30,
+    marginLeft: 50,
+    //Width & height
     width: '50%', // %, auto, or numeric
     height: 250,
-    style: {
-        '.labels': {
-            'font': '18px sans-serif',
-            'text-anchor': 'middle'
-        },
-        '.text-indicator': {
-            'font': '48px sans-serif',
-            'text-anchor': 'middle'
-        },
-        '.needle': {
-            'fill': '#666666'
-        }
-    },
     ticks: 10, // ticks for y dial.
-    markers: {
-        shape: 'circle',
-        size: 5,
-        color: '#FFFCCA',
-        outlineColor: '#537780',
-        outlineWidth: 2
-    },
-    tooltip(data) {
-        return JSON.stringify(data);
-    },
-    events: {
-        down() {
-            d3.select(this).classed('hover', false);
-        },
-        over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 7)
-                ;
-        },
-        leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 5)
-                .style('stroke-width', 2);
-        },
-        click(d, i) {
-            console.log(d, i);
-        }
-    },
-    tickLabel: '',
-    transitionDuration: 300,
-    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
-    sortData: {
-        descending: false,
-        prop: 'x'
-    }
 };

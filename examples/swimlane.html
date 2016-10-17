@@ -95,10 +95,8 @@
 
     //Default config uses #chart selector
     swimlane = new proteic.Swimlane(data, {
-      x:{
-        type: 'time',//no needed, since linechart is always time-liked.
-        format: '%Y-%m-%d'
-      }
+      xAxisFormat: '%Y-%m-%d',
+      onClick: (d) => console.log(d)
     });
     swimlane.draw();
   </script>
