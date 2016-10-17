@@ -1002,6 +1002,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/charts/barchart.js~barchart#data",
+    "class/src/charts/barchart.js~Barchart.html#instance-member-data",
+    "src/charts/barchart.js~Barchart#data",
+    "member"
+  ],
+  [
     "src/charts/barchart.js~barchart#draw",
     "class/src/charts/barchart.js~Barchart.html#instance-method-draw",
     "src/charts/barchart.js~Barchart#draw",

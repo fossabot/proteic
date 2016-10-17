@@ -1,6 +1,6 @@
 {
-  "coverage": "17.55%",
-  "expectCount": 336,
+  "coverage": "17.5%",
+  "expectCount": 337,
   "actualCount": 59,
   "files": {
     "src/svg/components/areaset.js": {
@@ -17,9 +17,10 @@
       ]
     },
     "src/charts/barchart.js": {
-      "expectCount": 5,
+      "expectCount": 6,
       "actualCount": 4,
       "undocumentLines": [
+        54,
         30
       ]
     },
@@ -43,7 +44,7 @@
         59,
         49,
         48,
-        184,
+        172,
         37
       ]
     },
@@ -512,34 +513,6 @@
         1
       ]
     },
-    "src/utils/defaults/linechart.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/gauge.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/barchart.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/swimlane.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
     "src/utils/defaults/streamgraph.js": {
       "expectCount": 1,
       "actualCount": 0,
@@ -547,7 +520,7 @@
         3
       ]
     },
-    "src/utils/defaults/stackedArea.js": {
+    "src/utils/defaults/linechart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -561,7 +534,35 @@
         1
       ]
     },
+    "src/utils/defaults/barchart.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/stackedArea.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/gauge.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
     "src/utils/defaults/sunburst.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/swimlane.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [

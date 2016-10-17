@@ -10,7 +10,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Chart from './base/Chart';\nimport * as defaultProperties from '../utils/defaults/linechart';\n\n/**\n * Barchart implementation. This charts belongs to 'Basic' family.\n * It is inherited on 'Basic'.\n */\nexport default class Barchart extends Chart {\n\n  /**\n   * Barchart constructor. It needs (at least) one argument to start: data.\n   * Optionally, you can indicate a second argument that includes all the chart options. If you \n   * do not specify this, '_default' object is used by default.\n   */\n  constructor(data, config) {\n    super(data, config);\n    let keys = Object.keys(defaultProperties.defaults);\n    this._initializeAPI(keys);\n  }\n\n  /**\n   * Renders a data object on the chart.\n   * @param  {Object} data - This object contains the data that will be rendered on chart. If you do not\n   * specify this param, this.data will be used instead.\n   */\n  draw(data = this.data) {\n    super.draw(data);\n  }\n\n  fire(event, data) {//TODO: improve this section\n    if (event === 'transition') {\n      if (data === 'grouped') {\n        this._svg.strategy.transition2Grouped();\n      }\n      else if (data === 'stacked') {\n        this._svg.strategy.transition2Stacked();\n      }\n\n      this._svg.strategy.draw();\n    }\n  }\n\n  /**\n   * Add new data to the current graph. If it is empty, this creates a new one.\n   * @param  {Object} datum - data to be rendered\n   */\n  keepDrawing(datum) {\n    super.keepDrawing(datum, 'replace');\n  }\n\n\n}"
+    "content": "import Chart from './base/Chart';\nimport * as defaultProperties from '../utils/defaults/linechart';\n\n/**\n * Barchart implementation. This charts belongs to 'Basic' family.\n * It is inherited on 'Basic'.\n */\nexport default class Barchart extends Chart {\n\n  /**\n   * Barchart constructor. It needs (at least) one argument to start: data.\n   * Optionally, you can indicate a second argument that includes all the chart options. If you \n   * do not specify this, '_default' object is used by default.\n   */\n  constructor(data, config) {\n    super(data, config);\n    let keys = Object.keys(defaultProperties.defaults);\n    this._initializeAPI(keys);\n  }\n\n  /**\n   * Renders a data object on the chart.\n   * @param  {Object} data - This object contains the data that will be rendered on chart. If you do not\n   * specify this param, this.data will be used instead.\n   */\n  draw(data = this.data) {\n    super.draw(data);\n  }\n\n  fire(event, data) {//TODO: improve this section\n    if (event === 'transition') {\n      if (data === 'grouped') {\n        this._svg.strategy.transition2Grouped();\n      }\n      else if (data === 'stacked') {\n        this._svg.strategy.transition2Stacked();\n      }\n\n      this._svg.strategy.draw();\n    }\n  }\n\n  /**\n   * Add new data to the current graph. If it is empty, this creates a new one.\n   * @param  {Object} datum - data to be rendered\n   */\n  keepDrawing(datum) {\n    super.keepDrawing(datum, 'replace');\n  }\n  \n  _keepDrawingByReplacing(datum) {\n    let datumType = datum.constructor;\n    if (datumType === Array) {\n      this.data = datum;\n    }\n    else {\n      for (let i = 0; i < this.data.length; i++) {\n        var d = this.data[i];\n        if (d.x === datum.x) {\n          this.data[i] = datum;\n          break;\n        }\n      }\n    }\n\n    this.draw(JSON.parse(JSON.stringify(this.data)));\n  }\n\n\n}"
   },
   {
     "__docId__": 1,
@@ -138,6 +138,46 @@
   },
   {
     "__docId__": 6,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_keepDrawingByReplacing",
+    "memberof": "src/charts/barchart.js~Barchart",
+    "longname": "src/charts/barchart.js~Barchart#_keepDrawingByReplacing",
+    "access": null,
+    "description": null,
+    "lineNumber": 51,
+    "undocument": true,
+    "params": [
+      {
+        "name": "datum",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 7,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "data",
+    "memberof": "src/charts/barchart.js~Barchart",
+    "longname": "src/charts/barchart.js~Barchart#data",
+    "access": null,
+    "description": null,
+    "lineNumber": 54,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -147,10 +187,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { dispatch } from 'd3';\nimport { SvgStrategy, strategies } from '../../svg/SvgStrategy';\nimport { svgAsDataUri } from '../../utils/image';\n\n/**\n * Base class, which includes common methods for all the charts\n * @export Chart\n * @class Chart\n */\nexport default class Chart {\n    /**\n     * Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)\n     * \n     * @param {any} d Data. This object could be an array of data points or a datasource. Examples:\n     * <pre class=\"prettyprint\">\n     * //With datasource\n     * var data = {\n     *       endpoint: 'ws://192.168.3.32:3000/barchart'\n     * };\n     *  var dataSource = new proteic.WebsocketDatasource(data);\n     * \n     * barchart = new proteic.Barchart(dataSource);\n     * \n     * //With data\n     * barchart = new proteic.Barchart([{x:\"SP\", y:2},{x:\"FR\", y:6}]);\n     * </pre>\n     * @param {any} config Configuration of the chart.\n     * \n     * @memberOf Chart\n     */\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Chart') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    /**\n     * Private method. Initialize the API by dinamically creating methods. It creates N method, one per configuration option\n     * \n     * @param {any} properties An array that contains the name of the methods\n     * \n     * @memberOf Chart\n     */\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Return the chart context: data, configuration and type\n     * \n     * @returns chart Chart context\n     * \n     * @memberOf Chart\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\n     * by the chart constructor and should not be used outside of this instance.\n     * \n     * @memberOf Chart\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )\n     * \n     * @param {any} data Data to be painted\n     * \n     * @memberOf Chart\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Make and download an image of the current state of the chart.\n     * \n     * @memberOf Chart\n     */\n    download() {\n        let selector = this._svg.strategy.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector).node(), {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                let link = document.createElement('a');\n                link.style = 'position: fixed; left -10000px;'; // making it invisible\n                link.href = uri\n                link.download = this.constructor.name + '.svg';\n                document.body.appendChild(link);\n                link.click();\n                document.body.removeChild(link);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    _keepDrawingByReplacing(datum) {\n        var datumType = datum.constructor;\n        if (datumType === Array) {\n            this.data = datum;\n        }\n        else {\n            //TODO: find key by datum.x and replace it with new value\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n    \n    /**\n     * \n     * This method add a data record / array of data into the current data. \n     * @param {any} datum\n     * @param {any} method\n     * \n     * @memberOf Chart\n    \n     */\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n    \n    /**\n     * Change a configuration property. They all are also available through a method with the same name of the property.\n     * \n     * @param {any} property property name\n     * @param {any} value the new property value\n     * @returns the instance of the current chart\n     * \n     * @memberOf Chart\n     */\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
+    "content": "import { dispatch } from 'd3';\nimport { SvgStrategy, strategies } from '../../svg/SvgStrategy';\nimport { svgAsDataUri } from '../../utils/image';\n\n/**\n * Base class, which includes common methods for all the charts\n * @export Chart\n * @class Chart\n */\nexport default class Chart {\n    /**\n     * Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)\n     * \n     * @param {any} d Data. This object could be an array of data points or a datasource. Examples:\n     * <pre class=\"prettyprint\">\n     * //With datasource\n     * var data = {\n     *       endpoint: 'ws://192.168.3.32:3000/barchart'\n     * };\n     *  var dataSource = new proteic.WebsocketDatasource(data);\n     * \n     * barchart = new proteic.Barchart(dataSource);\n     * \n     * //With data\n     * barchart = new proteic.Barchart([{x:\"SP\", y:2},{x:\"FR\", y:6}]);\n     * </pre>\n     * @param {any} config Configuration of the chart.\n     * \n     * @memberOf Chart\n     */\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Chart') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    /**\n     * Private method. Initialize the API by dinamically creating methods. It creates N method, one per configuration option\n     * \n     * @param {any} properties An array that contains the name of the methods\n     * \n     * @memberOf Chart\n     */\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Return the chart context: data, configuration and type\n     * \n     * @returns chart Chart context\n     * \n     * @memberOf Chart\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\n     * by the chart constructor and should not be used outside of this instance.\n     * \n     * @memberOf Chart\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )\n     * \n     * @param {any} data Data to be painted\n     * \n     * @memberOf Chart\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Make and download an image of the current state of the chart.\n     * \n     * @memberOf Chart\n     */\n    download() {\n        let selector = this._svg.strategy.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector).node(), {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                let link = document.createElement('a');\n                link.style = 'position: fixed; left -10000px;'; // making it invisible\n                link.href = uri\n                link.download = this.constructor.name + '.svg';\n                document.body.appendChild(link);\n                link.click();\n                document.body.removeChild(link);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n\n    /**\n     * \n     * This method add a data record / array of data into the current data. \n     * @param {any} datum\n     * @param {any} method\n     * \n     * @memberOf Chart\n    \n     */\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n\n    /**\n     * Change a configuration property. They all are also available through a method with the same name of the property.\n     * \n     * @param {any} property property name\n     * @param {any} value the new property value\n     * @returns the instance of the current chart\n     * \n     * @memberOf Chart\n     */\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
   },
   {
-    "__docId__": 7,
+    "__docId__": 9,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -176,7 +216,7 @@
     "interface": false
   },
   {
-    "__docId__": 8,
+    "__docId__": 10,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -217,7 +257,7 @@
     "generator": false
   },
   {
-    "__docId__": 9,
+    "__docId__": 11,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -235,7 +275,7 @@
     }
   },
   {
-    "__docId__": 10,
+    "__docId__": 12,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -253,7 +293,7 @@
     }
   },
   {
-    "__docId__": 11,
+    "__docId__": 13,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -271,7 +311,7 @@
     }
   },
   {
-    "__docId__": 12,
+    "__docId__": 14,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -289,7 +329,7 @@
     }
   },
   {
-    "__docId__": 13,
+    "__docId__": 15,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -307,7 +347,7 @@
     }
   },
   {
-    "__docId__": 14,
+    "__docId__": 16,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -338,7 +378,7 @@
     "generator": false
   },
   {
-    "__docId__": 15,
+    "__docId__": 17,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -370,7 +410,7 @@
     "generator": false
   },
   {
-    "__docId__": 16,
+    "__docId__": 18,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -390,7 +430,7 @@
     "generator": false
   },
   {
-    "__docId__": 17,
+    "__docId__": 19,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -408,7 +448,7 @@
     }
   },
   {
-    "__docId__": 18,
+    "__docId__": 20,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -439,7 +479,7 @@
     "generator": false
   },
   {
-    "__docId__": 19,
+    "__docId__": 21,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -459,7 +499,7 @@
     "generator": false
   },
   {
-    "__docId__": 20,
+    "__docId__": 22,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -481,7 +521,7 @@
     "generator": false
   },
   {
-    "__docId__": 21,
+    "__docId__": 23,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -499,46 +539,6 @@
     }
   },
   {
-    "__docId__": 22,
-    "kind": "method",
-    "static": false,
-    "variation": null,
-    "name": "_keepDrawingByReplacing",
-    "memberof": "src/charts/base/Chart.js~Chart",
-    "longname": "src/charts/base/Chart.js~Chart#_keepDrawingByReplacing",
-    "access": null,
-    "description": null,
-    "lineNumber": 152,
-    "undocument": true,
-    "params": [
-      {
-        "name": "datum",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "generator": false
-  },
-  {
-    "__docId__": 23,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "data",
-    "memberof": "src/charts/base/Chart.js~Chart",
-    "longname": "src/charts/base/Chart.js~Chart#data",
-    "access": null,
-    "description": null,
-    "lineNumber": 155,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
     "__docId__": 24,
     "kind": "method",
     "static": false,
@@ -548,7 +548,7 @@
     "longname": "src/charts/base/Chart.js~Chart#keepDrawing",
     "access": null,
     "description": "\nThis method add a data record / array of data into the current data. ",
-    "lineNumber": 173,
+    "lineNumber": 161,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -589,7 +589,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_configureDatasource",
     "access": null,
     "description": null,
-    "lineNumber": 183,
+    "lineNumber": 171,
     "undocument": true,
     "params": [],
     "generator": false
@@ -604,7 +604,7 @@
     "longname": "src/charts/base/Chart.js~Chart#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 184,
+    "lineNumber": 172,
     "undocument": true,
     "type": {
       "types": [
@@ -622,7 +622,7 @@
     "longname": "src/charts/base/Chart.js~Chart#change",
     "access": null,
     "description": "Change a configuration property. They all are also available through a method with the same name of the property.",
-    "lineNumber": 209,
+    "lineNumber": 197,
     "unknown": [
       {
         "tagName": "@returns",
