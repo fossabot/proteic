@@ -1,7 +1,7 @@
 {
-  "coverage": "16.96%",
+  "coverage": "17.55%",
   "expectCount": 336,
-  "actualCount": 57,
+  "actualCount": 59,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -38,14 +38,13 @@
     },
     "src/charts/base/Chart.js": {
       "expectCount": 11,
-      "actualCount": 5,
+      "actualCount": 6,
       "undocumentLines": [
-        47,
-        37,
-        36,
-        165,
-        25,
-        154
+        59,
+        49,
+        48,
+        184,
+        37
       ]
     },
     "src/datasources/Datasource.js": {
@@ -216,14 +215,13 @@
     },
     "src/svg/base/svgAxis.js": {
       "expectCount": 6,
-      "actualCount": 0,
+      "actualCount": 1,
       "undocumentLines": [
         4,
-        11,
-        24,
-        6,
         18,
-        8
+        42,
+        25,
+        15
       ]
     },
     "src/svg/strategy_barchart.js": {

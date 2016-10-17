@@ -208,7 +208,7 @@
       <div>
         
         
-        <div data-ice="description"><p>This is a non-instanciable Chart.</p>
+        <div data-ice="description"><p>Non-instanciable Chart.</p>
 </div>
       </div>
     </td>
@@ -445,13 +445,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/charts/base/Chart.js~Chart.html#instance-method-keepDrawing">keepDrawing</a></span></span><span data-ice="signature">(datum: <span>*</span>, method: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/src/charts/base/Chart.js~Chart.html#instance-method-keepDrawing">keepDrawing</a></span></span><span data-ice="signature">(datum: <span>any</span>, method: <span>any</span>)</span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>This method add a data record / array of data into the current data.</p>
+</div>
       </div>
     </td>
     <td>
@@ -480,14 +481,14 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber19">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber31">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)</p>
+  <div data-ice="description"><p>Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)</p>
 </div>
 
   
@@ -504,7 +505,20 @@
       <td data-ice="name" data-depth="0">d</td>
       <td data-ice="type"><span>any</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Data. This object could be an array of data points or a datasource. Examples:</p>
+<p><pre class="prettyprint">
+//With datasource
+var data = {
+      endpoint: &apos;ws://192.168.3.32:3000/barchart&apos;
+};
+ var dataSource = new proteic.WebsocketDatasource(data);
+
+barchart = new proteic.Barchart(dataSource);
+
+//With data
+barchart = new proteic.Barchart([{x:&quot;SP&quot;, y:2},{x:&quot;FR&quot;, y:6}]);
+</pre></p>
+</td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">config</td>
@@ -547,7 +561,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber59">source</a></span></span>
     </span>
   </h3>
 
@@ -587,7 +601,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber49">source</a></span></span>
     </span>
   </h3>
 
@@ -627,7 +641,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber36">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber48">source</a></span></span>
     </span>
   </h3>
 
@@ -667,7 +681,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber165">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber184">source</a></span></span>
     </span>
   </h3>
 
@@ -707,7 +721,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -750,7 +764,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber189">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber209">source</a></span></span>
     </span>
   </h3>
 
@@ -826,7 +840,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber121">source</a></span></span>
     </span>
   </h3>
 
@@ -867,15 +881,14 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber101">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber112">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration
-option change)</p>
+  <div data-ice="description"><p>Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )</p>
 </div>
 
   
@@ -891,9 +904,9 @@ option change)</p>
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">data</td>
       <td data-ice="type"><span>any</span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: this.data</li></ul></td>
-      <td data-ice="description"></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Data to be painted</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -922,18 +935,19 @@ option change)</p>
     
     
     
-    <span data-ice="name">keepDrawing</span><span data-ice="signature">(datum: <span>*</span>, method: <span>*</span>)</span>
+    <span data-ice="name">keepDrawing</span><span data-ice="signature">(datum: <span>any</span>, method: <span>any</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber154">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/charts/base/Chart.js.html#lineNumber173">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>This method add a data record / array of data into the current data. </p>
+</div>
 
   
 
@@ -947,13 +961,13 @@ option change)</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">datum</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span>any</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">method</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span>any</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>

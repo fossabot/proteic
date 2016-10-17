@@ -147,7 +147,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { dispatch } from 'd3';\nimport { SvgStrategy, strategies } from '../../svg/SvgStrategy';\nimport { svgAsDataUri } from '../../utils/image';\n\n/**\n * Base class, which includes common methods for all the charts\n * @export\n * @class Chart\n */\nexport default class Chart {\n    /**\n     * This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)\n     * \n     * @param {any} d \n     * @param {any} config Configuration of the chart.\n     * \n     * @memberOf Chart\n     */\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Chart') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    /**\n     * Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter\n     * \n     * @param {any} properties An array that contains the name of the methods\n     * \n     * @memberOf Chart\n     */\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Return the chart context: data, configuration and type\n     * \n     * @returns chart context\n     * \n     * @memberOf Chart\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\n     * by the chart constructor\n     * \n     * @memberOf Chart\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration\n     * option change)\n     * \n     * @param {any} [data=this.data]\n     * \n     * @memberOf Chart\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Make and download an image of the current state of the chart.\n     * \n     * \n     * @memberOf Chart\n     */\n    download() {\n        let selector = this._svg.strategy.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector).node(), {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                let link = document.createElement('a');\n                link.style = 'position: fixed; left -10000px;'; // making it invisible\n                link.href = uri\n                link.download = this.constructor.name + '.svg';\n                document.body.appendChild(link);\n                link.click();\n                document.body.removeChild(link);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    _keepDrawingByReplacing(datum) {\n        var datumType = datum.constructor;\n        if (datumType === Array) {\n            this.data = datum;\n        }\n        else {\n            //TODO: find key by datum.x and replace it with new value\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n    /**\n     * Change a configuration property. They all are also available through a method with the same name of the property.\n     * \n     * @param {any} property property name\n     * @param {any} value the new property value\n     * @returns the instance of the current chart\n     * \n     * @memberOf Chart\n     */\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
+    "content": "import { dispatch } from 'd3';\nimport { SvgStrategy, strategies } from '../../svg/SvgStrategy';\nimport { svgAsDataUri } from '../../utils/image';\n\n/**\n * Base class, which includes common methods for all the charts\n * @export Chart\n * @class Chart\n */\nexport default class Chart {\n    /**\n     * Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)\n     * \n     * @param {any} d Data. This object could be an array of data points or a datasource. Examples:\n     * <pre class=\"prettyprint\">\n     * //With datasource\n     * var data = {\n     *       endpoint: 'ws://192.168.3.32:3000/barchart'\n     * };\n     *  var dataSource = new proteic.WebsocketDatasource(data);\n     * \n     * barchart = new proteic.Barchart(dataSource);\n     * \n     * //With data\n     * barchart = new proteic.Barchart([{x:\"SP\", y:2},{x:\"FR\", y:6}]);\n     * </pre>\n     * @param {any} config Configuration of the chart.\n     * \n     * @memberOf Chart\n     */\n    constructor(d, config) {\n        var clazz = this.constructor.name;\n        if (clazz === 'Chart') {\n            throw new Error(clazz + ' is non-instanciable');\n        }\n\n        this.events = {};\n\n        if (!d && !config) {\n            throw new Error('Missing constructor parameters');\n        }\n\n        let dataFormat = d.constructor.name;\n        let nArguments = (d && config) ? 2 : 1;\n\n        switch (dataFormat) {\n            case 'WebsocketDatasource':\n                this.datasource = d;\n                this.data = [];\n                this._configureDatasource();\n                break;\n            case 'Array':\n                this.data = d;\n                break;\n            default:\n                throw TypeError('Wrong data format');\n        }\n        //if only 1 parameter is specified, take default config. Else, take the second argument as config.\n        this.config = (nArguments === 1) ? {} : config;\n\n        this._initializeSVGContext();\n    }\n\n    /**\n     * Private method. Initialize the API by dinamically creating methods. It creates N method, one per configuration option\n     * \n     * @param {any} properties An array that contains the name of the methods\n     * \n     * @memberOf Chart\n     */\n    _initializeAPI(properties) {\n        let clazz = this.constructor;\n        properties.forEach((method) => {\n            clazz.prototype[method] = function (value) {\n                return this.change(method, value);\n            }\n        });\n    }\n\n    /**\n     * Return the chart context: data, configuration and type\n     * \n     * @returns chart Chart context\n     * \n     * @memberOf Chart\n     */\n    _getChartContext() {\n        return {\n            data: this.data,\n            config: this.config,\n            cType: this.constructor.name\n        };\n    }\n\n    /**\n     * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\n     * by the chart constructor and should not be used outside of this instance.\n     * \n     * @memberOf Chart\n     */\n    _initializeSVGContext() {\n        this._svg = new SvgStrategy(strategies[this.constructor.name](this._getChartContext()));\n    }\n\n    /**\n     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )\n     * \n     * @param {any} data Data to be painted\n     * \n     * @memberOf Chart\n     */\n    draw(data = this.data) {\n        this._svg.draw(data);\n    }\n\n    /**\n     * Make and download an image of the current state of the chart.\n     * \n     * @memberOf Chart\n     */\n    download() {\n        let selector = this._svg.strategy.config.selector + ' ' + 'svg';\n        svgAsDataUri(d3.select(selector).node(), {}, (uri, err) => {\n            if (err) {\n                throw Error('Error converting to image ' + err);\n            }\n            else {\n                let link = document.createElement('a');\n                link.style = 'position: fixed; left -10000px;'; // making it invisible\n                link.href = uri\n                link.download = this.constructor.name + '.svg';\n                document.body.appendChild(link);\n                link.click();\n                document.body.removeChild(link);\n            }\n        });\n    }\n\n    _keepDrawingByAdding(datum) {\n        var datumType = datum.constructor;\n\n        if (datumType === Array) {\n            this.data = this.data.concat(datum);\n        }\n        else {\n            this.data.push(datum);\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n\n    _keepDrawingByReplacing(datum) {\n        var datumType = datum.constructor;\n        if (datumType === Array) {\n            this.data = datum;\n        }\n        else {\n            //TODO: find key by datum.x and replace it with new value\n        }\n\n        this.draw(JSON.parse(JSON.stringify(this.data)));\n    }\n    \n    /**\n     * \n     * This method add a data record / array of data into the current data. \n     * @param {any} datum\n     * @param {any} method\n     * \n     * @memberOf Chart\n    \n     */\n    keepDrawing(datum, method) {\n        if (method === 'add') {\n            this._keepDrawingByAdding(datum);\n        }\n        else {\n            this._keepDrawingByReplacing(datum);\n        }\n\n    }\n\n    _configureDatasource() {\n        this.dispatcher = dispatch('onmessage', 'onopen', 'onerror');\n\n        this.datasource.configure(this.dispatcher);\n\n        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));\n\n\n        this.dispatcher.on('onopen', (event) => {\n            console.log('onopen', event);\n        });\n\n        this.dispatcher.on('onerror', (error) => {\n            console.log('onerror', error);\n        });\n    }\n    \n    /**\n     * Change a configuration property. They all are also available through a method with the same name of the property.\n     * \n     * @param {any} property property name\n     * @param {any} value the new property value\n     * @returns the instance of the current chart\n     * \n     * @memberOf Chart\n     */\n    change(property, value) {\n        this._svg.strategy.changeConfigProperty(property, value);\n        return this;\n    }\n}"
   },
   {
     "__docId__": 7,
@@ -166,7 +166,7 @@
     "unknown": [
       {
         "tagName": "@export",
-        "tagValue": ""
+        "tagValue": "Chart"
       },
       {
         "tagName": "@class",
@@ -184,8 +184,8 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#constructor",
     "access": null,
-    "description": "This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)",
-    "lineNumber": 19,
+    "description": "Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)",
+    "lineNumber": 31,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -201,7 +201,7 @@
         "spread": false,
         "optional": false,
         "name": "d",
-        "description": ""
+        "description": "Data. This object could be an array of data points or a datasource. Examples:\n<pre class=\"prettyprint\">\n//With datasource\nvar data = {\n      endpoint: 'ws://192.168.3.32:3000/barchart'\n};\n var dataSource = new proteic.WebsocketDatasource(data);\n\nbarchart = new proteic.Barchart(dataSource);\n\n//With data\nbarchart = new proteic.Barchart([{x:\"SP\", y:2},{x:\"FR\", y:6}]);\n</pre>"
       },
       {
         "nullable": null,
@@ -226,7 +226,7 @@
     "longname": "src/charts/base/Chart.js~Chart#events",
     "access": null,
     "description": null,
-    "lineNumber": 25,
+    "lineNumber": 37,
     "undocument": true,
     "type": {
       "types": [
@@ -244,7 +244,7 @@
     "longname": "src/charts/base/Chart.js~Chart#datasource",
     "access": null,
     "description": null,
-    "lineNumber": 36,
+    "lineNumber": 48,
     "undocument": true,
     "type": {
       "types": [
@@ -262,7 +262,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 37,
+    "lineNumber": 49,
     "undocument": true,
     "type": {
       "types": [
@@ -280,7 +280,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 41,
+    "lineNumber": 53,
     "undocument": true,
     "type": {
       "types": [
@@ -298,7 +298,7 @@
     "longname": "src/charts/base/Chart.js~Chart#config",
     "access": null,
     "description": null,
-    "lineNumber": 47,
+    "lineNumber": 59,
     "undocument": true,
     "type": {
       "types": [
@@ -315,8 +315,8 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#_initializeAPI",
     "access": null,
-    "description": "Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter",
-    "lineNumber": 59,
+    "description": "Private method. Initialize the API by dinamically creating methods. It creates N method, one per configuration option",
+    "lineNumber": 71,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -347,11 +347,11 @@
     "longname": "src/charts/base/Chart.js~Chart#_getChartContext",
     "access": null,
     "description": "Return the chart context: data, configuration and type",
-    "lineNumber": 75,
+    "lineNumber": 87,
     "unknown": [
       {
         "tagName": "@returns",
-        "tagValue": "chart context"
+        "tagValue": "chart Chart context"
       },
       {
         "tagName": "@memberOf",
@@ -365,7 +365,7 @@
         "*"
       ],
       "spread": false,
-      "description": "chart context"
+      "description": "chart Chart context"
     },
     "generator": false
   },
@@ -378,8 +378,8 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#_initializeSVGContext",
     "access": null,
-    "description": "Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\nby the chart constructor",
-    "lineNumber": 89,
+    "description": "Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked\nby the chart constructor and should not be used outside of this instance.",
+    "lineNumber": 101,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -399,7 +399,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_svg",
     "access": null,
     "description": null,
-    "lineNumber": 90,
+    "lineNumber": 102,
     "undocument": true,
     "type": {
       "types": [
@@ -416,8 +416,8 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#draw",
     "access": null,
-    "description": "Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration\noption change)",
-    "lineNumber": 101,
+    "description": "Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )",
+    "lineNumber": 112,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -431,11 +431,9 @@
           "any"
         ],
         "spread": false,
-        "optional": true,
-        "defaultValue": "this.data",
-        "defaultRaw": "this.data",
+        "optional": false,
         "name": "data",
-        "description": ""
+        "description": "Data to be painted"
       }
     ],
     "generator": false
@@ -450,7 +448,7 @@
     "longname": "src/charts/base/Chart.js~Chart#download",
     "access": null,
     "description": "Make and download an image of the current state of the chart.",
-    "lineNumber": 111,
+    "lineNumber": 121,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -470,7 +468,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_keepDrawingByAdding",
     "access": null,
     "description": null,
-    "lineNumber": 129,
+    "lineNumber": 139,
     "undocument": true,
     "params": [
       {
@@ -492,7 +490,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 133,
+    "lineNumber": 143,
     "undocument": true,
     "type": {
       "types": [
@@ -510,7 +508,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_keepDrawingByReplacing",
     "access": null,
     "description": null,
-    "lineNumber": 142,
+    "lineNumber": 152,
     "undocument": true,
     "params": [
       {
@@ -532,7 +530,7 @@
     "longname": "src/charts/base/Chart.js~Chart#data",
     "access": null,
     "description": null,
-    "lineNumber": 145,
+    "lineNumber": 155,
     "undocument": true,
     "type": {
       "types": [
@@ -549,21 +547,34 @@
     "memberof": "src/charts/base/Chart.js~Chart",
     "longname": "src/charts/base/Chart.js~Chart#keepDrawing",
     "access": null,
-    "description": null,
-    "lineNumber": 154,
-    "undocument": true,
+    "description": "\nThis method add a data record / array of data into the current data. ",
+    "lineNumber": 173,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Chart"
+      }
+    ],
     "params": [
       {
-        "name": "datum",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "datum",
+        "description": ""
       },
       {
-        "name": "method",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "method",
+        "description": ""
       }
     ],
     "generator": false
@@ -578,7 +589,7 @@
     "longname": "src/charts/base/Chart.js~Chart#_configureDatasource",
     "access": null,
     "description": null,
-    "lineNumber": 164,
+    "lineNumber": 183,
     "undocument": true,
     "params": [],
     "generator": false
@@ -593,7 +604,7 @@
     "longname": "src/charts/base/Chart.js~Chart#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 165,
+    "lineNumber": 184,
     "undocument": true,
     "type": {
       "types": [
@@ -611,7 +622,7 @@
     "longname": "src/charts/base/Chart.js~Chart#change",
     "access": null,
     "description": "Change a configuration property. They all are also available through a method with the same name of the property.",
-    "lineNumber": 189,
+    "lineNumber": 209,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2019,7 +2030,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { SvgContainer } from '../components/svgContainer';\nimport { calculateWidth } from '../../utils/screen';\n\nexport class SvgAxis {\n\n    constructor(context) {\n        this._loadConfigOnContext(context.config);\n        this.svgContainer = new SvgContainer(this.config);\n    }\n\n    changeConfigProperty(p, v) {\n        this.config[p] = v;\n        if (p === 'width' || p === 'height') {\n            this.config.needRescaling = true;\n        }\n    }\n\n    rescale(width = this.config.width, height = this.config.height) {\n        this.axes.rescale(width, height);\n        this.config.needRescaling = false;\n    }\n\n    _loadConfigOnContext(config, defaults) {\n        this.config = {};\n        //Selector\n        this.config.selector = config.selector || defaults.selector;\n        //Margins \n        this.config.marginTop = config.marginTop || defaults.marginTop;\n        this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n        this.config.marginRight = config.marginRight || defaults.marginRight;\n        this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n        //Width & height\n        this.config.width = config.width\n            ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n            : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n        this.config.height = config.height || defaults.height;\n        //Axis\n        this.config.xAxisType = config.xAxisType || defaults.xAxisType;\n        this.config.xAxisFormat = config.xAxisFormat || defaults.xAxisFormat;\n        this.config.xAxisLabel = config.xAxisLabel || defaults.xAxisLabel;\n        this.config.yAxisType = config.yAxisType || defaults.yAxisType;\n        this.config.yAxisFormat = config.yAxisFormat || defaults.yAxisFormat;\n        this.config.yAxisLabel = config.yAxisLabel || defaults.yAxisLabel;\n\n        //Color\n        this.config.colorScale = config.colorScale || defaults.colorScale;\n\n        //Events\n        this.config.onDown = config.onDown || defaults.onDown;\n        this.config.onUp = config.onUp || defaults.onUp;\n        this.config.onHover = config.onHover || defaults.onHover;\n        this.config.onClick = config.onClick || defaults.onClick;\n        this.config.onLeave = config.onLeave || defaults.onLeave;\n    }\n\n}"
+    "content": "import { SvgContainer } from '../components/svgContainer';\nimport { calculateWidth } from '../../utils/screen';\n\nexport class SvgAxis {\n    /**\n     * Creates an instance of SvgAxis.\n     * \n     * @param {any} context Chart context. It contains data, configuration and chart type\n     * \n     * @memberOf SvgAxis\n    \n     */\n    constructor(context) {\n        this._loadConfig(context.config);\n        this.svgContainer = new SvgContainer(this.config);\n    }\n\n    changeConfigProperty(p, v) {\n        this.config[p] = v;\n        if (p === 'width' || p === 'height') {\n            this.config.needRescaling = true;\n        }\n    }\n\n    rescale(width = this.config.width, height = this.config.height) {\n        this.axes.rescale(width, height);\n        this.config.needRescaling = false;\n    }\n\n    /**\n     * \n     * Load the configuration context. It creates a configuration global from the parameters specified by users.\n     * If any parameter is empty, this will be replaced by its default option \n     * \n     * @param {any} config User configuration\n     * @param {any} defaults Defaults values for this chart\n     * \n     * @memberOf SvgAxis\n    \n     */\n    _loadConfig(config, defaults) {\n        this.config = {};\n        //Selector\n        this.config.selector = config.selector || defaults.selector;\n        //Margins \n        this.config.marginTop = config.marginTop || defaults.marginTop;\n        this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n        this.config.marginRight = config.marginRight || defaults.marginRight;\n        this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n        //Width & height\n        this.config.width = config.width\n            ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n            : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n        this.config.height = config.height || defaults.height;\n        //Axis\n        this.config.xAxisType = config.xAxisType || defaults.xAxisType;\n        this.config.xAxisFormat = config.xAxisFormat || defaults.xAxisFormat;\n        this.config.xAxisLabel = config.xAxisLabel || defaults.xAxisLabel;\n        this.config.yAxisType = config.yAxisType || defaults.yAxisType;\n        this.config.yAxisFormat = config.yAxisFormat || defaults.yAxisFormat;\n        this.config.yAxisLabel = config.yAxisLabel || defaults.yAxisLabel;\n        //Color\n        this.config.colorScale = config.colorScale || defaults.colorScale;\n        //Events\n        this.config.onDown = config.onDown || defaults.onDown;\n        this.config.onUp = config.onUp || defaults.onUp;\n        this.config.onHover = config.onHover || defaults.onHover;\n        this.config.onClick = config.onClick || defaults.onClick;\n        this.config.onLeave = config.onLeave || defaults.onLeave;\n    }\n\n}"
   },
   {
     "__docId__": 91,
@@ -2047,15 +2058,24 @@
     "memberof": "src/svg/base/svgAxis.js~SvgAxis",
     "longname": "src/svg/base/svgAxis.js~SvgAxis#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
+    "description": "Creates an instance of SvgAxis.",
+    "lineNumber": 13,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "SvgAxis"
+      }
+    ],
     "params": [
       {
-        "name": "context",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "context",
+        "description": "Chart context. It contains data, configuration and chart type"
       }
     ],
     "generator": false
@@ -2070,7 +2090,7 @@
     "longname": "src/svg/base/svgAxis.js~SvgAxis#svgContainer",
     "access": null,
     "description": null,
-    "lineNumber": 8,
+    "lineNumber": 15,
     "undocument": true,
     "type": {
       "types": [
@@ -2088,7 +2108,7 @@
     "longname": "src/svg/base/svgAxis.js~SvgAxis#changeConfigProperty",
     "access": null,
     "description": null,
-    "lineNumber": 11,
+    "lineNumber": 18,
     "undocument": true,
     "params": [
       {
@@ -2116,7 +2136,7 @@
     "longname": "src/svg/base/svgAxis.js~SvgAxis#rescale",
     "access": null,
     "description": null,
-    "lineNumber": 18,
+    "lineNumber": 25,
     "undocument": true,
     "params": [
       {
@@ -2141,25 +2161,38 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/base/svgAxis.js~SvgAxis",
-    "longname": "src/svg/base/svgAxis.js~SvgAxis#_loadConfigOnContext",
+    "longname": "src/svg/base/svgAxis.js~SvgAxis#_loadConfig",
     "access": null,
-    "description": null,
-    "lineNumber": 23,
-    "undocument": true,
+    "description": "\nLoad the configuration context. It creates a configuration global from the parameters specified by users.\nIf any parameter is empty, this will be replaced by its default option ",
+    "lineNumber": 41,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "SvgAxis"
+      }
+    ],
     "params": [
       {
-        "name": "config",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "config",
+        "description": "User configuration"
       },
       {
-        "name": "defaults",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "defaults",
+        "description": "Defaults values for this chart"
       }
     ],
     "generator": false
@@ -2174,7 +2207,7 @@
     "longname": "src/svg/base/svgAxis.js~SvgAxis#config",
     "access": null,
     "description": null,
-    "lineNumber": 24,
+    "lineNumber": 42,
     "undocument": true,
     "type": {
       "types": [
@@ -5850,7 +5883,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/barchart';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {Barset} from './components/barset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\n\nexport class SvgBarchartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes('categorical', 'linear', this.config);\n    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.bars)\n      .add(this.legend);\n\n  }\n\n\n\t/**\n\t * Renders a barchart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data = this.data) { \n    let svg = this.svgContainer.svg,\n      config = this.config,\n      keys = d3.map(data, (d) => d.key).keys(),\n      data4stack = simple2stacked(data),\n      data4render = null,\n      isStacked = this.config.stacked,\n      stack = d3.stack().keys(keys)\n        .value((d, k) => d.value[k])\n        .order(d3.stackOrderNone),\n      yMin = 0,\n      yMax = 0,\n      method = isStacked ? 'stacked' : 'grouped',\n      dataSeries = stack(data4stack),\n      needRescaling = this.config.needRescaling;\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    yMax = isStacked ?\n      d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1])) :\n      d3.max(data, (d) => d.y);\n\n    this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) => d.x).keys(), [yMin, yMax]);\n    this.axes.transition(svg, 200);\n\n    data4render = isStacked ? dataSeries : data;\n\n    this.bars.update(svg, config, data4render, method);\n\n    this.legend.update(svg, config, data);\n\n    this.data = data; // TODO: ? \n\n  }\n\n\n  transition2Stacked() {\n    this.config.stacked = true;\n  }\n\n  transition2Grouped() {\n    this.config.stacked = false;\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfigOnContext(config) {\n    super._loadConfigOnContext(config, defaults);\n    //Stacked\n    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;\n  }\n}"
+    "content": "import {defaults} from '../utils/defaults/barchart';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {Barset} from './components/barset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\n\nexport class SvgBarchartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes('categorical', 'linear', this.config);\n    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.bars)\n      .add(this.legend);\n\n  }\n\n\n\t/**\n\t * Renders a barchart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data = this.data) { \n    let svg = this.svgContainer.svg,\n      config = this.config,\n      keys = d3.map(data, (d) => d.key).keys(),\n      data4stack = simple2stacked(data),\n      data4render = null,\n      isStacked = this.config.stacked,\n      stack = d3.stack().keys(keys)\n        .value((d, k) => d.value[k])\n        .order(d3.stackOrderNone),\n      yMin = 0,\n      yMax = 0,\n      method = isStacked ? 'stacked' : 'grouped',\n      dataSeries = stack(data4stack),\n      needRescaling = this.config.needRescaling;\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    yMax = isStacked ?\n      d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1])) :\n      d3.max(data, (d) => d.y);\n\n    this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) => d.x).keys(), [yMin, yMax]);\n    this.axes.transition(svg, 200);\n\n    data4render = isStacked ? dataSeries : data;\n\n    this.bars.update(svg, config, data4render, method);\n\n    this.legend.update(svg, config, data);\n\n    this.data = data; // TODO: ? \n\n  }\n\n\n  transition2Stacked() {\n    this.config.stacked = true;\n  }\n\n  transition2Grouped() {\n    this.config.stacked = false;\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Stacked\n    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;\n  }\n}"
   },
   {
     "__docId__": 268,
@@ -6026,9 +6059,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_barchart.js~SvgBarchartStrategy",
-    "longname": "src/svg/strategy_barchart.js~SvgBarchartStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_barchart.js~SvgBarchartStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 84,
@@ -6062,7 +6095,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/gauge';\nimport { SvgContainer } from './components/svgContainer';\nimport { Dial } from './components/dial';\nimport { DialNeedle } from './components/dialNeedle';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgGaugeStrategy {\n  constructor(context) {\n    this._loadConfigOnContext(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config;\n\n    this.dial = new Dial('linear', config);\n    this.needle = new DialNeedle('linear', config);\n\n    this.svgContainer\n      .add(this.dial)\n      .add(this.needle);\n\n    if (config.numericIndicator) {\n      let r = (\n        (config.width > config.height)\n          ? config.height\n          : config.width\n      ) / 2;\n      let indicatorOffset = r + 75;\n      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';\n      this.textIndicator = new TextIndicator(config);\n      this.svgContainer.add(this.textIndicator);\n    }\n  }\n\n\t/**\n\t * Renders a gauge chart based on data object\n\t * @param  {Object} data Data Object. Contains a numeric value.\n\t *\n\t */\n  draw(data) {\n    let datum = data[data.length - 1],\n      svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.needle.update(svg, config, data);\n    if (config.numericIndicator) {\n      this.textIndicator.update(svg, datum.x, config.label);\n    }\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfigOnContext(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    this.config.colorScale = config.colorScale || defaults.colorScale;\n    this.config.minLevel = config.minLevel || defaults.minLevel;\n    this.config.maxLevel = config.maxLevel || defaults.maxLevel;\n    this.config.minAngle = config.minAngle || defaults.minAngle;\n    this.config.maxAngle = config.maxAngle || defaults.maxAngle;\n    this.config.ticks = config.ticks || defaults.ticks;\n    this.config.ringWidth = config.ringWidth || defaults.ringWidth;\n    this.config.ringMargin = config.ringMargin || defaults.ringMargin;\n    this.config.labelInset = config.labelInset || defaults.labelInset;\n    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;\n    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;\n    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;\n    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;\n    this.config.label = config.label || defaults.label;\n\n\n    return this;\n  }\n\n}"
+    "content": "import { defaults } from '../utils/defaults/gauge';\nimport { SvgContainer } from './components/svgContainer';\nimport { Dial } from './components/dial';\nimport { DialNeedle } from './components/dialNeedle';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgGaugeStrategy {\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config;\n\n    this.dial = new Dial('linear', config);\n    this.needle = new DialNeedle('linear', config);\n\n    this.svgContainer\n      .add(this.dial)\n      .add(this.needle);\n\n    if (config.numericIndicator) {\n      let r = (\n        (config.width > config.height)\n          ? config.height\n          : config.width\n      ) / 2;\n      let indicatorOffset = r + 75;\n      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';\n      this.textIndicator = new TextIndicator(config);\n      this.svgContainer.add(this.textIndicator);\n    }\n  }\n\n\t/**\n\t * Renders a gauge chart based on data object\n\t * @param  {Object} data Data Object. Contains a numeric value.\n\t *\n\t */\n  draw(data) {\n    let datum = data[data.length - 1],\n      svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.needle.update(svg, config, data);\n    if (config.numericIndicator) {\n      this.textIndicator.update(svg, datum.x, config.label);\n    }\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    this.config.colorScale = config.colorScale || defaults.colorScale;\n    this.config.minLevel = config.minLevel || defaults.minLevel;\n    this.config.maxLevel = config.maxLevel || defaults.maxLevel;\n    this.config.minAngle = config.minAngle || defaults.minAngle;\n    this.config.maxAngle = config.maxAngle || defaults.maxAngle;\n    this.config.ticks = config.ticks || defaults.ticks;\n    this.config.ringWidth = config.ringWidth || defaults.ringWidth;\n    this.config.ringMargin = config.ringMargin || defaults.ringMargin;\n    this.config.labelInset = config.labelInset || defaults.labelInset;\n    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;\n    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;\n    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;\n    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;\n    this.config.label = config.label || defaults.label;\n\n\n    return this;\n  }\n\n}"
   },
   {
     "__docId__": 279,
@@ -6205,9 +6238,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_gauge.js~SvgGaugeStrategy",
-    "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 54,
@@ -6259,7 +6292,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/linechart';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgLinechartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n\n    this.lines = new Lineset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.lines);\n\n    if (this._checkArea(this.config)) {\n      this.areas = new Areaset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.areas);\n    }\n\n    if (this._checkMarkers(this.config)) {\n      this.points = new Pointset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.points);\n    }\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    //Now update lines\n    this.lines.update(svg, config, data);\n\n    if (config.areaOpacity > 0) {\n      // Update areas\n      this.areas.update(svg, config, data);\n    }\n\n    if (this._checkMarkers(config)) {\n      // Update points\n      this.points.update(svg, config, data);\n    }\n\n  }\n\n  _getDomainBBox(data) {\n    var minX = d3.min(data, (d) => d.x),\n      maxX = d3.max(data, (d) => d.x),\n      minY = d3.min(data, (d) => d.y),\n      maxY = d3.max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfigOnContext(config) {\n    super._loadConfigOnContext(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
+    "content": "import { defaults } from '../utils/defaults/linechart';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgLinechartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n\n    this.lines = new Lineset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.lines);\n\n    if (this._checkArea(this.config)) {\n      this.areas = new Areaset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.areas);\n    }\n\n    if (this._checkMarkers(this.config)) {\n      this.points = new Pointset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.points);\n    }\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    //Now update lines\n    this.lines.update(svg, config, data);\n\n    if (config.areaOpacity > 0) {\n      // Update areas\n      this.areas.update(svg, config, data);\n    }\n\n    if (this._checkMarkers(config)) {\n      // Update points\n      this.points.update(svg, config, data);\n    }\n\n  }\n\n  _getDomainBBox(data) {\n    var minX = d3.min(data, (d) => d.x),\n      maxX = d3.max(data, (d) => d.x),\n      minY = d3.min(data, (d) => d.y),\n      maxY = d3.max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
   },
   {
     "__docId__": 289,
@@ -6504,9 +6537,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_linechart.js~SvgLinechartStrategy",
-    "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 106,
@@ -6540,7 +6573,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {SvgContainer} from './components/svgContainer';\nimport {defaults} from '../utils/defaults/networkgraph';\nimport {calculateWidth} from '../utils/screen';\nimport {Nodeset} from './components/nodeset';\n\nexport class SvgNetworkgraphStrategy {\n\n  constructor(context) {\n   \n    this.nodeset = new Nodeset(this.config);\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.nodeset);\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      width = config.width,\n      height = config.height;\n\n    this.nodeset.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfigOnContext(config) {\n    this.config = {};\n    this.config.margin = config.margin || defaults.margin;\n    this.config.selector = config.selector || defaults.selector;\n    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right\n      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;\n    this.config.height = config.height || defaults.height;\n\n  }\n}"
+    "content": "import {SvgContainer} from './components/svgContainer';\nimport {defaults} from '../utils/defaults/networkgraph';\nimport {calculateWidth} from '../utils/screen';\nimport {Nodeset} from './components/nodeset';\n\nexport class SvgNetworkgraphStrategy {\n\n  constructor(context) {\n   \n    this.nodeset = new Nodeset(this.config);\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.nodeset);\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      width = config.width,\n      height = config.height;\n\n    this.nodeset.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    this.config.margin = config.margin || defaults.margin;\n    this.config.selector = config.selector || defaults.selector;\n    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right\n      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;\n    this.config.height = config.height || defaults.height;\n\n  }\n}"
   },
   {
     "__docId__": 302,
@@ -6629,9 +6662,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy",
-    "longname": "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 35,
@@ -6678,7 +6711,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/stackedArea';\nimport { SvgContainer } from './components/svgContainer';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Streamset } from './components/streamset';\nimport { Legend } from './components/legend';\nimport { simple2stacked } from '../utils/dataTransformation';\nimport { calculateWidth } from '../utils/screen';\nimport { convertPropretiesToTimeFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgStackedAreaStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.axes = new XYAxes('time', 'linear', this.config);\n\n        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.axes)\n            .add(this.legend)\n            .add(this.streams);\n    }\n\n\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            data4stack = simple2stacked(data),\n            xDataFormat = this.config.xAxisFormat,\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffNone),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n\n        //rescale, if needed.\n        if (needRescaling) {\n            this.rescale();\n        }\n\n        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n\n        //Sort data\n        sortByField(data, 'x');\n\n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.axes.updateDomainByBBox(bbox);\n        this.axes.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n\n\n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => (d.x)),\n            maxX = d3.max(data, (d) => (d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfigOnContext(config) {\n        super._loadConfigOnContext(config,defaults);\n    }\n}"
+    "content": "import { defaults } from '../utils/defaults/stackedArea';\nimport { SvgContainer } from './components/svgContainer';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Streamset } from './components/streamset';\nimport { Legend } from './components/legend';\nimport { simple2stacked } from '../utils/dataTransformation';\nimport { calculateWidth } from '../utils/screen';\nimport { convertPropretiesToTimeFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgStackedAreaStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.axes = new XYAxes('time', 'linear', this.config);\n\n        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.axes)\n            .add(this.legend)\n            .add(this.streams);\n    }\n\n\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            data4stack = simple2stacked(data),\n            xDataFormat = this.config.xAxisFormat,\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffNone),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n\n        //rescale, if needed.\n        if (needRescaling) {\n            this.rescale();\n        }\n\n        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n\n        //Sort data\n        sortByField(data, 'x');\n\n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.axes.updateDomainByBBox(bbox);\n        this.axes.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n\n\n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => (d.x)),\n            maxX = d3.max(data, (d) => (d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n    }\n}"
   },
   {
     "__docId__": 309,
@@ -6836,9 +6869,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy",
-    "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 82,
@@ -6867,7 +6900,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/streamgraph';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XAxis} from './components/xAxis';\nimport {YAxis} from './components/yAxis';\nimport {Streamset} from './components/streamset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {sortByField} from '../utils/dataSorting';\n\nexport class SvgStreamgraphStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.x = new XAxis('time', this.config);\n        this.y = new YAxis('linear', this.config);\n\n        this.streams = new Streamset(this.x.xAxis, this.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.x)\n            .add(this.y, false) //No render y Axis\n            .add(this.legend)\n            .add(this.streams);\n    }\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            xDataFormat = this.config.xAxisFormat,\n            data4stack = simple2stacked(data),\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffsetWiggle),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n       \n       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n        \n        //Sort data\n        sortByField(data, 'x');\n        \n        //rescale, if needed.\n        if (needRescaling) {\n           this.rescale();\n        }\n        \n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.x.updateDomainByBBox([bbox[0], bbox[1]]);\n        this.y.updateDomainByBBox([bbox[2], bbox[3]]);\n        this.x.transition(svg, 200);\n        this.y.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n  \n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => new Date(d.x)),\n            maxX = d3.max(data, (d) => new Date(d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfigOnContext(config) {\n        super._loadConfigOnContext(config,defaults);\n        return this;\n    }\n}"
+    "content": "import {defaults} from '../utils/defaults/streamgraph';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XAxis} from './components/xAxis';\nimport {YAxis} from './components/yAxis';\nimport {Streamset} from './components/streamset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {sortByField} from '../utils/dataSorting';\n\nexport class SvgStreamgraphStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.x = new XAxis('time', this.config);\n        this.y = new YAxis('linear', this.config);\n\n        this.streams = new Streamset(this.x.xAxis, this.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.x)\n            .add(this.y, false) //No render y Axis\n            .add(this.legend)\n            .add(this.streams);\n    }\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            xDataFormat = this.config.xAxisFormat,\n            data4stack = simple2stacked(data),\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffsetWiggle),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n       \n       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n        \n        //Sort data\n        sortByField(data, 'x');\n        \n        //rescale, if needed.\n        if (needRescaling) {\n           this.rescale();\n        }\n        \n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.x.updateDomainByBBox([bbox[0], bbox[1]]);\n        this.y.updateDomainByBBox([bbox[2], bbox[3]]);\n        this.x.transition(svg, 200);\n        this.y.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n  \n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => new Date(d.x)),\n            maxX = d3.max(data, (d) => new Date(d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n        return this;\n    }\n}"
   },
   {
     "__docId__": 318,
@@ -7043,9 +7076,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy",
-    "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 84,
@@ -7079,7 +7112,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/barchart';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfigOnContext(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config,\n      radius = (Math.min(config.width, config.height) / 2) - 10,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      colorScale = this.config.colorScale;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfigOnContext(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    return this;\n  }\n}\n"
+    "content": "import { defaults } from '../utils/defaults/barchart';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config,\n      radius = (Math.min(config.width, config.height) / 2) - 10,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      colorScale = this.config.colorScale;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    return this;\n  }\n}\n"
   },
   {
     "__docId__": 328,
@@ -7219,9 +7252,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_sunburst.js~SvgSunburstStrategy",
-    "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
     "lineNumber": 46,
@@ -7273,7 +7306,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/swimlane';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {TimeBoxset} from './components/timeBoxset';\nimport {Legend} from './components/legend';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\n\nexport class SvgSwimlaneStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes('time', 'categorical', this.config);\n    this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.boxs)\n      .add(this.legend);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      dataFormat = this.config.xAxisFormat,\n      keys = d3.map(data, (d) => d.key).keys(),\n      bbox = null,\n      needRescaling = this.config.needRescaling;\n\n    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);\n    \n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n    \n    bbox = this._getBBox(data);\n\n    this.axes.updateDomainByBBoxAndKeys(bbox, keys);\n    this.axes.transition(svg, 200);\n\n    this.boxs.update(svg, config, data);\n    this.legend.update(svg, config, data);\n\n  }\n  \n  _getBBox(data) {\n    return [\n      d3.min(data, (d) => (d.x)),\n      d3.max(data, (d) => (d.y))\n    ];\n  }\n\n\n  _loadConfigOnContext(config) {\n    super._loadConfigOnContext(config, defaults);  \n    return this;\n  }\n}"
+    "content": "import {defaults} from '../utils/defaults/swimlane';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {TimeBoxset} from './components/timeBoxset';\nimport {Legend} from './components/legend';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\n\nexport class SvgSwimlaneStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes('time', 'categorical', this.config);\n    this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.boxs)\n      .add(this.legend);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      dataFormat = this.config.xAxisFormat,\n      keys = d3.map(data, (d) => d.key).keys(),\n      bbox = null,\n      needRescaling = this.config.needRescaling;\n\n    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);\n    \n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n    \n    bbox = this._getBBox(data);\n\n    this.axes.updateDomainByBBoxAndKeys(bbox, keys);\n    this.axes.transition(svg, 200);\n\n    this.boxs.update(svg, config, data);\n    this.legend.update(svg, config, data);\n\n  }\n  \n  _getBBox(data) {\n    return [\n      d3.min(data, (d) => (d.x)),\n      d3.max(data, (d) => (d.y))\n    ];\n  }\n\n\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);  \n    return this;\n  }\n}"
   },
   {
     "__docId__": 338,
@@ -7425,9 +7458,9 @@
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "_loadConfigOnContext",
+    "name": "_loadConfig",
     "memberof": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy",
-    "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#_loadConfigOnContext",
+    "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#_loadConfig",
     "access": null,
     "description": null,
     "lineNumber": 57,

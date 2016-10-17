@@ -230,8 +230,8 @@ export class SvgBarchartStrategy extends SvgAxis {
 	 * This method adds config options to the chart context.
 	 * @param  {Object} config Config object
 	 */
-  _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config, defaults);
+  _loadConfig(config) {
+    super._loadConfig(config, defaults);
     //Stacked
     this.config.stacked = typeof (config.stacked) === &apos;undefined&apos; ? defaults.stacked : config.stacked;    return this;
   }
