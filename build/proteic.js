@@ -1047,12 +1047,12 @@ XAxis.prototype.xStyle = function xStyle () {
   d3.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; })
-    .style('fill', function (d) { return '#1a2127'; })
+    .style('fill', function (d) { return '#1a2127'; });
 
 
   d3.select(this).selectAll(['path', 'line'])
     .attr('stroke', 'gray')
-    .attr('stroke-width', .3)
+    .attr('stroke-width', .3);
 
 };
 
@@ -1894,7 +1894,7 @@ var Streamset = function Streamset(xAxis, yAxis) {
     .curve(d3$1.curveCardinal)
     .x(function (d) { return this$1.xAxis.scale()((d3$1.timeParse(this$1.xDataFormat)(d.data.key))); }) // TODO: It seems d3.nest() transform Date object in
     .y0(function (d) { return this$1.yAxis.scale()(d[0]); })
-    .y1(function (d) { return this$1.yAxis.scale()(d[1]); })
+    .y1(function (d) { return this$1.yAxis.scale()(d[1]); });
 };
 
 
@@ -2177,7 +2177,7 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
     y = this.yAxis.scale();
 
   data = simple2nested(data);
-  extLanes = d3.extent(data, function (d, i) { return i; })
+  extLanes = d3.extent(data, function (d, i) { return i; });
   yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 
   layer = svg.selectAll('.serie').data(data);
@@ -3130,7 +3130,7 @@ Chart.prototype._initializeAPI = function _initializeAPI (properties) {
     properties.forEach(function (method) {
         clazz.prototype[method] = function (value) {
             return this.change(method, value);
-        }
+        };
     });
 };
 
@@ -3188,7 +3188,7 @@ Chart.prototype.download = function download () {
         else {
             var link = document.createElement('a');
             link.style = 'position: fixed; left -10000px;'; // making it invisible
-            link.href = uri
+            link.href = uri;
             link.download = this$1.constructor.name + '.svg';
             document.body.appendChild(link);
             link.click();
