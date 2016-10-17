@@ -3744,4 +3744,4 @@ exports.Networkgraph = Networkgraph$1;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=proteic.min.js.map
+//# sourceMappingURL=proteic.js.map
