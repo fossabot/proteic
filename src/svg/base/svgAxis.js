@@ -2,9 +2,16 @@ import { SvgContainer } from '../components/svgContainer';
 import { calculateWidth } from '../../utils/screen';
 
 export class SvgAxis {
-
+    /**
+     * Creates an instance of SvgAxis.
+     * 
+     * @param {any} context Chart context. It contains data, configuration and chart type
+     * 
+     * @memberOf SvgAxis
+    
+     */
     constructor(context) {
-        this._loadConfigOnContext(context.config);
+        this._loadConfig(context.config);
         this.svgContainer = new SvgContainer(this.config);
     }
 
@@ -20,7 +27,18 @@ export class SvgAxis {
         this.config.needRescaling = false;
     }
 
-    _loadConfigOnContext(config, defaults) {
+    /**
+     * 
+     * Load the configuration context. It creates a configuration global from the parameters specified by users.
+     * If any parameter is empty, this will be replaced by its default option 
+     * 
+     * @param {any} config User configuration
+     * @param {any} defaults Defaults values for this chart
+     * 
+     * @memberOf SvgAxis
+    
+     */
+    _loadConfig(config, defaults) {
         this.config = {};
         //Selector
         this.config.selector = config.selector || defaults.selector;
@@ -41,10 +59,8 @@ export class SvgAxis {
         this.config.yAxisType = config.yAxisType || defaults.yAxisType;
         this.config.yAxisFormat = config.yAxisFormat || defaults.yAxisFormat;
         this.config.yAxisLabel = config.yAxisLabel || defaults.yAxisLabel;
-
         //Color
         this.config.colorScale = config.colorScale || defaults.colorScale;
-
         //Events
         this.config.onDown = config.onDown || defaults.onDown;
         this.config.onUp = config.onUp || defaults.onUp;

@@ -38,8 +38,8 @@ After including the script (preferably the minified version for production envir
 As an example, here is how to create a simple Barchart with static data:
 
 ```html
-<script type="text/javascript" src="proteic.min.js"></script>
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="proteic.min.js"></script>
 
 <!-- By default, Proteic.js places the chart into div#chart -->
 <div style id='chart'></div>
@@ -57,6 +57,17 @@ var data = [
 var barchart = new proteic.Barchart(data);
 barchart.draw();
 </script>
+```
+Additionally, as a special feature of barcharts, they can transit from and to different states: `grouped` and `stacked`.
+To transit a barchart to a different state, you can use the following code: 
+```javascript
+barchart.fire('transition', 'grouped');
+```
+
+or
+
+```javascript
+barchart.fire('transition', 'grouped');
 ```
 
 ## Dependencies

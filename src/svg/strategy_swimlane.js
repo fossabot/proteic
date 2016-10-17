@@ -54,8 +54,8 @@ export class SvgSwimlaneStrategy extends SvgAxis {
   }
 
 
-  _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config, defaults);  
+  _loadConfig(config) {
+    super._loadConfig(config, defaults);  
     return this;
   }
 }
