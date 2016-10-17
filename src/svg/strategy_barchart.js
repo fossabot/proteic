@@ -29,7 +29,7 @@ export class SvgBarchartStrategy extends SvgAxis {
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
 	 * 
 	 */
-  draw(data) {
+  draw(data = this.data) { 
     let svg = this.svgContainer.svg,
       config = this.config,
       keys = d3.map(data, (d) => d.key).keys(),
@@ -81,8 +81,8 @@ export class SvgBarchartStrategy extends SvgAxis {
 	 * This method adds config options to the chart context.
 	 * @param  {Object} config Config object
 	 */
-  _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config, defaults);
+  _loadConfig(config) {
+    super._loadConfig(config, defaults);
     //Stacked
     this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;
   }

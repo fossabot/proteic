@@ -2,7 +2,7 @@ import * as Colors from '../colors';
 
 export const defaults = {
     selector: '#chart',
-    colorScale: Colors.category1(),
+    colorScale: Colors.category5(),
     //Stacked
     stacked: true,
     //Axes
@@ -15,8 +15,8 @@ export const defaults = {
     //margins
     marginTop: 20,
     marginRight: 250,
-    marginBottom: 30,
-    marginLeft: 50,
+    marginBottom: 130,
+    marginLeft: 150,
     //width & height
     width: '100%',
     height: 350,

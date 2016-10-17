@@ -8,7 +8,7 @@ import { calculateWidth } from '../utils/screen';
 export class SvgSunburstStrategy {
 
   constructor(context) {
-    this._loadConfigOnContext(context.config);
+    this._loadConfig(context.config);
     this.svgContainer = new SvgContainer(this.config);
     let config = this.config,
       radius = (Math.min(config.width, config.height) / 2) - 10,
@@ -43,7 +43,7 @@ export class SvgSunburstStrategy {
    * This method adds config options to the chart context.
    * @param  {Object} config Config object
    */
-  _loadConfigOnContext(config) {
+  _loadConfig(config) {
     this.config = {};
     //Selector
     this.config.selector = config.selector || defaults.selector;

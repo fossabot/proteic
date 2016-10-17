@@ -103,8 +103,8 @@ export class SvgLinechartStrategy extends SvgAxis {
    * This method adds config options to the chart context.
    * @param  {Object} config Config object
    */
-  _loadConfigOnContext(config) {
-    super._loadConfigOnContext(config, defaults);
+  _loadConfig(config) {
+    super._loadConfig(config, defaults);
     //Markers
     this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;
     this.config.markerShape = config.markerShape || defaults.markerShape;

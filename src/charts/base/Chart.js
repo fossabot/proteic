@@ -4,14 +4,26 @@ import { svgAsDataUri } from '../../utils/image';
 
 /**
  * Base class, which includes common methods for all the charts
- * @export
+ * @export Chart
  * @class Chart
  */
 export default class Chart {
     /**
-     * This is a non-instanciable Chart. This is the pattern class for all the ones (Linechart, Barchart, etc.)
+     * Non-instanciable Chart. This is the parent class for all the ones (Linechart, Barchart, etc.)
      * 
-     * @param {any} d 
+     * @param {any} d Data. This object could be an array of data points or a datasource. Examples:
+     * <pre class="prettyprint">
+     * //With datasource
+     * var data = {
+     *       endpoint: 'ws://192.168.3.32:3000/barchart'
+     * };
+     *  var dataSource = new proteic.WebsocketDatasource(data);
+     * 
+     * barchart = new proteic.Barchart(dataSource);
+     * 
+     * //With data
+     * barchart = new proteic.Barchart([{x:"SP", y:2},{x:"FR", y:6}]);
+     * </pre>
      * @param {any} config Configuration of the chart.
      * 
      * @memberOf Chart
@@ -50,7 +62,7 @@ export default class Chart {
     }
 
     /**
-     * Private method. Initialize the API by creating methods dinamically. It creates N method, one per configuration paremeter
+     * Private method. Initialize the API by dinamically creating methods. It creates N method, one per configuration option
      * 
      * @param {any} properties An array that contains the name of the methods
      * 
@@ -68,7 +80,7 @@ export default class Chart {
     /**
      * Return the chart context: data, configuration and type
      * 
-     * @returns chart context
+     * @returns chart Chart context
      * 
      * @memberOf Chart
      */
@@ -82,7 +94,7 @@ export default class Chart {
 
     /**
      * Initialize the SVG context, by dinamically creating an <svg> tag in the specified selector. It is automatically invoked
-     * by the chart constructor
+     * by the chart constructor and should not be used outside of this instance.
      * 
      * @memberOf Chart
      */
@@ -91,10 +103,9 @@ export default class Chart {
     }
 
     /**
-     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when some configuration
-     * option change)
+     * Paint data into the chart. If no data is specified, it takes by default the last dataset (very useful when repaintng charts )
      * 
-     * @param {any} [data=this.data]
+     * @param {any} data Data to be painted
      * 
      * @memberOf Chart
      */
@@ -104,7 +115,6 @@ export default class Chart {
 
     /**
      * Make and download an image of the current state of the chart.
-     * 
      * 
      * @memberOf Chart
      */
@@ -135,22 +145,19 @@ export default class Chart {
         else {
             this.data.push(datum);
         }
-
         this.draw(JSON.parse(JSON.stringify(this.data)));
     }
 
-    _keepDrawingByReplacing(datum) {
-        var datumType = datum.constructor;
-        if (datumType === Array) {
-            this.data = datum;
-        }
-        else {
-            //TODO: find key by datum.x and replace it with new value
-        }
 
-        this.draw(JSON.parse(JSON.stringify(this.data)));
-    }
-
+    /**
+     * 
+     * This method add a data record / array of data into the current data. 
+     * @param {any} datum
+     * @param {any} method
+     * 
+     * @memberOf Chart
+    
+     */
     keepDrawing(datum, method) {
         if (method === 'add') {
             this._keepDrawingByAdding(datum);
@@ -177,6 +184,7 @@ export default class Chart {
             console.log('onerror', error);
         });
     }
+
     /**
      * Change a configuration property. They all are also available through a method with the same name of the property.
      * 

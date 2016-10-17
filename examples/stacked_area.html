@@ -34,7 +34,9 @@
         {'key': 'ES', x: '01/14/13', y:90},
         {'key': 'UK', x: '01/14/13', y:10}
       ];
-        var stackedArea = new proteic.StackedArea(data);
+        var stackedArea = new proteic.StackedArea(data, {
+          xAxisLabel: 'Date'
+        });
         stackedArea.draw();
   </script>
 </body>
