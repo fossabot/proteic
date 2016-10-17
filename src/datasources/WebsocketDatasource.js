@@ -30,10 +30,24 @@ export default class WebsocketDatasource extends Datasource {
         this.source = source;
     }
     
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf WebsocketDatasource
+     */
     configure(dispatcher) {
         this.dispatcher = dispatcher;
     }
 
+    /**
+     * 
+     * Initialize a websocket connection
+     * 
+     * @memberOf WebsocketDatasource
+    
+     */
     start() {
         super.start();
         this.ws = new WebSocket(this.source.endpoint);
@@ -50,7 +64,11 @@ export default class WebsocketDatasource extends Datasource {
             this.dispatcher.call('onmessage', this, data);
         };
     }
-
+    /**
+     * If started, this method close the websocket connection.
+     * 
+     * @memberOf WebsocketDatasource
+    * */
     stop() {
         super.stop();
         if (this.ws) {
