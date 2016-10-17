@@ -6,7 +6,10 @@ import {Nodeset} from './components/nodeset';
 export class SvgNetworkgraphStrategy {
 
   constructor(context) {
-   
+    this._loadConfig(context.config);
+
+    this.svgContainer = new SvgContainer(this.config);
+
     this.nodeset = new Nodeset(this.config);
 
     //Include components in the chart container
@@ -34,11 +37,16 @@ export class SvgNetworkgraphStrategy {
    */
   _loadConfig(config) {
     this.config = {};
-    this.config.margin = config.margin || defaults.margin;
     this.config.selector = config.selector || defaults.selector;
-    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.margin.left - this.config.margin.right
-      : calculateWidth(defaults.width, this.config.selector) - this.config.margin.left - this.config.margin.right;
+    //Margins 
+    this.config.marginTop = config.marginTop || defaults.marginTop;
+    this.config.marginLeft = config.marginLeft || defaults.marginLeft;
+    this.config.marginRight = config.marginRight || defaults.marginRight;
+    this.config.marginBottom = config.marginBottom || defaults.marginBottom;
+    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
     this.config.height = config.height || defaults.height;
 
+    return this;
   }
 }
