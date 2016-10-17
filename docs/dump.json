@@ -1526,8 +1526,8 @@
     "longname": "src/datasources/Datasource.js",
     "access": null,
     "description": null,
-    "lineNumber": 1,
-    "content": "export default class Datasource{\n    constructor () {\n        this.filters = [];\n    }\n    \n    start(){\n        console.log('Starting datasource');\n    }\n    \n    stop(){\n        console.log('Stopping datasource');\n    }\n    \n    filter (filter){\n        return this;\n    }\n}"
+    "lineNumber": 11,
+    "content": "/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. All the data input that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
   },
   {
     "__docId__": 68,
@@ -1541,9 +1541,18 @@
     "export": true,
     "importPath": "proteic/src/datasources/Datasource.js",
     "importStyle": "Datasource",
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
+    "description": "\nA Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\nsuch as start() and stop().",
+    "lineNumber": 11,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": "Default export: Datasource class"
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Datasource The Datasource class"
+      }
+    ],
     "interface": false
   },
   {
@@ -1555,9 +1564,14 @@
     "memberof": "src/datasources/Datasource.js~Datasource",
     "longname": "src/datasources/Datasource.js~Datasource#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
+    "description": "Creates an instance of Datasource.",
+    "lineNumber": 19,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Datasource"
+      }
+    ],
     "params": [],
     "generator": false
   },
@@ -1571,7 +1585,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#filters",
     "access": null,
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -1588,9 +1602,14 @@
     "memberof": "src/datasources/Datasource.js~Datasource",
     "longname": "src/datasources/Datasource.js~Datasource#start",
     "access": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
+    "description": "Starts the stream of data",
+    "lineNumber": 29,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Datasource"
+      }
+    ],
     "params": [],
     "generator": false
   },
@@ -1603,9 +1622,14 @@
     "memberof": "src/datasources/Datasource.js~Datasource",
     "longname": "src/datasources/Datasource.js~Datasource#stop",
     "access": null,
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
+    "description": "\nIf started, this method stops the stream of data",
+    "lineNumber": 40,
+    "unknown": [
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Datasource"
+      }
+    ],
     "params": [],
     "generator": false
   },
@@ -1618,21 +1642,37 @@
     "memberof": "src/datasources/Datasource.js~Datasource",
     "longname": "src/datasources/Datasource.js~Datasource#filter",
     "access": null,
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
+    "description": "Filters the incoming messages. All the data input that do not comply the filter condition will be discarded",
+    "lineNumber": 52,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "this"
+      },
+      {
+        "tagName": "@memberOf",
+        "tagValue": "Datasource"
+      }
+    ],
     "params": [
       {
-        "name": "filter",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "filter",
+        "description": "A filter condition"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
         "*"
-      ]
+      ],
+      "spread": false,
+      "description": "this"
     },
     "generator": false
   },
