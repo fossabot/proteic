@@ -9512,7 +9512,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category1(),\n    //Stacked\n    stacked: true,\n    //Axes\n    xAxisType: 'linear',\n    xAxisFormat: '%d',\n    xAxisLabel: null,\n    yAxisType: 'linear',\n    yAxisFormat: '%d',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 30,\n    marginLeft: 50,\n    //width & height\n    width: '100%',\n    height: 350,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    }\n};"
+    "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category5(),\n    //Stacked\n    stacked: true,\n    //Axes\n    xAxisType: 'linear',\n    xAxisFormat: '%d',\n    xAxisLabel: null,\n    yAxisType: 'linear',\n    yAxisFormat: '%d',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 30,\n    marginLeft: 50,\n    //width & height\n    width: '100%',\n    height: 350,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    }\n};"
   },
   {
     "__docId__": 441,
