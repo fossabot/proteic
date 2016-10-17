@@ -27,7 +27,7 @@ For these reasons we decided to develop a new web-based visualization library fr
 
 ## Usage
 
-**You can find a more detailed documentation in our [Wiki](https://github.com/proteus-h2020/proteic/wiki)**
+**You can find a more detailed documentation in our [Wiki](https://github.com/proteus-h2020/proteic/wiki) and [JSDoc](http://proteus-h2020.github.io/proteic/docs/)**
 
 Simply add the ``proteic.js`` script to your project and include it in your HTML:
 ```html
