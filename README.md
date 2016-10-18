@@ -96,4 +96,4 @@ We provide the following NPM Scripts to ease the development process. You can ru
 
 ### JSDocs
 
-If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/gen/">site</a>
+If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/">site</a>
