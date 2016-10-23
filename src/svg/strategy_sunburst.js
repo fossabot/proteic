@@ -1,4 +1,4 @@
-import { defaults } from '../utils/defaults/barchart';
+import { defaults } from '../utils/defaults/sunburst';
 import { SvgContainer } from './components/svgContainer';
 import { RadialAxes } from './components/radialAxes';
 import { SunburstDisk } from './components/sunburstDisk';
@@ -9,6 +9,7 @@ export class SvgSunburstStrategy {
 
   constructor(context) {
     this._loadConfig(context.config);
+
     this.svgContainer = new SvgContainer(this.config);
     let config = this.config,
       radius = (Math.min(config.width, config.height) / 2) - 10,
@@ -59,6 +60,13 @@ export class SvgSunburstStrategy {
     this.config.height = config.height || defaults.height;
     
     this.config.colorScale = config.colorScale || defaults.colorScale;
+
+    //Events
+    this.config.onDown = config.onDown || defaults.onDown;
+    this.config.onUp = config.onUp || defaults.onUp;
+    this.config.onHover = config.onHover || defaults.onHover;
+    this.config.onClick = config.onClick || defaults.onClick;
+    this.config.onLeave = config.onLeave || defaults.onLeave;
 
     return this;
   }
