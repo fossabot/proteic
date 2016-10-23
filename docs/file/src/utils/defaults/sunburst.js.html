@@ -151,69 +151,41 @@
 
 export const defaults = {
     selector: &apos;#chart&apos;,
-        colorScale: Colors.category8(),
-        margin: {
-        top: 20,
-            right: 20,
-            bottom: 30,
-            left: 50
-    },
+    colorScale: Colors.category8(),
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 30,
+    marginLeft: 50,
     width: &apos;50%&apos;, // %, auto, or numeric
-        height: 450,
-        style: {
-        &apos;.labels&apos;: {
-            &apos;font&apos;: &apos;18px sans-serif&apos;,
-                &apos;text-anchor&apos;: &apos;middle&apos;
-        },
-        &apos;path&apos;: {
-            &apos;stroke&apos;: &apos;#fff&apos;,
-                &apos;stroke-width&apos;: 2,
-                &apos;shape-rendering&apos;: &apos;crispEdge&apos;
-        },
-        &apos;.infobox&apos;: {
-            &apos;text-anchor&apos;: &apos;middle&apos;,
-                &apos;alignment-baseline&apos;: &apos;central&apos;,
-                &apos;fill&apos;: &apos;black&apos;
-        },
-        &apos;.infobox .name&apos;: {
-            &apos;font&apos;: &apos;28px sans-serif&apos;
-        },
-        &apos;.infobox .value&apos;: {
-            &apos;font&apos;: &apos;24px sans-serif&apos;,
-                &apos;transform&apos;: &apos;translate(0, 1.5em)&apos;
-        }
+    height: 450,
+
+    onDown() {
+        d3.select(this).classed(&apos;hover&apos;, false);
     },
-    tooltip(data) {
-        return data.name + &apos;: &apos; + data.value;
-    },
-    events: {
-        down() {
-            d3.select(this).classed(&apos;hover&apos;, false);
-        },
-        over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr(&apos;r&apos;, 7)
+    onOver() {
+        console.log(this);
+        d3.select(this)
+            .transition()
+            .duration(50)
+            .attr(&apos;r&apos;, 7)
             ;
-        },
-        leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr(&apos;r&apos;, 5)
-                .style(&apos;stroke-width&apos;, 2);
-        },
-        click(d, i) {
-            console.log(d, i);
-        }
+    },
+    onLeave() {
+        d3.select(this)
+            .transition()
+            .duration(50)
+            .attr(&apos;r&apos;, 5)
+            .style(&apos;stroke-width&apos;, 2);
+    },
+    onClick(d, i) {
+        console.log(d, i);
     },
     tickLabel: &apos;&apos;,
-        transitionDuration: 300,
-        maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
-        sortData: {
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
         descending: false,
-            prop: &apos;x&apos;
+        prop: &apos;x&apos;
     }
 };</code></pre>
 

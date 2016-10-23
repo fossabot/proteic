@@ -7135,7 +7135,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/barchart';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config,\n      radius = (Math.min(config.width, config.height) / 2) - 10,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      colorScale = this.config.colorScale;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    return this;\n  }\n}\n"
+    "content": "import { defaults } from '../utils/defaults/sunburst';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config,\n      radius = (Math.min(config.width, config.height) / 2) - 10,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      colorScale = this.config.colorScale;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    //Events\n    this.config.onDown = config.onDown || defaults.onDown;\n    this.config.onUp = config.onUp || defaults.onUp;\n    this.config.onHover = config.onHover || defaults.onHover;\n    this.config.onClick = config.onClick || defaults.onClick;\n    this.config.onLeave = config.onLeave || defaults.onLeave;\n\n    return this;\n  }\n}\n"
   },
   {
     "__docId__": 329,
@@ -7186,7 +7186,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#svgContainer",
     "access": null,
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 13,
     "undocument": true,
     "type": {
       "types": [
@@ -7204,7 +7204,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#axes",
     "access": null,
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -7222,7 +7222,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#disk",
     "access": null,
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 22,
     "undocument": true,
     "type": {
       "types": [
@@ -7240,7 +7240,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#textIndicator",
     "access": null,
     "description": null,
-    "lineNumber": 27,
+    "lineNumber": 28,
     "undocument": true,
     "type": {
       "types": [
@@ -7258,7 +7258,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#draw",
     "access": null,
     "description": null,
-    "lineNumber": 34,
+    "lineNumber": 35,
     "undocument": true,
     "params": [
       {
@@ -7280,7 +7280,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 46,
+    "lineNumber": 47,
     "params": [
       {
         "nullable": null,
@@ -7310,7 +7310,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#config",
     "access": null,
     "description": null,
-    "lineNumber": 47,
+    "lineNumber": 48,
     "undocument": true,
     "type": {
       "types": [
@@ -9849,7 +9849,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n        colorScale: Colors.category8(),\n        margin: {\n        top: 20,\n            right: 20,\n            bottom: 30,\n            left: 50\n    },\n    width: '50%', // %, auto, or numeric\n        height: 450,\n        style: {\n        '.labels': {\n            'font': '18px sans-serif',\n                'text-anchor': 'middle'\n        },\n        'path': {\n            'stroke': '#fff',\n                'stroke-width': 2,\n                'shape-rendering': 'crispEdge'\n        },\n        '.infobox': {\n            'text-anchor': 'middle',\n                'alignment-baseline': 'central',\n                'fill': 'black'\n        },\n        '.infobox .name': {\n            'font': '28px sans-serif'\n        },\n        '.infobox .value': {\n            'font': '24px sans-serif',\n                'transform': 'translate(0, 1.5em)'\n        }\n    },\n    tooltip(data) {\n        return data.name + ': ' + data.value;\n    },\n    events: {\n        down() {\n            d3.select(this).classed('hover', false);\n        },\n        over() {\n            d3.select(this)\n                .transition()\n                .duration(50)\n                .attr('r', 7)\n            ;\n        },\n        leave() {\n            d3.select(this)\n                .transition()\n                .duration(50)\n                .attr('r', 5)\n                .style('stroke-width', 2);\n        },\n        click(d, i) {\n            console.log(d, i);\n        }\n    },\n    tickLabel: '',\n        transitionDuration: 300,\n        maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart\n        sortData: {\n        descending: false,\n            prop: 'x'\n    }\n};"
+    "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category8(),\n    marginTop: 20,\n    marginRight: 20,\n    marginBottom: 30,\n    marginLeft: 50,\n    width: '50%', // %, auto, or numeric\n    height: 450,\n\n    onDown() {\n        d3.select(this).classed('hover', false);\n    },\n    onOver() {\n        console.log(this);\n        d3.select(this)\n            .transition()\n            .duration(50)\n            .attr('r', 7)\n            ;\n    },\n    onLeave() {\n        d3.select(this)\n            .transition()\n            .duration(50)\n            .attr('r', 5)\n            .style('stroke-width', 2);\n    },\n    onClick(d, i) {\n        console.log(d, i);\n    },\n    tickLabel: '',\n    transitionDuration: 300,\n    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart\n    sortData: {\n        descending: false,\n        prop: 'x'\n    }\n};"
   },
   {
     "__docId__": 454,
