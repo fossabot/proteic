@@ -147,17 +147,19 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/lineset.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Lineset {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {line, nest} from &apos;d3&apos;;
+
+export class Lineset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;
-    this.lineGenerator = d3.line()
+    this.lineGenerator = line()
       .x((d) =&gt; this.xAxis.scale()(d.x))
       .y((d) =&gt; this.yAxis.scale()(d.y));
   }
 
   update(svg, config, data) {
-    let dataSeries = d3.nest().key((d) =&gt; d.key).entries(data),
+    let dataSeries = nest().key((d) =&gt; d.key).entries(data),
       series = null,
       lines = null,
       colorScale = config.colorScale;

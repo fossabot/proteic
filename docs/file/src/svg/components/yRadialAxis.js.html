@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/yRadialAxis.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {scaleSqrt} from &apos;d3&apos;;
+
 export class YRadialAxis {
 
   constructor(config) {
@@ -157,7 +158,7 @@ export class YRadialAxis {
 
     let radius = (Math.min(config.width, config.height) / 2) - 10;
 
-    this.yRadialAxis = d3.scaleSqrt()
+    this.yRadialAxis = scaleSqrt()
       .range([0, radius]);
   }
 }</code></pre>

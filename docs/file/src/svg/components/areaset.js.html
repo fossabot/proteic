@@ -147,14 +147,16 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/areaset.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Areaset {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {nest} from &apos;d3&apos;;
+
+export class Areaset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;
   }
 
   update(svg, config, data) {
-    let dataSeries = d3.nest()
+    let dataSeries = nest()
         .key((d) =&gt; d.key)
         .entries(data);
 

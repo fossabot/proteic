@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/dialNeedle.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {deg2rad} from &apos;../../utils/functions&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {deg2rad} from &apos;../../utils/functions&apos;;
+import {scaleLinear, arc, range} from &apos;d3&apos;;
 
 export class DialNeedle { // TODO tidy
   constructor(axisType, config) {
@@ -156,9 +157,8 @@ export class DialNeedle { // TODO tidy
     }
 
     this.r = (
-      (config.width &gt; config.height)
-        ? config.height
-        : config.width
+      (config.width &gt; config.height) ?
+        config.height : config.width
       ) / 2;
 
     this.needleLen = config.needleLenghtRatio * (this.r);
@@ -168,11 +168,11 @@ export class DialNeedle { // TODO tidy
     );
     config.colorScale.domain([0, 1]);
 
-    this.scale = d3.scaleLinear()
+    this.scale = scaleLinear()
         .domain([config.minLevel, config.maxLevel])
         .range([0, 1]);
 
-    this.angleScale = d3.scaleLinear()
+    this.angleScale = scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([90 + config.minAngle, 90 + config.maxAngle]);
 
@@ -180,7 +180,7 @@ export class DialNeedle { // TODO tidy
 
     this.range = config.maxAngle - config.minAngle;
 
-    this.arc = d3.arc()
+    this.arc = arc()
       .innerRadius(this.r - config.ringWidth - config.ringMargin)
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) =&gt; {
@@ -192,7 +192,7 @@ export class DialNeedle { // TODO tidy
         return deg2rad(config.minAngle + (ratio * this.range));
       });
 
-    this.tickData = d3.range(config.ticks)
+    this.tickData = range(config.ticks)
       .map(() =&gt; 1 / config.ticks);
   }
 

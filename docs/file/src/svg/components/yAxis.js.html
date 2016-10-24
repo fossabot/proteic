@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/yAxis.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;;
+import {select, scaleLinear, scaleBand, axisLeft} from &apos;d3&apos;;
 
 export class YAxis {
   constructor(yAxisType, config) {
@@ -168,17 +169,17 @@ export class YAxis {
 
     switch (yAxisType) {
       case &apos;linear&apos;:
-        y = d3.scaleLinear().range([config.height, 0]);
+        y = scaleLinear().range([config.height, 0]);
         break;
       case &apos;categorical&apos;:
-        y = d3.scaleBand().rangeRound([config.height, 0])
+        y = scaleBand().rangeRound([config.height, 0])
           .padding(0.1)
           .align(0.5);
         break;
       default:
         throw new Error(&apos;Not allowed type for YAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + yAxisType);
     }
-    return d3.axisLeft(y)
+    return axisLeft(y)
       .tickSizeInner(-config.width)
       .tickSizeOuter(0)
       .tickPadding(20)
@@ -191,10 +192,10 @@ export class YAxis {
   }
 
   yStyle() {
-    d3.select(this).selectAll(&apos;g.tick text&apos;)
+    select(this).selectAll(&apos;g.tick text&apos;)
       .style(&apos;font&apos;, &apos;1.4em Montserrat, sans-serif&apos;)
       .style(&apos;fill&apos;, (d, i) =&gt; !isEven(i) || i === 0 ? &apos;#5e6b70&apos; : &apos;#1a2127&apos;);
-    d3.select(this).selectAll(&apos;g.tick line&apos;)
+    select(this).selectAll(&apos;g.tick line&apos;)
       .style(&apos;stroke&apos;, (d, i) =&gt; isEven(i) &amp;&amp; i !== 0 ? &apos;#5e6b70&apos; : &apos;#dbdad8&apos;);
   }
 

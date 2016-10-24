@@ -192,7 +192,7 @@ export class SunburstDisk {
       .style(&apos;shape-rendering&apos;, &apos;crispEdge&apos;);
 
       paths // TODO extract events to config?
-        .on(&apos;mouseover&apos;, (d) =&gt; {
+        .on(&apos;mouseover.default&apos;, (d) =&gt; {
           let ancestors = this._getAncestors(d);
           // Fade all the arcs
           if (ancestors.length &gt; 0) {
@@ -206,13 +206,20 @@ export class SunburstDisk {
             svg.select(&apos;.text-indicator .label&apos;).text(d.data.label);
             svg.select(&apos;.text-indicator .value&apos;).text(d.value);
         })
-        .on(&apos;mouseout&apos;, (d) =&gt; {
+        .on(&apos;mouseout.default&apos;, (d) =&gt; {
           svg.selectAll(&apos;path&apos;).style(&apos;opacity&apos;, 1);
           svg.select(&apos;.text-indicator .label&apos;).style(&apos;font-weight&apos;, &apos;normal&apos;);
           svg.select(&apos;.text-indicator .label&apos;).text(&apos;&apos;);
           svg.select(&apos;.text-indicator .value&apos;).text(&apos;&apos;);
         })
       ;
+
+    paths
+      .on(&apos;mousedown.user&apos;, config.onDown)
+      .on(&apos;mouseup.user&apos;, config.onUp)
+      .on(&apos;mouseleave.user&apos;, config.onLeave)
+      .on(&apos;mouseover.user&apos;, config.onHover)
+      .on(&apos;click.user&apos;, config.onClick);
 
     // ???
     svg.select(self.frameElement).style(&apos;height&apos;, this.height + &apos;px&apos;);

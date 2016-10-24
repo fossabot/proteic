@@ -147,13 +147,15 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/pointset.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Pointset {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {nest} from &apos;d3&apos;;
+
+export class Pointset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;
   }
   update(svg, config, data) {
-    let dataSeries = d3.nest()
+    let dataSeries = nest()
       .key((d) =&gt; d.key)
       .entries(data),
       markers = null,

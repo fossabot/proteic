@@ -158,34 +158,21 @@ export const defaults = {
     marginLeft: 50,
     width: &apos;50%&apos;, // %, auto, or numeric
     height: 450,
-
-    onDown() {
-        d3.select(this).classed(&apos;hover&apos;, false);
-    },
-    onOver() {
-        console.log(this);
-        d3.select(this)
-            .transition()
-            .duration(50)
-            .attr(&apos;r&apos;, 7)
-            ;
-    },
-    onLeave() {
-        d3.select(this)
-            .transition()
-            .duration(50)
-            .attr(&apos;r&apos;, 5)
-            .style(&apos;stroke-width&apos;, 2);
-    },
-    onClick(d, i) {
-        console.log(d, i);
-    },
     tickLabel: &apos;&apos;,
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
         descending: false,
         prop: &apos;x&apos;
+    },
+    //Events
+    onDown(d) {
+    },
+    onHover(d) {
+    },
+    onLeave(d) {
+    },
+    onClick(d) {
     }
 };</code></pre>
 

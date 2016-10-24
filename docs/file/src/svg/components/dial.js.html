@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/dial.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {deg2rad} from &apos;../../utils/functions&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {deg2rad} from &apos;../../utils/functions&apos;;
+import {scaleLinear, arc, range} from &apos;d3&apos;;
 
 export class Dial { // TODO tidy
   constructor(axisType, config) {
@@ -156,16 +157,15 @@ export class Dial { // TODO tidy
     }
 
     this.r = (
-      (config.width &gt; config.height)
-        ? config.height
-        : config.width
+      (config.width &gt; config.height) ?
+        config.height : config.width
       ) / 2;
     this.translation = (() =&gt;
     &apos;translate(&apos; + this.r + &apos;,&apos; + this.r + &apos;)&apos;
     );
     config.colorScale.domain([0, 1]);
 
-    this.scale = d3.scaleLinear()
+    this.scale = scaleLinear()
         .domain([config.minLevel, config.maxLevel])
         .range([0, 1]);
 
@@ -173,7 +173,7 @@ export class Dial { // TODO tidy
 
     this.range = config.maxAngle - config.minAngle;
 
-    this.arc = d3.arc()
+    this.arc = arc()
       .innerRadius(this.r - config.ringWidth - config.ringMargin)
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) =&gt; {
@@ -185,7 +185,7 @@ export class Dial { // TODO tidy
         return deg2rad(config.minAngle + (ratio * this.range));
       });
 
-    this.tickData = d3.range(config.ticks)
+    this.tickData = range(config.ticks)
       .map(() =&gt; 1 / config.ticks);
   }
 

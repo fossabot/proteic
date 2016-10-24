@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/xAxis.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;;
+import {select, scaleTime, scaleLinear, scaleBand, axisBottom} from &apos;d3&apos;;
 
 export class XAxis {
   constructor(xAxisType, config) {
@@ -169,13 +170,13 @@ export class XAxis {
 
     switch (xAxisType) {
       case &apos;time&apos;:
-        x = d3.scaleTime().range([0, config.width]);
+        x = scaleTime().range([0, config.width]);
         break;
       case &apos;linear&apos;:
-        x = d3.scaleLinear().range([0, config.width]);
+        x = scaleLinear().range([0, config.width]);
         break;
       case &apos;categorical&apos;:
-        x = d3.scaleBand().rangeRound([0, config.width])
+        x = scaleBand().rangeRound([0, config.width])
           .padding(0.1)
           .align(0.5);
         break;
@@ -183,7 +184,7 @@ export class XAxis {
         throw new Error(&apos;Not allowed type for XAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + xAxisType);
     }
 
-    return d3.axisBottom(x);
+    return axisBottom(x);
   }
 
   transition(svg, time = 200) {
@@ -191,13 +192,13 @@ export class XAxis {
   }
 
   xStyle() {
-    d3.select(this).selectAll(&apos;g.tick text&apos;)
+    select(this).selectAll(&apos;g.tick text&apos;)
       .style(&apos;font&apos;, &apos;1.4em Montserrat, sans-serif&apos;)
       .style(&apos;fill&apos;, (d, i) =&gt; !isEven(i) || i === 0 ? &apos;#5e6b70&apos; : &apos;#1a2127&apos;)
       .style(&apos;fill&apos;, (d) =&gt; &apos;#1a2127&apos;)
 
 
-    d3.select(this).selectAll([&apos;path&apos;, &apos;line&apos;])
+    select(this).selectAll([&apos;path&apos;, &apos;line&apos;])
       .attr(&apos;stroke&apos;, &apos;gray&apos;)
       .attr(&apos;stroke-width&apos;, .3)
 

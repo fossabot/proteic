@@ -148,13 +148,13 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/barset.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {simple2nested} from &apos;../../utils/dataTransformation&apos;
-import {select} from &apos;d3&apos;;
+import {select, map, line, scaleBand} from &apos;d3&apos;;
 
 export class Barset {
   constructor(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;
-    this.lineGenerator = d3.line()
+    this.lineGenerator = line()
       .x((d) =&gt; xAxis.scale()(d.x))
       .y((d) =&gt; yAxis.scale()(d.y));
   }
@@ -222,7 +222,7 @@ export class Barset {
   _updateGrouped(svg, config, data) {
     this._cleanCurrentSeries(svg);
 
-    let keys = d3.map(data, (d) =&gt; d.key).keys(),
+    let keys = map(data, (d) =&gt; d.key).keys(),
       colorScale = config.colorScale,
       layer = svg.selectAll(&apos;.serie&apos;).data(data),
       layerEnter = null,
@@ -232,7 +232,7 @@ export class Barset {
       barMerge = null,
       x = this.xAxis.scale(),
       y = this.yAxis.scale(),
-      xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+      xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
       height = config.height;
 
     data = simple2nested(data, &apos;x&apos;);

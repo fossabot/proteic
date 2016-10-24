@@ -147,7 +147,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/xRadialAxis.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {scaleLinear} from &apos;d3&apos;;
+
 export class XRadialAxis {
 
   constructor(config) {
@@ -155,7 +156,7 @@ export class XRadialAxis {
       throw new Error(&apos;No chart context specified for XRadialAxis&apos;);
     }
 
-    this.xRadialAxis = d3.scaleLinear().range([0, 2 * Math.PI]);
+    this.xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);
   }
 }</code></pre>
 

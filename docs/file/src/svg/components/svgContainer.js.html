@@ -147,7 +147,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/svgContainer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class SvgContainer {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {select} from &apos;d3&apos;;
+
+export class SvgContainer {
 
   constructor(config) {
     this._config = config;
@@ -161,8 +163,7 @@
       height = config.height + config.marginTop + config.marginBottom,
       svg = null;
 
-    svg = d3
-      .select(selector)
+    svg = select(selector)
       .append(&apos;svg:svg&apos;)
       .attr(&apos;width&apos;, width)
       .attr(&apos;height&apos;, height)

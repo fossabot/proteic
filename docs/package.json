@@ -18,7 +18,7 @@
     "chart"
   ],
   "author": "Treelogic S.L.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "d3": "^4.2.7"
   },
