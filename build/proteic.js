@@ -2736,34 +2736,21 @@ var defaults$7 = {
     marginLeft: 50,
     width: '50%', // %, auto, or numeric
     height: 450,
-
-    onDown: function onDown() {
-        d3.select(this).classed('hover', false);
-    },
-    onOver: function onOver() {
-        console.log(this);
-        d3.select(this)
-            .transition()
-            .duration(50)
-            .attr('r', 7)
-            ;
-    },
-    onLeave: function onLeave() {
-        d3.select(this)
-            .transition()
-            .duration(50)
-            .attr('r', 5)
-            .style('stroke-width', 2);
-    },
-    onClick: function onClick(d, i) {
-        console.log(d, i);
-    },
     tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     sortData: {
         descending: false,
         prop: 'x'
+    },
+    //Events
+    onDown: function onDown(d) {
+    },
+    onHover: function onHover(d) {
+    },
+    onLeave: function onLeave(d) {
+    },
+    onClick: function onClick(d) {
     }
 };
 
@@ -2817,8 +2804,8 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
 
   // Create layout partition
   var root = d3$1.stratify()
-    .id(function(d) { return d.id; })
-    .parentId(function(d) { return d.parent; })
+    .id(function (d) { return d.id; })
+    .parentId(function (d) { return d.parent; })
     (data);
 
   root.sum(function (d) { return d.value; });
@@ -2841,7 +2828,7 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
     .style('shape-rendering', 'crispEdge');
 
     paths // TODO extract events to config?
-      .on('mouseover', function (d) {
+      .on('mouseover.default', function (d) {
         var ancestors = this$1._getAncestors(d);
         // Fade all the arcs
         if (ancestors.length > 0) {
@@ -2855,13 +2842,20 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
           svg.select('.text-indicator .label').text(d.data.label);
           svg.select('.text-indicator .value').text(d.value);
       })
-      .on('mouseout', function (d) {
+      .on('mouseout.default', function (d) {
         svg.selectAll('path').style('opacity', 1);
         svg.select('.text-indicator .label').style('font-weight', 'normal');
         svg.select('.text-indicator .label').text('');
         svg.select('.text-indicator .value').text('');
       })
     ;
+
+  paths
+    .on('mousedown.user', config.onDown)
+    .on('mouseup.user', config.onUp)
+    .on('mouseleave.user', config.onLeave)
+    .on('mouseover.user', config.onHover)
+    .on('click.user', config.onClick);
 
   // ???
   svg.select(self.frameElement).style('height', this.height + 'px');
