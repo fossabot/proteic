@@ -1,4 +1,3 @@
-/*jshint -W117 */ // TODO investigate not defined errors
 
 const doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
@@ -17,13 +16,13 @@ function inlineImages(el, callback) {
       var href = image.getAttribute('xlink:href');
       if (href) {
         if (isExternal(href.value)) {
-          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
+          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
           return;
         }
       }
-      let canvas = document.createElement('canvas');
+      let canvas = window.document.createElement('canvas');
       let ctx = canvas.getContext('2d');
-      let img = new Image();
+      let img = new window.Image();
       href = href || image.getAttribute('href');
       img.src = href;
       img.onload = function () {
@@ -37,7 +36,7 @@ function inlineImages(el, callback) {
         }
       };
       img.onerror = function () {
-        console.error('Could not load ' + href);
+        window.console.error('Could not load ' + href);
         left--;
         if (left === 0) {
           callback();
@@ -52,7 +51,7 @@ function styles(el, selectorRemap) {
   let sheets = document.styleSheets;
   for (var i = 0; i < sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
-      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
+      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
       continue;
     }
     let rules = sheets[i].cssRules;
@@ -64,7 +63,7 @@ function styles(el, selectorRemap) {
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
-            console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
+            window.console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
           }
           if (match) {
             var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
@@ -119,7 +118,7 @@ export function svgAsDataUri(el, options, cb) {
     clone.insertBefore(defs, clone.firstChild);
 
     let svg = doctype + outer.innerHTML;
-    let uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+    let uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }

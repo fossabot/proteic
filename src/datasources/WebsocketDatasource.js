@@ -1,5 +1,4 @@
 import Datasource from './Datasource';
-import WebSocket from 'socket.io';
 
 /**
  * 
@@ -52,7 +51,7 @@ export default class WebsocketDatasource extends Datasource {
      */
     start() {
         super.start();
-        this.ws = new WebSocket(this.source.endpoint);
+        this.ws = new window.WebSocket(this.source.endpoint);
 
         this.ws.onopen = (e) => {
             this.dispatcher.call('onopen', this, e);

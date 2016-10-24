@@ -1,4 +1,3 @@
-/*jshint -W117 */ // TODO investigate not defined errors
 import Linechart from '../charts/linechart.js';
 import Barchart from '../charts/barchart.js';
 import Gauge from '../charts/gauge.js';

@@ -1,12 +1,9 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('socket.io'), require('d3')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'socket.io', 'd3'], factory) :
-    (factory((global.proteic = global.proteic || {}),global.WebSocket,global.d3));
-}(this, (function (exports,WebSocket,d3$1) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'd3'], factory) :
+    (factory((global.proteic = global.proteic || {}),global.d3));
+}(this, (function (exports,d3$1) { 'use strict';
 
-WebSocket = 'default' in WebSocket ? WebSocket['default'] : WebSocket;
-
-/*jshint -W117 */ // TODO investigate not defined errors
 /**
  * 
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
@@ -28,7 +25,7 @@ var Datasource = function Datasource() {
  * @memberOf Datasource
  */
 Datasource.prototype.start = function start () {
-    console.log('Starting datasource');
+    window.console.log('Starting datasource');
 };
 
 /**
@@ -39,7 +36,7 @@ Datasource.prototype.start = function start () {
     
  */
 Datasource.prototype.stop = function stop () {
-    console.log('Stopping datasource');
+    window.console.log('Stopping datasource');
 };
 
 /**
@@ -94,7 +91,7 @@ var WebsocketDatasource = (function (Datasource$$1) {
         var this$1 = this;
 
         Datasource$$1.prototype.start.call(this);
-        this.ws = new WebSocket(this.source.endpoint);
+        this.ws = new window.WebSocket(this.source.endpoint);
 
         this.ws.onopen = function (e) {
             this$1.dispatcher.call('onopen', this$1, e);
@@ -3006,8 +3003,6 @@ var strategies = {
   }
 };
 
-/*jshint -W117 */ // TODO investigate not defined errors
-
 var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
 function isExternal(url) {
@@ -3025,13 +3020,13 @@ function inlineImages(el, callback) {
       var href = image.getAttribute('xlink:href');
       if (href) {
         if (isExternal(href.value)) {
-          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
+          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
           return;
         }
       }
-      var canvas = document.createElement('canvas');
+      var canvas = window.document.createElement('canvas');
       var ctx = canvas.getContext('2d');
-      var img = new Image();
+      var img = new window.Image();
       href = href || image.getAttribute('href');
       img.src = href;
       img.onload = function () {
@@ -3045,7 +3040,7 @@ function inlineImages(el, callback) {
         }
       };
       img.onerror = function () {
-        console.error('Could not load ' + href);
+        window.console.error('Could not load ' + href);
         left--;
         if (left === 0) {
           callback();
@@ -3060,7 +3055,7 @@ function styles(el, selectorRemap) {
   var sheets = document.styleSheets;
   for (var i = 0; i < sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
-      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
+      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
       continue;
     }
     var rules = sheets[i].cssRules;
@@ -3072,7 +3067,7 @@ function styles(el, selectorRemap) {
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
-            console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
+            window.console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
           }
           if (match) {
             var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
@@ -3127,7 +3122,7 @@ function svgAsDataUri(el, options, cb) {
     clone.insertBefore(defs, clone.firstChild);
 
     var svg = doctype + outer.innerHTML;
-    var uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+    var uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }

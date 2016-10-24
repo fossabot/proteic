@@ -1,4 +1,3 @@
-/*jshint -W117 */ // TODO investigate not defined errors
 /**
  * 
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
@@ -28,7 +27,7 @@ export default class Datasource {
      * @memberOf Datasource
      */
     start() {
-        console.log('Starting datasource');
+        window.console.log('Starting datasource');
     }
 
     /**
@@ -39,7 +38,7 @@ export default class Datasource {
     
      */
     stop() {
-        console.log('Stopping datasource');
+        window.console.log('Stopping datasource');
     }
 
     /**

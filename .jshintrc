@@ -1,6 +1,8 @@
 {
-   "esversion": 6,
-   "maxerr"        : 50,       // {int} Maximum error before stopping
+   "esversion"      : 6,
+   "maxerr"         : 50,       // {int} Maximum error before stopping
+
+    "browser"       : true,
 
     // Enforcing
     "bitwise"       : true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
