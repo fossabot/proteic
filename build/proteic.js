@@ -2727,6 +2727,46 @@ SvgNetworkgraphStrategy.prototype._loadConfig = function _loadConfig (config) {
   return this;
 };
 
+var defaults$7 = {
+    selector: '#chart',
+    colorScale: category8(),
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 30,
+    marginLeft: 50,
+    width: '50%', // %, auto, or numeric
+    height: 450,
+
+    onDown: function onDown() {
+        d3.select(this).classed('hover', false);
+    },
+    onOver: function onOver() {
+        console.log(this);
+        d3.select(this)
+            .transition()
+            .duration(50)
+            .attr('r', 7)
+            ;
+    },
+    onLeave: function onLeave() {
+        d3.select(this)
+            .transition()
+            .duration(50)
+            .attr('r', 5)
+            .style('stroke-width', 2);
+    },
+    onClick: function onClick(d, i) {
+        console.log(d, i);
+    },
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    }
+};
+
 var XRadialAxis = function XRadialAxis(config) {
   if (config === null) {
     throw new Error('No chart context specified for XRadialAxis');
@@ -2761,7 +2801,7 @@ var SunburstDisk = function SunburstDisk(xRadialAxis, yRadialAxis) {
 
   this.x = xRadialAxis;
   this.y = yRadialAxis;
-  this.arcGen = d3.arc()
+  this.arcGen = d3$1.arc()
     .startAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x0))); })
     .endAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x1))); })
     .innerRadius(function (d) { return Math.max(0, this$1.y(d.y0)); })
@@ -2776,14 +2816,13 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
   this._removePaths(svg);
 
   // Create layout partition
-  var partition = d3.partition();
-  var root = d3.stratify()
+  var root = d3$1.stratify()
     .id(function(d) { return d.id; })
     .parentId(function(d) { return d.parent; })
     (data);
 
   root.sum(function (d) { return d.value; });
-  partition(root);
+  d3$1.partition()(root);
 
   // Draw the paths (arcs)
   var paths = svg.selectAll('path')
@@ -2806,10 +2845,10 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
         var ancestors = this$1._getAncestors(d);
         // Fade all the arcs
         if (ancestors.length > 0) {
-          d3.selectAll('path')
+          svg.selectAll('path')
               .style('opacity', 0.3);
         }
-        d3.selectAll('path')
+        svg.selectAll('path')
           .filter(function (node) { return ancestors.indexOf(node) >= 0; })
           .style('opacity', 1);
         // Hightlight the hovered arc
@@ -2817,15 +2856,15 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
           svg.select('.text-indicator .value').text(d.value);
       })
       .on('mouseout', function (d) {
-        d3.selectAll('path').style('opacity', 1);
-        d3.select('.text-indicator .label').style('font-weight', 'normal');
-        d3.select('.text-indicator .label').text('');
-        d3.select('.text-indicator .value').text('');
+        svg.selectAll('path').style('opacity', 1);
+        svg.select('.text-indicator .label').style('font-weight', 'normal');
+        svg.select('.text-indicator .label').text('');
+        svg.select('.text-indicator .value').text('');
       })
     ;
 
   // ???
-  d3.select(self.frameElement).style('height', this.height + 'px');
+  svg.select(self.frameElement).style('height', this.height + 'px');
 };
 
 /**
@@ -2859,6 +2898,7 @@ SunburstDisk.prototype.render = function render (svg, config) {
 
 var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
   this._loadConfig(context.config);
+
   this.svgContainer = new SvgContainer(this.config);
   var config = this.config,
     radius = (Math.min(config.width, config.height) / 2) - 10,
@@ -2896,19 +2936,26 @@ SvgSunburstStrategy.prototype.draw = function draw (data) {
 SvgSunburstStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config = {};
   //Selector
-  this.config.selector = config.selector || defaults$1.selector;
+  this.config.selector = config.selector || defaults$7.selector;
   //Margins 
-  this.config.marginTop = config.marginTop || defaults$1.marginTop;
-  this.config.marginLeft = config.marginLeft || defaults$1.marginLeft;
-  this.config.marginRight = config.marginRight || defaults$1.marginRight;
-  this.config.marginBottom = config.marginBottom || defaults$1.marginBottom;
+  this.config.marginTop = config.marginTop || defaults$7.marginTop;
+  this.config.marginLeft = config.marginLeft || defaults$7.marginLeft;
+  this.config.marginRight = config.marginRight || defaults$7.marginRight;
+  this.config.marginBottom = config.marginBottom || defaults$7.marginBottom;
   //Width & height
   this.config.width = config.width
     ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
-    : calculateWidth(defaults$1.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
-  this.config.height = config.height || defaults$1.height;
+    : calculateWidth(defaults$7.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
+  this.config.height = config.height || defaults$7.height;
     
-  this.config.colorScale = config.colorScale || defaults$1.colorScale;
+  this.config.colorScale = config.colorScale || defaults$7.colorScale;
+
+  //Events
+  this.config.onDown = config.onDown || defaults$7.onDown;
+  this.config.onUp = config.onUp || defaults$7.onUp;
+  this.config.onHover = config.onHover || defaults$7.onHover;
+  this.config.onClick = config.onClick || defaults$7.onClick;
+  this.config.onLeave = config.onLeave || defaults$7.onLeave;
 
   return this;
 };
@@ -3520,74 +3567,6 @@ var Gauge$1 = (function (Chart$$1) {
 
   return Gauge;
 }(Chart));
-
-var defaults$7 = {
-    selector: '#chart',
-        colorScale: category8(),
-        margin: {
-        top: 20,
-            right: 20,
-            bottom: 30,
-            left: 50
-    },
-    width: '50%', // %, auto, or numeric
-        height: 450,
-        style: {
-        '.labels': {
-            'font': '18px sans-serif',
-                'text-anchor': 'middle'
-        },
-        'path': {
-            'stroke': '#fff',
-                'stroke-width': 2,
-                'shape-rendering': 'crispEdge'
-        },
-        '.infobox': {
-            'text-anchor': 'middle',
-                'alignment-baseline': 'central',
-                'fill': 'black'
-        },
-        '.infobox .name': {
-            'font': '28px sans-serif'
-        },
-        '.infobox .value': {
-            'font': '24px sans-serif',
-                'transform': 'translate(0, 1.5em)'
-        }
-    },
-    tooltip: function tooltip(data) {
-        return data.name + ': ' + data.value;
-    },
-    events: {
-        down: function down() {
-            d3.select(this).classed('hover', false);
-        },
-        over: function over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 7)
-            ;
-        },
-        leave: function leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 5)
-                .style('stroke-width', 2);
-        },
-        click: function click(d, i) {
-            console.log(d, i);
-        }
-    },
-    tickLabel: '',
-        transitionDuration: 300,
-        maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
-        sortData: {
-        descending: false,
-            prop: 'x'
-    }
-};
 
 /**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
