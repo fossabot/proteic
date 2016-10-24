@@ -52,7 +52,7 @@
       "expectCount": 6,
       "actualCount": 5,
       "undocumentLines": [
-        20
+        21
       ]
     },
     "src/svg/components/dial.js": {
@@ -256,25 +256,25 @@
       "actualCount": 1,
       "undocumentLines": [
         8,
-        55,
+        54,
         9,
         14,
         15,
         11,
-        29
+        28
       ]
     },
     "src/svg/strategy_linechart.js": {
       "expectCount": 8,
       "actualCount": 1,
       "undocumentLines": [
-        11,
-        28,
-        16,
-        13,
+        12,
+        29,
+        17,
+        14,
+        20,
         19,
-        18,
-        33
+        34
       ]
     },
     "src/svg/strategy_networkgraph.js": {
@@ -282,7 +282,7 @@
       "actualCount": 1,
       "undocumentLines": [
         6,
-        39,
+        37,
         8,
         13,
         11
@@ -292,12 +292,12 @@
       "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
-        12,
-        17,
-        14,
-        31,
-        21,
-        19
+        11,
+        16,
+        13,
+        30,
+        20,
+        18
       ]
     },
     "src/svg/SvgStrategy.js": {
@@ -315,13 +315,13 @@
       "expectCount": 7,
       "actualCount": 0,
       "undocumentLines": [
-        13,
-        15,
-        32,
-        23,
-        21,
-        18,
-        19
+        12,
+        14,
+        31,
+        22,
+        20,
+        17,
+        18
       ]
     },
     "src/svg/strategy_sunburst.js": {
@@ -330,7 +330,7 @@
       "undocumentLines": [
         8,
         20,
-        48,
+        47,
         10,
         22,
         35,
@@ -342,12 +342,12 @@
       "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
-        10,
+        9,
+        13,
         14,
-        15,
-        12,
-        24,
-        16
+        11,
+        23,
+        15
       ]
     },
     "src/charts/swimlane.js": {
@@ -382,9 +382,9 @@
       "expectCount": 8,
       "actualCount": 5,
       "undocumentLines": [
-        41,
-        30,
-        53
+        43,
+        32,
+        55
       ]
     },
     "src/svg/components/xAxis.js": {
@@ -506,12 +506,12 @@
       "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
-        46,
-        38,
-        18,
-        31,
-        14,
-        1
+        48,
+        40,
+        20,
+        33,
+        16,
+        3
       ]
     },
     "src/utils/defaults/streamgraph.js": {

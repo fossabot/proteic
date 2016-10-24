@@ -147,7 +147,15 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/factory.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">(() =&gt; {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*jshint -W117 */ // TODO investigate not defined errors
+import Linechart from &apos;../charts/linechart.js&apos;;
+import Barchart from &apos;../charts/barchart.js&apos;;
+import Gauge from &apos;../charts/gauge.js&apos;;
+import Streamgraph from &apos;../charts/streamgraph.js&apos;;
+import StackedArea from &apos;../charts/stackedArea.js&apos;;
+import Sunburst from &apos;../charts/sunburst.js&apos;;
+
+(() =&gt; {
   window.ProteusFactory = {
     create(params) {
       switch (params.type) {

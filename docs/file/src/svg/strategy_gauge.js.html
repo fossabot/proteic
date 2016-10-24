@@ -169,9 +169,8 @@ export class SvgGaugeStrategy {
 
     if (config.numericIndicator) {
       let r = (
-        (config.width &gt; config.height)
-          ? config.height
-          : config.width
+        (config.width &gt; config.height) ?
+          config.height : config.width
       ) / 2;
       let indicatorOffset = r + 75;
       config.textIndicatorTranslation = &apos;translate(&apos; + r + &apos;,&apos; + indicatorOffset + &apos;)&apos;;
@@ -210,8 +209,8 @@ export class SvgGaugeStrategy {
     this.config.marginRight = config.marginRight || defaults.marginRight;
     this.config.marginBottom = config.marginBottom || defaults.marginBottom;
     //Width &amp; height
-    this.config.width = config.width
-      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+    this.config.width = config.width ?
+      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
       : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
     this.config.height = config.height || defaults.height;
 

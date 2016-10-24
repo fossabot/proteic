@@ -147,17 +147,17 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/image.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*jshint -W117 */ // TODO investigate not defined errors
+
 const doctype = &apos;&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;&apos;;
 
 function isExternal(url) {
   return url &amp;&amp; url.lastIndexOf(&apos;http&apos;, 0) === 0 &amp;&amp; url.lastIndexOf(window.location.host) === -1;
 }
 
-
 function inlineImages(el, callback) {
-  var images = el.querySelectorAll(&apos;image&apos;);
-  var left = images.length;
+  let images = el.querySelectorAll(&apos;image&apos;);
+  let left = images.length;
   if (left === 0) {
     callback();
   }
@@ -170,9 +170,9 @@ function inlineImages(el, callback) {
           return;
         }
       }
-      var canvas = document.createElement(&apos;canvas&apos;);
-      var ctx = canvas.getContext(&apos;2d&apos;);
-      var img = new Image();
+      let canvas = document.createElement(&apos;canvas&apos;);
+      let ctx = canvas.getContext(&apos;2d&apos;);
+      let img = new Image();
       href = href || image.getAttribute(&apos;href&apos;);
       img.src = href;
       img.onload = function () {
@@ -197,19 +197,19 @@ function inlineImages(el, callback) {
 }
 
 function styles(el, selectorRemap) {
-  var css = &apos;&apos;;
-  var sheets = document.styleSheets;
+  let css = &apos;&apos;;
+  let sheets = document.styleSheets;
   for (var i = 0; i &lt; sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
       console.warn(&apos;Cannot include styles from other hosts: &apos; + sheets[i].href);
       continue;
     }
-    var rules = sheets[i].cssRules;
+    let rules = sheets[i].cssRules;
     if (rules !== null) {
       for (var j = 0; j &lt; rules.length; j++) {
-        var rule = rules[j];
+        let rule = rules[j];
         if (typeof (rule.style) !== &apos;undefined&apos;) {
-          var match = null;
+          let match = null;
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
@@ -241,12 +241,12 @@ export function svgAsDataUri(el, options, cb) {
       width = parseInt(clone.getAttribute(&apos;width&apos;) || clone.style.width || getComputedStyle(el).getPropertyValue(&apos;width&apos;));
       height = parseInt(clone.getAttribute(&apos;height&apos;) || clone.style.height || getComputedStyle(el).getPropertyValue(&apos;height&apos;));
     } else {
-      var box = el.getBBox();
+      let box = el.getBBox();
       width = box.x + box.width;
       height = box.y + box.height;
       clone.setAttribute(&apos;transform&apos;, clone.getAttribute(&apos;transform&apos;).replace(/translate\(.*?\)/, &apos;&apos;));
 
-      var svg = document.createElementNS(&apos;http://www.w3.org/2000/svg&apos;, &apos;svg&apos;);
+      let svg = document.createElementNS(&apos;http://www.w3.org/2000/svg&apos;, &apos;svg&apos;);
       svg.appendChild(clone);
       clone = svg;
     }
@@ -259,21 +259,21 @@ export function svgAsDataUri(el, options, cb) {
     clone.setAttribute(&apos;viewBox&apos;, &apos;0 0 &apos; + width + &apos; &apos; + height);
     outer.appendChild(clone);
 
-    var css = styles(el, options.selectorRemap);
-    var s = document.createElement(&apos;style&apos;);
+    let css = styles(el, options.selectorRemap);
+    let s = document.createElement(&apos;style&apos;);
     s.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
     s.innerHTML = &apos;&lt;![CDATA[\n&apos; + css + &apos;\n]]&gt;&apos;;
-    var defs = document.createElement(&apos;defs&apos;);
+    let defs = document.createElement(&apos;defs&apos;);
     defs.appendChild(s);
     clone.insertBefore(defs, clone.firstChild);
 
-    var svg = doctype + outer.innerHTML;
-    var uri = &apos;data:image/svg+xml;base64,&apos; + window.btoa(unescape(encodeURIComponent(svg)));
+    let svg = doctype + outer.innerHTML;
+    let uri = &apos;data:image/svg+xml;base64,&apos; + window.btoa(unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }
   });
-};
+}
 </code></pre>
 
 </div>

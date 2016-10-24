@@ -148,13 +148,12 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/strategy_swimlane.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {defaults} from &apos;../utils/defaults/swimlane&apos;;
-import {SvgContainer} from &apos;./components/svgContainer&apos;;
 import {SvgAxis} from &apos;./base/svgAxis&apos;;
 import {XYAxes} from &apos;./components/xyAxes&apos;;
 import {TimeBoxset} from &apos;./components/timeBoxset&apos;;
 import {Legend} from &apos;./components/legend&apos;;
-import {calculateWidth} from &apos;../utils/screen&apos;;
 import {convertPropretiesToTimeFormat} from &apos;../utils/dataTransformation&apos;;
+import {min, max, map} from &apos;d3&apos;;
 
 export class SvgSwimlaneStrategy extends SvgAxis {
 
@@ -174,7 +173,7 @@ export class SvgSwimlaneStrategy extends SvgAxis {
     let svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.xAxisFormat,
-      keys = d3.map(data, (d) =&gt; d.key).keys(),
+      keys = map(data, (d) =&gt; d.key).keys(),
       bbox = null,
       needRescaling = this.config.needRescaling;
 
@@ -197,8 +196,8 @@ export class SvgSwimlaneStrategy extends SvgAxis {
   
   _getBBox(data) {
     return [
-      d3.min(data, (d) =&gt; (d.x)),
-      d3.max(data, (d) =&gt; (d.y))
+      min(data, (d) =&gt; (d.x)),
+      max(data, (d) =&gt; (d.y))
     ];
   }
 

@@ -147,10 +147,12 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/dataTransformation.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export function simple2stacked(data) {
-  return d3.nest().key((d) =&gt; d.x).rollup((array) =&gt; {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {nest, timeParse} from &apos;d3&apos;;
+
+export function simple2stacked(data) {
+  return nest().key((d) =&gt; d.x).rollup((array) =&gt; {
     let r = {};
-    for (let i in array) {
+    for (let i = 0; i &lt; array.length; i++) {
       let object = array[i];
       if (object) {
         r[object.key] = object.y;
@@ -161,7 +163,7 @@
 }
 
 export function simple2nested(data, key = &apos;key&apos;) {
-  return d3.nest().key((d) =&gt; d[key]).entries(data);
+  return nest().key((d) =&gt; d[key]).entries(data);
 }
 
 export function nested2simple(data) {
@@ -187,7 +189,7 @@ export function simple2Linked(data) {
 export function convertPropretiesToTimeFormat(data, properties, format) {
   data.forEach((d) =&gt; {
     properties.map((p) =&gt; {
-      d[p] = d3.timeParse(format)(d[p]);
+      d[p] = timeParse(format)(d[p]);
     });
   });
 }
@@ -197,7 +199,7 @@ export function convertByXYFormat(data, config) {
     //parse x coordinate
     switch (config.xAxisType) {
       case &apos;time&apos;:
-        d.x = d3.timeParse(config.xAxisFormat)(d.x);
+        d.x = timeParse(config.xAxisFormat)(d.x);
         break;
       case &apos;linear&apos;:
         d.x = +d.x;
@@ -206,7 +208,7 @@ export function convertByXYFormat(data, config) {
     //parse Y coordinate
     switch (config.yAxisType) {
       case &apos;time&apos;:
-        d.y = d3.timeParse(config.yAxisFormat)(d.y);
+        d.y = timeParse(config.yAxisFormat)(d.y);
         break;
       case &apos;linear&apos;:
         d.y = +d.y;

@@ -153,7 +153,7 @@ import {XYAxes} from &apos;./components/xyAxes&apos;;
 import {Barset} from &apos;./components/barset&apos;;
 import {Legend} from &apos;./components/legend&apos;;
 import {simple2stacked} from &apos;../utils/dataTransformation&apos;;
-import {calculateWidth} from &apos;../utils/screen&apos;;
+import {map, stack as d3Stack, stackOrderNone, max} from &apos;d3&apos;;
 
 export class SvgBarchartStrategy extends SvgAxis {
 
@@ -181,13 +181,13 @@ export class SvgBarchartStrategy extends SvgAxis {
   draw(data = this.data) { 
     let svg = this.svgContainer.svg,
       config = this.config,
-      keys = d3.map(data, (d) =&gt; d.key).keys(),
+      keys = map(data, (d) =&gt; d.key).keys(),
       data4stack = simple2stacked(data),
       data4render = null,
       isStacked = this.config.stacked,
-      stack = d3.stack().keys(keys)
+      stack = d3Stack().keys(keys)
         .value((d, k) =&gt; d.value[k])
-        .order(d3.stackOrderNone),
+        .order(stackOrderNone),
       yMin = 0,
       yMax = 0,
       method = isStacked ? &apos;stacked&apos; : &apos;grouped&apos;,
@@ -201,10 +201,10 @@ export class SvgBarchartStrategy extends SvgAxis {
 
 
     yMax = isStacked ?
-      d3.max(dataSeries, (serie) =&gt; d3.max(serie, (d) =&gt; d[1])) :
-      d3.max(data, (d) =&gt; d.y);
+      max(dataSeries, (serie) =&gt; max(serie, (d) =&gt; d[1])) :
+      max(data, (d) =&gt; d.y);
 
-    this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) =&gt; d.x).keys(), [yMin, yMax]);
+    this.axes.updateDomainByKeysAndBBox(map(data, (d) =&gt; d.x).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
 
     data4render = isStacked ? dataSeries : data;

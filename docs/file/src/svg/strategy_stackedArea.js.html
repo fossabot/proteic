@@ -148,15 +148,14 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/strategy_stackedArea.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { defaults } from &apos;../utils/defaults/stackedArea&apos;;
-import { SvgContainer } from &apos;./components/svgContainer&apos;;
 import { SvgAxis } from &apos;./base/svgAxis&apos;;
 import { XYAxes } from &apos;./components/xyAxes&apos;;
 import { Streamset } from &apos;./components/streamset&apos;;
 import { Legend } from &apos;./components/legend&apos;;
 import { simple2stacked } from &apos;../utils/dataTransformation&apos;;
-import { calculateWidth } from &apos;../utils/screen&apos;;
 import { convertPropretiesToTimeFormat } from &apos;../utils/dataTransformation&apos;;
 import { sortByField } from &apos;../utils/dataSorting&apos;;
+import { min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffNone} from &apos;d3&apos;;
 
 export class SvgStackedAreaStrategy extends SvgAxis {
 
@@ -181,14 +180,14 @@ export class SvgStackedAreaStrategy extends SvgAxis {
         let svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, (d) =&gt; d.key).keys(),
+            keys = map(data, (d) =&gt; d.key).keys(),
             data4stack = simple2stacked(data),
             xDataFormat = this.config.xAxisFormat,
-            stack = d3.stack()
+            stack = d3Stack()
                 .keys(keys)
                 .value((d, k) =&gt; d.value[k])
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone),
+                .order(stackOrderInsideOut)
+                .offset(stackOffNone),
             dataSeries = stack(data4stack),
             needRescaling = this.config.needRescaling;
 
@@ -216,10 +215,10 @@ export class SvgStackedAreaStrategy extends SvgAxis {
 
 
     _getDomainBBox(data, dataSeries) {
-        let minX = d3.min(data, (d) =&gt; (d.x)),
-            maxX = d3.max(data, (d) =&gt; (d.x)),
-            minY = d3.min(dataSeries, (serie) =&gt; d3.min(serie, (d) =&gt; d[0])),
-            maxY = d3.max(dataSeries, (serie) =&gt; d3.max(serie, (d) =&gt; d[1]));
+        let minX = min(data, (d) =&gt; (d.x)),
+            maxX = max(data, (d) =&gt; (d.x)),
+            minY = min(dataSeries, (serie) =&gt; min(serie, (d) =&gt; d[0])),
+            maxY = max(dataSeries, (serie) =&gt; max(serie, (d) =&gt; d[1]));
 
         return [minX, maxX, minY, maxY];
     }

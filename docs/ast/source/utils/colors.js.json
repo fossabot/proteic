@@ -114,7 +114,7 @@
       "source": {
         "type": "Literal",
         "value": "d3",
-        "raw": "\"d3\"",
+        "raw": "'d3'",
         "range": [
           42,
           46
@@ -19331,10 +19331,10 @@
                 "arguments": [
                   {
                     "type": "Identifier",
-                    "name": "paletteDivergingBrownTurquoise",
+                    "name": "paletteDivergingOrangePink",
                     "range": [
                       12306,
-                      12336
+                      12332
                     ],
                     "loc": {
                       "start": {
@@ -19343,14 +19343,14 @@
                       },
                       "end": {
                         "line": 757,
-                        "column": 63
+                        "column": 59
                       }
                     }
                   }
                 ],
                 "range": [
                   12284,
-                  12337
+                  12333
                 ],
                 "loc": {
                   "start": {
@@ -19359,13 +19359,13 @@
                   },
                   "end": {
                     "line": 757,
-                    "column": 64
+                    "column": 60
                   }
                 }
               },
               "range": [
                 12277,
-                12338
+                12334
               ],
               "loc": {
                 "start": {
@@ -19374,14 +19374,14 @@
                 },
                 "end": {
                   "line": 757,
-                  "column": 65
+                  "column": 61
                 }
               }
             }
           ],
           "range": [
             12271,
-            12340
+            12336
           ],
           "loc": {
             "start": {
@@ -19398,7 +19398,7 @@
         "expression": false,
         "range": [
           12238,
-          12340
+          12336
         ],
         "loc": {
           "start": {
@@ -19417,7 +19417,7 @@
       "source": null,
       "range": [
         12231,
-        12340
+        12336
       ],
       "loc": {
         "start": {
@@ -19438,8 +19438,8 @@
           "type": "Identifier",
           "name": "diverging_red_blue",
           "range": [
-            12358,
-            12376
+            12354,
+            12372
           ],
           "loc": {
             "start": {
@@ -19469,8 +19469,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12392,
-                        12405
+                        12388,
+                        12401
                       ],
                       "loc": {
                         "start": {
@@ -19485,8 +19485,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12392,
-                      12407
+                      12388,
+                      12403
                     ],
                     "loc": {
                       "start": {
@@ -19503,8 +19503,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12408,
-                      12413
+                      12404,
+                      12409
                     ],
                     "loc": {
                       "start": {
@@ -19518,8 +19518,8 @@
                     }
                   },
                   "range": [
-                    12392,
-                    12413
+                    12388,
+                    12409
                   ],
                   "loc": {
                     "start": {
@@ -19537,8 +19537,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingRedBlue",
                     "range": [
-                      12414,
-                      12437
+                      12410,
+                      12433
                     ],
                     "loc": {
                       "start": {
@@ -19553,8 +19553,8 @@
                   }
                 ],
                 "range": [
-                  12392,
-                  12438
+                  12388,
+                  12434
                 ],
                 "loc": {
                   "start": {
@@ -19568,8 +19568,8 @@
                 }
               },
               "range": [
-                12385,
-                12439
+                12381,
+                12435
               ],
               "loc": {
                 "start": {
@@ -19584,8 +19584,8 @@
             }
           ],
           "range": [
-            12379,
-            12441
+            12375,
+            12437
           ],
           "loc": {
             "start": {
@@ -19601,8 +19601,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12349,
-          12441
+          12345,
+          12437
         ],
         "loc": {
           "start": {
@@ -19620,8 +19620,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12342,
-        12441
+        12338,
+        12437
       ],
       "loc": {
         "start": {
@@ -19642,8 +19642,8 @@
           "type": "Identifier",
           "name": "diverging_red_grey",
           "range": [
-            12459,
-            12477
+            12455,
+            12473
           ],
           "loc": {
             "start": {
@@ -19673,8 +19673,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12493,
-                        12506
+                        12489,
+                        12502
                       ],
                       "loc": {
                         "start": {
@@ -19689,8 +19689,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12493,
-                      12508
+                      12489,
+                      12504
                     ],
                     "loc": {
                       "start": {
@@ -19707,8 +19707,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12509,
-                      12514
+                      12505,
+                      12510
                     ],
                     "loc": {
                       "start": {
@@ -19722,8 +19722,8 @@
                     }
                   },
                   "range": [
-                    12493,
-                    12514
+                    12489,
+                    12510
                   ],
                   "loc": {
                     "start": {
@@ -19741,8 +19741,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingRedGrey",
                     "range": [
-                      12515,
-                      12538
+                      12511,
+                      12534
                     ],
                     "loc": {
                       "start": {
@@ -19757,8 +19757,8 @@
                   }
                 ],
                 "range": [
-                  12493,
-                  12539
+                  12489,
+                  12535
                 ],
                 "loc": {
                   "start": {
@@ -19772,8 +19772,8 @@
                 }
               },
               "range": [
-                12486,
-                12540
+                12482,
+                12536
               ],
               "loc": {
                 "start": {
@@ -19788,8 +19788,8 @@
             }
           ],
           "range": [
-            12480,
-            12542
+            12476,
+            12538
           ],
           "loc": {
             "start": {
@@ -19805,8 +19805,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12450,
-          12542
+          12446,
+          12538
         ],
         "loc": {
           "start": {
@@ -19824,8 +19824,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12443,
-        12542
+        12439,
+        12538
       ],
       "loc": {
         "start": {
@@ -19846,8 +19846,8 @@
           "type": "Identifier",
           "name": "diverging_orange_violet",
           "range": [
-            12560,
-            12583
+            12556,
+            12579
           ],
           "loc": {
             "start": {
@@ -19877,8 +19877,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12599,
-                        12612
+                        12595,
+                        12608
                       ],
                       "loc": {
                         "start": {
@@ -19893,8 +19893,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12599,
-                      12614
+                      12595,
+                      12610
                     ],
                     "loc": {
                       "start": {
@@ -19911,8 +19911,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12615,
-                      12620
+                      12611,
+                      12616
                     ],
                     "loc": {
                       "start": {
@@ -19926,8 +19926,8 @@
                     }
                   },
                   "range": [
-                    12599,
-                    12620
+                    12595,
+                    12616
                   ],
                   "loc": {
                     "start": {
@@ -19945,8 +19945,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingOrangeViolet",
                     "range": [
-                      12621,
-                      12649
+                      12617,
+                      12645
                     ],
                     "loc": {
                       "start": {
@@ -19961,8 +19961,8 @@
                   }
                 ],
                 "range": [
-                  12599,
-                  12650
+                  12595,
+                  12646
                 ],
                 "loc": {
                   "start": {
@@ -19976,8 +19976,8 @@
                 }
               },
               "range": [
-                12592,
-                12651
+                12588,
+                12647
               ],
               "loc": {
                 "start": {
@@ -19992,8 +19992,8 @@
             }
           ],
           "range": [
-            12586,
-            12653
+            12582,
+            12649
           ],
           "loc": {
             "start": {
@@ -20009,8 +20009,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12551,
-          12653
+          12547,
+          12649
         ],
         "loc": {
           "start": {
@@ -20028,8 +20028,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12544,
-        12653
+        12540,
+        12649
       ],
       "loc": {
         "start": {
@@ -20050,8 +20050,8 @@
           "type": "Identifier",
           "name": "diverging_purple_green",
           "range": [
-            12671,
-            12693
+            12667,
+            12689
           ],
           "loc": {
             "start": {
@@ -20081,8 +20081,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12709,
-                        12722
+                        12705,
+                        12718
                       ],
                       "loc": {
                         "start": {
@@ -20097,8 +20097,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12709,
-                      12724
+                      12705,
+                      12720
                     ],
                     "loc": {
                       "start": {
@@ -20115,8 +20115,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12725,
-                      12730
+                      12721,
+                      12726
                     ],
                     "loc": {
                       "start": {
@@ -20130,8 +20130,8 @@
                     }
                   },
                   "range": [
-                    12709,
-                    12730
+                    12705,
+                    12726
                   ],
                   "loc": {
                     "start": {
@@ -20149,8 +20149,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingPurpleGreen",
                     "range": [
-                      12731,
-                      12758
+                      12727,
+                      12754
                     ],
                     "loc": {
                       "start": {
@@ -20165,8 +20165,8 @@
                   }
                 ],
                 "range": [
-                  12709,
-                  12759
+                  12705,
+                  12755
                 ],
                 "loc": {
                   "start": {
@@ -20180,8 +20180,8 @@
                 }
               },
               "range": [
-                12702,
-                12760
+                12698,
+                12756
               ],
               "loc": {
                 "start": {
@@ -20196,8 +20196,8 @@
             }
           ],
           "range": [
-            12696,
-            12762
+            12692,
+            12758
           ],
           "loc": {
             "start": {
@@ -20213,8 +20213,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12662,
-          12762
+          12658,
+          12758
         ],
         "loc": {
           "start": {
@@ -20232,8 +20232,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12655,
-        12762
+        12651,
+        12758
       ],
       "loc": {
         "start": {
@@ -20254,8 +20254,8 @@
           "type": "Identifier",
           "name": "diverging_violet_green",
           "range": [
-            12780,
-            12802
+            12776,
+            12798
           ],
           "loc": {
             "start": {
@@ -20285,8 +20285,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12818,
-                        12831
+                        12814,
+                        12827
                       ],
                       "loc": {
                         "start": {
@@ -20301,8 +20301,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12818,
-                      12833
+                      12814,
+                      12829
                     ],
                     "loc": {
                       "start": {
@@ -20319,8 +20319,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12834,
-                      12839
+                      12830,
+                      12835
                     ],
                     "loc": {
                       "start": {
@@ -20334,8 +20334,8 @@
                     }
                   },
                   "range": [
-                    12818,
-                    12839
+                    12814,
+                    12835
                   ],
                   "loc": {
                     "start": {
@@ -20353,8 +20353,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingVioletGreen",
                     "range": [
-                      12840,
-                      12867
+                      12836,
+                      12863
                     ],
                     "loc": {
                       "start": {
@@ -20369,8 +20369,8 @@
                   }
                 ],
                 "range": [
-                  12818,
-                  12868
+                  12814,
+                  12864
                 ],
                 "loc": {
                   "start": {
@@ -20384,8 +20384,8 @@
                 }
               },
               "range": [
-                12811,
-                12869
+                12807,
+                12865
               ],
               "loc": {
                 "start": {
@@ -20400,8 +20400,8 @@
             }
           ],
           "range": [
-            12805,
-            12871
+            12801,
+            12867
           ],
           "loc": {
             "start": {
@@ -20417,8 +20417,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12771,
-          12871
+          12767,
+          12867
         ],
         "loc": {
           "start": {
@@ -20436,8 +20436,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12764,
-        12871
+        12760,
+        12867
       ],
       "loc": {
         "start": {
@@ -20458,8 +20458,8 @@
           "type": "Identifier",
           "name": "diverging_red_green",
           "range": [
-            12889,
-            12908
+            12885,
+            12904
           ],
           "loc": {
             "start": {
@@ -20489,8 +20489,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        12924,
-                        12937
+                        12920,
+                        12933
                       ],
                       "loc": {
                         "start": {
@@ -20505,8 +20505,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      12924,
-                      12939
+                      12920,
+                      12935
                     ],
                     "loc": {
                       "start": {
@@ -20523,8 +20523,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      12940,
-                      12945
+                      12936,
+                      12941
                     ],
                     "loc": {
                       "start": {
@@ -20538,8 +20538,8 @@
                     }
                   },
                   "range": [
-                    12924,
-                    12945
+                    12920,
+                    12941
                   ],
                   "loc": {
                     "start": {
@@ -20557,8 +20557,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingRedGreen",
                     "range": [
-                      12946,
-                      12970
+                      12942,
+                      12966
                     ],
                     "loc": {
                       "start": {
@@ -20573,8 +20573,8 @@
                   }
                 ],
                 "range": [
-                  12924,
-                  12971
+                  12920,
+                  12967
                 ],
                 "loc": {
                   "start": {
@@ -20588,8 +20588,8 @@
                 }
               },
               "range": [
-                12917,
-                12972
+                12913,
+                12968
               ],
               "loc": {
                 "start": {
@@ -20604,8 +20604,8 @@
             }
           ],
           "range": [
-            12911,
-            12974
+            12907,
+            12970
           ],
           "loc": {
             "start": {
@@ -20621,8 +20621,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12880,
-          12974
+          12876,
+          12970
         ],
         "loc": {
           "start": {
@@ -20640,8 +20640,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12873,
-        12974
+        12869,
+        12970
       ],
       "loc": {
         "start": {
@@ -20662,8 +20662,8 @@
           "type": "Identifier",
           "name": "diverging_brown_green",
           "range": [
-            12992,
-            13013
+            12988,
+            13009
           ],
           "loc": {
             "start": {
@@ -20693,8 +20693,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        13029,
-                        13042
+                        13025,
+                        13038
                       ],
                       "loc": {
                         "start": {
@@ -20709,8 +20709,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      13029,
-                      13044
+                      13025,
+                      13040
                     ],
                     "loc": {
                       "start": {
@@ -20727,8 +20727,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      13045,
-                      13050
+                      13041,
+                      13046
                     ],
                     "loc": {
                       "start": {
@@ -20742,8 +20742,8 @@
                     }
                   },
                   "range": [
-                    13029,
-                    13050
+                    13025,
+                    13046
                   ],
                   "loc": {
                     "start": {
@@ -20761,8 +20761,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingBrownGreen",
                     "range": [
-                      13051,
-                      13077
+                      13047,
+                      13073
                     ],
                     "loc": {
                       "start": {
@@ -20777,8 +20777,8 @@
                   }
                 ],
                 "range": [
-                  13029,
-                  13078
+                  13025,
+                  13074
                 ],
                 "loc": {
                   "start": {
@@ -20792,8 +20792,8 @@
                 }
               },
               "range": [
-                13022,
-                13079
+                13018,
+                13075
               ],
               "loc": {
                 "start": {
@@ -20808,8 +20808,8 @@
             }
           ],
           "range": [
-            13016,
-            13081
+            13012,
+            13077
           ],
           "loc": {
             "start": {
@@ -20825,8 +20825,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          12983,
-          13081
+          12979,
+          13077
         ],
         "loc": {
           "start": {
@@ -20844,8 +20844,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        12976,
-        13081
+        12972,
+        13077
       ],
       "loc": {
         "start": {
@@ -20866,8 +20866,8 @@
           "type": "Identifier",
           "name": "diverging_lightBrown_turquoise",
           "range": [
-            13099,
-            13129
+            13095,
+            13125
           ],
           "loc": {
             "start": {
@@ -20897,8 +20897,8 @@
                       "type": "Identifier",
                       "name": "scaleQuantile",
                       "range": [
-                        13145,
-                        13158
+                        13141,
+                        13154
                       ],
                       "loc": {
                         "start": {
@@ -20913,8 +20913,8 @@
                     },
                     "arguments": [],
                     "range": [
-                      13145,
-                      13160
+                      13141,
+                      13156
                     ],
                     "loc": {
                       "start": {
@@ -20931,8 +20931,8 @@
                     "type": "Identifier",
                     "name": "range",
                     "range": [
-                      13161,
-                      13166
+                      13157,
+                      13162
                     ],
                     "loc": {
                       "start": {
@@ -20946,8 +20946,8 @@
                     }
                   },
                   "range": [
-                    13145,
-                    13166
+                    13141,
+                    13162
                   ],
                   "loc": {
                     "start": {
@@ -20965,8 +20965,8 @@
                     "type": "Identifier",
                     "name": "paletteDivergingLightBrownTurquoise",
                     "range": [
-                      13167,
-                      13202
+                      13163,
+                      13198
                     ],
                     "loc": {
                       "start": {
@@ -20981,8 +20981,8 @@
                   }
                 ],
                 "range": [
-                  13145,
-                  13203
+                  13141,
+                  13199
                 ],
                 "loc": {
                   "start": {
@@ -20996,8 +20996,8 @@
                 }
               },
               "range": [
-                13138,
-                13204
+                13134,
+                13200
               ],
               "loc": {
                 "start": {
@@ -21012,8 +21012,8 @@
             }
           ],
           "range": [
-            13132,
-            13206
+            13128,
+            13202
           ],
           "loc": {
             "start": {
@@ -21029,8 +21029,8 @@
         "generator": false,
         "expression": false,
         "range": [
-          13090,
-          13206
+          13086,
+          13202
         ],
         "loc": {
           "start": {
@@ -21048,8 +21048,8 @@
       "specifiers": [],
       "source": null,
       "range": [
-        13083,
-        13206
+        13079,
+        13202
       ],
       "loc": {
         "start": {
@@ -21066,7 +21066,7 @@
   "sourceType": "module",
   "range": [
     0,
-    13206
+    13202
   ],
   "loc": {
     "start": {

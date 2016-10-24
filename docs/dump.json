@@ -1275,7 +1275,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Chart from './base/Chart';\nimport * as defaultProperties from '../utils/defaults/sunburst';\n\n/**\n * Sunburst implementation. This charts belongs to 'Hierarchical' family.\n */\nexport default class Sunburst extends Chart {\n\n  /**\n   * Sunburst constructor. It needs (at least) one argument to start: data.\n   * Optionally, you can indicate a second argument that includes all the chart options. If you\n   * do not specify this, '_default' object is used by default.\n   */\n  constructor(data, config) {\n    super(data, config);\n  }\n\n  /**\n   * Renders a data object on the chart.\n   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not\n   * specify this param, this.data will be used instead.\n   */\n  draw(data = this.data) {\n    super.draw(data);\n  }\n\n  /**\n   * Add new data to the current graph. If it is empty, this creates a new one.\n   * @param  {Object} datum data to be rendered\n   */\n  keepDrawing(datum) {\n    super.keepDrawing(datum, 'add');\n  }\n\n  // /**\n  //  * Add new data to the current graph. If it is empty, this creates a new one.\n  //  * @param  {Object} datum data to be rendered\n  //  */\n  // keepDrawing(datum) {\n  //   if (this.data.constructor === Array) { this.data = {}; }\n  //   let config = this.config;\n  //   if (!datum) {\n  //     console.warn('attemp to draw null datum');\n  //     return;\n  //   }\n  //\n  //   this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);\n  //\n  //   this.draw();\n  //\n  //   return this.data;\n  // }\n\n  /**\n   * Inserts the new nodes into the existing tree.\n   * From: http://bl.ocks.org/kerryrodden/7090426\n   *\n   * @param pathString\n   * @param value\n   * @param data\n   * @private\n   */\n  _buildTree(pathString, value, data) {\n    let path = pathString.split('/');\n    var current = data;\n    for (let i = 1; i < path.length; i++) {\n      var children = current.children;\n      var name = path[i];\n      var child;\n      if (i + 1 < path.length) {\n        var foundChild = false;\n        for (let j = 0; children !== undefined && j < children.length; j++) {\n          if (children[j].name === name) {\n            child = children[j];\n            foundChild = true;\n            break;\n          }\n        }\n        if (!foundChild) {\n          child = {\n            'name': name,\n            'children': []\n          };\n          if (children === undefined) {\n            current.children = [];\n          }\n          delete current.value;\n          current.children.push(child);\n        }\n        current = child;\n      } else {\n        child = {\n          'name': name,\n          'value': value\n        };\n        if (children === undefined) {\n          current.children = [];\n        }\n        delete current.value;\n        current.children.push(child);\n      }\n    }\n  }\n\n}"
+    "content": "import Chart from './base/Chart';\n\n/**\n * Sunburst implementation. This charts belongs to 'Hierarchical' family.\n */\nexport default class Sunburst extends Chart {\n\n  /**\n   * Sunburst constructor. It needs (at least) one argument to start: data.\n   * Optionally, you can indicate a second argument that includes all the chart options. If you\n   * do not specify this, '_default' object is used by default.\n   */\n  constructor(data, config) {\n    super(data, config);\n  }\n\n  /**\n   * Renders a data object on the chart.\n   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not\n   * specify this param, this.data will be used instead.\n   */\n  draw(data = this.data) {\n    super.draw(data);\n  }\n\n  /**\n   * Add new data to the current graph. If it is empty, this creates a new one.\n   * @param  {Object} datum data to be rendered\n   */\n  keepDrawing(datum) {\n    super.keepDrawing(datum, 'add');\n  }\n\n  // /**\n  //  * Add new data to the current graph. If it is empty, this creates a new one.\n  //  * @param  {Object} datum data to be rendered\n  //  */\n  // keepDrawing(datum) {\n  //   if (this.data.constructor === Array) { this.data = {}; }\n  //   let config = this.config;\n  //   if (!datum) {\n  //     console.warn('attemp to draw null datum');\n  //     return;\n  //   }\n  //\n  //   this._buildTree(datum[datum.length - 1].path, datum[datum.length - 1].value, this.data);\n  //\n  //   this.draw();\n  //\n  //   return this.data;\n  // }\n\n  /**\n   * Inserts the new nodes into the existing tree.\n   * From: http://bl.ocks.org/kerryrodden/7090426\n   *\n   * @param pathString\n   * @param value\n   * @param data\n   * @private\n   */\n  _buildTree(pathString, value, data) {\n    let path = pathString.split('/');\n    var current = data;\n    for (let i = 1; i < path.length; i++) {\n      var children = current.children;\n      var name = path[i];\n      var child;\n      if (i + 1 < path.length) {\n        var foundChild = false;\n        for (let j = 0; children !== undefined && j < children.length; j++) {\n          if (children[j].name === name) {\n            child = children[j];\n            foundChild = true;\n            break;\n          }\n        }\n        if (!foundChild) {\n          child = {\n            'name': name,\n            'children': []\n          };\n          if (children === undefined) {\n            current.children = [];\n          }\n          delete current.value;\n          current.children.push(child);\n        }\n        current = child;\n      } else {\n        child = {\n          'name': name,\n          'value': value\n        };\n        if (children === undefined) {\n          current.children = [];\n        }\n        delete current.value;\n        current.children.push(child);\n      }\n    }\n  }\n\n}"
   },
   {
     "__docId__": 57,
@@ -1290,7 +1290,7 @@
     "importPath": "proteic/src/charts/sunburst.js",
     "importStyle": "Sunburst",
     "description": "Sunburst implementation. This charts belongs to 'Hierarchical' family.",
-    "lineNumber": 7,
+    "lineNumber": 6,
     "interface": false,
     "extends": [
       "src/charts/base/Chart.js~Chart"
@@ -1306,7 +1306,7 @@
     "longname": "src/charts/sunburst.js~Sunburst#constructor",
     "access": null,
     "description": "Sunburst constructor. It needs (at least) one argument to start: data.\nOptionally, you can indicate a second argument that includes all the chart options. If you\ndo not specify this, '_default' object is used by default.",
-    "lineNumber": 14,
+    "lineNumber": 13,
     "params": [
       {
         "name": "data",
@@ -1333,7 +1333,7 @@
     "longname": "src/charts/sunburst.js~Sunburst#draw",
     "access": null,
     "description": "Renders a data object on the chart.",
-    "lineNumber": 23,
+    "lineNumber": 22,
     "params": [
       {
         "nullable": null,
@@ -1358,7 +1358,7 @@
     "longname": "src/charts/sunburst.js~Sunburst#keepDrawing",
     "access": null,
     "description": "Add new data to the current graph. If it is empty, this creates a new one.",
-    "lineNumber": 31,
+    "lineNumber": 30,
     "params": [
       {
         "nullable": null,
@@ -1383,7 +1383,7 @@
     "longname": "src/charts/sunburst.js~Sunburst#_buildTree",
     "access": "private",
     "description": "Inserts the new nodes into the existing tree.\nFrom: http://bl.ocks.org/kerryrodden/7090426",
-    "lineNumber": 63,
+    "lineNumber": 62,
     "params": [
       {
         "nullable": null,
@@ -1537,8 +1537,8 @@
     "longname": "src/datasources/Datasource.js",
     "access": null,
     "description": null,
-    "lineNumber": 11,
-    "content": "/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this Datasource instance\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
+    "lineNumber": 12,
+    "content": "/*jshint -W117 */ // TODO investigate not defined errors\n/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this Datasource instance\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
   },
   {
     "__docId__": 68,
@@ -1553,7 +1553,7 @@
     "importPath": "proteic/src/datasources/Datasource.js",
     "importStyle": "Datasource",
     "description": "\nA Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\nsuch as start() and stop().",
-    "lineNumber": 11,
+    "lineNumber": 12,
     "unknown": [
       {
         "tagName": "@export",
@@ -1576,7 +1576,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#constructor",
     "access": null,
     "description": "Creates an instance of Datasource.",
-    "lineNumber": 19,
+    "lineNumber": 20,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1596,7 +1596,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#filters",
     "access": null,
     "description": null,
-    "lineNumber": 20,
+    "lineNumber": 21,
     "undocument": true,
     "type": {
       "types": [
@@ -1614,7 +1614,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#start",
     "access": null,
     "description": "Starts the stream of data",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1634,7 +1634,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#stop",
     "access": null,
     "description": "\nIf started, this method stops the stream of data",
-    "lineNumber": 40,
+    "lineNumber": 41,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1654,7 +1654,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#filter",
     "access": null,
     "description": "Filters the incoming messages. Each data record that do not comply the filter condition will be discarded",
-    "lineNumber": 52,
+    "lineNumber": 53,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1698,7 +1698,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Datasource from './Datasource';\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n     * <pre class=\"prettyprint\">\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     * \n     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n     * </pre>\n     * \n     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. \n     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. \n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    /**\n     * Configure a dispatcher for this datasource.\n     * \n     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.\n     * \n     * @memberOf WebsocketDatasource\n     */\n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    /**\n     * \n     * Initialize a websocket connection\n     * \n     * @memberOf WebsocketDatasource\n    \n     */\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            throw new Error('An error occurred trying to reach the websocket server' + e);\n            //this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n    /**\n     * If started, this method close the websocket connection.\n     * \n     * @memberOf WebsocketDatasource\n    * */\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
+    "content": "import Datasource from './Datasource';\nimport WebSocket from 'socket.io';\n\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n     * <pre class=\"prettyprint\">\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     * \n     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n     * </pre>\n     * \n     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. \n     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. \n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    /**\n     * Configure a dispatcher for this datasource.\n     * \n     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.\n     * \n     * @memberOf WebsocketDatasource\n     */\n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    /**\n     * \n     * Initialize a websocket connection\n     * \n     * @memberOf WebsocketDatasource\n    \n     */\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            throw new Error('An error occurred trying to reach the websocket server' + e);\n            //this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n    /**\n     * If started, this method close the websocket connection.\n     * \n     * @memberOf WebsocketDatasource\n    * */\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
   },
   {
     "__docId__": 75,
@@ -1713,7 +1713,7 @@
     "importPath": "proteic/src/datasources/WebsocketDatasource.js",
     "importStyle": "WebsocketDatasource",
     "description": "\nThis datasource set up a connection to a websocket server. ",
-    "lineNumber": 10,
+    "lineNumber": 12,
     "unknown": [
       {
         "tagName": "@export",
@@ -1739,7 +1739,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#constructor",
     "access": null,
     "description": "Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n<pre class=\"prettyprint\">\n   var source = {\n     endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n   };\n\n   linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n</pre>\n\nIf new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. ",
-    "lineNumber": 28,
+    "lineNumber": 30,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1770,7 +1770,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#source",
     "access": null,
     "description": null,
-    "lineNumber": 30,
+    "lineNumber": 32,
     "undocument": true,
     "type": {
       "types": [
@@ -1788,7 +1788,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#configure",
     "access": null,
     "description": "Configure a dispatcher for this datasource.",
-    "lineNumber": 40,
+    "lineNumber": 42,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1819,7 +1819,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 41,
+    "lineNumber": 43,
     "undocument": true,
     "type": {
       "types": [
@@ -1837,7 +1837,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#start",
     "access": null,
     "description": "\nInitialize a websocket connection",
-    "lineNumber": 51,
+    "lineNumber": 53,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1857,7 +1857,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#ws",
     "access": null,
     "description": null,
-    "lineNumber": 53,
+    "lineNumber": 55,
     "undocument": true,
     "type": {
       "types": [
@@ -1875,7 +1875,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#stop",
     "access": null,
     "description": "If started, this method close the websocket connection.",
-    "lineNumber": 72,
+    "lineNumber": 74,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -2714,7 +2714,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {deg2rad} from '../../utils/functions';\nimport {scaleLinear, arc, range} from 'd3';\n\nexport class Dial { // TODO tidy\n  constructor(axisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for polarAxis');\n    }\n\n    this.r = (\n      (config.width > config.height) ?\n        config.height : config.width\n      ) / 2;\n    this.translation = (() =>\n    'translate(' + this.r + ',' + this.r + ')'\n    );\n    config.colorScale.domain([0, 1]);\n\n    this.scale = scaleLinear()\n        .domain([config.minLevel, config.maxLevel])\n        .range([0, 1]);\n\n    this.scaleMarks = this.scale.ticks(config.ticks);\n\n    this.range = config.maxAngle - config.minAngle;\n\n    this.arc = arc()\n      .innerRadius(this.r - config.ringWidth - config.ringMargin)\n      .outerRadius(this.r - config.ringMargin)\n      .startAngle((d, i) => {\n        var ratio = d * i;\n        return deg2rad(config.minAngle + (ratio * this.range));\n      })\n      .endAngle((d, i) => {\n        var ratio = d * (i + 1);\n        return deg2rad(config.minAngle + (ratio * this.range));\n      });\n\n    this.tickData = range(config.ticks)\n      .map(() => 1 / config.ticks);\n  }\n\n  render(svg, config) {\n    let labels = null;\n\n    // Append the ring\n    let arcs = svg.append('g')\n      .attr('class', 'arc')\n      .attr('transform', this.translation);\n\n    // Append the ring sectors\n    let arcPaths = arcs.selectAll('path')\n      .data(this.tickData)\n      .enter().append('path')\n      // ID for textPath linking\n      .attr('id', (d, i) => 'sector-' + i)\n      .attr('d', this.arc);\n\n    // Fill colors\n    if (config.invertColorScale) {\n      arcPaths.attr('fill', (d, i) => config.colorScale(1 - d * i));\n    } else {\n      arcPaths.attr('fill', (d, i) => config.colorScale(d * i));\n    }\n\n    // Apend the scale labels\n    labels = svg.append('g')\n      .attr('class', 'labels')\n      .attr('transform', this.translation);\n\n    // // Append scale marker labels\n    labels.selectAll('text')\n      .data(this.scaleMarks)\n      .enter().append('text')\n      .attr('transform', (d) => {\n        let ratio = this.scale(d);\n        let newAngle = config.minAngle + (ratio * this.range);\n        return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - this.r) + ')';\n      })\n      .text((d) => d)\n      .style('text-anchor', 'middle')\n      .style('font', '18px Montserrat, sans-serif');\n  }\n}"
+    "content": "import {deg2rad} from '../../utils/functions';\nimport {scaleLinear, arc, range} from 'd3';\n\nexport class Dial { //  TODO tidy\n  constructor(axisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for polarAxis');\n    }\n\n    this.r = (\n      (config.width > config.height) ?\n        config.height : config.width\n      ) / 2;\n    this.translation = (() =>\n    'translate(' + this.r + ',' + this.r + ')'\n    );\n    config.colorScale.domain([0, 1]);\n\n    this.scale = scaleLinear()\n        .domain([config.minLevel, config.maxLevel])\n        .range([0, 1]);\n\n    this.scaleMarks = this.scale.ticks(config.ticks);\n\n    this.range = config.maxAngle - config.minAngle;\n\n    this.arc = arc()\n      .innerRadius(this.r - config.ringWidth - config.ringMargin)\n      .outerRadius(this.r - config.ringMargin)\n      .startAngle((d, i) => {\n        var ratio = d * i;\n        return deg2rad(config.minAngle + (ratio * this.range));\n      })\n      .endAngle((d, i) => {\n        var ratio = d * (i + 1);\n        return deg2rad(config.minAngle + (ratio * this.range));\n      });\n\n    this.tickData = range(config.ticks)\n      .map(() => 1 / config.ticks);\n  }\n\n  render(svg, config) {\n    let labels = null;\n\n    // Append the ring\n    let arcs = svg.append('g')\n      .attr('class', 'arc')\n      .attr('transform', this.translation);\n\n    // Append the ring sectors\n    let arcPaths = arcs.selectAll('path')\n      .data(this.tickData)\n      .enter().append('path')\n      // ID for textPath linking\n      .attr('id', (d, i) => 'sector-' + i)\n      .attr('d', this.arc);\n\n    // Fill colors\n    if (config.invertColorScale) {\n      arcPaths.attr('fill', (d, i) => config.colorScale(1 - d * i));\n    } else {\n      arcPaths.attr('fill', (d, i) => config.colorScale(d * i));\n    }\n\n    // Apend the scale labels\n    labels = svg.append('g')\n      .attr('class', 'labels')\n      .attr('transform', this.translation);\n\n    // // Append scale marker labels\n    labels.selectAll('text')\n      .data(this.scaleMarks)\n      .enter().append('text')\n      .attr('transform', (d) => {\n        let ratio = this.scale(d);\n        let newAngle = config.minAngle + (ratio * this.range);\n        return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - this.r) + ')';\n      })\n      .text((d) => d)\n      .style('text-anchor', 'middle')\n      .style('font', '18px Montserrat, sans-serif');\n  }\n}"
   },
   {
     "__docId__": 120,
@@ -5883,7 +5883,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/barchart';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {Barset} from './components/barset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\n\nexport class SvgBarchartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes('categorical', 'linear', this.config);\n    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.bars)\n      .add(this.legend);\n\n  }\n\n\n\t/**\n\t * Renders a barchart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data = this.data) { \n    let svg = this.svgContainer.svg,\n      config = this.config,\n      keys = d3.map(data, (d) => d.key).keys(),\n      data4stack = simple2stacked(data),\n      data4render = null,\n      isStacked = this.config.stacked,\n      stack = d3.stack().keys(keys)\n        .value((d, k) => d.value[k])\n        .order(d3.stackOrderNone),\n      yMin = 0,\n      yMax = 0,\n      method = isStacked ? 'stacked' : 'grouped',\n      dataSeries = stack(data4stack),\n      needRescaling = this.config.needRescaling;\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    yMax = isStacked ?\n      d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1])) :\n      d3.max(data, (d) => d.y);\n\n    this.axes.updateDomainByKeysAndBBox(d3.map(data, (d) => d.x).keys(), [yMin, yMax]);\n    this.axes.transition(svg, 200);\n\n    data4render = isStacked ? dataSeries : data;\n\n    this.bars.update(svg, config, data4render, method);\n\n    this.legend.update(svg, config, data);\n\n    this.data = data; // TODO: ? \n\n  }\n\n\n  transition2Stacked() {\n    this.config.stacked = true;\n  }\n\n  transition2Grouped() {\n    this.config.stacked = false;\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Stacked\n    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;\n  }\n}"
+    "content": "import {defaults} from '../utils/defaults/barchart';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {Barset} from './components/barset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {map, stack as d3Stack, stackOrderNone, max} from 'd3';\n\nexport class SvgBarchartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes('categorical', 'linear', this.config);\n    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.bars)\n      .add(this.legend);\n\n  }\n\n\n\t/**\n\t * Renders a barchart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data = this.data) { \n    let svg = this.svgContainer.svg,\n      config = this.config,\n      keys = map(data, (d) => d.key).keys(),\n      data4stack = simple2stacked(data),\n      data4render = null,\n      isStacked = this.config.stacked,\n      stack = d3Stack().keys(keys)\n        .value((d, k) => d.value[k])\n        .order(stackOrderNone),\n      yMin = 0,\n      yMax = 0,\n      method = isStacked ? 'stacked' : 'grouped',\n      dataSeries = stack(data4stack),\n      needRescaling = this.config.needRescaling;\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    yMax = isStacked ?\n      max(dataSeries, (serie) => max(serie, (d) => d[1])) :\n      max(data, (d) => d.y);\n\n    this.axes.updateDomainByKeysAndBBox(map(data, (d) => d.x).keys(), [yMin, yMax]);\n    this.axes.transition(svg, 200);\n\n    data4render = isStacked ? dataSeries : data;\n\n    this.bars.update(svg, config, data4render, method);\n\n    this.legend.update(svg, config, data);\n\n    this.data = data; // TODO: ? \n\n  }\n\n\n  transition2Stacked() {\n    this.config.stacked = true;\n  }\n\n  transition2Grouped() {\n    this.config.stacked = false;\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Stacked\n    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;\n  }\n}"
   },
   {
     "__docId__": 268,
@@ -6095,7 +6095,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/gauge';\nimport { SvgContainer } from './components/svgContainer';\nimport { Dial } from './components/dial';\nimport { DialNeedle } from './components/dialNeedle';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgGaugeStrategy {\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config;\n\n    this.dial = new Dial('linear', config);\n    this.needle = new DialNeedle('linear', config);\n\n    this.svgContainer\n      .add(this.dial)\n      .add(this.needle);\n\n    if (config.numericIndicator) {\n      let r = (\n        (config.width > config.height)\n          ? config.height\n          : config.width\n      ) / 2;\n      let indicatorOffset = r + 75;\n      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';\n      this.textIndicator = new TextIndicator(config);\n      this.svgContainer.add(this.textIndicator);\n    }\n  }\n\n\t/**\n\t * Renders a gauge chart based on data object\n\t * @param  {Object} data Data Object. Contains a numeric value.\n\t *\n\t */\n  draw(data) {\n    let datum = data[data.length - 1],\n      svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.needle.update(svg, config, data);\n    if (config.numericIndicator) {\n      this.textIndicator.update(svg, datum.x, config.label);\n    }\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    this.config.colorScale = config.colorScale || defaults.colorScale;\n    this.config.minLevel = config.minLevel || defaults.minLevel;\n    this.config.maxLevel = config.maxLevel || defaults.maxLevel;\n    this.config.minAngle = config.minAngle || defaults.minAngle;\n    this.config.maxAngle = config.maxAngle || defaults.maxAngle;\n    this.config.ticks = config.ticks || defaults.ticks;\n    this.config.ringWidth = config.ringWidth || defaults.ringWidth;\n    this.config.ringMargin = config.ringMargin || defaults.ringMargin;\n    this.config.labelInset = config.labelInset || defaults.labelInset;\n    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;\n    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;\n    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;\n    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;\n    this.config.label = config.label || defaults.label;\n\n\n    return this;\n  }\n\n}"
+    "content": "import { defaults } from '../utils/defaults/gauge';\nimport { SvgContainer } from './components/svgContainer';\nimport { Dial } from './components/dial';\nimport { DialNeedle } from './components/dialNeedle';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgGaugeStrategy {\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config;\n\n    this.dial = new Dial('linear', config);\n    this.needle = new DialNeedle('linear', config);\n\n    this.svgContainer\n      .add(this.dial)\n      .add(this.needle);\n\n    if (config.numericIndicator) {\n      let r = (\n        (config.width > config.height) ?\n          config.height : config.width\n      ) / 2;\n      let indicatorOffset = r + 75;\n      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';\n      this.textIndicator = new TextIndicator(config);\n      this.svgContainer.add(this.textIndicator);\n    }\n  }\n\n\t/**\n\t * Renders a gauge chart based on data object\n\t * @param  {Object} data Data Object. Contains a numeric value.\n\t *\n\t */\n  draw(data) {\n    let datum = data[data.length - 1],\n      svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.needle.update(svg, config, data);\n    if (config.numericIndicator) {\n      this.textIndicator.update(svg, datum.x, config.label);\n    }\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width ?\n      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    this.config.colorScale = config.colorScale || defaults.colorScale;\n    this.config.minLevel = config.minLevel || defaults.minLevel;\n    this.config.maxLevel = config.maxLevel || defaults.maxLevel;\n    this.config.minAngle = config.minAngle || defaults.minAngle;\n    this.config.maxAngle = config.maxAngle || defaults.maxAngle;\n    this.config.ticks = config.ticks || defaults.ticks;\n    this.config.ringWidth = config.ringWidth || defaults.ringWidth;\n    this.config.ringMargin = config.ringMargin || defaults.ringMargin;\n    this.config.labelInset = config.labelInset || defaults.labelInset;\n    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;\n    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;\n    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;\n    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;\n    this.config.label = config.label || defaults.label;\n\n\n    return this;\n  }\n\n}"
   },
   {
     "__docId__": 279,
@@ -6200,7 +6200,7 @@
     "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#textIndicator",
     "access": null,
     "description": null,
-    "lineNumber": 29,
+    "lineNumber": 28,
     "undocument": true,
     "type": {
       "types": [
@@ -6218,7 +6218,7 @@
     "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#draw",
     "access": null,
     "description": "Renders a gauge chart based on data object",
-    "lineNumber": 39,
+    "lineNumber": 38,
     "params": [
       {
         "nullable": null,
@@ -6243,7 +6243,7 @@
     "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 54,
+    "lineNumber": 53,
     "params": [
       {
         "nullable": null,
@@ -6273,7 +6273,7 @@
     "longname": "src/svg/strategy_gauge.js~SvgGaugeStrategy#config",
     "access": null,
     "description": null,
-    "lineNumber": 55,
+    "lineNumber": 54,
     "undocument": true,
     "type": {
       "types": [
@@ -6292,7 +6292,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/linechart';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgLinechartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n\n    this.lines = new Lineset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.lines);\n\n    if (this._checkArea(this.config)) {\n      this.areas = new Areaset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.areas);\n    }\n\n    if (this._checkMarkers(this.config)) {\n      this.points = new Pointset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.points);\n    }\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    //Now update lines\n    this.lines.update(svg, config, data);\n\n    if (config.areaOpacity > 0) {\n      // Update areas\n      this.areas.update(svg, config, data);\n    }\n\n    if (this._checkMarkers(config)) {\n      // Update points\n      this.points.update(svg, config, data);\n    }\n\n  }\n\n  _getDomainBBox(data) {\n    var minX = d3.min(data, (d) => d.x),\n      maxX = d3.max(data, (d) => d.x),\n      minY = d3.min(data, (d) => d.y),\n      maxY = d3.max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
+    "content": "import { defaults } from '../utils/defaults/linechart';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\nimport {min, max} from 'd3';\n\nexport class SvgLinechartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n\n    this.lines = new Lineset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.lines);\n\n    if (this._checkArea(this.config)) {\n      this.areas = new Areaset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.areas);\n    }\n\n    if (this._checkMarkers(this.config)) {\n      this.points = new Pointset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.points);\n    }\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    //Now update lines\n    this.lines.update(svg, config, data);\n\n    if (config.areaOpacity > 0) {\n      // Update areas\n      this.areas.update(svg, config, data);\n    }\n\n    if (this._checkMarkers(config)) {\n      // Update points\n      this.points.update(svg, config, data);\n    }\n\n  }\n\n  _getDomainBBox(data) {\n    var minX = min(data, (d) => d.x),\n      maxX = max(data, (d) => d.x),\n      minY = min(data, (d) => d.y),\n      maxY = max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
   },
   {
     "__docId__": 289,
@@ -6307,7 +6307,7 @@
     "importPath": "proteic/src/svg/strategy_linechart.js",
     "importStyle": "{SvgLinechartStrategy}",
     "description": null,
-    "lineNumber": 11,
+    "lineNumber": 12,
     "undocument": true,
     "interface": false,
     "extends": [
@@ -6324,7 +6324,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 13,
+    "lineNumber": 14,
     "undocument": true,
     "params": [
       {
@@ -6346,7 +6346,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#axes",
     "access": null,
     "description": null,
-    "lineNumber": 16,
+    "lineNumber": 17,
     "undocument": true,
     "type": {
       "types": [
@@ -6364,7 +6364,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#lines",
     "access": null,
     "description": null,
-    "lineNumber": 18,
+    "lineNumber": 19,
     "undocument": true,
     "type": {
       "types": [
@@ -6382,7 +6382,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#legend",
     "access": null,
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -6400,7 +6400,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#areas",
     "access": null,
     "description": null,
-    "lineNumber": 28,
+    "lineNumber": 29,
     "undocument": true,
     "type": {
       "types": [
@@ -6418,7 +6418,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#points",
     "access": null,
     "description": null,
-    "lineNumber": 33,
+    "lineNumber": 34,
     "undocument": true,
     "type": {
       "types": [
@@ -6436,7 +6436,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#draw",
     "access": null,
     "description": "Renders a linechart based on data object",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "params": [
       {
         "nullable": null,
@@ -6461,7 +6461,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_getDomainBBox",
     "access": null,
     "description": null,
-    "lineNumber": 86,
+    "lineNumber": 87,
     "undocument": true,
     "params": [
       {
@@ -6488,7 +6488,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_checkMarkers",
     "access": null,
     "description": null,
-    "lineNumber": 95,
+    "lineNumber": 96,
     "undocument": true,
     "params": [
       {
@@ -6515,7 +6515,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_checkArea",
     "access": null,
     "description": null,
-    "lineNumber": 98,
+    "lineNumber": 99,
     "undocument": true,
     "params": [
       {
@@ -6542,7 +6542,7 @@
     "longname": "src/svg/strategy_linechart.js~SvgLinechartStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 106,
+    "lineNumber": 107,
     "params": [
       {
         "nullable": null,
@@ -6573,7 +6573,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {SvgContainer} from './components/svgContainer';\nimport {defaults} from '../utils/defaults/networkgraph';\nimport {calculateWidth} from '../utils/screen';\nimport {Nodeset} from './components/nodeset';\n\nexport class SvgNetworkgraphStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n\n    this.nodeset = new Nodeset(this.config);\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.nodeset);\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      width = config.width,\n      height = config.height;\n\n    this.nodeset.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    return this;\n  }\n}"
+    "content": "import {SvgContainer} from './components/svgContainer';\nimport {defaults} from '../utils/defaults/networkgraph';\nimport {calculateWidth} from '../utils/screen';\nimport {Nodeset} from './components/nodeset';\n\nexport class SvgNetworkgraphStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n\n    this.nodeset = new Nodeset(this.config);\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.nodeset);\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.nodeset.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    return this;\n  }\n}"
   },
   {
     "__docId__": 302,
@@ -6685,7 +6685,7 @@
     "longname": "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 38,
+    "lineNumber": 36,
     "params": [
       {
         "nullable": null,
@@ -6715,7 +6715,7 @@
     "longname": "src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy#config",
     "access": null,
     "description": null,
-    "lineNumber": 39,
+    "lineNumber": 37,
     "undocument": true,
     "type": {
       "types": [
@@ -6734,7 +6734,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/stackedArea';\nimport { SvgContainer } from './components/svgContainer';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Streamset } from './components/streamset';\nimport { Legend } from './components/legend';\nimport { simple2stacked } from '../utils/dataTransformation';\nimport { calculateWidth } from '../utils/screen';\nimport { convertPropretiesToTimeFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\n\nexport class SvgStackedAreaStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.axes = new XYAxes('time', 'linear', this.config);\n\n        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.axes)\n            .add(this.legend)\n            .add(this.streams);\n    }\n\n\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            data4stack = simple2stacked(data),\n            xDataFormat = this.config.xAxisFormat,\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffNone),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n\n        //rescale, if needed.\n        if (needRescaling) {\n            this.rescale();\n        }\n\n        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n\n        //Sort data\n        sortByField(data, 'x');\n\n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.axes.updateDomainByBBox(bbox);\n        this.axes.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n\n\n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => (d.x)),\n            maxX = d3.max(data, (d) => (d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n    }\n}"
+    "content": "import { defaults } from '../utils/defaults/stackedArea';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Streamset } from './components/streamset';\nimport { Legend } from './components/legend';\nimport { simple2stacked } from '../utils/dataTransformation';\nimport { convertPropretiesToTimeFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\nimport { min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffNone} from 'd3';\n\nexport class SvgStackedAreaStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.axes = new XYAxes('time', 'linear', this.config);\n\n        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.axes)\n            .add(this.legend)\n            .add(this.streams);\n    }\n\n\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = map(data, (d) => d.key).keys(),\n            data4stack = simple2stacked(data),\n            xDataFormat = this.config.xAxisFormat,\n            stack = d3Stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(stackOrderInsideOut)\n                .offset(stackOffNone),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n\n        //rescale, if needed.\n        if (needRescaling) {\n            this.rescale();\n        }\n\n        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n\n        //Sort data\n        sortByField(data, 'x');\n\n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.axes.updateDomainByBBox(bbox);\n        this.axes.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n\n\n    _getDomainBBox(data, dataSeries) {\n        let minX = min(data, (d) => (d.x)),\n            maxX = max(data, (d) => (d.x)),\n            minY = min(dataSeries, (serie) => min(serie, (d) => d[0])),\n            maxY = max(dataSeries, (serie) => max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n    }\n}"
   },
   {
     "__docId__": 310,
@@ -6749,7 +6749,7 @@
     "importPath": "proteic/src/svg/strategy_stackedArea.js",
     "importStyle": "{SvgStackedAreaStrategy}",
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 11,
     "undocument": true,
     "interface": false,
     "extends": [
@@ -6766,7 +6766,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 14,
+    "lineNumber": 13,
     "undocument": true,
     "params": [
       {
@@ -6788,7 +6788,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#axes",
     "access": null,
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 16,
     "undocument": true,
     "type": {
       "types": [
@@ -6806,7 +6806,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#streams",
     "access": null,
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 18,
     "undocument": true,
     "type": {
       "types": [
@@ -6824,7 +6824,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#legend",
     "access": null,
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -6842,7 +6842,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#draw",
     "access": null,
     "description": null,
-    "lineNumber": 31,
+    "lineNumber": 30,
     "undocument": true,
     "params": [
       {
@@ -6864,7 +6864,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#_getDomainBBox",
     "access": null,
     "description": null,
-    "lineNumber": 69,
+    "lineNumber": 68,
     "undocument": true,
     "params": [
       {
@@ -6897,7 +6897,7 @@
     "longname": "src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 82,
+    "lineNumber": 81,
     "params": [
       {
         "nullable": null,
@@ -6923,7 +6923,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/streamgraph';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XAxis} from './components/xAxis';\nimport {YAxis} from './components/yAxis';\nimport {Streamset} from './components/streamset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {sortByField} from '../utils/dataSorting';\n\nexport class SvgStreamgraphStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.x = new XAxis('time', this.config);\n        this.y = new YAxis('linear', this.config);\n\n        this.streams = new Streamset(this.x.xAxis, this.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.x)\n            .add(this.y, false) //No render y Axis\n            .add(this.legend)\n            .add(this.streams);\n    }\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = d3.map(data, (d) => d.key).keys(),\n            xDataFormat = this.config.xAxisFormat,\n            data4stack = simple2stacked(data),\n            stack = d3.stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(d3.stackOrderInsideOut)\n                .offset(d3.stackOffsetWiggle),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n       \n       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n        \n        //Sort data\n        sortByField(data, 'x');\n        \n        //rescale, if needed.\n        if (needRescaling) {\n           this.rescale();\n        }\n        \n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.x.updateDomainByBBox([bbox[0], bbox[1]]);\n        this.y.updateDomainByBBox([bbox[2], bbox[3]]);\n        this.x.transition(svg, 200);\n        this.y.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n  \n    _getDomainBBox(data, dataSeries) {\n        let minX = d3.min(data, (d) => new Date(d.x)),\n            maxX = d3.max(data, (d) => new Date(d.x)),\n            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),\n            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n        return this;\n    }\n}"
+    "content": "import {defaults} from '../utils/defaults/streamgraph';\nimport {SvgAxis} from './base/svgAxis';\nimport {XAxis} from './components/xAxis';\nimport {YAxis} from './components/yAxis';\nimport {Streamset} from './components/streamset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {sortByField} from '../utils/dataSorting';\nimport {min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffsetWiggle} from 'd3';\n\nexport class SvgStreamgraphStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.x = new XAxis('time', this.config);\n        this.y = new YAxis('linear', this.config);\n\n        this.streams = new Streamset(this.x.xAxis, this.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.x)\n            .add(this.y, false) //No render y Axis\n            .add(this.legend)\n            .add(this.streams);\n    }\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = map(data, (d) => d.key).keys(),\n            xDataFormat = this.config.xAxisFormat,\n            data4stack = simple2stacked(data),\n            stack = d3Stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(stackOrderInsideOut)\n                .offset(stackOffsetWiggle),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n       \n       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n        \n        //Sort data\n        sortByField(data, 'x');\n        \n        //rescale, if needed.\n        if (needRescaling) {\n           this.rescale();\n        }\n        \n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.x.updateDomainByBBox([bbox[0], bbox[1]]);\n        this.y.updateDomainByBBox([bbox[2], bbox[3]]);\n        this.x.transition(svg, 200);\n        this.y.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n  \n    _getDomainBBox(data, dataSeries) {\n        let minX = min(data, (d) => new Date(d.x)),\n            maxX = max(data, (d) => new Date(d.x)),\n            minY = min(dataSeries, (serie) => min(serie, (d) => d[0])),\n            maxY = max(dataSeries, (serie) => max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n        return this;\n    }\n}"
   },
   {
     "__docId__": 319,
@@ -6938,7 +6938,7 @@
     "importPath": "proteic/src/svg/strategy_streamgraph.js",
     "importStyle": "{SvgStreamgraphStrategy}",
     "description": null,
-    "lineNumber": 13,
+    "lineNumber": 12,
     "undocument": true,
     "interface": false,
     "extends": [
@@ -6955,7 +6955,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 15,
+    "lineNumber": 14,
     "undocument": true,
     "params": [
       {
@@ -6977,7 +6977,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#x",
     "access": null,
     "description": null,
-    "lineNumber": 18,
+    "lineNumber": 17,
     "undocument": true,
     "type": {
       "types": [
@@ -6995,7 +6995,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#y",
     "access": null,
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 18,
     "undocument": true,
     "type": {
       "types": [
@@ -7013,7 +7013,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#streams",
     "access": null,
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -7031,7 +7031,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#legend",
     "access": null,
     "description": null,
-    "lineNumber": 23,
+    "lineNumber": 22,
     "undocument": true,
     "type": {
       "types": [
@@ -7049,7 +7049,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#draw",
     "access": null,
     "description": null,
-    "lineNumber": 32,
+    "lineNumber": 31,
     "undocument": true,
     "params": [
       {
@@ -7071,7 +7071,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#_getDomainBBox",
     "access": null,
     "description": null,
-    "lineNumber": 71,
+    "lineNumber": 70,
     "undocument": true,
     "params": [
       {
@@ -7104,7 +7104,7 @@
     "longname": "src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 84,
+    "lineNumber": 83,
     "params": [
       {
         "nullable": null,
@@ -7135,7 +7135,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { defaults } from '../utils/defaults/sunburst';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config,\n      radius = (Math.min(config.width, config.height) / 2) - 10,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      colorScale = this.config.colorScale;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width\n      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    //Events\n    this.config.onDown = config.onDown || defaults.onDown;\n    this.config.onUp = config.onUp || defaults.onUp;\n    this.config.onHover = config.onHover || defaults.onHover;\n    this.config.onClick = config.onClick || defaults.onClick;\n    this.config.onLeave = config.onLeave || defaults.onLeave;\n\n    return this;\n  }\n}\n"
+    "content": "import { defaults } from '../utils/defaults/sunburst';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n    let config =\n      this.config,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width ?\n      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    //Events\n    this.config.onDown = config.onDown || defaults.onDown;\n    this.config.onUp = config.onUp || defaults.onUp;\n    this.config.onHover = config.onHover || defaults.onHover;\n    this.config.onClick = config.onClick || defaults.onClick;\n    this.config.onLeave = config.onLeave || defaults.onLeave;\n\n    return this;\n  }\n}\n"
   },
   {
     "__docId__": 329,
@@ -7280,7 +7280,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#_loadConfig",
     "access": null,
     "description": "This method adds config options to the chart context.",
-    "lineNumber": 47,
+    "lineNumber": 46,
     "params": [
       {
         "nullable": null,
@@ -7310,7 +7310,7 @@
     "longname": "src/svg/strategy_sunburst.js~SvgSunburstStrategy#config",
     "access": null,
     "description": null,
-    "lineNumber": 48,
+    "lineNumber": 47,
     "undocument": true,
     "type": {
       "types": [
@@ -7329,7 +7329,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {defaults} from '../utils/defaults/swimlane';\nimport {SvgContainer} from './components/svgContainer';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {TimeBoxset} from './components/timeBoxset';\nimport {Legend} from './components/legend';\nimport {calculateWidth} from '../utils/screen';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\n\nexport class SvgSwimlaneStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes('time', 'categorical', this.config);\n    this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.boxs)\n      .add(this.legend);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      dataFormat = this.config.xAxisFormat,\n      keys = d3.map(data, (d) => d.key).keys(),\n      bbox = null,\n      needRescaling = this.config.needRescaling;\n\n    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);\n    \n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n    \n    bbox = this._getBBox(data);\n\n    this.axes.updateDomainByBBoxAndKeys(bbox, keys);\n    this.axes.transition(svg, 200);\n\n    this.boxs.update(svg, config, data);\n    this.legend.update(svg, config, data);\n\n  }\n  \n  _getBBox(data) {\n    return [\n      d3.min(data, (d) => (d.x)),\n      d3.max(data, (d) => (d.y))\n    ];\n  }\n\n\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);  \n    return this;\n  }\n}"
+    "content": "import {defaults} from '../utils/defaults/swimlane';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {TimeBoxset} from './components/timeBoxset';\nimport {Legend} from './components/legend';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {min, max, map} from 'd3';\n\nexport class SvgSwimlaneStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes('time', 'categorical', this.config);\n    this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.boxs)\n      .add(this.legend);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      dataFormat = this.config.xAxisFormat,\n      keys = map(data, (d) => d.key).keys(),\n      bbox = null,\n      needRescaling = this.config.needRescaling;\n\n    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);\n    \n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n    \n    bbox = this._getBBox(data);\n\n    this.axes.updateDomainByBBoxAndKeys(bbox, keys);\n    this.axes.transition(svg, 200);\n\n    this.boxs.update(svg, config, data);\n    this.legend.update(svg, config, data);\n\n  }\n  \n  _getBBox(data) {\n    return [\n      min(data, (d) => (d.x)),\n      max(data, (d) => (d.y))\n    ];\n  }\n\n\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);  \n    return this;\n  }\n}"
   },
   {
     "__docId__": 339,
@@ -7344,7 +7344,7 @@
     "importPath": "proteic/src/svg/strategy_swimlane.js",
     "importStyle": "{SvgSwimlaneStrategy}",
     "description": null,
-    "lineNumber": 10,
+    "lineNumber": 9,
     "undocument": true,
     "interface": false,
     "extends": [
@@ -7361,7 +7361,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 11,
     "undocument": true,
     "params": [
       {
@@ -7383,7 +7383,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#axes",
     "access": null,
     "description": null,
-    "lineNumber": 14,
+    "lineNumber": 13,
     "undocument": true,
     "type": {
       "types": [
@@ -7401,7 +7401,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#boxs",
     "access": null,
     "description": null,
-    "lineNumber": 15,
+    "lineNumber": 14,
     "undocument": true,
     "type": {
       "types": [
@@ -7419,7 +7419,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#legend",
     "access": null,
     "description": null,
-    "lineNumber": 16,
+    "lineNumber": 15,
     "undocument": true,
     "type": {
       "types": [
@@ -7437,7 +7437,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#draw",
     "access": null,
     "description": null,
-    "lineNumber": 24,
+    "lineNumber": 23,
     "undocument": true,
     "params": [
       {
@@ -7459,7 +7459,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#_getBBox",
     "access": null,
     "description": null,
-    "lineNumber": 49,
+    "lineNumber": 48,
     "undocument": true,
     "params": [
       {
@@ -7486,7 +7486,7 @@
     "longname": "src/svg/strategy_swimlane.js~SvgSwimlaneStrategy#_loadConfig",
     "access": null,
     "description": null,
-    "lineNumber": 57,
+    "lineNumber": 56,
     "undocument": true,
     "params": [
       {
@@ -7514,7 +7514,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {scaleOrdinal, scaleQuantile} from \"d3\";\n\nconst paletteCategory1 = [\n    '#e1c8df',\n    '#9ecd9d',\n    '#acd9d6',\n    '#e4e36b',\n    '#bfa1c5',\n    '#e4d3b8',\n    '#facba8',\n    '#ced4ea',\n    '#acd9d6'\n];\n\nconst paletteCategory2 = [\n    '#b6dde2',\n    '#6394af',\n    '#e4e9ab',\n    '#8ea876',\n    '#f7dce1',\n    '#cc878f',\n    '#fadaac',\n    '#f29a83',\n    '#8d7e9e'\n];\n\nconst paletteCategory3 = [\n    '#6b68a9',\n    '#8cc590',\n    '#b9487d',\n    '#bfa1c5',\n    '#4e6936',\n    '#71bbc3',\n    '#484156',\n    '#ccaf44',\n    '#d0553c'\n];\n\nconst paletteCategory4 = [\n    '#f1a30d',\n    '#1d4763',\n    '#84c7bc',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#563a2d',\n    '#563a2d',\n    '#87325d'\n];\n\nconst paletteCategory5 = [\n    '#f1a30d',\n    '#0c3183',\n    '#acd9d6',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#8a6338',\n    '#8d2d84',\n    '#f09bbc'\n];\n\nconst paletteCategory6 = [\n    '#71bbc3',\n    '#1d4763',\n    '#8fbe46',\n    '#4e6936',\n    '#ee8998',\n    '#c1212d',\n    '#f5af3c',\n    '#e95e2e',\n    '#634484'\n];\n\nconst paletteCategory7 = [\n    '#ea671e',\n    '#684592',\n    '#84b92a',\n    '#cd131c',\n    '#3c5ba2',\n    '#5baddc',\n    '#ffde06',\n    '#5db68b',\n    '#775e47'\n];\n\nconst paletteCategory8 = [\n    '#ebd646',\n    '#a50f38',\n    '#00a096',\n    '#f09bbc',\n    '#065b78',\n    '#72722a',\n    '#005231',\n    '#4d4e98',\n    '#7c4d25'\n];\n\nconst paletteSequentialYellow = [\n    '#fff1c6',\n    '#fee5a7',\n    '#fcda87',\n    '#face64',\n    '#f8bf4b',\n    '#f6b030',\n    '#f4a009',\n    '#d28514',\n    '#b36c17',\n    '#955618',\n    '#7a4317',\n    '#613214',\n    '#49230f'\n];\n\nconst paletteSequentialRedOrange = [\n    '#ffecb8',\n    '#fbd68b',\n    '#f7bf5e',\n    '#f3a82f',\n    '#df7520',\n    '#cd4925',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialRed = [\n    '#fde4d4',\n    '#f1c4af',\n    '#f7bf5e',\n    '#db826a',\n    '#d0614d',\n    '#c73e36',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialPink = [\n    '#fbe3e3',\n    '#f9cfcc',\n    '#f0aaa9',\n    '#ed7e7e',\n    '#ea647b',\n    '#e74576',\n    '#e41270',\n    '#c70f65',\n    '#aa105c',\n    '#8d1253',\n    '#731448',\n    '#5a123c',\n    '#420e30'\n];\n\nconst paletteSequentialPurplePink = [\n    '#f9d8e6',\n    '#ebbed7',\n    '#dda4c7',\n    '#c890bb',\n    '#b27daf',\n    '#8a4c94',\n    '#622181',\n    '#622181',\n    '#50216b',\n    '#472060',\n    '#3e1f55',\n    '#361e4b',\n    '#2d1c41'\n];\n\nconst paletteSequentialPurple = [\n    '#f6e8f1',\n    '#dcc5de',\n    '#c2a3c9',\n    '#a980b3',\n    '#905e9f',\n    '#793f8e',\n    '#622181',\n    '#592175',\n    '#4f216b',\n    '#462060',\n    '#3d1f55',\n    '#351e4b',\n    '#2c1c41'\n];\n\nconst paletteSequentialBlue = [\n    '#e5f2f9',\n    '#d1e5f5',\n    '#afd3ed',\n    '#91afd7',\n    '#738bbf',\n    '#3c5a9e',\n    '#0c3183',\n    '#132a68',\n    '#10204c',\n    '#0b193b',\n    '#06142f',\n    '#051228',\n    '#061020'\n];\n\nconst paletteSequentialLightBlue = [\n    '#eff8fd',\n    '#d9eff6',\n    '#c2e5ef',\n    '#a8dae8',\n    '#90cbe4',\n    '#76b8e1',\n    '#5baddc',\n    '#4d96cc',\n    '#427ebc',\n    '#3a67ab',\n    '#324c88',\n    '#29366b',\n    '#1e2354'\n];\n\nconst paletteSequentialBlueViolet = [\n    '#edf7e7',\n    '#c8e3d2',\n    '#91cdbf',\n    '#41b5ab',\n    '#218ba4',\n    '#145d94',\n    '#0c3183',\n    '#0d2d76',\n    '#0d2a6a',\n    '#0e265e',\n    '#0d2253',\n    '#0c1e47',\n    '#0b1a3c'\n];\n\nconst paletteSequentialTurquoise = [\n    '#e2ecf6',\n    '#cadfe6',\n    '#b1d3d6',\n    '#94c6c6',\n    '#74b9b6',\n    '#4caca6',\n    '#00a096',\n    '#008d89',\n    '#007b7c',\n    '#006a6f',\n    '#005963',\n    '#004a57',\n    '#063b4c'\n];\n\nconst paletteSequentialLightGreen = [\n    '#faf9de',\n    '#e9efc3',\n    '#d7e4a7',\n    '#c5d989',\n    '#b1ce6a',\n    '#9cc34c',\n    '#84b92a',\n    '#6fa32b',\n    '#5a8f2a',\n    '#477c29',\n    '#346b27',\n    '#205b24',\n    '#074d21'\n];\n\nconst paletteSequentialDarkGreen = [\n    '#eaf3e5',\n    '#c7d5be',\n    '#a3ba9a',\n    '#80a078',\n    '#5c885a',\n    '#357442',\n    '#00632e',\n    '#00592b',\n    '#004e27',\n    '#004423',\n    '#033a1e',\n    '#053019',\n    '#052613'\n];\n\nconst paletteSequentialGreenBrown = [\n    '#f7eccd',\n    '#d9cba6',\n    '#bcad82',\n    '#a29162',\n    '#887946',\n    '#716330',\n    '#5b501f',\n    '#51461d',\n    '#483d1b',\n    '#3f3418',\n    '#362b15',\n    '#2d2311',\n    '#231a0d'\n];\n\nconst paletteSequentialBrown = [\n    '#f7eccd',\n    '#eed3ab',\n    '#e4bb89',\n    '#dba269',\n    '#ad7446',\n    '#834d2c',\n    '#5e2f19',\n    '#552a18',\n    '#4c2516',\n    '#432113',\n    '#3a1c11',\n    '#32180f',\n    '#29130b'\n];\n\nconst paletteSequentialGrey = [\n    '#e5e8ea',\n    '#bdbfc3',\n    '#999a9f',\n    '#77797f',\n    '#595c64',\n    '#3e444c',\n    '#253038',\n    '#20282e',\n    '#1a2024',\n    '#15181b',\n    '#0e1112',\n    '#070808',\n    '#000000'\n];\n\nconst paletteSequentialVioletCb = [\n    '#f4f3f9',\n    '#e0dced',\n    '#cbc6e0',\n    '#b7b0d4',\n    '#948cbf',\n    '#706baa',\n    '#4d4e98',\n    '#484889',\n    '#42427a',\n    '#3d3c6c',\n    '#37365e',\n    '#313050',\n    '#2c2a44'\n];\n\nconst paletteSequentialPinkCb = [\n    '#fbe5ee',\n    '#f8ccd5',\n    '#f4b2bc',\n    '#f096a3',\n    '#d56976',\n    '#bc3f52',\n    '#a50f38',\n    '#951735',\n    '#851b31',\n    '#761d2e',\n    '#671e2a',\n    '#581d26',\n    '#4a1c22'\n];\n\nconst paletteSequentialBlueCb = [\n    '#eaf6fc',\n    '#cfe4f4',\n    '#cfe4f4',\n    '#91bfe3',\n    '#6999bb',\n    '#417797',\n    '#065b78',\n    '#11536b',\n    '#174b5f',\n    '#194354',\n    '#1a3b49',\n    '#1a343f',\n    '#192d35'\n];\n\nconst paletteSequentialGreenCb = [\n    '#fff7d0',\n    '#e9e09b',\n    '#d1ca62',\n    '#b7b623',\n    '#9e9e28',\n    '#88872a',\n    '#72722a',\n    '#676726',\n    '#5c5c23',\n    '#51511f',\n    '#47471b',\n    '#3d3d17',\n    '#333413'\n];\n\nconst paletteSequentialGreenBrownCb = [\n    '#f2edde',\n    '#d8d1c0',\n    '#bfb699',\n    '#a09778',\n    '#837b5a',\n    '#686141',\n    '#4f4b2c',\n    '#3e3e1f',\n    '#2e3313',\n    '#292d14',\n    '#232613',\n    '#1e2012',\n    '#191a10'\n];\n\nconst paletteDivergingSpectral1 = [\n    '#98141f',\n    '#ab332c',\n    '#bf5040',\n    '#d5705b',\n    '#e4a57f',\n    '#f3d6a6',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#4e868f',\n    '#2e637d',\n    '#06456c'\n];\n\nconst paletteDivergingSpectral2 = [\n    '#d43d4f',\n    '#df564b',\n    '#eb6d45',\n    '#f08e53',\n    '#f8b96f',\n    '#fee08b',\n    '#f5f2b8',\n    '#d7e5b1',\n    '#b5d7aa',\n    '#8ec8a3',\n    '#6abda3',\n    '#4fa4b5',\n    '#3489be'\n];\n\nconst paletteDivergingSpectral3 = [\n    '#651035',\n    '#ae1143',\n    '#c9314b',\n    '#dd7257',\n    '#eeb27a',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cadfba',\n    '#96cabb',\n    '#50b4bb',\n    '#3eaecc',\n    '#206791',\n    '#0c2c63'\n];\n\nconst paletteDivergingBrownTurquoise = [\n    '#3f3128',\n    '#683828',\n    '#933624',\n    '#d5705b',\n    '#db9c5e',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#628f85',\n    '#53746d',\n    '#475b57'\n];\n\nconst paletteDivergingOrangePink = [\n    '#e7511e',\n    '#eb6929',\n    '#ee7f37',\n    '#f29446',\n    '#f9c083',\n    '#ffe9c3',\n    '#ffeee3',\n    '#f9cfc1',\n    '#f3a9ab',\n    '#db6882',\n    '#c71360',\n    '#891953',\n    '#4b1c47'\n];\n\nconst paletteDivergingRedBlue = [\n    '#b2172b',\n    '#c4443e',\n    '#d76a5a',\n    '#ed937e',\n    '#f4b8a2',\n    '#fcdbc7',\n    '#efefef',\n    '#bfcad5',\n    '#8ba7bc',\n    '#4d87a5',\n    '#3c7ca0',\n    '#28729b',\n    '#036896'\n];\n\nconst paletteDivergingRedGrey = [\n    '#b2172b',\n    '#c54532',\n    '#da6c3b',\n    '#f29446',\n    '#f8bc67',\n    '#fee08b',\n    '#efece5',\n    '#c9c5c1',\n    '#a5a19f',\n    '#808080',\n    '#666666',\n    '#333333',\n    '#000000'\n];\n\nconst paletteDivergingOrangeViolet = [\n    '#98141f',\n    '#ab332c',\n    '#f9bc47',\n    '#fdcf66',\n    '#fede8d',\n    '#ffecb3',\n    '#f9eff6',\n    '#e8d0e3',\n    '#a4c4a9',\n    '#a973aa',\n    '#834f96',\n    '#622181',\n    '#402357'\n];\n\nconst paletteDivergingPurpleGreen = [\n    '#59194b',\n    '#85134b',\n    '#c71360',\n    '#db6882',\n    '#eba7a8',\n    '#fce0ca',\n    '#faefe1',\n    '#dbd9aa',\n    '#b9c26e',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingVioletGreen = [\n    '#55296e',\n    '#75408e',\n    '#8a5fa0',\n    '#a081b5',\n    '#beadcf',\n    '#ddd7e7',\n    '#eae8ed',\n    '#c1d4bc',\n    '#93be86',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingRedGreen = [\n    '#b2172b',\n    '#c5403c',\n    '#d96453',\n    '#ef8972',\n    '#f6b49c',\n    '#fcdbc7',\n    '#f9ebde',\n    '#dad6a8',\n    '#b9c16d',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingBrownGreen = [\n    '#735146',\n    '#846454',\n    '#977a65',\n    '#aa9177',\n    '#c2ad91',\n    '#dbcaad',\n    '#edebd6',\n    '#c4d6aa',\n    '#94bf7c',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingLightBrownTurquoise = [\n    '#8b5219',\n    '#a46821',\n    '#bf812c',\n    '#cfa151',\n    '#e2c489',\n    '#f6e8c3',\n    '#f5f1df',\n    '#cbdccc',\n    '#9cc6b9',\n    '#60afa6',\n    '#359790',\n    '#1d7d75',\n    '#00665e'\n];\n\n\nexport function category1() {\n    return scaleOrdinal().range(paletteCategory1);\n}\n\nexport function category2() {\n    return scaleOrdinal().range(paletteCategory2);\n}\n\nexport function category3() {\n    return scaleOrdinal().range(paletteCategory3);\n}\n\nexport function category4() {\n    return scaleOrdinal().range(paletteCategory4);\n}\n\nexport function category5() {\n    return scaleOrdinal().range(paletteCategory5);\n}\n\nexport function category6() {\n    return scaleOrdinal().range(paletteCategory6);\n}\n\nexport function category7() {\n    return scaleOrdinal().range(paletteCategory7);\n}\n\nexport function category8() {\n    return scaleOrdinal().range(paletteCategory8);\n}\n\nexport function sequentialYellow() {\n    return scaleQuantile().range(paletteSequentialYellow);\n}\n\nexport function sequentialRedOrange() {\n    return scaleQuantile().range(paletteSequentialRedOrange);\n}\n\nexport function sequentialRed() {\n    return scaleQuantile().range(paletteSequentialRed);\n}\n\nexport function sequentialPink() {\n    return scaleQuantile().range(paletteSequentialPink);\n}\n\nexport function sequentialPurplePink() {\n    return scaleQuantile().range(paletteSequentialPurplePink);\n}\n\nexport function sequentialPurple() {\n    return scaleQuantile().range(paletteSequentialPurple);\n}\n\nexport function sequentialBlue() {\n    return scaleQuantile().range(paletteSequentialBlue);\n}\n\nexport function sequentialLightBlue() {\n    return scaleQuantile().range(paletteSequentialLightBlue);\n}\n\nexport function sequentialBlueViolet() {\n    return scaleQuantile().range(paletteSequentialBlueViolet);\n}\n\nexport function sequentialTurquoise() {\n    return scaleQuantile().range(paletteSequentialTurquoise);\n}\n\nexport function sequentialLightGreen() {\n    return scaleQuantile().range(paletteSequentialLightGreen);\n}\n\nexport function sequentialDarkGreen() {\n    return scaleQuantile().range(paletteSequentialDarkGreen);\n}\n\nexport function sequentialGreenBrown() {\n    return scaleQuantile().range(paletteSequentialGreenBrown);\n}\n\nexport function sequentialBrown() {\n    return scaleQuantile().range(paletteSequentialBrown);\n}\n\nexport function sequentialGrey() {\n    return scaleQuantile().range(paletteSequentialGrey);\n}\n\nexport function sequentialVioletCb() {\n    return scaleQuantile().range(paletteSequentialVioletCb);\n}\n\nexport function sequentialPinkCb() {\n    return scaleQuantile().range(paletteSequentialPinkCb);\n}\n\nexport function sequentialBlueCb() {\n    return scaleQuantile().range(paletteSequentialBlueCb);\n}\n\nexport function sequentialGreenCb() {\n    return scaleQuantile().range(paletteSequentialGreenCb);\n}\n\nexport function sequentialGreenBrownCb() {\n    return scaleQuantile().range(paletteSequentialGreenBrownCb);\n}\n\nexport function diverging_spectral1() {\n    return scaleQuantile().range(paletteDivergingSpectral1);\n}\n\nexport function diverging_spectral2() {\n    return scaleQuantile().range(paletteDivergingSpectral2);\n}\n\nexport function diverging_spectral3() {\n    return scaleQuantile().range(paletteDivergingSpectral3);\n}\n\nexport function diverging_brown_turquoise() {\n    return scaleQuantile().range(paletteDivergingBrownTurquoise);\n}\n\nexport function diverging_orange_pink() {\n    return scaleQuantile().range(paletteDivergingBrownTurquoise);\n}\n\nexport function diverging_red_blue() {\n    return scaleQuantile().range(paletteDivergingRedBlue);\n}\n\nexport function diverging_red_grey() {\n    return scaleQuantile().range(paletteDivergingRedGrey);\n}\n\nexport function diverging_orange_violet() {\n    return scaleQuantile().range(paletteDivergingOrangeViolet);\n}\n\nexport function diverging_purple_green() {\n    return scaleQuantile().range(paletteDivergingPurpleGreen);\n}\n\nexport function diverging_violet_green() {\n    return scaleQuantile().range(paletteDivergingVioletGreen);\n}\n\nexport function diverging_red_green() {\n    return scaleQuantile().range(paletteDivergingRedGreen);\n}\n\nexport function diverging_brown_green() {\n    return scaleQuantile().range(paletteDivergingBrownGreen);\n}\n\nexport function diverging_lightBrown_turquoise() {\n    return scaleQuantile().range(paletteDivergingLightBrownTurquoise);\n}"
+    "content": "import {scaleOrdinal, scaleQuantile} from 'd3';\n\nconst paletteCategory1 = [\n    '#e1c8df',\n    '#9ecd9d',\n    '#acd9d6',\n    '#e4e36b',\n    '#bfa1c5',\n    '#e4d3b8',\n    '#facba8',\n    '#ced4ea',\n    '#acd9d6'\n];\n\nconst paletteCategory2 = [\n    '#b6dde2',\n    '#6394af',\n    '#e4e9ab',\n    '#8ea876',\n    '#f7dce1',\n    '#cc878f',\n    '#fadaac',\n    '#f29a83',\n    '#8d7e9e'\n];\n\nconst paletteCategory3 = [\n    '#6b68a9',\n    '#8cc590',\n    '#b9487d',\n    '#bfa1c5',\n    '#4e6936',\n    '#71bbc3',\n    '#484156',\n    '#ccaf44',\n    '#d0553c'\n];\n\nconst paletteCategory4 = [\n    '#f1a30d',\n    '#1d4763',\n    '#84c7bc',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#563a2d',\n    '#563a2d',\n    '#87325d'\n];\n\nconst paletteCategory5 = [\n    '#f1a30d',\n    '#0c3183',\n    '#acd9d6',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#8a6338',\n    '#8d2d84',\n    '#f09bbc'\n];\n\nconst paletteCategory6 = [\n    '#71bbc3',\n    '#1d4763',\n    '#8fbe46',\n    '#4e6936',\n    '#ee8998',\n    '#c1212d',\n    '#f5af3c',\n    '#e95e2e',\n    '#634484'\n];\n\nconst paletteCategory7 = [\n    '#ea671e',\n    '#684592',\n    '#84b92a',\n    '#cd131c',\n    '#3c5ba2',\n    '#5baddc',\n    '#ffde06',\n    '#5db68b',\n    '#775e47'\n];\n\nconst paletteCategory8 = [\n    '#ebd646',\n    '#a50f38',\n    '#00a096',\n    '#f09bbc',\n    '#065b78',\n    '#72722a',\n    '#005231',\n    '#4d4e98',\n    '#7c4d25'\n];\n\nconst paletteSequentialYellow = [\n    '#fff1c6',\n    '#fee5a7',\n    '#fcda87',\n    '#face64',\n    '#f8bf4b',\n    '#f6b030',\n    '#f4a009',\n    '#d28514',\n    '#b36c17',\n    '#955618',\n    '#7a4317',\n    '#613214',\n    '#49230f'\n];\n\nconst paletteSequentialRedOrange = [\n    '#ffecb8',\n    '#fbd68b',\n    '#f7bf5e',\n    '#f3a82f',\n    '#df7520',\n    '#cd4925',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialRed = [\n    '#fde4d4',\n    '#f1c4af',\n    '#f7bf5e',\n    '#db826a',\n    '#d0614d',\n    '#c73e36',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialPink = [\n    '#fbe3e3',\n    '#f9cfcc',\n    '#f0aaa9',\n    '#ed7e7e',\n    '#ea647b',\n    '#e74576',\n    '#e41270',\n    '#c70f65',\n    '#aa105c',\n    '#8d1253',\n    '#731448',\n    '#5a123c',\n    '#420e30'\n];\n\nconst paletteSequentialPurplePink = [\n    '#f9d8e6',\n    '#ebbed7',\n    '#dda4c7',\n    '#c890bb',\n    '#b27daf',\n    '#8a4c94',\n    '#622181',\n    '#622181',\n    '#50216b',\n    '#472060',\n    '#3e1f55',\n    '#361e4b',\n    '#2d1c41'\n];\n\nconst paletteSequentialPurple = [\n    '#f6e8f1',\n    '#dcc5de',\n    '#c2a3c9',\n    '#a980b3',\n    '#905e9f',\n    '#793f8e',\n    '#622181',\n    '#592175',\n    '#4f216b',\n    '#462060',\n    '#3d1f55',\n    '#351e4b',\n    '#2c1c41'\n];\n\nconst paletteSequentialBlue = [\n    '#e5f2f9',\n    '#d1e5f5',\n    '#afd3ed',\n    '#91afd7',\n    '#738bbf',\n    '#3c5a9e',\n    '#0c3183',\n    '#132a68',\n    '#10204c',\n    '#0b193b',\n    '#06142f',\n    '#051228',\n    '#061020'\n];\n\nconst paletteSequentialLightBlue = [\n    '#eff8fd',\n    '#d9eff6',\n    '#c2e5ef',\n    '#a8dae8',\n    '#90cbe4',\n    '#76b8e1',\n    '#5baddc',\n    '#4d96cc',\n    '#427ebc',\n    '#3a67ab',\n    '#324c88',\n    '#29366b',\n    '#1e2354'\n];\n\nconst paletteSequentialBlueViolet = [\n    '#edf7e7',\n    '#c8e3d2',\n    '#91cdbf',\n    '#41b5ab',\n    '#218ba4',\n    '#145d94',\n    '#0c3183',\n    '#0d2d76',\n    '#0d2a6a',\n    '#0e265e',\n    '#0d2253',\n    '#0c1e47',\n    '#0b1a3c'\n];\n\nconst paletteSequentialTurquoise = [\n    '#e2ecf6',\n    '#cadfe6',\n    '#b1d3d6',\n    '#94c6c6',\n    '#74b9b6',\n    '#4caca6',\n    '#00a096',\n    '#008d89',\n    '#007b7c',\n    '#006a6f',\n    '#005963',\n    '#004a57',\n    '#063b4c'\n];\n\nconst paletteSequentialLightGreen = [\n    '#faf9de',\n    '#e9efc3',\n    '#d7e4a7',\n    '#c5d989',\n    '#b1ce6a',\n    '#9cc34c',\n    '#84b92a',\n    '#6fa32b',\n    '#5a8f2a',\n    '#477c29',\n    '#346b27',\n    '#205b24',\n    '#074d21'\n];\n\nconst paletteSequentialDarkGreen = [\n    '#eaf3e5',\n    '#c7d5be',\n    '#a3ba9a',\n    '#80a078',\n    '#5c885a',\n    '#357442',\n    '#00632e',\n    '#00592b',\n    '#004e27',\n    '#004423',\n    '#033a1e',\n    '#053019',\n    '#052613'\n];\n\nconst paletteSequentialGreenBrown = [\n    '#f7eccd',\n    '#d9cba6',\n    '#bcad82',\n    '#a29162',\n    '#887946',\n    '#716330',\n    '#5b501f',\n    '#51461d',\n    '#483d1b',\n    '#3f3418',\n    '#362b15',\n    '#2d2311',\n    '#231a0d'\n];\n\nconst paletteSequentialBrown = [\n    '#f7eccd',\n    '#eed3ab',\n    '#e4bb89',\n    '#dba269',\n    '#ad7446',\n    '#834d2c',\n    '#5e2f19',\n    '#552a18',\n    '#4c2516',\n    '#432113',\n    '#3a1c11',\n    '#32180f',\n    '#29130b'\n];\n\nconst paletteSequentialGrey = [\n    '#e5e8ea',\n    '#bdbfc3',\n    '#999a9f',\n    '#77797f',\n    '#595c64',\n    '#3e444c',\n    '#253038',\n    '#20282e',\n    '#1a2024',\n    '#15181b',\n    '#0e1112',\n    '#070808',\n    '#000000'\n];\n\nconst paletteSequentialVioletCb = [\n    '#f4f3f9',\n    '#e0dced',\n    '#cbc6e0',\n    '#b7b0d4',\n    '#948cbf',\n    '#706baa',\n    '#4d4e98',\n    '#484889',\n    '#42427a',\n    '#3d3c6c',\n    '#37365e',\n    '#313050',\n    '#2c2a44'\n];\n\nconst paletteSequentialPinkCb = [\n    '#fbe5ee',\n    '#f8ccd5',\n    '#f4b2bc',\n    '#f096a3',\n    '#d56976',\n    '#bc3f52',\n    '#a50f38',\n    '#951735',\n    '#851b31',\n    '#761d2e',\n    '#671e2a',\n    '#581d26',\n    '#4a1c22'\n];\n\nconst paletteSequentialBlueCb = [\n    '#eaf6fc',\n    '#cfe4f4',\n    '#cfe4f4',\n    '#91bfe3',\n    '#6999bb',\n    '#417797',\n    '#065b78',\n    '#11536b',\n    '#174b5f',\n    '#194354',\n    '#1a3b49',\n    '#1a343f',\n    '#192d35'\n];\n\nconst paletteSequentialGreenCb = [\n    '#fff7d0',\n    '#e9e09b',\n    '#d1ca62',\n    '#b7b623',\n    '#9e9e28',\n    '#88872a',\n    '#72722a',\n    '#676726',\n    '#5c5c23',\n    '#51511f',\n    '#47471b',\n    '#3d3d17',\n    '#333413'\n];\n\nconst paletteSequentialGreenBrownCb = [\n    '#f2edde',\n    '#d8d1c0',\n    '#bfb699',\n    '#a09778',\n    '#837b5a',\n    '#686141',\n    '#4f4b2c',\n    '#3e3e1f',\n    '#2e3313',\n    '#292d14',\n    '#232613',\n    '#1e2012',\n    '#191a10'\n];\n\nconst paletteDivergingSpectral1 = [\n    '#98141f',\n    '#ab332c',\n    '#bf5040',\n    '#d5705b',\n    '#e4a57f',\n    '#f3d6a6',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#4e868f',\n    '#2e637d',\n    '#06456c'\n];\n\nconst paletteDivergingSpectral2 = [\n    '#d43d4f',\n    '#df564b',\n    '#eb6d45',\n    '#f08e53',\n    '#f8b96f',\n    '#fee08b',\n    '#f5f2b8',\n    '#d7e5b1',\n    '#b5d7aa',\n    '#8ec8a3',\n    '#6abda3',\n    '#4fa4b5',\n    '#3489be'\n];\n\nconst paletteDivergingSpectral3 = [\n    '#651035',\n    '#ae1143',\n    '#c9314b',\n    '#dd7257',\n    '#eeb27a',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cadfba',\n    '#96cabb',\n    '#50b4bb',\n    '#3eaecc',\n    '#206791',\n    '#0c2c63'\n];\n\nconst paletteDivergingBrownTurquoise = [\n    '#3f3128',\n    '#683828',\n    '#933624',\n    '#d5705b',\n    '#db9c5e',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#628f85',\n    '#53746d',\n    '#475b57'\n];\n\nconst paletteDivergingOrangePink = [\n    '#e7511e',\n    '#eb6929',\n    '#ee7f37',\n    '#f29446',\n    '#f9c083',\n    '#ffe9c3',\n    '#ffeee3',\n    '#f9cfc1',\n    '#f3a9ab',\n    '#db6882',\n    '#c71360',\n    '#891953',\n    '#4b1c47'\n];\n\nconst paletteDivergingRedBlue = [\n    '#b2172b',\n    '#c4443e',\n    '#d76a5a',\n    '#ed937e',\n    '#f4b8a2',\n    '#fcdbc7',\n    '#efefef',\n    '#bfcad5',\n    '#8ba7bc',\n    '#4d87a5',\n    '#3c7ca0',\n    '#28729b',\n    '#036896'\n];\n\nconst paletteDivergingRedGrey = [\n    '#b2172b',\n    '#c54532',\n    '#da6c3b',\n    '#f29446',\n    '#f8bc67',\n    '#fee08b',\n    '#efece5',\n    '#c9c5c1',\n    '#a5a19f',\n    '#808080',\n    '#666666',\n    '#333333',\n    '#000000'\n];\n\nconst paletteDivergingOrangeViolet = [\n    '#98141f',\n    '#ab332c',\n    '#f9bc47',\n    '#fdcf66',\n    '#fede8d',\n    '#ffecb3',\n    '#f9eff6',\n    '#e8d0e3',\n    '#a4c4a9',\n    '#a973aa',\n    '#834f96',\n    '#622181',\n    '#402357'\n];\n\nconst paletteDivergingPurpleGreen = [\n    '#59194b',\n    '#85134b',\n    '#c71360',\n    '#db6882',\n    '#eba7a8',\n    '#fce0ca',\n    '#faefe1',\n    '#dbd9aa',\n    '#b9c26e',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingVioletGreen = [\n    '#55296e',\n    '#75408e',\n    '#8a5fa0',\n    '#a081b5',\n    '#beadcf',\n    '#ddd7e7',\n    '#eae8ed',\n    '#c1d4bc',\n    '#93be86',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingRedGreen = [\n    '#b2172b',\n    '#c5403c',\n    '#d96453',\n    '#ef8972',\n    '#f6b49c',\n    '#fcdbc7',\n    '#f9ebde',\n    '#dad6a8',\n    '#b9c16d',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingBrownGreen = [\n    '#735146',\n    '#846454',\n    '#977a65',\n    '#aa9177',\n    '#c2ad91',\n    '#dbcaad',\n    '#edebd6',\n    '#c4d6aa',\n    '#94bf7c',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingLightBrownTurquoise = [\n    '#8b5219',\n    '#a46821',\n    '#bf812c',\n    '#cfa151',\n    '#e2c489',\n    '#f6e8c3',\n    '#f5f1df',\n    '#cbdccc',\n    '#9cc6b9',\n    '#60afa6',\n    '#359790',\n    '#1d7d75',\n    '#00665e'\n];\n\n\nexport function category1() {\n    return scaleOrdinal().range(paletteCategory1);\n}\n\nexport function category2() {\n    return scaleOrdinal().range(paletteCategory2);\n}\n\nexport function category3() {\n    return scaleOrdinal().range(paletteCategory3);\n}\n\nexport function category4() {\n    return scaleOrdinal().range(paletteCategory4);\n}\n\nexport function category5() {\n    return scaleOrdinal().range(paletteCategory5);\n}\n\nexport function category6() {\n    return scaleOrdinal().range(paletteCategory6);\n}\n\nexport function category7() {\n    return scaleOrdinal().range(paletteCategory7);\n}\n\nexport function category8() {\n    return scaleOrdinal().range(paletteCategory8);\n}\n\nexport function sequentialYellow() {\n    return scaleQuantile().range(paletteSequentialYellow);\n}\n\nexport function sequentialRedOrange() {\n    return scaleQuantile().range(paletteSequentialRedOrange);\n}\n\nexport function sequentialRed() {\n    return scaleQuantile().range(paletteSequentialRed);\n}\n\nexport function sequentialPink() {\n    return scaleQuantile().range(paletteSequentialPink);\n}\n\nexport function sequentialPurplePink() {\n    return scaleQuantile().range(paletteSequentialPurplePink);\n}\n\nexport function sequentialPurple() {\n    return scaleQuantile().range(paletteSequentialPurple);\n}\n\nexport function sequentialBlue() {\n    return scaleQuantile().range(paletteSequentialBlue);\n}\n\nexport function sequentialLightBlue() {\n    return scaleQuantile().range(paletteSequentialLightBlue);\n}\n\nexport function sequentialBlueViolet() {\n    return scaleQuantile().range(paletteSequentialBlueViolet);\n}\n\nexport function sequentialTurquoise() {\n    return scaleQuantile().range(paletteSequentialTurquoise);\n}\n\nexport function sequentialLightGreen() {\n    return scaleQuantile().range(paletteSequentialLightGreen);\n}\n\nexport function sequentialDarkGreen() {\n    return scaleQuantile().range(paletteSequentialDarkGreen);\n}\n\nexport function sequentialGreenBrown() {\n    return scaleQuantile().range(paletteSequentialGreenBrown);\n}\n\nexport function sequentialBrown() {\n    return scaleQuantile().range(paletteSequentialBrown);\n}\n\nexport function sequentialGrey() {\n    return scaleQuantile().range(paletteSequentialGrey);\n}\n\nexport function sequentialVioletCb() {\n    return scaleQuantile().range(paletteSequentialVioletCb);\n}\n\nexport function sequentialPinkCb() {\n    return scaleQuantile().range(paletteSequentialPinkCb);\n}\n\nexport function sequentialBlueCb() {\n    return scaleQuantile().range(paletteSequentialBlueCb);\n}\n\nexport function sequentialGreenCb() {\n    return scaleQuantile().range(paletteSequentialGreenCb);\n}\n\nexport function sequentialGreenBrownCb() {\n    return scaleQuantile().range(paletteSequentialGreenBrownCb);\n}\n\nexport function diverging_spectral1() {\n    return scaleQuantile().range(paletteDivergingSpectral1);\n}\n\nexport function diverging_spectral2() {\n    return scaleQuantile().range(paletteDivergingSpectral2);\n}\n\nexport function diverging_spectral3() {\n    return scaleQuantile().range(paletteDivergingSpectral3);\n}\n\nexport function diverging_brown_turquoise() {\n    return scaleQuantile().range(paletteDivergingBrownTurquoise);\n}\n\nexport function diverging_orange_pink() {\n    return scaleQuantile().range(paletteDivergingOrangePink);\n}\n\nexport function diverging_red_blue() {\n    return scaleQuantile().range(paletteDivergingRedBlue);\n}\n\nexport function diverging_red_grey() {\n    return scaleQuantile().range(paletteDivergingRedGrey);\n}\n\nexport function diverging_orange_violet() {\n    return scaleQuantile().range(paletteDivergingOrangeViolet);\n}\n\nexport function diverging_purple_green() {\n    return scaleQuantile().range(paletteDivergingPurpleGreen);\n}\n\nexport function diverging_violet_green() {\n    return scaleQuantile().range(paletteDivergingVioletGreen);\n}\n\nexport function diverging_red_green() {\n    return scaleQuantile().range(paletteDivergingRedGreen);\n}\n\nexport function diverging_brown_green() {\n    return scaleQuantile().range(paletteDivergingBrownGreen);\n}\n\nexport function diverging_lightBrown_turquoise() {\n    return scaleQuantile().range(paletteDivergingLightBrownTurquoise);\n}"
   },
   {
     "__docId__": 348,
@@ -9430,7 +9430,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "export function simple2stacked(data) {\n  return d3.nest().key((d) => d.x).rollup((array) => {\n    let r = {};\n    for (let i in array) {\n      let object = array[i];\n      if (object) {\n        r[object.key] = object.y;\n      }\n    }\n    return r;\n  }).entries(data);\n}\n\nexport function simple2nested(data, key = 'key') {\n  return d3.nest().key((d) => d[key]).entries(data);\n}\n\nexport function nested2simple(data) {\n  let array = Array();\n  for (let i = 0; i < data.length; i++) {\n    for (let j = 0; j < data[i].values.length; j++) {\n      let key = data[i].key;\n      let x = data[i].values[j].x;\n      let y = data[i].values[j].y;\n      array.push({ key: key, x: x, y: y });\n    }\n  }\n  return array;\n}\n\nexport function simple2Linked(data) {\n  var linkedData = { links: [], nodes: [] };\n  data.map((d) => d.key === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));\n  return linkedData;\n}\n\n\nexport function convertPropretiesToTimeFormat(data, properties, format) {\n  data.forEach((d) => {\n    properties.map((p) => {\n      d[p] = d3.timeParse(format)(d[p]);\n    });\n  });\n}\n\nexport function convertByXYFormat(data, config) {\n  data.forEach((d) => {\n    //parse x coordinate\n    switch (config.xAxisType) {\n      case 'time':\n        d.x = d3.timeParse(config.xAxisFormat)(d.x);\n        break;\n      case 'linear':\n        d.x = +d.x;\n        break;\n    }\n    //parse Y coordinate\n    switch (config.yAxisType) {\n      case 'time':\n        d.y = d3.timeParse(config.yAxisFormat)(d.y);\n        break;\n      case 'linear':\n        d.y = +d.y;\n        break;\n    }\n  });\n  return data;\n}"
+    "content": "import {nest, timeParse} from 'd3';\n\nexport function simple2stacked(data) {\n  return nest().key((d) => d.x).rollup((array) => {\n    let r = {};\n    for (let i = 0; i < array.length; i++) {\n      let object = array[i];\n      if (object) {\n        r[object.key] = object.y;\n      }\n    }\n    return r;\n  }).entries(data);\n}\n\nexport function simple2nested(data, key = 'key') {\n  return nest().key((d) => d[key]).entries(data);\n}\n\nexport function nested2simple(data) {\n  let array = Array();\n  for (let i = 0; i < data.length; i++) {\n    for (let j = 0; j < data[i].values.length; j++) {\n      let key = data[i].key;\n      let x = data[i].values[j].x;\n      let y = data[i].values[j].y;\n      array.push({ key: key, x: x, y: y });\n    }\n  }\n  return array;\n}\n\nexport function simple2Linked(data) {\n  var linkedData = { links: [], nodes: [] };\n  data.map((d) => d.key === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));\n  return linkedData;\n}\n\n\nexport function convertPropretiesToTimeFormat(data, properties, format) {\n  data.forEach((d) => {\n    properties.map((p) => {\n      d[p] = timeParse(format)(d[p]);\n    });\n  });\n}\n\nexport function convertByXYFormat(data, config) {\n  data.forEach((d) => {\n    //parse x coordinate\n    switch (config.xAxisType) {\n      case 'time':\n        d.x = timeParse(config.xAxisFormat)(d.x);\n        break;\n      case 'linear':\n        d.x = +d.x;\n        break;\n    }\n    //parse Y coordinate\n    switch (config.yAxisType) {\n      case 'time':\n        d.y = timeParse(config.yAxisFormat)(d.y);\n        break;\n      case 'linear':\n        d.y = +d.y;\n        break;\n    }\n  });\n  return data;\n}"
   },
   {
     "__docId__": 435,
@@ -9445,7 +9445,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{simple2stacked}",
     "description": null,
-    "lineNumber": 1,
+    "lineNumber": 3,
     "undocument": true,
     "params": [
       {
@@ -9475,7 +9475,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{simple2nested}",
     "description": null,
-    "lineNumber": 14,
+    "lineNumber": 16,
     "undocument": true,
     "params": [
       {
@@ -9514,7 +9514,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{nested2simple}",
     "description": null,
-    "lineNumber": 18,
+    "lineNumber": 20,
     "undocument": true,
     "params": [
       {
@@ -9544,7 +9544,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{simple2Linked}",
     "description": null,
-    "lineNumber": 31,
+    "lineNumber": 33,
     "undocument": true,
     "params": [
       {
@@ -9574,7 +9574,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{convertPropretiesToTimeFormat}",
     "description": null,
-    "lineNumber": 38,
+    "lineNumber": 40,
     "undocument": true,
     "params": [
       {
@@ -9611,7 +9611,7 @@
     "importPath": "proteic/src/utils/dataTransformation.js",
     "importStyle": "{convertByXYFormat}",
     "description": null,
-    "lineNumber": 46,
+    "lineNumber": 48,
     "undocument": true,
     "params": [
       {
@@ -9916,8 +9916,8 @@
     "longname": "src/utils/factory.js",
     "access": null,
     "description": null,
-    "lineNumber": 1,
-    "content": "(() => {\n  window.ProteusFactory = {\n    create(params) {\n      switch (params.type) {\n        case 'Linechart':\n          return new Linechart(params.data, params.config);\n        case 'Barchart':\n          return new Barchart(params.data, params.config);\n        case 'Gauge':\n          return new Gauge(params.data, params.config);\n        case 'Streamgraph':\n          return new Streamgraph(params.data, params.config);\n        case 'Sunburst':\n          return new Sunburst(params.data, params.config);\n        case 'StackedArea':\n          return new StackedArea(params.data, params.config);\n        default:\n          throw TypeError('Unknow chart type' + params.type);\n      }\n    }\n  };\n})();"
+    "lineNumber": 2,
+    "content": "/*jshint -W117 */ // TODO investigate not defined errors\nimport Linechart from '../charts/linechart.js';\nimport Barchart from '../charts/barchart.js';\nimport Gauge from '../charts/gauge.js';\nimport Streamgraph from '../charts/streamgraph.js';\nimport StackedArea from '../charts/stackedArea.js';\nimport Sunburst from '../charts/sunburst.js';\n\n(() => {\n  window.ProteusFactory = {\n    create(params) {\n      switch (params.type) {\n        case 'Linechart':\n          return new Linechart(params.data, params.config);\n        case 'Barchart':\n          return new Barchart(params.data, params.config);\n        case 'Gauge':\n          return new Gauge(params.data, params.config);\n        case 'Streamgraph':\n          return new Streamgraph(params.data, params.config);\n        case 'Sunburst':\n          return new Sunburst(params.data, params.config);\n        case 'StackedArea':\n          return new StackedArea(params.data, params.config);\n        default:\n          throw TypeError('Unknow chart type' + params.type);\n      }\n    }\n  };\n})();"
   },
   {
     "__docId__": 458,
@@ -10266,8 +10266,8 @@
     "longname": "src/utils/image.js",
     "access": null,
     "description": null,
-    "lineNumber": 2,
-    "content": "\nconst doctype = '<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">';\n\nfunction isExternal(url) {\n  return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;\n}\n\n\nfunction inlineImages(el, callback) {\n  var images = el.querySelectorAll('image');\n  var left = images.length;\n  if (left === 0) {\n    callback();\n  }\n  for (var i = 0; i < images.length; i++) {\n    (function (image) {\n      var href = image.getAttribute('xlink:href');\n      if (href) {\n        if (isExternal(href.value)) {\n          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);\n          return;\n        }\n      }\n      var canvas = document.createElement('canvas');\n      var ctx = canvas.getContext('2d');\n      var img = new Image();\n      href = href || image.getAttribute('href');\n      img.src = href;\n      img.onload = function () {\n        canvas.width = img.width;\n        canvas.height = img.height;\n        ctx.drawImage(img, 0, 0);\n        image.setAttribute('xlink:href', canvas.toDataURL('image/png'));\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n      img.onerror = function () {\n        console.error('Could not load ' + href);\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n    })(images[i]);\n  }\n}\n\nfunction styles(el, selectorRemap) {\n  var css = '';\n  var sheets = document.styleSheets;\n  for (var i = 0; i < sheets.length; i++) {\n    if (isExternal(sheets[i].href)) {\n      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);\n      continue;\n    }\n    var rules = sheets[i].cssRules;\n    if (rules !== null) {\n      for (var j = 0; j < rules.length; j++) {\n        var rule = rules[j];\n        if (typeof (rule.style) !== 'undefined') {\n          var match = null;\n          try {\n            match = el.querySelector(rule.selectorText);\n          } catch (err) {\n            console.warn('Invalid CSS selector \"' + rule.selectorText + '\"', err);\n          }\n          if (match) {\n            var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;\n            css += selector + ' { ' + rule.style.cssText + ' }\\n';\n          } else if (rule.cssText.match(/^@font-face/)) {\n            css += rule.cssText + '\\n';\n          }\n        }\n      }\n    }\n  }\n  return css;\n}\n\nexport function svgAsDataUri(el, options, cb) {\n  options = options || {};\n  options.scale = options.scale || 1;\n  var xmlns = 'http://www.w3.org/2000/xmlns/';\n\n  inlineImages(el, function () {\n    var outer = document.createElement('div');\n    var clone = el.cloneNode(true);\n    var width, height;\n    if (el.tagName === 'svg') {\n      width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));\n      height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));\n    } else {\n      var box = el.getBBox();\n      width = box.x + box.width;\n      height = box.y + box.height;\n      clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\\(.*?\\)/, ''));\n\n      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');\n      svg.appendChild(clone);\n      clone = svg;\n    }\n\n    clone.setAttribute('version', '1.1');\n    clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');\n    clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');\n    clone.setAttribute('width', width * options.scale);\n    clone.setAttribute('height', height * options.scale);\n    clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);\n    outer.appendChild(clone);\n\n    var css = styles(el, options.selectorRemap);\n    var s = document.createElement('style');\n    s.setAttribute('type', 'text/css');\n    s.innerHTML = '<![CDATA[\\n' + css + '\\n]]>';\n    var defs = document.createElement('defs');\n    defs.appendChild(s);\n    clone.insertBefore(defs, clone.firstChild);\n\n    var svg = doctype + outer.innerHTML;\n    var uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));\n    if (cb) {\n      cb(uri);\n    }\n  });\n};\n"
+    "lineNumber": 3,
+    "content": "/*jshint -W117 */ // TODO investigate not defined errors\n\nconst doctype = '<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">';\n\nfunction isExternal(url) {\n  return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;\n}\n\nfunction inlineImages(el, callback) {\n  let images = el.querySelectorAll('image');\n  let left = images.length;\n  if (left === 0) {\n    callback();\n  }\n  for (var i = 0; i < images.length; i++) {\n    (function (image) {\n      var href = image.getAttribute('xlink:href');\n      if (href) {\n        if (isExternal(href.value)) {\n          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);\n          return;\n        }\n      }\n      let canvas = document.createElement('canvas');\n      let ctx = canvas.getContext('2d');\n      let img = new Image();\n      href = href || image.getAttribute('href');\n      img.src = href;\n      img.onload = function () {\n        canvas.width = img.width;\n        canvas.height = img.height;\n        ctx.drawImage(img, 0, 0);\n        image.setAttribute('xlink:href', canvas.toDataURL('image/png'));\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n      img.onerror = function () {\n        console.error('Could not load ' + href);\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n    })(images[i]);\n  }\n}\n\nfunction styles(el, selectorRemap) {\n  let css = '';\n  let sheets = document.styleSheets;\n  for (var i = 0; i < sheets.length; i++) {\n    if (isExternal(sheets[i].href)) {\n      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);\n      continue;\n    }\n    let rules = sheets[i].cssRules;\n    if (rules !== null) {\n      for (var j = 0; j < rules.length; j++) {\n        let rule = rules[j];\n        if (typeof (rule.style) !== 'undefined') {\n          let match = null;\n          try {\n            match = el.querySelector(rule.selectorText);\n          } catch (err) {\n            console.warn('Invalid CSS selector \"' + rule.selectorText + '\"', err);\n          }\n          if (match) {\n            var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;\n            css += selector + ' { ' + rule.style.cssText + ' }\\n';\n          } else if (rule.cssText.match(/^@font-face/)) {\n            css += rule.cssText + '\\n';\n          }\n        }\n      }\n    }\n  }\n  return css;\n}\n\nexport function svgAsDataUri(el, options, cb) {\n  options = options || {};\n  options.scale = options.scale || 1;\n  var xmlns = 'http://www.w3.org/2000/xmlns/';\n\n  inlineImages(el, function () {\n    var outer = document.createElement('div');\n    var clone = el.cloneNode(true);\n    var width, height;\n    if (el.tagName === 'svg') {\n      width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));\n      height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));\n    } else {\n      let box = el.getBBox();\n      width = box.x + box.width;\n      height = box.y + box.height;\n      clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\\(.*?\\)/, ''));\n\n      let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');\n      svg.appendChild(clone);\n      clone = svg;\n    }\n\n    clone.setAttribute('version', '1.1');\n    clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');\n    clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');\n    clone.setAttribute('width', width * options.scale);\n    clone.setAttribute('height', height * options.scale);\n    clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);\n    outer.appendChild(clone);\n\n    let css = styles(el, options.selectorRemap);\n    let s = document.createElement('style');\n    s.setAttribute('type', 'text/css');\n    s.innerHTML = '<![CDATA[\\n' + css + '\\n]]>';\n    let defs = document.createElement('defs');\n    defs.appendChild(s);\n    clone.insertBefore(defs, clone.firstChild);\n\n    let svg = doctype + outer.innerHTML;\n    let uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));\n    if (cb) {\n      cb(uri);\n    }\n  });\n}\n"
   },
   {
     "__docId__": 470,
@@ -10282,7 +10282,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 2,
+    "lineNumber": 3,
     "undocument": true,
     "type": {
       "types": [
@@ -10303,7 +10303,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 4,
+    "lineNumber": 5,
     "undocument": true,
     "params": [
       {

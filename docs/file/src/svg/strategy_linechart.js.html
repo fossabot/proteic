@@ -156,6 +156,7 @@ import { Areaset } from &apos;./components/areaset&apos;;
 import { Pointset } from &apos;./components/pointset&apos;;
 import { convertByXYFormat } from &apos;../utils/dataTransformation&apos;;
 import { sortByField } from &apos;../utils/dataSorting&apos;;
+import {min, max} from &apos;d3&apos;;
 
 export class SvgLinechartStrategy extends SvgAxis {
 
@@ -233,10 +234,10 @@ export class SvgLinechartStrategy extends SvgAxis {
   }
 
   _getDomainBBox(data) {
-    var minX = d3.min(data, (d) =&gt; d.x),
-      maxX = d3.max(data, (d) =&gt; d.x),
-      minY = d3.min(data, (d) =&gt; d.y),
-      maxY = d3.max(data, (d) =&gt; d.y);
+    var minX = min(data, (d) =&gt; d.x),
+      maxX = max(data, (d) =&gt; d.x),
+      minY = min(data, (d) =&gt; d.y),
+      maxY = max(data, (d) =&gt; d.y);
     return [minX, maxX, minY, maxY];
   }
 
