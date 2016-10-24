@@ -1,3 +1,4 @@
+import {scaleSqrt} from 'd3';
 
 export class YRadialAxis {
 
@@ -8,7 +9,7 @@ export class YRadialAxis {
 
     let radius = (Math.min(config.width, config.height) / 2) - 10;
 
-    this.yRadialAxis = d3.scaleSqrt()
+    this.yRadialAxis = scaleSqrt()
       .range([0, radius]);
   }
 }

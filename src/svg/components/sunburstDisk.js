@@ -1,9 +1,11 @@
+import {partition, stratify, arc} from 'd3';
+
 
 export class SunburstDisk {
   constructor(xRadialAxis, yRadialAxis) {
     this.x = xRadialAxis;
     this.y = yRadialAxis;
-    this.arcGen = d3.arc()
+    this.arcGen = arc()
       .startAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x0))))
       .endAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x1))))
       .innerRadius((d) => Math.max(0, this.y(d.y0)))
@@ -16,14 +18,13 @@ export class SunburstDisk {
     this._removePaths(svg);
 
     // Create layout partition
-    let partition = d3.partition();
-    let root = d3.stratify()
-      .id(function(d) { return d.id; })
-      .parentId(function(d) { return d.parent; })
+    let root = stratify()
+      .id((d) => d.id)
+      .parentId((d) => d.parent)
       (data);
 
     root.sum((d) =>  d.value);
-    partition(root);
+    partition()(root);
 
     // Draw the paths (arcs)
     let paths = svg.selectAll('path')
@@ -42,30 +43,37 @@ export class SunburstDisk {
       .style('shape-rendering', 'crispEdge');
 
       paths // TODO extract events to config?
-        .on('mouseover', (d) => {
+        .on('mouseover.default', (d) => {
           let ancestors = this._getAncestors(d);
           // Fade all the arcs
           if (ancestors.length > 0) {
-            d3.selectAll('path')
+            svg.selectAll('path')
                 .style('opacity', 0.3);
           }
-          d3.selectAll('path')
+          svg.selectAll('path')
             .filter((node) => ancestors.indexOf(node) >= 0)
             .style('opacity', 1);
           // Hightlight the hovered arc
             svg.select('.text-indicator .label').text(d.data.label);
             svg.select('.text-indicator .value').text(d.value);
         })
-        .on('mouseout', (d) => {
-          d3.selectAll('path').style('opacity', 1);
-          d3.select('.text-indicator .label').style('font-weight', 'normal');
-          d3.select('.text-indicator .label').text('');
-          d3.select('.text-indicator .value').text('');
+        .on('mouseout.default', (d) => {
+          svg.selectAll('path').style('opacity', 1);
+          svg.select('.text-indicator .label').style('font-weight', 'normal');
+          svg.select('.text-indicator .label').text('');
+          svg.select('.text-indicator .value').text('');
         })
       ;
 
+    paths
+      .on('mousedown.user', config.onDown)
+      .on('mouseup.user', config.onUp)
+      .on('mouseleave.user', config.onLeave)
+      .on('mouseover.user', config.onHover)
+      .on('click.user', config.onClick);
+
     // ???
-    d3.select(self.frameElement).style('height', this.height + 'px');
+    svg.select(self.frameElement).style('height', this.height + 'px');
   }
 
   /**

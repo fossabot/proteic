@@ -25,7 +25,7 @@ var Datasource = function Datasource() {
  * @memberOf Datasource
  */
 Datasource.prototype.start = function start () {
-    console.log('Starting datasource');
+    window.console.log('Starting datasource');
 };
 
 /**
@@ -36,7 +36,7 @@ Datasource.prototype.start = function start () {
     
  */
 Datasource.prototype.stop = function stop () {
-    console.log('Stopping datasource');
+    window.console.log('Stopping datasource');
 };
 
 /**
@@ -91,7 +91,7 @@ var WebsocketDatasource = (function (Datasource$$1) {
         var this$1 = this;
 
         Datasource$$1.prototype.start.call(this);
-        this.ws = new WebSocket(this.source.endpoint);
+        this.ws = new window.WebSocket(this.source.endpoint);
 
         this.ws.onopen = function (e) {
             this$1.dispatcher.call('onopen', this$1, e);
@@ -600,6 +600,22 @@ var paletteDivergingBrownTurquoise = [
     '#475b57'
 ];
 
+var paletteDivergingOrangePink = [
+    '#e7511e',
+    '#eb6929',
+    '#ee7f37',
+    '#f29446',
+    '#f9c083',
+    '#ffe9c3',
+    '#ffeee3',
+    '#f9cfc1',
+    '#f3a9ab',
+    '#db6882',
+    '#c71360',
+    '#891953',
+    '#4b1c47'
+];
+
 var paletteDivergingRedBlue = [
     '#b2172b',
     '#c4443e',
@@ -853,8 +869,7 @@ SvgContainer.prototype._initializeSvgContainer = function _initializeSvgContaine
     height = config.height + config.marginTop + config.marginBottom,
     svg = null;
 
-  svg = d3
-    .select(selector)
+  svg = d3$1.select(selector)
     .append('svg:svg')
     .attr('width', width)
     .attr('height', height)
@@ -1020,13 +1035,13 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
 
   switch (xAxisType) {
     case 'time':
-      x = d3.scaleTime().range([0, config.width]);
+      x = d3$1.scaleTime().range([0, config.width]);
       break;
     case 'linear':
-      x = d3.scaleLinear().range([0, config.width]);
+      x = d3$1.scaleLinear().range([0, config.width]);
       break;
     case 'categorical':
-      x = d3.scaleBand().rangeRound([0, config.width])
+      x = d3$1.scaleBand().rangeRound([0, config.width])
         .padding(0.1)
         .align(0.5);
       break;
@@ -1034,7 +1049,7 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
       throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
   }
 
-  return d3.axisBottom(x);
+  return d3$1.axisBottom(x);
 };
 
 XAxis.prototype.transition = function transition (svg, time) {
@@ -1044,15 +1059,15 @@ XAxis.prototype.transition = function transition (svg, time) {
 };
 
 XAxis.prototype.xStyle = function xStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; })
-    .style('fill', function (d) { return '#1a2127'; })
+    .style('fill', function (d) { return '#1a2127'; });
 
 
-  d3.select(this).selectAll(['path', 'line'])
+  d3$1.select(this).selectAll(['path', 'line'])
     .attr('stroke', 'gray')
-    .attr('stroke-width', .3)
+    .attr('stroke-width', .3);
 
 };
 
@@ -1114,17 +1129,17 @@ YAxis.prototype._initializeYAxis = function _initializeYAxis (yAxisType, config)
 
   switch (yAxisType) {
     case 'linear':
-      y = d3.scaleLinear().range([config.height, 0]);
+      y = d3$1.scaleLinear().range([config.height, 0]);
       break;
     case 'categorical':
-      y = d3.scaleBand().rangeRound([config.height, 0])
+      y = d3$1.scaleBand().rangeRound([config.height, 0])
         .padding(0.1)
         .align(0.5);
       break;
     default:
       throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
   }
-  return d3.axisLeft(y)
+  return d3$1.axisLeft(y)
     .tickSizeInner(-config.width)
     .tickSizeOuter(0)
     .tickPadding(20)
@@ -1139,10 +1154,10 @@ YAxis.prototype.transition = function transition (svg, time) {
 };
 
 YAxis.prototype.yStyle = function yStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; });
-  d3.select(this).selectAll('g.tick line')
+  d3$1.select(this).selectAll('g.tick line')
     .style('stroke', function (d, i) { return isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8'; });
 };
 
@@ -1230,7 +1245,7 @@ var Lineset = function Lineset(x, y) {
 
   this.xAxis = x.xAxis;
   this.yAxis = y.yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return this$1.xAxis.scale()(d.x); })
     .y(function (d) { return this$1.yAxis.scale()(d.y); });
 };
@@ -1238,7 +1253,7 @@ var Lineset = function Lineset(x, y) {
 Lineset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data),
+  var dataSeries = d3$1.nest().key(function (d) { return d.key; }).entries(data),
     series = null,
     lines = null,
     colorScale = config.colorScale;
@@ -1269,7 +1284,7 @@ Lineset.prototype.render = function render (svg, config) {
 var Legend = function Legend() {};
 
 Legend.prototype.update = function update (svg, config, data) {
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data),
     legend = null,
@@ -1322,7 +1337,7 @@ var Areaset = function Areaset(x, y) {
 Areaset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data);
 
@@ -1374,7 +1389,7 @@ var Pointset = function Pointset(x, y) {
 Pointset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
     .key(function (d) { return d.key; })
     .entries(data),
     markers = null,
@@ -1426,9 +1441,9 @@ Pointset.prototype.render = function render (svg, config) {
 };
 
 function simple2stacked(data) {
-  return d3.nest().key(function (d) { return d.x; }).rollup(function (array) {
+  return d3$1.nest().key(function (d) { return d.x; }).rollup(function (array) {
     var r = {};
-    for (var i in array) {
+    for (var i = 0; i < array.length; i++) {
       var object = array[i];
       if (object) {
         r[object.key] = object.y;
@@ -1441,7 +1456,7 @@ function simple2stacked(data) {
 function simple2nested(data, key) {
   if ( key === void 0 ) key = 'key';
 
-  return d3.nest().key(function (d) { return d[key]; }).entries(data);
+  return d3$1.nest().key(function (d) { return d[key]; }).entries(data);
 }
 
 
@@ -1456,7 +1471,7 @@ function simple2Linked(data) {
 function convertPropretiesToTimeFormat(data, properties, format) {
   data.forEach(function (d) {
     properties.map(function (p) {
-      d[p] = d3.timeParse(format)(d[p]);
+      d[p] = d3$1.timeParse(format)(d[p]);
     });
   });
 }
@@ -1466,7 +1481,7 @@ function convertByXYFormat(data, config) {
     //parse x coordinate
     switch (config.xAxisType) {
       case 'time':
-        d.x = d3.timeParse(config.xAxisFormat)(d.x);
+        d.x = d3$1.timeParse(config.xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
@@ -1475,7 +1490,7 @@ function convertByXYFormat(data, config) {
     //parse Y coordinate
     switch (config.yAxisType) {
       case 'time':
-        d.y = d3.timeParse(config.yAxisFormat)(d.y);
+        d.y = d3$1.timeParse(config.yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
@@ -1572,10 +1587,10 @@ var SvgLinechartStrategy = (function (SvgAxis$$1) {
   };
 
   SvgLinechartStrategy.prototype._getDomainBBox = function _getDomainBBox (data) {
-    var minX = d3.min(data, function (d) { return d.x; }),
-      maxX = d3.max(data, function (d) { return d.x; }),
-      minY = d3.min(data, function (d) { return d.y; }),
-      maxY = d3.max(data, function (d) { return d.y; });
+    var minX = d3$1.min(data, function (d) { return d.x; }),
+      maxX = d3$1.max(data, function (d) { return d.x; }),
+      minY = d3$1.min(data, function (d) { return d.y; }),
+      maxY = d3$1.max(data, function (d) { return d.y; });
     return [minX, maxX, minY, maxY];
   };
 
@@ -1639,7 +1654,7 @@ var defaults$1 = {
 var Barset = function Barset(xAxis, yAxis) {
   this.xAxis = xAxis;
   this.yAxis = yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return xAxis.scale()(d.x); })
     .y(function (d) { return yAxis.scale()(d.y); });
 };
@@ -1707,7 +1722,7 @@ Barset.prototype._updateStacked = function _updateStacked (svg, config, dataSeri
 Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
   this._cleanCurrentSeries(svg);
 
-  var keys = d3.map(data, function (d) { return d.key; }).keys(),
+  var keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     colorScale = config.colorScale,
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
@@ -1717,7 +1732,7 @@ Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
     barMerge = null,
     x = this.xAxis.scale(),
     y = this.yAxis.scale(),
-    xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+    xGroup = d3$1.scaleBand().domain(keys).range([0, x.bandwidth()]),
     height = config.height;
 
   data = simple2nested(data, 'x');
@@ -1795,17 +1810,17 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
  
     var svg = this.svgContainer.svg,
       config = this.config,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       data4stack = simple2stacked(data),
       data4render = null,
       isStacked = this.config.stacked,
-      stack = d3.stack().keys(keys)
+      stack$$1 = d3$1.stack().keys(keys)
         .value(function (d, k) { return d.value[k]; })
-        .order(d3.stackOrderNone),
+        .order(d3$1.stackOrderNone),
       yMin = 0,
       yMax = 0,
       method = isStacked ? 'stacked' : 'grouped',
-      dataSeries = stack(data4stack),
+      dataSeries = stack$$1(data4stack),
       needRescaling = this.config.needRescaling;
 
     //rescale, if needed.
@@ -1815,10 +1830,10 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
 
 
     yMax = isStacked ?
-      d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); }) :
-      d3.max(data, function (d) { return d.y; });
+      d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); }) :
+      d3$1.max(data, function (d) { return d.y; });
 
-    this.axes.updateDomainByKeysAndBBox(d3.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
+    this.axes.updateDomainByKeysAndBBox(d3$1.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
 
     data4render = isStacked ? dataSeries : data;
@@ -1894,7 +1909,7 @@ var Streamset = function Streamset(xAxis, yAxis) {
     .curve(d3$1.curveCardinal)
     .x(function (d) { return this$1.xAxis.scale()((d3$1.timeParse(this$1.xDataFormat)(d.data.key))); }) // TODO: It seems d3.nest() transform Date object in
     .y0(function (d) { return this$1.yAxis.scale()(d[0]); })
-    .y1(function (d) { return this$1.yAxis.scale()(d[1]); })
+    .y1(function (d) { return this$1.yAxis.scale()(d[1]); });
 };
 
 
@@ -1961,15 +1976,15 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             xDataFormat = this.config.xAxisFormat,
             data4stack = simple2stacked(data),
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffsetWiggle),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffsetWiggle),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
        
        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);
@@ -1997,10 +2012,10 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
     };
   
     SvgStreamgraphStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return new Date(d.x); }),
-            maxX = d3.max(data, function (d) { return new Date(d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return new Date(d.x); }),
+            maxX = d3$1.max(data, function (d) { return new Date(d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2073,15 +2088,15 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             data4stack = simple2stacked(data),
             xDataFormat = this.config.xAxisFormat,
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffNone),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
 
         //rescale, if needed.
@@ -2108,10 +2123,10 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
 
 
     SvgStackedAreaStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return (d.x); }),
-            maxX = d3.max(data, function (d) { return (d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return (d.x); }),
+            maxX = d3$1.max(data, function (d) { return (d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2163,7 +2178,7 @@ var TimeBoxset = function TimeBoxset(xAxis, yAxis) {
 };
 TimeBoxset.prototype.update = function update (svg, config, data) {
   var colorScale = config.colorScale,
-    keys = d3.map(data, function (d) { return d.key; }).keys(),
+    keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
     layerMerge = null,
@@ -2172,13 +2187,13 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
     boxMerge = null,
     extLanes = null,
     yLanes = null,
-    yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys),
+    yLanesBand = d3$1.scaleBand().range([0, keys.length + 1]).domain(keys),
     x = this.xAxis.scale(),
     y = this.yAxis.scale();
 
   data = simple2nested(data);
-  extLanes = d3.extent(data, function (d, i) { return i; })
-  yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
+  extLanes = d3$1.extent(data, function (d, i) { return i; });
+  yLanes = d3$1.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 
   layer = svg.selectAll('.serie').data(data);
   layerEnter = layer.enter().append('g');
@@ -2236,7 +2251,7 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
     var svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.xAxisFormat,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       bbox = null,
       needRescaling = this.config.needRescaling;
 
@@ -2259,8 +2274,8 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
   
   SvgSwimlaneStrategy.prototype._getBBox = function _getBBox (data) {
     return [
-      d3.min(data, function (d) { return (d.x); }),
-      d3.max(data, function (d) { return (d.y); })
+      d3$1.min(data, function (d) { return (d.x); }),
+      d3$1.max(data, function (d) { return (d.y); })
     ];
   };
 
@@ -2307,15 +2322,14 @@ var Dial = function Dial(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
   this.translation = (function () { return 'translate(' + this$1.r + ',' + this$1.r + ')'; }
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
@@ -2323,7 +2337,7 @@ var Dial = function Dial(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2335,7 +2349,7 @@ var Dial = function Dial(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2391,9 +2405,8 @@ var DialNeedle = function DialNeedle(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
 
   this.needleLen = config.needleLenghtRatio * (this.r);
@@ -2402,11 +2415,11 @@ var DialNeedle = function DialNeedle(axisType, config) {
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
-  this.angleScale = d3.scaleLinear()
+  this.angleScale = d3$1.scaleLinear()
     .domain([config.minLevel, config.maxLevel])
     .range([90 + config.minAngle, 90 + config.maxAngle]);
 
@@ -2414,7 +2427,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2426,7 +2439,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2522,9 +2535,8 @@ var SvgGaugeStrategy = function SvgGaugeStrategy(context) {
 
   if (config.numericIndicator) {
     var r = (
-      (config.width > config.height)
-        ? config.height
-        : config.width
+      (config.width > config.height) ?
+        config.height : config.width
     ) / 2;
     var indicatorOffset = r + 75;
     config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
@@ -2563,8 +2575,8 @@ SvgGaugeStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config.marginRight = config.marginRight || defaults$5.marginRight;
   this.config.marginBottom = config.marginBottom || defaults$5.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
     : calculateWidth(defaults$5.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
   this.config.height = config.height || defaults$5.height;
 
@@ -2701,9 +2713,7 @@ var SvgNetworkgraphStrategy = function SvgNetworkgraphStrategy(context) {
 	 */
 SvgNetworkgraphStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    width = config.width,
-    height = config.height;
+    config = this.config;
 
   this.nodeset.update(svg, config, data);
 };
@@ -2727,12 +2737,39 @@ SvgNetworkgraphStrategy.prototype._loadConfig = function _loadConfig (config) {
   return this;
 };
 
+var defaults$7 = {
+    selector: '#chart',
+    colorScale: category8(),
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 30,
+    marginLeft: 50,
+    width: '50%', // %, auto, or numeric
+    height: 450,
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    },
+    //Events
+    onDown: function onDown(d) {
+    },
+    onHover: function onHover(d) {
+    },
+    onLeave: function onLeave(d) {
+    },
+    onClick: function onClick(d) {
+    }
+};
+
 var XRadialAxis = function XRadialAxis(config) {
   if (config === null) {
     throw new Error('No chart context specified for XRadialAxis');
   }
 
-  this.xRadialAxis = d3.scaleLinear().range([0, 2 * Math.PI]);
+  this.xRadialAxis = d3$1.scaleLinear().range([0, 2 * Math.PI]);
 };
 
 var YRadialAxis = function YRadialAxis(config) {
@@ -2742,7 +2779,7 @@ var YRadialAxis = function YRadialAxis(config) {
 
   var radius = (Math.min(config.width, config.height) / 2) - 10;
 
-  this.yRadialAxis = d3.scaleSqrt()
+  this.yRadialAxis = d3$1.scaleSqrt()
     .range([0, radius]);
 };
 
@@ -2761,7 +2798,7 @@ var SunburstDisk = function SunburstDisk(xRadialAxis, yRadialAxis) {
 
   this.x = xRadialAxis;
   this.y = yRadialAxis;
-  this.arcGen = d3.arc()
+  this.arcGen = d3$1.arc()
     .startAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x0))); })
     .endAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x1))); })
     .innerRadius(function (d) { return Math.max(0, this$1.y(d.y0)); })
@@ -2776,14 +2813,13 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
   this._removePaths(svg);
 
   // Create layout partition
-  var partition = d3.partition();
-  var root = d3.stratify()
-    .id(function(d) { return d.id; })
-    .parentId(function(d) { return d.parent; })
+  var root = d3$1.stratify()
+    .id(function (d) { return d.id; })
+    .parentId(function (d) { return d.parent; })
     (data);
 
   root.sum(function (d) { return d.value; });
-  partition(root);
+  d3$1.partition()(root);
 
   // Draw the paths (arcs)
   var paths = svg.selectAll('path')
@@ -2802,30 +2838,37 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
     .style('shape-rendering', 'crispEdge');
 
     paths // TODO extract events to config?
-      .on('mouseover', function (d) {
+      .on('mouseover.default', function (d) {
         var ancestors = this$1._getAncestors(d);
         // Fade all the arcs
         if (ancestors.length > 0) {
-          d3.selectAll('path')
+          svg.selectAll('path')
               .style('opacity', 0.3);
         }
-        d3.selectAll('path')
+        svg.selectAll('path')
           .filter(function (node) { return ancestors.indexOf(node) >= 0; })
           .style('opacity', 1);
         // Hightlight the hovered arc
           svg.select('.text-indicator .label').text(d.data.label);
           svg.select('.text-indicator .value').text(d.value);
       })
-      .on('mouseout', function (d) {
-        d3.selectAll('path').style('opacity', 1);
-        d3.select('.text-indicator .label').style('font-weight', 'normal');
-        d3.select('.text-indicator .label').text('');
-        d3.select('.text-indicator .value').text('');
+      .on('mouseout.default', function (d) {
+        svg.selectAll('path').style('opacity', 1);
+        svg.select('.text-indicator .label').style('font-weight', 'normal');
+        svg.select('.text-indicator .label').text('');
+        svg.select('.text-indicator .value').text('');
       })
     ;
 
+  paths
+    .on('mousedown.user', config.onDown)
+    .on('mouseup.user', config.onUp)
+    .on('mouseleave.user', config.onLeave)
+    .on('mouseover.user', config.onHover)
+    .on('click.user', config.onClick);
+
   // ???
-  d3.select(self.frameElement).style('height', this.height + 'px');
+  svg.select(self.frameElement).style('height', this.height + 'px');
 };
 
 /**
@@ -2859,9 +2902,10 @@ SunburstDisk.prototype.render = function render (svg, config) {
 
 var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
   this._loadConfig(context.config);
+
   this.svgContainer = new SvgContainer(this.config);
-  var config = this.config,
-    radius = (Math.min(config.width, config.height) / 2) - 10,
+  var config =
+    this.config,
     translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
   this.svgContainer.transform(translation);
@@ -2883,8 +2927,7 @@ var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
 
 SvgSunburstStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    colorScale = this.config.colorScale;
+    config = this.config;
 
   this.disk.update(svg, config, data);
 };
@@ -2896,19 +2939,26 @@ SvgSunburstStrategy.prototype.draw = function draw (data) {
 SvgSunburstStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config = {};
   //Selector
-  this.config.selector = config.selector || defaults$1.selector;
+  this.config.selector = config.selector || defaults$7.selector;
   //Margins 
-  this.config.marginTop = config.marginTop || defaults$1.marginTop;
-  this.config.marginLeft = config.marginLeft || defaults$1.marginLeft;
-  this.config.marginRight = config.marginRight || defaults$1.marginRight;
-  this.config.marginBottom = config.marginBottom || defaults$1.marginBottom;
+  this.config.marginTop = config.marginTop || defaults$7.marginTop;
+  this.config.marginLeft = config.marginLeft || defaults$7.marginLeft;
+  this.config.marginRight = config.marginRight || defaults$7.marginRight;
+  this.config.marginBottom = config.marginBottom || defaults$7.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
-    : calculateWidth(defaults$1.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
-  this.config.height = config.height || defaults$1.height;
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+    : calculateWidth(defaults$7.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
+  this.config.height = config.height || defaults$7.height;
     
-  this.config.colorScale = config.colorScale || defaults$1.colorScale;
+  this.config.colorScale = config.colorScale || defaults$7.colorScale;
+
+  //Events
+  this.config.onDown = config.onDown || defaults$7.onDown;
+  this.config.onUp = config.onUp || defaults$7.onUp;
+  this.config.onHover = config.onHover || defaults$7.onHover;
+  this.config.onClick = config.onClick || defaults$7.onClick;
+  this.config.onLeave = config.onLeave || defaults$7.onLeave;
 
   return this;
 };
@@ -2959,7 +3009,6 @@ function isExternal(url) {
   return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
 }
 
-
 function inlineImages(el, callback) {
   var images = el.querySelectorAll('image');
   var left = images.length;
@@ -2971,13 +3020,13 @@ function inlineImages(el, callback) {
       var href = image.getAttribute('xlink:href');
       if (href) {
         if (isExternal(href.value)) {
-          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
+          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
           return;
         }
       }
-      var canvas = document.createElement('canvas');
+      var canvas = window.document.createElement('canvas');
       var ctx = canvas.getContext('2d');
-      var img = new Image();
+      var img = new window.Image();
       href = href || image.getAttribute('href');
       img.src = href;
       img.onload = function () {
@@ -2991,7 +3040,7 @@ function inlineImages(el, callback) {
         }
       };
       img.onerror = function () {
-        console.error('Could not load ' + href);
+        window.console.error('Could not load ' + href);
         left--;
         if (left === 0) {
           callback();
@@ -3006,7 +3055,7 @@ function styles(el, selectorRemap) {
   var sheets = document.styleSheets;
   for (var i = 0; i < sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
-      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
+      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
       continue;
     }
     var rules = sheets[i].cssRules;
@@ -3018,7 +3067,7 @@ function styles(el, selectorRemap) {
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
-            console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
+            window.console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
           }
           if (match) {
             var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
@@ -3051,9 +3100,9 @@ function svgAsDataUri(el, options, cb) {
       height = box.y + box.height;
       clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\(.*?\)/, ''));
 
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.appendChild(clone);
-      clone = svg;
+      var svg$1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg$1.appendChild(clone);
+      clone = svg$1;
     }
 
     clone.setAttribute('version', '1.1');
@@ -3073,7 +3122,7 @@ function svgAsDataUri(el, options, cb) {
     clone.insertBefore(defs, clone.firstChild);
 
     var svg = doctype + outer.innerHTML;
-    var uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+    var uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }
@@ -3130,7 +3179,7 @@ Chart.prototype._initializeAPI = function _initializeAPI (properties) {
     properties.forEach(function (method) {
         clazz.prototype[method] = function (value) {
             return this.change(method, value);
-        }
+        };
     });
 };
 
@@ -3188,7 +3237,7 @@ Chart.prototype.download = function download () {
         else {
             var link = document.createElement('a');
             link.style = 'position: fixed; left -10000px;'; // making it invisible
-            link.href = uri
+            link.href = uri;
             link.download = this$1.constructor.name + '.svg';
             document.body.appendChild(link);
             link.click();
@@ -3521,74 +3570,6 @@ var Gauge$1 = (function (Chart$$1) {
   return Gauge;
 }(Chart));
 
-var defaults$7 = {
-    selector: '#chart',
-        colorScale: category8(),
-        margin: {
-        top: 20,
-            right: 20,
-            bottom: 30,
-            left: 50
-    },
-    width: '50%', // %, auto, or numeric
-        height: 450,
-        style: {
-        '.labels': {
-            'font': '18px sans-serif',
-                'text-anchor': 'middle'
-        },
-        'path': {
-            'stroke': '#fff',
-                'stroke-width': 2,
-                'shape-rendering': 'crispEdge'
-        },
-        '.infobox': {
-            'text-anchor': 'middle',
-                'alignment-baseline': 'central',
-                'fill': 'black'
-        },
-        '.infobox .name': {
-            'font': '28px sans-serif'
-        },
-        '.infobox .value': {
-            'font': '24px sans-serif',
-                'transform': 'translate(0, 1.5em)'
-        }
-    },
-    tooltip: function tooltip(data) {
-        return data.name + ': ' + data.value;
-    },
-    events: {
-        down: function down() {
-            d3.select(this).classed('hover', false);
-        },
-        over: function over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 7)
-            ;
-        },
-        leave: function leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 5)
-                .style('stroke-width', 2);
-        },
-        click: function click(d, i) {
-            console.log(d, i);
-        }
-    },
-    tickLabel: '',
-        transitionDuration: 300,
-        maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
-        sortData: {
-        descending: false,
-            prop: 'x'
-    }
-};
-
 /**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
  */
@@ -3744,4 +3725,4 @@ exports.Networkgraph = Networkgraph$1;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=proteic.min.js.map
+//# sourceMappingURL=proteic.js.map

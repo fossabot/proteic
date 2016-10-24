@@ -1,13 +1,12 @@
 import { defaults } from '../utils/defaults/stackedArea';
-import { SvgContainer } from './components/svgContainer';
 import { SvgAxis } from './base/svgAxis';
 import { XYAxes } from './components/xyAxes';
 import { Streamset } from './components/streamset';
 import { Legend } from './components/legend';
 import { simple2stacked } from '../utils/dataTransformation';
-import { calculateWidth } from '../utils/screen';
 import { convertPropretiesToTimeFormat } from '../utils/dataTransformation';
 import { sortByField } from '../utils/dataSorting';
+import { min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffNone} from 'd3';
 
 export class SvgStackedAreaStrategy extends SvgAxis {
 
@@ -32,14 +31,14 @@ export class SvgStackedAreaStrategy extends SvgAxis {
         let svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, (d) => d.key).keys(),
+            keys = map(data, (d) => d.key).keys(),
             data4stack = simple2stacked(data),
             xDataFormat = this.config.xAxisFormat,
-            stack = d3.stack()
+            stack = d3Stack()
                 .keys(keys)
                 .value((d, k) => d.value[k])
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone),
+                .order(stackOrderInsideOut)
+                .offset(stackOffNone),
             dataSeries = stack(data4stack),
             needRescaling = this.config.needRescaling;
 
@@ -67,10 +66,10 @@ export class SvgStackedAreaStrategy extends SvgAxis {
 
 
     _getDomainBBox(data, dataSeries) {
-        let minX = d3.min(data, (d) => (d.x)),
-            maxX = d3.max(data, (d) => (d.x)),
-            minY = d3.min(dataSeries, (serie) => d3.min(serie, (d) => d[0])),
-            maxY = d3.max(dataSeries, (serie) => d3.max(serie, (d) => d[1]));
+        let minX = min(data, (d) => (d.x)),
+            maxX = max(data, (d) => (d.x)),
+            minY = min(dataSeries, (serie) => min(serie, (d) => d[0])),
+            maxY = max(dataSeries, (serie) => max(serie, (d) => d[1]));
 
         return [minX, maxX, minY, maxY];
     }

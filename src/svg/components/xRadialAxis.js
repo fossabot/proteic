@@ -1,3 +1,4 @@
+import {scaleLinear} from 'd3';
 
 export class XRadialAxis {
 
@@ -6,6 +7,6 @@ export class XRadialAxis {
       throw new Error('No chart context specified for XRadialAxis');
     }
 
-    this.xRadialAxis = d3.scaleLinear().range([0, 2 * Math.PI]);
+    this.xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);
   }
 }

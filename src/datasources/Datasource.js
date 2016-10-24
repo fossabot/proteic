@@ -27,7 +27,7 @@ export default class Datasource {
      * @memberOf Datasource
      */
     start() {
-        console.log('Starting datasource');
+        window.console.log('Starting datasource');
     }
 
     /**
@@ -38,7 +38,7 @@ export default class Datasource {
     
      */
     stop() {
-        console.log('Stopping datasource');
+        window.console.log('Stopping datasource');
     }
 
     /**

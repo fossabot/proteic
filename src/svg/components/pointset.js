@@ -1,10 +1,12 @@
+import {nest} from 'd3';
+
 export class Pointset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;
   }
   update(svg, config, data) {
-    let dataSeries = d3.nest()
+    let dataSeries = nest()
       .key((d) => d.key)
       .entries(data),
       markers = null,
