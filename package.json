@@ -11,7 +11,8 @@
     "build": "rollup -c rollup.config.js",
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
-    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \""
+    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \"",
+    "prepublish": "npm run build && uglifyjs build/proteic.js -c negate_iife=false -o build/proteic.min.js"
   },
   "keywords": [
     "d3",
@@ -43,6 +44,7 @@
     "rollup-plugin-commonjs": "^5.0.4",
     "rollup-plugin-node-resolve": "^2.0.0",
     "socket.io": "^1.4.5",
+    "uglify-js": "^2.7.4",
     "watch": "^0.19.2"
   }
 }
