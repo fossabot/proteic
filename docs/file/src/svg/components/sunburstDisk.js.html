@@ -147,12 +147,14 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/sunburstDisk.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {partition, stratify, arc} from &apos;d3&apos;;
+
+
 export class SunburstDisk {
   constructor(xRadialAxis, yRadialAxis) {
     this.x = xRadialAxis;
     this.y = yRadialAxis;
-    this.arcGen = d3.arc()
+    this.arcGen = arc()
       .startAngle((d) =&gt; Math.max(0, Math.min(2 * Math.PI, this.x(d.x0))))
       .endAngle((d) =&gt; Math.max(0, Math.min(2 * Math.PI, this.x(d.x1))))
       .innerRadius((d) =&gt; Math.max(0, this.y(d.y0)))
@@ -165,14 +167,13 @@ export class SunburstDisk {
     this._removePaths(svg);
 
     // Create layout partition
-    let partition = d3.partition();
-    let root = d3.stratify()
+    let root = stratify()
       .id(function(d) { return d.id; })
       .parentId(function(d) { return d.parent; })
       (data);
 
     root.sum((d) =&gt;  d.value);
-    partition(root);
+    partition()(root);
 
     // Draw the paths (arcs)
     let paths = svg.selectAll(&apos;path&apos;)
@@ -195,10 +196,10 @@ export class SunburstDisk {
           let ancestors = this._getAncestors(d);
           // Fade all the arcs
           if (ancestors.length &gt; 0) {
-            d3.selectAll(&apos;path&apos;)
+            svg.selectAll(&apos;path&apos;)
                 .style(&apos;opacity&apos;, 0.3);
           }
-          d3.selectAll(&apos;path&apos;)
+          svg.selectAll(&apos;path&apos;)
             .filter((node) =&gt; ancestors.indexOf(node) &gt;= 0)
             .style(&apos;opacity&apos;, 1);
           // Hightlight the hovered arc
@@ -206,15 +207,15 @@ export class SunburstDisk {
             svg.select(&apos;.text-indicator .value&apos;).text(d.value);
         })
         .on(&apos;mouseout&apos;, (d) =&gt; {
-          d3.selectAll(&apos;path&apos;).style(&apos;opacity&apos;, 1);
-          d3.select(&apos;.text-indicator .label&apos;).style(&apos;font-weight&apos;, &apos;normal&apos;);
-          d3.select(&apos;.text-indicator .label&apos;).text(&apos;&apos;);
-          d3.select(&apos;.text-indicator .value&apos;).text(&apos;&apos;);
+          svg.selectAll(&apos;path&apos;).style(&apos;opacity&apos;, 1);
+          svg.select(&apos;.text-indicator .label&apos;).style(&apos;font-weight&apos;, &apos;normal&apos;);
+          svg.select(&apos;.text-indicator .label&apos;).text(&apos;&apos;);
+          svg.select(&apos;.text-indicator .value&apos;).text(&apos;&apos;);
         })
       ;
 
     // ???
-    d3.select(self.frameElement).style(&apos;height&apos;, this.height + &apos;px&apos;);
+    svg.select(self.frameElement).style(&apos;height&apos;, this.height + &apos;px&apos;);
   }
 
   /**

@@ -205,13 +205,13 @@
       "expectCount": 7,
       "actualCount": 0,
       "undocumentLines": [
-        2,
-        6,
-        3,
-        96,
-        13,
         4,
-        5
+        8,
+        5,
+        97,
+        15,
+        6,
+        7
       ]
     },
     "src/svg/base/svgAxis.js": {
