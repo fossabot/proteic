@@ -1,0 +1,44 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+
+    <head>
+        <title>Real-time HTTP Linechart</title>
+        <script src='../node_modules/d3/build/d3.min.js'></script>
+        <script src='../build/proteic.js'></script>
+        <meta charset="utf-8" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    </head>
+
+    <body>
+        <div id='chart'></div>
+        <script>
+            var data = {
+                url: 'https://randomuser.me/api',
+                pollingTime: 3000
+            };
+     var dataSource = new proteic.HTTPDatasource(data);
+          //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
+          //Chart uses #chart selector by default
+          linechart = new proteic.Linechart(dataSource,{
+             xAxisType: 'time',
+             xAxisFormat: '%Y-%m-%d %H:%M:%S',
+             areaOpacity: 0,
+             markerSize: 0
+          });
+          //Start streaming
+          dataSource
+            .property('x', 'results[0].registered')
+            .property('y', 'results[0].location.postcode')
+            .property('key', 'results[0].gender')
+            .start();
+        </script>
+    </body>
+
+</html>

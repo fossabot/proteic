@@ -45,6 +45,7 @@ export default class Chart {
 
         switch (dataFormat) {
             case 'WebsocketDatasource':
+            case 'HTTPDatasource':
                 this.datasource = d;
                 this.data = [];
                 this._configureDatasource();
@@ -165,7 +166,6 @@ export default class Chart {
         else {
             this._keepDrawingByReplacing(datum);
         }
-
     }
 
     _configureDatasource() {
@@ -174,6 +174,7 @@ export default class Chart {
         this.datasource.configure(this.dispatcher);
 
         this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));
+        //this.dispatcher.on('onmessage', (data) => console.log(data));
 
 
         this.dispatcher.on('onopen', (event) => {
