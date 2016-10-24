@@ -168,8 +168,8 @@ export class SunburstDisk {
 
     // Create layout partition
     let root = stratify()
-      .id(function(d) { return d.id; })
-      .parentId(function(d) { return d.parent; })
+      .id((d) =&gt; d.id)
+      .parentId((d) =&gt; d.parent)
       (data);
 
     root.sum((d) =&gt;  d.value);
