@@ -1,4 +1,5 @@
-import {deg2rad} from '../../utils/functions'
+import {deg2rad} from '../../utils/functions';
+import {scaleLinear, arc, range} from 'd3';
 
 export class Dial { // TODO tidy
   constructor(axisType, config) {
@@ -7,16 +8,15 @@ export class Dial { // TODO tidy
     }
 
     this.r = (
-      (config.width > config.height)
-        ? config.height
-        : config.width
+      (config.width > config.height) ?
+        config.height : config.width
       ) / 2;
     this.translation = (() =>
     'translate(' + this.r + ',' + this.r + ')'
     );
     config.colorScale.domain([0, 1]);
 
-    this.scale = d3.scaleLinear()
+    this.scale = scaleLinear()
         .domain([config.minLevel, config.maxLevel])
         .range([0, 1]);
 
@@ -24,7 +24,7 @@ export class Dial { // TODO tidy
 
     this.range = config.maxAngle - config.minAngle;
 
-    this.arc = d3.arc()
+    this.arc = arc()
       .innerRadius(this.r - config.ringWidth - config.ringMargin)
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) => {
@@ -36,7 +36,7 @@ export class Dial { // TODO tidy
         return deg2rad(config.minAngle + (ratio * this.range));
       });
 
-    this.tickData = d3.range(config.ticks)
+    this.tickData = range(config.ticks)
       .map(() => 1 / config.ticks);
   }
 

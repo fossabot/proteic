@@ -1,4 +1,5 @@
-import {simple2nested} from '../../utils/dataTransformation'
+import {simple2nested} from '../../utils/dataTransformation';
+import {map, scaleBand, extent, scaleLinear} from 'd3';
 
 export class TimeBoxset {
 
@@ -9,7 +10,7 @@ export class TimeBoxset {
   }
   update(svg, config, data) {
     let colorScale = config.colorScale,
-      keys = d3.map(data, (d) => d.key).keys(),
+      keys = map(data, (d) => d.key).keys(),
       layer = svg.selectAll('.serie').data(data),
       layerEnter = null,
       layerMerge = null,
@@ -18,13 +19,13 @@ export class TimeBoxset {
       boxMerge = null,
       extLanes = null,
       yLanes = null,
-      yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys),
+      yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),
       x = this.xAxis.scale(),
       y = this.yAxis.scale();
 
     data = simple2nested(data);
-    extLanes = d3.extent(data, (d, i) => i)
-    yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
+    extLanes = extent(data, (d, i) => i);
+    yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 
     layer = svg.selectAll('.serie').data(data);
     layerEnter = layer.enter().append('g');

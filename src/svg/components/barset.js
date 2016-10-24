@@ -1,11 +1,11 @@
 import {simple2nested} from '../../utils/dataTransformation'
-import {select} from 'd3';
+import {select, map, line, scaleBand} from 'd3';
 
 export class Barset {
   constructor(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;
-    this.lineGenerator = d3.line()
+    this.lineGenerator = line()
       .x((d) => xAxis.scale()(d.x))
       .y((d) => yAxis.scale()(d.y));
   }
@@ -73,7 +73,7 @@ export class Barset {
   _updateGrouped(svg, config, data) {
     this._cleanCurrentSeries(svg);
 
-    let keys = d3.map(data, (d) => d.key).keys(),
+    let keys = map(data, (d) => d.key).keys(),
       colorScale = config.colorScale,
       layer = svg.selectAll('.serie').data(data),
       layerEnter = null,
@@ -83,7 +83,7 @@ export class Barset {
       barMerge = null,
       x = this.xAxis.scale(),
       y = this.yAxis.scale(),
-      xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+      xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
       height = config.height;
 
     data = simple2nested(data, 'x');

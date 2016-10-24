@@ -1,3 +1,5 @@
+import {select} from 'd3';
+
 export class SvgContainer {
 
   constructor(config) {
@@ -12,8 +14,7 @@ export class SvgContainer {
       height = config.height + config.marginTop + config.marginBottom,
       svg = null;
 
-    svg = d3
-      .select(selector)
+    svg = select(selector)
       .append('svg:svg')
       .attr('width', width)
       .attr('height', height)

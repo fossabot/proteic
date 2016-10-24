@@ -853,8 +853,7 @@ SvgContainer.prototype._initializeSvgContainer = function _initializeSvgContaine
     height = config.height + config.marginTop + config.marginBottom,
     svg = null;
 
-  svg = d3
-    .select(selector)
+  svg = d3$1.select(selector)
     .append('svg:svg')
     .attr('width', width)
     .attr('height', height)
@@ -1020,13 +1019,13 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
 
   switch (xAxisType) {
     case 'time':
-      x = d3.scaleTime().range([0, config.width]);
+      x = d3$1.scaleTime().range([0, config.width]);
       break;
     case 'linear':
-      x = d3.scaleLinear().range([0, config.width]);
+      x = d3$1.scaleLinear().range([0, config.width]);
       break;
     case 'categorical':
-      x = d3.scaleBand().rangeRound([0, config.width])
+      x = d3$1.scaleBand().rangeRound([0, config.width])
         .padding(0.1)
         .align(0.5);
       break;
@@ -1034,7 +1033,7 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
       throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
   }
 
-  return d3.axisBottom(x);
+  return d3$1.axisBottom(x);
 };
 
 XAxis.prototype.transition = function transition (svg, time) {
@@ -1044,13 +1043,13 @@ XAxis.prototype.transition = function transition (svg, time) {
 };
 
 XAxis.prototype.xStyle = function xStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; })
     .style('fill', function (d) { return '#1a2127'; });
 
 
-  d3.select(this).selectAll(['path', 'line'])
+  d3$1.select(this).selectAll(['path', 'line'])
     .attr('stroke', 'gray')
     .attr('stroke-width', .3);
 
@@ -1114,17 +1113,17 @@ YAxis.prototype._initializeYAxis = function _initializeYAxis (yAxisType, config)
 
   switch (yAxisType) {
     case 'linear':
-      y = d3.scaleLinear().range([config.height, 0]);
+      y = d3$1.scaleLinear().range([config.height, 0]);
       break;
     case 'categorical':
-      y = d3.scaleBand().rangeRound([config.height, 0])
+      y = d3$1.scaleBand().rangeRound([config.height, 0])
         .padding(0.1)
         .align(0.5);
       break;
     default:
       throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
   }
-  return d3.axisLeft(y)
+  return d3$1.axisLeft(y)
     .tickSizeInner(-config.width)
     .tickSizeOuter(0)
     .tickPadding(20)
@@ -1139,10 +1138,10 @@ YAxis.prototype.transition = function transition (svg, time) {
 };
 
 YAxis.prototype.yStyle = function yStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; });
-  d3.select(this).selectAll('g.tick line')
+  d3$1.select(this).selectAll('g.tick line')
     .style('stroke', function (d, i) { return isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8'; });
 };
 
@@ -1230,7 +1229,7 @@ var Lineset = function Lineset(x, y) {
 
   this.xAxis = x.xAxis;
   this.yAxis = y.yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return this$1.xAxis.scale()(d.x); })
     .y(function (d) { return this$1.yAxis.scale()(d.y); });
 };
@@ -1238,7 +1237,7 @@ var Lineset = function Lineset(x, y) {
 Lineset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data),
+  var dataSeries = d3$1.nest().key(function (d) { return d.key; }).entries(data),
     series = null,
     lines = null,
     colorScale = config.colorScale;
@@ -1269,7 +1268,7 @@ Lineset.prototype.render = function render (svg, config) {
 var Legend = function Legend() {};
 
 Legend.prototype.update = function update (svg, config, data) {
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data),
     legend = null,
@@ -1322,7 +1321,7 @@ var Areaset = function Areaset(x, y) {
 Areaset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data);
 
@@ -1374,7 +1373,7 @@ var Pointset = function Pointset(x, y) {
 Pointset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
     .key(function (d) { return d.key; })
     .entries(data),
     markers = null,
@@ -1639,7 +1638,7 @@ var defaults$1 = {
 var Barset = function Barset(xAxis, yAxis) {
   this.xAxis = xAxis;
   this.yAxis = yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return xAxis.scale()(d.x); })
     .y(function (d) { return yAxis.scale()(d.y); });
 };
@@ -1707,7 +1706,7 @@ Barset.prototype._updateStacked = function _updateStacked (svg, config, dataSeri
 Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
   this._cleanCurrentSeries(svg);
 
-  var keys = d3.map(data, function (d) { return d.key; }).keys(),
+  var keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     colorScale = config.colorScale,
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
@@ -1717,7 +1716,7 @@ Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
     barMerge = null,
     x = this.xAxis.scale(),
     y = this.yAxis.scale(),
-    xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+    xGroup = d3$1.scaleBand().domain(keys).range([0, x.bandwidth()]),
     height = config.height;
 
   data = simple2nested(data, 'x');
@@ -2163,7 +2162,7 @@ var TimeBoxset = function TimeBoxset(xAxis, yAxis) {
 };
 TimeBoxset.prototype.update = function update (svg, config, data) {
   var colorScale = config.colorScale,
-    keys = d3.map(data, function (d) { return d.key; }).keys(),
+    keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
     layerMerge = null,
@@ -2172,13 +2171,13 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
     boxMerge = null,
     extLanes = null,
     yLanes = null,
-    yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys),
+    yLanesBand = d3$1.scaleBand().range([0, keys.length + 1]).domain(keys),
     x = this.xAxis.scale(),
     y = this.yAxis.scale();
 
   data = simple2nested(data);
-  extLanes = d3.extent(data, function (d, i) { return i; });
-  yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
+  extLanes = d3$1.extent(data, function (d, i) { return i; });
+  yLanes = d3$1.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 
   layer = svg.selectAll('.serie').data(data);
   layerEnter = layer.enter().append('g');
@@ -2307,15 +2306,14 @@ var Dial = function Dial(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
   this.translation = (function () { return 'translate(' + this$1.r + ',' + this$1.r + ')'; }
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
@@ -2323,7 +2321,7 @@ var Dial = function Dial(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2335,7 +2333,7 @@ var Dial = function Dial(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2391,9 +2389,8 @@ var DialNeedle = function DialNeedle(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
 
   this.needleLen = config.needleLenghtRatio * (this.r);
@@ -2402,11 +2399,11 @@ var DialNeedle = function DialNeedle(axisType, config) {
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
-  this.angleScale = d3.scaleLinear()
+  this.angleScale = d3$1.scaleLinear()
     .domain([config.minLevel, config.maxLevel])
     .range([90 + config.minAngle, 90 + config.maxAngle]);
 
@@ -2414,7 +2411,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2426,7 +2423,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2759,7 +2756,7 @@ var XRadialAxis = function XRadialAxis(config) {
     throw new Error('No chart context specified for XRadialAxis');
   }
 
-  this.xRadialAxis = d3.scaleLinear().range([0, 2 * Math.PI]);
+  this.xRadialAxis = d3$1.scaleLinear().range([0, 2 * Math.PI]);
 };
 
 var YRadialAxis = function YRadialAxis(config) {
@@ -2769,7 +2766,7 @@ var YRadialAxis = function YRadialAxis(config) {
 
   var radius = (Math.min(config.width, config.height) / 2) - 10;
 
-  this.yRadialAxis = d3.scaleSqrt()
+  this.yRadialAxis = d3$1.scaleSqrt()
     .range([0, radius]);
 };
 
