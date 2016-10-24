@@ -52,7 +52,7 @@
       "expectCount": 6,
       "actualCount": 5,
       "undocumentLines": [
-        21
+        20
       ]
     },
     "src/svg/components/dial.js": {
@@ -382,9 +382,9 @@
       "expectCount": 8,
       "actualCount": 5,
       "undocumentLines": [
-        43,
-        32,
-        55
+        42,
+        31,
+        54
       ]
     },
     "src/svg/components/xAxis.js": {
@@ -604,7 +604,7 @@
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        82
+        81
       ]
     }
   }

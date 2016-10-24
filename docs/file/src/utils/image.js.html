@@ -147,8 +147,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/image.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*jshint -W117 */ // TODO investigate not defined errors
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
 const doctype = &apos;&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;&apos;;
 
 function isExternal(url) {
@@ -166,13 +165,13 @@ function inlineImages(el, callback) {
       var href = image.getAttribute(&apos;xlink:href&apos;);
       if (href) {
         if (isExternal(href.value)) {
-          console.warn(&apos;Cannot render embedded images linking to external hosts: &apos; + href.value);
+          window.console.warn(&apos;Cannot render embedded images linking to external hosts: &apos; + href.value);
           return;
         }
       }
-      let canvas = document.createElement(&apos;canvas&apos;);
+      let canvas = window.document.createElement(&apos;canvas&apos;);
       let ctx = canvas.getContext(&apos;2d&apos;);
-      let img = new Image();
+      let img = new window.Image();
       href = href || image.getAttribute(&apos;href&apos;);
       img.src = href;
       img.onload = function () {
@@ -186,7 +185,7 @@ function inlineImages(el, callback) {
         }
       };
       img.onerror = function () {
-        console.error(&apos;Could not load &apos; + href);
+        window.console.error(&apos;Could not load &apos; + href);
         left--;
         if (left === 0) {
           callback();
@@ -201,7 +200,7 @@ function styles(el, selectorRemap) {
   let sheets = document.styleSheets;
   for (var i = 0; i &lt; sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
-      console.warn(&apos;Cannot include styles from other hosts: &apos; + sheets[i].href);
+      window.console.warn(&apos;Cannot include styles from other hosts: &apos; + sheets[i].href);
       continue;
     }
     let rules = sheets[i].cssRules;
@@ -213,7 +212,7 @@ function styles(el, selectorRemap) {
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
-            console.warn(&apos;Invalid CSS selector &quot;&apos; + rule.selectorText + &apos;&quot;&apos;, err);
+            window.console.warn(&apos;Invalid CSS selector &quot;&apos; + rule.selectorText + &apos;&quot;&apos;, err);
           }
           if (match) {
             var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
@@ -268,7 +267,7 @@ export function svgAsDataUri(el, options, cb) {
     clone.insertBefore(defs, clone.firstChild);
 
     let svg = doctype + outer.innerHTML;
-    let uri = &apos;data:image/svg+xml;base64,&apos; + window.btoa(unescape(encodeURIComponent(svg)));
+    let uri = &apos;data:image/svg+xml;base64,&apos; + window.btoa(window.unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }

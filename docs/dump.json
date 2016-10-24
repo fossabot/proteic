@@ -1537,8 +1537,8 @@
     "longname": "src/datasources/Datasource.js",
     "access": null,
     "description": null,
-    "lineNumber": 12,
-    "content": "/*jshint -W117 */ // TODO investigate not defined errors\n/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this Datasource instance\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
+    "lineNumber": 11,
+    "content": "/**\n * \n * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\n * such as start() and stop().\n * \n * @export Default export: Datasource class\n * \n * @class Datasource The Datasource class\n * \n */\nexport default class Datasource {\n    /**\n     * Creates an instance of Datasource.\n     * \n     * \n     * @memberOf Datasource\n    \n     */\n    constructor() {\n        this.filters = [];\n    }\n\n    /**\n     * Starts the stream of data\n     * \n     * \n     * @memberOf Datasource\n     */\n    start() {\n        window.console.log('Starting datasource');\n    }\n\n    /**\n     * \n     * If started, this method stops the stream of data\n     * \n     * @memberOf Datasource\n    \n     */\n    stop() {\n        window.console.log('Stopping datasource');\n    }\n\n    /**\n     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded\n     * \n     * @param {any} filter A filter condition\n     * @returns this Datasource instance\n     * \n     * @memberOf Datasource\n     */\n    filter(filter) {\n        return this;\n    }\n}"
   },
   {
     "__docId__": 68,
@@ -1553,7 +1553,7 @@
     "importPath": "proteic/src/datasources/Datasource.js",
     "importStyle": "Datasource",
     "description": "\nA Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,\nsuch as start() and stop().",
-    "lineNumber": 12,
+    "lineNumber": 11,
     "unknown": [
       {
         "tagName": "@export",
@@ -1576,7 +1576,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#constructor",
     "access": null,
     "description": "Creates an instance of Datasource.",
-    "lineNumber": 20,
+    "lineNumber": 19,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1596,7 +1596,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#filters",
     "access": null,
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -1614,7 +1614,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#start",
     "access": null,
     "description": "Starts the stream of data",
-    "lineNumber": 30,
+    "lineNumber": 29,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1634,7 +1634,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#stop",
     "access": null,
     "description": "\nIf started, this method stops the stream of data",
-    "lineNumber": 41,
+    "lineNumber": 40,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1654,7 +1654,7 @@
     "longname": "src/datasources/Datasource.js~Datasource#filter",
     "access": null,
     "description": "Filters the incoming messages. Each data record that do not comply the filter condition will be discarded",
-    "lineNumber": 53,
+    "lineNumber": 52,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1698,7 +1698,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Datasource from './Datasource';\nimport WebSocket from 'socket.io';\n\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n     * <pre class=\"prettyprint\">\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     * \n     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n     * </pre>\n     * \n     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. \n     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. \n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    /**\n     * Configure a dispatcher for this datasource.\n     * \n     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.\n     * \n     * @memberOf WebsocketDatasource\n     */\n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    /**\n     * \n     * Initialize a websocket connection\n     * \n     * @memberOf WebsocketDatasource\n    \n     */\n    start() {\n        super.start();\n        this.ws = new WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            throw new Error('An error occurred trying to reach the websocket server' + e);\n            //this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n    /**\n     * If started, this method close the websocket connection.\n     * \n     * @memberOf WebsocketDatasource\n    * */\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
+    "content": "import Datasource from './Datasource';\n\n/**\n * \n * This datasource set up a connection to a websocket server. \n * @export\n * @class WebsocketDatasource\n * @extends {Datasource}\n\n */\nexport default class WebsocketDatasource extends Datasource {\n\n    /**\n     * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n     * <pre class=\"prettyprint\">\n     *    var source = {\n     *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n     *    };\n     * \n     *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n     * </pre>\n     * \n     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. \n     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. \n     *  \n     * @memberOf WebsocketDatasource\n    \n     */\n    constructor(source) {\n        super();\n        this.source = source;\n    }\n    \n    /**\n     * Configure a dispatcher for this datasource.\n     * \n     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.\n     * \n     * @memberOf WebsocketDatasource\n     */\n    configure(dispatcher) {\n        this.dispatcher = dispatcher;\n    }\n\n    /**\n     * \n     * Initialize a websocket connection\n     * \n     * @memberOf WebsocketDatasource\n    \n     */\n    start() {\n        super.start();\n        this.ws = new window.WebSocket(this.source.endpoint);\n\n        this.ws.onopen = (e) => {\n            this.dispatcher.call('onopen', this, e);\n        };\n        this.ws.onerror = (e) => {\n            throw new Error('An error occurred trying to reach the websocket server' + e);\n            //this.dispatcher.call('onerror', this, e);\n        };\n        this.ws.onmessage = (e) => {\n            var data = JSON.parse(e.data);\n            this.dispatcher.call('onmessage', this, data);\n        };\n    }\n    /**\n     * If started, this method close the websocket connection.\n     * \n     * @memberOf WebsocketDatasource\n    * */\n    stop() {\n        super.stop();\n        if (this.ws) {\n            this.ws.close();\n        }\n    }\n}"
   },
   {
     "__docId__": 75,
@@ -1713,7 +1713,7 @@
     "importPath": "proteic/src/datasources/WebsocketDatasource.js",
     "importStyle": "WebsocketDatasource",
     "description": "\nThis datasource set up a connection to a websocket server. ",
-    "lineNumber": 12,
+    "lineNumber": 11,
     "unknown": [
       {
         "tagName": "@export",
@@ -1739,7 +1739,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#constructor",
     "access": null,
     "description": "Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.\n<pre class=\"prettyprint\">\n   var source = {\n     endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';\n   };\n\n   linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));\n</pre>\n\nIf new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. ",
-    "lineNumber": 30,
+    "lineNumber": 29,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1770,7 +1770,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#source",
     "access": null,
     "description": null,
-    "lineNumber": 32,
+    "lineNumber": 31,
     "undocument": true,
     "type": {
       "types": [
@@ -1788,7 +1788,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#configure",
     "access": null,
     "description": "Configure a dispatcher for this datasource.",
-    "lineNumber": 42,
+    "lineNumber": 41,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1819,7 +1819,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#dispatcher",
     "access": null,
     "description": null,
-    "lineNumber": 43,
+    "lineNumber": 42,
     "undocument": true,
     "type": {
       "types": [
@@ -1837,7 +1837,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#start",
     "access": null,
     "description": "\nInitialize a websocket connection",
-    "lineNumber": 53,
+    "lineNumber": 52,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -1857,7 +1857,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#ws",
     "access": null,
     "description": null,
-    "lineNumber": 55,
+    "lineNumber": 54,
     "undocument": true,
     "type": {
       "types": [
@@ -1875,7 +1875,7 @@
     "longname": "src/datasources/WebsocketDatasource.js~WebsocketDatasource#stop",
     "access": null,
     "description": "If started, this method close the websocket connection.",
-    "lineNumber": 74,
+    "lineNumber": 73,
     "unknown": [
       {
         "tagName": "@memberOf",
@@ -9916,8 +9916,8 @@
     "longname": "src/utils/factory.js",
     "access": null,
     "description": null,
-    "lineNumber": 2,
-    "content": "/*jshint -W117 */ // TODO investigate not defined errors\nimport Linechart from '../charts/linechart.js';\nimport Barchart from '../charts/barchart.js';\nimport Gauge from '../charts/gauge.js';\nimport Streamgraph from '../charts/streamgraph.js';\nimport StackedArea from '../charts/stackedArea.js';\nimport Sunburst from '../charts/sunburst.js';\n\n(() => {\n  window.ProteusFactory = {\n    create(params) {\n      switch (params.type) {\n        case 'Linechart':\n          return new Linechart(params.data, params.config);\n        case 'Barchart':\n          return new Barchart(params.data, params.config);\n        case 'Gauge':\n          return new Gauge(params.data, params.config);\n        case 'Streamgraph':\n          return new Streamgraph(params.data, params.config);\n        case 'Sunburst':\n          return new Sunburst(params.data, params.config);\n        case 'StackedArea':\n          return new StackedArea(params.data, params.config);\n        default:\n          throw TypeError('Unknow chart type' + params.type);\n      }\n    }\n  };\n})();"
+    "lineNumber": 1,
+    "content": "import Linechart from '../charts/linechart.js';\nimport Barchart from '../charts/barchart.js';\nimport Gauge from '../charts/gauge.js';\nimport Streamgraph from '../charts/streamgraph.js';\nimport StackedArea from '../charts/stackedArea.js';\nimport Sunburst from '../charts/sunburst.js';\n\n(() => {\n  window.ProteusFactory = {\n    create(params) {\n      switch (params.type) {\n        case 'Linechart':\n          return new Linechart(params.data, params.config);\n        case 'Barchart':\n          return new Barchart(params.data, params.config);\n        case 'Gauge':\n          return new Gauge(params.data, params.config);\n        case 'Streamgraph':\n          return new Streamgraph(params.data, params.config);\n        case 'Sunburst':\n          return new Sunburst(params.data, params.config);\n        case 'StackedArea':\n          return new StackedArea(params.data, params.config);\n        default:\n          throw TypeError('Unknow chart type' + params.type);\n      }\n    }\n  };\n})();"
   },
   {
     "__docId__": 458,
@@ -10266,8 +10266,8 @@
     "longname": "src/utils/image.js",
     "access": null,
     "description": null,
-    "lineNumber": 3,
-    "content": "/*jshint -W117 */ // TODO investigate not defined errors\n\nconst doctype = '<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">';\n\nfunction isExternal(url) {\n  return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;\n}\n\nfunction inlineImages(el, callback) {\n  let images = el.querySelectorAll('image');\n  let left = images.length;\n  if (left === 0) {\n    callback();\n  }\n  for (var i = 0; i < images.length; i++) {\n    (function (image) {\n      var href = image.getAttribute('xlink:href');\n      if (href) {\n        if (isExternal(href.value)) {\n          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);\n          return;\n        }\n      }\n      let canvas = document.createElement('canvas');\n      let ctx = canvas.getContext('2d');\n      let img = new Image();\n      href = href || image.getAttribute('href');\n      img.src = href;\n      img.onload = function () {\n        canvas.width = img.width;\n        canvas.height = img.height;\n        ctx.drawImage(img, 0, 0);\n        image.setAttribute('xlink:href', canvas.toDataURL('image/png'));\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n      img.onerror = function () {\n        console.error('Could not load ' + href);\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n    })(images[i]);\n  }\n}\n\nfunction styles(el, selectorRemap) {\n  let css = '';\n  let sheets = document.styleSheets;\n  for (var i = 0; i < sheets.length; i++) {\n    if (isExternal(sheets[i].href)) {\n      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);\n      continue;\n    }\n    let rules = sheets[i].cssRules;\n    if (rules !== null) {\n      for (var j = 0; j < rules.length; j++) {\n        let rule = rules[j];\n        if (typeof (rule.style) !== 'undefined') {\n          let match = null;\n          try {\n            match = el.querySelector(rule.selectorText);\n          } catch (err) {\n            console.warn('Invalid CSS selector \"' + rule.selectorText + '\"', err);\n          }\n          if (match) {\n            var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;\n            css += selector + ' { ' + rule.style.cssText + ' }\\n';\n          } else if (rule.cssText.match(/^@font-face/)) {\n            css += rule.cssText + '\\n';\n          }\n        }\n      }\n    }\n  }\n  return css;\n}\n\nexport function svgAsDataUri(el, options, cb) {\n  options = options || {};\n  options.scale = options.scale || 1;\n  var xmlns = 'http://www.w3.org/2000/xmlns/';\n\n  inlineImages(el, function () {\n    var outer = document.createElement('div');\n    var clone = el.cloneNode(true);\n    var width, height;\n    if (el.tagName === 'svg') {\n      width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));\n      height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));\n    } else {\n      let box = el.getBBox();\n      width = box.x + box.width;\n      height = box.y + box.height;\n      clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\\(.*?\\)/, ''));\n\n      let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');\n      svg.appendChild(clone);\n      clone = svg;\n    }\n\n    clone.setAttribute('version', '1.1');\n    clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');\n    clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');\n    clone.setAttribute('width', width * options.scale);\n    clone.setAttribute('height', height * options.scale);\n    clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);\n    outer.appendChild(clone);\n\n    let css = styles(el, options.selectorRemap);\n    let s = document.createElement('style');\n    s.setAttribute('type', 'text/css');\n    s.innerHTML = '<![CDATA[\\n' + css + '\\n]]>';\n    let defs = document.createElement('defs');\n    defs.appendChild(s);\n    clone.insertBefore(defs, clone.firstChild);\n\n    let svg = doctype + outer.innerHTML;\n    let uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));\n    if (cb) {\n      cb(uri);\n    }\n  });\n}\n"
+    "lineNumber": 2,
+    "content": "\nconst doctype = '<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">';\n\nfunction isExternal(url) {\n  return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;\n}\n\nfunction inlineImages(el, callback) {\n  let images = el.querySelectorAll('image');\n  let left = images.length;\n  if (left === 0) {\n    callback();\n  }\n  for (var i = 0; i < images.length; i++) {\n    (function (image) {\n      var href = image.getAttribute('xlink:href');\n      if (href) {\n        if (isExternal(href.value)) {\n          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);\n          return;\n        }\n      }\n      let canvas = window.document.createElement('canvas');\n      let ctx = canvas.getContext('2d');\n      let img = new window.Image();\n      href = href || image.getAttribute('href');\n      img.src = href;\n      img.onload = function () {\n        canvas.width = img.width;\n        canvas.height = img.height;\n        ctx.drawImage(img, 0, 0);\n        image.setAttribute('xlink:href', canvas.toDataURL('image/png'));\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n      img.onerror = function () {\n        window.console.error('Could not load ' + href);\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n    })(images[i]);\n  }\n}\n\nfunction styles(el, selectorRemap) {\n  let css = '';\n  let sheets = document.styleSheets;\n  for (var i = 0; i < sheets.length; i++) {\n    if (isExternal(sheets[i].href)) {\n      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);\n      continue;\n    }\n    let rules = sheets[i].cssRules;\n    if (rules !== null) {\n      for (var j = 0; j < rules.length; j++) {\n        let rule = rules[j];\n        if (typeof (rule.style) !== 'undefined') {\n          let match = null;\n          try {\n            match = el.querySelector(rule.selectorText);\n          } catch (err) {\n            window.console.warn('Invalid CSS selector \"' + rule.selectorText + '\"', err);\n          }\n          if (match) {\n            var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;\n            css += selector + ' { ' + rule.style.cssText + ' }\\n';\n          } else if (rule.cssText.match(/^@font-face/)) {\n            css += rule.cssText + '\\n';\n          }\n        }\n      }\n    }\n  }\n  return css;\n}\n\nexport function svgAsDataUri(el, options, cb) {\n  options = options || {};\n  options.scale = options.scale || 1;\n  var xmlns = 'http://www.w3.org/2000/xmlns/';\n\n  inlineImages(el, function () {\n    var outer = document.createElement('div');\n    var clone = el.cloneNode(true);\n    var width, height;\n    if (el.tagName === 'svg') {\n      width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));\n      height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));\n    } else {\n      let box = el.getBBox();\n      width = box.x + box.width;\n      height = box.y + box.height;\n      clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\\(.*?\\)/, ''));\n\n      let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');\n      svg.appendChild(clone);\n      clone = svg;\n    }\n\n    clone.setAttribute('version', '1.1');\n    clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');\n    clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');\n    clone.setAttribute('width', width * options.scale);\n    clone.setAttribute('height', height * options.scale);\n    clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);\n    outer.appendChild(clone);\n\n    let css = styles(el, options.selectorRemap);\n    let s = document.createElement('style');\n    s.setAttribute('type', 'text/css');\n    s.innerHTML = '<![CDATA[\\n' + css + '\\n]]>';\n    let defs = document.createElement('defs');\n    defs.appendChild(s);\n    clone.insertBefore(defs, clone.firstChild);\n\n    let svg = doctype + outer.innerHTML;\n    let uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));\n    if (cb) {\n      cb(uri);\n    }\n  });\n}\n"
   },
   {
     "__docId__": 470,
@@ -10282,7 +10282,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 2,
     "undocument": true,
     "type": {
       "types": [
@@ -10303,7 +10303,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 5,
+    "lineNumber": 4,
     "undocument": true,
     "params": [
       {
@@ -10333,7 +10333,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 9,
+    "lineNumber": 8,
     "undocument": true,
     "params": [
       {
@@ -10364,7 +10364,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 50,
+    "lineNumber": 49,
     "undocument": true,
     "params": [
       {
@@ -10400,7 +10400,7 @@
     "importPath": "proteic/src/utils/image.js",
     "importStyle": "{svgAsDataUri}",
     "description": null,
-    "lineNumber": 82,
+    "lineNumber": 81,
     "undocument": true,
     "params": [
       {

@@ -148,7 +148,6 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/datasources/WebsocketDatasource.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Datasource from &apos;./Datasource&apos;;
-import WebSocket from &apos;socket.io&apos;;
 
 /**
  * 
@@ -201,7 +200,7 @@ export default class WebsocketDatasource extends Datasource {
      */
     start() {
         super.start();
-        this.ws = new WebSocket(this.source.endpoint);
+        this.ws = new window.WebSocket(this.source.endpoint);
 
         this.ws.onopen = (e) =&gt; {
             this.dispatcher.call(&apos;onopen&apos;, this, e);

@@ -147,8 +147,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/datasources/Datasource.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*jshint -W117 */ // TODO investigate not defined errors
-/**
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
  * 
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
  * such as start() and stop().
@@ -177,7 +176,7 @@ export default class Datasource {
      * @memberOf Datasource
      */
     start() {
-        console.log(&apos;Starting datasource&apos;);
+        window.console.log(&apos;Starting datasource&apos;);
     }
 
     /**
@@ -188,7 +187,7 @@ export default class Datasource {
     
      */
     stop() {
-        console.log(&apos;Stopping datasource&apos;);
+        window.console.log(&apos;Stopping datasource&apos;);
     }
 
     /**
