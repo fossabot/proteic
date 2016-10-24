@@ -1,6 +1,12 @@
+export * from "./src/utils/colors"
+
 export {
   default as Datasource
 } from "./src/datasources/Datasource"
+
+export {
+  default as HTTPDatasource
+} from "./src/datasources/HTTPDatasource"
 
 export {
   default as WebsocketDatasource
