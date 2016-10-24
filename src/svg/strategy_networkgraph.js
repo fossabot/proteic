@@ -24,9 +24,7 @@ export class SvgNetworkgraphStrategy {
 	 */
   draw(data) {
     let svg = this.svgContainer.svg,
-      config = this.config,
-      width = config.width,
-      height = config.height;
+      config = this.config;
 
     this.nodeset.update(svg, config, data);
   }

@@ -11,8 +11,8 @@ export class SvgSunburstStrategy {
     this._loadConfig(context.config);
 
     this.svgContainer = new SvgContainer(this.config);
-    let config = this.config,
-      radius = (Math.min(config.width, config.height) / 2) - 10,
+    let config =
+      this.config,
       translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
     this.svgContainer.transform(translation);
@@ -34,8 +34,7 @@ export class SvgSunburstStrategy {
 
   draw(data) {
     let svg = this.svgContainer.svg,
-      config = this.config,
-      colorScale = this.config.colorScale;
+      config = this.config;
 
     this.disk.update(svg, config, data);
   }
@@ -54,8 +53,8 @@ export class SvgSunburstStrategy {
     this.config.marginRight = config.marginRight || defaults.marginRight;
     this.config.marginBottom = config.marginBottom || defaults.marginBottom;
     //Width & height
-    this.config.width = config.width
-      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+    this.config.width = config.width ?
+      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
       : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
     this.config.height = config.height || defaults.height;
     

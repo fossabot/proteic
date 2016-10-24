@@ -1,11 +1,10 @@
 import {defaults} from '../utils/defaults/swimlane';
-import {SvgContainer} from './components/svgContainer';
 import {SvgAxis} from './base/svgAxis';
 import {XYAxes} from './components/xyAxes';
 import {TimeBoxset} from './components/timeBoxset';
 import {Legend} from './components/legend';
-import {calculateWidth} from '../utils/screen';
 import {convertPropretiesToTimeFormat} from '../utils/dataTransformation';
+import {min, max, map} from 'd3';
 
 export class SvgSwimlaneStrategy extends SvgAxis {
 
@@ -25,7 +24,7 @@ export class SvgSwimlaneStrategy extends SvgAxis {
     let svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.xAxisFormat,
-      keys = d3.map(data, (d) => d.key).keys(),
+      keys = map(data, (d) => d.key).keys(),
       bbox = null,
       needRescaling = this.config.needRescaling;
 
@@ -48,8 +47,8 @@ export class SvgSwimlaneStrategy extends SvgAxis {
   
   _getBBox(data) {
     return [
-      d3.min(data, (d) => (d.x)),
-      d3.max(data, (d) => (d.y))
+      min(data, (d) => (d.x)),
+      max(data, (d) => (d.y))
     ];
   }
 

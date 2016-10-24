@@ -1,3 +1,4 @@
+/*jshint -W117 */ // TODO investigate not defined errors
 
 const doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
@@ -5,10 +6,9 @@ function isExternal(url) {
   return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
 }
 
-
 function inlineImages(el, callback) {
-  var images = el.querySelectorAll('image');
-  var left = images.length;
+  let images = el.querySelectorAll('image');
+  let left = images.length;
   if (left === 0) {
     callback();
   }
@@ -21,9 +21,9 @@ function inlineImages(el, callback) {
           return;
         }
       }
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      var img = new Image();
+      let canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      let img = new Image();
       href = href || image.getAttribute('href');
       img.src = href;
       img.onload = function () {
@@ -48,19 +48,19 @@ function inlineImages(el, callback) {
 }
 
 function styles(el, selectorRemap) {
-  var css = '';
-  var sheets = document.styleSheets;
+  let css = '';
+  let sheets = document.styleSheets;
   for (var i = 0; i < sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
       console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
       continue;
     }
-    var rules = sheets[i].cssRules;
+    let rules = sheets[i].cssRules;
     if (rules !== null) {
       for (var j = 0; j < rules.length; j++) {
-        var rule = rules[j];
+        let rule = rules[j];
         if (typeof (rule.style) !== 'undefined') {
-          var match = null;
+          let match = null;
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
@@ -92,12 +92,12 @@ export function svgAsDataUri(el, options, cb) {
       width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));
       height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));
     } else {
-      var box = el.getBBox();
+      let box = el.getBBox();
       width = box.x + box.width;
       height = box.y + box.height;
       clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\(.*?\)/, ''));
 
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.appendChild(clone);
       clone = svg;
     }
@@ -110,18 +110,18 @@ export function svgAsDataUri(el, options, cb) {
     clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
     outer.appendChild(clone);
 
-    var css = styles(el, options.selectorRemap);
-    var s = document.createElement('style');
+    let css = styles(el, options.selectorRemap);
+    let s = document.createElement('style');
     s.setAttribute('type', 'text/css');
     s.innerHTML = '<![CDATA[\n' + css + '\n]]>';
-    var defs = document.createElement('defs');
+    let defs = document.createElement('defs');
     defs.appendChild(s);
     clone.insertBefore(defs, clone.firstChild);
 
-    var svg = doctype + outer.innerHTML;
-    var uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+    let svg = doctype + outer.innerHTML;
+    let uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }
   });
-};
+}

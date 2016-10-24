@@ -1,9 +1,12 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'd3'], factory) :
-    (factory((global.proteic = global.proteic || {}),global.d3));
-}(this, (function (exports,d3$1) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('socket.io'), require('d3')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'socket.io', 'd3'], factory) :
+    (factory((global.proteic = global.proteic || {}),global.WebSocket,global.d3));
+}(this, (function (exports,WebSocket,d3$1) { 'use strict';
 
+WebSocket = 'default' in WebSocket ? WebSocket['default'] : WebSocket;
+
+/*jshint -W117 */ // TODO investigate not defined errors
 /**
  * 
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
@@ -598,6 +601,22 @@ var paletteDivergingBrownTurquoise = [
     '#628f85',
     '#53746d',
     '#475b57'
+];
+
+var paletteDivergingOrangePink = [
+    '#e7511e',
+    '#eb6929',
+    '#ee7f37',
+    '#f29446',
+    '#f9c083',
+    '#ffe9c3',
+    '#ffeee3',
+    '#f9cfc1',
+    '#f3a9ab',
+    '#db6882',
+    '#c71360',
+    '#891953',
+    '#4b1c47'
 ];
 
 var paletteDivergingRedBlue = [
@@ -1425,9 +1444,9 @@ Pointset.prototype.render = function render (svg, config) {
 };
 
 function simple2stacked(data) {
-  return d3.nest().key(function (d) { return d.x; }).rollup(function (array) {
+  return d3$1.nest().key(function (d) { return d.x; }).rollup(function (array) {
     var r = {};
-    for (var i in array) {
+    for (var i = 0; i < array.length; i++) {
       var object = array[i];
       if (object) {
         r[object.key] = object.y;
@@ -1440,7 +1459,7 @@ function simple2stacked(data) {
 function simple2nested(data, key) {
   if ( key === void 0 ) key = 'key';
 
-  return d3.nest().key(function (d) { return d[key]; }).entries(data);
+  return d3$1.nest().key(function (d) { return d[key]; }).entries(data);
 }
 
 
@@ -1455,7 +1474,7 @@ function simple2Linked(data) {
 function convertPropretiesToTimeFormat(data, properties, format) {
   data.forEach(function (d) {
     properties.map(function (p) {
-      d[p] = d3.timeParse(format)(d[p]);
+      d[p] = d3$1.timeParse(format)(d[p]);
     });
   });
 }
@@ -1465,7 +1484,7 @@ function convertByXYFormat(data, config) {
     //parse x coordinate
     switch (config.xAxisType) {
       case 'time':
-        d.x = d3.timeParse(config.xAxisFormat)(d.x);
+        d.x = d3$1.timeParse(config.xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
@@ -1474,7 +1493,7 @@ function convertByXYFormat(data, config) {
     //parse Y coordinate
     switch (config.yAxisType) {
       case 'time':
-        d.y = d3.timeParse(config.yAxisFormat)(d.y);
+        d.y = d3$1.timeParse(config.yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
@@ -1571,10 +1590,10 @@ var SvgLinechartStrategy = (function (SvgAxis$$1) {
   };
 
   SvgLinechartStrategy.prototype._getDomainBBox = function _getDomainBBox (data) {
-    var minX = d3.min(data, function (d) { return d.x; }),
-      maxX = d3.max(data, function (d) { return d.x; }),
-      minY = d3.min(data, function (d) { return d.y; }),
-      maxY = d3.max(data, function (d) { return d.y; });
+    var minX = d3$1.min(data, function (d) { return d.x; }),
+      maxX = d3$1.max(data, function (d) { return d.x; }),
+      minY = d3$1.min(data, function (d) { return d.y; }),
+      maxY = d3$1.max(data, function (d) { return d.y; });
     return [minX, maxX, minY, maxY];
   };
 
@@ -1794,17 +1813,17 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
  
     var svg = this.svgContainer.svg,
       config = this.config,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       data4stack = simple2stacked(data),
       data4render = null,
       isStacked = this.config.stacked,
-      stack = d3.stack().keys(keys)
+      stack$$1 = d3$1.stack().keys(keys)
         .value(function (d, k) { return d.value[k]; })
-        .order(d3.stackOrderNone),
+        .order(d3$1.stackOrderNone),
       yMin = 0,
       yMax = 0,
       method = isStacked ? 'stacked' : 'grouped',
-      dataSeries = stack(data4stack),
+      dataSeries = stack$$1(data4stack),
       needRescaling = this.config.needRescaling;
 
     //rescale, if needed.
@@ -1814,10 +1833,10 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
 
 
     yMax = isStacked ?
-      d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); }) :
-      d3.max(data, function (d) { return d.y; });
+      d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); }) :
+      d3$1.max(data, function (d) { return d.y; });
 
-    this.axes.updateDomainByKeysAndBBox(d3.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
+    this.axes.updateDomainByKeysAndBBox(d3$1.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
 
     data4render = isStacked ? dataSeries : data;
@@ -1960,15 +1979,15 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             xDataFormat = this.config.xAxisFormat,
             data4stack = simple2stacked(data),
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffsetWiggle),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffsetWiggle),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
        
        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);
@@ -1996,10 +2015,10 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
     };
   
     SvgStreamgraphStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return new Date(d.x); }),
-            maxX = d3.max(data, function (d) { return new Date(d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return new Date(d.x); }),
+            maxX = d3$1.max(data, function (d) { return new Date(d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2072,15 +2091,15 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             data4stack = simple2stacked(data),
             xDataFormat = this.config.xAxisFormat,
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffNone),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
 
         //rescale, if needed.
@@ -2107,10 +2126,10 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
 
 
     SvgStackedAreaStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return (d.x); }),
-            maxX = d3.max(data, function (d) { return (d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return (d.x); }),
+            maxX = d3$1.max(data, function (d) { return (d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2235,7 +2254,7 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
     var svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.xAxisFormat,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       bbox = null,
       needRescaling = this.config.needRescaling;
 
@@ -2258,8 +2277,8 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
   
   SvgSwimlaneStrategy.prototype._getBBox = function _getBBox (data) {
     return [
-      d3.min(data, function (d) { return (d.x); }),
-      d3.max(data, function (d) { return (d.y); })
+      d3$1.min(data, function (d) { return (d.x); }),
+      d3$1.max(data, function (d) { return (d.y); })
     ];
   };
 
@@ -2519,9 +2538,8 @@ var SvgGaugeStrategy = function SvgGaugeStrategy(context) {
 
   if (config.numericIndicator) {
     var r = (
-      (config.width > config.height)
-        ? config.height
-        : config.width
+      (config.width > config.height) ?
+        config.height : config.width
     ) / 2;
     var indicatorOffset = r + 75;
     config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
@@ -2560,8 +2578,8 @@ SvgGaugeStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config.marginRight = config.marginRight || defaults$5.marginRight;
   this.config.marginBottom = config.marginBottom || defaults$5.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
     : calculateWidth(defaults$5.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
   this.config.height = config.height || defaults$5.height;
 
@@ -2698,9 +2716,7 @@ var SvgNetworkgraphStrategy = function SvgNetworkgraphStrategy(context) {
 	 */
 SvgNetworkgraphStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    width = config.width,
-    height = config.height;
+    config = this.config;
 
   this.nodeset.update(svg, config, data);
 };
@@ -2891,8 +2907,8 @@ var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
   this._loadConfig(context.config);
 
   this.svgContainer = new SvgContainer(this.config);
-  var config = this.config,
-    radius = (Math.min(config.width, config.height) / 2) - 10,
+  var config =
+    this.config,
     translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
   this.svgContainer.transform(translation);
@@ -2914,8 +2930,7 @@ var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
 
 SvgSunburstStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    colorScale = this.config.colorScale;
+    config = this.config;
 
   this.disk.update(svg, config, data);
 };
@@ -2934,8 +2949,8 @@ SvgSunburstStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config.marginRight = config.marginRight || defaults$7.marginRight;
   this.config.marginBottom = config.marginBottom || defaults$7.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
     : calculateWidth(defaults$7.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
   this.config.height = config.height || defaults$7.height;
     
@@ -2991,12 +3006,13 @@ var strategies = {
   }
 };
 
+/*jshint -W117 */ // TODO investigate not defined errors
+
 var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
 function isExternal(url) {
   return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
 }
-
 
 function inlineImages(el, callback) {
   var images = el.querySelectorAll('image');
@@ -3089,9 +3105,9 @@ function svgAsDataUri(el, options, cb) {
       height = box.y + box.height;
       clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\(.*?\)/, ''));
 
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.appendChild(clone);
-      clone = svg;
+      var svg$1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg$1.appendChild(clone);
+      clone = svg$1;
     }
 
     clone.setAttribute('version', '1.1');

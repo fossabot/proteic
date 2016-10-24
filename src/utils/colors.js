@@ -1,4 +1,4 @@
-import {scaleOrdinal, scaleQuantile} from "d3";
+import {scaleOrdinal, scaleQuantile} from 'd3';
 
 const paletteCategory1 = [
     '#e1c8df',
@@ -754,7 +754,7 @@ export function diverging_brown_turquoise() {
 }
 
 export function diverging_orange_pink() {
-    return scaleQuantile().range(paletteDivergingBrownTurquoise);
+    return scaleQuantile().range(paletteDivergingOrangePink);
 }
 
 export function diverging_red_blue() {

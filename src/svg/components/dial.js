@@ -1,7 +1,7 @@
 import {deg2rad} from '../../utils/functions';
 import {scaleLinear, arc, range} from 'd3';
 
-export class Dial { // TODO tidy
+export class Dial { //  TODO tidy
   constructor(axisType, config) {
     if (config === null) {
       throw new Error('No chart context specified for polarAxis');

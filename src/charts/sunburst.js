@@ -1,5 +1,4 @@
 import Chart from './base/Chart';
-import * as defaultProperties from '../utils/defaults/sunburst';
 
 /**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.

@@ -1,3 +1,4 @@
+/*jshint -W117 */ // TODO investigate not defined errors
 /**
  * 
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,

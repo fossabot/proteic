@@ -1,4 +1,6 @@
 import Datasource from './Datasource';
+import WebSocket from 'socket.io';
+
 /**
  * 
  * This datasource set up a connection to a websocket server. 

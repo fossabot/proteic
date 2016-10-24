@@ -1,7 +1,9 @@
+import {nest, timeParse} from 'd3';
+
 export function simple2stacked(data) {
-  return d3.nest().key((d) => d.x).rollup((array) => {
+  return nest().key((d) => d.x).rollup((array) => {
     let r = {};
-    for (let i in array) {
+    for (let i = 0; i < array.length; i++) {
       let object = array[i];
       if (object) {
         r[object.key] = object.y;
@@ -12,7 +14,7 @@ export function simple2stacked(data) {
 }
 
 export function simple2nested(data, key = 'key') {
-  return d3.nest().key((d) => d[key]).entries(data);
+  return nest().key((d) => d[key]).entries(data);
 }
 
 export function nested2simple(data) {
@@ -38,7 +40,7 @@ export function simple2Linked(data) {
 export function convertPropretiesToTimeFormat(data, properties, format) {
   data.forEach((d) => {
     properties.map((p) => {
-      d[p] = d3.timeParse(format)(d[p]);
+      d[p] = timeParse(format)(d[p]);
     });
   });
 }
@@ -48,7 +50,7 @@ export function convertByXYFormat(data, config) {
     //parse x coordinate
     switch (config.xAxisType) {
       case 'time':
-        d.x = d3.timeParse(config.xAxisFormat)(d.x);
+        d.x = timeParse(config.xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
@@ -57,7 +59,7 @@ export function convertByXYFormat(data, config) {
     //parse Y coordinate
     switch (config.yAxisType) {
       case 'time':
-        d.y = d3.timeParse(config.yAxisFormat)(d.y);
+        d.y = timeParse(config.yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
