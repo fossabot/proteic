@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">src/utils/defaults/gauge.js | API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/datasources/HTTPDatasource.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -147,34 +147,122 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/utils/defaults/gauge.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as Colors from &apos;../colors&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/datasources/HTTPDatasource.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Datasource from &apos;./Datasource&apos;;
+import {request} from &apos;d3&apos;;
 
-export const defaults =  {
-    selector: &apos;#chart&apos;,
-    colorScale: Colors.diverging_spectral2(),
-    invertColorScale: true,
-    minLevel: 0,
-    maxLevel: 100,
-    minAngle: -90,
-    maxAngle: 90,
-    ringWidth: 50,
-    ringMargin: 20,
-    labelInset: 10,
-    needleNutRadius: 25,
-    needleLenghtRatio: 0.8,
-    numericIndicator: true,
-    label: &apos;km/h&apos;,
-    //margins
-    marginTop: 20,
-    marginRight: 250,
-    marginBottom: 30,
-    marginLeft: 50,
-    //Width &amp; height
-    width: &apos;50%&apos;, // %, auto, or numeric
-    height: 250,
-    ticks: 10, // ticks for y dial.
-};</code></pre>
+/**
+ * 
+ * This datasource set up a connection to a http server. 
+ * @export
+ * @class HTTPDatasource
+ * @extends {Datasource}
+
+ */
+export default class HTTPDatasource extends Datasource {
+
+    /**
+     * Creates an instance of HTTPDatasource. This datasource will try to connect to the speficied HTTP endpoint.
+     * &lt;pre class=&quot;prettyprint&quot;&gt;
+     *    var source = {
+     *      endpoint: &apos;https://randomuser.me/api&apos;;
+     *    };
+     * 
+     *    linechart = new proteic.Linechart(new proteic.HTTPwDatasource(source));
+     * &lt;/pre&gt;
+     * 
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
+     * @param {any} source An http endpoint. If invalid, this class will throw an Error. 
+     *  
+     * @memberOf HTTPDatasource
+    
+     */
+    constructor(source) {
+        super();
+        this.source = source;
+        this.intervalId = -1;
+        this.started = false;
+    }
+
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf HTTPDatasource
+     */
+    configure(dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+
+    /**
+     * 
+     * Initialize an HTTP connection
+     * 
+     * @memberOf HTTPDatasource
+    
+     */
+    start() {
+        if (!this.started) {
+            super.start();
+            let pollingTime = this.source.pollingTime;
+            let url = this.source.url;
+            this._startPolling(url, pollingTime);
+            this.started = true;
+        }
+    }
+
+
+    _startPolling(url, time = 1000) {
+        let interval = window.setInterval;
+        this.intervalId = interval(() =&gt; this._startRequest(url), time);
+    }
+
+    _startRequest(url) {
+
+        console.log(&apos;url&apos;, url);
+        request(url).get((e, response) =&gt; this._handleResponse(response))
+    }
+
+    _stopPolling() {
+        let clearInterval = window.clearInterval;
+        clearInterval(this.intervalId);
+    }
+
+    _handleResponse(xmlHttpRequest) {
+        let parseJson = window.JSON.parse;
+        if (xmlHttpRequest.readyState === 4 &amp;&amp; xmlHttpRequest.status === 200) {
+            let response = parseJson(xmlHttpRequest.response);
+            this._handleOK(response);
+        }
+        else {
+            this._handleError(xmlHttpRequest);
+        }
+    }
+
+    _handleOK(data) {
+        if(this.properties.length &gt; 0 ) {
+            data = this.convert(data);
+        }
+        this.dispatcher.call(&apos;onmessage&apos;, this, data);
+    }
+
+    _handleError(data) {
+        this.dispatcher.call(&apos;onerror&apos;, this, data);
+    }
+
+    /**
+     * If started, this method close the HTTP connection.
+     * 
+     * @memberOf HTTPDatasource
+    * */
+    stop() {
+        if (this.started) {
+            this._stopPolling();
+            this.started = false;
+        }
+    }
+}</code></pre>
 
 </div>
 

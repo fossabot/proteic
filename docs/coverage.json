@@ -1,7 +1,7 @@
 {
-  "coverage": "17.45%",
-  "expectCount": 338,
-  "actualCount": 59,
+  "coverage": "18.28%",
+  "expectCount": 350,
+  "actualCount": 64,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -41,18 +41,21 @@
       "expectCount": 11,
       "actualCount": 6,
       "undocumentLines": [
-        59,
+        60,
+        50,
         49,
-        48,
         172,
         37
       ]
     },
     "src/datasources/Datasource.js": {
-      "expectCount": 6,
+      "expectCount": 9,
       "actualCount": 5,
       "undocumentLines": [
-        20
+        52,
+        20,
+        21,
+        46
       ]
     },
     "src/svg/components/dial.js": {
@@ -96,6 +99,16 @@
       "actualCount": 4,
       "undocumentLines": [
         33
+      ]
+    },
+    "src/datasources/HTTPDatasource.js": {
+      "expectCount": 9,
+      "actualCount": 5,
+      "undocumentLines": [
+        45,
+        33,
+        32,
+        34
       ]
     },
     "src/svg/components/legend.js": {
@@ -528,6 +541,13 @@
         3
       ]
     },
+    "src/utils/defaults/swimlane.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
     "src/utils/defaults/barchart.js": {
       "expectCount": 1,
       "actualCount": 0,
@@ -550,13 +570,6 @@
       ]
     },
     "src/utils/defaults/gauge.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/swimlane.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [

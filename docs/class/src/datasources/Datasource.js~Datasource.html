@@ -42,6 +42,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/swimlane.js~Swimlane.html">Swimlane</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">charts/base</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/base/Chart.js~Chart.html">Chart</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">datasources</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html">Datasource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/datasources/HTTPDatasource.js~HTTPDatasource.html">HTTPDatasource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html">WebsocketDatasource</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">svg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/SvgStrategy.js~SvgStrategy.html">SvgStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_barchart.js~SvgBarchartStrategy.html">SvgBarchartStrategy</a></span></span></li>
@@ -164,7 +165,7 @@
   
   
   
-  <div class="flat-list" data-ice="directSubclass"><h4>Direct Subclass:</h4><div><span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html">WebsocketDatasource</a></span></div></div>
+  <div class="flat-list" data-ice="directSubclass"><h4>Direct Subclass:</h4><div><span><a href="class/src/datasources/HTTPDatasource.js~HTTPDatasource.html">HTTPDatasource</a></span>, <span><a href="class/src/datasources/WebsocketDatasource.js~WebsocketDatasource.html">WebsocketDatasource</a></span></div></div>
   
   
   
@@ -250,6 +251,31 @@ such as start() and stop().</p>
       
     </td>
   </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-member-properties">properties</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
 </tbody>
 </table>
 </div>
@@ -268,6 +294,31 @@ such as start() and stop().</p>
     <td>
       <div>
         <p>
+           <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-method-convert">convert</a></span></span><span data-ice="signature">(data: <span>*</span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
            <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-method-filter">filter</a></span></span><span data-ice="signature">(filter: <span>any</span>): <span>*</span></span>
         </p>
       </div>
@@ -276,6 +327,31 @@ such as start() and stop().</p>
         
         <div data-ice="description"><p>Filters the incoming messages.</p>
 </div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/src/datasources/Datasource.js~Datasource.html#instance-method-property">property</a></span></span><span data-ice="signature">(prop: <span>*</span>, newProp: <span>*</span>, cast: <span>*</span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
       </div>
     </td>
     <td>
@@ -429,9 +505,115 @@ such as start() and stop().</p>
   
   
 </div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-properties">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">properties</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber21">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
 </div>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-convert">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">convert</span><span data-ice="signature">(data: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber52">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">data</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-filter">
     <span class="access" data-ice="access">public</span>
@@ -443,7 +625,7 @@ such as start() and stop().</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber52">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber74">source</a></span></span>
     </span>
   </h3>
 
@@ -502,6 +684,84 @@ such as start() and stop().</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-property">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">property</span><span data-ice="signature">(prop: <span>*</span>, newProp: <span>*</span>, cast: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber46">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">prop</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">newProp</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">cast</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-start">
     <span class="access" data-ice="access">public</span>
     
@@ -512,7 +772,7 @@ such as start() and stop().</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -553,7 +813,7 @@ such as start() and stop().</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber40">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/datasources/Datasource.js.html#lineNumber41">source</a></span></span>
     </span>
   </h3>
 

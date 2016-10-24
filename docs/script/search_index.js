@@ -48,6 +48,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "proteic/src/datasources/httpdatasource.js~httpdatasource",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html",
+    "<span>HTTPDatasource</span> <span class=\"search-result-import-path\">proteic/src/datasources/HTTPDatasource.js</span>",
+    "class"
+  ],
+  [
     "proteic/src/svg/components/legend.js~legend",
     "class/src/svg/components/legend.js~Legend.html",
     "<span>Legend</span> <span class=\"search-result-import-path\">proteic/src/svg/components/legend.js</span>",
@@ -1284,6 +1290,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/datasources/datasource.js~datasource#convert",
+    "class/src/datasources/Datasource.js~Datasource.html#instance-method-convert",
+    "src/datasources/Datasource.js~Datasource#convert",
+    "method"
+  ],
+  [
     "src/datasources/datasource.js~datasource#filter",
     "class/src/datasources/Datasource.js~Datasource.html#instance-method-filter",
     "src/datasources/Datasource.js~Datasource#filter",
@@ -1296,6 +1308,18 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/datasources/datasource.js~datasource#properties",
+    "class/src/datasources/Datasource.js~Datasource.html#instance-member-properties",
+    "src/datasources/Datasource.js~Datasource#properties",
+    "member"
+  ],
+  [
+    "src/datasources/datasource.js~datasource#property",
+    "class/src/datasources/Datasource.js~Datasource.html#instance-method-property",
+    "src/datasources/Datasource.js~Datasource#property",
+    "method"
+  ],
+  [
     "src/datasources/datasource.js~datasource#start",
     "class/src/datasources/Datasource.js~Datasource.html#instance-method-start",
     "src/datasources/Datasource.js~Datasource#start",
@@ -1305,6 +1329,60 @@ window.esdocSearchIndex = [
     "src/datasources/datasource.js~datasource#stop",
     "class/src/datasources/Datasource.js~Datasource.html#instance-method-stop",
     "src/datasources/Datasource.js~Datasource#stop",
+    "method"
+  ],
+  [
+    "src/datasources/httpdatasource.js",
+    "file/src/datasources/HTTPDatasource.js.html",
+    "src/datasources/HTTPDatasource.js",
+    "file"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#configure",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-method-configure",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#configure",
+    "method"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#constructor",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-constructor-constructor",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#constructor",
+    "method"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#dispatcher",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-member-dispatcher",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#dispatcher",
+    "member"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#intervalid",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-member-intervalId",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#intervalId",
+    "member"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#source",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-member-source",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#source",
+    "member"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#start",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-method-start",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#start",
+    "method"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#started",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-member-started",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#started",
+    "member"
+  ],
+  [
+    "src/datasources/httpdatasource.js~httpdatasource#stop",
+    "class/src/datasources/HTTPDatasource.js~HTTPDatasource.html#instance-method-stop",
+    "src/datasources/HTTPDatasource.js~HTTPDatasource#stop",
     "method"
   ],
   [
