@@ -36,6 +36,9 @@ module.exports = (config) => {
 
     rollupPreprocessor: {
       plugins: [
+        require('rollup-plugin-istanbul')({
+          exclude: ['test/*.js']
+        }),
         buble() // ES2015 compiler by the same author as Rollup
       ],
       // will help to prevent conflicts between different tests entries
@@ -79,7 +82,7 @@ module.exports = (config) => {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
