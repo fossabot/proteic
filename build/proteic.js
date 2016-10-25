@@ -4,122 +4,6 @@
     (factory((global.proteic = global.proteic || {}),global.d3));
 }(this, (function (exports,d3$1) { 'use strict';
 
-/**
- * 
- * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
- * such as start() and stop().
- * 
- * @export Default export: Datasource class
- * 
- * @class Datasource The Datasource class
- * 
- */
-var Datasource = function Datasource() {
-    this.filters = [];
-};
-
-/**
- * Starts the stream of data
- * 
- * 
- * @memberOf Datasource
- */
-Datasource.prototype.start = function start () {
-    window.console.log('Starting datasource');
-};
-
-/**
- * 
- * If started, this method stops the stream of data
- * 
- * @memberOf Datasource
-    
- */
-Datasource.prototype.stop = function stop () {
-    window.console.log('Stopping datasource');
-};
-
-/**
- * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
- * 
- * @param {any} filter A filter condition
- * @returns this Datasource instance
- * 
- * @memberOf Datasource
- */
-Datasource.prototype.filter = function filter (filter) {
-    return this;
-};
-
-/**
- * 
- * This datasource set up a connection to a websocket server. 
- * @export
- * @class WebsocketDatasource
- * @extends {Datasource}
-
- */
-var WebsocketDatasource = (function (Datasource$$1) {
-    function WebsocketDatasource(source) {
-        Datasource$$1.call(this);
-        this.source = source;
-    }
-
-    if ( Datasource$$1 ) WebsocketDatasource.__proto__ = Datasource$$1;
-    WebsocketDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
-    WebsocketDatasource.prototype.constructor = WebsocketDatasource;
-    
-    /**
-     * Configure a dispatcher for this datasource.
-     * 
-     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
-     * 
-     * @memberOf WebsocketDatasource
-     */
-    WebsocketDatasource.prototype.configure = function configure (dispatcher) {
-        this.dispatcher = dispatcher;
-    };
-
-    /**
-     * 
-     * Initialize a websocket connection
-     * 
-     * @memberOf WebsocketDatasource
-    
-     */
-    WebsocketDatasource.prototype.start = function start () {
-        var this$1 = this;
-
-        Datasource$$1.prototype.start.call(this);
-        this.ws = new window.WebSocket(this.source.endpoint);
-
-        this.ws.onopen = function (e) {
-            this$1.dispatcher.call('onopen', this$1, e);
-        };
-        this.ws.onerror = function (e) {
-            throw new Error('An error occurred trying to reach the websocket server' + e);
-            //this.dispatcher.call('onerror', this, e);
-        };
-        this.ws.onmessage = function (e) {
-            var data = JSON.parse(e.data);
-            this$1.dispatcher.call('onmessage', this$1, data);
-        };
-    };
-    /**
-     * If started, this method close the websocket connection.
-     * 
-     * @memberOf WebsocketDatasource
-    * */
-    WebsocketDatasource.prototype.stop = function stop () {
-        Datasource$$1.prototype.stop.call(this);
-        if (this.ws) {
-            this.ws.close();
-        }
-    };
-
-    return WebsocketDatasource;
-}(Datasource));
-
 var paletteCategory1 = [
     '#e1c8df',
     '#9ecd9d',
@@ -745,7 +629,9 @@ var paletteDivergingLightBrownTurquoise = [
 ];
 
 
-
+function category1() {
+    return d3$1.scaleOrdinal().range(paletteCategory1);
+}
 
 function category2() {
     return d3$1.scaleOrdinal().range(paletteCategory2);
@@ -763,7 +649,9 @@ function category5() {
     return d3$1.scaleOrdinal().range(paletteCategory5);
 }
 
-
+function category6() {
+    return d3$1.scaleOrdinal().range(paletteCategory6);
+}
 
 function category7() {
     return d3$1.scaleOrdinal().range(paletteCategory7);
@@ -773,51 +661,384 @@ function category8() {
     return d3$1.scaleOrdinal().range(paletteCategory8);
 }
 
+function sequentialYellow() {
+    return d3$1.scaleQuantile().range(paletteSequentialYellow);
+}
 
+function sequentialRedOrange() {
+    return d3$1.scaleQuantile().range(paletteSequentialRedOrange);
+}
 
+function sequentialRed() {
+    return d3$1.scaleQuantile().range(paletteSequentialRed);
+}
 
+function sequentialPink() {
+    return d3$1.scaleQuantile().range(paletteSequentialPink);
+}
 
+function sequentialPurplePink() {
+    return d3$1.scaleQuantile().range(paletteSequentialPurplePink);
+}
 
+function sequentialPurple() {
+    return d3$1.scaleQuantile().range(paletteSequentialPurple);
+}
 
+function sequentialBlue() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlue);
+}
 
+function sequentialLightBlue() {
+    return d3$1.scaleQuantile().range(paletteSequentialLightBlue);
+}
 
+function sequentialBlueViolet() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlueViolet);
+}
 
+function sequentialTurquoise() {
+    return d3$1.scaleQuantile().range(paletteSequentialTurquoise);
+}
 
+function sequentialLightGreen() {
+    return d3$1.scaleQuantile().range(paletteSequentialLightGreen);
+}
 
+function sequentialDarkGreen() {
+    return d3$1.scaleQuantile().range(paletteSequentialDarkGreen);
+}
 
+function sequentialGreenBrown() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenBrown);
+}
 
+function sequentialBrown() {
+    return d3$1.scaleQuantile().range(paletteSequentialBrown);
+}
 
+function sequentialGrey() {
+    return d3$1.scaleQuantile().range(paletteSequentialGrey);
+}
 
+function sequentialVioletCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialVioletCb);
+}
 
+function sequentialPinkCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialPinkCb);
+}
 
+function sequentialBlueCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlueCb);
+}
 
+function sequentialGreenCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenCb);
+}
 
+function sequentialGreenBrownCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenBrownCb);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function diverging_spectral1() {
+    return d3$1.scaleQuantile().range(paletteDivergingSpectral1);
+}
 
 function diverging_spectral2() {
     return d3$1.scaleQuantile().range(paletteDivergingSpectral2);
 }
+
+function diverging_spectral3() {
+    return d3$1.scaleQuantile().range(paletteDivergingSpectral3);
+}
+
+function diverging_brown_turquoise() {
+    return d3$1.scaleQuantile().range(paletteDivergingBrownTurquoise);
+}
+
+function diverging_orange_pink() {
+    return d3$1.scaleQuantile().range(paletteDivergingOrangePink);
+}
+
+function diverging_red_blue() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedBlue);
+}
+
+function diverging_red_grey() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedGrey);
+}
+
+function diverging_orange_violet() {
+    return d3$1.scaleQuantile().range(paletteDivergingOrangeViolet);
+}
+
+function diverging_purple_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingPurpleGreen);
+}
+
+function diverging_violet_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingVioletGreen);
+}
+
+function diverging_red_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedGreen);
+}
+
+function diverging_brown_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingBrownGreen);
+}
+
+function diverging_lightBrown_turquoise() {
+    return d3$1.scaleQuantile().range(paletteDivergingLightBrownTurquoise);
+}
+
+/**
+ * 
+ * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
+ * such as start() and stop().
+ * 
+ * @export Default export: Datasource class
+ * 
+ * @class Datasource The Datasource class
+ * 
+ */
+var Datasource = function Datasource() {
+    this.filters = [];
+    this.properties = [];
+};
+
+/**
+ * Starts the stream of data
+ * 
+ * 
+ * @memberOf Datasource
+ */
+Datasource.prototype.start = function start () {
+    window.console.log('Starting datasource');
+};
+
+/**
+ * 
+ * If started, this method stops the stream of data
+ * 
+ * @memberOf Datasource
+    
+ */
+Datasource.prototype.stop = function stop () {
+    window.console.log('Stopping datasource');
+};
+
+
+Datasource.prototype.property = function property (prop, newProp, cast) {
+    this.properties.push({ 'p': prop, 'newP': newProp, cast: cast });
+    return this;
+};
+
+
+Datasource.prototype.convert = function convert (data) {
+        var this$1 = this;
+
+    var result = {};
+    for (var i in this.properties) {
+        var p = this$1.properties[i].p;
+        var value = eval('data.' + this$1.properties[i].newP);
+       // if(this.properties[i].cast){
+        //value = new this.properties[i].cast(value);
+       // }
+
+        result[p] = value;
+    }
+    return result;
+};
+
+/**
+ * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
+ * 
+ * @param {any} filter A filter condition
+ * @returns this Datasource instance
+ * 
+ * @memberOf Datasource
+ */
+Datasource.prototype.filter = function filter (filter) {
+    return this;
+};
+
+/**
+ * 
+ * This datasource set up a connection to a http server. 
+ * @export
+ * @class HTTPDatasource
+ * @extends {Datasource}
+
+ */
+var HTTPDatasource = (function (Datasource$$1) {
+    function HTTPDatasource(source) {
+        Datasource$$1.call(this);
+        this.source = source;
+        this.intervalId = -1;
+        this.started = false;
+    }
+
+    if ( Datasource$$1 ) HTTPDatasource.__proto__ = Datasource$$1;
+    HTTPDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
+    HTTPDatasource.prototype.constructor = HTTPDatasource;
+
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf HTTPDatasource
+     */
+    HTTPDatasource.prototype.configure = function configure (dispatcher) {
+        this.dispatcher = dispatcher;
+    };
+
+    /**
+     * 
+     * Initialize an HTTP connection
+     * 
+     * @memberOf HTTPDatasource
+    
+     */
+    HTTPDatasource.prototype.start = function start () {
+        if (!this.started) {
+            Datasource$$1.prototype.start.call(this);
+            var pollingTime = this.source.pollingTime;
+            var url = this.source.url;
+            this._startPolling(url, pollingTime);
+            this.started = true;
+        }
+    };
+
+
+    HTTPDatasource.prototype._startPolling = function _startPolling (url, time) {
+        var this$1 = this;
+        if ( time === void 0 ) time = 1000;
+
+        var interval = window.setInterval;
+        this.intervalId = interval(function () { return this$1._startRequest(url); }, time);
+    };
+
+    HTTPDatasource.prototype._startRequest = function _startRequest (url) {
+        var this$1 = this;
+
+
+        window.console.log('url', url);
+        d3$1.request(url).get(function (e, response) { return this$1._handleResponse(response); });
+    };
+
+    HTTPDatasource.prototype._stopPolling = function _stopPolling () {
+        var clearInterval = window.clearInterval;
+        clearInterval(this.intervalId);
+    };
+
+    HTTPDatasource.prototype._handleResponse = function _handleResponse (xmlHttpRequest) {
+        var parseJson = window.JSON.parse;
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+            var response = parseJson(xmlHttpRequest.response);
+            this._handleOK(response);
+        }
+        else {
+            this._handleError(xmlHttpRequest);
+        }
+    };
+
+    HTTPDatasource.prototype._handleOK = function _handleOK (data) {
+        if(this.properties.length > 0 ) {
+            data = this.convert(data);
+        }
+        this.dispatcher.call('onmessage', this, data);
+    };
+
+    HTTPDatasource.prototype._handleError = function _handleError (data) {
+        this.dispatcher.call('onerror', this, data);
+    };
+
+    /**
+     * If started, this method close the HTTP connection.
+     * 
+     * @memberOf HTTPDatasource
+    * */
+    HTTPDatasource.prototype.stop = function stop () {
+        if (this.started) {
+            this._stopPolling();
+            this.started = false;
+        }
+    };
+
+    return HTTPDatasource;
+}(Datasource));
+
+/**
+ * 
+ * This datasource set up a connection to a websocket server. 
+ * @export
+ * @class WebsocketDatasource
+ * @extends {Datasource}
+
+ */
+var WebsocketDatasource = (function (Datasource$$1) {
+    function WebsocketDatasource(source) {
+        Datasource$$1.call(this);
+        this.source = source;
+    }
+
+    if ( Datasource$$1 ) WebsocketDatasource.__proto__ = Datasource$$1;
+    WebsocketDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
+    WebsocketDatasource.prototype.constructor = WebsocketDatasource;
+    
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf WebsocketDatasource
+     */
+    WebsocketDatasource.prototype.configure = function configure (dispatcher) {
+        this.dispatcher = dispatcher;
+    };
+
+    /**
+     * 
+     * Initialize a websocket connection
+     * 
+     * @memberOf WebsocketDatasource
+    
+     */
+    WebsocketDatasource.prototype.start = function start () {
+        var this$1 = this;
+
+        Datasource$$1.prototype.start.call(this);
+        this.ws = new window.WebSocket(this.source.endpoint);
+
+        this.ws.onopen = function (e) {
+            this$1.dispatcher.call('onopen', this$1, e);
+        };
+        this.ws.onerror = function (e) {
+            throw new Error('An error occurred trying to reach the websocket server' + e);
+            //this.dispatcher.call('onerror', this, e);
+        };
+        this.ws.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            this$1.dispatcher.call('onmessage', this$1, data);
+        };
+    };
+    /**
+     * If started, this method close the websocket connection.
+     * 
+     * @memberOf WebsocketDatasource
+    * */
+    WebsocketDatasource.prototype.stop = function stop () {
+        Datasource$$1.prototype.stop.call(this);
+        if (this.ws) {
+            this.ws.close();
+        }
+    };
+
+    return WebsocketDatasource;
+}(Datasource));
 
 var defaults = {
     selector: '#chart',
@@ -3151,6 +3372,7 @@ var Chart = function Chart(d, config) {
 
     switch (dataFormat) {
         case 'WebsocketDatasource':
+        case 'HTTPDatasource':
             this.datasource = d;
             this.data = [];
             this._configureDatasource();
@@ -3275,7 +3497,6 @@ Chart.prototype.keepDrawing = function keepDrawing (datum, method) {
     else {
         this._keepDrawingByReplacing(datum);
     }
-
 };
 
 Chart.prototype._configureDatasource = function _configureDatasource () {
@@ -3286,6 +3507,7 @@ Chart.prototype._configureDatasource = function _configureDatasource () {
     this.datasource.configure(this.dispatcher);
 
     this.dispatcher.on('onmessage', function (data) { return this$1.keepDrawing(data); });
+    //this.dispatcher.on('onmessage', (data) => console.log(data));
 
 
     this.dispatcher.on('onopen', function (event$$1) {
@@ -3712,6 +3934,7 @@ var Networkgraph$1 = (function (Chart$$1) {
 }(Chart));
 
 exports.Datasource = Datasource;
+exports.HTTPDatasource = HTTPDatasource;
 exports.WebsocketDatasource = WebsocketDatasource;
 exports.Linechart = Linechart$1;
 exports.Barchart = Barchart$1;
@@ -3721,6 +3944,47 @@ exports.Swimlane = Swimlane$1;
 exports.Gauge = Gauge$1;
 exports.Sunburst = Sunburst$1;
 exports.Networkgraph = Networkgraph$1;
+exports.category1 = category1;
+exports.category2 = category2;
+exports.category3 = category3;
+exports.category4 = category4;
+exports.category5 = category5;
+exports.category6 = category6;
+exports.category7 = category7;
+exports.category8 = category8;
+exports.sequentialYellow = sequentialYellow;
+exports.sequentialRedOrange = sequentialRedOrange;
+exports.sequentialRed = sequentialRed;
+exports.sequentialPink = sequentialPink;
+exports.sequentialPurplePink = sequentialPurplePink;
+exports.sequentialPurple = sequentialPurple;
+exports.sequentialBlue = sequentialBlue;
+exports.sequentialLightBlue = sequentialLightBlue;
+exports.sequentialBlueViolet = sequentialBlueViolet;
+exports.sequentialTurquoise = sequentialTurquoise;
+exports.sequentialLightGreen = sequentialLightGreen;
+exports.sequentialDarkGreen = sequentialDarkGreen;
+exports.sequentialGreenBrown = sequentialGreenBrown;
+exports.sequentialBrown = sequentialBrown;
+exports.sequentialGrey = sequentialGrey;
+exports.sequentialVioletCb = sequentialVioletCb;
+exports.sequentialPinkCb = sequentialPinkCb;
+exports.sequentialBlueCb = sequentialBlueCb;
+exports.sequentialGreenCb = sequentialGreenCb;
+exports.sequentialGreenBrownCb = sequentialGreenBrownCb;
+exports.diverging_spectral1 = diverging_spectral1;
+exports.diverging_spectral2 = diverging_spectral2;
+exports.diverging_spectral3 = diverging_spectral3;
+exports.diverging_brown_turquoise = diverging_brown_turquoise;
+exports.diverging_orange_pink = diverging_orange_pink;
+exports.diverging_red_blue = diverging_red_blue;
+exports.diverging_red_grey = diverging_red_grey;
+exports.diverging_orange_violet = diverging_orange_violet;
+exports.diverging_purple_green = diverging_purple_green;
+exports.diverging_violet_green = diverging_violet_green;
+exports.diverging_red_green = diverging_red_green;
+exports.diverging_brown_green = diverging_brown_green;
+exports.diverging_lightBrown_turquoise = diverging_lightBrown_turquoise;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

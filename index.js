@@ -1,45 +1,45 @@
-export * from "./src/utils/colors"
+export * from './src/utils/colors';
 
 export {
   default as Datasource
-} from "./src/datasources/Datasource"
+} from './src/datasources/Datasource';
 
 export {
   default as HTTPDatasource
-} from "./src/datasources/HTTPDatasource"
+} from './src/datasources/HTTPDatasource';
 
 export {
   default as WebsocketDatasource
-} from "./src/datasources/WebsocketDatasource"
+} from './src/datasources/WebsocketDatasource';
 
 export {
   default as Linechart
-} from "./src/charts/linechart"
+} from './src/charts/linechart';
 
 export {
   default as Barchart
-} from "./src/charts/barchart"
+} from './src/charts/barchart';
 
 export {
   default as Streamgraph
-} from "./src/charts/streamgraph"
+} from './src/charts/streamgraph';
 
 export {
   default as StackedArea
-} from "./src/charts/stackedArea"
+} from './src/charts/stackedArea';
 
 export {
   default as Swimlane
-} from "./src/charts/swimlane"
+} from './src/charts/swimlane';
 
 export {
   default as Gauge
-} from "./src/charts/gauge"
+} from './src/charts/gauge';
 
 export {
   default as Sunburst
-} from "./src/charts/sunburst"
+} from './src/charts/sunburst';
 
 export {
   default as Networkgraph
-} from "./src/charts/networkgraph"
+} from './src/charts/networkgraph';
