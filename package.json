@@ -12,7 +12,7 @@
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \"",
-    "prepublish": "npm run build && uglifyjs build/proteic.js -c negate_iife=false -o build/proteic.min.js"
+    "prepublish": "npm run build && uglifyjs build/proteic.js -c negate_iife=false -o build/proteic.min.js && node rollup.config.node.js"
   },
   "keywords": [
     "d3",

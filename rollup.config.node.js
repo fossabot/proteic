@@ -13,7 +13,7 @@ rollup.rollup({
         "Object.defineProperty(exports, \"event\", {get: function() { return $1; }});"
         );
     return new Promise(function (resolve, reject) {
-        fs.writeFile("build/bundle.node.js", code, "utf8", function (error) {
+        fs.writeFile("build/proteic.node.js", code, "utf8", function (error) {
             if (error) {
                 return reject(error);
             }
