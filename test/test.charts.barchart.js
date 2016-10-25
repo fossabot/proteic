@@ -1,4 +1,35 @@
 import { assert } from 'chai';
+import { SvgBarchartStrategy } from '../src/svg/strategy_barchart';
+
+describe('SvgBarchartStrategy', () => {
+
+  beforeEach(() => {
+    //Append default chart div
+    var div = document.createElement('div');
+    div.innerHTML = '<div id="chart"></div>';
+    document.body.appendChild(div);
+  });
+
+  afterEach(() => {
+    var el = document.getElementById('chart');
+    el.parentNode.removeChild(el);
+  });
+
+  describe('_loadConfig(config)', () => {
+    it('should apply the default configuration if a custom one is ommited', () => {
+      var data = [
+        { x: 'Male', key: 'Spain', y: 30 },
+        { x: 'Male', key: 'France', y: 20 }
+      ];
+      var marginTop = 251;
+      var config = { marginTop };
+      var svg = new SvgBarchartStrategy({ data, config, cType: 'Barchart' });
+      var resultConfig = svg._loadConfig(config).config;
+      resultConfig.should.have.property('marginTop').equals(marginTop);
+    });
+  });
+});
+
 
 describe('Barchart', () => {
   beforeEach(() => {
