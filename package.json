@@ -2,6 +2,7 @@
   "name": "proteic",
   "version": "0.0.2",
   "description": "",
+  "homepage": "http://proteic.js.org/",
   "main": "build/proteic.node.js",
   "browser": "build/proteic.js",
   "module": "index",
@@ -19,10 +20,33 @@
   },
   "keywords": [
     "d3",
-    "chart"
+    "chart",
+    "data visualization"
   ],
-  "author": "Treelogic S.L.",
+  "author": {
+    "name": "Treelogic S.L.",
+    "url": "http://www.treelogic.com/"
+  },
+  "contributors": [
+    {
+      "name": "Nacho García Fernández",
+      "email": "0xnacho@gmail.com",
+      "url": "https://0xnacho.github.io/"
+    },
+    {
+      "name": "Jorge Yagüe París",
+      "email": "jorgeyp@gmail.com",
+      "url": "http://www.jorgeyp.com/"
+    }
+  ],
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/proteus-h2020/proteic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/proteus-h2020/proteic/issues"
+  },
   "dependencies": {
     "d3": "^4.2.7"
   },

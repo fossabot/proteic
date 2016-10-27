@@ -37,7 +37,7 @@ module.exports = (config) => {
     rollupPreprocessor: {
       plugins: [
         require('rollup-plugin-istanbul')({
-          exclude: ['test/*.js']
+          exclude: ['test/**/*.js', 'node_modules/**/*']
         }),
         buble() // ES2015 compiler by the same author as Rollup
       ],
@@ -62,6 +62,7 @@ module.exports = (config) => {
     ],
 
     coverageReporter: {
+      includeAllSources: true,
       reporters: [
         // generates ./coverage/lcov.info
         { type: 'lcovonly', subdir: '.' },
