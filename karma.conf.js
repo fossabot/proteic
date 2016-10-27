@@ -36,6 +36,9 @@ module.exports = (config) => {
 
     rollupPreprocessor: {
       plugins: [
+        require('rollup-plugin-istanbul')({
+          exclude: ['test/*.js']
+        }),
         buble() // ES2015 compiler by the same author as Rollup
       ],
       // will help to prevent conflicts between different tests entries

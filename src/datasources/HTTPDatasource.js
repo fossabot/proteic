@@ -70,8 +70,8 @@ export default class HTTPDatasource extends Datasource {
 
     _startRequest(url) {
 
-        console.log('url', url);
-        request(url).get((e, response) => this._handleResponse(response))
+        window.console.log('url', url);
+        request(url).get((e, response) => this._handleResponse(response));
     }
 
     _stopPolling() {
