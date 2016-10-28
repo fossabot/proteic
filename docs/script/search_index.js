@@ -66,6 +66,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "proteic/src/charts/scatterplot.js~linechart",
+    "class/src/charts/scatterplot.js~Linechart.html",
+    "<span>Linechart</span> <span class=\"search-result-import-path\">proteic/src/charts/scatterplot.js</span>",
+    "class"
+  ],
+  [
     "proteic/src/svg/components/lineset.js~lineset",
     "class/src/svg/components/lineset.js~Lineset.html",
     "<span>Lineset</span> <span class=\"search-result-import-path\">proteic/src/svg/components/lineset.js</span>",
@@ -153,6 +159,12 @@ window.esdocSearchIndex = [
     "proteic/src/svg/strategy_linechart.js~svglinechartstrategy",
     "class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html",
     "<span>SvgLinechartStrategy</span> <span class=\"search-result-import-path\">proteic/src/svg/strategy_linechart.js</span>",
+    "class"
+  ],
+  [
+    "proteic/src/svg/strategy_scatterplot.js~svglinechartstrategy",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html",
+    "<span>SvgLinechartStrategy</span> <span class=\"search-result-import-path\">proteic/src/svg/strategy_scatterplot.js</span>",
     "class"
   ],
   [
@@ -333,6 +345,12 @@ window.esdocSearchIndex = [
     "proteic/src/utils/defaults/networkgraph.js~defaults",
     "variable/index.html#static-variable-defaults",
     "<span>defaults</span> <span class=\"search-result-import-path\">proteic/src/utils/defaults/networkgraph.js</span>",
+    "variable"
+  ],
+  [
+    "proteic/src/utils/defaults/scatterplot.js~defaults",
+    "variable/index.html#static-variable-defaults",
+    "<span>defaults</span> <span class=\"search-result-import-path\">proteic/src/utils/defaults/scatterplot.js</span>",
     "variable"
   ],
   [
@@ -1173,6 +1191,30 @@ window.esdocSearchIndex = [
     "src/charts/networkgraph.js~networkgraph#keepdrawing",
     "class/src/charts/networkgraph.js~Networkgraph.html#instance-method-keepDrawing",
     "src/charts/networkgraph.js~Networkgraph#keepDrawing",
+    "method"
+  ],
+  [
+    "src/charts/scatterplot.js",
+    "file/src/charts/scatterplot.js.html",
+    "src/charts/scatterplot.js",
+    "file"
+  ],
+  [
+    "src/charts/scatterplot.js~linechart#constructor",
+    "class/src/charts/scatterplot.js~Linechart.html#instance-constructor-constructor",
+    "src/charts/scatterplot.js~Linechart#constructor",
+    "method"
+  ],
+  [
+    "src/charts/scatterplot.js~linechart#draw",
+    "class/src/charts/scatterplot.js~Linechart.html#instance-method-draw",
+    "src/charts/scatterplot.js~Linechart#draw",
+    "method"
+  ],
+  [
+    "src/charts/scatterplot.js~linechart#keepdrawing",
+    "class/src/charts/scatterplot.js~Linechart.html#instance-method-keepDrawing",
+    "src/charts/scatterplot.js~Linechart#keepDrawing",
     "method"
   ],
   [
@@ -2520,6 +2562,54 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/svg/strategy_scatterplot.js",
+    "file/src/svg/strategy_scatterplot.js.html",
+    "src/svg/strategy_scatterplot.js",
+    "file"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#areas",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-areas",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#areas",
+    "member"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#axes",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-axes",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#axes",
+    "member"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#constructor",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-constructor-constructor",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#constructor",
+    "method"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#draw",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-method-draw",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#draw",
+    "method"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#legend",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-legend",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#legend",
+    "member"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#lines",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-lines",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#lines",
+    "member"
+  ],
+  [
+    "src/svg/strategy_scatterplot.js~svglinechartstrategy#points",
+    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-points",
+    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#points",
+    "member"
+  ],
+  [
     "src/svg/strategy_stackedarea.js",
     "file/src/svg/strategy_stackedArea.js.html",
     "src/svg/strategy_stackedArea.js",
@@ -2727,6 +2817,12 @@ window.esdocSearchIndex = [
     "src/utils/defaults/networkgraph.js",
     "file/src/utils/defaults/networkgraph.js.html",
     "src/utils/defaults/networkgraph.js",
+    "file"
+  ],
+  [
+    "src/utils/defaults/scatterplot.js",
+    "file/src/utils/defaults/scatterplot.js.html",
+    "src/utils/defaults/scatterplot.js",
     "file"
   ],
   [

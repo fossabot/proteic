@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">SvgSwimlaneStrategy | API Document</title>
+  <title data-ice="title">SvgLinechartStrategy | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -151,23 +151,23 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SvgSwimlaneStrategy} from &apos;<span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber9">proteic/src/svg/strategy_swimlane.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SvgLinechartStrategy} from &apos;<span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber12">proteic/src/svg/strategy_scatterplot.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber9">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber12">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">SvgSwimlaneStrategy</h1>
+  <h1 data-ice="name">SvgLinechartStrategy</h1>
 
   
 
   
   
-  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="class/src/svg/base/svgAxis.js~SvgAxis.html">SvgAxis</a></span> &#x2192; SvgSwimlaneStrategy</div></div>
+  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="class/src/svg/base/svgAxis.js~SvgAxis.html">SvgAxis</a></span> &#x2192; SvgLinechartStrategy</div></div>
   
   
   
@@ -205,7 +205,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(context: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(context: <span>*</span>)</span>
         </p>
       </div>
       <div>
@@ -237,7 +237,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html#instance-member-axes">axes</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-areas">areas</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -262,7 +262,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html#instance-member-boxs">boxs</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-axes">axes</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -287,7 +287,57 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html#instance-member-legend">legend</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-legend">legend</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-lines">lines</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-points">points</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -319,13 +369,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/svg/strategy_swimlane.js~SvgSwimlaneStrategy.html#instance-method-draw">draw</a></span></span><span data-ice="signature">(data: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-method-draw">draw</a></span></span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Renders a linechart based on data object</p>
+</div>
       </div>
     </td>
     <td>
@@ -460,7 +511,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber11">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
@@ -509,17 +560,17 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-axes">
+  <h3 data-ice="anchor" id="instance-member-areas">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">axes</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">areas</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
@@ -549,17 +600,17 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-boxs">
+  <h3 data-ice="anchor" id="instance-member-axes">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">boxs</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">axes</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber17">source</a></span></span>
     </span>
   </h3>
 
@@ -599,7 +650,87 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber15">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber20">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-lines">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">lines</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber19">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-points">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">points</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
@@ -638,18 +769,19 @@
     
     
     
-    <span data-ice="name">draw</span><span data-ice="signature">(data: <span>*</span>)</span>
+    <span data-ice="name">draw</span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/svg/strategy_swimlane.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/svg/strategy_scatterplot.js.html#lineNumber44">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>Renders a linechart based on data object</p>
+</div>
 
   
 
@@ -663,9 +795,10 @@
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">data</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Data Object. Contains an array with x and y properties.</p>
+</td>
     </tr>
 </tbody>
   </table>

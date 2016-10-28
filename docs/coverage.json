@@ -1,7 +1,7 @@
 {
-  "coverage": "18.28%",
-  "expectCount": 350,
-  "actualCount": 64,
+  "coverage": "19%",
+  "expectCount": 363,
+  "actualCount": 69,
   "files": {
     "src/svg/components/areaset.js": {
       "expectCount": 7,
@@ -120,6 +120,11 @@
         48,
         6
       ]
+    },
+    "src/charts/scatterplot.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
     },
     "src/charts/linechart.js": {
       "expectCount": 4,
@@ -275,6 +280,19 @@
         15,
         11,
         28
+      ]
+    },
+    "src/svg/strategy_scatterplot.js": {
+      "expectCount": 8,
+      "actualCount": 1,
+      "undocumentLines": [
+        12,
+        29,
+        17,
+        14,
+        20,
+        19,
+        34
       ]
     },
     "src/svg/strategy_linechart.js": {
@@ -527,6 +545,27 @@
         3
       ]
     },
+    "src/utils/defaults/gauge.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/swimlane.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/sunburst.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
     "src/utils/defaults/streamgraph.js": {
       "expectCount": 1,
       "actualCount": 0,
@@ -541,14 +580,21 @@
         3
       ]
     },
-    "src/utils/defaults/swimlane.js": {
+    "src/utils/defaults/barchart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
         3
       ]
     },
-    "src/utils/defaults/barchart.js": {
+    "src/utils/defaults/scatterplot.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/linechart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -560,27 +606,6 @@
       "actualCount": 0,
       "undocumentLines": [
         1
-      ]
-    },
-    "src/utils/defaults/linechart.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/gauge.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/sunburst.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
       ]
     },
     "src/utils/functions.js": {
