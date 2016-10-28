@@ -36,7 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Scatterplot.html">Scatterplot</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
@@ -50,7 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html">SvgScatterplotStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
@@ -152,7 +152,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/xAxis.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;;
-import {select, scaleTime, scaleLinear, scaleBand, axisBottom} from &apos;d3&apos;;
+import {select, scaleTime, scaleLinear, scaleBand, axisBottom, format as d3Format} from &apos;d3&apos;;
 
 export class XAxis {
   constructor(xAxisType, config) {
@@ -170,19 +170,38 @@ export class XAxis {
 
   _initializeXAxis(xAxisType = &apos;linear&apos;, config) {
     let x = null,
-      xAxis = null;
+      axis = null;
+
+    // switch (xAxisType) {
+    //   case &apos;time&apos;:
+    //     x = scaleTime().range([0, config.width]);
+    //     break;
+    //   case &apos;linear&apos;:
+    //     x = scaleLinear().range([0, config.width]);
+    //     break;
+    //   case &apos;categorical&apos;:
+    //     x = scaleBand().rangeRound([0, config.width])
+    //       .padding(0.1)
+    //       .align(0.5);
+    //     break;
+    //   default:
+    //     throw new Error(&apos;Not allowed type for XAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + xAxisType);
+    // }
 
     switch (xAxisType) {
       case &apos;time&apos;:
         x = scaleTime().range([0, config.width]);
+        axis = axisBottom(x);
         break;
       case &apos;linear&apos;:
         x = scaleLinear().range([0, config.width]);
+        axis = axisBottom(x).tickFormat(d3Format(config.xAxisFormat));
         break;
       case &apos;categorical&apos;:
         x = scaleBand().rangeRound([0, config.width])
           .padding(0.1)
           .align(0.5);
+        axis = axisBottom(x);
         break;
       default:
         throw new Error(&apos;Not allowed type for XAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + xAxisType);
@@ -204,7 +223,7 @@ export class XAxis {
 
     select(this).selectAll([&apos;path&apos;, &apos;line&apos;])
       .attr(&apos;stroke&apos;, &apos;gray&apos;)
-      .attr(&apos;stroke-width&apos;, .3)
+      .attr(&apos;stroke-width&apos;, .3);
 
   }
 

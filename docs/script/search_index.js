@@ -66,12 +66,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "proteic/src/charts/scatterplot.js~linechart",
-    "class/src/charts/scatterplot.js~Linechart.html",
-    "<span>Linechart</span> <span class=\"search-result-import-path\">proteic/src/charts/scatterplot.js</span>",
-    "class"
-  ],
-  [
     "proteic/src/svg/components/lineset.js~lineset",
     "class/src/svg/components/lineset.js~Lineset.html",
     "<span>Lineset</span> <span class=\"search-result-import-path\">proteic/src/svg/components/lineset.js</span>",
@@ -99,6 +93,12 @@ window.esdocSearchIndex = [
     "proteic/src/svg/components/radialaxes.js~radialaxes",
     "class/src/svg/components/radialAxes.js~RadialAxes.html",
     "<span>RadialAxes</span> <span class=\"search-result-import-path\">proteic/src/svg/components/radialAxes.js</span>",
+    "class"
+  ],
+  [
+    "proteic/src/charts/scatterplot.js~scatterplot",
+    "class/src/charts/scatterplot.js~Scatterplot.html",
+    "<span>Scatterplot</span> <span class=\"search-result-import-path\">proteic/src/charts/scatterplot.js</span>",
     "class"
   ],
   [
@@ -162,15 +162,15 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "proteic/src/svg/strategy_scatterplot.js~svglinechartstrategy",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html",
-    "<span>SvgLinechartStrategy</span> <span class=\"search-result-import-path\">proteic/src/svg/strategy_scatterplot.js</span>",
-    "class"
-  ],
-  [
     "proteic/src/svg/strategy_networkgraph.js~svgnetworkgraphstrategy",
     "class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html",
     "<span>SvgNetworkgraphStrategy</span> <span class=\"search-result-import-path\">proteic/src/svg/strategy_networkgraph.js</span>",
+    "class"
+  ],
+  [
+    "proteic/src/svg/strategy_scatterplot.js~svgscatterplotstrategy",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html",
+    "<span>SvgScatterplotStrategy</span> <span class=\"search-result-import-path\">proteic/src/svg/strategy_scatterplot.js</span>",
     "class"
   ],
   [
@@ -1200,21 +1200,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/charts/scatterplot.js~linechart#constructor",
-    "class/src/charts/scatterplot.js~Linechart.html#instance-constructor-constructor",
-    "src/charts/scatterplot.js~Linechart#constructor",
+    "src/charts/scatterplot.js~scatterplot#constructor",
+    "class/src/charts/scatterplot.js~Scatterplot.html#instance-constructor-constructor",
+    "src/charts/scatterplot.js~Scatterplot#constructor",
     "method"
   ],
   [
-    "src/charts/scatterplot.js~linechart#draw",
-    "class/src/charts/scatterplot.js~Linechart.html#instance-method-draw",
-    "src/charts/scatterplot.js~Linechart#draw",
+    "src/charts/scatterplot.js~scatterplot#draw",
+    "class/src/charts/scatterplot.js~Scatterplot.html#instance-method-draw",
+    "src/charts/scatterplot.js~Scatterplot#draw",
     "method"
   ],
   [
-    "src/charts/scatterplot.js~linechart#keepdrawing",
-    "class/src/charts/scatterplot.js~Linechart.html#instance-method-keepDrawing",
-    "src/charts/scatterplot.js~Linechart#keepDrawing",
+    "src/charts/scatterplot.js~scatterplot#keepdrawing",
+    "class/src/charts/scatterplot.js~Scatterplot.html#instance-method-keepDrawing",
+    "src/charts/scatterplot.js~Scatterplot#keepDrawing",
     "method"
   ],
   [
@@ -2568,45 +2568,33 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#areas",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-areas",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#areas",
+    "src/svg/strategy_scatterplot.js~svgscatterplotstrategy#axes",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html#instance-member-axes",
+    "src/svg/strategy_scatterplot.js~SvgScatterplotStrategy#axes",
     "member"
   ],
   [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#axes",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-axes",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#axes",
-    "member"
-  ],
-  [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#constructor",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-constructor-constructor",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#constructor",
+    "src/svg/strategy_scatterplot.js~svgscatterplotstrategy#constructor",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html#instance-constructor-constructor",
+    "src/svg/strategy_scatterplot.js~SvgScatterplotStrategy#constructor",
     "method"
   ],
   [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#draw",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-method-draw",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#draw",
+    "src/svg/strategy_scatterplot.js~svgscatterplotstrategy#draw",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html#instance-method-draw",
+    "src/svg/strategy_scatterplot.js~SvgScatterplotStrategy#draw",
     "method"
   ],
   [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#legend",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-legend",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#legend",
+    "src/svg/strategy_scatterplot.js~svgscatterplotstrategy#legend",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html#instance-member-legend",
+    "src/svg/strategy_scatterplot.js~SvgScatterplotStrategy#legend",
     "member"
   ],
   [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#lines",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-lines",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#lines",
-    "member"
-  ],
-  [
-    "src/svg/strategy_scatterplot.js~svglinechartstrategy#points",
-    "class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html#instance-member-points",
-    "src/svg/strategy_scatterplot.js~SvgLinechartStrategy#points",
+    "src/svg/strategy_scatterplot.js~svgscatterplotstrategy#points",
+    "class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html#instance-member-points",
+    "src/svg/strategy_scatterplot.js~SvgScatterplotStrategy#points",
     "member"
   ],
   [

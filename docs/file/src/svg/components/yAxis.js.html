@@ -36,7 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Scatterplot.html">Scatterplot</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
@@ -50,7 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html">SvgScatterplotStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
@@ -152,7 +152,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/components/yAxis.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {isEven} from &apos;../../utils/functions&apos;;
-import {select, scaleLinear, scaleBand, axisLeft} from &apos;d3&apos;;
+import {select, scaleLinear, scaleBand, axisLeft, format as d3Format} from &apos;d3&apos;;
 
 export class YAxis {
   constructor(yAxisType, config) {
@@ -169,27 +169,50 @@ export class YAxis {
 
   _initializeYAxis(yAxisType = &apos;linear&apos;, config) {
     let y = null,
-      yAxis = null;
-
+      axis = null;
     switch (yAxisType) {
       case &apos;linear&apos;:
         y = scaleLinear().range([config.height, 0]);
+        axis = axisLeft(y).tickFormat(d3Format(config.yAxisFormat));
         break;
       case &apos;categorical&apos;:
         y = scaleBand().rangeRound([config.height, 0])
           .padding(0.1)
           .align(0.5);
+        axis = axisLeft(y);
         break;
       default:
         throw new Error(&apos;Not allowed type for YAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + yAxisType);
     }
-    return axisLeft(y)
-      .tickSizeInner(-config.width)
+
+    return axis.tickSizeInner(-config.width)
       .tickSizeOuter(0)
-      .tickPadding(20)
-      .tickFormat((d) =&gt; d)
-      .ticks(config.yticks, config.tickLabel);
+      .tickPadding(20);
   }
+
+  // _initializeYAxis(yAxisType = &apos;linear&apos;, config) {
+  //   let y = null,
+  //     yAxis = null;
+  //
+  //   switch (yAxisType) {
+  //     case &apos;linear&apos;:
+  //       y = scaleLinear().range([config.height, 0]);
+  //       break;
+  //     case &apos;categorical&apos;:
+  //       y = scaleBand().rangeRound([config.height, 0])
+  //         .padding(0.1)
+  //         .align(0.5);
+  //       break;
+  //     default:
+  //       throw new Error(&apos;Not allowed type for YAxis. Only allowed &quot;time&quot;,  &quot;linear&quot; or &quot;categorical&quot;. Got: &apos; + yAxisType);
+  //   }
+  //   return axisLeft(y)
+  //     .tickSizeInner(-config.width)
+  //     .tickSizeOuter(0)
+  //     .tickPadding(20)
+  //     .tickFormat((d) =&gt; d)
+  //     .ticks(config.yticks, config.tickLabel);
+  // }
 
   transition(svg, time = 200) {
     svg.selectAll(&apos;.y.axis&apos;).transition().duration(time).call(this.yAxis).on(&apos;end&apos;, this.yStyle);

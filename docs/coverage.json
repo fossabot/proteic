@@ -1,6 +1,6 @@
 {
-  "coverage": "19%",
-  "expectCount": 363,
+  "coverage": "19.11%",
+  "expectCount": 361,
   "actualCount": 69,
   "files": {
     "src/svg/components/areaset.js": {
@@ -121,11 +121,6 @@
         6
       ]
     },
-    "src/charts/scatterplot.js": {
-      "expectCount": 4,
-      "actualCount": 4,
-      "undocumentLines": []
-    },
     "src/charts/linechart.js": {
       "expectCount": 4,
       "actualCount": 4,
@@ -172,7 +167,7 @@
       "undocumentLines": [
         3,
         4,
-        56,
+        110,
         8,
         5,
         6
@@ -187,6 +182,11 @@
         10,
         11
       ]
+    },
+    "src/charts/scatterplot.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
     },
     "src/charts/stackedArea.js": {
       "expectCount": 5,
@@ -282,19 +282,6 @@
         28
       ]
     },
-    "src/svg/strategy_scatterplot.js": {
-      "expectCount": 8,
-      "actualCount": 1,
-      "undocumentLines": [
-        12,
-        29,
-        17,
-        14,
-        20,
-        19,
-        34
-      ]
-    },
     "src/svg/strategy_linechart.js": {
       "expectCount": 8,
       "actualCount": 1,
@@ -319,6 +306,17 @@
         11
       ]
     },
+    "src/svg/strategy_scatterplot.js": {
+      "expectCount": 6,
+      "actualCount": 1,
+      "undocumentLines": [
+        12,
+        16,
+        14,
+        18,
+        17
+      ]
+    },
     "src/svg/strategy_stackedArea.js": {
       "expectCount": 6,
       "actualCount": 0,
@@ -335,11 +333,11 @@
       "expectCount": 6,
       "actualCount": 1,
       "undocumentLines": [
-        14,
-        17,
-        20,
-        25,
-        15
+        15,
+        18,
+        21,
+        26,
+        16
       ]
     },
     "src/svg/strategy_streamgraph.js": {
@@ -424,12 +422,12 @@
       "undocumentLines": [
         4,
         5,
-        74,
-        14,
         93,
-        41,
+        14,
+        112,
+        60,
         10,
-        45
+        64
       ]
     },
     "src/svg/components/xRadialAxis.js": {
@@ -461,13 +459,13 @@
       "undocumentLines": [
         4,
         5,
-        63,
+        86,
         13,
-        41,
-        53,
-        58,
+        64,
+        76,
+        81,
         10,
-        45
+        68
       ]
     },
     "src/svg/components/yRadialAxis.js": {
@@ -545,21 +543,7 @@
         3
       ]
     },
-    "src/utils/defaults/gauge.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/swimlane.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/sunburst.js": {
+    "src/utils/defaults/barchart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -573,14 +557,28 @@
         3
       ]
     },
-    "src/utils/defaults/stackedArea.js": {
+    "src/utils/defaults/networkgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/defaults/linechart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
         3
       ]
     },
-    "src/utils/defaults/barchart.js": {
+    "src/utils/defaults/sunburst.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/gauge.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -594,18 +592,18 @@
         3
       ]
     },
-    "src/utils/defaults/linechart.js": {
+    "src/utils/defaults/stackedArea.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
         3
       ]
     },
-    "src/utils/defaults/networkgraph.js": {
+    "src/utils/defaults/swimlane.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        1
+        3
       ]
     },
     "src/utils/functions.js": {

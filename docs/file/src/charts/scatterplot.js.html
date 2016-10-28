@@ -36,7 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Scatterplot.html">Scatterplot</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
@@ -50,7 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html">SvgScatterplotStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
@@ -152,16 +152,16 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/charts/scatterplot.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Chart from &apos;./base/Chart&apos;;
-import * as defaultProperties from &apos;../utils/defaults/linechart&apos;;
+import * as defaultProperties from &apos;../utils/defaults/scatterplot&apos;;
 
 /**
- * Linechart implementation. This charts belongs to &apos;Basic&apos; family.
+ * Scatterplot implementation. This charts belongs to &apos;Basic&apos; family.
  * It is inherited on &apos;Basic&apos;.
  */
-export default class Linechart extends Chart {
+export default class Scatterplot extends Chart {
 
   /**
-   * Linechart constructor. It needs (at least) one argument to start: data.
+   * Scatterplot constructor. It needs (at least) one argument to start: data.
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, &apos;_default&apos; object is used by default.
    */

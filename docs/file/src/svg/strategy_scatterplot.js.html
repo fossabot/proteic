@@ -36,7 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Scatterplot.html">Scatterplot</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
@@ -50,7 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html">SvgScatterplotStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
@@ -151,7 +151,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/svg/strategy_scatterplot.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { defaults } from &apos;../utils/defaults/linechart&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { defaults } from &apos;../utils/defaults/scatterplot&apos;;
 import { SvgAxis } from &apos;./base/svgAxis&apos;;
 import { XYAxes } from &apos;./components/xyAxes&apos;;
 import { Lineset } from &apos;./components/lineset&apos;;
@@ -162,35 +162,22 @@ import { convertByXYFormat } from &apos;../utils/dataTransformation&apos;;
 import { sortByField } from &apos;../utils/dataSorting&apos;;
 import {min, max} from &apos;d3&apos;;
 
-export class SvgLinechartStrategy extends SvgAxis {
+export class SvgScatterplotStrategy extends SvgAxis {
 
   constructor(context) {
     super(context);
-
     this.axes = new XYAxes(this.config.xAxisType, &apos;linear&apos;, this.config);
-
-    this.lines = new Lineset(this.axes.x, this.axes.y);
+    this.points = new Pointset(this.axes.x, this.axes.y);
     this.legend = new Legend();
-
     //Include components in the chart container
     this.svgContainer
       .add(this.axes)
       .add(this.legend)
-      .add(this.lines);
-
-    if (this._checkArea(this.config)) {
-      this.areas = new Areaset(this.axes.x, this.axes.y);
-      this.svgContainer.add(this.areas);
-    }
-
-    if (this._checkMarkers(this.config)) {
-      this.points = new Pointset(this.axes.x, this.axes.y);
-      this.svgContainer.add(this.points);
-    }
+      .add(this.points);
   }
 
 	/**
-	 * Renders a linechart based on data object
+	 * Renders a scatterplot based on data object
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
 	 * 
 	 */
@@ -200,7 +187,7 @@ export class SvgLinechartStrategy extends SvgAxis {
       needRescaling = this.config.needRescaling,
       bbox = null;
 
-    //Transform data, if needed
+    // //Transform data, if needed
     convertByXYFormat(data, config);
 
     //Sort data
@@ -210,7 +197,6 @@ export class SvgLinechartStrategy extends SvgAxis {
     if (needRescaling) {
       this.rescale();
     }
-
 
     bbox = this._getDomainBBox(data);
 
@@ -222,19 +208,8 @@ export class SvgLinechartStrategy extends SvgAxis {
     // Update legend
     this.legend.update(svg, config, data);
 
-    //Now update lines
-    this.lines.update(svg, config, data);
-
-    if (config.areaOpacity &gt; 0) {
-      // Update areas
-      this.areas.update(svg, config, data);
-    }
-
-    if (this._checkMarkers(config)) {
-      // Update points
-      this.points.update(svg, config, data);
-    }
-
+    // Update points
+    this.points.update(svg, config, data);
   }
 
   _getDomainBBox(data) {
@@ -244,7 +219,6 @@ export class SvgLinechartStrategy extends SvgAxis {
       maxY = max(data, (d) =&gt; d.y);
     return [minX, maxX, minY, maxY];
   }
-
 
   _checkMarkers(config) {
     return config.markerSize &gt; 0;

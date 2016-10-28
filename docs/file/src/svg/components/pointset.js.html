@@ -36,7 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/gauge.js~Gauge.html">Gauge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/linechart.js~Linechart.html">Linechart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/networkgraph.js~Networkgraph.html">Networkgraph</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Linechart.html">Linechart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/scatterplot.js~Scatterplot.html">Scatterplot</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/stackedArea.js~StackedArea.html">StackedArea</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/streamgraph.js~Streamgraph.html">Streamgraph</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/charts/sunburst.js~Sunburst.html">Sunburst</a></span></span></li>
@@ -50,7 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_gauge.js~SvgGaugeStrategy.html">SvgGaugeStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_linechart.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_networkgraph.js~SvgNetworkgraphStrategy.html">SvgNetworkgraphStrategy</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgLinechartStrategy.html">SvgLinechartStrategy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_scatterplot.js~SvgScatterplotStrategy.html">SvgScatterplotStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_stackedArea.js~SvgStackedAreaStrategy.html">SvgStackedAreaStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_streamgraph.js~SvgStreamgraphStrategy.html">SvgStreamgraphStrategy</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/svg/strategy_sunburst.js~SvgSunburstStrategy.html">SvgSunburstStrategy</a></span></span></li>
@@ -175,7 +175,61 @@ export class Pointset {
     series = svg.selectAll(&apos;g.points&apos;);
 
     switch (markerShape) {
+      case &apos;dot&apos;:
+        points = series
+          .data(dataSeries, (d) =&gt; d.key)
+          .enter()
+          .append(&apos;g&apos;)
+          .attr(&apos;class&apos;, &apos;points&apos;)
+          .style(&apos;fill&apos;, (d, i) =&gt; colorScale(i))
+          .selectAll(&apos;circle&apos;)
+          .data((d) =&gt; d.values)
+          .enter()
+          .append(&apos;circle&apos;)
+          .attr(&apos;cx&apos;, (d) =&gt; this.xAxis.scale()(d.x))
+          .attr(&apos;cy&apos;, (d) =&gt; this.yAxis.scale()(d.y))
+          .attr(&apos;r&apos;, markerSize)
+          .attr(&apos;class&apos;, &apos;marker&apos;);
+        break;
+      case &apos;ring&apos;:
+        window.console.warn(&apos;Deprecated &quot;circle&quot; marker shape: use &quot;dot&quot; or &quot;ring&quot; instead&apos;);
+        points = series
+          .data(dataSeries, (d) =&gt; d.key)
+          .enter()
+          .append(&apos;g&apos;)
+          .attr(&apos;class&apos;, &apos;points&apos;)
+          .style(&apos;stroke&apos;, (d, i) =&gt; colorScale(i))
+          .selectAll(&apos;circle&apos;)
+          .data((d, i) =&gt; d.values)
+          .enter()
+          .append(&apos;circle&apos;)
+          .attr(&apos;cx&apos;, (d) =&gt; this.xAxis.scale()(d.x))
+          .attr(&apos;cy&apos;, (d) =&gt; this.yAxis.scale()(d.y))
+          .attr(&apos;r&apos;, markerSize)
+          .attr(&apos;class&apos;, &apos;marker&apos;)
+          .style(&apos;fill&apos;, &apos;white&apos;)
+          .style(&apos;stroke-width&apos;, markerOutlineWidth);
+        break;
+      // Deprecated circle option
       case &apos;circle&apos;:
+        window.console.warn(&apos;Deprecated &quot;circle&quot; marker shape: use &quot;dot&quot; or &quot;ring&quot; instead&apos;);
+        points = series
+          .data(dataSeries, (d) =&gt; d.key)
+          .enter()
+          .append(&apos;g&apos;)
+          .attr(&apos;class&apos;, &apos;points&apos;)
+          .style(&apos;stroke&apos;, (d, i) =&gt; colorScale(i))
+          .selectAll(&apos;circle&apos;)
+          .data((d, i) =&gt; d.values)
+          .enter()
+          .append(&apos;circle&apos;)
+          .attr(&apos;cx&apos;, (d) =&gt; this.xAxis.scale()(d.x))
+          .attr(&apos;cy&apos;, (d) =&gt; this.yAxis.scale()(d.y))
+          .attr(&apos;r&apos;, markerSize)
+          .attr(&apos;class&apos;, &apos;lineMarker&apos;)
+          .style(&apos;fill&apos;, &apos;white&apos;)
+          .style(&apos;stroke-width&apos;, markerOutlineWidth);
+        break;
       default:
         points = series
           .data(dataSeries, (d) =&gt; d.key)
