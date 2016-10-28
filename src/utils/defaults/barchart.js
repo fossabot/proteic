@@ -7,10 +7,10 @@ export const defaults = {
     stacked: true,
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%d',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,

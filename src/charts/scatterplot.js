@@ -1,14 +1,14 @@
 import Chart from './base/Chart';
-import * as defaultProperties from '../utils/defaults/linechart';
+import * as defaultProperties from '../utils/defaults/scatterplot';
 
 /**
- * Linechart implementation. This charts belongs to 'Basic' family.
+ * Scatterplot implementation. This charts belongs to 'Basic' family.
  * It is inherited on 'Basic'.
  */
-export default class Linechart extends Chart {
+export default class Scatterplot extends Chart {
 
   /**
-   * Linechart constructor. It needs (at least) one argument to start: data.
+   * Scatterplot constructor. It needs (at least) one argument to start: data.
    * Optionally, you can indicate a second argument that includes all the chart options. If you
    * do not specify this, '_default' object is used by default.
    */

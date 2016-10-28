@@ -1,5 +1,5 @@
 import {isEven} from '../../utils/functions';
-import {select, scaleLinear, scaleBand, axisLeft} from 'd3';
+import {select, scaleLinear, scaleBand, axisLeft, format as d3Format} from 'd3';
 
 export class YAxis {
   constructor(yAxisType, config) {
@@ -16,27 +16,50 @@ export class YAxis {
 
   _initializeYAxis(yAxisType = 'linear', config) {
     let y = null,
-      yAxis = null;
-
+      axis = null;
     switch (yAxisType) {
       case 'linear':
         y = scaleLinear().range([config.height, 0]);
+        axis = axisLeft(y).tickFormat(d3Format(config.yAxisFormat));
         break;
       case 'categorical':
         y = scaleBand().rangeRound([config.height, 0])
           .padding(0.1)
           .align(0.5);
+        axis = axisLeft(y);
         break;
       default:
         throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
     }
-    return axisLeft(y)
-      .tickSizeInner(-config.width)
+
+    return axis.tickSizeInner(-config.width)
       .tickSizeOuter(0)
-      .tickPadding(20)
-      .tickFormat((d) => d)
-      .ticks(config.yticks, config.tickLabel);
+      .tickPadding(20);
   }
+
+  // _initializeYAxis(yAxisType = 'linear', config) {
+  //   let y = null,
+  //     yAxis = null;
+  //
+  //   switch (yAxisType) {
+  //     case 'linear':
+  //       y = scaleLinear().range([config.height, 0]);
+  //       break;
+  //     case 'categorical':
+  //       y = scaleBand().rangeRound([config.height, 0])
+  //         .padding(0.1)
+  //         .align(0.5);
+  //       break;
+  //     default:
+  //       throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
+  //   }
+  //   return axisLeft(y)
+  //     .tickSizeInner(-config.width)
+  //     .tickSizeOuter(0)
+  //     .tickPadding(20)
+  //     .tickFormat((d) => d)
+  //     .ticks(config.yticks, config.tickLabel);
+  // }
 
   transition(svg, time = 200) {
     svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);

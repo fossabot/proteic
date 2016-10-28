@@ -1,4 +1,4 @@
-import { defaults } from '../utils/defaults/linechart';
+import { defaults } from '../utils/defaults/scatterplot';
 import { SvgAxis } from './base/svgAxis';
 import { XYAxes } from './components/xyAxes';
 import { Lineset } from './components/lineset';
@@ -9,35 +9,22 @@ import { convertByXYFormat } from '../utils/dataTransformation';
 import { sortByField } from '../utils/dataSorting';
 import {min, max} from 'd3';
 
-export class SvgLinechartStrategy extends SvgAxis {
+export class SvgScatterplotStrategy extends SvgAxis {
 
   constructor(context) {
     super(context);
-
     this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);
-
-    this.lines = new Lineset(this.axes.x, this.axes.y);
+    this.points = new Pointset(this.axes.x, this.axes.y);
     this.legend = new Legend();
-
     //Include components in the chart container
     this.svgContainer
       .add(this.axes)
       .add(this.legend)
-      .add(this.lines);
-
-    if (this._checkArea(this.config)) {
-      this.areas = new Areaset(this.axes.x, this.axes.y);
-      this.svgContainer.add(this.areas);
-    }
-
-    if (this._checkMarkers(this.config)) {
-      this.points = new Pointset(this.axes.x, this.axes.y);
-      this.svgContainer.add(this.points);
-    }
+      .add(this.points);
   }
 
 	/**
-	 * Renders a linechart based on data object
+	 * Renders a scatterplot based on data object
 	 * @param  {Object} data Data Object. Contains an array with x and y properties.
 	 * 
 	 */
@@ -47,7 +34,7 @@ export class SvgLinechartStrategy extends SvgAxis {
       needRescaling = this.config.needRescaling,
       bbox = null;
 
-    //Transform data, if needed
+    // //Transform data, if needed
     convertByXYFormat(data, config);
 
     //Sort data
@@ -57,7 +44,6 @@ export class SvgLinechartStrategy extends SvgAxis {
     if (needRescaling) {
       this.rescale();
     }
-
 
     bbox = this._getDomainBBox(data);
 
@@ -69,19 +55,8 @@ export class SvgLinechartStrategy extends SvgAxis {
     // Update legend
     this.legend.update(svg, config, data);
 
-    //Now update lines
-    this.lines.update(svg, config, data);
-
-    if (config.areaOpacity > 0) {
-      // Update areas
-      this.areas.update(svg, config, data);
-    }
-
-    if (this._checkMarkers(config)) {
-      // Update points
-      this.points.update(svg, config, data);
-    }
-
+    // Update points
+    this.points.update(svg, config, data);
   }
 
   _getDomainBBox(data) {
@@ -91,7 +66,6 @@ export class SvgLinechartStrategy extends SvgAxis {
       maxY = max(data, (d) => d.y);
     return [minX, maxX, minY, maxY];
   }
-
 
   _checkMarkers(config) {
     return config.markerSize > 0;

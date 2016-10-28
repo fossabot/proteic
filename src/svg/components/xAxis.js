@@ -1,5 +1,5 @@
 import {isEven} from '../../utils/functions';
-import {select, scaleTime, scaleLinear, scaleBand, axisBottom} from 'd3';
+import {select, scaleTime, scaleLinear, scaleBand, axisBottom, format as d3Format} from 'd3';
 
 export class XAxis {
   constructor(xAxisType, config) {
@@ -17,19 +17,38 @@ export class XAxis {
 
   _initializeXAxis(xAxisType = 'linear', config) {
     let x = null,
-      xAxis = null;
+      axis = null;
+
+    // switch (xAxisType) {
+    //   case 'time':
+    //     x = scaleTime().range([0, config.width]);
+    //     break;
+    //   case 'linear':
+    //     x = scaleLinear().range([0, config.width]);
+    //     break;
+    //   case 'categorical':
+    //     x = scaleBand().rangeRound([0, config.width])
+    //       .padding(0.1)
+    //       .align(0.5);
+    //     break;
+    //   default:
+    //     throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+    // }
 
     switch (xAxisType) {
       case 'time':
         x = scaleTime().range([0, config.width]);
+        axis = axisBottom(x);
         break;
       case 'linear':
         x = scaleLinear().range([0, config.width]);
+        axis = axisBottom(x).tickFormat(d3Format(config.xAxisFormat));
         break;
       case 'categorical':
         x = scaleBand().rangeRound([0, config.width])
           .padding(0.1)
           .align(0.5);
+        axis = axisBottom(x);
         break;
       default:
         throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
@@ -51,7 +70,7 @@ export class XAxis {
 
     select(this).selectAll(['path', 'line'])
       .attr('stroke', 'gray')
-      .attr('stroke-width', .3)
+      .attr('stroke-width', .3);
 
   }
 

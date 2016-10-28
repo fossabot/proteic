@@ -8,7 +8,7 @@ export const defaults =  {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,

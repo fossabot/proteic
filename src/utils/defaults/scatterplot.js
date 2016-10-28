@@ -3,27 +3,24 @@ import * as Colors from '../colors';
 export const defaults = {
     selector: '#chart',
     colorScale: Colors.category7(),
-    //Area
-    areaOpacity: 0.4,
 
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%m/%d/%y',
-    xAxisLabel: null,
+    xAxisFormat: '.1f',
+    xAxisLabel: 'Sepal length (cm)',
     yAxisType: 'linear',
-    yAxisFormat: '%d',
-    yAxisLabel: null,
+    yAxisFormat: '.1f',
+    yAxisLabel: 'Sepal width (cm)',
     //margins
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
     marginLeft: 150,
     //markers
-    markerShape: 'circle',
-    markerSize: 5,
-    markerOutlineWidth: 2,
+    markerShape: 'dot',
+    markerSize: 3,
     //Width & height
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     //Events
     onDown(d) {

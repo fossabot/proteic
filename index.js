@@ -37,6 +37,10 @@ export {
 } from './src/charts/gauge';
 
 export {
+  default as Scatterplot
+} from './src/charts/scatterplot';
+
+export {
   default as Sunburst
 } from './src/charts/sunburst';
 

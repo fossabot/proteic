@@ -8,10 +8,10 @@ export const defaults = {
 
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%m/%d/%y',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -23,7 +23,7 @@ export const defaults = {
     markerSize: 5,
     markerOutlineWidth: 2,
     //Width & height
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     //Events
     onDown(d) {

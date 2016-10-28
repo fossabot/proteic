@@ -1048,10 +1048,10 @@ var defaults = {
 
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%m/%d/%y',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -1063,7 +1063,7 @@ var defaults = {
     markerSize: 5,
     markerOutlineWidth: 2,
     //Width & height
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     //Events
     onDown: function onDown(d) {
@@ -1252,19 +1252,38 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
     if ( xAxisType === void 0 ) xAxisType = 'linear';
 
   var x = null,
-    xAxis = null;
+    axis = null;
+
+  // switch (xAxisType) {
+  // case 'time':
+  //   x = scaleTime().range([0, config.width]);
+  //   break;
+  // case 'linear':
+  //   x = scaleLinear().range([0, config.width]);
+  //   break;
+  // case 'categorical':
+  //   x = scaleBand().rangeRound([0, config.width])
+  //     .padding(0.1)
+  //     .align(0.5);
+  //   break;
+  // default:
+  //   throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
+  // }
 
   switch (xAxisType) {
     case 'time':
       x = d3$1.scaleTime().range([0, config.width]);
+      axis = d3$1.axisBottom(x);
       break;
     case 'linear':
       x = d3$1.scaleLinear().range([0, config.width]);
+      axis = d3$1.axisBottom(x).tickFormat(d3$1.format(config.xAxisFormat));
       break;
     case 'categorical':
       x = d3$1.scaleBand().rangeRound([0, config.width])
         .padding(0.1)
         .align(0.5);
+      axis = d3$1.axisBottom(x);
       break;
     default:
       throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
@@ -1346,27 +1365,50 @@ YAxis.prototype._initializeYAxis = function _initializeYAxis (yAxisType, config)
     if ( yAxisType === void 0 ) yAxisType = 'linear';
 
   var y = null,
-    yAxis = null;
-
+    axis = null;
   switch (yAxisType) {
     case 'linear':
       y = d3$1.scaleLinear().range([config.height, 0]);
+      axis = d3$1.axisLeft(y).tickFormat(d3$1.format(config.yAxisFormat));
       break;
     case 'categorical':
       y = d3$1.scaleBand().rangeRound([config.height, 0])
         .padding(0.1)
         .align(0.5);
+      axis = d3$1.axisLeft(y);
       break;
     default:
       throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
   }
-  return d3$1.axisLeft(y)
-    .tickSizeInner(-config.width)
+
+  return axis.tickSizeInner(-config.width)
     .tickSizeOuter(0)
-    .tickPadding(20)
-    .tickFormat(function (d) { return d; })
-    .ticks(config.yticks, config.tickLabel);
+    .tickPadding(20);
 };
+
+// _initializeYAxis(yAxisType = 'linear', config) {
+// let y = null,
+//   yAxis = null;
+//
+// switch (yAxisType) {
+//   case 'linear':
+//     y = scaleLinear().range([config.height, 0]);
+//     break;
+//   case 'categorical':
+//     y = scaleBand().rangeRound([config.height, 0])
+//       .padding(0.1)
+//       .align(0.5);
+//     break;
+//   default:
+//     throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
+// }
+// return axisLeft(y)
+//   .tickSizeInner(-config.width)
+//   .tickSizeOuter(0)
+//   .tickPadding(20)
+//   .tickFormat((d) => d)
+//   .ticks(config.yticks, config.tickLabel);
+// }
 
 YAxis.prototype.transition = function transition (svg, time) {
     if ( time === void 0 ) time = 200;
@@ -1626,7 +1668,61 @@ Pointset.prototype.update = function update (svg, config, data) {
   series = svg.selectAll('g.points');
 
   switch (markerShape) {
+    case 'dot':
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('fill', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'marker');
+      break;
+    case 'ring':
+      window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('stroke', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d, i) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'marker')
+        .style('fill', 'white')
+        .style('stroke-width', markerOutlineWidth);
+      break;
+    // Deprecated circle option
     case 'circle':
+      window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('stroke', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d, i) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'lineMarker')
+        .style('fill', 'white')
+        .style('stroke-width', markerOutlineWidth);
+      break;
     default:
       points = series
         .data(dataSeries, function (d) { return d.key; })
@@ -1689,10 +1785,10 @@ function simple2Linked(data) {
 }
 
 
-function convertPropretiesToTimeFormat(data, properties, format) {
+function convertPropretiesToTimeFormat(data, properties, format$$1) {
   data.forEach(function (d) {
     properties.map(function (p) {
-      d[p] = d3$1.timeParse(format)(d[p]);
+      d[p] = d3$1.timeParse(format$$1)(d[p]);
     });
   });
 }
@@ -1848,10 +1944,10 @@ var defaults$1 = {
     stacked: true,
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%d',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -2097,7 +2193,7 @@ var defaults$2 =  {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -2261,7 +2357,7 @@ var defaults$3 = {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -3184,6 +3280,127 @@ SvgSunburstStrategy.prototype._loadConfig = function _loadConfig (config) {
   return this;
 };
 
+var defaults$8 = {
+    selector: '#chart',
+    colorScale: category7(),
+
+    //Axes
+    xAxisType: 'linear',
+    xAxisFormat: '.1f',
+    xAxisLabel: 'Sepal length (cm)',
+    yAxisType: 'linear',
+    yAxisFormat: '.1f',
+    yAxisLabel: 'Sepal width (cm)',
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 130,
+    marginLeft: 150,
+    //markers
+    markerShape: 'dot',
+    markerSize: 3,
+    //Width & height
+    width: '100%', // %, auto, or numeric
+    height: 250,
+    //Events
+    onDown: function onDown(d) {
+    },
+    onHover: function onHover(d) {
+    },
+    onLeave: function onLeave(d) {
+    },
+    onClick: function onClick(d) {
+    },
+
+    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+};
+
+var SvgScatterplotStrategy = (function (SvgAxis$$1) {
+  function SvgScatterplotStrategy(context) {
+    SvgAxis$$1.call(this, context);
+    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);
+    this.points = new Pointset(this.axes.x, this.axes.y);
+    this.legend = new Legend();
+    //Include components in the chart container
+    this.svgContainer
+      .add(this.axes)
+      .add(this.legend)
+      .add(this.points);
+  }
+
+  if ( SvgAxis$$1 ) SvgScatterplotStrategy.__proto__ = SvgAxis$$1;
+  SvgScatterplotStrategy.prototype = Object.create( SvgAxis$$1 && SvgAxis$$1.prototype );
+  SvgScatterplotStrategy.prototype.constructor = SvgScatterplotStrategy;
+
+	/**
+	 * Renders a scatterplot based on data object
+	 * @param  {Object} data Data Object. Contains an array with x and y properties.
+	 * 
+	 */
+  SvgScatterplotStrategy.prototype.draw = function draw (data) {
+    var svg = this.svgContainer.svg,
+      config = this.config,
+      needRescaling = this.config.needRescaling,
+      bbox = null;
+
+    // //Transform data, if needed
+    convertByXYFormat(data, config);
+
+    //Sort data
+    sortByField(data, 'x');
+
+    //rescale, if needed.
+    if (needRescaling) {
+      this.rescale();
+    }
+
+    bbox = this._getDomainBBox(data);
+
+    this.axes.updateDomainByBBox(bbox);
+
+    //Create a transition effect for dial rescaling
+    this.axes.transition(svg, 200);
+
+    // Update legend
+    this.legend.update(svg, config, data);
+
+    // Update points
+    this.points.update(svg, config, data);
+  };
+
+  SvgScatterplotStrategy.prototype._getDomainBBox = function _getDomainBBox (data) {
+    var minX = d3$1.min(data, function (d) { return d.x; }),
+      maxX = d3$1.max(data, function (d) { return d.x; }),
+      minY = d3$1.min(data, function (d) { return d.y; }),
+      maxY = d3$1.max(data, function (d) { return d.y; });
+    return [minX, maxX, minY, maxY];
+  };
+
+  SvgScatterplotStrategy.prototype._checkMarkers = function _checkMarkers (config) {
+    return config.markerSize > 0;
+  };
+  SvgScatterplotStrategy.prototype._checkArea = function _checkArea (config) {
+    return config.areaOpacity > 0;
+  };
+
+  /**
+   * This method adds config options to the chart context.
+   * @param  {Object} config Config object
+   */
+  SvgScatterplotStrategy.prototype._loadConfig = function _loadConfig (config) {
+    SvgAxis$$1.prototype._loadConfig.call(this, config, defaults$8);
+    //Markers
+    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults$8.markerOutlineWidth;
+    this.config.markerShape = config.markerShape || defaults$8.markerShape;
+    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults$8.markerSize : config.markerSize;
+    //Area
+    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults$8.areaOpacity : config.areaOpacity;
+    return this;
+  };
+
+  return SvgScatterplotStrategy;
+}(SvgAxis));
+
 /**
  * SvgStrategy wrapper class
  */
@@ -3209,6 +3426,9 @@ var strategies = {
   },
   Gauge: function Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
+  },
+  Scatterplot: function Scatterplot(chartContext) {
+    return new SvgScatterplotStrategy(chartContext);
   },
   Sunburst: function Sunburst(chartContext) {
     return new SvgSunburstStrategy(chartContext);
@@ -3793,6 +4013,43 @@ var Gauge$1 = (function (Chart$$1) {
 }(Chart));
 
 /**
+ * Scatterplot implementation. This charts belongs to 'Basic' family.
+ * It is inherited on 'Basic'.
+ */
+var Scatterplot$1 = (function (Chart$$1) {
+  function Scatterplot(data, config) {
+    Chart$$1.call(this, data, config);
+    var keys = Object.keys(defaults$8);
+    this._initializeAPI(keys);
+  }
+
+  if ( Chart$$1 ) Scatterplot.__proto__ = Chart$$1;
+  Scatterplot.prototype = Object.create( Chart$$1 && Chart$$1.prototype );
+  Scatterplot.prototype.constructor = Scatterplot;
+
+  /**
+   * Renders a data object on the chart.
+   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * specify this param, this.data will be used instead.
+   */
+  Scatterplot.prototype.draw = function draw (data) {
+    if ( data === void 0 ) data = this.data;
+
+    Chart$$1.prototype.draw.call(this, data);
+  };
+
+  /**
+   * Add new data to the current graph. If it is empty, this creates a new one.
+   * @param  {Object} datum data to be rendered
+   */
+  Scatterplot.prototype.keepDrawing = function keepDrawing (datum) {
+    Chart$$1.prototype.keepDrawing.call(this, datum, 'add');
+  };
+
+  return Scatterplot;
+}(Chart));
+
+/**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
  */
 var Sunburst$1 = (function (Chart$$1) {
@@ -3942,6 +4199,7 @@ exports.Streamgraph = Streamgraph$1;
 exports.StackedArea = StackedArea$1;
 exports.Swimlane = Swimlane$1;
 exports.Gauge = Gauge$1;
+exports.Scatterplot = Scatterplot$1;
 exports.Sunburst = Sunburst$1;
 exports.Networkgraph = Networkgraph$1;
 exports.category1 = category1;

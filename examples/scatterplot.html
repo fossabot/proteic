@@ -7,91 +7,173 @@
 <!--<![endif]-->
 
 <head>
-	<title>Simple linechart</title>
+	<title>Static scatter plot example</title>
 	<script src='../node_modules/d3/build/d3.min.js'></script>
 	<script src='../build/proteic.js'></script>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 
 <body>
-	<div id='chart'></div>
+<div id='chart'></div>
 
-	<div id='chart-temporal'></div>
+<script>
+	var data = [
+		{ "x": "5.1", "y": "3.5", "key": "setosa" },
+		{ "x": "4.9", "y": "3.0", "key": "setosa" },
+		{ "x": "4.7", "y": "3.2", "key": "setosa" },
+		{ "x": "4.6", "y": "3.1", "key": "setosa" },
+		{ "x": "5.0", "y": "3.6", "key": "setosa" },
+		{ "x": "5.4", "y": "3.9", "key": "setosa" },
+		{ "x": "4.6", "y": "3.4", "key": "setosa" },
+		{ "x": "5.0", "y": "3.4", "key": "setosa" },
+		{ "x": "4.4", "y": "2.9", "key": "setosa" },
+		{ "x": "4.9", "y": "3.1", "key": "setosa" },
+		{ "x": "5.4", "y": "3.7", "key": "setosa" },
+		{ "x": "4.8", "y": "3.4", "key": "setosa" },
+		{ "x": "4.8", "y": "3.0", "key": "setosa" },
+		{ "x": "4.3", "y": "3.0", "key": "setosa" },
+		{ "x": "5.8", "y": "4.0", "key": "setosa" },
+		{ "x": "5.7", "y": "4.4", "key": "setosa" },
+		{ "x": "5.4", "y": "3.9", "key": "setosa" },
+		{ "x": "5.1", "y": "3.5", "key": "setosa" },
+		{ "x": "5.7", "y": "3.8", "key": "setosa" },
+		{ "x": "5.1", "y": "3.8", "key": "setosa" },
+		{ "x": "5.4", "y": "3.4", "key": "setosa" },
+		{ "x": "5.1", "y": "3.7", "key": "setosa" },
+		{ "x": "4.6", "y": "3.6", "key": "setosa" },
+		{ "x": "5.1", "y": "3.3", "key": "setosa" },
+		{ "x": "4.8", "y": "3.4", "key": "setosa" },
+		{ "x": "5.0", "y": "3.0", "key": "setosa" },
+		{ "x": "5.0", "y": "3.4", "key": "setosa" },
+		{ "x": "5.2", "y": "3.5", "key": "setosa" },
+		{ "x": "5.2", "y": "3.4", "key": "setosa" },
+		{ "x": "4.7", "y": "3.2", "key": "setosa" },
+		{ "x": "4.8", "y": "3.1", "key": "setosa" },
+		{ "x": "5.4", "y": "3.4", "key": "setosa" },
+		{ "x": "5.2", "y": "4.1", "key": "setosa" },
+		{ "x": "5.5", "y": "4.2", "key": "setosa" },
+		{ "x": "4.9", "y": "3.1", "key": "setosa" },
+		{ "x": "5.0", "y": "3.2", "key": "setosa" },
+		{ "x": "5.5", "y": "3.5", "key": "setosa" },
+		{ "x": "4.9", "y": "3.6", "key": "setosa" },
+		{ "x": "4.4", "y": "3.0", "key": "setosa" },
+		{ "x": "5.1", "y": "3.4", "key": "setosa" },
+		{ "x": "5.0", "y": "3.5", "key": "setosa" },
+		{ "x": "4.5", "y": "2.3", "key": "setosa" },
+		{ "x": "4.4", "y": "3.2", "key": "setosa" },
+		{ "x": "5.0", "y": "3.5", "key": "setosa" },
+		{ "x": "5.1", "y": "3.8", "key": "setosa" },
+		{ "x": "4.8", "y": "3.0", "key": "setosa" },
+		{ "x": "5.1", "y": "3.8", "key": "setosa" },
+		{ "x": "4.6", "y": "3.2", "key": "setosa" },
+		{ "x": "5.3", "y": "3.7", "key": "setosa" },
+		{ "x": "5.0", "y": "3.3", "key": "setosa" },
+		{ "x": "7.0", "y": "3.2", "key": "versicolor" },
+		{ "x": "6.4", "y": "3.2", "key": "versicolor" },
+		{ "x": "6.9", "y": "3.1", "key": "versicolor" },
+		{ "x": "5.5", "y": "2.3", "key": "versicolor" },
+		{ "x": "6.5", "y": "2.8", "key": "versicolor" },
+		{ "x": "5.7", "y": "2.8", "key": "versicolor" },
+		{ "x": "6.3", "y": "3.3", "key": "versicolor" },
+		{ "x": "4.9", "y": "2.4", "key": "versicolor" },
+		{ "x": "6.6", "y": "2.9", "key": "versicolor" },
+		{ "x": "5.2", "y": "2.7", "key": "versicolor" },
+		{ "x": "5.0", "y": "2.0", "key": "versicolor" },
+		{ "x": "5.9", "y": "3.0", "key": "versicolor" },
+		{ "x": "6.0", "y": "2.2", "key": "versicolor" },
+		{ "x": "6.1", "y": "2.9", "key": "versicolor" },
+		{ "x": "5.6", "y": "2.9", "key": "versicolor" },
+		{ "x": "6.7", "y": "3.1", "key": "versicolor" },
+		{ "x": "5.6", "y": "3.0", "key": "versicolor" },
+		{ "x": "5.8", "y": "2.7", "key": "versicolor" },
+		{ "x": "6.2", "y": "2.2", "key": "versicolor" },
+		{ "x": "5.6", "y": "2.5", "key": "versicolor" },
+		{ "x": "5.9", "y": "3.2", "key": "versicolor" },
+		{ "x": "6.1", "y": "2.8", "key": "versicolor" },
+		{ "x": "6.3", "y": "2.5", "key": "versicolor" },
+		{ "x": "6.1", "y": "2.8", "key": "versicolor" },
+		{ "x": "6.4", "y": "2.9", "key": "versicolor" },
+		{ "x": "6.6", "y": "3.0", "key": "versicolor" },
+		{ "x": "6.8", "y": "2.8", "key": "versicolor" },
+		{ "x": "6.7", "y": "3.0", "key": "versicolor" },
+		{ "x": "6.0", "y": "2.9", "key": "versicolor" },
+		{ "x": "5.7", "y": "2.6", "key": "versicolor" },
+		{ "x": "5.5", "y": "2.4", "key": "versicolor" },
+		{ "x": "5.5", "y": "2.4", "key": "versicolor" },
+		{ "x": "5.8", "y": "2.7", "key": "versicolor" },
+		{ "x": "6.0", "y": "2.7", "key": "versicolor" },
+		{ "x": "5.4", "y": "3.0", "key": "versicolor" },
+		{ "x": "6.0", "y": "3.4", "key": "versicolor" },
+		{ "x": "6.7", "y": "3.1", "key": "versicolor" },
+		{ "x": "6.3", "y": "2.3", "key": "versicolor" },
+		{ "x": "5.6", "y": "3.0", "key": "versicolor" },
+		{ "x": "5.5", "y": "2.5", "key": "versicolor" },
+		{ "x": "5.5", "y": "2.6", "key": "versicolor" },
+		{ "x": "6.1", "y": "3.0", "key": "versicolor" },
+		{ "x": "5.8", "y": "2.6", "key": "versicolor" },
+		{ "x": "5.0", "y": "2.3", "key": "versicolor" },
+		{ "x": "5.6", "y": "2.7", "key": "versicolor" },
+		{ "x": "5.7", "y": "3.0", "key": "versicolor" },
+		{ "x": "5.7", "y": "2.9", "key": "versicolor" },
+		{ "x": "6.2", "y": "2.9", "key": "versicolor" },
+		{ "x": "5.1", "y": "2.5", "key": "versicolor" },
+		{ "x": "5.7", "y": "2.8", "key": "versicolor" },
+		{ "x": "6.3", "y": "3.3", "key": "virginica" },
+		{ "x": "5.8", "y": "2.7", "key": "virginica" },
+		{ "x": "7.1", "y": "3.0", "key": "virginica" },
+		{ "x": "6.3", "y": "2.9", "key": "virginica" },
+		{ "x": "6.5", "y": "3.0", "key": "virginica" },
+		{ "x": "7.6", "y": "3.0", "key": "virginica" },
+		{ "x": "4.9", "y": "2.5", "key": "virginica" },
+		{ "x": "7.3", "y": "2.9", "key": "virginica" },
+		{ "x": "6.7", "y": "2.5", "key": "virginica" },
+		{ "x": "7.2", "y": "3.6", "key": "virginica" },
+		{ "x": "6.5", "y": "3.2", "key": "virginica" },
+		{ "x": "6.4", "y": "2.7", "key": "virginica" },
+		{ "x": "6.8", "y": "3.0", "key": "virginica" },
+		{ "x": "5.7", "y": "2.5", "key": "virginica" },
+		{ "x": "5.8", "y": "2.8", "key": "virginica" },
+		{ "x": "6.4", "y": "3.2", "key": "virginica" },
+		{ "x": "6.5", "y": "3.0", "key": "virginica" },
+		{ "x": "7.7", "y": "3.8", "key": "virginica" },
+		{ "x": "7.7", "y": "2.6", "key": "virginica" },
+		{ "x": "6.0", "y": "2.2", "key": "virginica" },
+		{ "x": "6.9", "y": "3.2", "key": "virginica" },
+		{ "x": "5.6", "y": "2.8", "key": "virginica" },
+		{ "x": "7.7", "y": "2.8", "key": "virginica" },
+		{ "x": "6.3", "y": "2.7", "key": "virginica" },
+		{ "x": "6.7", "y": "3.3", "key": "virginica" },
+		{ "x": "7.2", "y": "3.2", "key": "virginica" },
+		{ "x": "6.2", "y": "2.8", "key": "virginica" },
+		{ "x": "6.1", "y": "3.0", "key": "virginica" },
+		{ "x": "6.4", "y": "2.8", "key": "virginica" },
+		{ "x": "7.2", "y": "3.0", "key": "virginica" },
+		{ "x": "7.4", "y": "2.8", "key": "virginica" },
+		{ "x": "7.9", "y": "3.8", "key": "virginica" },
+		{ "x": "6.4", "y": "2.8", "key": "virginica" },
+		{ "x": "6.3", "y": "2.8", "key": "virginica" },
+		{ "x": "6.1", "y": "2.6", "key": "virginica" },
+		{ "x": "7.7", "y": "3.0", "key": "virginica" },
+		{ "x": "6.3", "y": "3.4", "key": "virginica" },
+		{ "x": "6.4", "y": "3.1", "key": "virginica" },
+		{ "x": "6.0", "y": "3.0", "key": "virginica" },
+		{ "x": "6.9", "y": "3.1", "key": "virginica" },
+		{ "x": "6.7", "y": "3.1", "key": "virginica" },
+		{ "x": "6.9", "y": "3.1", "key": "virginica" },
+		{ "x": "5.8", "y": "2.7", "key": "virginica" },
+		{ "x": "6.8", "y": "3.2", "key": "virginica" },
+		{ "x": "6.7", "y": "3.3", "key": "virginica" },
+		{ "x": "6.7", "y": "3.0", "key": "virginica" },
+		{ "x": "6.3", "y": "2.5", "key": "virginica" },
+		{ "x": "6.5", "y": "3.0", "key": "virginica" },
+		{ "x": "6.2", "y": "3.4", "key": "virginica" },
+		{ "x": "5.9", "y": "3.0", "key": "virginica" }
+	];
 
+	var chart = new proteic.Scatterplot(data);
+	chart.draw();
 
-	<script>
-        var dataArea = [
-            {key:'serie1', x:1, y:5},
-            {key:'serie1', x:2, y:15},
-            {key:'serie1', x:3, y:35},
-            {key:'serie1', x:4, y:25},
-            {key:'serie1', x:5, y:12},
-            {key:'serie1', x:6, y:0},
-            {key:'serie1', x:7, y:21},
-            {key:'serie1', x:8, y:0},
-            {key:'serie2', x:1, y:4},
-            {key:'serie2', x:2, y:4},
-            {key:'serie2', x:3, y:20},
-            {key:'serie2', x:7, y:12},
-            {key:'serie2', x:5, y:14},
-            {key:'serie2', x:6, y:9},
-            {key:'serie2', x:4, y:12},
-            {key:'serie2', x:8, y:13}
-    ];
-
-    areaLinechart = new proteic.Linechart(dataArea, {
-        selector: '#chart',
-        area: true,
-        width: '90%',
-        height: 400,
-        onClick: (d) => console.log('clicking', d),
-        onUp: (d) => console.log('upping', d),
-        onHover: (d) => console.log('hovering', d),
-        onDown: (d) => console.log('downing', d),
-        onLeave: (d) => console.log('leaving', d),
-    });
-    areaLinechart.draw();
-    
-
-        var temporalData = [
-                    {key:'serie1', x: '01/01/16', y: 3},
-                    {key:'serie1', x: '01/02/16', y: 5},
-                    {key:'serie1', x: '01/03/16', y: 3},
-                    {key:'serie1', x: '01/04/16', y: 8},
-                    {key:'serie1', x: '01/04/16', y: 3},
-                    {key:'serie1', x: '01/05/16', y: 5},
-                    {key:'serie1', x: '01/06/16', y: 3},
-                    {key:'serie1', x: '01/07/16', y: 8},
-                    {key:'serie1', x: '01/08/16', y: 3},
-                    {key:'serie1', x: '01/09/16', y: 5},
-                    {key:'serie1', x: '01/10/16', y: 3},
-                    {key:'serie1', x: '01/11/16', y: 8},
-                    {key:'serie1', x: '01/12/16', y: 3},
-                    {key:'serie1', x: '01/13/16', y: 5},
-                    {key:'serie1', x: '01/14/16', y: 3},
-                    {key:'serie1', x: '01/15/16', y: 8},
-                    {key:'serie1', x: '01/19/16', y: 5}, //unsorted!!!! 
-                    {key:'serie1', x: '01/16/16', y: 3},
-                    {key:'serie1', x: '01/17/16', y: 8},
-                    {key:'serie1', x: '01/18/16', y: 3},
-                    {key:'serie1', x: '01/20/16', y: 3},
-                    {key:'serie2', x: '01/10/16', y: 8},
-                    {key:'serie2', x: '01/14/16', y: 5}
-        ];
-
-        temporalLinechart = new proteic.Linechart(temporalData, {
-            xAxisType: 'time',
-            xAxisFormat: '%m/%d/%y',
-            selector: '#chart-temporal',
-            width: '90%',
-            markerSize: 0, // No markers,
-            areaOpacity: 0, // No area
-            xAxisLabel: 'Numbers',
-            yAxisLabel: 'Y Axis'
-        });
-        temporalLinechart.draw();
-
-  </script>
+</script>
 </body>
 
 </html>
