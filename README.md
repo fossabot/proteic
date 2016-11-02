@@ -90,7 +90,7 @@ We provide the following NPM Scripts to ease the development process. You can ru
 - `test`: runs the tests using Karma
 - `prebuild`: removes the build directory before building to prevent errors
 - `build`: builds the source code with Rollup.js
-- `serve`: launches an http debug server on (http://localhost:8080/)[http://localhost:8080/] 
+- `serve`: launches an http debug server on [http://localhost:8080/](http://localhost:8080/) 
 - `serve:watch`: launches an http debug server and automatically refreshes the browser after every change
 
 ### JSDocs
