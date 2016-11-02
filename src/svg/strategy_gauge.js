@@ -42,7 +42,7 @@ export class SvgGaugeStrategy {
 
     this.needle.update(svg, config, data);
     if (config.numericIndicator) {
-      this.textIndicator.update(svg, datum.x, config.label);
+      this.textIndicator.update(svg, datum.value, config.label);
     }
   }
 

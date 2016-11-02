@@ -2767,7 +2767,7 @@ DialNeedle.prototype.update = function update (svg, config, data, method) {
 
   this.needle
     .transition()
-    .attr('transform', function (d) { return ("translate(" + (this$1.r) + ", " + (this$1.r) + ") rotate(" + (this$1.angleScale(datum.x) - 90) + ")"); })
+    .attr('transform', function (d) { return ("translate(" + (this$1.r) + ", " + (this$1.r) + ") rotate(" + (this$1.angleScale(datum.value) - 90) + ")"); })
     .attr('d', ("M " + (0 - config.needleNutRadius) + " " + (0) + " L " + (0) + " " + (0 - this.needleLen) + " L " + (config.needleNutRadius) + " " + (0)));
 };
 
@@ -2874,7 +2874,7 @@ SvgGaugeStrategy.prototype.draw = function draw (data) {
 
   this.needle.update(svg, config, data);
   if (config.numericIndicator) {
-    this.textIndicator.update(svg, datum.x, config.label);
+    this.textIndicator.update(svg, datum.value, config.label);
   }
 };
 

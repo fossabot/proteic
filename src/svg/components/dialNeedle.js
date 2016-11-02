@@ -52,7 +52,7 @@ export class DialNeedle { // TODO tidy
 
     this.needle
       .transition()
-      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.x) - 90})`)
+      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.value) - 90})`)
       .attr('d', `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`);
   }
 
