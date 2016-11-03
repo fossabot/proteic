@@ -10,8 +10,17 @@ export default {
     typescript()
   ],
   globals: {
-    d3: 'd3',
+    'd3-scale': 'd3-scale',
+    'd3-format': 'd3-format',
+    'd3-axis': 'd3-axis',
+    'd3-select': 'd3-select',
     chai: 'chai',
   },
-  external: ['d3', 'chai']
+  external: [
+    'd3-scale',
+    'd3-format',
+    'd3-axis',
+    'd3-select',
+    'chai'
+  ]
 };
