@@ -2525,12 +2525,11 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
   boxEnter = box.enter().append('rect');
 
   boxMerge = box.merge(boxEnter)
-    .attr('width', function (d) { return x(d.y) - x(d.x); })
-    .attr('x', function (d) { return x(d.x); })
+    .attr('width', function (d) { return x(d.end) - x(d.start); })
+    .attr('x', function (d) { return x(d.start); })
     .attr('y', function (d) { return y(d.key); })
-    .attr('fill', function (d, i, j) { return colorScale(parseInt(yLanesBand(d.key))); })
-    .attr("height", function (d) { return .8 * yLanes(1); });
-
+    .attr('fill', function (d) { return colorScale(parseInt(yLanesBand(d.key))); })
+    .attr('height', function () { return 0.8 * yLanes(1); });
 
   box = svg.selectAll('g.serie rect');
     
@@ -2572,7 +2571,7 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
       bbox = null,
       needRescaling = this.config.needRescaling;
 
-    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);
+    convertPropretiesToTimeFormat(data, ['start', 'end'], dataFormat);
     
     //rescale, if needed.
     if (needRescaling) {
@@ -2591,8 +2590,8 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
   
   SvgSwimlaneStrategy.prototype._getBBox = function _getBBox (data) {
     return [
-      d3$1.min(data, function (d) { return (d.x); }),
-      d3$1.max(data, function (d) { return (d.y); })
+      d3$1.min(data, function (d) { return (d.start); }),
+      d3$1.max(data, function (d) { return (d.end); })
     ];
   };
 

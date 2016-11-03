@@ -40,12 +40,11 @@ export class TimeBoxset {
     boxEnter = box.enter().append('rect');
 
     boxMerge = box.merge(boxEnter)
-      .attr('width', (d) => x(d.y) - x(d.x))
-      .attr('x', (d) => x(d.x))
+      .attr('width', (d) => x(d.end) - x(d.start))
+      .attr('x', (d) => x(d.start))
       .attr('y', (d) => y(d.key))
-      .attr('fill', (d, i, j) => colorScale(parseInt(yLanesBand(d.key))))
-      .attr("height", (d) => .8 * yLanes(1));
-
+      .attr('fill', (d) => colorScale(parseInt(yLanesBand(d.key))))
+      .attr('height', () => 0.8 * yLanes(1));
 
     box = svg.selectAll('g.serie rect');
     

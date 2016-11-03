@@ -28,7 +28,7 @@ export class SvgSwimlaneStrategy extends SvgAxis {
       bbox = null,
       needRescaling = this.config.needRescaling;
 
-    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);
+    convertPropretiesToTimeFormat(data, ['start', 'end'], dataFormat);
     
     //rescale, if needed.
     if (needRescaling) {
@@ -47,8 +47,8 @@ export class SvgSwimlaneStrategy extends SvgAxis {
   
   _getBBox(data) {
     return [
-      min(data, (d) => (d.x)),
-      max(data, (d) => (d.y))
+      min(data, (d) => (d.start)),
+      max(data, (d) => (d.end))
     ];
   }
 
