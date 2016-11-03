@@ -18,7 +18,7 @@ module.exports = (config) => {
     // If multiple patterns match the same file, it's included as if it only matched the first pattern.
     files: [
       'node_modules/d3/build/d3.min.js',
-      'build/proteic.min.js',
+      'build/proteic.js',
       'test/test*.js'
     ],
 
@@ -36,6 +36,9 @@ module.exports = (config) => {
 
     rollupPreprocessor: {
       plugins: [
+        require('rollup-plugin-istanbul')({
+          exclude: ['test/**/*.js', 'node_modules/**/*']
+        }),
         buble() // ES2015 compiler by the same author as Rollup
       ],
       // will help to prevent conflicts between different tests entries
@@ -59,6 +62,7 @@ module.exports = (config) => {
     ],
 
     coverageReporter: {
+      includeAllSources: true,
       reporters: [
         // generates ./coverage/lcov.info
         { type: 'lcovonly', subdir: '.' },

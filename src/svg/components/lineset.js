@@ -1,14 +1,16 @@
+import {line, nest} from 'd3';
+
 export class Lineset {
   constructor(x, y) {
     this.xAxis = x.xAxis;
     this.yAxis = y.yAxis;
-    this.lineGenerator = d3.line()
+    this.lineGenerator = line()
       .x((d) => this.xAxis.scale()(d.x))
       .y((d) => this.yAxis.scale()(d.y));
   }
 
   update(svg, config, data) {
-    let dataSeries = d3.nest().key((d) => d.key).entries(data),
+    let dataSeries = nest().key((d) => d.key).entries(data),
       series = null,
       lines = null,
       colorScale = config.colorScale;

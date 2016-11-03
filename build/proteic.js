@@ -4,122 +4,6 @@
     (factory((global.proteic = global.proteic || {}),global.d3));
 }(this, (function (exports,d3$1) { 'use strict';
 
-/**
- * 
- * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
- * such as start() and stop().
- * 
- * @export Default export: Datasource class
- * 
- * @class Datasource The Datasource class
- * 
- */
-var Datasource = function Datasource() {
-    this.filters = [];
-};
-
-/**
- * Starts the stream of data
- * 
- * 
- * @memberOf Datasource
- */
-Datasource.prototype.start = function start () {
-    console.log('Starting datasource');
-};
-
-/**
- * 
- * If started, this method stops the stream of data
- * 
- * @memberOf Datasource
-    
- */
-Datasource.prototype.stop = function stop () {
-    console.log('Stopping datasource');
-};
-
-/**
- * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
- * 
- * @param {any} filter A filter condition
- * @returns this Datasource instance
- * 
- * @memberOf Datasource
- */
-Datasource.prototype.filter = function filter (filter) {
-    return this;
-};
-
-/**
- * 
- * This datasource set up a connection to a websocket server. 
- * @export
- * @class WebsocketDatasource
- * @extends {Datasource}
-
- */
-var WebsocketDatasource = (function (Datasource$$1) {
-    function WebsocketDatasource(source) {
-        Datasource$$1.call(this);
-        this.source = source;
-    }
-
-    if ( Datasource$$1 ) WebsocketDatasource.__proto__ = Datasource$$1;
-    WebsocketDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
-    WebsocketDatasource.prototype.constructor = WebsocketDatasource;
-    
-    /**
-     * Configure a dispatcher for this datasource.
-     * 
-     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
-     * 
-     * @memberOf WebsocketDatasource
-     */
-    WebsocketDatasource.prototype.configure = function configure (dispatcher) {
-        this.dispatcher = dispatcher;
-    };
-
-    /**
-     * 
-     * Initialize a websocket connection
-     * 
-     * @memberOf WebsocketDatasource
-    
-     */
-    WebsocketDatasource.prototype.start = function start () {
-        var this$1 = this;
-
-        Datasource$$1.prototype.start.call(this);
-        this.ws = new WebSocket(this.source.endpoint);
-
-        this.ws.onopen = function (e) {
-            this$1.dispatcher.call('onopen', this$1, e);
-        };
-        this.ws.onerror = function (e) {
-            throw new Error('An error occurred trying to reach the websocket server' + e);
-            //this.dispatcher.call('onerror', this, e);
-        };
-        this.ws.onmessage = function (e) {
-            var data = JSON.parse(e.data);
-            this$1.dispatcher.call('onmessage', this$1, data);
-        };
-    };
-    /**
-     * If started, this method close the websocket connection.
-     * 
-     * @memberOf WebsocketDatasource
-    * */
-    WebsocketDatasource.prototype.stop = function stop () {
-        Datasource$$1.prototype.stop.call(this);
-        if (this.ws) {
-            this.ws.close();
-        }
-    };
-
-    return WebsocketDatasource;
-}(Datasource));
-
 var paletteCategory1 = [
     '#e1c8df',
     '#9ecd9d',
@@ -600,6 +484,22 @@ var paletteDivergingBrownTurquoise = [
     '#475b57'
 ];
 
+var paletteDivergingOrangePink = [
+    '#e7511e',
+    '#eb6929',
+    '#ee7f37',
+    '#f29446',
+    '#f9c083',
+    '#ffe9c3',
+    '#ffeee3',
+    '#f9cfc1',
+    '#f3a9ab',
+    '#db6882',
+    '#c71360',
+    '#891953',
+    '#4b1c47'
+];
+
 var paletteDivergingRedBlue = [
     '#b2172b',
     '#c4443e',
@@ -729,7 +629,9 @@ var paletteDivergingLightBrownTurquoise = [
 ];
 
 
-
+function category1() {
+    return d3$1.scaleOrdinal().range(paletteCategory1);
+}
 
 function category2() {
     return d3$1.scaleOrdinal().range(paletteCategory2);
@@ -747,7 +649,9 @@ function category5() {
     return d3$1.scaleOrdinal().range(paletteCategory5);
 }
 
-
+function category6() {
+    return d3$1.scaleOrdinal().range(paletteCategory6);
+}
 
 function category7() {
     return d3$1.scaleOrdinal().range(paletteCategory7);
@@ -757,51 +661,384 @@ function category8() {
     return d3$1.scaleOrdinal().range(paletteCategory8);
 }
 
+function sequentialYellow() {
+    return d3$1.scaleQuantile().range(paletteSequentialYellow);
+}
 
+function sequentialRedOrange() {
+    return d3$1.scaleQuantile().range(paletteSequentialRedOrange);
+}
 
+function sequentialRed() {
+    return d3$1.scaleQuantile().range(paletteSequentialRed);
+}
 
+function sequentialPink() {
+    return d3$1.scaleQuantile().range(paletteSequentialPink);
+}
 
+function sequentialPurplePink() {
+    return d3$1.scaleQuantile().range(paletteSequentialPurplePink);
+}
 
+function sequentialPurple() {
+    return d3$1.scaleQuantile().range(paletteSequentialPurple);
+}
 
+function sequentialBlue() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlue);
+}
 
+function sequentialLightBlue() {
+    return d3$1.scaleQuantile().range(paletteSequentialLightBlue);
+}
 
+function sequentialBlueViolet() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlueViolet);
+}
 
+function sequentialTurquoise() {
+    return d3$1.scaleQuantile().range(paletteSequentialTurquoise);
+}
 
+function sequentialLightGreen() {
+    return d3$1.scaleQuantile().range(paletteSequentialLightGreen);
+}
 
+function sequentialDarkGreen() {
+    return d3$1.scaleQuantile().range(paletteSequentialDarkGreen);
+}
 
+function sequentialGreenBrown() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenBrown);
+}
 
+function sequentialBrown() {
+    return d3$1.scaleQuantile().range(paletteSequentialBrown);
+}
 
+function sequentialGrey() {
+    return d3$1.scaleQuantile().range(paletteSequentialGrey);
+}
 
+function sequentialVioletCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialVioletCb);
+}
 
+function sequentialPinkCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialPinkCb);
+}
 
+function sequentialBlueCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialBlueCb);
+}
 
+function sequentialGreenCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenCb);
+}
 
+function sequentialGreenBrownCb() {
+    return d3$1.scaleQuantile().range(paletteSequentialGreenBrownCb);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function diverging_spectral1() {
+    return d3$1.scaleQuantile().range(paletteDivergingSpectral1);
+}
 
 function diverging_spectral2() {
     return d3$1.scaleQuantile().range(paletteDivergingSpectral2);
 }
+
+function diverging_spectral3() {
+    return d3$1.scaleQuantile().range(paletteDivergingSpectral3);
+}
+
+function diverging_brown_turquoise() {
+    return d3$1.scaleQuantile().range(paletteDivergingBrownTurquoise);
+}
+
+function diverging_orange_pink() {
+    return d3$1.scaleQuantile().range(paletteDivergingOrangePink);
+}
+
+function diverging_red_blue() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedBlue);
+}
+
+function diverging_red_grey() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedGrey);
+}
+
+function diverging_orange_violet() {
+    return d3$1.scaleQuantile().range(paletteDivergingOrangeViolet);
+}
+
+function diverging_purple_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingPurpleGreen);
+}
+
+function diverging_violet_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingVioletGreen);
+}
+
+function diverging_red_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingRedGreen);
+}
+
+function diverging_brown_green() {
+    return d3$1.scaleQuantile().range(paletteDivergingBrownGreen);
+}
+
+function diverging_lightBrown_turquoise() {
+    return d3$1.scaleQuantile().range(paletteDivergingLightBrownTurquoise);
+}
+
+/**
+ * 
+ * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
+ * such as start() and stop().
+ * 
+ * @export Default export: Datasource class
+ * 
+ * @class Datasource The Datasource class
+ * 
+ */
+var Datasource = function Datasource() {
+    this.filters = [];
+    this.properties = [];
+};
+
+/**
+ * Starts the stream of data
+ * 
+ * 
+ * @memberOf Datasource
+ */
+Datasource.prototype.start = function start () {
+    window.console.log('Starting datasource');
+};
+
+/**
+ * 
+ * If started, this method stops the stream of data
+ * 
+ * @memberOf Datasource
+    
+ */
+Datasource.prototype.stop = function stop () {
+    window.console.log('Stopping datasource');
+};
+
+
+Datasource.prototype.property = function property (prop, newProp, cast) {
+    this.properties.push({ 'p': prop, 'newP': newProp, cast: cast });
+    return this;
+};
+
+
+Datasource.prototype.convert = function convert (data) {
+        var this$1 = this;
+
+    var result = {};
+    for (var i in this.properties) {
+        var p = this$1.properties[i].p;
+        var value = eval('data.' + this$1.properties[i].newP);
+       // if(this.properties[i].cast){
+        //value = new this.properties[i].cast(value);
+       // }
+
+        result[p] = value;
+    }
+    return result;
+};
+
+/**
+ * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
+ * 
+ * @param {any} filter A filter condition
+ * @returns this Datasource instance
+ * 
+ * @memberOf Datasource
+ */
+Datasource.prototype.filter = function filter (filter) {
+    return this;
+};
+
+/**
+ * 
+ * This datasource set up a connection to a http server. 
+ * @export
+ * @class HTTPDatasource
+ * @extends {Datasource}
+
+ */
+var HTTPDatasource = (function (Datasource$$1) {
+    function HTTPDatasource(source) {
+        Datasource$$1.call(this);
+        this.source = source;
+        this.intervalId = -1;
+        this.started = false;
+    }
+
+    if ( Datasource$$1 ) HTTPDatasource.__proto__ = Datasource$$1;
+    HTTPDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
+    HTTPDatasource.prototype.constructor = HTTPDatasource;
+
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf HTTPDatasource
+     */
+    HTTPDatasource.prototype.configure = function configure (dispatcher) {
+        this.dispatcher = dispatcher;
+    };
+
+    /**
+     * 
+     * Initialize an HTTP connection
+     * 
+     * @memberOf HTTPDatasource
+    
+     */
+    HTTPDatasource.prototype.start = function start () {
+        if (!this.started) {
+            Datasource$$1.prototype.start.call(this);
+            var pollingTime = this.source.pollingTime;
+            var url = this.source.url;
+            this._startPolling(url, pollingTime);
+            this.started = true;
+        }
+    };
+
+
+    HTTPDatasource.prototype._startPolling = function _startPolling (url, time) {
+        var this$1 = this;
+        if ( time === void 0 ) time = 1000;
+
+        var interval = window.setInterval;
+        this.intervalId = interval(function () { return this$1._startRequest(url); }, time);
+    };
+
+    HTTPDatasource.prototype._startRequest = function _startRequest (url) {
+        var this$1 = this;
+
+
+        window.console.log('url', url);
+        d3$1.request(url).get(function (e, response) { return this$1._handleResponse(response); });
+    };
+
+    HTTPDatasource.prototype._stopPolling = function _stopPolling () {
+        var clearInterval = window.clearInterval;
+        clearInterval(this.intervalId);
+    };
+
+    HTTPDatasource.prototype._handleResponse = function _handleResponse (xmlHttpRequest) {
+        var parseJson = window.JSON.parse;
+        if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+            var response = parseJson(xmlHttpRequest.response);
+            this._handleOK(response);
+        }
+        else {
+            this._handleError(xmlHttpRequest);
+        }
+    };
+
+    HTTPDatasource.prototype._handleOK = function _handleOK (data) {
+        if(this.properties.length > 0 ) {
+            data = this.convert(data);
+        }
+        this.dispatcher.call('onmessage', this, data);
+    };
+
+    HTTPDatasource.prototype._handleError = function _handleError (data) {
+        this.dispatcher.call('onerror', this, data);
+    };
+
+    /**
+     * If started, this method close the HTTP connection.
+     * 
+     * @memberOf HTTPDatasource
+    * */
+    HTTPDatasource.prototype.stop = function stop () {
+        if (this.started) {
+            this._stopPolling();
+            this.started = false;
+        }
+    };
+
+    return HTTPDatasource;
+}(Datasource));
+
+/**
+ * 
+ * This datasource set up a connection to a websocket server. 
+ * @export
+ * @class WebsocketDatasource
+ * @extends {Datasource}
+
+ */
+var WebsocketDatasource = (function (Datasource$$1) {
+    function WebsocketDatasource(source) {
+        Datasource$$1.call(this);
+        this.source = source;
+    }
+
+    if ( Datasource$$1 ) WebsocketDatasource.__proto__ = Datasource$$1;
+    WebsocketDatasource.prototype = Object.create( Datasource$$1 && Datasource$$1.prototype );
+    WebsocketDatasource.prototype.constructor = WebsocketDatasource;
+    
+    /**
+     * Configure a dispatcher for this datasource.
+     * 
+     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     * 
+     * @memberOf WebsocketDatasource
+     */
+    WebsocketDatasource.prototype.configure = function configure (dispatcher) {
+        this.dispatcher = dispatcher;
+    };
+
+    /**
+     * 
+     * Initialize a websocket connection
+     * 
+     * @memberOf WebsocketDatasource
+    
+     */
+    WebsocketDatasource.prototype.start = function start () {
+        var this$1 = this;
+
+        Datasource$$1.prototype.start.call(this);
+        this.ws = new window.WebSocket(this.source.endpoint);
+
+        this.ws.onopen = function (e) {
+            this$1.dispatcher.call('onopen', this$1, e);
+        };
+        this.ws.onerror = function (e) {
+            throw new Error('An error occurred trying to reach the websocket server' + e);
+            //this.dispatcher.call('onerror', this, e);
+        };
+        this.ws.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            this$1.dispatcher.call('onmessage', this$1, data);
+        };
+    };
+    /**
+     * If started, this method close the websocket connection.
+     * 
+     * @memberOf WebsocketDatasource
+    * */
+    WebsocketDatasource.prototype.stop = function stop () {
+        Datasource$$1.prototype.stop.call(this);
+        if (this.ws) {
+            this.ws.close();
+        }
+    };
+
+    return WebsocketDatasource;
+}(Datasource));
 
 var defaults = {
     selector: '#chart',
@@ -811,10 +1048,10 @@ var defaults = {
 
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%m/%d/%y',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -826,7 +1063,7 @@ var defaults = {
     markerSize: 5,
     markerOutlineWidth: 2,
     //Width & height
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     //Events
     onDown: function onDown(d) {
@@ -853,8 +1090,7 @@ SvgContainer.prototype._initializeSvgContainer = function _initializeSvgContaine
     height = config.height + config.marginTop + config.marginBottom,
     svg = null;
 
-  svg = d3
-    .select(selector)
+  svg = d3$1.select(selector)
     .append('svg:svg')
     .attr('width', width)
     .attr('height', height)
@@ -1016,25 +1252,44 @@ XAxis.prototype._initializeXAxis = function _initializeXAxis (xAxisType, config)
     if ( xAxisType === void 0 ) xAxisType = 'linear';
 
   var x = null,
-    xAxis = null;
+    axis = null;
+
+  // switch (xAxisType) {
+  // case 'time':
+  //   x = scaleTime().range([0, config.width]);
+  //   break;
+  // case 'linear':
+  //   x = scaleLinear().range([0, config.width]);
+  //   break;
+  // case 'categorical':
+  //   x = scaleBand().rangeRound([0, config.width])
+  //     .padding(0.1)
+  //     .align(0.5);
+  //   break;
+  // default:
+  //   throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
+  // }
 
   switch (xAxisType) {
     case 'time':
-      x = d3.scaleTime().range([0, config.width]);
+      x = d3$1.scaleTime().range([0, config.width]);
+      axis = d3$1.axisBottom(x);
       break;
     case 'linear':
-      x = d3.scaleLinear().range([0, config.width]);
+      x = d3$1.scaleLinear().range([0, config.width]);
+      axis = d3$1.axisBottom(x).tickFormat(d3$1.format(config.xAxisFormat));
       break;
     case 'categorical':
-      x = d3.scaleBand().rangeRound([0, config.width])
+      x = d3$1.scaleBand().rangeRound([0, config.width])
         .padding(0.1)
         .align(0.5);
+      axis = d3$1.axisBottom(x);
       break;
     default:
       throw new Error('Not allowed type for XAxis. Only allowed "time","linear" or "categorical". Got: ' + xAxisType);
   }
 
-  return d3.axisBottom(x);
+  return d3$1.axisBottom(x);
 };
 
 XAxis.prototype.transition = function transition (svg, time) {
@@ -1044,15 +1299,15 @@ XAxis.prototype.transition = function transition (svg, time) {
 };
 
 XAxis.prototype.xStyle = function xStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; })
-    .style('fill', function (d) { return '#1a2127'; })
+    .style('fill', function (d) { return '#1a2127'; });
 
 
-  d3.select(this).selectAll(['path', 'line'])
+  d3$1.select(this).selectAll(['path', 'line'])
     .attr('stroke', 'gray')
-    .attr('stroke-width', .3)
+    .attr('stroke-width', .3);
 
 };
 
@@ -1110,27 +1365,50 @@ YAxis.prototype._initializeYAxis = function _initializeYAxis (yAxisType, config)
     if ( yAxisType === void 0 ) yAxisType = 'linear';
 
   var y = null,
-    yAxis = null;
-
+    axis = null;
   switch (yAxisType) {
     case 'linear':
-      y = d3.scaleLinear().range([config.height, 0]);
+      y = d3$1.scaleLinear().range([config.height, 0]);
+      axis = d3$1.axisLeft(y).tickFormat(d3$1.format(config.yAxisFormat));
       break;
     case 'categorical':
-      y = d3.scaleBand().rangeRound([config.height, 0])
+      y = d3$1.scaleBand().rangeRound([config.height, 0])
         .padding(0.1)
         .align(0.5);
+      axis = d3$1.axisLeft(y);
       break;
     default:
       throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
   }
-  return d3.axisLeft(y)
-    .tickSizeInner(-config.width)
+
+  return axis.tickSizeInner(-config.width)
     .tickSizeOuter(0)
-    .tickPadding(20)
-    .tickFormat(function (d) { return d; })
-    .ticks(config.yticks, config.tickLabel);
+    .tickPadding(20);
 };
+
+// _initializeYAxis(yAxisType = 'linear', config) {
+// let y = null,
+//   yAxis = null;
+//
+// switch (yAxisType) {
+//   case 'linear':
+//     y = scaleLinear().range([config.height, 0]);
+//     break;
+//   case 'categorical':
+//     y = scaleBand().rangeRound([config.height, 0])
+//       .padding(0.1)
+//       .align(0.5);
+//     break;
+//   default:
+//     throw new Error('Not allowed type for YAxis. Only allowed "time","linear" or "categorical". Got: ' + yAxisType);
+// }
+// return axisLeft(y)
+//   .tickSizeInner(-config.width)
+//   .tickSizeOuter(0)
+//   .tickPadding(20)
+//   .tickFormat((d) => d)
+//   .ticks(config.yticks, config.tickLabel);
+// }
 
 YAxis.prototype.transition = function transition (svg, time) {
     if ( time === void 0 ) time = 200;
@@ -1139,10 +1417,10 @@ YAxis.prototype.transition = function transition (svg, time) {
 };
 
 YAxis.prototype.yStyle = function yStyle () {
-  d3.select(this).selectAll('g.tick text')
+  d3$1.select(this).selectAll('g.tick text')
     .style('font', '1.4em Montserrat, sans-serif')
     .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; });
-  d3.select(this).selectAll('g.tick line')
+  d3$1.select(this).selectAll('g.tick line')
     .style('stroke', function (d, i) { return isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8'; });
 };
 
@@ -1230,7 +1508,7 @@ var Lineset = function Lineset(x, y) {
 
   this.xAxis = x.xAxis;
   this.yAxis = y.yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return this$1.xAxis.scale()(d.x); })
     .y(function (d) { return this$1.yAxis.scale()(d.y); });
 };
@@ -1238,7 +1516,7 @@ var Lineset = function Lineset(x, y) {
 Lineset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data),
+  var dataSeries = d3$1.nest().key(function (d) { return d.key; }).entries(data),
     series = null,
     lines = null,
     colorScale = config.colorScale;
@@ -1269,7 +1547,7 @@ Lineset.prototype.render = function render (svg, config) {
 var Legend = function Legend() {};
 
 Legend.prototype.update = function update (svg, config, data) {
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data),
     legend = null,
@@ -1322,7 +1600,7 @@ var Areaset = function Areaset(x, y) {
 Areaset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
       .key(function (d) { return d.key; })
       .entries(data);
 
@@ -1374,7 +1652,7 @@ var Pointset = function Pointset(x, y) {
 Pointset.prototype.update = function update (svg, config, data) {
     var this$1 = this;
 
-  var dataSeries = d3.nest()
+  var dataSeries = d3$1.nest()
     .key(function (d) { return d.key; })
     .entries(data),
     markers = null,
@@ -1390,7 +1668,61 @@ Pointset.prototype.update = function update (svg, config, data) {
   series = svg.selectAll('g.points');
 
   switch (markerShape) {
+    case 'dot':
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('fill', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'marker');
+      break;
+    case 'ring':
+      window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('stroke', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d, i) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'marker')
+        .style('fill', 'white')
+        .style('stroke-width', markerOutlineWidth);
+      break;
+    // Deprecated circle option
     case 'circle':
+      window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
+      points = series
+        .data(dataSeries, function (d) { return d.key; })
+        .enter()
+        .append('g')
+        .attr('class', 'points')
+        .style('stroke', function (d, i) { return colorScale(i); })
+        .selectAll('circle')
+        .data(function (d, i) { return d.values; })
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) { return this$1.xAxis.scale()(d.x); })
+        .attr('cy', function (d) { return this$1.yAxis.scale()(d.y); })
+        .attr('r', markerSize)
+        .attr('class', 'lineMarker')
+        .style('fill', 'white')
+        .style('stroke-width', markerOutlineWidth);
+      break;
     default:
       points = series
         .data(dataSeries, function (d) { return d.key; })
@@ -1426,9 +1758,9 @@ Pointset.prototype.render = function render (svg, config) {
 };
 
 function simple2stacked(data) {
-  return d3.nest().key(function (d) { return d.x; }).rollup(function (array) {
+  return d3$1.nest().key(function (d) { return d.x; }).rollup(function (array) {
     var r = {};
-    for (var i in array) {
+    for (var i = 0; i < array.length; i++) {
       var object = array[i];
       if (object) {
         r[object.key] = object.y;
@@ -1441,7 +1773,7 @@ function simple2stacked(data) {
 function simple2nested(data, key) {
   if ( key === void 0 ) key = 'key';
 
-  return d3.nest().key(function (d) { return d[key]; }).entries(data);
+  return d3$1.nest().key(function (d) { return d[key]; }).entries(data);
 }
 
 
@@ -1453,10 +1785,10 @@ function simple2Linked(data) {
 }
 
 
-function convertPropretiesToTimeFormat(data, properties, format) {
+function convertPropretiesToTimeFormat(data, properties, format$$1) {
   data.forEach(function (d) {
     properties.map(function (p) {
-      d[p] = d3.timeParse(format)(d[p]);
+      d[p] = d3$1.timeParse(format$$1)(d[p]);
     });
   });
 }
@@ -1466,7 +1798,7 @@ function convertByXYFormat(data, config) {
     //parse x coordinate
     switch (config.xAxisType) {
       case 'time':
-        d.x = d3.timeParse(config.xAxisFormat)(d.x);
+        d.x = d3$1.timeParse(config.xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
@@ -1475,7 +1807,7 @@ function convertByXYFormat(data, config) {
     //parse Y coordinate
     switch (config.yAxisType) {
       case 'time':
-        d.y = d3.timeParse(config.yAxisFormat)(d.y);
+        d.y = d3$1.timeParse(config.yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;
@@ -1572,10 +1904,10 @@ var SvgLinechartStrategy = (function (SvgAxis$$1) {
   };
 
   SvgLinechartStrategy.prototype._getDomainBBox = function _getDomainBBox (data) {
-    var minX = d3.min(data, function (d) { return d.x; }),
-      maxX = d3.max(data, function (d) { return d.x; }),
-      minY = d3.min(data, function (d) { return d.y; }),
-      maxY = d3.max(data, function (d) { return d.y; });
+    var minX = d3$1.min(data, function (d) { return d.x; }),
+      maxX = d3$1.max(data, function (d) { return d.x; }),
+      minY = d3$1.min(data, function (d) { return d.y; }),
+      maxY = d3$1.max(data, function (d) { return d.y; });
     return [minX, maxX, minY, maxY];
   };
 
@@ -1612,10 +1944,10 @@ var defaults$1 = {
     stacked: true,
     //Axes
     xAxisType: 'linear',
-    xAxisFormat: '%d',
+    xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
-    yAxisFormat: '%d',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -1639,7 +1971,7 @@ var defaults$1 = {
 var Barset = function Barset(xAxis, yAxis) {
   this.xAxis = xAxis;
   this.yAxis = yAxis;
-  this.lineGenerator = d3.line()
+  this.lineGenerator = d3$1.line()
     .x(function (d) { return xAxis.scale()(d.x); })
     .y(function (d) { return yAxis.scale()(d.y); });
 };
@@ -1707,7 +2039,7 @@ Barset.prototype._updateStacked = function _updateStacked (svg, config, dataSeri
 Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
   this._cleanCurrentSeries(svg);
 
-  var keys = d3.map(data, function (d) { return d.key; }).keys(),
+  var keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     colorScale = config.colorScale,
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
@@ -1717,7 +2049,7 @@ Barset.prototype._updateGrouped = function _updateGrouped (svg, config, data) {
     barMerge = null,
     x = this.xAxis.scale(),
     y = this.yAxis.scale(),
-    xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]),
+    xGroup = d3$1.scaleBand().domain(keys).range([0, x.bandwidth()]),
     height = config.height;
 
   data = simple2nested(data, 'x');
@@ -1795,17 +2127,17 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
  
     var svg = this.svgContainer.svg,
       config = this.config,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       data4stack = simple2stacked(data),
       data4render = null,
       isStacked = this.config.stacked,
-      stack = d3.stack().keys(keys)
+      stack$$1 = d3$1.stack().keys(keys)
         .value(function (d, k) { return d.value[k]; })
-        .order(d3.stackOrderNone),
+        .order(d3$1.stackOrderNone),
       yMin = 0,
       yMax = 0,
       method = isStacked ? 'stacked' : 'grouped',
-      dataSeries = stack(data4stack),
+      dataSeries = stack$$1(data4stack),
       needRescaling = this.config.needRescaling;
 
     //rescale, if needed.
@@ -1815,10 +2147,10 @@ var SvgBarchartStrategy = (function (SvgAxis$$1) {
 
 
     yMax = isStacked ?
-      d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); }) :
-      d3.max(data, function (d) { return d.y; });
+      d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); }) :
+      d3$1.max(data, function (d) { return d.y; });
 
-    this.axes.updateDomainByKeysAndBBox(d3.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
+    this.axes.updateDomainByKeysAndBBox(d3$1.map(data, function (d) { return d.x; }).keys(), [yMin, yMax]);
     this.axes.transition(svg, 200);
 
     data4render = isStacked ? dataSeries : data;
@@ -1861,7 +2193,7 @@ var defaults$2 =  {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -1894,7 +2226,7 @@ var Streamset = function Streamset(xAxis, yAxis) {
     .curve(d3$1.curveCardinal)
     .x(function (d) { return this$1.xAxis.scale()((d3$1.timeParse(this$1.xDataFormat)(d.data.key))); }) // TODO: It seems d3.nest() transform Date object in
     .y0(function (d) { return this$1.yAxis.scale()(d[0]); })
-    .y1(function (d) { return this$1.yAxis.scale()(d[1]); })
+    .y1(function (d) { return this$1.yAxis.scale()(d[1]); });
 };
 
 
@@ -1961,15 +2293,15 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             xDataFormat = this.config.xAxisFormat,
             data4stack = simple2stacked(data),
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffsetWiggle),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffsetWiggle),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
        
        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);
@@ -1997,10 +2329,10 @@ var SvgStreamgraphStrategy = (function (SvgAxis$$1) {
     };
   
     SvgStreamgraphStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return new Date(d.x); }),
-            maxX = d3.max(data, function (d) { return new Date(d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return new Date(d.x); }),
+            maxX = d3$1.max(data, function (d) { return new Date(d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2025,7 +2357,7 @@ var defaults$3 = {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: '',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -2073,15 +2405,15 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
         var svg = this.svgContainer.svg,
             config = this.config,
             bbox = null,
-            keys = d3.map(data, function (d) { return d.key; }).keys(),
+            keys = d3$1.map(data, function (d) { return d.key; }).keys(),
             data4stack = simple2stacked(data),
             xDataFormat = this.config.xAxisFormat,
-            stack = d3.stack()
+            stack$$1 = d3$1.stack()
                 .keys(keys)
                 .value(function (d, k) { return d.value[k]; })
-                .order(d3.stackOrderInsideOut)
-                .offset(d3.stackOffNone),
-            dataSeries = stack(data4stack),
+                .order(d3$1.stackOrderInsideOut)
+                .offset(d3$1.stackOffNone),
+            dataSeries = stack$$1(data4stack),
             needRescaling = this.config.needRescaling;
 
         //rescale, if needed.
@@ -2108,10 +2440,10 @@ var SvgStackedAreaStrategy = (function (SvgAxis$$1) {
 
 
     SvgStackedAreaStrategy.prototype._getDomainBBox = function _getDomainBBox (data, dataSeries) {
-        var minX = d3.min(data, function (d) { return (d.x); }),
-            maxX = d3.max(data, function (d) { return (d.x); }),
-            minY = d3.min(dataSeries, function (serie) { return d3.min(serie, function (d) { return d[0]; }); }),
-            maxY = d3.max(dataSeries, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
+        var minX = d3$1.min(data, function (d) { return (d.x); }),
+            maxX = d3$1.max(data, function (d) { return (d.x); }),
+            minY = d3$1.min(dataSeries, function (serie) { return d3$1.min(serie, function (d) { return d[0]; }); }),
+            maxY = d3$1.max(dataSeries, function (serie) { return d3$1.max(serie, function (d) { return d[1]; }); });
 
         return [minX, maxX, minY, maxY];
     };
@@ -2163,7 +2495,7 @@ var TimeBoxset = function TimeBoxset(xAxis, yAxis) {
 };
 TimeBoxset.prototype.update = function update (svg, config, data) {
   var colorScale = config.colorScale,
-    keys = d3.map(data, function (d) { return d.key; }).keys(),
+    keys = d3$1.map(data, function (d) { return d.key; }).keys(),
     layer = svg.selectAll('.serie').data(data),
     layerEnter = null,
     layerMerge = null,
@@ -2172,13 +2504,13 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
     boxMerge = null,
     extLanes = null,
     yLanes = null,
-    yLanesBand = d3.scaleBand().range([0, keys.length + 1]).domain(keys),
+    yLanesBand = d3$1.scaleBand().range([0, keys.length + 1]).domain(keys),
     x = this.xAxis.scale(),
     y = this.yAxis.scale();
 
   data = simple2nested(data);
-  extLanes = d3.extent(data, function (d, i) { return i; })
-  yLanes = d3.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
+  extLanes = d3$1.extent(data, function (d, i) { return i; });
+  yLanes = d3$1.scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);
 
   layer = svg.selectAll('.serie').data(data);
   layerEnter = layer.enter().append('g');
@@ -2193,12 +2525,11 @@ TimeBoxset.prototype.update = function update (svg, config, data) {
   boxEnter = box.enter().append('rect');
 
   boxMerge = box.merge(boxEnter)
-    .attr('width', function (d) { return x(d.y) - x(d.x); })
-    .attr('x', function (d) { return x(d.x); })
+    .attr('width', function (d) { return x(d.end) - x(d.start); })
+    .attr('x', function (d) { return x(d.start); })
     .attr('y', function (d) { return y(d.key); })
-    .attr('fill', function (d, i, j) { return colorScale(parseInt(yLanesBand(d.key))); })
-    .attr("height", function (d) { return .8 * yLanes(1); });
-
+    .attr('fill', function (d) { return colorScale(parseInt(yLanesBand(d.key))); })
+    .attr('height', function () { return 0.8 * yLanes(1); });
 
   box = svg.selectAll('g.serie rect');
     
@@ -2236,11 +2567,11 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
     var svg = this.svgContainer.svg,
       config = this.config,
       dataFormat = this.config.xAxisFormat,
-      keys = d3.map(data, function (d) { return d.key; }).keys(),
+      keys = d3$1.map(data, function (d) { return d.key; }).keys(),
       bbox = null,
       needRescaling = this.config.needRescaling;
 
-    convertPropretiesToTimeFormat(data, ['x', 'y'], dataFormat);
+    convertPropretiesToTimeFormat(data, ['start', 'end'], dataFormat);
     
     //rescale, if needed.
     if (needRescaling) {
@@ -2259,8 +2590,8 @@ var SvgSwimlaneStrategy = (function (SvgAxis$$1) {
   
   SvgSwimlaneStrategy.prototype._getBBox = function _getBBox (data) {
     return [
-      d3.min(data, function (d) { return (d.x); }),
-      d3.max(data, function (d) { return (d.y); })
+      d3$1.min(data, function (d) { return (d.start); }),
+      d3$1.max(data, function (d) { return (d.end); })
     ];
   };
 
@@ -2307,15 +2638,14 @@ var Dial = function Dial(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
   this.translation = (function () { return 'translate(' + this$1.r + ',' + this$1.r + ')'; }
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
@@ -2323,7 +2653,7 @@ var Dial = function Dial(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2335,7 +2665,7 @@ var Dial = function Dial(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2391,9 +2721,8 @@ var DialNeedle = function DialNeedle(axisType, config) {
   }
 
   this.r = (
-    (config.width > config.height)
-      ? config.height
-      : config.width
+    (config.width > config.height) ?
+      config.height : config.width
     ) / 2;
 
   this.needleLen = config.needleLenghtRatio * (this.r);
@@ -2402,11 +2731,11 @@ var DialNeedle = function DialNeedle(axisType, config) {
   );
   config.colorScale.domain([0, 1]);
 
-  this.scale = d3.scaleLinear()
+  this.scale = d3$1.scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([0, 1]);
 
-  this.angleScale = d3.scaleLinear()
+  this.angleScale = d3$1.scaleLinear()
     .domain([config.minLevel, config.maxLevel])
     .range([90 + config.minAngle, 90 + config.maxAngle]);
 
@@ -2414,7 +2743,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
 
   this.range = config.maxAngle - config.minAngle;
 
-  this.arc = d3.arc()
+  this.arc = d3$1.arc()
     .innerRadius(this.r - config.ringWidth - config.ringMargin)
     .outerRadius(this.r - config.ringMargin)
     .startAngle(function (d, i) {
@@ -2426,7 +2755,7 @@ var DialNeedle = function DialNeedle(axisType, config) {
       return deg2rad(config.minAngle + (ratio * this$1.range));
     });
 
-  this.tickData = d3.range(config.ticks)
+  this.tickData = d3$1.range(config.ticks)
     .map(function () { return 1 / config.ticks; });
 };
 
@@ -2437,7 +2766,7 @@ DialNeedle.prototype.update = function update (svg, config, data, method) {
 
   this.needle
     .transition()
-    .attr('transform', function (d) { return ("translate(" + (this$1.r) + ", " + (this$1.r) + ") rotate(" + (this$1.angleScale(datum.x) - 90) + ")"); })
+    .attr('transform', function (d) { return ("translate(" + (this$1.r) + ", " + (this$1.r) + ") rotate(" + (this$1.angleScale(datum.value) - 90) + ")"); })
     .attr('d', ("M " + (0 - config.needleNutRadius) + " " + (0) + " L " + (0) + " " + (0 - this.needleLen) + " L " + (config.needleNutRadius) + " " + (0)));
 };
 
@@ -2522,9 +2851,8 @@ var SvgGaugeStrategy = function SvgGaugeStrategy(context) {
 
   if (config.numericIndicator) {
     var r = (
-      (config.width > config.height)
-        ? config.height
-        : config.width
+      (config.width > config.height) ?
+        config.height : config.width
     ) / 2;
     var indicatorOffset = r + 75;
     config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
@@ -2545,7 +2873,7 @@ SvgGaugeStrategy.prototype.draw = function draw (data) {
 
   this.needle.update(svg, config, data);
   if (config.numericIndicator) {
-    this.textIndicator.update(svg, datum.x, config.label);
+    this.textIndicator.update(svg, datum.value, config.label);
   }
 };
 
@@ -2563,8 +2891,8 @@ SvgGaugeStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config.marginRight = config.marginRight || defaults$5.marginRight;
   this.config.marginBottom = config.marginBottom || defaults$5.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
     : calculateWidth(defaults$5.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
   this.config.height = config.height || defaults$5.height;
 
@@ -2701,9 +3029,7 @@ var SvgNetworkgraphStrategy = function SvgNetworkgraphStrategy(context) {
 	 */
 SvgNetworkgraphStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    width = config.width,
-    height = config.height;
+    config = this.config;
 
   this.nodeset.update(svg, config, data);
 };
@@ -2727,12 +3053,39 @@ SvgNetworkgraphStrategy.prototype._loadConfig = function _loadConfig (config) {
   return this;
 };
 
+var defaults$7 = {
+    selector: '#chart',
+    colorScale: category8(),
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 30,
+    marginLeft: 50,
+    width: '50%', // %, auto, or numeric
+    height: 450,
+    tickLabel: '',
+    transitionDuration: 300,
+    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
+    sortData: {
+        descending: false,
+        prop: 'x'
+    },
+    //Events
+    onDown: function onDown(d) {
+    },
+    onHover: function onHover(d) {
+    },
+    onLeave: function onLeave(d) {
+    },
+    onClick: function onClick(d) {
+    }
+};
+
 var XRadialAxis = function XRadialAxis(config) {
   if (config === null) {
     throw new Error('No chart context specified for XRadialAxis');
   }
 
-  this.xRadialAxis = d3.scaleLinear().range([0, 2 * Math.PI]);
+  this.xRadialAxis = d3$1.scaleLinear().range([0, 2 * Math.PI]);
 };
 
 var YRadialAxis = function YRadialAxis(config) {
@@ -2742,7 +3095,7 @@ var YRadialAxis = function YRadialAxis(config) {
 
   var radius = (Math.min(config.width, config.height) / 2) - 10;
 
-  this.yRadialAxis = d3.scaleSqrt()
+  this.yRadialAxis = d3$1.scaleSqrt()
     .range([0, radius]);
 };
 
@@ -2761,7 +3114,7 @@ var SunburstDisk = function SunburstDisk(xRadialAxis, yRadialAxis) {
 
   this.x = xRadialAxis;
   this.y = yRadialAxis;
-  this.arcGen = d3.arc()
+  this.arcGen = d3$1.arc()
     .startAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x0))); })
     .endAngle(function (d) { return Math.max(0, Math.min(2 * Math.PI, this$1.x(d.x1))); })
     .innerRadius(function (d) { return Math.max(0, this$1.y(d.y0)); })
@@ -2776,14 +3129,13 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
   this._removePaths(svg);
 
   // Create layout partition
-  var partition = d3.partition();
-  var root = d3.stratify()
-    .id(function(d) { return d.id; })
-    .parentId(function(d) { return d.parent; })
+  var root = d3$1.stratify()
+    .id(function (d) { return d.id; })
+    .parentId(function (d) { return d.parent; })
     (data);
 
   root.sum(function (d) { return d.value; });
-  partition(root);
+  d3$1.partition()(root);
 
   // Draw the paths (arcs)
   var paths = svg.selectAll('path')
@@ -2802,30 +3154,37 @@ SunburstDisk.prototype.update = function update (svg, config, data) {
     .style('shape-rendering', 'crispEdge');
 
     paths // TODO extract events to config?
-      .on('mouseover', function (d) {
+      .on('mouseover.default', function (d) {
         var ancestors = this$1._getAncestors(d);
         // Fade all the arcs
         if (ancestors.length > 0) {
-          d3.selectAll('path')
+          svg.selectAll('path')
               .style('opacity', 0.3);
         }
-        d3.selectAll('path')
+        svg.selectAll('path')
           .filter(function (node) { return ancestors.indexOf(node) >= 0; })
           .style('opacity', 1);
         // Hightlight the hovered arc
           svg.select('.text-indicator .label').text(d.data.label);
           svg.select('.text-indicator .value').text(d.value);
       })
-      .on('mouseout', function (d) {
-        d3.selectAll('path').style('opacity', 1);
-        d3.select('.text-indicator .label').style('font-weight', 'normal');
-        d3.select('.text-indicator .label').text('');
-        d3.select('.text-indicator .value').text('');
+      .on('mouseout.default', function (d) {
+        svg.selectAll('path').style('opacity', 1);
+        svg.select('.text-indicator .label').style('font-weight', 'normal');
+        svg.select('.text-indicator .label').text('');
+        svg.select('.text-indicator .value').text('');
       })
     ;
 
+  paths
+    .on('mousedown.user', config.onDown)
+    .on('mouseup.user', config.onUp)
+    .on('mouseleave.user', config.onLeave)
+    .on('mouseover.user', config.onHover)
+    .on('click.user', config.onClick);
+
   // ???
-  d3.select(self.frameElement).style('height', this.height + 'px');
+  svg.select(self.frameElement).style('height', this.height + 'px');
 };
 
 /**
@@ -2859,9 +3218,10 @@ SunburstDisk.prototype.render = function render (svg, config) {
 
 var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
   this._loadConfig(context.config);
+
   this.svgContainer = new SvgContainer(this.config);
-  var config = this.config,
-    radius = (Math.min(config.width, config.height) / 2) - 10,
+  var config =
+    this.config,
     translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';
 
   this.svgContainer.transform(translation);
@@ -2883,8 +3243,7 @@ var SvgSunburstStrategy = function SvgSunburstStrategy(context) {
 
 SvgSunburstStrategy.prototype.draw = function draw (data) {
   var svg = this.svgContainer.svg,
-    config = this.config,
-    colorScale = this.config.colorScale;
+    config = this.config;
 
   this.disk.update(svg, config, data);
 };
@@ -2896,22 +3255,150 @@ SvgSunburstStrategy.prototype.draw = function draw (data) {
 SvgSunburstStrategy.prototype._loadConfig = function _loadConfig (config) {
   this.config = {};
   //Selector
-  this.config.selector = config.selector || defaults$1.selector;
+  this.config.selector = config.selector || defaults$7.selector;
   //Margins 
-  this.config.marginTop = config.marginTop || defaults$1.marginTop;
-  this.config.marginLeft = config.marginLeft || defaults$1.marginLeft;
-  this.config.marginRight = config.marginRight || defaults$1.marginRight;
-  this.config.marginBottom = config.marginBottom || defaults$1.marginBottom;
+  this.config.marginTop = config.marginTop || defaults$7.marginTop;
+  this.config.marginLeft = config.marginLeft || defaults$7.marginLeft;
+  this.config.marginRight = config.marginRight || defaults$7.marginRight;
+  this.config.marginBottom = config.marginBottom || defaults$7.marginBottom;
   //Width & height
-  this.config.width = config.width
-    ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
-    : calculateWidth(defaults$1.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
-  this.config.height = config.height || defaults$1.height;
+  this.config.width = config.width ?
+    calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+    : calculateWidth(defaults$7.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
+  this.config.height = config.height || defaults$7.height;
     
-  this.config.colorScale = config.colorScale || defaults$1.colorScale;
+  this.config.colorScale = config.colorScale || defaults$7.colorScale;
+
+  //Events
+  this.config.onDown = config.onDown || defaults$7.onDown;
+  this.config.onUp = config.onUp || defaults$7.onUp;
+  this.config.onHover = config.onHover || defaults$7.onHover;
+  this.config.onClick = config.onClick || defaults$7.onClick;
+  this.config.onLeave = config.onLeave || defaults$7.onLeave;
 
   return this;
 };
+
+var defaults$8 = {
+    selector: '#chart',
+    colorScale: category7(),
+
+    //Axes
+    xAxisType: 'linear',
+    xAxisFormat: '.1f',
+    xAxisLabel: 'Sepal length (cm)',
+    yAxisType: 'linear',
+    yAxisFormat: '.1f',
+    yAxisLabel: 'Sepal width (cm)',
+    //margins
+    marginTop: 20,
+    marginRight: 250,
+    marginBottom: 130,
+    marginLeft: 150,
+    //markers
+    markerShape: 'dot',
+    markerSize: 3,
+    //Width & height
+    width: '100%', // %, auto, or numeric
+    height: 250,
+    //Events
+    onDown: function onDown(d) {
+    },
+    onHover: function onHover(d) {
+    },
+    onLeave: function onLeave(d) {
+    },
+    onClick: function onClick(d) {
+    },
+
+    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+};
+
+var SvgScatterplotStrategy = (function (SvgAxis$$1) {
+  function SvgScatterplotStrategy(context) {
+    SvgAxis$$1.call(this, context);
+    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);
+    this.points = new Pointset(this.axes.x, this.axes.y);
+    this.legend = new Legend();
+    //Include components in the chart container
+    this.svgContainer
+      .add(this.axes)
+      .add(this.legend)
+      .add(this.points);
+  }
+
+  if ( SvgAxis$$1 ) SvgScatterplotStrategy.__proto__ = SvgAxis$$1;
+  SvgScatterplotStrategy.prototype = Object.create( SvgAxis$$1 && SvgAxis$$1.prototype );
+  SvgScatterplotStrategy.prototype.constructor = SvgScatterplotStrategy;
+
+	/**
+	 * Renders a scatterplot based on data object
+	 * @param  {Object} data Data Object. Contains an array with x and y properties.
+	 * 
+	 */
+  SvgScatterplotStrategy.prototype.draw = function draw (data) {
+    var svg = this.svgContainer.svg,
+      config = this.config,
+      needRescaling = this.config.needRescaling,
+      bbox = null;
+
+    // //Transform data, if needed
+    convertByXYFormat(data, config);
+
+    //Sort data
+    sortByField(data, 'x');
+
+    //rescale, if needed.
+    if (needRescaling) {
+      this.rescale();
+    }
+
+    bbox = this._getDomainBBox(data);
+
+    this.axes.updateDomainByBBox(bbox);
+
+    //Create a transition effect for dial rescaling
+    this.axes.transition(svg, 200);
+
+    // Update legend
+    this.legend.update(svg, config, data);
+
+    // Update points
+    this.points.update(svg, config, data);
+  };
+
+  SvgScatterplotStrategy.prototype._getDomainBBox = function _getDomainBBox (data) {
+    var minX = d3$1.min(data, function (d) { return d.x; }),
+      maxX = d3$1.max(data, function (d) { return d.x; }),
+      minY = d3$1.min(data, function (d) { return d.y; }),
+      maxY = d3$1.max(data, function (d) { return d.y; });
+    return [minX, maxX, minY, maxY];
+  };
+
+  SvgScatterplotStrategy.prototype._checkMarkers = function _checkMarkers (config) {
+    return config.markerSize > 0;
+  };
+  SvgScatterplotStrategy.prototype._checkArea = function _checkArea (config) {
+    return config.areaOpacity > 0;
+  };
+
+  /**
+   * This method adds config options to the chart context.
+   * @param  {Object} config Config object
+   */
+  SvgScatterplotStrategy.prototype._loadConfig = function _loadConfig (config) {
+    SvgAxis$$1.prototype._loadConfig.call(this, config, defaults$8);
+    //Markers
+    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults$8.markerOutlineWidth;
+    this.config.markerShape = config.markerShape || defaults$8.markerShape;
+    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults$8.markerSize : config.markerSize;
+    //Area
+    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults$8.areaOpacity : config.areaOpacity;
+    return this;
+  };
+
+  return SvgScatterplotStrategy;
+}(SvgAxis));
 
 /**
  * SvgStrategy wrapper class
@@ -2939,6 +3426,9 @@ var strategies = {
   Gauge: function Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
   },
+  Scatterplot: function Scatterplot(chartContext) {
+    return new SvgScatterplotStrategy(chartContext);
+  },
   Sunburst: function Sunburst(chartContext) {
     return new SvgSunburstStrategy(chartContext);
   },
@@ -2959,7 +3449,6 @@ function isExternal(url) {
   return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;
 }
 
-
 function inlineImages(el, callback) {
   var images = el.querySelectorAll('image');
   var left = images.length;
@@ -2971,13 +3460,13 @@ function inlineImages(el, callback) {
       var href = image.getAttribute('xlink:href');
       if (href) {
         if (isExternal(href.value)) {
-          console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
+          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);
           return;
         }
       }
-      var canvas = document.createElement('canvas');
+      var canvas = window.document.createElement('canvas');
       var ctx = canvas.getContext('2d');
-      var img = new Image();
+      var img = new window.Image();
       href = href || image.getAttribute('href');
       img.src = href;
       img.onload = function () {
@@ -2991,7 +3480,7 @@ function inlineImages(el, callback) {
         }
       };
       img.onerror = function () {
-        console.error('Could not load ' + href);
+        window.console.error('Could not load ' + href);
         left--;
         if (left === 0) {
           callback();
@@ -3006,7 +3495,7 @@ function styles(el, selectorRemap) {
   var sheets = document.styleSheets;
   for (var i = 0; i < sheets.length; i++) {
     if (isExternal(sheets[i].href)) {
-      console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
+      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);
       continue;
     }
     var rules = sheets[i].cssRules;
@@ -3018,7 +3507,7 @@ function styles(el, selectorRemap) {
           try {
             match = el.querySelector(rule.selectorText);
           } catch (err) {
-            console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
+            window.console.warn('Invalid CSS selector "' + rule.selectorText + '"', err);
           }
           if (match) {
             var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;
@@ -3051,9 +3540,9 @@ function svgAsDataUri(el, options, cb) {
       height = box.y + box.height;
       clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\(.*?\)/, ''));
 
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.appendChild(clone);
-      clone = svg;
+      var svg$1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg$1.appendChild(clone);
+      clone = svg$1;
     }
 
     clone.setAttribute('version', '1.1');
@@ -3073,7 +3562,7 @@ function svgAsDataUri(el, options, cb) {
     clone.insertBefore(defs, clone.firstChild);
 
     var svg = doctype + outer.innerHTML;
-    var uri = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+    var uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));
     if (cb) {
       cb(uri);
     }
@@ -3102,6 +3591,7 @@ var Chart = function Chart(d, config) {
 
     switch (dataFormat) {
         case 'WebsocketDatasource':
+        case 'HTTPDatasource':
             this.datasource = d;
             this.data = [];
             this._configureDatasource();
@@ -3130,7 +3620,7 @@ Chart.prototype._initializeAPI = function _initializeAPI (properties) {
     properties.forEach(function (method) {
         clazz.prototype[method] = function (value) {
             return this.change(method, value);
-        }
+        };
     });
 };
 
@@ -3188,7 +3678,7 @@ Chart.prototype.download = function download () {
         else {
             var link = document.createElement('a');
             link.style = 'position: fixed; left -10000px;'; // making it invisible
-            link.href = uri
+            link.href = uri;
             link.download = this$1.constructor.name + '.svg';
             document.body.appendChild(link);
             link.click();
@@ -3226,7 +3716,6 @@ Chart.prototype.keepDrawing = function keepDrawing (datum, method) {
     else {
         this._keepDrawingByReplacing(datum);
     }
-
 };
 
 Chart.prototype._configureDatasource = function _configureDatasource () {
@@ -3237,6 +3726,7 @@ Chart.prototype._configureDatasource = function _configureDatasource () {
     this.datasource.configure(this.dispatcher);
 
     this.dispatcher.on('onmessage', function (data) { return this$1.keepDrawing(data); });
+    //this.dispatcher.on('onmessage', (data) => console.log(data));
 
 
     this.dispatcher.on('onopen', function (event$$1) {
@@ -3521,73 +4011,42 @@ var Gauge$1 = (function (Chart$$1) {
   return Gauge;
 }(Chart));
 
-var defaults$7 = {
-    selector: '#chart',
-        colorScale: category8(),
-        margin: {
-        top: 20,
-            right: 20,
-            bottom: 30,
-            left: 50
-    },
-    width: '50%', // %, auto, or numeric
-        height: 450,
-        style: {
-        '.labels': {
-            'font': '18px sans-serif',
-                'text-anchor': 'middle'
-        },
-        'path': {
-            'stroke': '#fff',
-                'stroke-width': 2,
-                'shape-rendering': 'crispEdge'
-        },
-        '.infobox': {
-            'text-anchor': 'middle',
-                'alignment-baseline': 'central',
-                'fill': 'black'
-        },
-        '.infobox .name': {
-            'font': '28px sans-serif'
-        },
-        '.infobox .value': {
-            'font': '24px sans-serif',
-                'transform': 'translate(0, 1.5em)'
-        }
-    },
-    tooltip: function tooltip(data) {
-        return data.name + ': ' + data.value;
-    },
-    events: {
-        down: function down() {
-            d3.select(this).classed('hover', false);
-        },
-        over: function over() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 7)
-            ;
-        },
-        leave: function leave() {
-            d3.select(this)
-                .transition()
-                .duration(50)
-                .attr('r', 5)
-                .style('stroke-width', 2);
-        },
-        click: function click(d, i) {
-            console.log(d, i);
-        }
-    },
-    tickLabel: '',
-        transitionDuration: 300,
-        maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
-        sortData: {
-        descending: false,
-            prop: 'x'
-    }
-};
+/**
+ * Scatterplot implementation. This charts belongs to 'Basic' family.
+ * It is inherited on 'Basic'.
+ */
+var Scatterplot$1 = (function (Chart$$1) {
+  function Scatterplot(data, config) {
+    Chart$$1.call(this, data, config);
+    var keys = Object.keys(defaults$8);
+    this._initializeAPI(keys);
+  }
+
+  if ( Chart$$1 ) Scatterplot.__proto__ = Chart$$1;
+  Scatterplot.prototype = Object.create( Chart$$1 && Chart$$1.prototype );
+  Scatterplot.prototype.constructor = Scatterplot;
+
+  /**
+   * Renders a data object on the chart.
+   * @param  {Object} data This object contains the data that will be rendered on chart. If you do not
+   * specify this param, this.data will be used instead.
+   */
+  Scatterplot.prototype.draw = function draw (data) {
+    if ( data === void 0 ) data = this.data;
+
+    Chart$$1.prototype.draw.call(this, data);
+  };
+
+  /**
+   * Add new data to the current graph. If it is empty, this creates a new one.
+   * @param  {Object} datum data to be rendered
+   */
+  Scatterplot.prototype.keepDrawing = function keepDrawing (datum) {
+    Chart$$1.prototype.keepDrawing.call(this, datum, 'add');
+  };
+
+  return Scatterplot;
+}(Chart));
 
 /**
  * Sunburst implementation. This charts belongs to 'Hierarchical' family.
@@ -3731,6 +4190,7 @@ var Networkgraph$1 = (function (Chart$$1) {
 }(Chart));
 
 exports.Datasource = Datasource;
+exports.HTTPDatasource = HTTPDatasource;
 exports.WebsocketDatasource = WebsocketDatasource;
 exports.Linechart = Linechart$1;
 exports.Barchart = Barchart$1;
@@ -3738,10 +4198,52 @@ exports.Streamgraph = Streamgraph$1;
 exports.StackedArea = StackedArea$1;
 exports.Swimlane = Swimlane$1;
 exports.Gauge = Gauge$1;
+exports.Scatterplot = Scatterplot$1;
 exports.Sunburst = Sunburst$1;
 exports.Networkgraph = Networkgraph$1;
+exports.category1 = category1;
+exports.category2 = category2;
+exports.category3 = category3;
+exports.category4 = category4;
+exports.category5 = category5;
+exports.category6 = category6;
+exports.category7 = category7;
+exports.category8 = category8;
+exports.sequentialYellow = sequentialYellow;
+exports.sequentialRedOrange = sequentialRedOrange;
+exports.sequentialRed = sequentialRed;
+exports.sequentialPink = sequentialPink;
+exports.sequentialPurplePink = sequentialPurplePink;
+exports.sequentialPurple = sequentialPurple;
+exports.sequentialBlue = sequentialBlue;
+exports.sequentialLightBlue = sequentialLightBlue;
+exports.sequentialBlueViolet = sequentialBlueViolet;
+exports.sequentialTurquoise = sequentialTurquoise;
+exports.sequentialLightGreen = sequentialLightGreen;
+exports.sequentialDarkGreen = sequentialDarkGreen;
+exports.sequentialGreenBrown = sequentialGreenBrown;
+exports.sequentialBrown = sequentialBrown;
+exports.sequentialGrey = sequentialGrey;
+exports.sequentialVioletCb = sequentialVioletCb;
+exports.sequentialPinkCb = sequentialPinkCb;
+exports.sequentialBlueCb = sequentialBlueCb;
+exports.sequentialGreenCb = sequentialGreenCb;
+exports.sequentialGreenBrownCb = sequentialGreenBrownCb;
+exports.diverging_spectral1 = diverging_spectral1;
+exports.diverging_spectral2 = diverging_spectral2;
+exports.diverging_spectral3 = diverging_spectral3;
+exports.diverging_brown_turquoise = diverging_brown_turquoise;
+exports.diverging_orange_pink = diverging_orange_pink;
+exports.diverging_red_blue = diverging_red_blue;
+exports.diverging_red_grey = diverging_red_grey;
+exports.diverging_orange_violet = diverging_orange_violet;
+exports.diverging_purple_green = diverging_purple_green;
+exports.diverging_violet_green = diverging_violet_green;
+exports.diverging_red_green = diverging_red_green;
+exports.diverging_brown_green = diverging_brown_green;
+exports.diverging_lightBrown_turquoise = diverging_lightBrown_turquoise;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=proteic.min.js.map
+//# sourceMappingURL=proteic.js.map

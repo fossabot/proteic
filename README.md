@@ -1,20 +1,20 @@
-ProteicJS 
-==============
+# ProteicJS 
 _In Greek mythology, Proteus is an early sea-god or god of rivers and oceanic bodies of water, one of several deities whom Homer calls the "Old Man of the Sea". Some who ascribe to him a specific domain call him the god of "elusive sea change", which suggests the constantly changing nature of the sea or the liquid quality of water in general. He can foretell the future, but, in a mytheme familiar to several cultures, will change his shape to avoid having to; he will answer only to someone who is capable of capturing the beast. From this feature of Proteus comes the adjective protean, with the general meaning of "versatile", "mutable", "capable of assuming many forms". "Protean" has positive connotations of flexibility, versatility and adaptability._ - [Wikipedia](https://en.wikipedia.org/wiki/Proteus)
 
 [![Build Status](https://travis-ci.org/proteus-h2020/proteic.svg?branch=master)](https://travis-ci.org/proteus-h2020/proteic)
-[![Dependency Status](https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57ee106f16c630002a9a2022)
-[![codecov](https://codecov.io/gh/proteus-h2020/proteic/branch/development/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteic/branch/development)
+[![Dependency Status](https://www.versioneye.com/user/projects/5808f09c449f290038216bf0/badge.svg)](https://www.versioneye.com/user/projects/5808f09c449f290038216bf0)
+[![codecov](https://codecov.io/gh/proteus-h2020/proteic/branch/master/graph/badge.svg)](https://codecov.io/gh/proteus-h2020/proteic/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4e39876ac5324eba8035c6f5ec95b52b)](https://www.codacy.com/app/0xnacho/proteic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proteus-h2020/proteic&amp;utm_campaign=Badge_Grade)
 [![Gitter](https://img.shields.io/gitter/room/proteus-h2020/proteic.svg?maxAge=2592000)](https://gitter.im/proteus-h2020/proteic)
 
-<img src="https://github.com/proteus-h2020/proteic/blob/development/images/proteic.png" align="middle">
-## Examples
+<img src="https://github.com/proteus-h2020/proteic/raw/development/images/proteic.png" align="middle">
 
-<img width ="40%" height="40%" style="float: left;" src="https://github.com/proteus-h2020/proteic/blob/development/images/stacked.png">
-<img width ="40%" height="40%" style="float: center;" src="https://github.com/proteus-h2020/proteic/blob/development/images/stream.png">
-<img width ="40%" height="40%" style="float: right;" src="https://github.com/proteus-h2020/proteic/blob/development/images/swimlane.png">
-<img width ="40%" height="40%" style="float: right;" src="https://github.com/proteus-h2020/proteic/blob/development/images/linechart.png">
+## Examples
+<img width ="40%" height="40%" style="float: left;" src="https://github.com/proteus-h2020/proteic/raw/development/images/stacked.png">
+<img width ="40%" height="40%" style="float: center;" src="https://github.com/proteus-h2020/proteic/raw/development/images/stream.png">
+<img width ="40%" height="40%" style="float: right;" src="https://github.com/proteus-h2020/proteic/raw/development/images/swimlane.png">
+<img width ="40%" height="40%" style="float: right;" src="https://github.com/proteus-h2020/proteic/raw/development/images/linechart.png">
+
 ## Motivation
 Before start developing this (awesome) library, we first analyzed hundreds of charting libraries out there. They are really good but almost all of them:
 * have a really bad and unreadable code. No code patterns. Variables traveling between files. :airplane: :airplane: = **Bad for developers and community**
@@ -91,9 +91,9 @@ We provide the following NPM Scripts to ease the development process. You can ru
 - `test`: runs the tests using Karma
 - `prebuild`: removes the build directory before building to prevent errors
 - `build`: builds the source code with Rollup.js
-- `serve`: launches an http debug server on (http://localhost:8080/)[http://localhost:8080/] 
+- `serve`: launches an http debug server on [http://localhost:8080/](http://localhost:8080/) 
 - `serve:watch`: launches an http debug server and automatically refreshes the browser after every change
 
 ### JSDocs
 
-If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/gen/">site</a>
+If you need more information about the ProteicJS API, you can visit our JSDocs <a href="http://proteus-h2020.github.io/proteic/docs/">site</a>

@@ -18,6 +18,7 @@ export default class Datasource {
      */
     constructor() {
         this.filters = [];
+        this.properties = [];
     }
 
     /**
@@ -27,7 +28,7 @@ export default class Datasource {
      * @memberOf Datasource
      */
     start() {
-        console.log('Starting datasource');
+        window.console.log('Starting datasource');
     }
 
     /**
@@ -38,7 +39,28 @@ export default class Datasource {
     
      */
     stop() {
-        console.log('Stopping datasource');
+        window.console.log('Stopping datasource');
+    }
+
+
+    property(prop, newProp, cast) {
+        this.properties.push({ 'p': prop, 'newP': newProp, cast: cast });
+        return this;
+    }
+
+
+    convert(data) {
+        let result = {};
+        for (let i in this.properties) {
+            let p = this.properties[i].p;
+            let value = eval('data.' + this.properties[i].newP);
+           // if(this.properties[i].cast){
+            //    value = new this.properties[i].cast(value);
+           // }
+
+            result[p] = value;
+        }
+        return result;
     }
 
     /**

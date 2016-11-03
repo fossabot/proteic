@@ -20,9 +20,8 @@ export class SvgGaugeStrategy {
 
     if (config.numericIndicator) {
       let r = (
-        (config.width > config.height)
-          ? config.height
-          : config.width
+        (config.width > config.height) ?
+          config.height : config.width
       ) / 2;
       let indicatorOffset = r + 75;
       config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';
@@ -43,7 +42,7 @@ export class SvgGaugeStrategy {
 
     this.needle.update(svg, config, data);
     if (config.numericIndicator) {
-      this.textIndicator.update(svg, datum.x, config.label);
+      this.textIndicator.update(svg, datum.value, config.label);
     }
   }
 
@@ -61,8 +60,8 @@ export class SvgGaugeStrategy {
     this.config.marginRight = config.marginRight || defaults.marginRight;
     this.config.marginBottom = config.marginBottom || defaults.marginBottom;
     //Width & height
-    this.config.width = config.width
-      ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
+    this.config.width = config.width ?
+      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight
       : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;
     this.config.height = config.height || defaults.height;
 

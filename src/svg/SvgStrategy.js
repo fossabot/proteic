@@ -6,6 +6,7 @@ import {SvgSwimlaneStrategy} from './strategy_swimlane';
 import {SvgGaugeStrategy} from './strategy_gauge';
 import {SvgNetworkgraphStrategy} from './strategy_networkgraph';
 import {SvgSunburstStrategy} from './strategy_sunburst';
+import {SvgScatterplotStrategy} from './strategy_scatterplot';
 
 /**
  * SvgStrategy wrapper class
@@ -34,6 +35,9 @@ export const strategies = {
   },
   Gauge(chartContext) {
     return new SvgGaugeStrategy(chartContext);
+  },
+  Scatterplot(chartContext) {
+    return new SvgScatterplotStrategy(chartContext);
   },
   Sunburst(chartContext) {
     return new SvgSunburstStrategy(chartContext);

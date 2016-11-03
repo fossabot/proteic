@@ -1,4 +1,5 @@
-import {isEven} from '../../utils/functions'
+import {isEven} from '../../utils/functions';
+import {select, scaleTime, scaleLinear, scaleBand, axisBottom, format as d3Format} from 'd3';
 
 export class XAxis {
   constructor(xAxisType, config) {
@@ -16,25 +17,44 @@ export class XAxis {
 
   _initializeXAxis(xAxisType = 'linear', config) {
     let x = null,
-      xAxis = null;
+      axis = null;
+
+    // switch (xAxisType) {
+    //   case 'time':
+    //     x = scaleTime().range([0, config.width]);
+    //     break;
+    //   case 'linear':
+    //     x = scaleLinear().range([0, config.width]);
+    //     break;
+    //   case 'categorical':
+    //     x = scaleBand().rangeRound([0, config.width])
+    //       .padding(0.1)
+    //       .align(0.5);
+    //     break;
+    //   default:
+    //     throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+    // }
 
     switch (xAxisType) {
       case 'time':
-        x = d3.scaleTime().range([0, config.width]);
+        x = scaleTime().range([0, config.width]);
+        axis = axisBottom(x);
         break;
       case 'linear':
-        x = d3.scaleLinear().range([0, config.width]);
+        x = scaleLinear().range([0, config.width]);
+        axis = axisBottom(x).tickFormat(d3Format(config.xAxisFormat));
         break;
       case 'categorical':
-        x = d3.scaleBand().rangeRound([0, config.width])
+        x = scaleBand().rangeRound([0, config.width])
           .padding(0.1)
           .align(0.5);
+        axis = axisBottom(x);
         break;
       default:
         throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
     }
 
-    return d3.axisBottom(x);
+    return axisBottom(x);
   }
 
   transition(svg, time = 200) {
@@ -42,15 +62,15 @@ export class XAxis {
   }
 
   xStyle() {
-    d3.select(this).selectAll('g.tick text')
+    select(this).selectAll('g.tick text')
       .style('font', '1.4em Montserrat, sans-serif')
       .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
       .style('fill', (d) => '#1a2127')
 
 
-    d3.select(this).selectAll(['path', 'line'])
+    select(this).selectAll(['path', 'line'])
       .attr('stroke', 'gray')
-      .attr('stroke-width', .3)
+      .attr('stroke-width', .3);
 
   }
 

@@ -1,8 +1,12 @@
 {
   "name": "proteic",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "homepage": "http://proteic.js.org/",
+  "main": "build/proteic.node.js",
+  "browser": "build/proteic.js",
+  "module": "index",
+  "jsnext:main": "index",
   "scripts": {
     "lint": "jshint src/**/*.js",
     "pretest": "npm run build",
@@ -11,14 +15,38 @@
     "build": "rollup -c rollup.config.js",
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
-    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \""
+    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \"",
+    "prepublish": "npm run build && uglifyjs build/proteic.js -c negate_iife=false -o build/proteic.min.js && node rollup.config.node.js"
   },
   "keywords": [
     "d3",
-    "chart"
+    "chart",
+    "data visualization"
   ],
-  "author": "Treelogic S.L.",
-  "license": "MIT",
+  "author": {
+    "name": "Treelogic S.L.",
+    "url": "http://www.treelogic.com/"
+  },
+  "contributors": [
+    {
+      "name": "Nacho García Fernández",
+      "email": "0xnacho@gmail.com",
+      "url": "https://0xnacho.github.io/"
+    },
+    {
+      "name": "Jorge Yagüe París",
+      "email": "jorgeyp@gmail.com",
+      "url": "http://www.jorgeyp.com/"
+    }
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/proteus-h2020/proteic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/proteus-h2020/proteic/issues"
+  },
   "dependencies": {
     "d3": "^4.2.7"
   },
@@ -41,8 +69,10 @@
     "rimraf": "^2.5.4",
     "rollup-plugin-buble": "^0.14.0",
     "rollup-plugin-commonjs": "^5.0.4",
+    "rollup-plugin-istanbul": "^1.1.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "socket.io": "^1.4.5",
+    "uglify-js": "^2.7.4",
     "watch": "^0.19.2"
   }
 }

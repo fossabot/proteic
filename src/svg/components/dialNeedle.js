@@ -1,4 +1,5 @@
-import {deg2rad} from '../../utils/functions'
+import {deg2rad} from '../../utils/functions';
+import {scaleLinear, arc, range} from 'd3';
 
 export class DialNeedle { // TODO tidy
   constructor(axisType, config) {
@@ -7,9 +8,8 @@ export class DialNeedle { // TODO tidy
     }
 
     this.r = (
-      (config.width > config.height)
-        ? config.height
-        : config.width
+      (config.width > config.height) ?
+        config.height : config.width
       ) / 2;
 
     this.needleLen = config.needleLenghtRatio * (this.r);
@@ -19,11 +19,11 @@ export class DialNeedle { // TODO tidy
     );
     config.colorScale.domain([0, 1]);
 
-    this.scale = d3.scaleLinear()
+    this.scale = scaleLinear()
         .domain([config.minLevel, config.maxLevel])
         .range([0, 1]);
 
-    this.angleScale = d3.scaleLinear()
+    this.angleScale = scaleLinear()
       .domain([config.minLevel, config.maxLevel])
       .range([90 + config.minAngle, 90 + config.maxAngle]);
 
@@ -31,7 +31,7 @@ export class DialNeedle { // TODO tidy
 
     this.range = config.maxAngle - config.minAngle;
 
-    this.arc = d3.arc()
+    this.arc = arc()
       .innerRadius(this.r - config.ringWidth - config.ringMargin)
       .outerRadius(this.r - config.ringMargin)
       .startAngle((d, i) => {
@@ -43,7 +43,7 @@ export class DialNeedle { // TODO tidy
         return deg2rad(config.minAngle + (ratio * this.range));
       });
 
-    this.tickData = d3.range(config.ticks)
+    this.tickData = range(config.ticks)
       .map(() => 1 / config.ticks);
   }
 
@@ -52,7 +52,7 @@ export class DialNeedle { // TODO tidy
 
     this.needle
       .transition()
-      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.x) - 90})`)
+      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.value) - 90})`)
       .attr('d', `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`);
   }
 
