@@ -1,32 +1,66 @@
-import {scaleTime, scaleLinear, scaleBand} from 'd3/d3-scale';
-import {format} from 'd3-format';
-import {axisBottom} from 'd3-axis';
-import * as d3 from 'd3';
+import {
+    scaleTime,
+    scaleLinear,
+    scaleBand,
+    format,
+    axisBottom,
+    min,
+    max
+} from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
 
 class XAxis extends Component {
 
-    private xAxis: any;
+    private _xAxis: any;
 
-    constructor(config: Config) {
-        super(config);
-
-        let width = this.config.get('width'),
-            xAxisFormat = this.config.get('xAxisFormat'),
-            xAxisType = this.config.get('xAxisType');
-
-        this.initializeXAxis(width, xAxisFormat, xAxisType);
+    constructor() {
+        super();
     }
 
 
     public render(): void {
+        let width = this.config.get('width'),
+            height = this.config.get('height'),
+            xAxisFormat = this.config.get('xAxisFormat'),
+            xAxisType = this.config.get('xAxisType'),
+            xAxisLabel = this.config.get('xAxisLabel');
+
+        this.initializeXAxis(width, xAxisFormat, xAxisType);
+
+        this.svg
+            .append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(this._xAxis);
+
+        this.svg
+            .append('text')
+            .attr('class', 'xaxis-title')
+            .attr("text-anchor", "middle")
+            .attr('x', width / 2)
+            .attr('y', height + 40)
+            .text(xAxisLabel)
+            .style('font', '0.8em Montserrat, sans-serif');
+    }
+
+    public update(data: [any]): void {
+        let xAxisType = this.config.get('xAxisType');
+
+        if (xAxisType === 'linear') { //TODO: Optimize it. Currently we are looping data twice.
+            let minX = min(data, (d) => d.x),
+                maxX = max(data, (d) => d.x);
+            //this.updateDomainByMinMax(min, max);
+            
+        } else {
+            console.error('not implemented');
+        }
 
     }
 
-    public update(): void {
-
+    private updateDomainByMinMax(min, max) {
+        this._xAxis.scale().domain([min, max]);
     }
 
     /**
@@ -43,17 +77,21 @@ class XAxis extends Component {
     private initializeXAxis(width: string | number, xAxisFormat: string, xAxisType: string): void {
         switch (xAxisType) {
             case 'time':
-                this.xAxis = axisBottom(scaleTime().range([0, width]));
+                this._xAxis = axisBottom(scaleTime().range([0, width]));
                 break;
             case 'linear':
-                this.xAxis = axisBottom(scaleLinear().range([0, width])).tickFormat(format(xAxisFormat));
+                this._xAxis = axisBottom(scaleLinear().range([0, width])).tickFormat(format(xAxisFormat));
                 break;
             case 'categorical':
-                this.xAxis = axisBottom(scaleBand().rangeRound([0, width]).padding(0.1).align(0.5));
+                this._xAxis = axisBottom(scaleBand().rangeRound([0, width]).padding(0.1).align(0.5));
                 break;
             default:
                 throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
         }
+    }
+
+    get xAxis() {
+        return this._xAxis;
     }
 }
 

@@ -1,15 +1,17 @@
-export interface SvgStrategy {
-    draw(): void;
-}
+import Config from '../../Config';
+import SvgChart from '../base/SvgChart';
+
 
 export class SvgContext {
-    private strategy: SvgStrategy;
-    
-    constructor(strategy: SvgStrategy) {
+    private strategy: SvgChart;
+
+    constructor(strategy: SvgChart, config: Config) {
         this.strategy = strategy;
+        this.strategy.setConfig(config);
+        this.strategy.initialize();
     }
 
-    public draw(): void {
-        this.strategy.draw();
+    public draw(data: [{}]): void {
+        this.strategy.draw(data);
     }
 }

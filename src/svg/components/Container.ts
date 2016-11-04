@@ -1,20 +1,27 @@
-import {select} from 'd3-select';
+import {select} from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
 
-class Container extends Component {
+class Container {
 
     private svg: any;
+    private config: Config;
     private components: Component[] = [];
 
     constructor(config: Config) {
-        super(config);
+        this.config = config;
+
         let selector = this.config.get('selector'),
             width = this.config.get('width'),
             height = this.config.get('height'),
             marginLeft = this.config.get('marginLeft'),
-            marginTop = this.config.get('marginTop');
+            marginRight = this.config.get('marginRight'),
+            marginTop = this.config.get('marginTop'),
+            marginBottom = this.config.get('marginBottom');
+
+        width += marginLeft + marginRight;
+        height += marginTop + marginBottom;
 
         this.initializeContainer(selector, width, height, marginLeft, marginTop);
     }
@@ -29,17 +36,13 @@ class Container extends Component {
      * @memberOf Container
     
      */
-    public add(component: Component, render: boolean = true): Container {
-        
+    public add(component: Component): Container {
         this.components.push(component);
-
-        if (render) {
-            this.render();
-        }
-
+        component.configure(this.config, this.svg);
+        component.render();
         return this;
-    }
 
+    }
 
     /**
      * 
@@ -65,19 +68,13 @@ class Container extends Component {
     }
 
 
-
-    public update(): void {
+    public updateComponents(data: [{}]) {
+        for (let i = 0; i < this.components.length; i++) {
+            let component = this.components[i];
+            component.update(data);
+        }
 
     }
-
-    public render(): void {
-
-    }
-
-
-
-
-
 };
 
 export default Container;

@@ -1,14 +1,26 @@
 import Container from '../components/Container';
 import Config from '../../Config';
 
-class SvgChart {
+abstract class SvgChart {
 
     protected container: Container;
+    protected config: Config;
 
-    constructor(config: Config) {
-        this.container = new Container(config);
+    constructor() {
 
     }
+
+    initialize() {
+        this.container = new Container(this.config);
+    }
+
+    setConfig(config: Config) {
+        this.config = config;
+    }
+
+    abstract draw(data: [{}]);
+
+
 
 }
 
