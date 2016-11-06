@@ -81,7 +81,10 @@ export function findElement(arr, propName, propValue) {
     }
   }
   return null;
-  // will return null if not found; you could return a default instead
+}
+
+export function copy(object){
+  return object != null ? JSON.parse(JSON.stringify(object)) : null;
 }
 
 export function deg2rad(deg) {

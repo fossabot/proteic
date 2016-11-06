@@ -1,4 +1,4 @@
-import {nest, timeParse} from 'd3';
+import { nest, timeParse } from 'd3';
 
 export function simple2stacked(data) {
   return nest().key((d) => d.x).rollup((array) => {
@@ -45,21 +45,21 @@ export function convertPropretiesToTimeFormat(data, properties, format) {
   });
 }
 
-export function convertByXYFormat(data, config) {
+export function convertByXYFormat(data, xAxisFormat: string, xAxisType: string, yAxisFormat: string, yAxisType: string) {
   data.forEach((d) => {
     //parse x coordinate
-    switch (config.xAxisType) {
+    switch (xAxisType) {
       case 'time':
-        d.x = timeParse(config.xAxisFormat)(d.x);
+        d.x = timeParse(xAxisFormat)(d.x);
         break;
       case 'linear':
         d.x = +d.x;
         break;
     }
     //parse Y coordinate
-    switch (config.yAxisType) {
+    switch (yAxisType) {
       case 'time':
-        d.y = timeParse(config.yAxisFormat)(d.y);
+        d.y = timeParse(yAxisFormat)(d.y);
         break;
       case 'linear':
         d.y = +d.y;

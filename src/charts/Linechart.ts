@@ -2,13 +2,17 @@ import Chart from './Chart';
 import SvgStrategyLinechart from '../svg/strategies/SvgStrategyLinechart';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/linechart';
-import {calculateWidth} from '../utils/screen';
+import { calculateWidth } from '../utils/screen';
 
 
 class Linechart extends Chart {
 
-    constructor(data: any) {
-        super(new SvgStrategyLinechart());
+    constructor(data: any, userConfig: any) {
+        super(
+            new SvgStrategyLinechart(),
+            data,
+            userConfig
+        );
     }
 
 
@@ -46,7 +50,9 @@ class Linechart extends Chart {
             markerShape = userData['markerShape'] || defaults.markerShape,
             markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults.markerSize : userData['markerSize'],
             //Area
-            areaOpacity = (typeof userData['areaOpacity'] === 'undefined' || userData['markerSize'] < 0) ? defaults.areaOpacity : userData['areaOpacity'];
+            areaOpacity = (typeof userData['areaOpacity'] === 'undefined' || userData['markerSize'] < 0) ? defaults.areaOpacity : userData['areaOpacity'],
+
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -71,6 +77,7 @@ class Linechart extends Chart {
         config.put('markerShape', markerShape);
         config.put('markerSize', markerSize);
         config.put('areaOpacity', areaOpacity);
+        config.put('legend', legend);
 
         return config;
     }

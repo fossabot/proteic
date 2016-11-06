@@ -1,15 +1,18 @@
 import {
+    select,
     scaleTime,
     scaleLinear,
     scaleBand,
     format,
     axisBottom,
-    min,
-    max
+    min as d3Min,
+    max as d3Max
 } from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
+
+import { isEven } from '../../utils/functions';
 
 class XAxis extends Component {
 
@@ -48,19 +51,31 @@ class XAxis extends Component {
     public update(data: [any]): void {
         let xAxisType = this.config.get('xAxisType');
 
-        if (xAxisType === 'linear') { //TODO: Optimize it. Currently we are looping data twice.
-            let minX = min(data, (d) => d.x),
-                maxX = max(data, (d) => d.x);
-            //this.updateDomainByMinMax(min, max);
-            
+        if (xAxisType === 'linear' || xAxisType == 'time') {
+            //TODO: Optimize it. Currently we are looping data twice.
+            let min = d3Min(data, (d) => d.x),
+                max = d3Max(data, (d) => d.x);
+            this.updateDomainByMinMax(min, max);
+
         } else {
             console.error('not implemented');
         }
-
     }
 
     private updateDomainByMinMax(min, max) {
         this._xAxis.scale().domain([min, max]);
+        this.svg.selectAll('.x.axis').transition().duration(200).call(this._xAxis).on('end', this.applyStyle);
+    }
+
+    private applyStyle() {
+        select(this).selectAll('g.tick text')
+            .style('font', '1.4em Montserrat, sans-serif')
+            .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
+            .style('fill', (d) => '#1a2127')
+
+        select(this).selectAll(['path', 'line'])
+            .attr('stroke', 'gray')
+            .attr('stroke-width', .3);
     }
 
     /**

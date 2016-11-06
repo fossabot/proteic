@@ -1,11 +1,16 @@
 import Config from '../../Config';
 import Component from './Component';
 import {
+    select,
     scaleLinear,
     scaleBand,
     format,
-    axisLeft
+    axisLeft,
+    min as d3Min,
+    max as d3Max
 } from 'd3';
+
+import { isEven } from '../../utils/functions';
 
 class YAxis extends Component {
 
@@ -42,7 +47,30 @@ class YAxis extends Component {
     }
 
     public update(data): void {
+        let yAxisType = this.config.get('yAxisType');
 
+        if (yAxisType === 'linear') {
+            let min = d3Min(data, (d) => d.y),
+                max = d3Max(data, (d) => d.y);
+
+            this.updateDomainByMinMax(min, max);
+        } else {
+            console.warn('only linear y axis is allowed');
+        }
+    }
+
+    private updateDomainByMinMax(min, max) {
+        this._yAxis.scale().domain([min, max]);
+        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis).on('end', this.applyStyle);
+    }
+
+
+    private applyStyle() {
+        select(this).selectAll('g.tick text')
+            .style('font', '1.4em Montserrat, sans-serif')
+            .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127');
+        select(this).selectAll('g.tick line')
+            .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
     }
 
     /**

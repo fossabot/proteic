@@ -2,6 +2,7 @@
 import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
+
 import {line, nest} from 'd3';
 
 class Lineset extends Component {
@@ -29,13 +30,9 @@ class Lineset extends Component {
             lines = null,
             colorScale = this.config.get('colorScale');
 
-        this.svg.selectAll('g.serie').remove();       
-        
-        
-        console.log('dataseries', dataSeries);
-        
-        
+        this.svg.selectAll('g.serie').remove();               
         series = this.svg.selectAll('g.serie');
+
         lines = series
             .data(dataSeries, (d) => d.key)
             .enter()

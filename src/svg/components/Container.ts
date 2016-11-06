@@ -41,7 +41,6 @@ class Container {
         component.configure(this.config, this.svg);
         component.render();
         return this;
-
     }
 
     /**
