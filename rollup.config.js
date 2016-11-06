@@ -2,7 +2,7 @@ import buble from 'rollup-plugin-buble'
 
 export default {
   entry: 'index.js',
-  dest: 'build/proteic.js',
+  dest: 'dist/proteic.js',
   moduleName: 'proteic',
   format: 'umd',
   sourceMap: true,

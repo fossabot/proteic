@@ -3,20 +3,20 @@
   "version": "0.0.3",
   "description": "",
   "homepage": "http://proteic.js.org/",
-  "main": "build/proteic.node.js",
-  "browser": "build/proteic.js",
+  "main": "dist/proteic.node.js",
+  "browser": "dist/proteic.js",
   "module": "index",
   "jsnext:main": "index",
   "scripts": {
     "lint": "jshint src/**/*.js",
     "pretest": "npm run build",
     "test": "karma start -c karma.conf.js",
-    "prebuild": "rimraf build/*",
+    "prebuild": "rimraf dist/*",
     "build": "rollup -c rollup.config.js",
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \"",
-    "prepublish": "npm run build && uglifyjs build/proteic.js -c negate_iife=false -o build/proteic.min.js && node rollup.config.node.js"
+    "prepublish": "npm run build && uglifyjs dist/proteic.js -c negate_iife=false -o dist/proteic.min.js && node rollup.config.node.js"
   },
   "keywords": [
     "d3",
