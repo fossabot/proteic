@@ -6,7 +6,7 @@ export const defaults = {
     //Stacked
     stacked: true,
     //Axes
-    xAxisType: 'linear',
+    xAxisType: 'categorical',
     xAxisFormat: '',
     xAxisLabel: null,
     yAxisType: 'linear',
@@ -20,6 +20,7 @@ export const defaults = {
     //width & height
     width: '100%',
     height: 350,
+    legend: true,
     //Events
     onDown(d) {
     },
@@ -28,5 +29,7 @@ export const defaults = {
     onLeave(d) {
     },
     onClick(d) {
+    },
+    onUp(d){
     }
 };

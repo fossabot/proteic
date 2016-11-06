@@ -1,6 +1,6 @@
 import { nest, timeParse } from 'd3';
 
-export function simple2stacked(data) {
+export function simple2stacked (data) : [any] {
   return nest().key((d) => d.x).rollup((array) => {
     let r = {};
     for (let i = 0; i < array.length; i++) {
@@ -13,7 +13,7 @@ export function simple2stacked(data) {
   }).entries(data);
 }
 
-export function simple2nested(data, key = 'key') {
+export function simple2nested (data, key = 'key') : [any]{
   return nest().key((d) => d[key]).entries(data);
 }
 

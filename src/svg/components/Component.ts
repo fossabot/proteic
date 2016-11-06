@@ -24,6 +24,15 @@ abstract class Component {
         this.config = config;
         this.svg = svg;
     }
+
+    /**
+     * 
+     * Clean the current series.
+     */
+    public clean () {
+        this.svg.selectAll('.serie').remove();
+    }
+
 };
 
 export default Component;    

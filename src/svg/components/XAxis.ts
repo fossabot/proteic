@@ -1,4 +1,5 @@
 import {
+    map,
     select,
     scaleTime,
     scaleLinear,
@@ -58,13 +59,31 @@ class XAxis extends Component {
             this.updateDomainByMinMax(min, max);
 
         } else {
-            console.error('not implemented');
+            let keys: [string] = map(data, (d) => d.x).keys();
+            this.updateDomainByKeys(keys);
         }
+        this.transition();
+    }
+    /**
+     * 
+     * Update x domain by keys
+     * @private
+     * @param {*} data
+     * 
+     * @memberOf XAxis
+    
+     */
+    private updateDomainByKeys(keys: [string]) {
+        this._xAxis.scale().domain(keys);
+
     }
 
     private updateDomainByMinMax(min, max) {
         this._xAxis.scale().domain([min, max]);
-        this.svg.selectAll('.x.axis').transition().duration(200).call(this._xAxis).on('end', this.applyStyle);
+    }
+
+    private transition(time : number = 200){
+        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis).on('end', this.applyStyle);
     }
 
     private applyStyle() {

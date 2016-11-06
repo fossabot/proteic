@@ -1,6 +1,8 @@
 import Config from '../../Config';
 import Component from './Component';
 import {
+    stack,
+    map,
     select,
     scaleLinear,
     scaleBand,
@@ -11,6 +13,7 @@ import {
 } from 'd3';
 
 import { isEven } from '../../utils/functions';
+import {simple2stacked} from '../../utils/dataTransformation';
 
 class YAxis extends Component {
 
@@ -48,20 +51,37 @@ class YAxis extends Component {
 
     public update(data): void {
         let yAxisType = this.config.get('yAxisType');
+        let layoutStacked = this.config.get('stacked');
 
         if (yAxisType === 'linear') {
-            let min = d3Min(data, (d) => d.y),
-                max = d3Max(data, (d) => d.y);
+            if (layoutStacked) { //TODO: Improve
+                let keys: [string] = map(data, (d) => d.key).keys();
+                let stackedData = stack().keys(keys).value((d, k) => d.value[k])(simple2stacked(data));
 
-            this.updateDomainByMinMax(min, max);
+                let min = 0;
+                let max = d3Max(stackedData, (serie) => d3Max(serie, (d) => d[1]));
+
+                this.updateDomainByMinMax(min, max);
+
+            } else {
+                let min = d3Min(data, (d) => d.y),
+                    max = d3Max(data, (d) => d.y);
+
+                this.updateDomainByMinMax(min, max);
+            }
         } else {
             console.warn('only linear y axis is allowed');
         }
+        this.transition();
     }
 
     private updateDomainByMinMax(min, max) {
         this._yAxis.scale().domain([min, max]);
+    }
+
+    private transition(time = 200) {
         this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis).on('end', this.applyStyle);
+
     }
 
 

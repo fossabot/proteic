@@ -6,7 +6,7 @@ import { copy } from '../utils/functions';
 abstract class Chart {
 
     private context: SvgContext;
-    private config: Config;
+    protected config: Config;
     private data: [{}];
 
     constructor(strategy: SvgChart, data: any, userConfig: any) {
