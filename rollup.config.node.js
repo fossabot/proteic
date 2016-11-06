@@ -1,10 +1,14 @@
 var fs = require("fs"),
     rollup = require("rollup"),
+    buble = require('rollup-plugin-buble'),
     abort = (error) => console.log(error);
 
 rollup.rollup({
     entry: "index.js",
-    external: ['d3']
+    external: ['d3'],
+    plugins: [
+        buble()
+    ]
 }).then(function (bundle) {
     var code = bundle.generate({
         format: "cjs"
