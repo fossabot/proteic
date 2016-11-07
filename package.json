@@ -48,7 +48,10 @@
     "url": "https://github.com/proteus-h2020/proteic/issues"
   },
   "dependencies": {
-    "d3": "^4.2.7"
+    "d3": "^4.3.0",
+    "d3-axis": "^1.0.3",
+    "d3-format": "^1.0.2",
+    "d3-scale": "^1.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -71,6 +74,7 @@
     "rollup-plugin-commonjs": "^5.0.4",
     "rollup-plugin-istanbul": "^1.1.0",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
     "socket.io": "^1.4.5",
     "uglify-js": "^2.7.4",
     "watch": "^0.19.2"

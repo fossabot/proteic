@@ -62,14 +62,13 @@
     <script>
         var data = {
             endpoint: 'ws://192.168.3.32:3000/swimlane'
-          };
-        var dataSource = new proteic.WebsocketDatasource(data);
-          //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
-          //Chart uses #chart selector by default
+        };
+        
+        var ds = new proteic.WebsocketDatasource(data);
 
-        swimlane = new proteic.Swimlane(dataSource);
-          //Start streaming
-        dataSource.start();
+        swimlane = new proteic.Swimlane([],{}).datasource(ds);
+
+        ds.start();
     </script>
 </body>
 

@@ -22,12 +22,16 @@
             endpoint: 'ws://192.168.3.32:3000/gauge'
           };
           
-    var wsEndpoint = new proteic.WebsocketDatasource(data);
+    var ds = new proteic.WebsocketDatasource(data);
           //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
           //Chart uses #chart selector by default
-          gauge = new proteic.Gauge(wsEndpoint);
+          gauge = new proteic.Gauge([{value: 50}], {});
+          
+          gauge.draw();          
+          
+          gauge.datasource(ds);
           //Start streaming
-          wsEndpoint.start();
+          ds.start();
   </script>
 </body>
 

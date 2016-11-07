@@ -1,4 +1,4 @@
-import buble from 'rollup-plugin-buble'
+import typescript from 'rollup-plugin-typescript';
 
 export default {
   entry: 'index.js',
@@ -7,11 +7,14 @@ export default {
   format: 'umd',
   sourceMap: true,
   plugins: [
-    buble()
+    typescript()
   ],
-   globals: {
-        d3: 'd3',
-        chai: 'chai',
-      },
-      external: ['d3', 'chai']
+  globals: {
+    '3': 'd3',
+    chai: 'chai',
+  },
+  external: [
+    'd3',
+    'chai'
+  ]
 };
