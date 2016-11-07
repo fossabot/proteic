@@ -5,3 +5,7 @@ export {
 export {
     default as Barchart
 } from './src/charts/Barchart';
+
+export {
+    default as Gauge
+} from './src/charts/Gauge';
