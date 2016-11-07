@@ -13,3 +13,7 @@ export {
 export {
     default as Scatterplot
 } from './src/charts/Scatterplot';
+
+export {
+    default as Streamgraph
+} from './src/charts/Streamgraph';

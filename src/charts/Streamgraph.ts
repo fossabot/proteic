@@ -1,33 +1,23 @@
 import Chart from './Chart';
-import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
+import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import Config from '../Config';
-import { defaults } from '../utils/defaults/barchart';
+import { defaults } from '../utils/defaults/streamgraph';
 import { calculateWidth } from '../utils/screen';
+import {
+    stackOrderInsideOut,
+    stackOffsetWiggle,
+    stack as d3Stack
+} from 'd3';
 
-import {stack as d3stack} from 'd3';
-
-class Barchart extends Chart {
+class Streamgraph extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
         super(
-            new SvgStrategyBarchart(),
+            new SvgStrategyStreamgraph(),
             data,
             userConfig
         );
     }
-
-    fire(event: string, data: string) {//TODO: improve this section
-        if (event === 'transition') {
-            if (data === 'grouped') {
-                this.config.put('stacked', false);
-            }
-            else if (data === 'stacked') {
-                this.config.put('stacked', true);
-            }
-            this.draw();
-        }
-    }
-
 
 
     protected loadConfigFromUser(userData: { [key: string]: any; }): Config {
@@ -60,11 +50,9 @@ class Barchart extends Chart {
             onClick = userData['onClick'] || defaults.onClick,
             onLeave = userData['onLeave'] || defaults.onLeave,
 
-            stacked = (typeof userData['stacked'] === 'undefined') ? defaults.stacked : userData['stacked'],
-            stack = d3stack().value((d, k) => d.value[k]),
-
-            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
-
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
+            stacked = true, // Streamgraph is always stacked; ignoring default or user properties.
+            stack = d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetWiggle);
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -94,4 +82,4 @@ class Barchart extends Chart {
 
 }
 
-export default Barchart;
+export default Streamgraph;

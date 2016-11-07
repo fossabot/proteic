@@ -3,6 +3,8 @@ import Component from './Component';
 import {
     stack,
     map,
+    stackOrderInsideOut,
+    stackOffsetWiggle,
     select,
     scaleLinear,
     scaleBand,
@@ -56,13 +58,11 @@ class YAxis extends Component {
         if (yAxisType === 'linear') {
             if (layoutStacked) { //TODO: Improve
                 let keys: [string] = map(data, (d) => d.key).keys();
-                let stackedData = stack().keys(keys).value((d, k) => d.value[k])(simple2stacked(data));
-
-                let min = 0;
+                let stack = this.config.get('stack');
+                let stackedData = stack.keys(keys)(simple2stacked(data));
+                let min = d3Min(stackedData, (serie) => d3Min(serie, (d) => d[0]));
                 let max = d3Max(stackedData, (serie) => d3Max(serie, (d) => d[1]));
-
                 this.updateDomainByMinMax(min, max);
-
             } else {
                 let min = d3Min(data, (d) => d.y),
                     max = d3Max(data, (d) => d.y);
@@ -72,6 +72,7 @@ class YAxis extends Component {
         } else {
             console.warn('only linear y axis is allowed');
         }
+
         this.transition();
     }
 

@@ -6,6 +6,7 @@ import {
     scaleBand,
     format,
     axisBottom,
+    timeParse,
     min as d3Min,
     max as d3Max
 } from 'd3';
@@ -52,16 +53,26 @@ class XAxis extends Component {
     public update(data: [any]): void {
         let xAxisType = this.config.get('xAxisType');
 
-        if (xAxisType === 'linear' || xAxisType == 'time') {
+        if (xAxisType === 'linear') {
             //TODO: Optimize it. Currently we are looping data twice.
             let min = d3Min(data, (d) => d.x),
                 max = d3Max(data, (d) => d.x);
             this.updateDomainByMinMax(min, max);
 
-        } else {
+        } else if (xAxisType === 'time') {
+            let xAxisFormat = this.config.get('xAxisFormat'),
+                parser = timeParse(xAxisFormat);
+
+            let min = d3Min(data, (d) => parser(d.x)),
+                max = d3Max(data, (d) => parser(d.x));
+            this.updateDomainByMinMax(min, max);
+
+        }
+        else {
             let keys: [string] = map(data, (d) => d.x).keys();
             this.updateDomainByKeys(keys);
         }
+
         this.transition();
     }
     /**
@@ -82,7 +93,7 @@ class XAxis extends Component {
         this._xAxis.scale().domain([min, max]);
     }
 
-    private transition(time : number = 200){
+    private transition(time: number = 200) {
         this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis).on('end', this.applyStyle);
     }
 
