@@ -1,6 +1,6 @@
 {
-  "coverage": "19.11%",
-  "expectCount": 361,
+  "coverage": "18.75%",
+  "expectCount": 368,
   "actualCount": 69,
   "files": {
     "src/svg/components/areaset.js": {
@@ -33,6 +33,19 @@
         8,
         129,
         14,
+        6,
+        7
+      ]
+    },
+    "src/svg/components/canvasPointset.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        8,
+        5,
+        90,
+        17,
         6,
         7
       ]
@@ -543,28 +556,7 @@
         3
       ]
     },
-    "src/utils/defaults/barchart.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/streamgraph.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
-    "src/utils/defaults/networkgraph.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        1
-      ]
-    },
-    "src/utils/defaults/linechart.js": {
+    "src/utils/defaults/scatterplot.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -585,7 +577,7 @@
         3
       ]
     },
-    "src/utils/defaults/scatterplot.js": {
+    "src/utils/defaults/barchart.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
@@ -604,6 +596,27 @@
       "actualCount": 0,
       "undocumentLines": [
         3
+      ]
+    },
+    "src/utils/defaults/linechart.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/streamgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/utils/defaults/networkgraph.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
       ]
     },
     "src/utils/functions.js": {

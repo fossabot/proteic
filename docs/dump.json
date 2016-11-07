@@ -3305,6 +3305,186 @@
     "kind": "file",
     "static": true,
     "variation": null,
+    "name": "src/svg/components/canvasPointset.js",
+    "memberof": null,
+    "longname": "src/svg/components/canvasPointset.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {select, nest} from 'd3';\nimport {symbol, symbolCircle, symbolCross, symbolDiamond, symbolSquare, symbolStar, symbolTriangle, symbolWye} from 'd3';\n\nexport class CanvasPointset {\n  constructor(x, y, config) {\n    this.xAxis = x.xAxis;\n    this.yAxis = y.yAxis;\n    this.canvas = select(config.selector).append('canvas')\n      .attr('id', 'point-set-canvas')\n      .attr('width', config.width)\n      .attr('height', config.height)\n      .style('position', 'absolute')\n      .style('z-index', 2)\n      .style('transform', `translate(${config.marginLeft}px, ${config.marginTop}px)`);\n  }\n\n  update(svg, config, data) {\n    let markerShape = config.markerShape,\n      markerSize = config.markerSize,\n      colorScale = config.colorScale,\n      points = null,\n      series = null,\n      dataContainer = null;\n\n    let canvasCtx = this.canvas.node().getContext('2d');\n\n    let shape = symbol()\n      .size(markerSize)\n      .context(canvasCtx);\n\n    switch (markerShape) {\n      case 'dot':\n        shape.type(symbolCircle);\n        break;\n      case 'ring':\n        shape.type(symbolCircle);\n        break;\n      case 'cross':\n        shape.type(symbolCross);\n        break;\n      case 'diamond':\n        shape.type(symbolDiamond);\n        break;\n      case 'square':\n        shape.type(symbolSquare);\n        break;\n      case 'star':\n        shape.type(symbolStar);\n        break;\n      case 'triangle':\n        shape.type(symbolTriangle);\n        break;\n      case 'wye':\n        shape.type(symbolWye);\n        break;\n      case 'circle':\n        shape.type(symbolCircle);\n        break;\n      default:\n        shape.type(symbolCircle);\n    }\n\n    // Custom DOM element, this won't be rendered\n    dataContainer = svg.append('proteic');\n    series = dataContainer.selectAll('proteic.g.points');\n\n    series\n      .data(data, (d) => d.key)\n      .enter()\n      .call((s) => {\n        let self = this;\n        console.log(s);\n        s.each(function (d) {\n          canvasCtx.save();\n          canvasCtx.translate(self.xAxis.scale()(d.x), self.yAxis.scale()(d.y));\n          canvasCtx.beginPath();\n          canvasCtx.strokeStyle = colorScale(d.key);\n          canvasCtx.fillStyle = colorScale(d.key);\n          shape();\n          canvasCtx.closePath();\n          canvasCtx.stroke();\n          if (markerShape !== 'ring') {\n            canvasCtx.fill();\n          }\n          canvasCtx.restore();\n        });\n      });\n  }\n\n  render(svg, config) {\n    //Do nothing, since points render only when new data is received.\n  }\n}"
+  },
+  {
+    "__docId__": 147,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "CanvasPointset",
+    "memberof": "src/svg/components/canvasPointset.js",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "access": null,
+    "export": true,
+    "importPath": "proteic/src/svg/components/canvasPointset.js",
+    "importStyle": "{CanvasPointset}",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 148,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "params": [
+      {
+        "name": "x",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "y",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "config",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 149,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "xAxis",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#xAxis",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 150,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "yAxis",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#yAxis",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 151,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "canvas",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#canvas",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 152,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "update",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#update",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "params": [
+      {
+        "name": "svg",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "config",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 153,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "render",
+    "memberof": "src/svg/components/canvasPointset.js~CanvasPointset",
+    "longname": "src/svg/components/canvasPointset.js~CanvasPointset#render",
+    "access": null,
+    "description": null,
+    "lineNumber": 90,
+    "undocument": true,
+    "params": [
+      {
+        "name": "svg",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "config",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 154,
+    "kind": "file",
+    "static": true,
+    "variation": null,
     "name": "src/svg/components/dial.js",
     "memberof": null,
     "longname": "src/svg/components/dial.js",
@@ -3314,7 +3494,7 @@
     "content": "import {deg2rad} from '../../utils/functions';\nimport {scaleLinear, arc, range} from 'd3';\n\nexport class Dial { //  TODO tidy\n  constructor(axisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for polarAxis');\n    }\n\n    this.r = (\n      (config.width > config.height) ?\n        config.height : config.width\n      ) / 2;\n    this.translation = (() =>\n    'translate(' + this.r + ',' + this.r + ')'\n    );\n    config.colorScale.domain([0, 1]);\n\n    this.scale = scaleLinear()\n        .domain([config.minLevel, config.maxLevel])\n        .range([0, 1]);\n\n    this.scaleMarks = this.scale.ticks(config.ticks);\n\n    this.range = config.maxAngle - config.minAngle;\n\n    this.arc = arc()\n      .innerRadius(this.r - config.ringWidth - config.ringMargin)\n      .outerRadius(this.r - config.ringMargin)\n      .startAngle((d, i) => {\n        var ratio = d * i;\n        return deg2rad(config.minAngle + (ratio * this.range));\n      })\n      .endAngle((d, i) => {\n        var ratio = d * (i + 1);\n        return deg2rad(config.minAngle + (ratio * this.range));\n      });\n\n    this.tickData = range(config.ticks)\n      .map(() => 1 / config.ticks);\n  }\n\n  render(svg, config) {\n    let labels = null;\n\n    // Append the ring\n    let arcs = svg.append('g')\n      .attr('class', 'arc')\n      .attr('transform', this.translation);\n\n    // Append the ring sectors\n    let arcPaths = arcs.selectAll('path')\n      .data(this.tickData)\n      .enter().append('path')\n      // ID for textPath linking\n      .attr('id', (d, i) => 'sector-' + i)\n      .attr('d', this.arc);\n\n    // Fill colors\n    if (config.invertColorScale) {\n      arcPaths.attr('fill', (d, i) => config.colorScale(1 - d * i));\n    } else {\n      arcPaths.attr('fill', (d, i) => config.colorScale(d * i));\n    }\n\n    // Apend the scale labels\n    labels = svg.append('g')\n      .attr('class', 'labels')\n      .attr('transform', this.translation);\n\n    // // Append scale marker labels\n    labels.selectAll('text')\n      .data(this.scaleMarks)\n      .enter().append('text')\n      .attr('transform', (d) => {\n        let ratio = this.scale(d);\n        let newAngle = config.minAngle + (ratio * this.range);\n        return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - this.r) + ')';\n      })\n      .text((d) => d)\n      .style('text-anchor', 'middle')\n      .style('font', '18px Montserrat, sans-serif');\n  }\n}"
   },
   {
-    "__docId__": 147,
+    "__docId__": 155,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -3331,7 +3511,7 @@
     "interface": false
   },
   {
-    "__docId__": 148,
+    "__docId__": 156,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -3359,7 +3539,7 @@
     "generator": false
   },
   {
-    "__docId__": 149,
+    "__docId__": 157,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3377,7 +3557,7 @@
     }
   },
   {
-    "__docId__": 150,
+    "__docId__": 158,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3395,7 +3575,7 @@
     }
   },
   {
-    "__docId__": 151,
+    "__docId__": 159,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3413,7 +3593,7 @@
     }
   },
   {
-    "__docId__": 152,
+    "__docId__": 160,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3431,7 +3611,7 @@
     }
   },
   {
-    "__docId__": 153,
+    "__docId__": 161,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3449,7 +3629,7 @@
     }
   },
   {
-    "__docId__": 154,
+    "__docId__": 162,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3467,7 +3647,7 @@
     }
   },
   {
-    "__docId__": 155,
+    "__docId__": 163,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3485,7 +3665,7 @@
     }
   },
   {
-    "__docId__": 156,
+    "__docId__": 164,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -3513,7 +3693,7 @@
     "generator": false
   },
   {
-    "__docId__": 157,
+    "__docId__": 165,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -3526,7 +3706,7 @@
     "content": "import {deg2rad} from '../../utils/functions';\nimport {scaleLinear, arc, range} from 'd3';\n\nexport class DialNeedle { // TODO tidy\n  constructor(axisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for polarAxis');\n    }\n\n    this.r = (\n      (config.width > config.height) ?\n        config.height : config.width\n      ) / 2;\n\n    this.needleLen = config.needleLenghtRatio * (this.r);\n\n    this.translation = (() =>\n    'translate(' + this.r + ',' + this.r + ')'\n    );\n    config.colorScale.domain([0, 1]);\n\n    this.scale = scaleLinear()\n        .domain([config.minLevel, config.maxLevel])\n        .range([0, 1]);\n\n    this.angleScale = scaleLinear()\n      .domain([config.minLevel, config.maxLevel])\n      .range([90 + config.minAngle, 90 + config.maxAngle]);\n\n    this.scaleMarks = this.scale.ticks(config.ticks);\n\n    this.range = config.maxAngle - config.minAngle;\n\n    this.arc = arc()\n      .innerRadius(this.r - config.ringWidth - config.ringMargin)\n      .outerRadius(this.r - config.ringMargin)\n      .startAngle((d, i) => {\n        let ratio = d * i;\n        return deg2rad(config.minAngle + (ratio * this.range));\n      })\n      .endAngle((d, i) => {\n        let ratio = d * (i + 1);\n        return deg2rad(config.minAngle + (ratio * this.range));\n      });\n\n    this.tickData = range(config.ticks)\n      .map(() => 1 / config.ticks);\n  }\n\n  update(svg, config, data, method) {\n    let datum = data[data.length - 1];\n\n    this.needle\n      .transition()\n      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(datum.value) - 90})`)\n      .attr('d', `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`);\n  }\n\n  render(svg, config) {\n    // Update the needle\n    this.needle = svg.append('path')\n      .attr('class', 'needle')\n      .datum(0)\n      .attr('transform', (d) => `translate(${this.r}, ${this.r}) rotate(${this.angleScale(d) - 90})`)\n      .attr('d', `M ${0 - config.needleNutRadius} ${0} L ${0} ${0 - this.needleLen} L ${config.needleNutRadius} ${0}`)\n      .style('fill', '#666666');\n\n    // Append needle nut\n    svg.append('circle')\n      .attr('class', 'needle')\n      .attr('transform', this.translation)\n      .attr('cx', 0)\n      .attr('cy', 0)\n      .attr('r', config.needleNutRadius)\n      .style('fill', '#666666');\n  }\n\n}"
   },
   {
-    "__docId__": 158,
+    "__docId__": 166,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -3543,7 +3723,7 @@
     "interface": false
   },
   {
-    "__docId__": 159,
+    "__docId__": 167,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -3571,7 +3751,7 @@
     "generator": false
   },
   {
-    "__docId__": 160,
+    "__docId__": 168,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3589,7 +3769,7 @@
     }
   },
   {
-    "__docId__": 161,
+    "__docId__": 169,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3607,7 +3787,7 @@
     }
   },
   {
-    "__docId__": 162,
+    "__docId__": 170,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3625,7 +3805,7 @@
     }
   },
   {
-    "__docId__": 163,
+    "__docId__": 171,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3643,7 +3823,7 @@
     }
   },
   {
-    "__docId__": 164,
+    "__docId__": 172,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3661,7 +3841,7 @@
     }
   },
   {
-    "__docId__": 165,
+    "__docId__": 173,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3679,7 +3859,7 @@
     }
   },
   {
-    "__docId__": 166,
+    "__docId__": 174,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3697,7 +3877,7 @@
     }
   },
   {
-    "__docId__": 167,
+    "__docId__": 175,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3715,7 +3895,7 @@
     }
   },
   {
-    "__docId__": 168,
+    "__docId__": 176,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3733,7 +3913,7 @@
     }
   },
   {
-    "__docId__": 169,
+    "__docId__": 177,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -3773,7 +3953,7 @@
     "generator": false
   },
   {
-    "__docId__": 170,
+    "__docId__": 178,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -3801,7 +3981,7 @@
     "generator": false
   },
   {
-    "__docId__": 171,
+    "__docId__": 179,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -3819,7 +3999,7 @@
     }
   },
   {
-    "__docId__": 172,
+    "__docId__": 180,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -3832,7 +4012,7 @@
     "content": "import {nest} from 'd3';\n\nexport class Legend {\n  constructor() {}\n\n  update(svg, config, data) {\n    let dataSeries = nest()\n        .key((d) => d.key)\n        .entries(data),\n      legend = null,\n      entries = null,\n      colorScale = config.colorScale,\n      height = config.height,\n      width = config.width;\n\n    if(dataSeries.length === 1 && dataSeries[0].key === 'undefined'){\n      console.warn('Not showing legend, since there is a valid key');\n      return;\n    }\n    \n    svg.selectAll('g.legend').remove();\n    \n    legend = svg.append('g').attr('class', 'legend');\n    entries = legend.selectAll('.legend-entry')\n      .data(dataSeries, (d) => d.key)\n      .enter()\n      .append('g')\n      .attr('class', 'legend-entry');\n\n\n    entries.append('rect')\n      .attr('x', width + 10)\n      .attr('y', (d, i) => i * 25)\n      .attr('height', 20)\n      .attr('width', 20)\n      .attr('fill', (d, i) => colorScale(i))\n      .style('opacity', 0.8);\n\n    entries.append('text')\n      .attr(\"x\", width + 25 + 10)\n      .attr(\"y\", (d, i) => i * 25 + 7)\n      .attr(\"dy\", \"0.55em\")\n      .text((d) => d.key)\n      .style('font', '14px Montserrat, sans-serif');\n\n  }\n\n  render(svg, config) {\n    //Do nothing, since legend render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 173,
+    "__docId__": 181,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -3849,7 +4029,7 @@
     "interface": false
   },
   {
-    "__docId__": 174,
+    "__docId__": 182,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -3864,7 +4044,7 @@
     "generator": false
   },
   {
-    "__docId__": 175,
+    "__docId__": 183,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -3898,7 +4078,7 @@
     "generator": false
   },
   {
-    "__docId__": 176,
+    "__docId__": 184,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -3926,7 +4106,7 @@
     "generator": false
   },
   {
-    "__docId__": 177,
+    "__docId__": 185,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -3939,7 +4119,7 @@
     "content": "import {line, nest} from 'd3';\n\nexport class Lineset {\n  constructor(x, y) {\n    this.xAxis = x.xAxis;\n    this.yAxis = y.yAxis;\n    this.lineGenerator = line()\n      .x((d) => this.xAxis.scale()(d.x))\n      .y((d) => this.yAxis.scale()(d.y));\n  }\n\n  update(svg, config, data) {\n    let dataSeries = nest().key((d) => d.key).entries(data),\n      series = null,\n      lines = null,\n      colorScale = config.colorScale;\n\n    svg.selectAll('g.serie').remove();\n\n    series = svg.selectAll('g.serie');\n    lines = series\n      .data(dataSeries, (d) => d.key)\n      .enter()\n      .append('g')\n      .attr('class', 'serie')\n      .attr('stroke', (d, i) => colorScale(i))\n      .append('svg:path')\n      .style('stroke', (d, i) => colorScale(i))\n      .style('stroke-width', 1.3)\n      .style('fill', 'none')\n      .attr('d', (d) => this.lineGenerator(d.values))\n      .attr('class', 'line');\n\n    this.svg = svg;\n  }\n\n  render(svg, config) {\n    //Do nothing, since lines render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 178,
+    "__docId__": 186,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -3956,7 +4136,7 @@
     "interface": false
   },
   {
-    "__docId__": 179,
+    "__docId__": 187,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -3984,7 +4164,7 @@
     "generator": false
   },
   {
-    "__docId__": 180,
+    "__docId__": 188,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4002,7 +4182,7 @@
     }
   },
   {
-    "__docId__": 181,
+    "__docId__": 189,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4020,7 +4200,7 @@
     }
   },
   {
-    "__docId__": 182,
+    "__docId__": 190,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4038,7 +4218,7 @@
     }
   },
   {
-    "__docId__": 183,
+    "__docId__": 191,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4072,7 +4252,7 @@
     "generator": false
   },
   {
-    "__docId__": 184,
+    "__docId__": 192,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4090,7 +4270,7 @@
     }
   },
   {
-    "__docId__": 185,
+    "__docId__": 193,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4118,7 +4298,7 @@
     "generator": false
   },
   {
-    "__docId__": 186,
+    "__docId__": 194,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -4131,7 +4311,7 @@
     "content": "import {forceSimulation, forceLink, forceManyBody, forceCenter, drag} from 'd3';\nimport {simple2Linked} from '../../utils/dataTransformation';\nimport {event} from 'd3';\nexport class Nodeset {\n  constructor(config) {\n    this.config = config;\n    var width = config.width,\n      height = config.height;\n\n    this.simulation = forceSimulation()\n      .force(\"link\", forceLink().id((d) => d.id))\n      .force(\"charge\", forceManyBody())\n      .force(\"center\", forceCenter(width / 2, height / 2));\n\n\n    this.dragstarted = (d) => {\n      if (!event.active) this.simulation.alphaTarget(0.3).restart();\n      d.fx = d.x;\n      d.fy = d.y;\n    };\n\n    this.dragged = (d) => {\n      d.fx = event.x;\n      d.fy = event.y;\n    };\n\n    this.dragended = (d) => {\n      if (!event.active) this.simulation.alphaTarget(0);\n      d.fx = null;\n      d.fy = null;\n    };\n\n  }\n\n  update(svg, config, data) {\n    data = simple2Linked(data);\n\n    var link = svg.append(\"g\")\n      .attr(\"class\", \"links\")\n      .selectAll(\"line\")\n      .data(data.links)\n      .enter().append(\"line\")\n      .attr(\"stroke-width\", 2)\n      .attr(\"stroke\", \"#999\")\n      .attr(\"stroke-opacity\", 0.6);\n\n    var node = svg.append(\"g\")\n      .attr(\"class\", \"nodes\")\n      .selectAll(\"circle\")\n      .data(data.nodes)\n      .enter()\n      .append(\"circle\")\n      .attr(\"r\", 5)\n      .attr(\"fill\", (d) => \"#23436f\")\n      .call(drag()\n        .on(\"start\", this.dragstarted)\n        .on(\"drag\", this.dragged)\n        .on(\"end\", this.dragended));\n\n    node.append(\"title\")\n      .text((d) => d.id);\n\n    this.simulation.nodes(data.nodes).on(\"tick\", (e) => this.ticked(link, node));\n\n    this.simulation.force(\"link\").links(data.links);\n  }\n\n  ticked(link, node) {\n    link\n      .attr(\"x1\", (d) => d.source.x)\n      .attr(\"y1\", (d) => d.source.y)\n      .attr(\"x2\", (d) => d.target.x)\n      .attr(\"y2\", (d) => d.target.y);\n\n    node\n      .attr(\"cx\", (d) => d.x)\n      .attr(\"cy\", (d) => d.y);\n  }\n\n  render(svg, config) {\n    //Do nothing, since lines render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 187,
+    "__docId__": 195,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -4148,7 +4328,7 @@
     "interface": false
   },
   {
-    "__docId__": 188,
+    "__docId__": 196,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -4170,7 +4350,7 @@
     "generator": false
   },
   {
-    "__docId__": 189,
+    "__docId__": 197,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4188,7 +4368,7 @@
     }
   },
   {
-    "__docId__": 190,
+    "__docId__": 198,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4206,7 +4386,7 @@
     }
   },
   {
-    "__docId__": 191,
+    "__docId__": 199,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4224,7 +4404,7 @@
     }
   },
   {
-    "__docId__": 192,
+    "__docId__": 200,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4242,7 +4422,7 @@
     }
   },
   {
-    "__docId__": 193,
+    "__docId__": 201,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4260,7 +4440,7 @@
     }
   },
   {
-    "__docId__": 194,
+    "__docId__": 202,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4294,7 +4474,7 @@
     "generator": false
   },
   {
-    "__docId__": 195,
+    "__docId__": 203,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4322,7 +4502,7 @@
     "generator": false
   },
   {
-    "__docId__": 196,
+    "__docId__": 204,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4350,7 +4530,7 @@
     "generator": false
   },
   {
-    "__docId__": 197,
+    "__docId__": 205,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -4363,7 +4543,7 @@
     "content": "import {nest} from 'd3';\n\nexport class Pointset {\n  constructor(x, y) {\n    this.xAxis = x.xAxis;\n    this.yAxis = y.yAxis;\n  }\n  update(svg, config, data) {\n    let dataSeries = nest()\n      .key((d) => d.key)\n      .entries(data),\n      markers = null,\n      markerShape = config.markerShape,\n      markerSize = config.markerSize,\n      markerOutlineWidth = config.markerOutlineWidth,\n      colorScale = config.colorScale,\n      points = null,\n      series = null;\n\n    svg.selectAll('g.points').remove();\n\n    series = svg.selectAll('g.points');\n\n    switch (markerShape) {\n      case 'dot':\n        points = series\n          .data(dataSeries, (d) => d.key)\n          .enter()\n          .append('g')\n          .attr('class', 'points')\n          .style('fill', (d, i) => colorScale(i))\n          .selectAll('circle')\n          .data((d) => d.values)\n          .enter()\n          .append('circle')\n          .attr('cx', (d) => this.xAxis.scale()(d.x))\n          .attr('cy', (d) => this.yAxis.scale()(d.y))\n          .attr('r', markerSize)\n          .attr('class', 'marker');\n        break;\n      case 'ring':\n        window.console.warn('Deprecated \"circle\" marker shape: use \"dot\" or \"ring\" instead');\n        points = series\n          .data(dataSeries, (d) => d.key)\n          .enter()\n          .append('g')\n          .attr('class', 'points')\n          .style('stroke', (d, i) => colorScale(i))\n          .selectAll('circle')\n          .data((d, i) => d.values)\n          .enter()\n          .append('circle')\n          .attr('cx', (d) => this.xAxis.scale()(d.x))\n          .attr('cy', (d) => this.yAxis.scale()(d.y))\n          .attr('r', markerSize)\n          .attr('class', 'marker')\n          .style('fill', 'white')\n          .style('stroke-width', markerOutlineWidth);\n        break;\n      // Deprecated circle option\n      case 'circle':\n        window.console.warn('Deprecated \"circle\" marker shape: use \"dot\" or \"ring\" instead');\n        points = series\n          .data(dataSeries, (d) => d.key)\n          .enter()\n          .append('g')\n          .attr('class', 'points')\n          .style('stroke', (d, i) => colorScale(i))\n          .selectAll('circle')\n          .data((d, i) => d.values)\n          .enter()\n          .append('circle')\n          .attr('cx', (d) => this.xAxis.scale()(d.x))\n          .attr('cy', (d) => this.yAxis.scale()(d.y))\n          .attr('r', markerSize)\n          .attr('class', 'lineMarker')\n          .style('fill', 'white')\n          .style('stroke-width', markerOutlineWidth);\n        break;\n      default:\n        points = series\n          .data(dataSeries, (d) => d.key)\n          .enter()\n          .append('g')\n          .attr('class', 'points')\n          .style('stroke', (d, i) => colorScale(i))\n          .selectAll('circle')\n          .data((d, i) => d.values)\n          .enter()\n          .append('circle')\n          .attr('cx', (d) => this.xAxis.scale()(d.x))\n          .attr('cy', (d) => this.yAxis.scale()(d.y))\n          .attr('r', markerSize)\n          .attr('class', 'lineMarker')\n          .style('fill', 'white')\n          .style('stroke-width', markerOutlineWidth);\n    }\n\n    markers = svg.selectAll('g.points circle');\n    markers\n      .on('mousedown.user', config.onDown)\n      .on('mouseup.user', config.onUp)\n      .on('mouseleave.user', config.onLeave)\n      .on('mouseover.user', config.onHover)\n      .on('click.user', config.onClick);\n\n    //this.interactiveElements = markers;\n  }\n\n  render(svg, config) {\n    //Do nothing, since points render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 198,
+    "__docId__": 206,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -4380,7 +4560,7 @@
     "interface": false
   },
   {
-    "__docId__": 199,
+    "__docId__": 207,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -4408,7 +4588,7 @@
     "generator": false
   },
   {
-    "__docId__": 200,
+    "__docId__": 208,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4426,7 +4606,7 @@
     }
   },
   {
-    "__docId__": 201,
+    "__docId__": 209,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4444,7 +4624,7 @@
     }
   },
   {
-    "__docId__": 202,
+    "__docId__": 210,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4478,7 +4658,7 @@
     "generator": false
   },
   {
-    "__docId__": 203,
+    "__docId__": 211,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4506,7 +4686,7 @@
     "generator": false
   },
   {
-    "__docId__": 204,
+    "__docId__": 212,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -4519,7 +4699,7 @@
     "content": "import {XRadialAxis} from './xRadialAxis'\nimport {YRadialAxis} from './yRadialAxis'\n//\nexport class RadialAxes {\n  constructor(config) {\n    if (config === null) {\n      throw new Error('No chart context specified for RadialAxis');\n    }\n\n    this.x = new XRadialAxis(config);\n    this.y = new YRadialAxis(config);\n  }\n}"
   },
   {
-    "__docId__": 205,
+    "__docId__": 213,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -4536,7 +4716,7 @@
     "interface": false
   },
   {
-    "__docId__": 206,
+    "__docId__": 214,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -4558,7 +4738,7 @@
     "generator": false
   },
   {
-    "__docId__": 207,
+    "__docId__": 215,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4576,7 +4756,7 @@
     }
   },
   {
-    "__docId__": 208,
+    "__docId__": 216,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4594,7 +4774,7 @@
     }
   },
   {
-    "__docId__": 209,
+    "__docId__": 217,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -4607,7 +4787,7 @@
     "content": "import {\n  timeParse,\n  curveCardinal,\n  area\n} from 'd3';\n\nexport class Streamset {\n  constructor(xAxis, yAxis) {\n    this.xAxis = xAxis;\n    this.yAxis = yAxis;\n\n    this.areaGenerator = area()\n      .curve(curveCardinal)\n      .x((d) => this.xAxis.scale()((timeParse(this.xDataFormat)(d.data.key)))) // TODO: It seems d3.nest() transform Date object in\n      .y0((d) => this.yAxis.scale()(d[0]))\n      .y1((d) => this.yAxis.scale()(d[1]))\n  }\n\n\n  update(svg, config, data) {\n    let series = null;\n    \n    //Update date format, used by areaGenerator function due to a problem when nesting with d3.\n    this.xDataFormat = config.xAxisFormat;\n    \n    svg.selectAll('.serie').remove();\n\n    series = svg.selectAll('.serie')\n      .data(data)\n      .enter()\n      .append('g')\n      .attr('class', 'serie')\n      .style('stroke', (d, i) => config.colorScale(i));\n\n    series\n      .append('path')\n      .attr('class', 'layer')\n      .attr('d', this.areaGenerator)\n      .style('fill', (d, i) => config.colorScale(i));\n\n\n    series.exit().remove();\n    \n    series\n      .attr('opacity', 1)\n      .on('mousedown.user', config.onDown)\n      .on('mouseup.user', config.onUp)\n      .on('mouseleave.user', config.onLeave)\n      .on('mouseover.user', config.onHover)\n      .on('click.user', config.onClick);\n  }\n\n  render(svg, config) {\n    //Do nothing, since lines render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 210,
+    "__docId__": 218,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -4624,7 +4804,7 @@
     "interface": false
   },
   {
-    "__docId__": 211,
+    "__docId__": 219,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -4652,7 +4832,7 @@
     "generator": false
   },
   {
-    "__docId__": 212,
+    "__docId__": 220,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4670,7 +4850,7 @@
     }
   },
   {
-    "__docId__": 213,
+    "__docId__": 221,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4688,7 +4868,7 @@
     }
   },
   {
-    "__docId__": 214,
+    "__docId__": 222,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4706,7 +4886,7 @@
     }
   },
   {
-    "__docId__": 215,
+    "__docId__": 223,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4740,7 +4920,7 @@
     "generator": false
   },
   {
-    "__docId__": 216,
+    "__docId__": 224,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4758,7 +4938,7 @@
     }
   },
   {
-    "__docId__": 217,
+    "__docId__": 225,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4786,7 +4966,7 @@
     "generator": false
   },
   {
-    "__docId__": 218,
+    "__docId__": 226,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -4799,7 +4979,7 @@
     "content": "import {partition, stratify, arc} from 'd3';\n\n\nexport class SunburstDisk {\n  constructor(xRadialAxis, yRadialAxis) {\n    this.x = xRadialAxis;\n    this.y = yRadialAxis;\n    this.arcGen = arc()\n      .startAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x0))))\n      .endAngle((d) => Math.max(0, Math.min(2 * Math.PI, this.x(d.x1))))\n      .innerRadius((d) => Math.max(0, this.y(d.y0)))\n      .outerRadius((d) => Math.max(0, this.y(d.y1)));\n  }\n\n  update(svg, config, data) {\n\n    // Remove all the paths before redrawing\n    this._removePaths(svg);\n\n    // Create layout partition\n    let root = stratify()\n      .id((d) => d.id)\n      .parentId((d) => d.parent)\n      (data);\n\n    root.sum((d) =>  d.value);\n    partition()(root);\n\n    // Draw the paths (arcs)\n    let paths = svg.selectAll('path')\n      .data(root.descendants())\n      .enter().append('path')\n      .attr('d', this.arcGen)\n      .style('fill', (d) => {\n        if (!d.parent) {\n          return 'white';\n        } else {\n          return config.colorScale(d.data.label);\n        }\n      })\n      .style('stroke', '#fff')\n      .style('stroke-width', '2')\n      .style('shape-rendering', 'crispEdge');\n\n      paths // TODO extract events to config?\n        .on('mouseover.default', (d) => {\n          let ancestors = this._getAncestors(d);\n          // Fade all the arcs\n          if (ancestors.length > 0) {\n            svg.selectAll('path')\n                .style('opacity', 0.3);\n          }\n          svg.selectAll('path')\n            .filter((node) => ancestors.indexOf(node) >= 0)\n            .style('opacity', 1);\n          // Hightlight the hovered arc\n            svg.select('.text-indicator .label').text(d.data.label);\n            svg.select('.text-indicator .value').text(d.value);\n        })\n        .on('mouseout.default', (d) => {\n          svg.selectAll('path').style('opacity', 1);\n          svg.select('.text-indicator .label').style('font-weight', 'normal');\n          svg.select('.text-indicator .label').text('');\n          svg.select('.text-indicator .value').text('');\n        })\n      ;\n\n    paths\n      .on('mousedown.user', config.onDown)\n      .on('mouseup.user', config.onUp)\n      .on('mouseleave.user', config.onLeave)\n      .on('mouseover.user', config.onHover)\n      .on('click.user', config.onClick);\n\n    // ???\n    svg.select(self.frameElement).style('height', this.height + 'px');\n  }\n\n  /**\n   * Removes all the paths (arcs). Doing this before each redraw prevents the\n   * transition to mess up the arcs.\n   * @private\n   */\n  _removePaths(svg) {\n    svg.selectAll('path').remove();\n  }\n\n  /**\n   * From: http://bl.ocks.org/kerryrodden/7090426\n   * @param node\n   * @returns {Array}\n   * @private\n   */\n  _getAncestors(node) {\n    let path = [];\n    let current = node;\n    while (current.parent) {\n      path.unshift(current);\n      current = current.parent;\n    }\n    return path;\n  }\n\n  render(svg, config) {\n    //Do nothing, since disk render only when new data is received.\n  }\n}\n"
   },
   {
-    "__docId__": 219,
+    "__docId__": 227,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -4816,7 +4996,7 @@
     "interface": false
   },
   {
-    "__docId__": 220,
+    "__docId__": 228,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -4844,7 +5024,7 @@
     "generator": false
   },
   {
-    "__docId__": 221,
+    "__docId__": 229,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4862,7 +5042,7 @@
     }
   },
   {
-    "__docId__": 222,
+    "__docId__": 230,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4880,7 +5060,7 @@
     }
   },
   {
-    "__docId__": 223,
+    "__docId__": 231,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -4898,7 +5078,7 @@
     }
   },
   {
-    "__docId__": 224,
+    "__docId__": 232,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4932,7 +5112,7 @@
     "generator": false
   },
   {
-    "__docId__": 225,
+    "__docId__": 233,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4953,7 +5133,7 @@
     "generator": false
   },
   {
-    "__docId__": 226,
+    "__docId__": 234,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -4992,7 +5172,7 @@
     "generator": false
   },
   {
-    "__docId__": 227,
+    "__docId__": 235,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5020,7 +5200,7 @@
     "generator": false
   },
   {
-    "__docId__": 228,
+    "__docId__": 236,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5033,7 +5213,7 @@
     "content": "import {select} from 'd3';\n\nexport class SvgContainer {\n\n  constructor(config) {\n    this._config = config;\n    this.svg = this._initializeSvgContainer(config);\n    this.components = Array();\n  }\n\n  _initializeSvgContainer(config) {\n      let selector = config.selector,\n      width = config.width + config.marginLeft + config.marginRight,\n      height = config.height + config.marginTop + config.marginBottom,\n      svg = null;\n\n    svg = select(selector)\n      .append('svg:svg')\n      .attr('width', width)\n      .attr('height', height)\n      .append('g')\n      .attr('class', 'chartContainer')\n      .attr('transform', 'translate(' + config.marginLeft + ',' + config.marginTop + ')');\n\n    return svg;\n  }\n\n\n  add(component, render = true) {\n    this.components.push(component);\n\n    if (render) {\n      component.render(this.svg, this._config);\n    }\n    return this;\n  }\n\n  transform(translation) {\n    this.svg.attr('transform', translation);\n\n  }\n}"
   },
   {
-    "__docId__": 229,
+    "__docId__": 237,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5050,7 +5230,7 @@
     "interface": false
   },
   {
-    "__docId__": 230,
+    "__docId__": 238,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5072,7 +5252,7 @@
     "generator": false
   },
   {
-    "__docId__": 231,
+    "__docId__": 239,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5090,7 +5270,7 @@
     }
   },
   {
-    "__docId__": 232,
+    "__docId__": 240,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5108,7 +5288,7 @@
     }
   },
   {
-    "__docId__": 233,
+    "__docId__": 241,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5126,7 +5306,7 @@
     }
   },
   {
-    "__docId__": 234,
+    "__docId__": 242,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5153,7 +5333,7 @@
     "generator": false
   },
   {
-    "__docId__": 235,
+    "__docId__": 243,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5189,7 +5369,7 @@
     "generator": false
   },
   {
-    "__docId__": 236,
+    "__docId__": 244,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5211,7 +5391,7 @@
     "generator": false
   },
   {
-    "__docId__": 237,
+    "__docId__": 245,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5224,7 +5404,7 @@
     "content": "export class TextIndicator { // TODO tidy\n  constructor(config) {\n    if (config === null) {\n      throw new Error('No chart context specified for polarAxis');\n    }\n\n    this.translation = config.textIndicatorTranslation;\n  }\n\n  update(svg, value, label) {\n    svg.select('.value')\n      .text(value);\n    svg.select('.label')\n      .text(label);\n  }\n\n  render(svg, config) {\n    let indicator = svg.append('g')\n      .attr('class', 'text-indicator')\n      .attr('pointer-events', 'none')\n      .style('text-anchor', 'middle')\n      .style('alignment-baseline', 'central');\n\n    if (this.translation) {\n      indicator.attr('transform', this.translation);\n    }\n\n    indicator.append('text')\n      .attr('class', 'value')\n      .attr('x', 0)\n      .attr('y', 0)\n      .attr('pointer-events', 'none')\n      .text('0')\n      .style('font', '48px Montserrat, sans-serif')\n      .style('text-anchor', 'middle');\n\n    indicator.append('text')\n      .attr('class', 'label')\n      .attr('x', 0)\n      .attr('y', 0)\n      .attr('pointer-events', 'none')\n      .text('')\n      .style('font', '24px Montserrat, sans-serif')\n      .style('transform', 'translate(0, 1.5em')\n      .style('text-anchor', 'middle');\n  }\n}"
   },
   {
-    "__docId__": 238,
+    "__docId__": 246,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5241,7 +5421,7 @@
     "interface": false
   },
   {
-    "__docId__": 239,
+    "__docId__": 247,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5263,7 +5443,7 @@
     "generator": false
   },
   {
-    "__docId__": 240,
+    "__docId__": 248,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5281,7 +5461,7 @@
     }
   },
   {
-    "__docId__": 241,
+    "__docId__": 249,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5315,7 +5495,7 @@
     "generator": false
   },
   {
-    "__docId__": 242,
+    "__docId__": 250,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5343,7 +5523,7 @@
     "generator": false
   },
   {
-    "__docId__": 243,
+    "__docId__": 251,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5356,7 +5536,7 @@
     "content": "import {simple2nested} from '../../utils/dataTransformation';\nimport {map, scaleBand, extent, scaleLinear} from 'd3';\n\nexport class TimeBoxset {\n\n  constructor(xAxis, yAxis) {\n    this.xAxis = xAxis;\n    this.yAxis = yAxis;\n\n  }\n  update(svg, config, data) {\n    let colorScale = config.colorScale,\n      keys = map(data, (d) => d.key).keys(),\n      layer = svg.selectAll('.serie').data(data),\n      layerEnter = null,\n      layerMerge = null,\n      box = null,\n      boxEnter = null,\n      boxMerge = null,\n      extLanes = null,\n      yLanes = null,\n      yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),\n      x = this.xAxis.scale(),\n      y = this.yAxis.scale();\n\n    data = simple2nested(data);\n    extLanes = extent(data, (d, i) => i);\n    yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, config.height]);\n\n    layer = svg.selectAll('.serie').data(data);\n    layerEnter = layer.enter().append('g');\n\n    layerMerge = layer.merge(layerEnter)\n      .attr('class', 'serie');\n\n\n    box = layerMerge.selectAll('rect')\n      .data((d) => d.values);\n\n    boxEnter = box.enter().append('rect');\n\n    boxMerge = box.merge(boxEnter)\n      .attr('width', (d) => x(d.end) - x(d.start))\n      .attr('x', (d) => x(d.start))\n      .attr('y', (d) => y(d.key))\n      .attr('fill', (d) => colorScale(parseInt(yLanesBand(d.key))))\n      .attr('height', () => 0.8 * yLanes(1));\n\n    box = svg.selectAll('g.serie rect');\n    \n    box\n      .on('mousedown.user', config.onDown)\n      .on('mouseup.user', config.onUp)\n      .on('mouseleave.user', config.onLeave)\n      .on('mouseover.user', config.onHover)\n      .on('click.user', config.onClick);\n\n  }\n\n  render(svg, config) {\n    //Do nothing, since lines render only when new data is received.\n  }\n}"
   },
   {
-    "__docId__": 244,
+    "__docId__": 252,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5373,7 +5553,7 @@
     "interface": false
   },
   {
-    "__docId__": 245,
+    "__docId__": 253,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5401,7 +5581,7 @@
     "generator": false
   },
   {
-    "__docId__": 246,
+    "__docId__": 254,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5419,7 +5599,7 @@
     }
   },
   {
-    "__docId__": 247,
+    "__docId__": 255,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5437,7 +5617,7 @@
     }
   },
   {
-    "__docId__": 248,
+    "__docId__": 256,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5471,7 +5651,7 @@
     "generator": false
   },
   {
-    "__docId__": 249,
+    "__docId__": 257,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5499,7 +5679,7 @@
     "generator": false
   },
   {
-    "__docId__": 250,
+    "__docId__": 258,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5512,7 +5692,7 @@
     "content": "\nclass Tooltip {\n  /**\n  constructor() {\n\n  }\n\n  render(svg, config) {\n    this.tooltip = d3.select(config.selector + ' g.chartContainer')\n      .append('div')\n      .text('tooltip')\n      .attr('class', 'tooltip');\n\n    this.tooltip.style('opacity', 0);\n\n    console.log('tooltip rendered');\n  }\n\n  enter() {\n    //we need svg!!!!!. d3.select is d4ng3rous\n    var mouse = d3.mouse(this)\n    , tooltip = null;\n\n    tooltip = d3.select('.tooltip')\n      .style('opacity', 1)\n      .style('top', mouse[0] + 'px')\n      .style('left', mouse[1] + 'px')\n      .style('height', 150)\n      .style('width', 400);\n\n    console.log('Entering tooltip', this, d3.mouse(this));\n\n  }\n\n  exit() {\n    console.log('Exiting tooltip');\n  }\n\n  bind(elements) {\n    elements.on('mouseover.tooltip', this.enter);\n    elements.on('mouseleave.tooltip', this.exit);\n  }\n  **/\n}"
   },
   {
-    "__docId__": 251,
+    "__docId__": 259,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5529,7 +5709,7 @@
     "interface": false
   },
   {
-    "__docId__": 252,
+    "__docId__": 260,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5542,7 +5722,7 @@
     "content": "import {isEven} from '../../utils/functions';\nimport {select, scaleTime, scaleLinear, scaleBand, axisBottom, format as d3Format} from 'd3';\n\nexport class XAxis {\n  constructor(xAxisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for XAxis');\n    }\n\n    this.xAxis = this._initializeXAxis(xAxisType, config);\n  }\n\n\n  rescale(width, height) {\n    this.xAxis.scale().range([0, width]);\n  }\n\n  _initializeXAxis(xAxisType = 'linear', config) {\n    let x = null,\n      axis = null;\n\n    // switch (xAxisType) {\n    //   case 'time':\n    //     x = scaleTime().range([0, config.width]);\n    //     break;\n    //   case 'linear':\n    //     x = scaleLinear().range([0, config.width]);\n    //     break;\n    //   case 'categorical':\n    //     x = scaleBand().rangeRound([0, config.width])\n    //       .padding(0.1)\n    //       .align(0.5);\n    //     break;\n    //   default:\n    //     throw new Error('Not allowed type for XAxis. Only allowed \"time\",  \"linear\" or \"categorical\". Got: ' + xAxisType);\n    // }\n\n    switch (xAxisType) {\n      case 'time':\n        x = scaleTime().range([0, config.width]);\n        axis = axisBottom(x);\n        break;\n      case 'linear':\n        x = scaleLinear().range([0, config.width]);\n        axis = axisBottom(x).tickFormat(d3Format(config.xAxisFormat));\n        break;\n      case 'categorical':\n        x = scaleBand().rangeRound([0, config.width])\n          .padding(0.1)\n          .align(0.5);\n        axis = axisBottom(x);\n        break;\n      default:\n        throw new Error('Not allowed type for XAxis. Only allowed \"time\",  \"linear\" or \"categorical\". Got: ' + xAxisType);\n    }\n\n    return axisBottom(x);\n  }\n\n  transition(svg, time = 200) {\n    svg.selectAll('.x.axis').transition().duration(time).call(this.xAxis).on('end', this.xStyle);\n  }\n\n  xStyle() {\n    select(this).selectAll('g.tick text')\n      .style('font', '1.4em Montserrat, sans-serif')\n      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')\n      .style('fill', (d) => '#1a2127')\n\n\n    select(this).selectAll(['path', 'line'])\n      .attr('stroke', 'gray')\n      .attr('stroke-width', .3);\n\n  }\n\n  /**\n   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.\n   */\n  updateDomainByBBox(b) {\n    let x = this.xAxis.scale();\n    x.domain([b[0], b[1]]);\n  }\n\n  /**\n   * Used when x domain is caterogial (a set of keys) and y domain is linear.\n   */\n  updateDomainByKeys(keys, yBbox) {\n    let x = this.xAxis.scale();\n    x.domain(keys);\n  }\n\n  render(svg, config) {\n    let xAxis = this.xAxis,\n      width = config.width,\n      height = config.height;\n    svg\n      .append('g')\n      .attr('class', 'x axis')\n      .attr('transform', 'translate(0,' + config.height + ')')\n      .call(xAxis);\n\n    svg\n      .append('text')\n      .attr('class', 'xaxis-title')\n      .attr(\"text-anchor\", \"middle\")\n      .attr('x', width / 2)\n      .attr('y', height + 40)\n      .text(config.xAxisLabel)\n      .style('font', '0.8em Montserrat, sans-serif');\n\n    this.svg = svg;\n  }\n}"
   },
   {
-    "__docId__": 253,
+    "__docId__": 261,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5559,7 +5739,7 @@
     "interface": false
   },
   {
-    "__docId__": 254,
+    "__docId__": 262,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5587,7 +5767,7 @@
     "generator": false
   },
   {
-    "__docId__": 255,
+    "__docId__": 263,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5605,7 +5785,7 @@
     }
   },
   {
-    "__docId__": 256,
+    "__docId__": 264,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5633,7 +5813,7 @@
     "generator": false
   },
   {
-    "__docId__": 257,
+    "__docId__": 265,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5669,7 +5849,7 @@
     "generator": false
   },
   {
-    "__docId__": 258,
+    "__docId__": 266,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5700,7 +5880,7 @@
     "generator": false
   },
   {
-    "__docId__": 259,
+    "__docId__": 267,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5715,7 +5895,7 @@
     "generator": false
   },
   {
-    "__docId__": 260,
+    "__docId__": 268,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5736,7 +5916,7 @@
     "generator": false
   },
   {
-    "__docId__": 261,
+    "__docId__": 269,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5763,7 +5943,7 @@
     "generator": false
   },
   {
-    "__docId__": 262,
+    "__docId__": 270,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -5791,7 +5971,7 @@
     "generator": false
   },
   {
-    "__docId__": 263,
+    "__docId__": 271,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5809,7 +5989,7 @@
     }
   },
   {
-    "__docId__": 264,
+    "__docId__": 272,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5822,7 +6002,7 @@
     "content": "import {scaleLinear} from 'd3';\n\nexport class XRadialAxis {\n\n  constructor(config) {\n    if (config === null) {\n      throw new Error('No chart context specified for XRadialAxis');\n    }\n\n    this.xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);\n  }\n}"
   },
   {
-    "__docId__": 265,
+    "__docId__": 273,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5839,7 +6019,7 @@
     "interface": false
   },
   {
-    "__docId__": 266,
+    "__docId__": 274,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5861,7 +6041,7 @@
     "generator": false
   },
   {
-    "__docId__": 267,
+    "__docId__": 275,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5879,7 +6059,7 @@
     }
   },
   {
-    "__docId__": 268,
+    "__docId__": 276,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -5892,7 +6072,7 @@
     "content": "import {XAxis} from './xAxis'\nimport {YAxis} from './yAxis'\n\nexport class XYAxes {\n  constructor(xAxisType, yAxisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for XAxis');\n    }\n\n    this.x = new XAxis(xAxisType, config);\n    this.y = new YAxis(yAxisType, config);\n  }\n\n  transition(svg, time = 200) {\n    this.x.transition(svg, time);\n    this.y.transition(svg, time);\n  }\n\n  /**\n   * This function is used when both x and y dial update their domains by x and y max/min values, respectively.\n   */\n  updateDomainByBBox(b) {\n    this.x.updateDomainByBBox([b[0], b[1]]);\n    this.y.updateDomainByBBox([b[2], b[3]]);\n  }\n\n  /**\n   * Used when x domain is caterogial (a set of keys) and y domain is linear.\n   */\n  updateDomainByKeysAndBBox(keys, bbox) {\n    this.x.updateDomainByKeys(keys);\n    this.y.updateDomainByBBox(bbox);\n  }\n\n  updateDomainByBBoxAndKeys(bbox, keys){\n    this.x.updateDomainByBBox(bbox);\n    this.y.updateDomainByKeys(keys);\n  }\n  \n  render(svg, config) {\n    this.x.render(svg, config);\n    this.y.render(svg, config);\n  }\n  \n  rescale(width, height){\n    this.x.rescale(width, height);\n    this.y.rescale(width, height);\n  }\n}"
   },
   {
-    "__docId__": 269,
+    "__docId__": 277,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -5909,7 +6089,7 @@
     "interface": false
   },
   {
-    "__docId__": 270,
+    "__docId__": 278,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -5943,7 +6123,7 @@
     "generator": false
   },
   {
-    "__docId__": 271,
+    "__docId__": 279,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5961,7 +6141,7 @@
     }
   },
   {
-    "__docId__": 272,
+    "__docId__": 280,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -5979,7 +6159,7 @@
     }
   },
   {
-    "__docId__": 273,
+    "__docId__": 281,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6010,7 +6190,7 @@
     "generator": false
   },
   {
-    "__docId__": 274,
+    "__docId__": 282,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6031,7 +6211,7 @@
     "generator": false
   },
   {
-    "__docId__": 275,
+    "__docId__": 283,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6058,7 +6238,7 @@
     "generator": false
   },
   {
-    "__docId__": 276,
+    "__docId__": 284,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6086,7 +6266,7 @@
     "generator": false
   },
   {
-    "__docId__": 277,
+    "__docId__": 285,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6114,7 +6294,7 @@
     "generator": false
   },
   {
-    "__docId__": 278,
+    "__docId__": 286,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6142,7 +6322,7 @@
     "generator": false
   },
   {
-    "__docId__": 279,
+    "__docId__": 287,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -6155,7 +6335,7 @@
     "content": "import {isEven} from '../../utils/functions';\nimport {select, scaleLinear, scaleBand, axisLeft, format as d3Format} from 'd3';\n\nexport class YAxis {\n  constructor(yAxisType, config) {\n    if (config === null) {\n      throw new Error('No chart context specified for XAxis');\n    }\n\n    this.yAxis = this._initializeYAxis(yAxisType, config);\n  }\n\n  rescale(width, height) {\n    this.yAxis.tickSizeInner(-width);\n  }\n\n  _initializeYAxis(yAxisType = 'linear', config) {\n    let y = null,\n      axis = null;\n    switch (yAxisType) {\n      case 'linear':\n        y = scaleLinear().range([config.height, 0]);\n        axis = axisLeft(y).tickFormat(d3Format(config.yAxisFormat));\n        break;\n      case 'categorical':\n        y = scaleBand().rangeRound([config.height, 0])\n          .padding(0.1)\n          .align(0.5);\n        axis = axisLeft(y);\n        break;\n      default:\n        throw new Error('Not allowed type for YAxis. Only allowed \"time\",  \"linear\" or \"categorical\". Got: ' + yAxisType);\n    }\n\n    return axis.tickSizeInner(-config.width)\n      .tickSizeOuter(0)\n      .tickPadding(20);\n  }\n\n  // _initializeYAxis(yAxisType = 'linear', config) {\n  //   let y = null,\n  //     yAxis = null;\n  //\n  //   switch (yAxisType) {\n  //     case 'linear':\n  //       y = scaleLinear().range([config.height, 0]);\n  //       break;\n  //     case 'categorical':\n  //       y = scaleBand().rangeRound([config.height, 0])\n  //         .padding(0.1)\n  //         .align(0.5);\n  //       break;\n  //     default:\n  //       throw new Error('Not allowed type for YAxis. Only allowed \"time\",  \"linear\" or \"categorical\". Got: ' + yAxisType);\n  //   }\n  //   return axisLeft(y)\n  //     .tickSizeInner(-config.width)\n  //     .tickSizeOuter(0)\n  //     .tickPadding(20)\n  //     .tickFormat((d) => d)\n  //     .ticks(config.yticks, config.tickLabel);\n  // }\n\n  transition(svg, time = 200) {\n    svg.selectAll('.y.axis').transition().duration(time).call(this.yAxis).on('end', this.yStyle);\n  }\n\n  yStyle() {\n    select(this).selectAll('g.tick text')\n      .style('font', '1.4em Montserrat, sans-serif')\n      .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127');\n    select(this).selectAll('g.tick line')\n      .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');\n  }\n\n  updateDomainByBBox(b) {\n    let y = this.yAxis.scale();\n    y.domain(b);\n  }\n\n  updateDomainByKeys(keys) {\n    let y = this.yAxis.scale();\n    y.domain(keys);\n  }\n\n  render(svg, config) {\n    let yAxis = this.yAxis,\n      width = config.width,\n      height = config.height;\n    svg\n      .append('g')\n      .attr('class', 'y axis')\n      .attr('stroke-dasharray', '1, 5')\n      .call(yAxis);\n\n    svg\n      .append('text')\n      .attr('class', 'yaxis-title')\n      .attr(\"transform\", \"rotate(-90)\")\n      .attr(\"text-anchor\", \"middle\")\n      .attr('x', 0 - height / 2)\n      .attr('y', 0 - 55)\n      .text(config.yAxisLabel)\n      .style('font', '0.8em Montserrat, sans-serif');\n\n  }\n}"
   },
   {
-    "__docId__": 280,
+    "__docId__": 288,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -6172,7 +6352,7 @@
     "interface": false
   },
   {
-    "__docId__": 281,
+    "__docId__": 289,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -6200,7 +6380,7 @@
     "generator": false
   },
   {
-    "__docId__": 282,
+    "__docId__": 290,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6218,7 +6398,7 @@
     }
   },
   {
-    "__docId__": 283,
+    "__docId__": 291,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6246,7 +6426,7 @@
     "generator": false
   },
   {
-    "__docId__": 284,
+    "__docId__": 292,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6282,7 +6462,7 @@
     "generator": false
   },
   {
-    "__docId__": 285,
+    "__docId__": 293,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6313,7 +6493,7 @@
     "generator": false
   },
   {
-    "__docId__": 286,
+    "__docId__": 294,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6328,7 +6508,7 @@
     "generator": false
   },
   {
-    "__docId__": 287,
+    "__docId__": 295,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6350,7 +6530,7 @@
     "generator": false
   },
   {
-    "__docId__": 288,
+    "__docId__": 296,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6372,7 +6552,7 @@
     "generator": false
   },
   {
-    "__docId__": 289,
+    "__docId__": 297,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6400,7 +6580,7 @@
     "generator": false
   },
   {
-    "__docId__": 290,
+    "__docId__": 298,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -6413,7 +6593,7 @@
     "content": "import {scaleSqrt} from 'd3';\n\nexport class YRadialAxis {\n\n  constructor(config) {\n    if (config === null) {\n      throw new Error('No chart context specified for XRadialAxis');\n    }\n\n    let radius = (Math.min(config.width, config.height) / 2) - 10;\n\n    this.yRadialAxis = scaleSqrt()\n      .range([0, radius]);\n  }\n}"
   },
   {
-    "__docId__": 291,
+    "__docId__": 299,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -6430,7 +6610,7 @@
     "interface": false
   },
   {
-    "__docId__": 292,
+    "__docId__": 300,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -6452,7 +6632,7 @@
     "generator": false
   },
   {
-    "__docId__": 293,
+    "__docId__": 301,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6470,7 +6650,7 @@
     }
   },
   {
-    "__docId__": 294,
+    "__docId__": 302,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -6483,7 +6663,7 @@
     "content": "import {defaults} from '../utils/defaults/barchart';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {Barset} from './components/barset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {map, stack as d3Stack, stackOrderNone, max} from 'd3';\n\nexport class SvgBarchartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes('categorical', 'linear', this.config);\n    this.bars = new Barset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.bars)\n      .add(this.legend);\n\n  }\n\n\n\t/**\n\t * Renders a barchart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data = this.data) { \n    let svg = this.svgContainer.svg,\n      config = this.config,\n      keys = map(data, (d) => d.key).keys(),\n      data4stack = simple2stacked(data),\n      data4render = null,\n      isStacked = this.config.stacked,\n      stack = d3Stack().keys(keys)\n        .value((d, k) => d.value[k])\n        .order(stackOrderNone),\n      yMin = 0,\n      yMax = 0,\n      method = isStacked ? 'stacked' : 'grouped',\n      dataSeries = stack(data4stack),\n      needRescaling = this.config.needRescaling;\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    yMax = isStacked ?\n      max(dataSeries, (serie) => max(serie, (d) => d[1])) :\n      max(data, (d) => d.y);\n\n    this.axes.updateDomainByKeysAndBBox(map(data, (d) => d.x).keys(), [yMin, yMax]);\n    this.axes.transition(svg, 200);\n\n    data4render = isStacked ? dataSeries : data;\n\n    this.bars.update(svg, config, data4render, method);\n\n    this.legend.update(svg, config, data);\n\n    this.data = data; // TODO: ? \n\n  }\n\n\n  transition2Stacked() {\n    this.config.stacked = true;\n  }\n\n  transition2Grouped() {\n    this.config.stacked = false;\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Stacked\n    this.config.stacked = typeof (config.stacked) === 'undefined' ? defaults.stacked : config.stacked;    return this;\n  }\n}"
   },
   {
-    "__docId__": 295,
+    "__docId__": 303,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -6503,7 +6683,7 @@
     ]
   },
   {
-    "__docId__": 296,
+    "__docId__": 304,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -6525,7 +6705,7 @@
     "generator": false
   },
   {
-    "__docId__": 297,
+    "__docId__": 305,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6543,7 +6723,7 @@
     }
   },
   {
-    "__docId__": 298,
+    "__docId__": 306,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6561,7 +6741,7 @@
     }
   },
   {
-    "__docId__": 299,
+    "__docId__": 307,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6579,7 +6759,7 @@
     }
   },
   {
-    "__docId__": 300,
+    "__docId__": 308,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6604,7 +6784,7 @@
     "generator": false
   },
   {
-    "__docId__": 301,
+    "__docId__": 309,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6622,7 +6802,7 @@
     }
   },
   {
-    "__docId__": 302,
+    "__docId__": 310,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6637,7 +6817,7 @@
     "generator": false
   },
   {
-    "__docId__": 303,
+    "__docId__": 311,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6652,7 +6832,7 @@
     "generator": false
   },
   {
-    "__docId__": 304,
+    "__docId__": 312,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6682,7 +6862,7 @@
     "generator": false
   },
   {
-    "__docId__": 305,
+    "__docId__": 313,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -6695,7 +6875,7 @@
     "content": "import { defaults } from '../utils/defaults/gauge';\nimport { SvgContainer } from './components/svgContainer';\nimport { Dial } from './components/dial';\nimport { DialNeedle } from './components/dialNeedle';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgGaugeStrategy {\n  constructor(context) {\n    this._loadConfig(context.config);\n    this.svgContainer = new SvgContainer(this.config);\n    let config = this.config;\n\n    this.dial = new Dial('linear', config);\n    this.needle = new DialNeedle('linear', config);\n\n    this.svgContainer\n      .add(this.dial)\n      .add(this.needle);\n\n    if (config.numericIndicator) {\n      let r = (\n        (config.width > config.height) ?\n          config.height : config.width\n      ) / 2;\n      let indicatorOffset = r + 75;\n      config.textIndicatorTranslation = 'translate(' + r + ',' + indicatorOffset + ')';\n      this.textIndicator = new TextIndicator(config);\n      this.svgContainer.add(this.textIndicator);\n    }\n  }\n\n\t/**\n\t * Renders a gauge chart based on data object\n\t * @param  {Object} data Data Object. Contains a numeric value.\n\t *\n\t */\n  draw(data) {\n    let datum = data[data.length - 1],\n      svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.needle.update(svg, config, data);\n    if (config.numericIndicator) {\n      this.textIndicator.update(svg, datum.value, config.label);\n    }\n  }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width ?\n      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    this.config.colorScale = config.colorScale || defaults.colorScale;\n    this.config.minLevel = config.minLevel || defaults.minLevel;\n    this.config.maxLevel = config.maxLevel || defaults.maxLevel;\n    this.config.minAngle = config.minAngle || defaults.minAngle;\n    this.config.maxAngle = config.maxAngle || defaults.maxAngle;\n    this.config.ticks = config.ticks || defaults.ticks;\n    this.config.ringWidth = config.ringWidth || defaults.ringWidth;\n    this.config.ringMargin = config.ringMargin || defaults.ringMargin;\n    this.config.labelInset = config.labelInset || defaults.labelInset;\n    this.config.needleNutRadius = config.needleNutRadius || defaults.needleNutRadius;\n    this.config.needleLenghtRatio = config.needleLenghtRatio || defaults.needleLenghtRatio;\n    this.config.invertColorScale = typeof (config.invertColorScale) === 'undefined' ? defaults.invertColorScale : config.invertColorScale;\n    this.config.numericIndicator = typeof (config.numericIndicator) === 'undefined' ? defaults.numericIndicator : config.numericIndicator;\n    this.config.label = config.label || defaults.label;\n\n\n    return this;\n  }\n\n}"
   },
   {
-    "__docId__": 306,
+    "__docId__": 314,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -6712,7 +6892,7 @@
     "interface": false
   },
   {
-    "__docId__": 307,
+    "__docId__": 315,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -6734,7 +6914,7 @@
     "generator": false
   },
   {
-    "__docId__": 308,
+    "__docId__": 316,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6752,7 +6932,7 @@
     }
   },
   {
-    "__docId__": 309,
+    "__docId__": 317,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6770,7 +6950,7 @@
     }
   },
   {
-    "__docId__": 310,
+    "__docId__": 318,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6788,7 +6968,7 @@
     }
   },
   {
-    "__docId__": 311,
+    "__docId__": 319,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6806,7 +6986,7 @@
     }
   },
   {
-    "__docId__": 312,
+    "__docId__": 320,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6831,7 +7011,7 @@
     "generator": false
   },
   {
-    "__docId__": 313,
+    "__docId__": 321,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -6861,7 +7041,7 @@
     "generator": false
   },
   {
-    "__docId__": 314,
+    "__docId__": 322,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6879,7 +7059,7 @@
     }
   },
   {
-    "__docId__": 315,
+    "__docId__": 323,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -6892,7 +7072,7 @@
     "content": "import { defaults } from '../utils/defaults/linechart';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\nimport {min, max} from 'd3';\n\nexport class SvgLinechartStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n\n    this.lines = new Lineset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.lines);\n\n    if (this._checkArea(this.config)) {\n      this.areas = new Areaset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.areas);\n    }\n\n    if (this._checkMarkers(this.config)) {\n      this.points = new Pointset(this.axes.x, this.axes.y);\n      this.svgContainer.add(this.points);\n    }\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    //Now update lines\n    this.lines.update(svg, config, data);\n\n    if (config.areaOpacity > 0) {\n      // Update areas\n      this.areas.update(svg, config, data);\n    }\n\n    if (this._checkMarkers(config)) {\n      // Update points\n      this.points.update(svg, config, data);\n    }\n\n  }\n\n  _getDomainBBox(data) {\n    var minX = min(data, (d) => d.x),\n      maxX = max(data, (d) => d.x),\n      minY = min(data, (d) => d.y),\n      maxY = max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
   },
   {
-    "__docId__": 316,
+    "__docId__": 324,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -6912,7 +7092,7 @@
     ]
   },
   {
-    "__docId__": 317,
+    "__docId__": 325,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -6934,7 +7114,7 @@
     "generator": false
   },
   {
-    "__docId__": 318,
+    "__docId__": 326,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6952,7 +7132,7 @@
     }
   },
   {
-    "__docId__": 319,
+    "__docId__": 327,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6970,7 +7150,7 @@
     }
   },
   {
-    "__docId__": 320,
+    "__docId__": 328,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -6988,7 +7168,7 @@
     }
   },
   {
-    "__docId__": 321,
+    "__docId__": 329,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7006,7 +7186,7 @@
     }
   },
   {
-    "__docId__": 322,
+    "__docId__": 330,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7024,7 +7204,7 @@
     }
   },
   {
-    "__docId__": 323,
+    "__docId__": 331,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7049,7 +7229,7 @@
     "generator": false
   },
   {
-    "__docId__": 324,
+    "__docId__": 332,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7076,7 +7256,7 @@
     "generator": false
   },
   {
-    "__docId__": 325,
+    "__docId__": 333,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7103,7 +7283,7 @@
     "generator": false
   },
   {
-    "__docId__": 326,
+    "__docId__": 334,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7130,7 +7310,7 @@
     "generator": false
   },
   {
-    "__docId__": 327,
+    "__docId__": 335,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7160,7 +7340,7 @@
     "generator": false
   },
   {
-    "__docId__": 328,
+    "__docId__": 336,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -7173,7 +7353,7 @@
     "content": "import {SvgContainer} from './components/svgContainer';\nimport {defaults} from '../utils/defaults/networkgraph';\nimport {calculateWidth} from '../utils/screen';\nimport {Nodeset} from './components/nodeset';\n\nexport class SvgNetworkgraphStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n\n    this.nodeset = new Nodeset(this.config);\n\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.nodeset);\n  }\n\n\t/**\n\t * Renders a linechart based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.nodeset.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    this.config.width = config.width ? calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n\n    return this;\n  }\n}"
   },
   {
-    "__docId__": 329,
+    "__docId__": 337,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -7190,7 +7370,7 @@
     "interface": false
   },
   {
-    "__docId__": 330,
+    "__docId__": 338,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -7212,7 +7392,7 @@
     "generator": false
   },
   {
-    "__docId__": 331,
+    "__docId__": 339,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7230,7 +7410,7 @@
     }
   },
   {
-    "__docId__": 332,
+    "__docId__": 340,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7248,7 +7428,7 @@
     }
   },
   {
-    "__docId__": 333,
+    "__docId__": 341,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7273,7 +7453,7 @@
     "generator": false
   },
   {
-    "__docId__": 334,
+    "__docId__": 342,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7303,7 +7483,7 @@
     "generator": false
   },
   {
-    "__docId__": 335,
+    "__docId__": 343,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7321,7 +7501,7 @@
     }
   },
   {
-    "__docId__": 336,
+    "__docId__": 344,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -7334,7 +7514,7 @@
     "content": "import { defaults } from '../utils/defaults/scatterplot';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Lineset } from './components/lineset';\nimport { Legend } from './components/legend';\nimport { Areaset } from './components/areaset';\nimport { Pointset } from './components/pointset';\nimport { convertByXYFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\nimport {min, max} from 'd3';\n\nexport class SvgScatterplotStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes(this.config.xAxisType, 'linear', this.config);\n    this.points = new Pointset(this.axes.x, this.axes.y);\n    this.legend = new Legend();\n    //Include components in the chart container\n    this.svgContainer\n      .add(this.axes)\n      .add(this.legend)\n      .add(this.points);\n  }\n\n\t/**\n\t * Renders a scatterplot based on data object\n\t * @param  {Object} data Data Object. Contains an array with x and y properties.\n\t * \n\t */\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      needRescaling = this.config.needRescaling,\n      bbox = null;\n\n    // //Transform data, if needed\n    convertByXYFormat(data, config);\n\n    //Sort data\n    sortByField(data, 'x');\n\n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n\n    bbox = this._getDomainBBox(data);\n\n    this.axes.updateDomainByBBox(bbox);\n\n    //Create a transition effect for dial rescaling\n    this.axes.transition(svg, 200);\n\n    // Update legend\n    this.legend.update(svg, config, data);\n\n    // Update points\n    this.points.update(svg, config, data);\n  }\n\n  _getDomainBBox(data) {\n    var minX = min(data, (d) => d.x),\n      maxX = max(data, (d) => d.x),\n      minY = min(data, (d) => d.y),\n      maxY = max(data, (d) => d.y);\n    return [minX, maxX, minY, maxY];\n  }\n\n  _checkMarkers(config) {\n    return config.markerSize > 0;\n  }\n  _checkArea(config) {\n    return config.areaOpacity > 0;\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);\n    //Markers\n    this.config.markerOutlineWidth = config.markerOutlineWidth || defaults.markerOutlineWidth;\n    this.config.markerShape = config.markerShape || defaults.markerShape;\n    this.config.markerSize = (typeof config.markerSize === 'undefined' || config.markerSize < 0) ? defaults.markerSize : config.markerSize;\n    //Area\n    this.config.areaOpacity = (typeof config.areaOpacity === 'undefined' || config.markerSize < 0) ? defaults.areaOpacity : config.areaOpacity;\n    return this;\n  }\n}"
   },
   {
-    "__docId__": 337,
+    "__docId__": 345,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -7354,7 +7534,7 @@
     ]
   },
   {
-    "__docId__": 338,
+    "__docId__": 346,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -7376,7 +7556,7 @@
     "generator": false
   },
   {
-    "__docId__": 339,
+    "__docId__": 347,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7394,7 +7574,7 @@
     }
   },
   {
-    "__docId__": 340,
+    "__docId__": 348,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7412,7 +7592,7 @@
     }
   },
   {
-    "__docId__": 341,
+    "__docId__": 349,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7430,7 +7610,7 @@
     }
   },
   {
-    "__docId__": 342,
+    "__docId__": 350,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7455,7 +7635,7 @@
     "generator": false
   },
   {
-    "__docId__": 343,
+    "__docId__": 351,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7482,7 +7662,7 @@
     "generator": false
   },
   {
-    "__docId__": 344,
+    "__docId__": 352,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7509,7 +7689,7 @@
     "generator": false
   },
   {
-    "__docId__": 345,
+    "__docId__": 353,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7536,7 +7716,7 @@
     "generator": false
   },
   {
-    "__docId__": 346,
+    "__docId__": 354,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7566,7 +7746,7 @@
     "generator": false
   },
   {
-    "__docId__": 347,
+    "__docId__": 355,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -7579,7 +7759,7 @@
     "content": "import { defaults } from '../utils/defaults/stackedArea';\nimport { SvgAxis } from './base/svgAxis';\nimport { XYAxes } from './components/xyAxes';\nimport { Streamset } from './components/streamset';\nimport { Legend } from './components/legend';\nimport { simple2stacked } from '../utils/dataTransformation';\nimport { convertPropretiesToTimeFormat } from '../utils/dataTransformation';\nimport { sortByField } from '../utils/dataSorting';\nimport { min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffNone} from 'd3';\n\nexport class SvgStackedAreaStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.axes = new XYAxes('time', 'linear', this.config);\n\n        this.streams = new Streamset(this.axes.x.xAxis, this.axes.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.axes)\n            .add(this.legend)\n            .add(this.streams);\n    }\n\n\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = map(data, (d) => d.key).keys(),\n            data4stack = simple2stacked(data),\n            xDataFormat = this.config.xAxisFormat,\n            stack = d3Stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(stackOrderInsideOut)\n                .offset(stackOffNone),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n\n        //rescale, if needed.\n        if (needRescaling) {\n            this.rescale();\n        }\n\n        convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n\n        //Sort data\n        sortByField(data, 'x');\n\n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.axes.updateDomainByBBox(bbox);\n        this.axes.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n\n\n    _getDomainBBox(data, dataSeries) {\n        let minX = min(data, (d) => (d.x)),\n            maxX = max(data, (d) => (d.x)),\n            minY = min(dataSeries, (serie) => min(serie, (d) => d[0])),\n            maxY = max(dataSeries, (serie) => max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n    }\n}"
   },
   {
-    "__docId__": 348,
+    "__docId__": 356,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -7599,7 +7779,7 @@
     ]
   },
   {
-    "__docId__": 349,
+    "__docId__": 357,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -7621,7 +7801,7 @@
     "generator": false
   },
   {
-    "__docId__": 350,
+    "__docId__": 358,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7639,7 +7819,7 @@
     }
   },
   {
-    "__docId__": 351,
+    "__docId__": 359,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7657,7 +7837,7 @@
     }
   },
   {
-    "__docId__": 352,
+    "__docId__": 360,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7675,7 +7855,7 @@
     }
   },
   {
-    "__docId__": 353,
+    "__docId__": 361,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7697,7 +7877,7 @@
     "generator": false
   },
   {
-    "__docId__": 354,
+    "__docId__": 362,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7730,7 +7910,7 @@
     "generator": false
   },
   {
-    "__docId__": 355,
+    "__docId__": 363,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7755,7 +7935,7 @@
     "generator": false
   },
   {
-    "__docId__": 356,
+    "__docId__": 364,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -7768,7 +7948,7 @@
     "content": "import {defaults} from '../utils/defaults/streamgraph';\nimport {SvgAxis} from './base/svgAxis';\nimport {XAxis} from './components/xAxis';\nimport {YAxis} from './components/yAxis';\nimport {Streamset} from './components/streamset';\nimport {Legend} from './components/legend';\nimport {simple2stacked} from '../utils/dataTransformation';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {sortByField} from '../utils/dataSorting';\nimport {min, max, map, stack as d3Stack, stackOrderInsideOut, stackOffsetWiggle} from 'd3';\n\nexport class SvgStreamgraphStrategy extends SvgAxis {\n\n    constructor(context) {\n        super(context);\n\n        this.x = new XAxis('time', this.config);\n        this.y = new YAxis('linear', this.config);\n\n        this.streams = new Streamset(this.x.xAxis, this.y.yAxis);\n\n        this.legend = new Legend();\n\n        //Include components in the chart container\n        this.svgContainer\n            .add(this.x)\n            .add(this.y, false) //No render y Axis\n            .add(this.legend)\n            .add(this.streams);\n    }\n    draw(data) {\n        let svg = this.svgContainer.svg,\n            config = this.config,\n            bbox = null,\n            keys = map(data, (d) => d.key).keys(),\n            xDataFormat = this.config.xAxisFormat,\n            data4stack = simple2stacked(data),\n            stack = d3Stack()\n                .keys(keys)\n                .value((d, k) => d.value[k])\n                .order(stackOrderInsideOut)\n                .offset(stackOffsetWiggle),\n            dataSeries = stack(data4stack),\n            needRescaling = this.config.needRescaling;\n       \n       convertPropretiesToTimeFormat(data, ['x'], xDataFormat);\n        \n        //Sort data\n        sortByField(data, 'x');\n        \n        //rescale, if needed.\n        if (needRescaling) {\n           this.rescale();\n        }\n        \n        bbox = this._getDomainBBox(data, dataSeries);\n\n        this.x.updateDomainByBBox([bbox[0], bbox[1]]);\n        this.y.updateDomainByBBox([bbox[2], bbox[3]]);\n        this.x.transition(svg, 200);\n        this.y.transition(svg, 200);\n\n        // Update legend\n        this.legend.update(svg, config, data);\n\n        // Update streams\n        this.streams.update(svg, config, dataSeries);\n    }\n  \n    _getDomainBBox(data, dataSeries) {\n        let minX = min(data, (d) => new Date(d.x)),\n            maxX = max(data, (d) => new Date(d.x)),\n            minY = min(dataSeries, (serie) => min(serie, (d) => d[0])),\n            maxY = max(dataSeries, (serie) => max(serie, (d) => d[1]));\n\n        return [minX, maxX, minY, maxY];\n    }\n\n\t/**\n\t * This method adds config options to the chart context.\n\t * @param  {Object} config Config object\n\t */\n    _loadConfig(config) {\n        super._loadConfig(config,defaults);\n        return this;\n    }\n}"
   },
   {
-    "__docId__": 357,
+    "__docId__": 365,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -7788,7 +7968,7 @@
     ]
   },
   {
-    "__docId__": 358,
+    "__docId__": 366,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -7810,7 +7990,7 @@
     "generator": false
   },
   {
-    "__docId__": 359,
+    "__docId__": 367,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7828,7 +8008,7 @@
     }
   },
   {
-    "__docId__": 360,
+    "__docId__": 368,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7846,7 +8026,7 @@
     }
   },
   {
-    "__docId__": 361,
+    "__docId__": 369,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7864,7 +8044,7 @@
     }
   },
   {
-    "__docId__": 362,
+    "__docId__": 370,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -7882,7 +8062,7 @@
     }
   },
   {
-    "__docId__": 363,
+    "__docId__": 371,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7904,7 +8084,7 @@
     "generator": false
   },
   {
-    "__docId__": 364,
+    "__docId__": 372,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7937,7 +8117,7 @@
     "generator": false
   },
   {
-    "__docId__": 365,
+    "__docId__": 373,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -7967,7 +8147,7 @@
     "generator": false
   },
   {
-    "__docId__": 366,
+    "__docId__": 374,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -7980,7 +8160,7 @@
     "content": "import { defaults } from '../utils/defaults/sunburst';\nimport { SvgContainer } from './components/svgContainer';\nimport { RadialAxes } from './components/radialAxes';\nimport { SunburstDisk } from './components/sunburstDisk';\nimport { TextIndicator } from './components/textIndicator';\nimport { calculateWidth } from '../utils/screen';\n\nexport class SvgSunburstStrategy {\n\n  constructor(context) {\n    this._loadConfig(context.config);\n\n    this.svgContainer = new SvgContainer(this.config);\n    let config =\n      this.config,\n      translation = 'translate(' + config.width / 2 + ',' + (config.height / 2) + ')';\n\n    this.svgContainer.transform(translation);\n\n    this.axes = new RadialAxes(config);\n\n    this.disk = new SunburstDisk(\n      this.axes.x.xRadialAxis,\n      this.axes.y.yRadialAxis,\n      config\n    );\n\n    this.textIndicator = new TextIndicator(config);\n\n    this.svgContainer\n      .add(this.disk)\n      .add(this.textIndicator);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config;\n\n    this.disk.update(svg, config, data);\n  }\n\n  /**\n   * This method adds config options to the chart context.\n   * @param  {Object} config Config object\n   */\n  _loadConfig(config) {\n    this.config = {};\n    //Selector\n    this.config.selector = config.selector || defaults.selector;\n    //Margins \n    this.config.marginTop = config.marginTop || defaults.marginTop;\n    this.config.marginLeft = config.marginLeft || defaults.marginLeft;\n    this.config.marginRight = config.marginRight || defaults.marginRight;\n    this.config.marginBottom = config.marginBottom || defaults.marginBottom;\n    //Width & height\n    this.config.width = config.width ?\n      calculateWidth(config.width, this.config.selector) - this.config.marginLeft - this.config.marginRight\n      : calculateWidth(defaults.width, this.config.selector) - this.config.marginLeft - this.config.marginRight;\n    this.config.height = config.height || defaults.height;\n    \n    this.config.colorScale = config.colorScale || defaults.colorScale;\n\n    //Events\n    this.config.onDown = config.onDown || defaults.onDown;\n    this.config.onUp = config.onUp || defaults.onUp;\n    this.config.onHover = config.onHover || defaults.onHover;\n    this.config.onClick = config.onClick || defaults.onClick;\n    this.config.onLeave = config.onLeave || defaults.onLeave;\n\n    return this;\n  }\n}\n"
   },
   {
-    "__docId__": 367,
+    "__docId__": 375,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -7997,7 +8177,7 @@
     "interface": false
   },
   {
-    "__docId__": 368,
+    "__docId__": 376,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -8019,7 +8199,7 @@
     "generator": false
   },
   {
-    "__docId__": 369,
+    "__docId__": 377,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8037,7 +8217,7 @@
     }
   },
   {
-    "__docId__": 370,
+    "__docId__": 378,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8055,7 +8235,7 @@
     }
   },
   {
-    "__docId__": 371,
+    "__docId__": 379,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8073,7 +8253,7 @@
     }
   },
   {
-    "__docId__": 372,
+    "__docId__": 380,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8091,7 +8271,7 @@
     }
   },
   {
-    "__docId__": 373,
+    "__docId__": 381,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -8113,7 +8293,7 @@
     "generator": false
   },
   {
-    "__docId__": 374,
+    "__docId__": 382,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -8143,7 +8323,7 @@
     "generator": false
   },
   {
-    "__docId__": 375,
+    "__docId__": 383,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8161,7 +8341,7 @@
     }
   },
   {
-    "__docId__": 376,
+    "__docId__": 384,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -8174,7 +8354,7 @@
     "content": "import {defaults} from '../utils/defaults/swimlane';\nimport {SvgAxis} from './base/svgAxis';\nimport {XYAxes} from './components/xyAxes';\nimport {TimeBoxset} from './components/timeBoxset';\nimport {Legend} from './components/legend';\nimport {convertPropretiesToTimeFormat} from '../utils/dataTransformation';\nimport {min, max, map} from 'd3';\n\nexport class SvgSwimlaneStrategy extends SvgAxis {\n\n  constructor(context) {\n    super(context);\n    this.axes = new XYAxes('time', 'categorical', this.config);\n    this.boxs = new TimeBoxset(this.axes.x.xAxis, this.axes.y.yAxis);\n    this.legend = new Legend();\n\n    this.svgContainer\n      .add(this.axes)\n      .add(this.boxs)\n      .add(this.legend);\n  }\n\n  draw(data) {\n    let svg = this.svgContainer.svg,\n      config = this.config,\n      dataFormat = this.config.xAxisFormat,\n      keys = map(data, (d) => d.key).keys(),\n      bbox = null,\n      needRescaling = this.config.needRescaling;\n\n    convertPropretiesToTimeFormat(data, ['start', 'end'], dataFormat);\n    \n    //rescale, if needed.\n    if (needRescaling) {\n      this.rescale();\n    }\n    \n    bbox = this._getBBox(data);\n\n    this.axes.updateDomainByBBoxAndKeys(bbox, keys);\n    this.axes.transition(svg, 200);\n\n    this.boxs.update(svg, config, data);\n    this.legend.update(svg, config, data);\n\n  }\n  \n  _getBBox(data) {\n    return [\n      min(data, (d) => (d.start)),\n      max(data, (d) => (d.end))\n    ];\n  }\n\n\n  _loadConfig(config) {\n    super._loadConfig(config, defaults);  \n    return this;\n  }\n}"
   },
   {
-    "__docId__": 377,
+    "__docId__": 385,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -8194,7 +8374,7 @@
     ]
   },
   {
-    "__docId__": 378,
+    "__docId__": 386,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -8216,7 +8396,7 @@
     "generator": false
   },
   {
-    "__docId__": 379,
+    "__docId__": 387,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8234,7 +8414,7 @@
     }
   },
   {
-    "__docId__": 380,
+    "__docId__": 388,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8252,7 +8432,7 @@
     }
   },
   {
-    "__docId__": 381,
+    "__docId__": 389,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -8270,7 +8450,7 @@
     }
   },
   {
-    "__docId__": 382,
+    "__docId__": 390,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -8292,7 +8472,7 @@
     "generator": false
   },
   {
-    "__docId__": 383,
+    "__docId__": 391,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -8319,7 +8499,7 @@
     "generator": false
   },
   {
-    "__docId__": 384,
+    "__docId__": 392,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -8346,7 +8526,7 @@
     "generator": false
   },
   {
-    "__docId__": 385,
+    "__docId__": 393,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -8359,7 +8539,7 @@
     "content": "import {scaleOrdinal, scaleQuantile} from 'd3';\n\nconst paletteCategory1 = [\n    '#e1c8df',\n    '#9ecd9d',\n    '#acd9d6',\n    '#e4e36b',\n    '#bfa1c5',\n    '#e4d3b8',\n    '#facba8',\n    '#ced4ea',\n    '#acd9d6'\n];\n\nconst paletteCategory2 = [\n    '#b6dde2',\n    '#6394af',\n    '#e4e9ab',\n    '#8ea876',\n    '#f7dce1',\n    '#cc878f',\n    '#fadaac',\n    '#f29a83',\n    '#8d7e9e'\n];\n\nconst paletteCategory3 = [\n    '#6b68a9',\n    '#8cc590',\n    '#b9487d',\n    '#bfa1c5',\n    '#4e6936',\n    '#71bbc3',\n    '#484156',\n    '#ccaf44',\n    '#d0553c'\n];\n\nconst paletteCategory4 = [\n    '#f1a30d',\n    '#1d4763',\n    '#84c7bc',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#563a2d',\n    '#563a2d',\n    '#87325d'\n];\n\nconst paletteCategory5 = [\n    '#f1a30d',\n    '#0c3183',\n    '#acd9d6',\n    '#c1212d',\n    '#8fbe46',\n    '#076837',\n    '#8a6338',\n    '#8d2d84',\n    '#f09bbc'\n];\n\nconst paletteCategory6 = [\n    '#71bbc3',\n    '#1d4763',\n    '#8fbe46',\n    '#4e6936',\n    '#ee8998',\n    '#c1212d',\n    '#f5af3c',\n    '#e95e2e',\n    '#634484'\n];\n\nconst paletteCategory7 = [\n    '#ea671e',\n    '#684592',\n    '#84b92a',\n    '#cd131c',\n    '#3c5ba2',\n    '#5baddc',\n    '#ffde06',\n    '#5db68b',\n    '#775e47'\n];\n\nconst paletteCategory8 = [\n    '#ebd646',\n    '#a50f38',\n    '#00a096',\n    '#f09bbc',\n    '#065b78',\n    '#72722a',\n    '#005231',\n    '#4d4e98',\n    '#7c4d25'\n];\n\nconst paletteSequentialYellow = [\n    '#fff1c6',\n    '#fee5a7',\n    '#fcda87',\n    '#face64',\n    '#f8bf4b',\n    '#f6b030',\n    '#f4a009',\n    '#d28514',\n    '#b36c17',\n    '#955618',\n    '#7a4317',\n    '#613214',\n    '#49230f'\n];\n\nconst paletteSequentialRedOrange = [\n    '#ffecb8',\n    '#fbd68b',\n    '#f7bf5e',\n    '#f3a82f',\n    '#df7520',\n    '#cd4925',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialRed = [\n    '#fde4d4',\n    '#f1c4af',\n    '#f7bf5e',\n    '#db826a',\n    '#d0614d',\n    '#c73e36',\n    '#be0a26',\n    '#a81023',\n    '#941320',\n    '#80141d',\n    '#6d1419',\n    '#5a1215',\n    '#470f0f'\n];\n\nconst paletteSequentialPink = [\n    '#fbe3e3',\n    '#f9cfcc',\n    '#f0aaa9',\n    '#ed7e7e',\n    '#ea647b',\n    '#e74576',\n    '#e41270',\n    '#c70f65',\n    '#aa105c',\n    '#8d1253',\n    '#731448',\n    '#5a123c',\n    '#420e30'\n];\n\nconst paletteSequentialPurplePink = [\n    '#f9d8e6',\n    '#ebbed7',\n    '#dda4c7',\n    '#c890bb',\n    '#b27daf',\n    '#8a4c94',\n    '#622181',\n    '#622181',\n    '#50216b',\n    '#472060',\n    '#3e1f55',\n    '#361e4b',\n    '#2d1c41'\n];\n\nconst paletteSequentialPurple = [\n    '#f6e8f1',\n    '#dcc5de',\n    '#c2a3c9',\n    '#a980b3',\n    '#905e9f',\n    '#793f8e',\n    '#622181',\n    '#592175',\n    '#4f216b',\n    '#462060',\n    '#3d1f55',\n    '#351e4b',\n    '#2c1c41'\n];\n\nconst paletteSequentialBlue = [\n    '#e5f2f9',\n    '#d1e5f5',\n    '#afd3ed',\n    '#91afd7',\n    '#738bbf',\n    '#3c5a9e',\n    '#0c3183',\n    '#132a68',\n    '#10204c',\n    '#0b193b',\n    '#06142f',\n    '#051228',\n    '#061020'\n];\n\nconst paletteSequentialLightBlue = [\n    '#eff8fd',\n    '#d9eff6',\n    '#c2e5ef',\n    '#a8dae8',\n    '#90cbe4',\n    '#76b8e1',\n    '#5baddc',\n    '#4d96cc',\n    '#427ebc',\n    '#3a67ab',\n    '#324c88',\n    '#29366b',\n    '#1e2354'\n];\n\nconst paletteSequentialBlueViolet = [\n    '#edf7e7',\n    '#c8e3d2',\n    '#91cdbf',\n    '#41b5ab',\n    '#218ba4',\n    '#145d94',\n    '#0c3183',\n    '#0d2d76',\n    '#0d2a6a',\n    '#0e265e',\n    '#0d2253',\n    '#0c1e47',\n    '#0b1a3c'\n];\n\nconst paletteSequentialTurquoise = [\n    '#e2ecf6',\n    '#cadfe6',\n    '#b1d3d6',\n    '#94c6c6',\n    '#74b9b6',\n    '#4caca6',\n    '#00a096',\n    '#008d89',\n    '#007b7c',\n    '#006a6f',\n    '#005963',\n    '#004a57',\n    '#063b4c'\n];\n\nconst paletteSequentialLightGreen = [\n    '#faf9de',\n    '#e9efc3',\n    '#d7e4a7',\n    '#c5d989',\n    '#b1ce6a',\n    '#9cc34c',\n    '#84b92a',\n    '#6fa32b',\n    '#5a8f2a',\n    '#477c29',\n    '#346b27',\n    '#205b24',\n    '#074d21'\n];\n\nconst paletteSequentialDarkGreen = [\n    '#eaf3e5',\n    '#c7d5be',\n    '#a3ba9a',\n    '#80a078',\n    '#5c885a',\n    '#357442',\n    '#00632e',\n    '#00592b',\n    '#004e27',\n    '#004423',\n    '#033a1e',\n    '#053019',\n    '#052613'\n];\n\nconst paletteSequentialGreenBrown = [\n    '#f7eccd',\n    '#d9cba6',\n    '#bcad82',\n    '#a29162',\n    '#887946',\n    '#716330',\n    '#5b501f',\n    '#51461d',\n    '#483d1b',\n    '#3f3418',\n    '#362b15',\n    '#2d2311',\n    '#231a0d'\n];\n\nconst paletteSequentialBrown = [\n    '#f7eccd',\n    '#eed3ab',\n    '#e4bb89',\n    '#dba269',\n    '#ad7446',\n    '#834d2c',\n    '#5e2f19',\n    '#552a18',\n    '#4c2516',\n    '#432113',\n    '#3a1c11',\n    '#32180f',\n    '#29130b'\n];\n\nconst paletteSequentialGrey = [\n    '#e5e8ea',\n    '#bdbfc3',\n    '#999a9f',\n    '#77797f',\n    '#595c64',\n    '#3e444c',\n    '#253038',\n    '#20282e',\n    '#1a2024',\n    '#15181b',\n    '#0e1112',\n    '#070808',\n    '#000000'\n];\n\nconst paletteSequentialVioletCb = [\n    '#f4f3f9',\n    '#e0dced',\n    '#cbc6e0',\n    '#b7b0d4',\n    '#948cbf',\n    '#706baa',\n    '#4d4e98',\n    '#484889',\n    '#42427a',\n    '#3d3c6c',\n    '#37365e',\n    '#313050',\n    '#2c2a44'\n];\n\nconst paletteSequentialPinkCb = [\n    '#fbe5ee',\n    '#f8ccd5',\n    '#f4b2bc',\n    '#f096a3',\n    '#d56976',\n    '#bc3f52',\n    '#a50f38',\n    '#951735',\n    '#851b31',\n    '#761d2e',\n    '#671e2a',\n    '#581d26',\n    '#4a1c22'\n];\n\nconst paletteSequentialBlueCb = [\n    '#eaf6fc',\n    '#cfe4f4',\n    '#cfe4f4',\n    '#91bfe3',\n    '#6999bb',\n    '#417797',\n    '#065b78',\n    '#11536b',\n    '#174b5f',\n    '#194354',\n    '#1a3b49',\n    '#1a343f',\n    '#192d35'\n];\n\nconst paletteSequentialGreenCb = [\n    '#fff7d0',\n    '#e9e09b',\n    '#d1ca62',\n    '#b7b623',\n    '#9e9e28',\n    '#88872a',\n    '#72722a',\n    '#676726',\n    '#5c5c23',\n    '#51511f',\n    '#47471b',\n    '#3d3d17',\n    '#333413'\n];\n\nconst paletteSequentialGreenBrownCb = [\n    '#f2edde',\n    '#d8d1c0',\n    '#bfb699',\n    '#a09778',\n    '#837b5a',\n    '#686141',\n    '#4f4b2c',\n    '#3e3e1f',\n    '#2e3313',\n    '#292d14',\n    '#232613',\n    '#1e2012',\n    '#191a10'\n];\n\nconst paletteDivergingSpectral1 = [\n    '#98141f',\n    '#ab332c',\n    '#bf5040',\n    '#d5705b',\n    '#e4a57f',\n    '#f3d6a6',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#4e868f',\n    '#2e637d',\n    '#06456c'\n];\n\nconst paletteDivergingSpectral2 = [\n    '#d43d4f',\n    '#df564b',\n    '#eb6d45',\n    '#f08e53',\n    '#f8b96f',\n    '#fee08b',\n    '#f5f2b8',\n    '#d7e5b1',\n    '#b5d7aa',\n    '#8ec8a3',\n    '#6abda3',\n    '#4fa4b5',\n    '#3489be'\n];\n\nconst paletteDivergingSpectral3 = [\n    '#651035',\n    '#ae1143',\n    '#c9314b',\n    '#dd7257',\n    '#eeb27a',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cadfba',\n    '#96cabb',\n    '#50b4bb',\n    '#3eaecc',\n    '#206791',\n    '#0c2c63'\n];\n\nconst paletteDivergingBrownTurquoise = [\n    '#3f3128',\n    '#683828',\n    '#933624',\n    '#d5705b',\n    '#db9c5e',\n    '#feeb9e',\n    '#f5f2b8',\n    '#cfdbb1',\n    '#a4c4a9',\n    '#71ada1',\n    '#628f85',\n    '#53746d',\n    '#475b57'\n];\n\nconst paletteDivergingOrangePink = [\n    '#e7511e',\n    '#eb6929',\n    '#ee7f37',\n    '#f29446',\n    '#f9c083',\n    '#ffe9c3',\n    '#ffeee3',\n    '#f9cfc1',\n    '#f3a9ab',\n    '#db6882',\n    '#c71360',\n    '#891953',\n    '#4b1c47'\n];\n\nconst paletteDivergingRedBlue = [\n    '#b2172b',\n    '#c4443e',\n    '#d76a5a',\n    '#ed937e',\n    '#f4b8a2',\n    '#fcdbc7',\n    '#efefef',\n    '#bfcad5',\n    '#8ba7bc',\n    '#4d87a5',\n    '#3c7ca0',\n    '#28729b',\n    '#036896'\n];\n\nconst paletteDivergingRedGrey = [\n    '#b2172b',\n    '#c54532',\n    '#da6c3b',\n    '#f29446',\n    '#f8bc67',\n    '#fee08b',\n    '#efece5',\n    '#c9c5c1',\n    '#a5a19f',\n    '#808080',\n    '#666666',\n    '#333333',\n    '#000000'\n];\n\nconst paletteDivergingOrangeViolet = [\n    '#98141f',\n    '#ab332c',\n    '#f9bc47',\n    '#fdcf66',\n    '#fede8d',\n    '#ffecb3',\n    '#f9eff6',\n    '#e8d0e3',\n    '#a4c4a9',\n    '#a973aa',\n    '#834f96',\n    '#622181',\n    '#402357'\n];\n\nconst paletteDivergingPurpleGreen = [\n    '#59194b',\n    '#85134b',\n    '#c71360',\n    '#db6882',\n    '#eba7a8',\n    '#fce0ca',\n    '#faefe1',\n    '#dbd9aa',\n    '#b9c26e',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingVioletGreen = [\n    '#55296e',\n    '#75408e',\n    '#8a5fa0',\n    '#a081b5',\n    '#beadcf',\n    '#ddd7e7',\n    '#eae8ed',\n    '#c1d4bc',\n    '#93be86',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingRedGreen = [\n    '#b2172b',\n    '#c5403c',\n    '#d96453',\n    '#ef8972',\n    '#f6b49c',\n    '#fcdbc7',\n    '#f9ebde',\n    '#dad6a8',\n    '#b9c16d',\n    '#94ad31',\n    '#728b2b',\n    '#546c25',\n    '#39521f'\n];\n\nconst paletteDivergingBrownGreen = [\n    '#735146',\n    '#846454',\n    '#977a65',\n    '#aa9177',\n    '#c2ad91',\n    '#dbcaad',\n    '#edebd6',\n    '#c4d6aa',\n    '#94bf7c',\n    '#58a951',\n    '#3c853e',\n    '#23662f',\n    '#084a22'\n];\n\nconst paletteDivergingLightBrownTurquoise = [\n    '#8b5219',\n    '#a46821',\n    '#bf812c',\n    '#cfa151',\n    '#e2c489',\n    '#f6e8c3',\n    '#f5f1df',\n    '#cbdccc',\n    '#9cc6b9',\n    '#60afa6',\n    '#359790',\n    '#1d7d75',\n    '#00665e'\n];\n\n\nexport function category1() {\n    return scaleOrdinal().range(paletteCategory1);\n}\n\nexport function category2() {\n    return scaleOrdinal().range(paletteCategory2);\n}\n\nexport function category3() {\n    return scaleOrdinal().range(paletteCategory3);\n}\n\nexport function category4() {\n    return scaleOrdinal().range(paletteCategory4);\n}\n\nexport function category5() {\n    return scaleOrdinal().range(paletteCategory5);\n}\n\nexport function category6() {\n    return scaleOrdinal().range(paletteCategory6);\n}\n\nexport function category7() {\n    return scaleOrdinal().range(paletteCategory7);\n}\n\nexport function category8() {\n    return scaleOrdinal().range(paletteCategory8);\n}\n\nexport function sequentialYellow() {\n    return scaleQuantile().range(paletteSequentialYellow);\n}\n\nexport function sequentialRedOrange() {\n    return scaleQuantile().range(paletteSequentialRedOrange);\n}\n\nexport function sequentialRed() {\n    return scaleQuantile().range(paletteSequentialRed);\n}\n\nexport function sequentialPink() {\n    return scaleQuantile().range(paletteSequentialPink);\n}\n\nexport function sequentialPurplePink() {\n    return scaleQuantile().range(paletteSequentialPurplePink);\n}\n\nexport function sequentialPurple() {\n    return scaleQuantile().range(paletteSequentialPurple);\n}\n\nexport function sequentialBlue() {\n    return scaleQuantile().range(paletteSequentialBlue);\n}\n\nexport function sequentialLightBlue() {\n    return scaleQuantile().range(paletteSequentialLightBlue);\n}\n\nexport function sequentialBlueViolet() {\n    return scaleQuantile().range(paletteSequentialBlueViolet);\n}\n\nexport function sequentialTurquoise() {\n    return scaleQuantile().range(paletteSequentialTurquoise);\n}\n\nexport function sequentialLightGreen() {\n    return scaleQuantile().range(paletteSequentialLightGreen);\n}\n\nexport function sequentialDarkGreen() {\n    return scaleQuantile().range(paletteSequentialDarkGreen);\n}\n\nexport function sequentialGreenBrown() {\n    return scaleQuantile().range(paletteSequentialGreenBrown);\n}\n\nexport function sequentialBrown() {\n    return scaleQuantile().range(paletteSequentialBrown);\n}\n\nexport function sequentialGrey() {\n    return scaleQuantile().range(paletteSequentialGrey);\n}\n\nexport function sequentialVioletCb() {\n    return scaleQuantile().range(paletteSequentialVioletCb);\n}\n\nexport function sequentialPinkCb() {\n    return scaleQuantile().range(paletteSequentialPinkCb);\n}\n\nexport function sequentialBlueCb() {\n    return scaleQuantile().range(paletteSequentialBlueCb);\n}\n\nexport function sequentialGreenCb() {\n    return scaleQuantile().range(paletteSequentialGreenCb);\n}\n\nexport function sequentialGreenBrownCb() {\n    return scaleQuantile().range(paletteSequentialGreenBrownCb);\n}\n\nexport function diverging_spectral1() {\n    return scaleQuantile().range(paletteDivergingSpectral1);\n}\n\nexport function diverging_spectral2() {\n    return scaleQuantile().range(paletteDivergingSpectral2);\n}\n\nexport function diverging_spectral3() {\n    return scaleQuantile().range(paletteDivergingSpectral3);\n}\n\nexport function diverging_brown_turquoise() {\n    return scaleQuantile().range(paletteDivergingBrownTurquoise);\n}\n\nexport function diverging_orange_pink() {\n    return scaleQuantile().range(paletteDivergingOrangePink);\n}\n\nexport function diverging_red_blue() {\n    return scaleQuantile().range(paletteDivergingRedBlue);\n}\n\nexport function diverging_red_grey() {\n    return scaleQuantile().range(paletteDivergingRedGrey);\n}\n\nexport function diverging_orange_violet() {\n    return scaleQuantile().range(paletteDivergingOrangeViolet);\n}\n\nexport function diverging_purple_green() {\n    return scaleQuantile().range(paletteDivergingPurpleGreen);\n}\n\nexport function diverging_violet_green() {\n    return scaleQuantile().range(paletteDivergingVioletGreen);\n}\n\nexport function diverging_red_green() {\n    return scaleQuantile().range(paletteDivergingRedGreen);\n}\n\nexport function diverging_brown_green() {\n    return scaleQuantile().range(paletteDivergingBrownGreen);\n}\n\nexport function diverging_lightBrown_turquoise() {\n    return scaleQuantile().range(paletteDivergingLightBrownTurquoise);\n}"
   },
   {
-    "__docId__": 386,
+    "__docId__": 394,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8380,7 +8560,7 @@
     }
   },
   {
-    "__docId__": 387,
+    "__docId__": 395,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8401,7 +8581,7 @@
     }
   },
   {
-    "__docId__": 388,
+    "__docId__": 396,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8422,7 +8602,7 @@
     }
   },
   {
-    "__docId__": 389,
+    "__docId__": 397,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8443,7 +8623,7 @@
     }
   },
   {
-    "__docId__": 390,
+    "__docId__": 398,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8464,7 +8644,7 @@
     }
   },
   {
-    "__docId__": 391,
+    "__docId__": 399,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8485,7 +8665,7 @@
     }
   },
   {
-    "__docId__": 392,
+    "__docId__": 400,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8506,7 +8686,7 @@
     }
   },
   {
-    "__docId__": 393,
+    "__docId__": 401,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8527,7 +8707,7 @@
     }
   },
   {
-    "__docId__": 394,
+    "__docId__": 402,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8548,7 +8728,7 @@
     }
   },
   {
-    "__docId__": 395,
+    "__docId__": 403,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8569,7 +8749,7 @@
     }
   },
   {
-    "__docId__": 396,
+    "__docId__": 404,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8590,7 +8770,7 @@
     }
   },
   {
-    "__docId__": 397,
+    "__docId__": 405,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8611,7 +8791,7 @@
     }
   },
   {
-    "__docId__": 398,
+    "__docId__": 406,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8632,7 +8812,7 @@
     }
   },
   {
-    "__docId__": 399,
+    "__docId__": 407,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8653,7 +8833,7 @@
     }
   },
   {
-    "__docId__": 400,
+    "__docId__": 408,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8674,7 +8854,7 @@
     }
   },
   {
-    "__docId__": 401,
+    "__docId__": 409,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8695,7 +8875,7 @@
     }
   },
   {
-    "__docId__": 402,
+    "__docId__": 410,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8716,7 +8896,7 @@
     }
   },
   {
-    "__docId__": 403,
+    "__docId__": 411,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8737,7 +8917,7 @@
     }
   },
   {
-    "__docId__": 404,
+    "__docId__": 412,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8758,7 +8938,7 @@
     }
   },
   {
-    "__docId__": 405,
+    "__docId__": 413,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8779,7 +8959,7 @@
     }
   },
   {
-    "__docId__": 406,
+    "__docId__": 414,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8800,7 +8980,7 @@
     }
   },
   {
-    "__docId__": 407,
+    "__docId__": 415,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8821,7 +9001,7 @@
     }
   },
   {
-    "__docId__": 408,
+    "__docId__": 416,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8842,7 +9022,7 @@
     }
   },
   {
-    "__docId__": 409,
+    "__docId__": 417,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8863,7 +9043,7 @@
     }
   },
   {
-    "__docId__": 410,
+    "__docId__": 418,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8884,7 +9064,7 @@
     }
   },
   {
-    "__docId__": 411,
+    "__docId__": 419,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8905,7 +9085,7 @@
     }
   },
   {
-    "__docId__": 412,
+    "__docId__": 420,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8926,7 +9106,7 @@
     }
   },
   {
-    "__docId__": 413,
+    "__docId__": 421,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8947,7 +9127,7 @@
     }
   },
   {
-    "__docId__": 414,
+    "__docId__": 422,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8968,7 +9148,7 @@
     }
   },
   {
-    "__docId__": 415,
+    "__docId__": 423,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -8989,7 +9169,7 @@
     }
   },
   {
-    "__docId__": 416,
+    "__docId__": 424,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9010,7 +9190,7 @@
     }
   },
   {
-    "__docId__": 417,
+    "__docId__": 425,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9031,7 +9211,7 @@
     }
   },
   {
-    "__docId__": 418,
+    "__docId__": 426,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9052,7 +9232,7 @@
     }
   },
   {
-    "__docId__": 419,
+    "__docId__": 427,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9073,7 +9253,7 @@
     }
   },
   {
-    "__docId__": 420,
+    "__docId__": 428,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9094,7 +9274,7 @@
     }
   },
   {
-    "__docId__": 421,
+    "__docId__": 429,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9115,7 +9295,7 @@
     }
   },
   {
-    "__docId__": 422,
+    "__docId__": 430,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9136,7 +9316,7 @@
     }
   },
   {
-    "__docId__": 423,
+    "__docId__": 431,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9157,7 +9337,7 @@
     }
   },
   {
-    "__docId__": 424,
+    "__docId__": 432,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9178,7 +9358,7 @@
     }
   },
   {
-    "__docId__": 425,
+    "__docId__": 433,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9199,7 +9379,7 @@
     }
   },
   {
-    "__docId__": 426,
+    "__docId__": 434,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -9220,7 +9400,7 @@
     }
   },
   {
-    "__docId__": 427,
+    "__docId__": 435,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9243,7 +9423,7 @@
     "generator": false
   },
   {
-    "__docId__": 428,
+    "__docId__": 436,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9266,7 +9446,7 @@
     "generator": false
   },
   {
-    "__docId__": 429,
+    "__docId__": 437,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9289,7 +9469,7 @@
     "generator": false
   },
   {
-    "__docId__": 430,
+    "__docId__": 438,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9312,7 +9492,7 @@
     "generator": false
   },
   {
-    "__docId__": 431,
+    "__docId__": 439,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9335,7 +9515,7 @@
     "generator": false
   },
   {
-    "__docId__": 432,
+    "__docId__": 440,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9358,7 +9538,7 @@
     "generator": false
   },
   {
-    "__docId__": 433,
+    "__docId__": 441,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9381,7 +9561,7 @@
     "generator": false
   },
   {
-    "__docId__": 434,
+    "__docId__": 442,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9404,7 +9584,7 @@
     "generator": false
   },
   {
-    "__docId__": 435,
+    "__docId__": 443,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9427,7 +9607,7 @@
     "generator": false
   },
   {
-    "__docId__": 436,
+    "__docId__": 444,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9450,7 +9630,7 @@
     "generator": false
   },
   {
-    "__docId__": 437,
+    "__docId__": 445,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9473,7 +9653,7 @@
     "generator": false
   },
   {
-    "__docId__": 438,
+    "__docId__": 446,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9496,7 +9676,7 @@
     "generator": false
   },
   {
-    "__docId__": 439,
+    "__docId__": 447,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9519,7 +9699,7 @@
     "generator": false
   },
   {
-    "__docId__": 440,
+    "__docId__": 448,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9542,7 +9722,7 @@
     "generator": false
   },
   {
-    "__docId__": 441,
+    "__docId__": 449,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9565,7 +9745,7 @@
     "generator": false
   },
   {
-    "__docId__": 442,
+    "__docId__": 450,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9588,7 +9768,7 @@
     "generator": false
   },
   {
-    "__docId__": 443,
+    "__docId__": 451,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9611,7 +9791,7 @@
     "generator": false
   },
   {
-    "__docId__": 444,
+    "__docId__": 452,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9634,7 +9814,7 @@
     "generator": false
   },
   {
-    "__docId__": 445,
+    "__docId__": 453,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9657,7 +9837,7 @@
     "generator": false
   },
   {
-    "__docId__": 446,
+    "__docId__": 454,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9680,7 +9860,7 @@
     "generator": false
   },
   {
-    "__docId__": 447,
+    "__docId__": 455,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9703,7 +9883,7 @@
     "generator": false
   },
   {
-    "__docId__": 448,
+    "__docId__": 456,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9726,7 +9906,7 @@
     "generator": false
   },
   {
-    "__docId__": 449,
+    "__docId__": 457,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9749,7 +9929,7 @@
     "generator": false
   },
   {
-    "__docId__": 450,
+    "__docId__": 458,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9772,7 +9952,7 @@
     "generator": false
   },
   {
-    "__docId__": 451,
+    "__docId__": 459,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9795,7 +9975,7 @@
     "generator": false
   },
   {
-    "__docId__": 452,
+    "__docId__": 460,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9818,7 +9998,7 @@
     "generator": false
   },
   {
-    "__docId__": 453,
+    "__docId__": 461,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9841,7 +10021,7 @@
     "generator": false
   },
   {
-    "__docId__": 454,
+    "__docId__": 462,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9864,7 +10044,7 @@
     "generator": false
   },
   {
-    "__docId__": 455,
+    "__docId__": 463,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9887,7 +10067,7 @@
     "generator": false
   },
   {
-    "__docId__": 456,
+    "__docId__": 464,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9910,7 +10090,7 @@
     "generator": false
   },
   {
-    "__docId__": 457,
+    "__docId__": 465,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9933,7 +10113,7 @@
     "generator": false
   },
   {
-    "__docId__": 458,
+    "__docId__": 466,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9956,7 +10136,7 @@
     "generator": false
   },
   {
-    "__docId__": 459,
+    "__docId__": 467,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -9979,7 +10159,7 @@
     "generator": false
   },
   {
-    "__docId__": 460,
+    "__docId__": 468,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10002,7 +10182,7 @@
     "generator": false
   },
   {
-    "__docId__": 461,
+    "__docId__": 469,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10025,7 +10205,7 @@
     "generator": false
   },
   {
-    "__docId__": 462,
+    "__docId__": 470,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10048,7 +10228,7 @@
     "generator": false
   },
   {
-    "__docId__": 463,
+    "__docId__": 471,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10071,7 +10251,7 @@
     "generator": false
   },
   {
-    "__docId__": 464,
+    "__docId__": 472,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10094,7 +10274,7 @@
     "generator": false
   },
   {
-    "__docId__": 465,
+    "__docId__": 473,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10117,7 +10297,7 @@
     "generator": false
   },
   {
-    "__docId__": 466,
+    "__docId__": 474,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10140,7 +10320,7 @@
     "generator": false
   },
   {
-    "__docId__": 467,
+    "__docId__": 475,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10163,7 +10343,7 @@
     "generator": false
   },
   {
-    "__docId__": 468,
+    "__docId__": 476,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10176,7 +10356,7 @@
     "content": "export function filterByPropAndBBox(data, prop, range) {\n  let array = Array();\n  for (let i = 0; i < data.length; i++) {\n    if (data[i][prop] >= range[0] && data[i][prop] <= range[1]) {\n      array.push(data[i]);\n    }\n  }\n  return array;\n}\n"
   },
   {
-    "__docId__": 469,
+    "__docId__": 477,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10218,7 +10398,7 @@
     "generator": false
   },
   {
-    "__docId__": 470,
+    "__docId__": 478,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10231,7 +10411,7 @@
     "content": "export function sortByField (array, field){\n    array.sort((e1, e2) => {\n        var a = e1[field];\n        var b = e2[field];\n        return (a < b) ? -1 : (a > b) ? 1 : 0;   \n    });\n}"
   },
   {
-    "__docId__": 471,
+    "__docId__": 479,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10262,7 +10442,7 @@
     "generator": false
   },
   {
-    "__docId__": 472,
+    "__docId__": 480,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10275,7 +10455,7 @@
     "content": "import {nest, timeParse} from 'd3';\n\nexport function simple2stacked(data) {\n  return nest().key((d) => d.x).rollup((array) => {\n    let r = {};\n    for (let i = 0; i < array.length; i++) {\n      let object = array[i];\n      if (object) {\n        r[object.key] = object.y;\n      }\n    }\n    return r;\n  }).entries(data);\n}\n\nexport function simple2nested(data, key = 'key') {\n  return nest().key((d) => d[key]).entries(data);\n}\n\nexport function nested2simple(data) {\n  let array = Array();\n  for (let i = 0; i < data.length; i++) {\n    for (let j = 0; j < data[i].values.length; j++) {\n      let key = data[i].key;\n      let x = data[i].values[j].x;\n      let y = data[i].values[j].y;\n      array.push({ key: key, x: x, y: y });\n    }\n  }\n  return array;\n}\n\nexport function simple2Linked(data) {\n  var linkedData = { links: [], nodes: [] };\n  data.map((d) => d.key === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));\n  return linkedData;\n}\n\n\nexport function convertPropretiesToTimeFormat(data, properties, format) {\n  data.forEach((d) => {\n    properties.map((p) => {\n      d[p] = timeParse(format)(d[p]);\n    });\n  });\n}\n\nexport function convertByXYFormat(data, config) {\n  data.forEach((d) => {\n    //parse x coordinate\n    switch (config.xAxisType) {\n      case 'time':\n        d.x = timeParse(config.xAxisFormat)(d.x);\n        break;\n      case 'linear':\n        d.x = +d.x;\n        break;\n    }\n    //parse Y coordinate\n    switch (config.yAxisType) {\n      case 'time':\n        d.y = timeParse(config.yAxisFormat)(d.y);\n        break;\n      case 'linear':\n        d.y = +d.y;\n        break;\n    }\n  });\n  return data;\n}"
   },
   {
-    "__docId__": 473,
+    "__docId__": 481,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10305,7 +10485,7 @@
     "generator": false
   },
   {
-    "__docId__": 474,
+    "__docId__": 482,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10344,7 +10524,7 @@
     "generator": false
   },
   {
-    "__docId__": 475,
+    "__docId__": 483,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10374,7 +10554,7 @@
     "generator": false
   },
   {
-    "__docId__": 476,
+    "__docId__": 484,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10404,7 +10584,7 @@
     "generator": false
   },
   {
-    "__docId__": 477,
+    "__docId__": 485,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10441,7 +10621,7 @@
     "generator": false
   },
   {
-    "__docId__": 478,
+    "__docId__": 486,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10477,7 +10657,7 @@
     "generator": false
   },
   {
-    "__docId__": 479,
+    "__docId__": 487,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10490,7 +10670,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category5(),\n    //Stacked\n    stacked: true,\n    //Axes\n    xAxisType: 'linear',\n    xAxisFormat: '',\n    xAxisLabel: null,\n    yAxisType: 'linear',\n    yAxisFormat: '',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 130,\n    marginLeft: 150,\n    //width & height\n    width: '100%',\n    height: 350,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    }\n};"
   },
   {
-    "__docId__": 480,
+    "__docId__": 488,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10511,7 +10691,7 @@
     }
   },
   {
-    "__docId__": 481,
+    "__docId__": 489,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10524,7 +10704,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults =  {\n    selector: '#chart',\n    colorScale: Colors.diverging_spectral2(),\n    invertColorScale: true,\n    minLevel: 0,\n    maxLevel: 100,\n    minAngle: -90,\n    maxAngle: 90,\n    ringWidth: 50,\n    ringMargin: 20,\n    labelInset: 10,\n    needleNutRadius: 25,\n    needleLenghtRatio: 0.8,\n    numericIndicator: true,\n    label: 'km/h',\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 30,\n    marginLeft: 50,\n    //Width & height\n    width: '50%', // %, auto, or numeric\n    height: 250,\n    ticks: 10, // ticks for y dial.\n};"
   },
   {
-    "__docId__": 482,
+    "__docId__": 490,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10545,7 +10725,7 @@
     }
   },
   {
-    "__docId__": 483,
+    "__docId__": 491,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10558,7 +10738,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category7(),\n    //Area\n    areaOpacity: 0.4,\n\n    //Axes\n    xAxisType: 'linear',\n    xAxisFormat: '',\n    xAxisLabel: null,\n    yAxisType: 'linear',\n    yAxisFormat: '',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 130,\n    marginLeft: 150,\n    //markers\n    markerShape: 'circle',\n    markerSize: 5,\n    markerOutlineWidth: 2,\n    //Width & height\n    width: '100%', // %, auto, or numeric\n    height: 250,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    },\n\n    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart\n};"
   },
   {
-    "__docId__": 484,
+    "__docId__": 492,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10579,7 +10759,7 @@
     }
   },
   {
-    "__docId__": 485,
+    "__docId__": 493,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10592,7 +10772,7 @@
     "content": "export const defaults = {\n  selector: '#chart',\n  width: '100%', // %, auto, or numeric \n  height: 250,\n  yAxisLabel: null,\n  //margins\n  marginTop: 20,\n  marginRight: 250,\n  marginBottom: 30,\n  marginLeft: 50,\n};"
   },
   {
-    "__docId__": 486,
+    "__docId__": 494,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10613,7 +10793,7 @@
     }
   },
   {
-    "__docId__": 487,
+    "__docId__": 495,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10626,7 +10806,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category7(),\n\n    //Axes\n    xAxisType: 'linear',\n    xAxisFormat: '.1f',\n    xAxisLabel: 'Sepal length (cm)',\n    yAxisType: 'linear',\n    yAxisFormat: '.1f',\n    yAxisLabel: 'Sepal width (cm)',\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 130,\n    marginLeft: 150,\n    //markers\n    markerShape: 'dot',\n    markerSize: 3,\n    //Width & height\n    width: '100%', // %, auto, or numeric\n    height: 250,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    },\n\n    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart\n};"
   },
   {
-    "__docId__": 488,
+    "__docId__": 496,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10647,7 +10827,7 @@
     }
   },
   {
-    "__docId__": 489,
+    "__docId__": 497,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10660,7 +10840,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category2(),\n    //Axes\n    xAxisType: 'time',\n    xAxisFormat: '%y/%m/%d',\n    xAxisLabel: null,\n    yAxisType: 'categorical',\n    yAxisFormat: '',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 130,\n    marginLeft: 150,\n    //Width & height\n    width: '100%', // %, auto, or numeric \n    height: 250,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    },\n    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart\n};"
   },
   {
-    "__docId__": 490,
+    "__docId__": 498,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10681,7 +10861,7 @@
     }
   },
   {
-    "__docId__": 491,
+    "__docId__": 499,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10694,7 +10874,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults =  {\n    selector: '#chart',\n    colorScale: Colors.category4(),\n    //Axes\n    xAxisType: 'time',\n    xAxisFormat: '%y/%m/%d',\n    xAxisLabel: null,\n    yAxisType: 'categorical',\n    yAxisFormat: '',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 130,\n    marginLeft: 150,\n    //Width & height\n    width: '100%', // %, auto, or numeric \n    height: 250,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    },\n\n    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart\n};"
   },
   {
-    "__docId__": 492,
+    "__docId__": 500,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10715,7 +10895,7 @@
     }
   },
   {
-    "__docId__": 493,
+    "__docId__": 501,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10728,7 +10908,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category8(),\n    marginTop: 20,\n    marginRight: 20,\n    marginBottom: 30,\n    marginLeft: 50,\n    width: '50%', // %, auto, or numeric\n    height: 450,\n    tickLabel: '',\n    transitionDuration: 300,\n    maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart\n    sortData: {\n        descending: false,\n        prop: 'x'\n    },\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    }\n};"
   },
   {
-    "__docId__": 494,
+    "__docId__": 502,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10749,7 +10929,7 @@
     }
   },
   {
-    "__docId__": 495,
+    "__docId__": 503,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10762,7 +10942,7 @@
     "content": "import * as Colors from '../colors';\n\nexport const defaults = {\n    selector: '#chart',\n    colorScale: Colors.category3(),\n    //Axes\n    xAxisType: 'time',\n    xAxisFormat: '%y/%m/%d',\n    xAxisLabel: null,\n    yAxisType: 'categorical',\n    yAxisFormat: '%s',\n    yAxisLabel: null,\n    //margins\n    marginTop: 20,\n    marginRight: 250,\n    marginBottom: 30,\n    marginLeft: 50,\n    //Width & height\n    width: '100%', // %, auto, or numeric \n    height: 250,\n    //Events\n    onDown(d) {\n    },\n    onHover(d) {\n    },\n    onLeave(d) {\n    },\n    onClick(d) {\n    }\n};"
   },
   {
-    "__docId__": 496,
+    "__docId__": 504,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -10783,7 +10963,7 @@
     }
   },
   {
-    "__docId__": 497,
+    "__docId__": 505,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10796,7 +10976,7 @@
     "content": "import Linechart from '../charts/linechart.js';\nimport Barchart from '../charts/barchart.js';\nimport Gauge from '../charts/gauge.js';\nimport Streamgraph from '../charts/streamgraph.js';\nimport StackedArea from '../charts/stackedArea.js';\nimport Sunburst from '../charts/sunburst.js';\n\n(() => {\n  window.ProteusFactory = {\n    create(params) {\n      switch (params.type) {\n        case 'Linechart':\n          return new Linechart(params.data, params.config);\n        case 'Barchart':\n          return new Barchart(params.data, params.config);\n        case 'Gauge':\n          return new Gauge(params.data, params.config);\n        case 'Streamgraph':\n          return new Streamgraph(params.data, params.config);\n        case 'Sunburst':\n          return new Sunburst(params.data, params.config);\n        case 'StackedArea':\n          return new StackedArea(params.data, params.config);\n        default:\n          throw TypeError('Unknow chart type' + params.type);\n      }\n    }\n  };\n})();"
   },
   {
-    "__docId__": 498,
+    "__docId__": 506,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -10809,7 +10989,7 @@
     "content": "\nexport function isArray(d) {\n  return d && d.constructor === Array && d instanceof Array;\n}\n\nexport function isObject(d) {\n  return d && d.constructor === Object && d instanceof Object;\n}\n\nexport function isFunction(func) {\n  return func && {}.toString.call(func) === '[object Function]';\n}\n\nexport function isNumeric(n) {\n  return !isNaN(parseFloat(n)) && isFinite(n);\n}\n\nexport function isEven(n) {\n  return n % 2 === 0;\n}\n\nexport function isPercentage(n) {\n  let split = null;\n  let number = null;\n  if (!n || typeof n !== 'string') {\n    return false;\n  }\n  split = n.split('%');\n  number = (+split[0]);\n  return split.length === 2 &&\n    (number >= 0) &&\n    (number <= 100);\n}\n\nexport function keys(array, field) {\n  var keys = new Set();\n  var element = null;\n\n  if (!array || !array.length) {\n    return [];\n  }\n\n  for (let i = 0; i < array.length; i++) {\n    element = field ? array[i][field] : array[i];\n    if (element) {\n      keys.add(element);\n    }\n  }\n  return keys;\n}\n\n\nexport function sortBy(array, o) {\n  var _toString = Object.prototype.toString;\n  var _parser = (x) => { return x; };\n  var _getItem = (x) => {\n    return _parser((x !== null && typeof x === 'object' && x[o.prop]) || x);\n  };\n\n  if (!(array instanceof Array) || !array.length) {\n    return [];\n  }\n  if (_toString.call(o) !== '[object Object]') {\n    o = {};\n  }\n  if (typeof o.parser !== 'function') {\n    o.parser = _parser;\n  }\n  o.desc = o.desc ? -1 : 1;\n  return array.sort((a, b) => {\n    a = _getItem.call(o, a);\n    b = _getItem.call(o, b);\n    return o.desc * (a < b ? -1 : +(a > b));\n  });\n}\n\nexport function findElement(arr, propName, propValue) {\n  for (var i = 0; i < arr.length; i++) {\n    if (arr[i][propName] === propValue) {\n      return arr[i];\n    }\n  }\n  return null;\n  // will return null if not found; you could return a default instead\n}\n\nexport function deg2rad(deg) {\n  return deg * Math.PI / 180;\n}"
   },
   {
-    "__docId__": 499,
+    "__docId__": 507,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10839,7 +11019,7 @@
     "generator": false
   },
   {
-    "__docId__": 500,
+    "__docId__": 508,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10869,7 +11049,7 @@
     "generator": false
   },
   {
-    "__docId__": 501,
+    "__docId__": 509,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10899,7 +11079,7 @@
     "generator": false
   },
   {
-    "__docId__": 502,
+    "__docId__": 510,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10929,7 +11109,7 @@
     "generator": false
   },
   {
-    "__docId__": 503,
+    "__docId__": 511,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10959,7 +11139,7 @@
     "generator": false
   },
   {
-    "__docId__": 504,
+    "__docId__": 512,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -10989,7 +11169,7 @@
     "generator": false
   },
   {
-    "__docId__": 505,
+    "__docId__": 513,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11025,7 +11205,7 @@
     "generator": false
   },
   {
-    "__docId__": 506,
+    "__docId__": 514,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11061,7 +11241,7 @@
     "generator": false
   },
   {
-    "__docId__": 507,
+    "__docId__": 515,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11103,7 +11283,7 @@
     "generator": false
   },
   {
-    "__docId__": 508,
+    "__docId__": 516,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11133,7 +11313,7 @@
     "generator": false
   },
   {
-    "__docId__": 509,
+    "__docId__": 517,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -11146,7 +11326,7 @@
     "content": "\nconst doctype = '<?xml version=\"1.0\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">';\n\nfunction isExternal(url) {\n  return url && url.lastIndexOf('http', 0) === 0 && url.lastIndexOf(window.location.host) === -1;\n}\n\nfunction inlineImages(el, callback) {\n  let images = el.querySelectorAll('image');\n  let left = images.length;\n  if (left === 0) {\n    callback();\n  }\n  for (var i = 0; i < images.length; i++) {\n    (function (image) {\n      var href = image.getAttribute('xlink:href');\n      if (href) {\n        if (isExternal(href.value)) {\n          window.console.warn('Cannot render embedded images linking to external hosts: ' + href.value);\n          return;\n        }\n      }\n      let canvas = window.document.createElement('canvas');\n      let ctx = canvas.getContext('2d');\n      let img = new window.Image();\n      href = href || image.getAttribute('href');\n      img.src = href;\n      img.onload = function () {\n        canvas.width = img.width;\n        canvas.height = img.height;\n        ctx.drawImage(img, 0, 0);\n        image.setAttribute('xlink:href', canvas.toDataURL('image/png'));\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n      img.onerror = function () {\n        window.console.error('Could not load ' + href);\n        left--;\n        if (left === 0) {\n          callback();\n        }\n      };\n    })(images[i]);\n  }\n}\n\nfunction styles(el, selectorRemap) {\n  let css = '';\n  let sheets = document.styleSheets;\n  for (var i = 0; i < sheets.length; i++) {\n    if (isExternal(sheets[i].href)) {\n      window.console.warn('Cannot include styles from other hosts: ' + sheets[i].href);\n      continue;\n    }\n    let rules = sheets[i].cssRules;\n    if (rules !== null) {\n      for (var j = 0; j < rules.length; j++) {\n        let rule = rules[j];\n        if (typeof (rule.style) !== 'undefined') {\n          let match = null;\n          try {\n            match = el.querySelector(rule.selectorText);\n          } catch (err) {\n            window.console.warn('Invalid CSS selector \"' + rule.selectorText + '\"', err);\n          }\n          if (match) {\n            var selector = selectorRemap ? selectorRemap(rule.selectorText) : rule.selectorText;\n            css += selector + ' { ' + rule.style.cssText + ' }\\n';\n          } else if (rule.cssText.match(/^@font-face/)) {\n            css += rule.cssText + '\\n';\n          }\n        }\n      }\n    }\n  }\n  return css;\n}\n\nexport function svgAsDataUri(el, options, cb) {\n  options = options || {};\n  options.scale = options.scale || 1;\n  var xmlns = 'http://www.w3.org/2000/xmlns/';\n\n  inlineImages(el, function () {\n    var outer = document.createElement('div');\n    var clone = el.cloneNode(true);\n    var width, height;\n    if (el.tagName === 'svg') {\n      width = parseInt(clone.getAttribute('width') || clone.style.width || getComputedStyle(el).getPropertyValue('width'));\n      height = parseInt(clone.getAttribute('height') || clone.style.height || getComputedStyle(el).getPropertyValue('height'));\n    } else {\n      let box = el.getBBox();\n      width = box.x + box.width;\n      height = box.y + box.height;\n      clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\\(.*?\\)/, ''));\n\n      let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');\n      svg.appendChild(clone);\n      clone = svg;\n    }\n\n    clone.setAttribute('version', '1.1');\n    clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');\n    clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');\n    clone.setAttribute('width', width * options.scale);\n    clone.setAttribute('height', height * options.scale);\n    clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);\n    outer.appendChild(clone);\n\n    let css = styles(el, options.selectorRemap);\n    let s = document.createElement('style');\n    s.setAttribute('type', 'text/css');\n    s.innerHTML = '<![CDATA[\\n' + css + '\\n]]>';\n    let defs = document.createElement('defs');\n    defs.appendChild(s);\n    clone.insertBefore(defs, clone.firstChild);\n\n    let svg = doctype + outer.innerHTML;\n    let uri = 'data:image/svg+xml;base64,' + window.btoa(window.unescape(encodeURIComponent(svg)));\n    if (cb) {\n      cb(uri);\n    }\n  });\n}\n"
   },
   {
-    "__docId__": 510,
+    "__docId__": 518,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -11167,7 +11347,7 @@
     }
   },
   {
-    "__docId__": 511,
+    "__docId__": 519,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11197,7 +11377,7 @@
     "generator": false
   },
   {
-    "__docId__": 512,
+    "__docId__": 520,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11228,7 +11408,7 @@
     "generator": false
   },
   {
-    "__docId__": 513,
+    "__docId__": 521,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11264,7 +11444,7 @@
     "generator": false
   },
   {
-    "__docId__": 514,
+    "__docId__": 522,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11301,7 +11481,7 @@
     "generator": false
   },
   {
-    "__docId__": 515,
+    "__docId__": 523,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -11314,7 +11494,7 @@
     "content": "import {\n  isNumeric, isPercentage\n} from './functions';\n\nimport { select } from 'd3';\n\nexport function calculateWidth(widthConfig, selector) {\n  if (widthConfig === 'auto') {\n    return select(selector)\n      .node()\n      .getBoundingClientRect()\n      .width;\n  }\n  else if (isNumeric(widthConfig)) {\n    return widthConfig;\n  }\n  else if (isPercentage(widthConfig)) {\n    let containerWidth, percentage;\n    containerWidth = select(selector)\n      .node()\n      .getBoundingClientRect()\n      .width;\n    percentage = widthConfig.split('%')[0];\n    return Math.round(percentage * containerWidth / 100);\n  } else {\n    throw Error('Unknow config width value: ' + widthConfig);\n  }\n}\n"
   },
   {
-    "__docId__": 516,
+    "__docId__": 524,
     "kind": "function",
     "static": true,
     "variation": null,
@@ -11350,7 +11530,7 @@
     "generator": false
   },
   {
-    "__docId__": 518,
+    "__docId__": 526,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11363,7 +11543,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 519,
+    "__docId__": 527,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11376,7 +11556,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 520,
+    "__docId__": 528,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11389,7 +11569,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 521,
+    "__docId__": 529,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11402,7 +11582,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 522,
+    "__docId__": 530,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11415,7 +11595,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 523,
+    "__docId__": 531,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11428,7 +11608,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 524,
+    "__docId__": 532,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11441,7 +11621,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 525,
+    "__docId__": 533,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11454,7 +11634,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 526,
+    "__docId__": 534,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11467,7 +11647,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 527,
+    "__docId__": 535,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11480,7 +11660,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 528,
+    "__docId__": 536,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11493,7 +11673,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 529,
+    "__docId__": 537,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11506,7 +11686,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 530,
+    "__docId__": 538,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11519,7 +11699,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 531,
+    "__docId__": 539,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11532,7 +11712,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 532,
+    "__docId__": 540,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11545,7 +11725,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 533,
+    "__docId__": 541,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11558,7 +11738,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 534,
+    "__docId__": 542,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11571,7 +11751,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 535,
+    "__docId__": 543,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11584,7 +11764,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 536,
+    "__docId__": 544,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11597,7 +11777,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 537,
+    "__docId__": 545,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11610,7 +11790,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 538,
+    "__docId__": 546,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11623,7 +11803,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 539,
+    "__docId__": 547,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11636,7 +11816,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 540,
+    "__docId__": 548,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11649,7 +11829,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 541,
+    "__docId__": 549,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11662,7 +11842,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 542,
+    "__docId__": 550,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11675,7 +11855,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 543,
+    "__docId__": 551,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11688,7 +11868,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 544,
+    "__docId__": 552,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11701,7 +11881,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 545,
+    "__docId__": 553,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11714,7 +11894,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 546,
+    "__docId__": 554,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11727,7 +11907,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 547,
+    "__docId__": 555,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11740,7 +11920,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 548,
+    "__docId__": 556,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11753,7 +11933,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 549,
+    "__docId__": 557,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11766,7 +11946,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 550,
+    "__docId__": 558,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11779,7 +11959,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 551,
+    "__docId__": 559,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11792,7 +11972,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 552,
+    "__docId__": 560,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11805,7 +11985,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 553,
+    "__docId__": 561,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11818,7 +11998,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 554,
+    "__docId__": 562,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11831,7 +12011,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 555,
+    "__docId__": 563,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11844,7 +12024,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 556,
+    "__docId__": 564,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11857,7 +12037,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 557,
+    "__docId__": 565,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11870,7 +12050,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 558,
+    "__docId__": 566,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11883,7 +12063,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 559,
+    "__docId__": 567,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11896,7 +12076,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 560,
+    "__docId__": 568,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11909,7 +12089,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 561,
+    "__docId__": 569,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11922,7 +12102,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 562,
+    "__docId__": 570,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11935,7 +12115,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 563,
+    "__docId__": 571,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11948,7 +12128,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 564,
+    "__docId__": 572,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11961,7 +12141,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 566,
+    "__docId__": 574,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11974,7 +12154,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 567,
+    "__docId__": 575,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -11987,7 +12167,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 568,
+    "__docId__": 576,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -12000,7 +12180,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 569,
+    "__docId__": 577,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -12013,7 +12193,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 570,
+    "__docId__": 578,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -12026,7 +12206,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 571,
+    "__docId__": 579,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -12039,7 +12219,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 572,
+    "__docId__": 580,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -12052,7 +12232,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 573,
+    "__docId__": 581,
     "kind": "external",
     "static": true,
     "variation": null,

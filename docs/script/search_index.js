@@ -18,6 +18,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "proteic/src/svg/components/canvaspointset.js~canvaspointset",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html",
+    "<span>CanvasPointset</span> <span class=\"search-result-import-path\">proteic/src/svg/components/canvasPointset.js</span>",
+    "class"
+  ],
+  [
     "proteic/src/charts/base/chart.js~chart",
     "class/src/charts/base/Chart.js~Chart.html",
     "<span>Chart</span> <span class=\"search-result-import-path\">proteic/src/charts/base/Chart.js</span>",
@@ -1629,6 +1635,48 @@ window.esdocSearchIndex = [
     "src/svg/components/barset.js~barset#yaxis",
     "class/src/svg/components/barset.js~Barset.html#instance-member-yAxis",
     "src/svg/components/barset.js~Barset#yAxis",
+    "member"
+  ],
+  [
+    "src/svg/components/canvaspointset.js",
+    "file/src/svg/components/canvasPointset.js.html",
+    "src/svg/components/canvasPointset.js",
+    "file"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#canvas",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-member-canvas",
+    "src/svg/components/canvasPointset.js~CanvasPointset#canvas",
+    "member"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#constructor",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-constructor-constructor",
+    "src/svg/components/canvasPointset.js~CanvasPointset#constructor",
+    "method"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#render",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-method-render",
+    "src/svg/components/canvasPointset.js~CanvasPointset#render",
+    "method"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#update",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-method-update",
+    "src/svg/components/canvasPointset.js~CanvasPointset#update",
+    "method"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#xaxis",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-member-xAxis",
+    "src/svg/components/canvasPointset.js~CanvasPointset#xAxis",
+    "member"
+  ],
+  [
+    "src/svg/components/canvaspointset.js~canvaspointset#yaxis",
+    "class/src/svg/components/canvasPointset.js~CanvasPointset.html#instance-member-yAxis",
+    "src/svg/components/canvasPointset.js~CanvasPointset#yAxis",
     "member"
   ],
   [
