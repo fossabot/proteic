@@ -41,6 +41,7 @@ class Streamgraph extends Chart {
             yAxisType = userData['yAxisType'] || defaults.yAxisType,
             yAxisFormat = userData['yAxisFormat'] || defaults.yAxisFormat,
             yAxisLabel = userData['yAxisLabel'] || defaults.yAxisLabel,
+            yAxisShow = userData['yAxisShow'] || defaults.yAxisShow,
             //Color
             colorScale = userData['colorScale'] || defaults.colorScale,
             //Events
@@ -66,6 +67,7 @@ class Streamgraph extends Chart {
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
+        config.put('yAxisShow', yAxisShow);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);

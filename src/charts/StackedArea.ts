@@ -41,6 +41,8 @@ class StackedArea extends Chart {
             yAxisType = userData['yAxisType'] || defaults.yAxisType,
             yAxisFormat = userData['yAxisFormat'] || defaults.yAxisFormat,
             yAxisLabel = userData['yAxisLabel'] || defaults.yAxisLabel,
+            yAxisShow = userData['yAxisShow'] || defaults.yAxisShow,
+
             //Color
             colorScale = userData['colorScale'] || defaults.colorScale,
             //Events
@@ -53,7 +55,7 @@ class StackedArea extends Chart {
             legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
             stacked = true, // Streamgraph is always stacked; ignoring default or user properties.
             stack = d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone);
-            
+
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -67,6 +69,7 @@ class StackedArea extends Chart {
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
+        config.put('yAxisShow', yAxisShow);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);

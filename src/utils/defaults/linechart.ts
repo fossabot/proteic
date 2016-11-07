@@ -12,6 +12,7 @@ export const defaults = {
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
+    yAxisShow: true,
     //margins
     marginTop: 20,
     marginRight: 250,
@@ -34,7 +35,7 @@ export const defaults = {
     },
     onClick(d) {
     },
-    onUp(d){
+    onUp(d) {
     },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

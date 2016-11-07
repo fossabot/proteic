@@ -10,6 +10,7 @@ export const defaults =  {
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
+    yAxisShow:false,
     //margins
     marginTop: 20,
     marginRight: 250,

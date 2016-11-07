@@ -10,6 +10,8 @@ export const defaults = {
     yAxisType: 'categorical',
     yAxisFormat: 's',
     yAxisLabel: null,
+    yAxisShow: true,
+
     //margins
     marginTop: 20,
     marginRight: 250,
@@ -28,7 +30,7 @@ export const defaults = {
     },
     onClick(d) {
     },
-    onUp(d){
-        
+    onUp(d) {
+
     }
 };

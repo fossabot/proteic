@@ -23,8 +23,6 @@ class SvgStrategySwimlane extends SvgChart {
 
     private boxes: TimeBoxset;
 
-
-
     constructor() {
         super();
         this.axes = new XYAxes();

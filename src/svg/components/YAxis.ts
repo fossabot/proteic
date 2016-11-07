@@ -52,8 +52,11 @@ class YAxis extends Component {
     }
 
     public update(data): void {
-        let yAxisType = this.config.get('yAxisType');
-        let layoutStacked = this.config.get('stacked');
+        let yAxisType = this.config.get('yAxisType'),
+            yAxisShow = this.config.get('yAxisShow'),
+            layoutStacked = this.config.get('stacked');
+
+        this.svg.select('g.y.axis').attr('opacity', yAxisShow ? 1 : 0);
 
         if (yAxisType === 'linear') {
             if (layoutStacked) { //TODO: Improve
