@@ -17,3 +17,7 @@ export {
 export {
     default as Streamgraph
 } from './src/charts/Streamgraph';
+
+export {
+    default as StackedArea
+} from './src/charts/StackedArea';

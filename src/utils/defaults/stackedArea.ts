@@ -7,7 +7,7 @@ export const defaults = {
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
-    yAxisType: 'categorical',
+    yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     //margins
@@ -18,6 +18,7 @@ export const defaults = {
     //Width & height
     width: '100%', // %, auto, or numeric 
     height: 250,
+    legend: true,
     //Events
     onDown(d) {
     },
@@ -26,6 +27,8 @@ export const defaults = {
     onLeave(d) {
     },
     onClick(d) {
+    },
+    onUp(d) {
     },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };
