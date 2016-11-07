@@ -8,7 +8,7 @@ import Datasource from './Datasource';
  * @extends {Datasource}
 
  */
-export default class WebsocketDatasource extends Datasource {
+class WebsocketDatasource extends Datasource {
 
     /**
      * Creates an instance of WebsocketDatasource. This datasource will try to connect to the speficied websocket endpoint.
@@ -26,11 +26,14 @@ export default class WebsocketDatasource extends Datasource {
      * @memberOf WebsocketDatasource
     
      */
-    constructor(source) {
+    private ws: WebSocket;
+
+
+    constructor(source: { any }) {
         super();
         this.source = source;
     }
-    
+
     /**
      * Configure a dispatcher for this datasource.
      * 
@@ -38,7 +41,7 @@ export default class WebsocketDatasource extends Datasource {
      * 
      * @memberOf WebsocketDatasource
      */
-    configure(dispatcher) {
+    configure(dispatcher: any) {
         this.dispatcher = dispatcher;
     }
 
@@ -51,14 +54,13 @@ export default class WebsocketDatasource extends Datasource {
      */
     start() {
         super.start();
-        this.ws = new window.WebSocket(this.source.endpoint);
+        this.ws = new WebSocket(this.source['endpoint']);
 
         this.ws.onopen = (e) => {
             this.dispatcher.call('onopen', this, e);
         };
         this.ws.onerror = (e) => {
             throw new Error('An error occurred trying to reach the websocket server' + e);
-            //this.dispatcher.call('onerror', this, e);
         };
         this.ws.onmessage = (e) => {
             var data = JSON.parse(e.data);
@@ -77,3 +79,5 @@ export default class WebsocketDatasource extends Datasource {
         }
     }
 }
+
+export default WebsocketDatasource;

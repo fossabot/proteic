@@ -8,6 +8,7 @@ import {
     stackOffsetWiggle,
     stack as d3Stack
 } from 'd3';
+import {copy} from '../utils/functions';
 
 class Swimlane extends Chart {
 
@@ -17,6 +18,18 @@ class Swimlane extends Chart {
             data,
             userConfig
         );
+    }
+
+    public keepDrawing(datum: any) {
+        var datumType = datum.constructor;
+
+        if (datumType === Array) {
+            this.data = this.data.concat(datum);
+        }
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
     }
 
 

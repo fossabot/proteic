@@ -24,6 +24,7 @@ class YAxis extends Component {
     constructor() {
         super();
     }
+    
 
     public render(): void {
         let width = this.config.get('width'),

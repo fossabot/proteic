@@ -3,7 +3,7 @@ import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/barchart';
 import { calculateWidth } from '../utils/screen';
-
+import {copy} from '../utils/functions';
 import {stack as d3stack} from 'd3';
 
 class Barchart extends Chart {
@@ -26,6 +26,23 @@ class Barchart extends Chart {
             }
             this.draw();
         }
+    }
+
+    public keepDrawing(datum: any) {
+        let datumType = datum.constructor;
+        if (datumType === Array) {
+            this.data = datum;
+        }
+        else {
+            for (let i = 0; i < this.data.length; i++) {
+                var d = this.data[i];
+                if (d['x'] === datum['x']) {
+                    this.data[i] = datum;
+                    break;
+                }
+            }
+        }
+        this.draw(copy(this.data));
     }
 
 

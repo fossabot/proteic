@@ -25,3 +25,7 @@ default as StackedArea
 export {
 default as Swimlane
 } from './src/charts/Swimlane';
+
+export {
+    default as WebsocketDatasource
+} from './src/datasources/WebsocketDatasource';

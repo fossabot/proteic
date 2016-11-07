@@ -3,6 +3,8 @@ import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/streamgraph';
 import { calculateWidth } from '../utils/screen';
+import {copy} from '../utils/functions';
+
 import {
     stackOrderInsideOut,
     stackOffsetWiggle,
@@ -17,6 +19,18 @@ class Streamgraph extends Chart {
             data,
             userConfig
         );
+    }
+
+    public keepDrawing(datum: any) {
+        var datumType = datum.constructor;
+
+        if (datumType === Array) {
+            this.data = this.data.concat(datum);
+        }
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
     }
 
 
@@ -54,6 +68,7 @@ class Streamgraph extends Chart {
             legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
             stacked = true, // Streamgraph is always stacked; ignoring default or user properties.
             stack = d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetWiggle);
+
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);

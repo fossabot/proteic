@@ -68,8 +68,13 @@ class Gauge extends Chart {
         config.put('numericIndicator', numericIndicator);
         config.put('label', label);
         config.put('ticks', ticks);
-       
+
         return config;
+    }
+
+    public keepDrawing(datum: any) {
+        this.data = [datum[0]];
+        super.draw();
     }
 
 

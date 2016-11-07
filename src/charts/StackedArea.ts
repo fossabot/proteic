@@ -3,6 +3,7 @@ import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/stackedArea';
 import { calculateWidth } from '../utils/screen';
+import {copy} from '../utils/functions';
 import {
     stackOrderInsideOut,
     stackOffsetNone,
@@ -18,6 +19,19 @@ class StackedArea extends Chart {
             userConfig
         );
     }
+
+    public keepDrawing(datum: any) {
+        var datumType = datum.constructor;
+
+        if (datumType === Array) {
+            this.data = this.data.concat(datum);
+        }
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
+    }
+
 
 
     protected loadConfigFromUser(userData: { [key: string]: any; }): Config {
