@@ -7,10 +7,10 @@ export const defaults = {
     //Axes
     xAxisType: 'linear',
     xAxisFormat: '.1f',
-    xAxisLabel: 'Sepal length (cm)',
+    xAxisLabel: '',
     yAxisType: 'linear',
     yAxisFormat: '.1f',
-    yAxisLabel: 'Sepal width (cm)',
+    yAxisLabel: '',
     //margins
     marginTop: 20,
     marginRight: 250,
@@ -22,6 +22,7 @@ export const defaults = {
     //Width & height
     width: '100%', // %, auto, or numeric
     height: 250,
+    legend: true,
     //Events
     onDown(d) {
     },
@@ -31,6 +32,8 @@ export const defaults = {
     },
     onClick(d) {
     },
+    onUp(d) {
 
+    },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

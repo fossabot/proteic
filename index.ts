@@ -9,3 +9,7 @@ export {
 export {
     default as Gauge
 } from './src/charts/Gauge';
+
+export {
+    default as Scatterplot
+} from './src/charts/Scatterplot';

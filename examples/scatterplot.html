@@ -170,7 +170,11 @@
 		{ "x": "5.9", "y": "3.0", "key": "virginica" }
 	];
 
-	var chart = new proteic.Scatterplot(data);
+	var chart = new proteic.Scatterplot(data,{
+		xAxisLabel:'Sepal length (cm)',
+		yAxisLabel:'Sepal width (cm)',
+		onClick: (d) => window.console.log(d)
+	});
 	chart.draw();
 
 </script>
