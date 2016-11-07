@@ -7,14 +7,14 @@ import SvgChart from '../base/SvgChart';
 import { sortByField } from '../../utils/dataSorting';
 import { convertByXYFormat } from '../../utils/dataTransformation';
 
-class SvgStrategyLinechart extends SvgChart {
+class SvgStrategyBarchart extends SvgChart {
     /**
      * 
      * XY Axes. Horizontal and vertical references
      * 
      * @private
      * @type {XYAxes}
-     * @memberOf SvgStrategyLinechart
+     * @memberOf SvgStrategyBarchart
      */
     private axes: XYAxes;
 
@@ -23,7 +23,7 @@ class SvgStrategyLinechart extends SvgChart {
      * Set of bars. The numbers of bars depends on data. Every draw() call lines are automatically updated.
      * @private
      * @type {Lineset}
-     * @memberOf SvgStrategyLinechart
+     * @memberOf SvgStrategyBarchart
     
      */
     private bars: Barset;
@@ -63,4 +63,4 @@ class SvgStrategyLinechart extends SvgChart {
     }
 }
 
-export default SvgStrategyLinechart;
+export default SvgStrategyBarchart;
