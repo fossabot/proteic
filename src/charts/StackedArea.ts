@@ -1,5 +1,5 @@
 import Chart from './Chart';
-import SvgStrategyStackedArea from '../svg/strategies/SvgStrategyStackedArea';
+import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/stackedArea';
 import { calculateWidth } from '../utils/screen';
@@ -13,7 +13,7 @@ class StackedArea extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
         super(
-            new SvgStrategyStackedArea(),
+            new SvgStrategyStreamgraph(), //It uses the same strategy than streamgraph. The only difference is the stack.
             data,
             userConfig
         );
