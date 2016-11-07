@@ -5,7 +5,6 @@ import { defaults } from '../utils/defaults/linechart';
 import { calculateWidth } from '../utils/screen';
 import {copy} from '../utils/functions';
 
-
 class Linechart extends Chart {
 
     constructor(data: any, userConfig: any = {}) {

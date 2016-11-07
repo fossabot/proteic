@@ -3,6 +3,7 @@ import SvgStrategyScatterplot from '../svg/strategies/SvgStrategyScatterplot';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/scatterplot';
 import { calculateWidth } from '../utils/screen';
+import {copy} from '../utils/functions';
 
 
 class Scatterplot extends Chart {
@@ -16,6 +17,18 @@ class Scatterplot extends Chart {
     }
 
 
+    public keepDrawing(datum: any) {
+        var datumType = datum.constructor;
+
+        if (datumType === Array) {
+            this.data = this.data.concat(datum);
+        }
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
+    }
+    
     protected loadConfigFromUser(userData: { [key: string]: any; }): Config {
         let config = new Config(),
             //Selector

@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript';
 
 export default {
   entry: 'index.ts',
-  dest: 'build/proteic.js',
+  dest: 'dist/proteic.js',
   moduleName: 'proteic',
   format: 'umd',
   sourceMap: true,
