@@ -29,3 +29,7 @@ default as Swimlane
 export {
     default as WebsocketDatasource
 } from './src/datasources/WebsocketDatasource';
+
+export {
+    default as HTTPDatasource
+} from './src/datasources/HTTPDatasource';

@@ -3,7 +3,7 @@ var fs = require("fs"),
     abort = (error) => console.log(error);
 
 rollup.rollup({
-    entry: "index.js",
+    entry: "index.ts",
     external: ['d3']
 }).then(function (bundle) {
     var code = bundle.generate({
