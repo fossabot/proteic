@@ -7,7 +7,7 @@ import { calculateWidth } from '../utils/screen';
 
 class Gauge extends Chart {
 
-    constructor(data: any, userConfig: any) {
+    constructor(data: any, userConfig: any = {}) {
         super(
             new SvgStrategyGauge(),
             data,

@@ -31,11 +31,11 @@ class SvgStrategyLinechart extends SvgChart {
     private lines: Lineset;
 
 
-    private markers ?: Pointset;
+    private markers : Pointset;
 
-    private area ?: Areaset;
+    private area : Areaset;
 
-    private legend ?: Legend;
+    private legend : Legend;
 
 
     constructor() {

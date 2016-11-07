@@ -7,7 +7,7 @@ import { calculateWidth } from '../utils/screen';
 
 class Barchart extends Chart {
 
-    constructor(data: any, userConfig: any) {
+    constructor(data: any, userConfig: any = {}) {
         super(
             new SvgStrategyBarchart(),
             data,
