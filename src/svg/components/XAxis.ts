@@ -60,13 +60,10 @@ class XAxis extends Component {
             this.updateDomainByMinMax(min, max);
 
         } else if (xAxisType === 'time') {
-            let xAxisFormat = this.config.get('xAxisFormat'),
-                parser = timeParse(xAxisFormat);
-
-            let min = d3Min(data, (d) => parser(d.x)),
-                max = d3Max(data, (d) => parser(d.x));
+            let min = d3Min(data, (d) => (d.x || d.start)),
+                max = d3Max(data, (d) => (d.x || d.end));
             this.updateDomainByMinMax(min, max);
-
+            
         }
         else {
             let keys: [string] = map(data, (d) => d.x).keys();

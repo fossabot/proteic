@@ -7,7 +7,6 @@ import {simple2stacked} from '../../utils/dataTransformation';
 import {
     area,
     curveCardinal,
-    timeParse,
     nest,
     map,
     stackOrderInsideOut,
@@ -36,8 +35,7 @@ class Streamset extends Component {
 
     public update(data: [any]): void {
         this.clean();
-        let xAxisFormat = this.config.get('xAxisFormat'),
-            colorScale = this.config.get('colorScale'),
+        let colorScale = this.config.get('colorScale'),
             onDown = this.config.get('onDown'),
             onUp = this.config.get('onUp'),
             onLeave = this.config.get('onLeave'),
@@ -49,7 +47,7 @@ class Streamset extends Component {
             dataSeries = stack(data4stack),
             series = null;
 
-        this.areaGenerator.x((d) => this.xyAxes.x.xAxis.scale()((timeParse(xAxisFormat)(d.data.key))));
+        this.areaGenerator.x((d) => this.xyAxes.x.xAxis.scale()((new Date(d.data.key))));
 
         series = this.svg.selectAll('.serie')
             .data(dataSeries)

@@ -8,7 +8,7 @@ export const defaults = {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
     yAxisType: 'categorical',
-    yAxisFormat: '%s',
+    yAxisFormat: 's',
     yAxisLabel: null,
     //margins
     marginTop: 20,
@@ -18,6 +18,7 @@ export const defaults = {
     //Width & height
     width: '100%', // %, auto, or numeric 
     height: 250,
+    legend: true,
     //Events
     onDown(d) {
     },
@@ -26,5 +27,8 @@ export const defaults = {
     onLeave(d) {
     },
     onClick(d) {
+    },
+    onUp(d){
+        
     }
 };

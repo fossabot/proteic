@@ -1,23 +1,27 @@
 export {
-    default as Linechart
+default as Linechart
 } from './src/charts/Linechart';
 
 export {
-    default as Barchart
+default as Barchart
 } from './src/charts/Barchart';
 
 export {
-    default as Gauge
+default as Gauge
 } from './src/charts/Gauge';
 
 export {
-    default as Scatterplot
+default as Scatterplot
 } from './src/charts/Scatterplot';
 
 export {
-    default as Streamgraph
+default as Streamgraph
 } from './src/charts/Streamgraph';
 
 export {
-    default as StackedArea
+default as StackedArea
 } from './src/charts/StackedArea';
+
+export {
+default as Swimlane
+} from './src/charts/Swimlane';

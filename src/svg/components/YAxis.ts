@@ -69,8 +69,12 @@ class YAxis extends Component {
 
                 this.updateDomainByMinMax(min, max);
             }
-        } else {
-            console.warn('only linear y axis is allowed');
+        } else if (yAxisType === 'categorical') {
+            let keys = map(data, (d) => d.key).keys().sort();
+            this._yAxis.scale().domain(keys);
+        }
+        else {
+            console.warn('could not recognize y axis type', yAxisType);
         }
 
         this.transition();
@@ -118,7 +122,7 @@ class YAxis extends Component {
                 throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
         }
 
-        this._yAxis.tickFormat(format(yAxisFormat))
+        this._yAxis
             .tickSizeInner(-width)
             .tickSizeOuter(0)
             .tickPadding(20);
