@@ -7,7 +7,9 @@ export default {
   format: 'umd',
   sourceMap: true,
   plugins: [
-    typescript()
+    typescript({
+      typescript: require('typescript')
+    })
   ],
   globals: {
     '3': 'd3',
