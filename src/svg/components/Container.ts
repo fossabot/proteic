@@ -1,24 +1,25 @@
-import {select} from 'd3';
+import { select, Selection } from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
 
 class Container {
 
-    private svg: any;
+    private svg: Selection<any, any, any, any>;
+
     private config: Config;
     private components: Component[] = [];
 
     constructor(config: Config) {
         this.config = config;
 
-        let selector = this.config.get('selector'),
-            width = this.config.get('width'),
-            height = this.config.get('height'),
-            marginLeft = this.config.get('marginLeft'),
-            marginRight = this.config.get('marginRight'),
-            marginTop = this.config.get('marginTop'),
-            marginBottom = this.config.get('marginBottom');
+        let selector: string = this.config.get('selector'),
+            width: number = this.config.get('width'),
+            height: number = this.config.get('height'),
+            marginLeft: number = this.config.get('marginLeft'),
+            marginRight: number = this.config.get('marginRight'),
+            marginTop: number = this.config.get('marginTop'),
+            marginBottom: number = this.config.get('marginBottom');
 
         width += marginLeft + marginRight;
         height += marginTop + marginBottom;
@@ -66,13 +67,19 @@ class Container {
             .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')');
     }
 
-
-    public updateComponents(data: [{}]) {
+    /**
+     * 
+     * Update all the components previously added to this container.
+     * @param {[{}]} data Data necessary to update the componnets
+     * 
+     * @memberOf Container
+    
+     */
+    public updateComponents(data: [{}]): void {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             component.update(data);
         }
-
     }
 };
 
