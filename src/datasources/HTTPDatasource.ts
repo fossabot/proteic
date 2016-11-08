@@ -25,7 +25,7 @@ export default class HTTPDatasource extends Datasource {
      * @param {any} source An http endpoint. If invalid, this class will throw an Error. 
      *  
      * @memberOf HTTPDatasource
-    
+     * 
      */
     constructor(source) {
         super();
@@ -34,17 +34,7 @@ export default class HTTPDatasource extends Datasource {
         this.started = false;
     }
 
-    /**
-     * Configure a dispatcher for this datasource.
-     * 
-     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
-     * 
-     * @memberOf HTTPDatasource
-     */
-    configure(dispatcher) {
-        this.dispatcher = dispatcher;
-    }
-
+   
     /**
      * 
      * Initialize an HTTP connection
@@ -69,7 +59,6 @@ export default class HTTPDatasource extends Datasource {
     }
 
     _startRequest(url) {
-
         window.console.log('url', url);
         request(url).get((e, response) => this._handleResponse(response));
     }
