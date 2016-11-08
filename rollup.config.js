@@ -12,7 +12,7 @@ export default {
     })
   ],
   globals: {
-    '3': 'd3',
+    'd3': 'd3',
     chai: 'chai',
   },
   external: [
