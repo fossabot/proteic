@@ -1,10 +1,16 @@
 var fs = require("fs"),
     rollup = require("rollup"),
-    abort = (error) => console.log(error);
+    abort = (error) => console.log(error),
+    typescript = require('rollup-plugin-typescript');
 
 rollup.rollup({
     entry: "index.ts",
-    external: ['d3']
+    external: ['d3'],
+    plugins: [
+        typescript({
+            typescript: require('typescript')
+        })
+    ],
 }).then(function (bundle) {
     var code = bundle.generate({
         format: "cjs"
@@ -17,7 +23,7 @@ rollup.rollup({
             if (error) {
                 return reject(error);
             }
-            else { 
+            else {
                 resolve();
             }
         });
