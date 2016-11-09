@@ -180,11 +180,7 @@
 	});
 	chart.draw();
 
-	var chart2 = new proteic.Scatterplot([
-		{ "x": "1", "y": "1", "key": "virginica" },
-		{ "x": "2", "y": "2", "key": "virginica" },
-		{ "x": "3", "y": "3", "key": "virginica" }
-	],{
+	var chart2 = new proteic.Scatterplot(data ,{
 				selector: '#chart2',
 				canvas: true,
 				xAxisLabel:'Sepal length (cm)',

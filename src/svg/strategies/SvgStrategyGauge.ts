@@ -41,6 +41,8 @@ class SvgStrategyGauge extends SvgChart {
             this.container.add(this.textIndicator);
         }
     }
+
+    // TODO add translate method (like the textIndicator)
 }
 
 export default SvgStrategyGauge;

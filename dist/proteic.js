@@ -393,81 +393,54 @@ var Pointset = (function (_super) {
         var dataSeries = d3.nest()
             .key(function (d) { return d.key; })
             .entries(data), markers = null, markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), markerOutlineWidth = this.config.get('markerOutlineWidth'), colorScale = this.config.get('colorScale'), points = null, series = null;
+        var shape = d3.symbol()
+            .size(markerSize);
         this.svg.selectAll('g.points').remove();
         series = this.svg.selectAll('g.points');
         switch (markerShape) {
             case 'dot':
-                points = series
-                    .data(dataSeries, function (d) { return d.key; })
-                    .enter()
-                    .append('g')
-                    .attr('class', 'points')
-                    .style('fill', function (d, i) { return colorScale(i); })
-                    .selectAll('circle')
-                    .data(function (d) { return d.values; })
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) { return _this.x.xAxis.scale()(d.x); })
-                    .attr('cy', function (d) { return _this.y.yAxis.scale()(d.y); })
-                    .attr('r', markerSize)
-                    .attr('class', 'marker');
+                shape.type(d3.symbolCircle);
                 break;
             case 'ring':
-                window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
-                points = series
-                    .data(dataSeries, function (d) { return d.key; })
-                    .enter()
-                    .append('g')
-                    .attr('class', 'points')
-                    .style('stroke', function (d, i) { return colorScale(i); })
-                    .selectAll('circle')
-                    .data(function (d, i) { return d.values; })
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) { return _this.x.xAxis.scale()(d.x); })
-                    .attr('cy', function (d) { return _this.y.yAxis.scale()(d.y); })
-                    .attr('r', markerSize)
-                    .attr('class', 'marker')
-                    .style('fill', 'white')
-                    .style('stroke-width', markerOutlineWidth);
+                shape.type(d3.symbolCircle);
+                break;
+            case 'cross':
+                shape.type(d3.symbolCross);
+                break;
+            case 'diamond':
+                shape.type(d3.symbolDiamond);
+                break;
+            case 'square':
+                shape.type(d3.symbolSquare);
+                break;
+            case 'star':
+                shape.type(d3.symbolStar);
+                break;
+            case 'triangle':
+                shape.type(d3.symbolTriangle);
+                break;
+            case 'wye':
+                shape.type(d3.symbolWye);
                 break;
             case 'circle':
-                window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
-                points = series
-                    .data(dataSeries, function (d) { return d.key; })
-                    .enter()
-                    .append('g')
-                    .attr('class', 'points')
-                    .style('stroke', function (d, i) { return colorScale(i); })
-                    .selectAll('circle')
-                    .data(function (d, i) { return d.values; })
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) { return _this.x.xAxis.scale()(d.x); })
-                    .attr('cy', function (d) { return _this.y.yAxis.scale()(d.y); })
-                    .attr('r', markerSize)
-                    .attr('class', 'lineMarker')
-                    .style('fill', 'white')
-                    .style('stroke-width', markerOutlineWidth);
+                shape.type(d3.symbolCircle);
                 break;
             default:
-                points = series
-                    .data(dataSeries, function (d) { return d.key; })
-                    .enter()
-                    .append('g')
-                    .attr('class', 'points')
-                    .style('stroke', function (d, i) { return colorScale(i); })
-                    .selectAll('circle')
-                    .data(function (d, i) { return d.values; })
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) { return _this.x.xAxis.scale()(d.x); })
-                    .attr('cy', function (d) { return _this.y.yAxis.scale()(d.y); })
-                    .attr('r', markerSize)
-                    .attr('class', 'lineMarker')
-                    .style('fill', 'white')
-                    .style('stroke-width', markerOutlineWidth);
+                shape.type(d3.symbolCircle);
         }
+        points = series
+            .data(dataSeries, function (d) { return d.key; })
+            .enter()
+            .append('g')
+            .attr('class', 'points')
+            .style('stroke', function (d, i) { return colorScale(i); })
+            .selectAll('circle')
+            .data(function (d, i) { return d.values; })
+            .enter()
+            .append('path')
+            .attr('class', 'marker')
+            .attr('d', shape)
+            .attr('transform', function (d) { return ("translate(" + _this.x.xAxis.scale()(d.x) + ", " + _this.y.yAxis.scale()(d.y) + ")"); });
         markers = this.svg.selectAll('g.points circle');
         markers
             .on('mousedown.user', this.config.get('onDown'))
@@ -1926,8 +1899,8 @@ var defaults$3 = {
     marginRight: 250,
     marginBottom: 130,
     marginLeft: 150,
-    markerShape: 'dot',
-    markerSize: 3,
+    markerShape: 'circle',
+    markerSize: 15,
     width: '100%',
     height: 250,
     legend: true,

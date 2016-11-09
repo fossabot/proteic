@@ -18,8 +18,8 @@ export const defaults = {
     marginBottom: 130,
     marginLeft: 150,
     //markers
-    markerShape: 'dot',
-    markerSize: 3,
+    markerShape: 'circle',
+    markerSize: 15,
     //Width & height
     width: '100%', // %, auto, or numeric
     height: 250,

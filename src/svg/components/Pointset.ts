@@ -5,7 +5,15 @@ import YAxis from './YAxis';
 
 import {
   selection,
-  nest
+  nest,
+  symbol,
+  symbolCircle,
+  symbolCross,
+  symbolDiamond,
+  symbolSquare,
+  symbolStar,
+  symbolTriangle,
+  symbolWye
 } from 'd3';
 
 class Pointset extends Component {
@@ -38,84 +46,67 @@ class Pointset extends Component {
       points = null,
       series = null;
 
+    let shape = symbol()
+        .size(markerSize);
+
     this.svg.selectAll('g.points').remove();
 
     series = this.svg.selectAll('g.points');
 
     switch (markerShape) {
       case 'dot':
-        points = series
-          .data(dataSeries, (d) => d.key)
-          .enter()
-          .append('g')
-          .attr('class', 'points')
-          .style('fill', (d, i) => colorScale(i))
-          .selectAll('circle')
-          .data((d) => d.values)
-          .enter()
-          .append('circle')
-          .attr('cx', (d) => this.x.xAxis.scale()(d.x))
-          .attr('cy', (d) => this.y.yAxis.scale()(d.y))
-          .attr('r', markerSize)
-          .attr('class', 'marker');
+        shape.type(symbolCircle);
         break;
       case 'ring':
-        window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
-        points = series
-          .data(dataSeries, (d) => d.key)
-          .enter()
-          .append('g')
-          .attr('class', 'points')
-          .style('stroke', (d, i) => colorScale(i))
-          .selectAll('circle')
-          .data((d, i) => d.values)
-          .enter()
-          .append('circle')
-          .attr('cx', (d) => this.x.xAxis.scale()(d.x))
-          .attr('cy', (d) => this.y.yAxis.scale()(d.y))
-          .attr('r', markerSize)
-          .attr('class', 'marker')
-          .style('fill', 'white')
-          .style('stroke-width', markerOutlineWidth);
+        shape.type(symbolCircle);
         break;
-      // Deprecated circle option
+      case 'cross':
+        shape.type(symbolCross);
+        break;
+      case 'diamond':
+        shape.type(symbolDiamond);
+        break;
+      case 'square':
+        shape.type(symbolSquare);
+        break;
+      case 'star':
+        shape.type(symbolStar);
+        break;
+      case 'triangle':
+        shape.type(symbolTriangle);
+        break;
+      case 'wye':
+        shape.type(symbolWye);
+        break;
       case 'circle':
-        window.console.warn('Deprecated "circle" marker shape: use "dot" or "ring" instead');
-        points = series
-          .data(dataSeries, (d) => d.key)
-          .enter()
-          .append('g')
-          .attr('class', 'points')
-          .style('stroke', (d, i) => colorScale(i))
-          .selectAll('circle')
-          .data((d, i) => d.values)
-          .enter()
-          .append('circle')
-          .attr('cx', (d) => this.x.xAxis.scale()(d.x))
-          .attr('cy', (d) => this.y.yAxis.scale()(d.y))
-          .attr('r', markerSize)
-          .attr('class', 'lineMarker')
-          .style('fill', 'white')
-          .style('stroke-width', markerOutlineWidth);
+        shape.type(symbolCircle);
         break;
       default:
-        points = series
-          .data(dataSeries, (d) => d.key)
-          .enter()
-          .append('g')
-          .attr('class', 'points')
-          .style('stroke', (d, i) => colorScale(i))
-          .selectAll('circle')
-          .data((d, i) => d.values)
-          .enter()
-          .append('circle')
-          .attr('cx', (d) => this.x.xAxis.scale()(d.x))
-          .attr('cy', (d) => this.y.yAxis.scale()(d.y))
-          .attr('r', markerSize)
-          .attr('class', 'lineMarker')
-          .style('fill', 'white')
-          .style('stroke-width', markerOutlineWidth);
+        shape.type(symbolCircle);
     }
+
+
+    points = series
+      .data(dataSeries, (d) => d.key)
+      .enter()
+      .append('g')
+      .attr('class', 'points')
+      .style('stroke', (d, i) => colorScale(i))
+      .selectAll('circle')
+      .data((d, i) => d.values)
+      .enter()
+      .append('path')
+      .attr('class', 'marker')
+      .attr('d', shape)
+      .attr('transform', (d) => `translate(${this.x.xAxis.scale()(d.x)}, ${this.y.yAxis.scale()(d.y)})`);
+      // .append('circle')
+      // .attr('cx', (d) => this.x.xAxis.scale()(d.x))
+      // .attr('cy', (d) => this.y.yAxis.scale()(d.y))
+      // .attr('r', markerSize)
+      // .attr('class', 'lineMarker')
+      // .style('fill', 'white')
+      // .style('stroke-width', markerOutlineWidth);
+
 
     markers = this.svg.selectAll('g.points circle');
     markers
