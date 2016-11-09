@@ -1664,12 +1664,55 @@ var DialNeedle = (function (_super) {
     return DialNeedle;
 }(Component));
 
+var TextIndicator = (function (_super) {
+    __extends(TextIndicator, _super);
+    function TextIndicator() {
+    }
+    TextIndicator.prototype.update = function (data) {
+        var datum = data[data.length - 1];
+        this.svg.select('.value')
+            .text(datum.value);
+        this.svg.select('.label')
+            .text(datum.label);
+    };
+    TextIndicator.prototype.render = function () {
+        var translation = this.config.get('textIndicatorTranslation');
+        var indicator = this.svg.append('g')
+            .attr('class', 'text-indicator')
+            .attr('pointer-events', 'none')
+            .style('text-anchor', 'middle')
+            .style('alignment-baseline', 'central');
+        if (translation) {
+            indicator.attr('transform', translation);
+        }
+        indicator.append('text')
+            .attr('class', 'value')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('pointer-events', 'none')
+            .text('0')
+            .style('font', '48px Montserrat, sans-serif')
+            .style('text-anchor', 'middle');
+        indicator.append('text')
+            .attr('class', 'label')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('pointer-events', 'none')
+            .text('')
+            .style('font', '24px Montserrat, sans-serif')
+            .style('transform', 'translate(0, 1.5em')
+            .style('text-anchor', 'middle');
+    };
+    return TextIndicator;
+}(Component));
+
 var SvgStrategyGauge = (function (_super) {
     __extends(SvgStrategyGauge, _super);
     function SvgStrategyGauge() {
         _super.call(this);
         this.dial = new Dial();
         this.dialNeedle = new DialNeedle();
+        this.textIndicator = new TextIndicator();
     }
     SvgStrategyGauge.prototype.draw = function (data) {
         this.container.updateComponents(data);
@@ -1677,6 +1720,13 @@ var SvgStrategyGauge = (function (_super) {
     SvgStrategyGauge.prototype.initialize = function () {
         _super.prototype.initialize.call(this);
         this.container.add(this.dial).add(this.dialNeedle);
+        if (this.config.get('numericIndicator')) {
+            var width = this.config.get('width'), height = this.config.get('height');
+            var r = ((width > height) ? height : width) / 2;
+            var indicatorOffset = r + 75;
+            this.config.put('textIndicatorTranslation', 'translate(' + r + ',' + indicatorOffset + ')');
+            this.container.add(this.textIndicator);
+        }
     };
     return SvgStrategyGauge;
 }(SvgChart));
@@ -2371,48 +2421,6 @@ var SunburstDisk = (function (_super) {
     SunburstDisk.prototype.render = function () {
     };
     return SunburstDisk;
-}(Component));
-
-var TextIndicator = (function (_super) {
-    __extends(TextIndicator, _super);
-    function TextIndicator() {
-    }
-    TextIndicator.prototype.update = function (data) {
-        var datum = data[data.length - 1];
-        this.svg.select('.value')
-            .text(datum.value);
-        this.svg.select('.label')
-            .text(datum.label);
-    };
-    TextIndicator.prototype.render = function () {
-        var translation = this.config.get('textIndicatorTranslation');
-        var indicator = this.svg.append('g')
-            .attr('class', 'text-indicator')
-            .attr('pointer-events', 'none')
-            .style('text-anchor', 'middle')
-            .style('alignment-baseline', 'central');
-        if (translation) {
-            indicator.attr('transform', translation);
-        }
-        indicator.append('text')
-            .attr('class', 'value')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('pointer-events', 'none')
-            .text('0')
-            .style('font', '48px Montserrat, sans-serif')
-            .style('text-anchor', 'middle');
-        indicator.append('text')
-            .attr('class', 'label')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('pointer-events', 'none')
-            .text('')
-            .style('font', '24px Montserrat, sans-serif')
-            .style('transform', 'translate(0, 1.5em')
-            .style('text-anchor', 'middle');
-    };
-    return TextIndicator;
 }(Component));
 
 var SvgStrategySunburst = (function (_super) {
