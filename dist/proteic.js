@@ -1,8 +1,8 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var d3 = require('d3');
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'd3'], factory) :
+    (factory((global.proteic = global.proteic || {}),global.d3));
+}(this, (function (exports,d3) { 'use strict';
 
 function __extends(d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -2626,3 +2626,8 @@ exports.Swimlane = Swimlane;
 exports.Sunburst = Sunburst;
 exports.WebsocketDatasource = WebsocketDatasource;
 exports.HTTPDatasource = HTTPDatasource;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+//# sourceMappingURL=proteic.js.map

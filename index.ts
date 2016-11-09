@@ -27,6 +27,10 @@ default as Swimlane
 } from './src/charts/Swimlane';
 
 export {
+default as Sunburst
+} from './src/charts/Sunburst';
+
+export {
     default as WebsocketDatasource
 } from './src/datasources/WebsocketDatasource';
 
