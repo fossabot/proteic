@@ -14,7 +14,10 @@
 </head>
 
 <body>
+<h2>SVG</h2>
 <div id='chart'></div>
+<h2>Canvas</h2>
+<div id='chart2'></div>
 
 <script>
 	var data = [
@@ -176,6 +179,19 @@
 		onClick: (d) => window.console.log(d)
 	});
 	chart.draw();
+
+	var chart2 = new proteic.Scatterplot([
+		{ "x": "1", "y": "1", "key": "virginica" },
+		{ "x": "2", "y": "2", "key": "virginica" },
+		{ "x": "3", "y": "3", "key": "virginica" }
+	],{
+				selector: '#chart2',
+				canvas: true,
+				xAxisLabel:'Sepal length (cm)',
+				yAxisLabel:'Sepal width (cm)',
+				onClick: (d) => window.console.log(d)
+	});
+	chart2.draw();
 
 </script>
 </body>

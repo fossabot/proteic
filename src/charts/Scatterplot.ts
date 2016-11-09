@@ -67,7 +67,9 @@ class Scatterplot extends Chart {
             markerShape = userData['markerShape'] || defaults.markerShape,
             markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults.markerSize : userData['markerSize'],
 
-            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
+
+            canvas = userData['canvas'] || defaults.canvas;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -92,6 +94,7 @@ class Scatterplot extends Chart {
         config.put('markerShape', markerShape);
         config.put('markerSize', markerSize);
         config.put('legend', legend);
+        config.put('canvas', canvas);
 
         return config;
     }

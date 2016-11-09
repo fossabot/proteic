@@ -37,4 +37,5 @@ export const defaults = {
 
     },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+    canvas: false
 };

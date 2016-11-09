@@ -6,6 +6,7 @@ import Config from '../../Config';
 import SvgChart from '../base/SvgChart';
 import { sortByField } from '../../utils/dataSorting';
 import { convertByXYFormat } from '../../utils/dataTransformation';
+import CanvasPointset from "../components/CanvasPointset";
 
 class SvgStrategyScatterplot extends SvgChart {
     /**
@@ -28,12 +29,23 @@ class SvgStrategyScatterplot extends SvgChart {
      */
     private markers: Pointset;
 
+    /**
+     *
+     * Set of points
+     *
+     * @private
+     * @type {CanvasPointset}
+     * @memberOf SvgStrategyScatterplot
+     */
+    private canvasMarkers: CanvasPointset;
+
     private legend: Legend;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.markers = new Pointset(this.axes.x, this.axes.y);
+        this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
     }
 
     public draw(data: [{}]) {
@@ -53,7 +65,13 @@ class SvgStrategyScatterplot extends SvgChart {
         super.initialize();
         let legend = this.config.get('legend');
 
-        this.container.add(this.axes).add(this.markers);
+        this.container.add(this.axes);
+
+        if (this.config.get('canvas')) {
+            this.container.add(this.canvasMarkers);
+        } else {
+            this.container.add(this.markers);
+        }
 
         if (legend) {
             this.legend = new Legend();

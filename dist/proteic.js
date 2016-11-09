@@ -568,7 +568,11 @@ var Container = (function () {
     };
     Container.prototype.initializeContainer = function (selector, width, height, marginLeft, marginTop) {
         this.svg = d3.select(selector)
+            .style('position', 'relative')
+            .style('width', width + "px")
+            .style('height', height + "px")
             .append('svg:svg')
+            .style('position', 'absolute')
             .attr('width', width)
             .attr('height', height)
             .append('g')
@@ -1795,12 +1799,94 @@ var Gauge = (function (_super) {
     return Gauge;
 }(Chart));
 
+var CanvasPointset = (function (_super) {
+    __extends(CanvasPointset, _super);
+    function CanvasPointset(x, y) {
+        _super.call(this);
+        this.x = x;
+        this.y = y;
+    }
+    CanvasPointset.prototype.update = function (data) {
+        var _this = this;
+        var canvas = d3.select(this.config.get('selector')).append('canvas')
+            .attr('id', 'point-set-canvas')
+            .attr('width', this.config.get('width'))
+            .attr('height', this.config.get('height'))
+            .style('position', 'absolute')
+            .style('z-index', 2)
+            .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
+        var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null;
+        var canvasCtx = canvas.node().getContext('2d');
+        var shape = d3.symbol()
+            .size(markerSize)
+            .context(canvasCtx);
+        switch (markerShape) {
+            case 'dot':
+                shape.type(d3.symbolCircle);
+                break;
+            case 'ring':
+                shape.type(d3.symbolCircle);
+                break;
+            case 'cross':
+                shape.type(d3.symbolCross);
+                break;
+            case 'diamond':
+                shape.type(d3.symbolDiamond);
+                break;
+            case 'square':
+                shape.type(d3.symbolSquare);
+                break;
+            case 'star':
+                shape.type(d3.symbolStar);
+                break;
+            case 'triangle':
+                shape.type(d3.symbolTriangle);
+                break;
+            case 'wye':
+                shape.type(d3.symbolWye);
+                break;
+            case 'circle':
+                shape.type(d3.symbolCircle);
+                break;
+            default:
+                shape.type(d3.symbolCircle);
+        }
+        dataContainer = this.svg.append('proteic');
+        series = dataContainer.selectAll('proteic.g.points');
+        series
+            .data(data, function (d) { return d.key; })
+            .enter()
+            .call(function (s) {
+            var self = _this;
+            console.log(s);
+            s.each(function (d) {
+                canvasCtx.save();
+                canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
+                canvasCtx.beginPath();
+                canvasCtx.strokeStyle = colorScale(d.key);
+                canvasCtx.fillStyle = colorScale(d.key);
+                shape();
+                canvasCtx.closePath();
+                canvasCtx.stroke();
+                if (markerShape !== 'ring') {
+                    canvasCtx.fill();
+                }
+                canvasCtx.restore();
+            });
+        });
+    };
+    CanvasPointset.prototype.render = function () {
+    };
+    return CanvasPointset;
+}(Component));
+
 var SvgStrategyScatterplot = (function (_super) {
     __extends(SvgStrategyScatterplot, _super);
     function SvgStrategyScatterplot() {
         _super.call(this);
         this.axes = new XYAxis();
         this.markers = new Pointset(this.axes.x, this.axes.y);
+        this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
     }
     SvgStrategyScatterplot.prototype.draw = function (data) {
         var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType');
@@ -1811,7 +1897,13 @@ var SvgStrategyScatterplot = (function (_super) {
     SvgStrategyScatterplot.prototype.initialize = function () {
         _super.prototype.initialize.call(this);
         var legend = this.config.get('legend');
-        this.container.add(this.axes).add(this.markers);
+        this.container.add(this.axes);
+        if (this.config.get('canvas')) {
+            this.container.add(this.canvasMarkers);
+        }
+        else {
+            this.container.add(this.markers);
+        }
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
@@ -1850,6 +1942,7 @@ var defaults$3 = {
     onUp: function (d) {
     },
     maxNumberOfElements: 100,
+    canvas: false
 };
 
 var Scatterplot = (function (_super) {
@@ -1876,7 +1969,7 @@ var Scatterplot = (function (_super) {
     Scatterplot.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$3.selector, marginTop = userData['marginTop'] || defaults$3.marginTop, marginLeft = userData['marginLeft'] || defaults$3.marginLeft, marginRight = userData['marginRight'] || defaults$3.marginRight, marginBottom = userData['marginBottom'] || defaults$3.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$3.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$3.height, xAxisType = userData['xAxisType'] || defaults$3.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$3.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$3.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$3.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$3.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$3.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$3.yAxisShow, colorScale = userData['colorScale'] || defaults$3.colorScale, onDown = userData['onDown'] || defaults$3.onDown, onUp = userData['onUp'] || defaults$3.onUp, onHover = userData['onHover'] || defaults$3.onHover, onClick = userData['onClick'] || defaults$3.onClick, onLeave = userData['onLeave'] || defaults$3.onLeave, markerShape = userData['markerShape'] || defaults$3.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults$3.markerSize : userData['markerSize'], legend = (typeof userData['legend'] === 'undefined') ? defaults$3.legend : userData['legend'];
+            : calculateWidth(defaults$3.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$3.height, xAxisType = userData['xAxisType'] || defaults$3.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$3.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$3.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$3.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$3.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$3.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$3.yAxisShow, colorScale = userData['colorScale'] || defaults$3.colorScale, onDown = userData['onDown'] || defaults$3.onDown, onUp = userData['onUp'] || defaults$3.onUp, onHover = userData['onHover'] || defaults$3.onHover, onClick = userData['onClick'] || defaults$3.onClick, onLeave = userData['onLeave'] || defaults$3.onLeave, markerShape = userData['markerShape'] || defaults$3.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults$3.markerSize : userData['markerSize'], legend = (typeof userData['legend'] === 'undefined') ? defaults$3.legend : userData['legend'], canvas = userData['canvas'] || defaults$3.canvas;
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1900,6 +1993,7 @@ var Scatterplot = (function (_super) {
         config.put('markerShape', markerShape);
         config.put('markerSize', markerSize);
         config.put('legend', legend);
+        config.put('canvas', canvas);
         return config;
     };
     return Scatterplot;
