@@ -1811,7 +1811,12 @@ var Scatterplot = (function (_super) {
     Scatterplot.prototype.keepDrawing = function (datum) {
         var datumType = datum.constructor;
         if (datumType === Array) {
-            this.data = this.data.concat(datum);
+            if (this.data) {
+                this.data = this.data.concat(datum);
+            }
+            else {
+                this.data = datum;
+            }
         }
         else {
             this.data.push(datum);
