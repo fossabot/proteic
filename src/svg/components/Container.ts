@@ -61,7 +61,7 @@ class Container {
         this.svg = select(selector)
             .style('position', 'relative')
             .style('width', `${width}px`)
-            .style('height', `${height}px`)
+            .style('height', `${width}px`)
             .append('svg:svg')
             .style('position', 'absolute')
             .attr('width', width)
@@ -86,6 +86,9 @@ class Container {
         }
     }
 
+    public translate(x: Number, y: Number) {
+        this.svg.attr('transform', `translate(${x}, ${y})`)
+    }
 }
 
 export default Container;

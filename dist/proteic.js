@@ -543,7 +543,7 @@ var Container = (function () {
         this.svg = d3.select(selector)
             .style('position', 'relative')
             .style('width', width + "px")
-            .style('height', height + "px")
+            .style('height', width + "px")
             .append('svg:svg')
             .style('position', 'absolute')
             .attr('width', width)
@@ -557,6 +557,9 @@ var Container = (function () {
             var component = this.components[i];
             component.update(data);
         }
+    };
+    Container.prototype.translate = function (x, y) {
+        this.svg.attr('transform', "translate(" + x + ", " + y + ")");
     };
     return Container;
 }());
