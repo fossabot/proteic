@@ -558,9 +558,6 @@ var Container = (function () {
             component.update(data);
         }
     };
-    Container.prototype.translate = function (x, y) {
-        this.svg.attr('transform', "translate(" + x + ", " + y + ")");
-    };
     return Container;
 }());
 
@@ -1653,15 +1650,11 @@ var TextIndicator = (function (_super) {
             .text(datum.label);
     };
     TextIndicator.prototype.render = function () {
-        var translation = this.config.get('textIndicatorTranslation');
         var indicator = this.svg.append('g')
             .attr('class', 'text-indicator')
             .attr('pointer-events', 'none')
             .style('text-anchor', 'middle')
             .style('alignment-baseline', 'central');
-        if (translation) {
-            indicator.attr('transform', translation);
-        }
         indicator.append('text')
             .attr('class', 'value')
             .attr('x', 0)
@@ -1679,6 +1672,11 @@ var TextIndicator = (function (_super) {
             .style('font', '24px Montserrat, sans-serif')
             .style('transform', 'translate(0, 1.5em')
             .style('text-anchor', 'middle');
+    };
+    TextIndicator.prototype.translate = function (x, y) {
+        this.svg
+            .select('g.text-indicator')
+            .attr('transform', "translate(" + x + ", " + y + ")");
     };
     return TextIndicator;
 }(Component));
@@ -1701,8 +1699,8 @@ var SvgStrategyGauge = (function (_super) {
             var width = this.config.get('width'), height = this.config.get('height');
             var r = ((width > height) ? height : width) / 2;
             var indicatorOffset = r + 75;
-            this.config.put('textIndicatorTranslation', 'translate(' + r + ',' + indicatorOffset + ')');
             this.container.add(this.textIndicator);
+            this.textIndicator.translate(r, indicatorOffset);
         }
     };
     return SvgStrategyGauge;

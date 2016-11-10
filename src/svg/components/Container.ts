@@ -86,9 +86,6 @@ class Container {
         }
     }
 
-    public translate(x: Number, y: Number) {
-        this.svg.attr('transform', `translate(${x}, ${y})`)
-    }
 }
 
 export default Container;

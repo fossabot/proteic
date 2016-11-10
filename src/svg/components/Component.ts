@@ -33,6 +33,8 @@ abstract class Component {
         this.svg.selectAll('.serie').remove();
     }
 
+    public abstract translate(x: Number, y: Number);
+
 };
 
 export default Component;    

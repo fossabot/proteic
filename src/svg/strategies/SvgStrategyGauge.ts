@@ -37,12 +37,10 @@ class SvgStrategyGauge extends SvgChart {
                     (width > height) ? height : width
                 ) / 2;
             let indicatorOffset = r + 75;
-            this.config.put('textIndicatorTranslation', 'translate(' + r + ',' + indicatorOffset + ')');
             this.container.add(this.textIndicator);
+            this.textIndicator.translate(r, indicatorOffset);
         }
     }
-
-    // TODO add translate method (like the textIndicator)
 }
 
 export default SvgStrategyGauge;

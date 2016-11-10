@@ -14,16 +14,11 @@ class TextIndicator extends Component {
     }
 
     render(): void {
-        let translation = this.config.get('textIndicatorTranslation');
         let indicator = this.svg.append('g')
             .attr('class', 'text-indicator')
             .attr('pointer-events', 'none')
             .style('text-anchor', 'middle')
             .style('alignment-baseline', 'central');
-
-        if (translation) {
-            indicator.attr('transform', translation);
-        }
 
         indicator.append('text')
             .attr('class', 'value')
@@ -44,6 +39,13 @@ class TextIndicator extends Component {
             .style('transform', 'translate(0, 1.5em')
             .style('text-anchor', 'middle');
     }
+
+    translate(x: Number, y: Number) {
+        this.svg
+            .select('g.text-indicator')
+            .attr('transform', `translate(${x}, ${y})`);
+    }
+
 }
 
 export default TextIndicator;
