@@ -54,13 +54,13 @@ class Streamset extends Component {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .style('stroke', (d, i) => colorScale(i));
+            .style('stroke', (d, i) => colorScale(d.key));
 
         series
             .append('path')
             .attr('class', 'layer')
             .attr('d', this.areaGenerator)
-            .style('fill', (d, i) => colorScale(i));
+            .style('fill', (d, i) => colorScale(d.key));
 
 
         series.exit().remove();

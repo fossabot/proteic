@@ -67,7 +67,7 @@ class Barset extends Component {
 
     layerMerge = layer.merge(layerEnter)
       .attr('class', 'serie')
-      .attr('fill', (d, i) => colorScale(i));
+      .style('fill', (d, i) => colorScale(d.key));
 
     bar = layerMerge.selectAll('rect')
       .data((d) => d);
@@ -115,9 +115,9 @@ class Barset extends Component {
     barMerge = bar.merge(barEnter)
       .attr('width', xGroup.bandwidth())
       .attr("x", (d) => xGroup(d.key))
-      .attr('fill', (d, i) => colorScale(i))
       .attr("y", (d) => y(d.y))
-      .attr("height", (d) => height - y(d.y));
+      .attr("height", (d) => height - y(d.y))
+      .style('fill', (d, i) => colorScale(d.key));
   }
 
 }

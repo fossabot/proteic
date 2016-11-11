@@ -50,7 +50,7 @@ class Areaset extends Component {
       .append('g')
       .attr('class', 'area')
       .append('svg:path')
-      .style('fill', (d, i) => colorScale(i))
+      .style('fill', (d, i) => colorScale(d.key))
       .style('fill-opacity', areaOpacity)
       .attr('d', (d) => areaGenerator(d.values));
   }

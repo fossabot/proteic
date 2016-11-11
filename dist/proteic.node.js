@@ -368,9 +368,9 @@ var Lineset = (function (_super) {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .attr('stroke', function (d, i) { return colorScale(i); })
+            .attr('stroke', function (d) { return colorScale(d.key); })
             .append('svg:path')
-            .style('stroke', function (d, i) { return colorScale(i); })
+            .style('stroke', function (d) { return colorScale(d.key); })
             .style('stroke-width', 1.3)
             .style('fill', 'none')
             .attr('d', function (d) { return _this.lineGenerator(d.values); })
@@ -478,7 +478,7 @@ var Areaset = (function (_super) {
             .append('g')
             .attr('class', 'area')
             .append('svg:path')
-            .style('fill', function (d, i) { return colorScale(i); })
+            .style('fill', function (d, i) { return colorScale(d.key); })
             .style('fill-opacity', areaOpacity)
             .attr('d', function (d) { return areaGenerator(d.values); });
     };
@@ -512,7 +512,7 @@ var Legend = (function (_super) {
             .attr('y', function (d, i) { return i * 25; })
             .attr('height', 20)
             .attr('width', 20)
-            .attr('fill', function (d, i) { return colorScale(i); })
+            .style('fill', function (d) { return colorScale(d.key); })
             .style('opacity', 0.8);
         entries.append('text')
             .attr("x", width + 25 + 10)
@@ -1400,7 +1400,7 @@ var Barset = (function (_super) {
         var colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = layer.enter().append('g'), layerMerge = null, bar = null, barEnter = null, barMerge = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale();
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie')
-            .attr('fill', function (d, i) { return colorScale(i); });
+            .style('fill', function (d, i) { return colorScale(d.key); });
         bar = layerMerge.selectAll('rect')
             .data(function (d) { return d; });
         barEnter = bar.enter().append('rect');
@@ -1425,9 +1425,9 @@ var Barset = (function (_super) {
         barMerge = bar.merge(barEnter)
             .attr('width', xGroup.bandwidth())
             .attr("x", function (d) { return xGroup(d.key); })
-            .attr('fill', function (d, i) { return colorScale(i); })
             .attr("y", function (d) { return y(d.y); })
-            .attr("height", function (d) { return height - y(d.y); });
+            .attr("height", function (d) { return height - y(d.y); })
+            .style('fill', function (d, i) { return colorScale(d.key); });
     };
     return Barset;
 }(Component));
@@ -1996,12 +1996,12 @@ var Streamset = (function (_super) {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .style('stroke', function (d, i) { return colorScale(i); });
+            .style('stroke', function (d, i) { return colorScale(d.key); });
         series
             .append('path')
             .attr('class', 'layer')
             .attr('d', this.areaGenerator)
-            .style('fill', function (d, i) { return colorScale(i); });
+            .style('fill', function (d, i) { return colorScale(d.key); });
         series.exit().remove();
         series
             .attr('opacity', 1)
@@ -2219,8 +2219,8 @@ var Timeboxset = (function (_super) {
             .attr('width', function (d) { return x(d.end) - x(d.start); })
             .attr('x', function (d) { return x(d.start); })
             .attr('y', function (d) { return y(d.key); })
-            .attr('fill', function (d) { return colorScale(parseInt(yLanesBand(d.key))); })
-            .attr('height', function () { return 0.8 * yLanes(1); });
+            .attr('height', function () { return 0.8 * yLanes(1); })
+            .style('fill', function (d) { return colorScale(d.key); });
         box = this.svg.selectAll('g.serie rect');
         box
             .on('mousedown.user', onDown)

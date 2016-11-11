@@ -68,8 +68,8 @@ class Timeboxset extends Component {
             .attr('width', (d) => x(d.end) - x(d.start))
             .attr('x', (d) => x(d.start))
             .attr('y', (d) => y(d.key))
-            .attr('fill', (d) => colorScale(parseInt(yLanesBand(d.key))))
-            .attr('height', () => 0.8 * yLanes(1));
+            .attr('height', () => 0.8 * yLanes(1))
+            .style('fill', (d) => colorScale(d.key));
 
         box = this.svg.selectAll('g.serie rect');
 
