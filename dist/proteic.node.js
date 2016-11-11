@@ -433,7 +433,7 @@ var Pointset = (function (_super) {
             .enter()
             .append('g')
             .attr('class', 'points')
-            .style('stroke', function (d, i) { return colorScale(i); })
+            .style('stroke', function (d) { return colorScale(d.key); })
             .selectAll('circle')
             .data(function (d, i) { return d.values; })
             .enter()
@@ -543,7 +543,7 @@ var Container = (function () {
         this.svg = d3.select(selector)
             .style('position', 'relative')
             .style('width', width + "px")
-            .style('height', width + "px")
+            .style('height', height + "px")
             .append('svg:svg')
             .style('position', 'absolute')
             .attr('width', width)
@@ -1262,7 +1262,7 @@ function diverging_spectral2() {
 var defaults = {
     selector: '#chart',
     colorScale: category7(),
-    areaOpacity: 0.4,
+    areaOpacity: 0,
     xAxisType: 'linear',
     xAxisFormat: '',
     xAxisLabel: null,
@@ -1460,7 +1460,7 @@ var SvgStrategyBarchart = (function (_super) {
 var defaults$1 = {
     selector: '#chart',
     colorScale: category5(),
-    stacked: true,
+    stacked: false,
     xAxisType: 'categorical',
     xAxisFormat: '',
     xAxisLabel: null,
@@ -1521,7 +1521,7 @@ var Barchart = (function (_super) {
         this.draw(copy(this.data));
     };
     Barchart.prototype.loadConfigFromUser = function (userData) {
-        var config = new Config(), selector = userData['selector'] || defaults$1.selector, marginTop = userData['marginTop'] || defaults$1.marginTop, marginLeft = userData['marginLeft'] || defaults$1.marginLeft, marginRight = userData['marginRight'] || defaults$1.marginRight, marginBottom = userData['marginBottom'] || defaults$1.marginBottom, width = userData['width']
+        var config = new Config(), selector = userData['selector'] || defaults$1.selector, marginTop = userData['marginTop'] || defaults$1.marginTop, marginLeft = (userData['marginLeft'] != "undefined") ? userData['marginLeft'] : defaults$1.marginLeft, marginRight = userData['marginRight'] || defaults$1.marginRight, marginBottom = userData['marginBottom'] || defaults$1.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
             : calculateWidth(defaults$1.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$1.height, xAxisType = userData['xAxisType'] || defaults$1.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$1.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$1.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$1.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$1.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$1.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$1.yAxisShow, colorScale = userData['colorScale'] || defaults$1.colorScale, onDown = userData['onDown'] || defaults$1.onDown, onUp = userData['onUp'] || defaults$1.onUp, onHover = userData['onHover'] || defaults$1.onHover, onClick = userData['onClick'] || defaults$1.onClick, onLeave = userData['onLeave'] || defaults$1.onLeave, stacked = (typeof userData['stacked'] === 'undefined') ? defaults$1.stacked : userData['stacked'], stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }), legend = (typeof userData['legend'] === 'undefined') ? defaults$1.legend : userData['legend'];
         config.put('selector', selector);

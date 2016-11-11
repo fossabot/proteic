@@ -49,7 +49,7 @@ class Legend extends Component {
       .attr('y', (d, i) => i * 25)
       .attr('height', 20)
       .attr('width', 20)
-      .attr('fill', (d, i) => colorScale(i))
+      .style('fill', (d) => colorScale(d.key))
       .style('opacity', 0.8);
 
     entries.append('text')

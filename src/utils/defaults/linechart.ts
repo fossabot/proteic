@@ -4,7 +4,7 @@ export const defaults = {
     selector: '#chart',
     colorScale: Colors.category7(),
     //Area
-    areaOpacity: 0.4,
+    areaOpacity: 0,
     //Axes
     xAxisType: 'linear',
     xAxisFormat: '',

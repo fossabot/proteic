@@ -4,7 +4,7 @@ export const defaults = {
     selector: '#chart',
     colorScale: Colors.category5(),
     //Stacked
-    stacked: true,
+    stacked: false,
     //Axes
     xAxisType: 'categorical',
     xAxisFormat: '',

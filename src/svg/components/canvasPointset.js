@@ -69,7 +69,6 @@ export class CanvasPointset {
       .enter()
       .call((s) => {
         let self = this;
-        console.log(s);
         s.each(function (d) {
           canvasCtx.save();
           canvasCtx.translate(self.xAxis.scale()(d.x), self.yAxis.scale()(d.y));
