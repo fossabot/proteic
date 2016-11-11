@@ -61,7 +61,7 @@ class Container {
         this.svg = select(selector)
             .style('position', 'relative')
             .style('width', `${width}px`)
-            .style('height', `${width}px`)
+            .style('height', `${height}px`)
             .append('svg:svg')
             .style('position', 'absolute')
             .attr('width', width)
