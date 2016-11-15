@@ -16,29 +16,57 @@
     <meta charset="utf-8"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 
 <body>
 
-<section class="hero is-medium is-primary is-bold">
+<section class="hero is-primary is-bold">
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title">
-                Proteic.js
-            </h1>
-            <h2 class="subtitle">
-                Slogan needed
-            </h2>
+            <div class="colums">
+                <div class="column ">
+                    <h1 class="title">
+                        Proteic.js
+                    </h1>
+                </div>
+                <div class="column">
+                    <h2 class="subtitle">
+                        Visualization sowcase
+                    </h2>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="hero-foot">
+        <nav class="tabs">
+            <div class="container">
+                <ul>
+                    <li><a href="#areas">Areas</a></li>
+                    <li><a href="#bars">Barchart</a></li>
+                    <li><a href="#gauge">Gauge</a></li>
+                    <li><a href="#lines">Linechart</a></li>
+                    <li><a href="#scatterplot">Scatterplot</a></li>
+                    <li><a href="#streamgraph">Streamgraph</a></li>
+                    <li><a href="#network">Network</a></li>
+                    <li><a href="#sunburst">Sunburst</a></li>
+                    <li><a href="#swimlane">Swimlane</a></li>
+                </ul>
+            </div>
+        </nav>
     </div>
 </section>
 
 <section class="section">
     <h2 class="title is-2">Areas</h2>
     <div class="columns">
-        <div class="column"><div id='areas'></div></div>
-        <div class="column"><div id='areas-ws'></div></div>
+        <div class="column">
+            <div id='areas'></div>
+        </div>
+        <div class="column">
+            <div id='areas-ws'></div>
+        </div>
     </div>
 </section>
 
@@ -163,6 +191,17 @@
     </div>
 </section>
 
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>PROTEUS H2020</p>
+            <a class="icon" href="https://github.com/proteus-h2020/">
+                <i class="fa fa-github"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
 <script>
     var data = [
         {key: 'serie1', x: 1, y: 5},
@@ -261,14 +300,16 @@
         {key: 'Lane7', start: "2012-01-16", end: "2012-01-20"}
     ];
 
-    var areas = new proteic.StackedArea(dataTemporal, {selector: '#areas',
+    var areas = new proteic.StackedArea(dataTemporal, {
+        selector: '#areas',
         height: 200,
         width: '100%',
         marginRight: 100,
-        marginLeft: 1});
+        marginLeft: 1
+    });
     areas.draw();
     var dsAreas = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/streamgraph'
+        endpoint: 'ws://proteicws.herokuapp.com/streamgraph'
     });
     new proteic.StackedArea([], {
         selector: '#areas-ws', height: 200, width: '100%',
@@ -291,7 +332,7 @@
     });
     barsStacked.draw();
     var dsBars = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/barchart'
+        endpoint: 'ws://proteicws.herokuapp.com/barchart'
     });
     new proteic.Barchart([], {
         selector: '#bars-ws',
@@ -302,7 +343,7 @@
     }).datasource(dsBars);
     dsBars.start();
     //	var dsBarsStacked = new proteic.WebsocketDatasource({
-    //		endpoint: 'ws://192.168.3.32:3000/barchart'
+    //		endpoint: 'ws://proteicws.herokuapp.com/barchart'
     //	});
     //	new proteic.Barchart([], {selector: '#barsStacked-ws', stacked: true}).datasource(dsBars);
     //	dsBarsStacked.start();
@@ -311,7 +352,7 @@
     var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
     gauge.draw();
     var dsGauge = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/gauge'
+        endpoint: 'ws://proteicws.herokuapp.com/gauge'
     });
     new proteic.Gauge([], {
         selector: '#gauge-ws', height: 200, width: '100%',
@@ -319,7 +360,6 @@
         marginLeft: 10
     }).datasource(dsGauge);
     dsGauge.start();
-
 
 
     var lines = new proteic.Linechart(data, {
@@ -338,7 +378,7 @@
     });
     linesAreas.draw();
     var dsLines = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/linechart'
+        endpoint: 'ws://proteicws.herokuapp.com/linechart'
     });
     new proteic.Linechart([], {
         selector: '#lines-ws', height: 200, width: '100%',
@@ -347,7 +387,7 @@
     }).datasource(dsLines);
     dsLines.start();
     var dsLinesAreas = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/linechart'
+        endpoint: 'ws://proteicws.herokuapp.com/linechart'
     });
     new proteic.Linechart([], {
         selector: '#linesAreas-ws',
@@ -381,7 +421,7 @@
     });
     scatterplotCanvas.draw();
     var dsScatterplot = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/scatterplot'
+        endpoint: 'ws://proteicws.herokuapp.com/scatterplot'
     });
     new proteic.Scatterplot([], {
         selector: '#scatterplot-ws', height: 200, width: '100%',
@@ -390,7 +430,7 @@
     }).datasource(dsScatterplot);
     dsScatterplot.start();
     var dsScatterplotCanvas = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/scatterplot'
+        endpoint: 'ws://proteicws.herokuapp.com/scatterplot'
     });
     new proteic.Scatterplot([], {
         selector: '#scatterplotCanvas-ws',
@@ -408,7 +448,7 @@
     });
     streamgraph.draw();
     var dsStreamgraph = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/streamgraph'
+        endpoint: 'ws://proteicws.herokuapp.com/streamgraph'
     });
     new proteic.Streamgraph([], {
         selector: '#streamgraph-ws', height: 200, width: '100%',
@@ -425,7 +465,7 @@
     });
     sunburst.draw();
     var dsSunburst = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/sunburst'
+        endpoint: 'ws://proteicws.herokuapp.com/sunburst'
     });
     new proteic.Sunburst([], {
         selector: '#sunburst-ws', height: 200, width: '100%',
@@ -442,7 +482,7 @@
     });
     swimlane.draw();
     var dsSwimlane = new proteic.WebsocketDatasource({
-        endpoint: 'ws://192.168.3.32:3000/swimlane'
+        endpoint: 'ws://proteicws.herokuapp.com/swimlane'
     });
     new proteic.Swimlane([], {
         selector: '#swimlane-ws', height: 200, width: '100%',
