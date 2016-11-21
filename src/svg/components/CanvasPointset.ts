@@ -16,6 +16,7 @@ class CanvasPointset extends Component {
 
     private x: XAxis;
     private y: YAxis;
+    private canvas: any;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -24,13 +25,15 @@ class CanvasPointset extends Component {
     }
 
     public update(data: [any]): void {
-        let canvas = select(this.config.get('selector')).append('canvas')
-            .attr('id', 'point-set-canvas')
-            .attr('width', this.config.get('width'))
-            .attr('height', this.config.get('height'))
-            .style('position', 'absolute')
-            .style('z-index', 2)
-            .style('transform', `translate(${this.config.get('marginLeft')}px, ${this.config.get('marginTop')}px)`);
+        if (!this.canvas) {
+            this.canvas = select(this.config.get('selector')).append('canvas')
+                .attr('id', 'point-set-canvas')
+                .attr('width', this.config.get('width'))
+                .attr('height', this.config.get('height'))
+                .style('position', 'absolute')
+                .style('z-index', 2)
+                .style('transform', `translate(${this.config.get('marginLeft')}px, ${this.config.get('marginTop')}px)`);
+        }
 
         let markerShape = this.config.get('markerShape'),
             markerSize = this.config.get('markerSize'),
