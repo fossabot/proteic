@@ -1521,7 +1521,7 @@ var Barchart = (function (_super) {
         this.draw(copy(this.data));
     };
     Barchart.prototype.loadConfigFromUser = function (userData) {
-        var config = new Config(), selector = userData['selector'] || defaults$1.selector, marginTop = userData['marginTop'] || defaults$1.marginTop, marginLeft = (userData['marginLeft'] != "undefined") ? userData['marginLeft'] : defaults$1.marginLeft, marginRight = userData['marginRight'] || defaults$1.marginRight, marginBottom = userData['marginBottom'] || defaults$1.marginBottom, width = userData['width']
+        var config = new Config(), selector = userData['selector'] || defaults$1.selector, marginTop = userData['marginTop'] || defaults$1.marginTop, marginLeft = (userData['marginLeft'] !== undefined) ? userData['marginLeft'] : defaults$1.marginLeft, marginRight = userData['marginRight'] || defaults$1.marginRight, marginBottom = userData['marginBottom'] || defaults$1.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
             : calculateWidth(defaults$1.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$1.height, xAxisType = userData['xAxisType'] || defaults$1.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$1.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$1.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$1.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$1.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$1.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$1.yAxisShow, colorScale = userData['colorScale'] || defaults$1.colorScale, onDown = userData['onDown'] || defaults$1.onDown, onUp = userData['onUp'] || defaults$1.onUp, onHover = userData['onHover'] || defaults$1.onHover, onClick = userData['onClick'] || defaults$1.onClick, onLeave = userData['onLeave'] || defaults$1.onLeave, stacked = (typeof userData['stacked'] === 'undefined') ? defaults$1.stacked : userData['stacked'], stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }), legend = (typeof userData['legend'] === 'undefined') ? defaults$1.legend : userData['legend'];
         config.put('selector', selector);
@@ -1792,7 +1792,7 @@ var CanvasPointset = (function (_super) {
                 .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
         }
         var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null;
-        var canvasCtx = canvas.node().getContext('2d');
+        var canvasCtx = this.canvas.node().getContext('2d');
         var shape = d3.symbol()
             .size(markerSize)
             .context(canvasCtx);
