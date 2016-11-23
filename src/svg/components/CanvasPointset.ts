@@ -42,7 +42,7 @@ class CanvasPointset extends Component {
             series = null,
             dataContainer = null;
 
-        let canvasCtx = canvas.node().getContext('2d');
+        let canvasCtx = this.canvas.node().getContext('2d');
 
         let shape = symbol()
             .size(markerSize)
