@@ -32,7 +32,7 @@ export function nested2simple(data) {
 
 export function simple2Linked(data) {
   var linkedData = { links: [], nodes: [] };
-  data.map((d) => d.key === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));
+  data.map((d) => d.class === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));
   return linkedData;
 }
 

@@ -1,4 +1,4 @@
-import { select, Selection } from 'd3';
+import { select, Selection, zoom } from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
@@ -88,6 +88,14 @@ class Container {
 
     public translate(x: Number, y: Number) {
         this.svg.attr('transform', `translate(${x}, ${y})`)
+    }
+
+    public viewBox(w: number, h: number) {
+        this.svg.attr("viewBox", "0 0 " + w + " " + h);
+    }
+
+    public zoom(z: any) {
+        this.svg.call(zoom().scaleExtent([1 / 2, 4]).on("zoom", z));
     }
 }
 

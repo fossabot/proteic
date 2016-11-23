@@ -1,0 +1,96 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+  <title>Network</title>
+  <script src='../node_modules/d3/build/d3.min.js'></script>
+  <script src='../dist/proteic.js'></script>
+</head>
+
+<body>
+  <div id='chart'></div>
+
+  <script>
+        var data = [
+    {"class": "node", "id": "Myriel", "key": 1},
+    {"class": "node", "id": "Napoleon", "key": 1},
+    {"class": "node", "id": "Mlle.Baptistine", "key": 1},
+    {"class": "node", "id": "Mme.Magloire", "key": 1},
+    {"class": "node", "id": "CountessdeLo", "key": 1},
+    {"class": "node", "id": "Geborand", "key": 1},
+    {"class": "node", "id": "Champtercier", "key": 1},
+    {"class": "node", "id": "Cravatte", "key": 1},
+    {"class": "node", "id": "Count", "key": 1},
+    {"class": "node", "id": "OldMan", "key": 1},
+    {"class": "node", "id": "Labarre", "key": 2},
+    {"class": "node", "id": "Valjean", "key": 2},
+    {"class": "node", "id": "Marguerite", "key": 3},
+    {"class": "node", "id": "Mme.deR", "key": 2},
+    {"class": "node", "id": "Isabeau", "key": 2},
+    {"class": "node", "id": "Gervais", "key": 2},
+    {"class": "node", "id": "Tholomyes", "key": 3},
+    {"class": "node", "id": "Listolier", "key": 3},
+    {"class": "node", "id": "Fameuil", "key": 3},
+    {"class": "node", "id": "Blacheville", "key": 3},
+    {"class": "node", "id": "Favourite", "key": 3},
+    {"class": "node", "id": "Dahlia", "key": 3},
+    {"class": "node", "id": "Zephine", "key": 3},
+    {"class": "node", "id": "Fantine", "key": 3},
+    {"class": "node", "id": "Mme.Thenardier", "key": 4},
+    {"class": "node", "id": "Thenardier", "key": 4},
+    {"class": "node", "id": "Cosette", "key": 5},
+    {"class": "node", "id": "Javert", "key": 4},
+    {"class": "node", "id": "Fauchelevent", "key": 0},
+    {"class": "node", "id": "Bamatabois", "key": 2},
+    {"class": "node", "id": "Perpetue", "key": 3},
+    {"class": "node", "id": "Simplice", "key": 2},
+
+    {"class": "link", "source": "Napoleon", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
+    {"class": "link", "source": "Mme.Magloire", "target": "Myriel", "value": 10},
+    {"class": "link", "source": "Mme.Magloire", "target": "Mlle.Baptistine", "value": 6},
+    {"class": "link", "source": "CountessdeLo", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Geborand", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Champtercier", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Cravatte", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Count", "target": "Myriel", "value": 2},
+    {"class": "link", "source": "OldMan", "target": "Myriel", "value": 1},
+    {"class": "link", "source": "Valjean", "target": "Labarre", "value": 1},
+    {"class": "link", "source": "Valjean", "target": "Mme.Magloire", "value": 3},
+    {"class": "link", "source": "Valjean", "target": "Mlle.Baptistine", "value": 3},
+    {"class": "link", "source": "Valjean", "target": "Myriel", "value": 5},
+    {"class": "link", "source": "Marguerite", "target": "Valjean", "value": 1},
+    {"class": "link", "source": "Mme.deR", "target": "Valjean", "value": 1},
+    {"class": "link", "source": "Isabeau", "target": "Valjean", "value": 1},
+    {"class": "link", "source": "Gervais", "target": "Valjean", "value": 1},
+    {"class": "link", "source": "Listolier", "target": "Tholomyes", "value": 4},
+    {"class": "link", "source": "Fameuil", "target": "Tholomyes", "value": 4},
+    {"class": "link", "source": "Fameuil", "target": "Listolier", "value": 4},
+    {"class": "link", "source": "Blacheville", "target": "Tholomyes", "value": 4},
+    {"class": "link", "source": "Blacheville", "target": "Listolier", "value": 4},
+    {"class": "link", "source": "Blacheville", "target": "Fameuil", "value": 4},
+    {"class": "link", "source": "Favourite", "target": "Tholomyes", "value": 3},
+    {"class": "link", "source": "Favourite", "target": "Listolier", "value": 3},
+    {"class": "link", "source": "Favourite", "target": "Fameuil", "value": 3},
+    {"class": "link", "source": "Favourite", "target": "Blacheville", "value": 4},
+    {"class": "link", "source": "Dahlia", "target": "Tholomyes", "value": 3},
+    {"class": "link", "source": "Dahlia", "target": "Listolier", "value": 3},
+    {"class": "link", "source": "Dahlia", "target": "Fameuil", "value": 3},
+    {"class": "link", "source": "Dahlia", "target": "Blacheville", "value": 3}
+    ];
+
+    chart = new proteic.Network(data, {
+      width: '80%',
+      height: 300,
+      onClick: (d) => console.log('clicking', d)
+    });
+    chart.draw();
+  </script>
+</body>
+
+</html>

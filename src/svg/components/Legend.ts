@@ -19,7 +19,9 @@ class Legend extends Component {
 
   }
 
-  public update(data: [any]) {
+  public update(data: any) {
+    //Exclude those values that do not contain a 'key'.
+    data = data.filter((d:any) => d.key !== undefined);
     let dataSeries = nest()
       .key((d) => d.key)
       .entries(data),
@@ -36,6 +38,8 @@ class Legend extends Component {
 
     this.svg.selectAll('g.legend').remove();
 
+
+    console.log(dataSeries);
     legend = this.svg.append('g').attr('class', 'legend');
     entries = legend.selectAll('.legend-entry')
       .data(dataSeries, (d) => d.key)

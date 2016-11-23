@@ -31,6 +31,10 @@ default as Sunburst
 } from './src/charts/Sunburst';
 
 export {
+default as Network
+} from './src/charts/Network';
+
+export {
     default as WebsocketDatasource
 } from './src/datasources/WebsocketDatasource';
 
