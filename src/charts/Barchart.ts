@@ -53,10 +53,9 @@ class Barchart extends Chart {
             selector = userData['selector'] || defaults.selector,
             //Margins 
             marginTop = userData['marginTop'] || defaults.marginTop,
-            marginLeft = (userData['marginLeft']  != "undefined") ?  userData['marginLeft']  :  defaults.marginLeft,
+            marginLeft = (userData['marginLeft']  !== undefined) ?  userData['marginLeft']  :  defaults.marginLeft,
             marginRight = userData['marginRight'] || defaults.marginRight,
             marginBottom = userData['marginBottom'] || defaults.marginBottom,
-
             //Width & height
             width = userData['width']
                 ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
