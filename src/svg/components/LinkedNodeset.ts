@@ -19,9 +19,7 @@ import {
 
 class LinkedNodeset extends Component {
 
-    //private simulation: Simulation<SimulationNodeDatum, SimulationLinkDatum<SimulationNodeDatum>>;
     private simulation: any;
-
     private dragstarted: any;
     private dragged: any;
     private dragended: any;
@@ -56,6 +54,7 @@ class LinkedNodeset extends Component {
             d.fx = null;
             d.fy = null;
         };
+
     }
 
     public update(data: any) {
@@ -64,17 +63,20 @@ class LinkedNodeset extends Component {
 
         data = simple2Linked(data);
 
+        this.clean();
 
-        var link = this.svg.append("g")
+        let link =  this.svg.append('g')
+            .attr('class', 'serie')
+            .append("g")
             .attr("class", "links")
             .selectAll("line")
             .data(data.links)
             .enter().append("line")
-            .attr("stroke-width",  nodeRadius / 10)
+            .attr("stroke-width", nodeRadius / 10)
             .attr("stroke", "#999")
             .attr("stroke-opacity", 1);
 
-        var node = this.svg.append("g")
+        var node = this.svg.select('g.serie').append("g")
             .attr("class", "nodes")
             .selectAll("circle")
             .data(data.nodes)

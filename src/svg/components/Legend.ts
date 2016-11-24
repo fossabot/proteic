@@ -38,8 +38,6 @@ class Legend extends Component {
 
     this.svg.selectAll('g.legend').remove();
 
-
-    console.log(dataSeries);
     legend = this.svg.append('g').attr('class', 'legend');
     entries = legend.selectAll('.legend-entry')
       .data(dataSeries, (d) => d.key)

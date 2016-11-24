@@ -17,24 +17,17 @@ class Network extends Chart {
     }
 
 
-    /*
-        public keepDrawing(datum: any) {
-            var datumType = datum.constructor;
-    
-            if (datumType === Array) {
-                if (this.data) {
-                    this.data = this.data.concat(datum);
-                } else {
-                    this.data = datum;
-                }
-            }
-            else {
-                this.data.push(datum);
-            }
-            this.draw(copy(this.data));
+    public keepDrawing(datum: any) {
+        var datumType = datum.constructor;
+
+        if (datumType === Array) {
+            this.data = this.data.concat(datum);
         }
-    
-        **/
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
+    }
 
     protected loadConfigFromUser(userData: { [key: string]: any; }): Config {
         let config = new Config(),

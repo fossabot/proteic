@@ -10,7 +10,7 @@ abstract class Chart {
 
     private context: SvgContext;
     protected config: Config;
-    protected data: [{}];
+    protected data: any;
     private ds: Datasource = null;
     private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror');
 
