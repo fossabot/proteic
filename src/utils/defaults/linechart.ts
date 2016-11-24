@@ -19,7 +19,7 @@ export const defaults = {
     marginBottom: 130,
     marginLeft: 150,
     //markers
-    markerShape: 'ring',
+    markerShape: 'dot',
     markerSize: 5,
     markerOutlineWidth: 2,
     //Width & height

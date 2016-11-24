@@ -24,7 +24,7 @@
           };
           
           var ds = new proteic.WebsocketDatasource(data);
-          linechart = new proteic.Linechart([]).datasource(ds);
+          linechart = new proteic.Linechart([], {markerSize: 100, areaOpacity: 0.7}).datasource(ds);
           ds.start();
         </script>
     </body>

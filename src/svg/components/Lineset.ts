@@ -2,8 +2,10 @@
 import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
+import Globals from '../../Globals';
 
-import {line, nest} from 'd3';
+
+import { line, nest, easeLinear } from 'd3';
 
 class Lineset extends Component {
 
@@ -24,27 +26,31 @@ class Lineset extends Component {
     }
 
     public update(data: [any]): void {
-        
-        let dataSeries = nest().key((d) => d.key).entries(data),
-            series = null,
-            lines = null,
-            colorScale = this.config.get('colorScale');
+        let dataSeries = nest().key((d: any) => d.key).entries(data);
+        let series = this.svg.selectAll('g.serie');
+        let colorScale = this.config.get('colorScale');
 
-        this.svg.selectAll('g.serie').remove();               
-        series = this.svg.selectAll('g.serie');
-
-        lines = series
-            .data(dataSeries, (d) => d.key)
+        //Update new lines
+        let lines = series.data(dataSeries, (d: any) => d.key)
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .attr('stroke', (d) => colorScale(d.key))
+            .attr('data-key', (d: any) => d.key)
+            .attr('stroke', (d: any) => colorScale(d.key))
             .append('svg:path')
-            .style('stroke', (d) => colorScale(d.key))
-            .style('stroke-width', 1.3)
+            .style('stroke', (d: any) => colorScale(d.key))
+            .style('stroke-width', 1.9)
             .style('fill', 'none')
-            .attr('d', (d) => this.lineGenerator(d.values))
+            .attr('d', (d: any) => this.lineGenerator(d.values))
             .attr('class', 'line');
+
+        //update existing lines
+        this.svg.selectAll('.line')
+            .data(dataSeries, (d: any) => d.key)
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('d', (d: any) => this.lineGenerator(d.values));
     }
 
 }
