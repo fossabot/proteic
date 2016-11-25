@@ -513,6 +513,7 @@ var Legend = (function (_super) {
     Legend.prototype.render = function () {
     };
     Legend.prototype.update = function (data) {
+        var _this = this;
         data = data.filter(function (d) { return d.key !== undefined; });
         var dataSeries = d3.nest()
             .key(function (d) { return d.key; })
@@ -534,13 +535,20 @@ var Legend = (function (_super) {
             .attr('height', 20)
             .attr('width', 20)
             .style('fill', function (d) { return colorScale(d.key); })
-            .style('opacity', 0.8);
+            .style('opacity', 0.8)
+            .on('click.default', function (d) { return _this.toggle(d); });
         entries.append('text')
             .attr("x", width + 25 + 10)
             .attr("y", function (d, i) { return i * 25 + 7; })
             .attr("dy", "0.55em")
             .text(function (d) { return d.key; })
-            .style('font', '14px Montserrat, sans-serif');
+            .style('font', '14px Montserrat, sans-serif')
+            .on('click.default', function () { return _this.toggle; });
+    };
+    Legend.prototype.toggle = function (d) {
+        var key = d.key, element = this.svg.selectAll('g[data-key="' + key + '"]'), opacity = element.style('opacity');
+        opacity = (opacity == 1) ? 0 : 1;
+        element.style('opacity', opacity);
     };
     return Legend;
 }(Component));
@@ -922,37 +930,38 @@ var Barset = (function (_super) {
         var keys = d3.map(data, function (d) { return d.key; }).keys();
         var stack$$1 = this.config.get('stack');
         data = stack$$1.keys(keys)(simple2stacked(data));
-        var colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = layer.enter().append('g'), layerMerge = null, bar = null, barEnter = null, barMerge = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale();
-        layerMerge = layer.merge(layerEnter)
+        var colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = layer.enter().append('g'), x = this.x.xAxis.scale(), y = this.y.yAxis.scale();
+        layer.merge(layerEnter)
             .attr('class', 'serie')
-            .style('fill', function (d, i) { return colorScale(d.key); });
-        bar = layerMerge.selectAll('rect')
-            .data(function (d) { return d; });
-        barEnter = bar.enter().append('rect');
-        barMerge = bar.merge(barEnter)
+            .attr('data-key', function (d) { return d.key; })
+            .style('fill', function (d, i) { return d.key !== undefined ? colorScale(d.key) : colorScale(i); })
+            .selectAll('rect')
+            .data(function (d) { return d; })
+            .enter().append('rect')
             .attr("x", function (d) { return x(d.data.key); })
             .attr("y", function (d) { return y(d[1]); })
             .attr("height", function (d) { return y(d[0]) - y(d[1]); })
             .attr("width", x.bandwidth());
     };
     Barset.prototype.updateGrouped = function (data) {
-        var keys = d3.map(data, function (d) { return d.key; }).keys(), colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = null, layerMerge = null, bar = null, barEnter = null, barMerge = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale(), xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]), height = this.config.get('height');
-        data = simple2nested(data, 'x');
-        layer = this.svg.selectAll('.serie').data(data);
-        layerEnter = layer.enter().append('g')
-            .attr('transform', function (d) { return 'translate(' + x(d.key) + ')'; });
-        layerMerge = layer.merge(layerEnter)
+        var keys = d3.map(data, function (d) { return d.key; }).keys(), colorScale = this.config.get('colorScale'), layer = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale(), xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]), height = this.config.get('height');
+        data = simple2nested(data, 'key');
+        layer = this.svg.selectAll('g.serie')
+            .data(data, function (d) { return d.values; });
+        layer.enter()
+            .append('g')
             .attr('class', 'serie')
-            .attr('transform', function (d) { return 'translate(' + x(d.key) + ')'; });
-        bar = layerMerge.selectAll('rect')
-            .data(function (d) { return d.values; });
-        barEnter = bar.enter().append('rect');
-        barMerge = bar.merge(barEnter)
+            .attr('data-key', function (d) { return d.key; })
+            .selectAll('rect')
+            .data(function (d) { return d.values; })
+            .enter()
+            .append('rect')
+            .attr('transform', function (d) { return 'translate(' + x(d.x) + ')'; })
             .attr('width', xGroup.bandwidth())
             .attr("x", function (d) { return xGroup(d.key); })
             .attr("y", function (d) { return y(d.y); })
             .attr("height", function (d) { return height - y(d.y); })
-            .style('fill', function (d, i) { return colorScale(d.key); });
+            .style('fill', function (d, i) { return d.key !== undefined ? colorScale(d.key) : colorScale(i); });
     };
     return Barset;
 }(Component));
@@ -1523,7 +1532,8 @@ var Streamset = (function (_super) {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .style('stroke', function (d, i) { return colorScale(d.key); });
+            .style('stroke', function (d, i) { return colorScale(d.key); })
+            .attr('data-key', function (d) { return d.key; });
         series
             .append('path')
             .attr('class', 'layer')
@@ -1738,7 +1748,8 @@ var Timeboxset = (function (_super) {
         layer = this.svg.selectAll('.serie').data(data);
         layerEnter = layer.enter().append('g');
         layerMerge = layer.merge(layerEnter)
-            .attr('class', 'serie');
+            .attr('class', 'serie')
+            .attr('data-key', function (d) { return d.key; });
         box = layerMerge.selectAll('rect')
             .data(function (d) { return d.values; });
         boxEnter = box.enter().append('rect');
