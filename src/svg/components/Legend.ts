@@ -68,12 +68,14 @@ class Legend extends Component {
 
   private toggle(d: any): void {
     let key = d.key,
-      element = this.svg.selectAll('g[data-key="' + key + '"]'),
-      opacity = element.style('opacity');
+      element = this.svg.selectAll('g[data-key="' + key + '"]');
 
-    opacity = (opacity == 1) ? 0 : 1;
+    if (!element.empty()) {
+      let opacity = element.style('opacity');
+      opacity = (opacity == 1) ? 0 : 1;
+      element.style('opacity', opacity);
+    }
 
-    element.style('opacity', opacity);
   }
 
 }

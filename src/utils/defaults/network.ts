@@ -13,7 +13,15 @@ export const defaults = {
     height: 250,
     //Node
     nodeRadius: 8.5,
-    legend:true,
+    legend: true,
+    //Network
+    linkWeight: 1,
+    nodeWeight: 8,
+    minLinkValue: 0,
+    maxLinkValue: 10,
+    minNodeWeight: 0,
+    maxNodeWeight: 100,
+    weighted: false,
     //Events
     onDown(d: any) {
     },

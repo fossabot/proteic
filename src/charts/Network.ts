@@ -52,7 +52,15 @@ class Network extends Chart {
             onUp = userData['onUp'] || defaults.onUp,
             onHover = userData['onHover'] || defaults.onHover,
             onClick = userData['onClick'] || defaults.onClick,
-            onLeave = userData['onLeave'] || defaults.onLeave;
+            onLeave = userData['onLeave'] || defaults.onLeave,
+            //Network
+            weighted = (typeof userData['weighted'] === 'undefined') ? defaults.weighted : userData['weighted'],
+            linkWeight = userData['linkWeight'] || defaults.linkWeight,
+            nodeWeight = userData['nodeWeight'] || defaults.nodeWeight,
+            minLinkValue = userData['minLinkValue'] || defaults.minLinkValue,
+            maxLinkValue = userData['maxLinkValue'] || defaults.maxLinkValue,
+            minNodeWeight = userData['minNodeWeight'] || defaults.minNodeWeight,
+            maxNodeWeight = userData['maxNodeWeight'] || defaults.maxNodeWeight;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -69,6 +77,13 @@ class Network extends Chart {
         config.put('onHover', onHover);
         config.put('onClick', onClick);
         config.put('onLeave', onLeave);
+        config.put('weighted', weighted);
+        config.put('linkWeight', linkWeight);
+        config.put('nodeWeight', nodeWeight);
+        config.put('minLinkValue', minLinkValue);
+        config.put('maxLinkValue', maxLinkValue);
+        config.put('minNodeWeight', minNodeWeight);
+        config.put('maxNodeWeight', maxNodeWeight);
 
         return config;
     }
