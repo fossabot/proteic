@@ -21,7 +21,7 @@ class Legend extends Component {
 
   public update(data: any) {
     //Exclude those values that do not contain a 'key'.
-    data = data.filter((d:any) => d.key !== undefined);
+    data = data.filter((d: any) => d.key !== undefined);
     let dataSeries = nest()
       .key((d) => d.key)
       .entries(data),
@@ -40,7 +40,7 @@ class Legend extends Component {
 
     legend = this.svg.append('g').attr('class', 'legend');
     entries = legend.selectAll('.legend-entry')
-      .data(dataSeries, (d) => d.key)
+      .data(dataSeries, (d: any) => d.key)
       .enter()
       .append('g')
       .attr('class', 'legend-entry');
@@ -48,19 +48,32 @@ class Legend extends Component {
 
     entries.append('rect')
       .attr('x', width + 10)
-      .attr('y', (d, i) => i * 25)
+      .attr('y', (d: any, i: number) => i * 25)
       .attr('height', 20)
       .attr('width', 20)
-      .style('fill', (d) => colorScale(d.key))
-      .style('opacity', 0.8);
+      .style('fill', (d: any) => colorScale(d.key))
+      .style('opacity', 0.8)
+      .on('click.default', (d: any) => this.toggle(d));
+
 
     entries.append('text')
       .attr("x", width + 25 + 10)
-      .attr("y", (d, i) => i * 25 + 7)
+      .attr("y", (d: any, i: number) => i * 25 + 7)
       .attr("dy", "0.55em")
-      .text((d) => d.key)
-      .style('font', '14px Montserrat, sans-serif');
+      .text((d: any) => d.key)
+      .style('font', '14px Montserrat, sans-serif')
+      .on('click.default', () => this.toggle);
 
+  }
+
+  private toggle(d: any): void {
+    let key = d.key,
+      element = this.svg.selectAll('g[data-key="' + key + '"]'),
+      opacity = element.style('opacity');
+
+    opacity = (opacity == 1) ? 0 : 1;
+
+    element.style('opacity', opacity);
   }
 
 }

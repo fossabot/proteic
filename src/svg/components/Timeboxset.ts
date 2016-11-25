@@ -56,7 +56,8 @@ class Timeboxset extends Component {
         layerEnter = layer.enter().append('g');
 
         layerMerge = layer.merge(layerEnter)
-            .attr('class', 'serie');
+            .attr('class', 'serie')
+            .attr('data-key', (d: any) => d.key);
 
 
         box = layerMerge.selectAll('rect')
