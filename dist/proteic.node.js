@@ -1316,20 +1316,10 @@ var CanvasPointset = (function (_super) {
     }
     CanvasPointset.prototype.update = function (data) {
         var _this = this;
-        if (!this.canvas) {
-            this.canvas = d3.select(this.config.get('selector')).append('canvas')
-                .attr('id', 'point-set-canvas')
-                .attr('width', this.config.get('width'))
-                .attr('height', this.config.get('height'))
-                .style('position', 'absolute')
-                .style('z-index', 2)
-                .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
-        }
-        var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null;
-        var canvasCtx = this.canvas.node().getContext('2d');
+        var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null, width = this.config.get('width'), height = this.config.get('height');
         var shape = d3.symbol()
             .size(markerSize)
-            .context(canvasCtx);
+            .context(this.canvasCtx);
         switch (markerShape) {
             case 'dot':
                 shape.type(d3.symbolCircle);
@@ -1363,6 +1353,7 @@ var CanvasPointset = (function (_super) {
         }
         dataContainer = this.svg.append('proteic');
         series = dataContainer.selectAll('proteic.g.points');
+        this.canvasCtx.clearRect(0, 0, width, height);
         series
             .data(data, function (d) { return d.key; })
             .enter()
@@ -1370,22 +1361,30 @@ var CanvasPointset = (function (_super) {
             var self = _this;
             console.log(s);
             s.each(function (d) {
-                canvasCtx.save();
-                canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
-                canvasCtx.beginPath();
-                canvasCtx.strokeStyle = colorScale(d.key);
-                canvasCtx.fillStyle = colorScale(d.key);
+                self.canvasCtx.save();
+                self.canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
+                self.canvasCtx.beginPath();
+                self.canvasCtx.strokeStyle = colorScale(d.key);
+                self.canvasCtx.fillStyle = colorScale(d.key);
                 shape();
-                canvasCtx.closePath();
-                canvasCtx.stroke();
+                self.canvasCtx.closePath();
+                self.canvasCtx.stroke();
                 if (markerShape !== 'ring') {
-                    canvasCtx.fill();
+                    self.canvasCtx.fill();
                 }
-                canvasCtx.restore();
+                self.canvasCtx.restore();
             });
         });
     };
     CanvasPointset.prototype.render = function () {
+        this.canvas = d3.select(this.config.get('selector')).append('canvas')
+            .attr('id', 'point-set-canvas')
+            .attr('width', this.config.get('width'))
+            .attr('height', this.config.get('height'))
+            .style('position', 'absolute')
+            .style('z-index', 2)
+            .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
+        this.canvasCtx = this.canvas.node().getContext('2d');
     };
     return CanvasPointset;
 }(Component));
