@@ -23,15 +23,19 @@ class SvgStrategyNetwork extends SvgChart {
     public initialize(): void {
         super.initialize();
         let legend = this.config.get('legend');
-
+        let zoom = this.config.get('zoom'); 
+        
         this.linkedNodes = new LinkedNodeset();
         this.container.add(this.linkedNodes);
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
         }
-        this.zoom = new ZoomComponent(this.linkedNodes);
-        this.container.add(this.zoom);
+
+        if (zoom) {
+            this.zoom = new ZoomComponent(this.linkedNodes);
+            this.container.add(this.zoom);
+        }
     }
 }
 

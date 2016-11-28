@@ -26,6 +26,7 @@ export const defaults = {
     labelShow: true,
     labelField: 'id',
     //Events
+    zoom: true,
     onDown(d: any) {
     },
     onHover(d: any) {
