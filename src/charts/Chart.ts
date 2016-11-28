@@ -4,7 +4,7 @@ import Config from '../Config';
 import { copy } from '../utils/functions';
 import Datasource from '../datasources/Datasource';
 
-import {dispatch} from 'd3';
+import { dispatch } from 'd3';
 
 abstract class Chart {
 
@@ -12,7 +12,7 @@ abstract class Chart {
     protected config: Config;
     protected data: any;
     private ds: Datasource = null;
-    private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror');
+    private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
 
 
     constructor(strategy: SvgChart, data: any, userConfig: any) {
@@ -39,13 +39,16 @@ abstract class Chart {
 
         this.ds.configure(this.dispatcher);
 
-        this.dispatcher.on('onmessage', (data) => this.keepDrawing(data));
+        this.dispatcher.on('addLoading', () => this.context.addLoading());
+        this.dispatcher.on('removeLoading', () => this.context.removeLoading());
 
-        this.dispatcher.on('onopen', (event) => {
+        this.dispatcher.on('onmessage', (data: any) => this.keepDrawing(data));
+
+        this.dispatcher.on('onopen', (event: any) => {
             console.log('onopen', event);
         });
 
-        this.dispatcher.on('onerror', (error) => {
+        this.dispatcher.on('onerror', (error: any) => {
             console.log('onerror', error);
         });
 
@@ -53,7 +56,7 @@ abstract class Chart {
 
     protected abstract loadConfigFromUser(userData: { [key: string]: any; }): Config;
 
-    protected abstract keepDrawing(datum: any);
+    protected abstract keepDrawing(datum: any): void;
 
 }
 

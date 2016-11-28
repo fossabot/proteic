@@ -20,6 +20,7 @@ class Datasource {
      */
     protected dispatcher: any = null;
     protected source : {any} = null;
+    protected isWaitingForData : boolean = true;
 
     constructor() {
         // this.filters = [];

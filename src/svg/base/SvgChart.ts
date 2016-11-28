@@ -18,7 +18,16 @@ abstract class SvgChart {
         this.config = config;
     }
 
-    abstract draw(data: [{}]);
+    abstract draw(data: [{}]): void;
+
+
+    public addLoading() {
+        this.container.addLoadingIcon();
+    }
+
+    public removeLoading() {
+        this.container.removeLoadingIcon();
+    }
 
 
 

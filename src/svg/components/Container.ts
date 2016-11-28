@@ -2,11 +2,11 @@ import { select, Selection, zoom } from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
+import Globals from '../../Globals';
 
 class Container {
 
     private svg: Selection<any, any, any, any>;
-
     private config: Config;
     private components: Component[] = [];
 
@@ -96,6 +96,21 @@ class Container {
 
     public zoom(z: any) {
         this.svg.call(zoom().scaleExtent([1 / 2, 4]).on("zoom", z));
+    }
+
+    public addLoadingIcon() {
+        let icon = Globals.LOADING_ICON;
+
+        this.svg.append('image').attr('id', 'loadingIcon')
+            .attr('width', '25%')
+            .attr('height', '25%')
+            .attr('x', '25%')
+            .attr('y', '25%')
+            .attr('xlink:href', icon)
+    }
+
+    public removeLoadingIcon() {
+        this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
     }
 }
 

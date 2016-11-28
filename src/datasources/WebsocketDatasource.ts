@@ -1,5 +1,5 @@
 import Datasource from './Datasource';
-
+import Globals from '../Globals';
 /**
  * 
  * This datasource set up a connection to a websocket server. 
@@ -29,7 +29,7 @@ class WebsocketDatasource extends Datasource {
     private ws: WebSocket;
 
 
-    constructor(source: { any }) {
+    constructor(source: any) {
         super();
         this.source = source;
     }
@@ -56,6 +56,9 @@ class WebsocketDatasource extends Datasource {
         super.start();
         this.ws = new WebSocket(this.source['endpoint']);
 
+
+        this.dispatcher.call('addLoading', this, {});
+
         this.ws.onopen = (e) => {
             this.dispatcher.call('onopen', this, e);
         };
@@ -63,6 +66,10 @@ class WebsocketDatasource extends Datasource {
             throw new Error('An error occurred trying to reach the websocket server' + e);
         };
         this.ws.onmessage = (e) => {
+            if (this.isWaitingForData) {
+                this.dispatcher.call('removeLoading', this, e);
+                this.isWaitingForData = false;
+            }
             var data = JSON.parse(e.data);
             this.dispatcher.call('onmessage', this, data);
         };

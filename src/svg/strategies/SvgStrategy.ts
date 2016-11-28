@@ -14,4 +14,11 @@ export class SvgContext {
     public draw(data: [{}]): void {
         this.strategy.draw(data);
     }
+
+    public addLoading(){
+        this.strategy.addLoading();
+    }
+    public removeLoading(){
+        this.strategy.removeLoading();
+    }
 }
