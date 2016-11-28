@@ -25,9 +25,7 @@ var SvgContext = (function () {
 function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-function isEven(n) {
-    return n % 2 === 0;
-}
+
 function isPercentage(n) {
     var split = null;
     var number = null;
@@ -124,29 +122,20 @@ var XAxis = (function (_super) {
             this.updateDomainByMinMax(min$$1, max$$1);
         }
         else {
-            var keys$$1 = d3.map(data, function (d) { return d.x; }).keys();
-            this.updateDomainByKeys(keys$$1);
+            var keys = d3.map(data, function (d) { return d.x; }).keys();
+            this.updateDomainByKeys(keys);
         }
         this.transition();
     };
-    XAxis.prototype.updateDomainByKeys = function (keys$$1) {
-        this._xAxis.scale().domain(keys$$1);
+    XAxis.prototype.updateDomainByKeys = function (keys) {
+        this._xAxis.scale().domain(keys);
     };
     XAxis.prototype.updateDomainByMinMax = function (min$$1, max$$1) {
         this._xAxis.scale().domain([min$$1, max$$1]);
     };
     XAxis.prototype.transition = function (time) {
         if (time === void 0) { time = 200; }
-        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis).on('end', this.applyStyle);
-    };
-    XAxis.prototype.applyStyle = function () {
-        d3.select(this).selectAll('g.tick text')
-            .style('font', '1.4em Montserrat, sans-serif')
-            .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; })
-            .style('fill', function (d) { return '#1a2127'; });
-        d3.select(this).selectAll(['path', 'line'])
-            .attr('stroke', 'gray')
-            .attr('stroke-width', .3);
+        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
     };
     XAxis.prototype.initializeXAxis = function (width, xAxisFormat, xAxisType) {
         switch (xAxisType) {
@@ -232,11 +221,19 @@ var YAxis = (function (_super) {
     YAxis.prototype.render = function () {
         var width = this.config.get('width'), height = this.config.get('height'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), yAxisLabel = this.config.get('yAxisLabel');
         this.initializeYAxis(width, height, yAxisFormat, yAxisType);
-        this.svg
+        var yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
-            .attr('stroke-dasharray', '1, 5')
             .call(this._yAxis);
+        yAxisG.selectAll('.tick')
+            .filter(function (d, i) { return i % 2 == 0; })
+            .attr('class', 'tick even');
+        yAxisG.selectAll('.tick')
+            .filter(function (d, i) { return i % 2 != 0; })
+            .attr('class', 'tick odd');
+        yAxisG.selectAll('.tick')
+            .filter(function (d, i) { return i == 0; })
+            .attr('class', 'tick main');
         this.svg
             .append('text')
             .attr('class', 'yaxis-title')
@@ -252,9 +249,9 @@ var YAxis = (function (_super) {
         this.svg.select('g.y.axis').attr('opacity', yAxisShow ? 1 : 0);
         if (yAxisType === 'linear') {
             if (layoutStacked) {
-                var keys$$1 = d3.map(data, function (d) { return d.key; }).keys();
+                var keys = d3.map(data, function (d) { return d.key; }).keys();
                 var stack_1 = this.config.get('stack');
-                var stackedData = stack_1.keys(keys$$1)(simple2stacked(data));
+                var stackedData = stack_1.keys(keys)(simple2stacked(data));
                 var min$$1 = d3.min(stackedData, function (serie) { return d3.min(serie, function (d) { return d[0]; }); });
                 var max$$1 = d3.max(stackedData, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
                 this.updateDomainByMinMax(min$$1, max$$1);
@@ -265,8 +262,8 @@ var YAxis = (function (_super) {
             }
         }
         else if (yAxisType === 'categorical') {
-            var keys$$1 = d3.map(data, function (d) { return d.key; }).keys().sort();
-            this._yAxis.scale().domain(keys$$1);
+            var keys = d3.map(data, function (d) { return d.key; }).keys().sort();
+            this._yAxis.scale().domain(keys);
         }
         else {
             console.warn('could not recognize y axis type', yAxisType);
@@ -278,14 +275,7 @@ var YAxis = (function (_super) {
     };
     YAxis.prototype.transition = function (time) {
         if (time === void 0) { time = 200; }
-        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis).on('end', this.applyStyle);
-    };
-    YAxis.prototype.applyStyle = function () {
-        d3.select(this).selectAll('g.tick text')
-            .style('font', '1.4em Montserrat, sans-serif')
-            .style('fill', function (d, i) { return !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127'; });
-        d3.select(this).selectAll('g.tick line')
-            .style('stroke', function (d, i) { return isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8'; });
+        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis);
     };
     YAxis.prototype.initializeYAxis = function (width, height, yAxisFormat, yAxisType) {
         switch (yAxisType) {
@@ -350,6 +340,13 @@ var XYAxis = (function (_super) {
     return XYAxis;
 }(Component));
 
+var Globals = (function () {
+    function Globals() {
+    }
+    Globals.COMPONENT_TRANSITION_TIME = 100;
+    return Globals;
+}());
+
 var Lineset = (function (_super) {
     __extends(Lineset, _super);
     function Lineset(xyAxes) {
@@ -364,21 +361,27 @@ var Lineset = (function (_super) {
     };
     Lineset.prototype.update = function (data) {
         var _this = this;
-        var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data), series = null, lines = null, colorScale = this.config.get('colorScale');
-        this.svg.selectAll('g.serie').remove();
-        series = this.svg.selectAll('g.serie');
-        lines = series
-            .data(dataSeries, function (d) { return d.key; })
+        var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data);
+        var series = this.svg.selectAll('g.serie');
+        var colorScale = this.config.get('colorScale');
+        var lines = series.data(dataSeries, function (d) { return d.key; })
             .enter()
             .append('g')
             .attr('class', 'serie')
+            .attr('data-key', function (d) { return d.key; })
             .attr('stroke', function (d) { return colorScale(d.key); })
             .append('svg:path')
             .style('stroke', function (d) { return colorScale(d.key); })
-            .style('stroke-width', 1.3)
+            .style('stroke-width', 1.9)
             .style('fill', 'none')
             .attr('d', function (d) { return _this.lineGenerator(d.values); })
             .attr('class', 'line');
+        this.svg.selectAll('.line')
+            .data(dataSeries, function (d) { return d.key; })
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(d3.easeLinear)
+            .attr('d', function (d) { return _this.lineGenerator(d.values); });
     };
     return Lineset;
 }(Component));
@@ -397,9 +400,7 @@ var Pointset = (function (_super) {
         var dataSeries = d3.nest()
             .key(function (d) { return d.key; })
             .entries(data), markers = null, markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), markerOutlineWidth = this.config.get('markerOutlineWidth'), colorScale = this.config.get('colorScale'), points = null, series = null;
-        var shape = d3.symbol()
-            .size(markerSize);
-        this.svg.selectAll('g.points').remove();
+        var shape = d3.symbol().size(markerSize);
         series = this.svg.selectAll('g.points');
         switch (markerShape) {
             case 'dot':
@@ -433,19 +434,27 @@ var Pointset = (function (_super) {
                 shape.type(d3.symbolCircle);
         }
         points = series
-            .data(dataSeries, function (d) { return d.key; })
+            .data(dataSeries, function (d) { return d.values; }, function (d) { return d.x; })
             .enter()
             .append('g')
             .attr('class', 'points')
+            .attr('data-key', function (d) { return d.key; })
             .style('stroke', function (d) { return colorScale(d.key); })
             .selectAll('circle')
-            .data(function (d, i) { return d.values; })
+            .data(function (d) { return d.values; })
             .enter()
             .append('path')
             .attr('class', 'marker')
             .attr('d', shape)
+            .style('stroke', function (d) { return colorScale(d.key); })
+            .style('fill', function (d) { return markerShape !== 'ring' ? colorScale(d.key) : 'transparent'; })
             .attr('transform', function (d) { return ("translate(" + _this.x.xAxis.scale()(d.x) + ", " + _this.y.yAxis.scale()(d.y) + ")"); });
-        markers = this.svg.selectAll('g.points circle');
+        this.svg.selectAll('.marker')
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(d3.easeLinear)
+            .attr('transform', function (d) { return ("translate(" + _this.x.xAxis.scale()(d.x) + ", " + _this.y.yAxis.scale()(d.y) + ")"); });
+        markers = this.svg.selectAll('.marker');
         markers
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
@@ -464,27 +473,34 @@ var Areaset = (function (_super) {
         this.y = y;
     }
     Areaset.prototype.render = function () {
-    };
-    Areaset.prototype.update = function (data) {
         var _this = this;
-        var dataSeries = d3.nest()
-            .key(function (d) { return d.key; })
-            .entries(data), series = null, areas = null, colorScale = this.config.get('colorScale'), height = this.config.get('height'), areaOpacity = this.config.get('areaOpacity');
-        var areaGenerator = d3.area()
+        var height = this.config.get('height');
+        this.areaGenerator = d3.area()
             .x(function (d) { return _this.x.xAxis.scale()(d.x); })
             .y0(height)
             .y1(function (d) { return _this.y.yAxis.scale()(d.y); });
-        this.svg.selectAll('g.area').remove();
-        series = this.svg.selectAll('g.area');
-        areas = series
-            .data(dataSeries, function (d) { return d.key; })
+    };
+    Areaset.prototype.update = function (data) {
+        var _this = this;
+        var dataSeries = d3.nest().key(function (d) { return d.key; }).entries(data);
+        var areas = this.svg.selectAll('g.area');
+        var colorScale = this.config.get('colorScale');
+        var height = this.config.get('height');
+        var areaOpacity = this.config.get('areaOpacity');
+        areas = areas.data(dataSeries, function (d) { return d.key; })
             .enter()
             .append('g')
             .attr('class', 'area')
+            .attr('data-key', function (d) { return d.key; })
             .append('svg:path')
-            .style('fill', function (d, i) { return colorScale(d.key); })
+            .style('fill', function (d) { return colorScale(d.key); })
             .style('fill-opacity', areaOpacity)
-            .attr('d', function (d) { return areaGenerator(d.values); });
+            .attr('d', function (d) { return _this.areaGenerator(d.values); })
+            .attr('class', 'areaPath');
+        this.svg.selectAll('.areaPath')
+            .data(dataSeries, function (d) { return d.key; })
+            .transition()
+            .attr('d', function (d) { return _this.areaGenerator(d.values); });
     };
     return Areaset;
 }(Component));
@@ -497,6 +513,7 @@ var Legend = (function (_super) {
     Legend.prototype.render = function () {
     };
     Legend.prototype.update = function (data) {
+        var _this = this;
         data = data.filter(function (d) { return d.key !== undefined; });
         var dataSeries = d3.nest()
             .key(function (d) { return d.key; })
@@ -518,13 +535,20 @@ var Legend = (function (_super) {
             .attr('height', 20)
             .attr('width', 20)
             .style('fill', function (d) { return colorScale(d.key); })
-            .style('opacity', 0.8);
+            .style('opacity', 0.8)
+            .on('click.default', function (d) { return _this.toggle(d); });
         entries.append('text')
             .attr("x", width + 25 + 10)
             .attr("y", function (d, i) { return i * 25 + 7; })
             .attr("dy", "0.55em")
             .text(function (d) { return d.key; })
-            .style('font', '14px Montserrat, sans-serif');
+            .style('font', '14px Montserrat, sans-serif')
+            .on('click.default', function () { return _this.toggle; });
+    };
+    Legend.prototype.toggle = function (d) {
+        var key = d.key, element = this.svg.selectAll('g[data-key="' + key + '"]'), opacity = element.style('opacity');
+        opacity = (opacity == 1) ? 0 : 1;
+        element.style('opacity', opacity);
     };
     return Legend;
 }(Component));
@@ -783,7 +807,7 @@ var defaults = {
     marginRight: 250,
     marginBottom: 130,
     marginLeft: 150,
-    markerShape: 'ring',
+    markerShape: 'dot',
     markerSize: 5,
     markerOutlineWidth: 2,
     width: '100%',
@@ -906,37 +930,38 @@ var Barset = (function (_super) {
         var keys = d3.map(data, function (d) { return d.key; }).keys();
         var stack$$1 = this.config.get('stack');
         data = stack$$1.keys(keys)(simple2stacked(data));
-        var colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = layer.enter().append('g'), layerMerge = null, bar = null, barEnter = null, barMerge = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale();
-        layerMerge = layer.merge(layerEnter)
+        var colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = layer.enter().append('g'), x = this.x.xAxis.scale(), y = this.y.yAxis.scale();
+        layer.merge(layerEnter)
             .attr('class', 'serie')
-            .style('fill', function (d, i) { return colorScale(d.key); });
-        bar = layerMerge.selectAll('rect')
-            .data(function (d) { return d; });
-        barEnter = bar.enter().append('rect');
-        barMerge = bar.merge(barEnter)
+            .attr('data-key', function (d) { return d.key; })
+            .style('fill', function (d, i) { return d.key !== undefined ? colorScale(d.key) : colorScale(i); })
+            .selectAll('rect')
+            .data(function (d) { return d; })
+            .enter().append('rect')
             .attr("x", function (d) { return x(d.data.key); })
             .attr("y", function (d) { return y(d[1]); })
             .attr("height", function (d) { return y(d[0]) - y(d[1]); })
             .attr("width", x.bandwidth());
     };
     Barset.prototype.updateGrouped = function (data) {
-        var keys = d3.map(data, function (d) { return d.key; }).keys(), colorScale = this.config.get('colorScale'), layer = this.svg.selectAll('.serie').data(data), layerEnter = null, layerMerge = null, bar = null, barEnter = null, barMerge = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale(), xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]), height = this.config.get('height');
-        data = simple2nested(data, 'x');
-        layer = this.svg.selectAll('.serie').data(data);
-        layerEnter = layer.enter().append('g')
-            .attr('transform', function (d) { return 'translate(' + x(d.key) + ')'; });
-        layerMerge = layer.merge(layerEnter)
+        var keys = d3.map(data, function (d) { return d.key; }).keys(), colorScale = this.config.get('colorScale'), layer = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale(), xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]), height = this.config.get('height');
+        data = simple2nested(data, 'key');
+        layer = this.svg.selectAll('g.serie')
+            .data(data, function (d) { return d.values; });
+        layer.enter()
+            .append('g')
             .attr('class', 'serie')
-            .attr('transform', function (d) { return 'translate(' + x(d.key) + ')'; });
-        bar = layerMerge.selectAll('rect')
-            .data(function (d) { return d.values; });
-        barEnter = bar.enter().append('rect');
-        barMerge = bar.merge(barEnter)
+            .attr('data-key', function (d) { return d.key; })
+            .selectAll('rect')
+            .data(function (d) { return d.values; })
+            .enter()
+            .append('rect')
+            .attr('transform', function (d) { return 'translate(' + x(d.x) + ')'; })
             .attr('width', xGroup.bandwidth())
             .attr("x", function (d) { return xGroup(d.key); })
             .attr("y", function (d) { return y(d.y); })
             .attr("height", function (d) { return height - y(d.y); })
-            .style('fill', function (d, i) { return colorScale(d.key); });
+            .style('fill', function (d, i) { return d.key !== undefined ? colorScale(d.key) : colorScale(i); });
     };
     return Barset;
 }(Component));
@@ -1291,20 +1316,10 @@ var CanvasPointset = (function (_super) {
     }
     CanvasPointset.prototype.update = function (data) {
         var _this = this;
-        if (!this.canvas) {
-            this.canvas = d3.select(this.config.get('selector')).append('canvas')
-                .attr('id', 'point-set-canvas')
-                .attr('width', this.config.get('width'))
-                .attr('height', this.config.get('height'))
-                .style('position', 'absolute')
-                .style('z-index', 2)
-                .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
-        }
-        var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null;
-        var canvasCtx = this.canvas.node().getContext('2d');
+        var markerShape = this.config.get('markerShape'), markerSize = this.config.get('markerSize'), colorScale = this.config.get('colorScale'), points = null, series = null, dataContainer = null, width = this.config.get('width'), height = this.config.get('height');
         var shape = d3.symbol()
             .size(markerSize)
-            .context(canvasCtx);
+            .context(this.canvasCtx);
         switch (markerShape) {
             case 'dot':
                 shape.type(d3.symbolCircle);
@@ -1338,6 +1353,7 @@ var CanvasPointset = (function (_super) {
         }
         dataContainer = this.svg.append('proteic');
         series = dataContainer.selectAll('proteic.g.points');
+        this.canvasCtx.clearRect(0, 0, width, height);
         series
             .data(data, function (d) { return d.key; })
             .enter()
@@ -1345,22 +1361,30 @@ var CanvasPointset = (function (_super) {
             var self = _this;
             console.log(s);
             s.each(function (d) {
-                canvasCtx.save();
-                canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
-                canvasCtx.beginPath();
-                canvasCtx.strokeStyle = colorScale(d.key);
-                canvasCtx.fillStyle = colorScale(d.key);
+                self.canvasCtx.save();
+                self.canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
+                self.canvasCtx.beginPath();
+                self.canvasCtx.strokeStyle = colorScale(d.key);
+                self.canvasCtx.fillStyle = colorScale(d.key);
                 shape();
-                canvasCtx.closePath();
-                canvasCtx.stroke();
+                self.canvasCtx.closePath();
+                self.canvasCtx.stroke();
                 if (markerShape !== 'ring') {
-                    canvasCtx.fill();
+                    self.canvasCtx.fill();
                 }
-                canvasCtx.restore();
+                self.canvasCtx.restore();
             });
         });
     };
     CanvasPointset.prototype.render = function () {
+        this.canvas = d3.select(this.config.get('selector')).append('canvas')
+            .attr('id', 'point-set-canvas')
+            .attr('width', this.config.get('width'))
+            .attr('height', this.config.get('height'))
+            .style('position', 'absolute')
+            .style('z-index', 2)
+            .style('transform', "translate(" + this.config.get('marginLeft') + "px, " + this.config.get('marginTop') + "px)");
+        this.canvasCtx = this.canvas.node().getContext('2d');
     };
     return CanvasPointset;
 }(Component));
@@ -1507,7 +1531,8 @@ var Streamset = (function (_super) {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .style('stroke', function (d, i) { return colorScale(d.key); });
+            .style('stroke', function (d, i) { return colorScale(d.key); })
+            .attr('data-key', function (d) { return d.key; });
         series
             .append('path')
             .attr('class', 'layer')
@@ -1722,7 +1747,8 @@ var Timeboxset = (function (_super) {
         layer = this.svg.selectAll('.serie').data(data);
         layerEnter = layer.enter().append('g');
         layerMerge = layer.merge(layerEnter)
-            .attr('class', 'serie');
+            .attr('class', 'serie')
+            .attr('data-key', function (d) { return d.key; });
         box = layerMerge.selectAll('rect')
             .data(function (d) { return d.values; });
         boxEnter = box.enter().append('rect');

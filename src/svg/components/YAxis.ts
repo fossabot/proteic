@@ -35,11 +35,22 @@ class YAxis extends Component {
 
         this.initializeYAxis(width, height, yAxisFormat, yAxisType);
 
-        this.svg
+        let yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
-            .attr('stroke-dasharray', '1, 5')
             .call(this._yAxis);
+
+        yAxisG.selectAll('.tick')
+            .filter((d, i) => i % 2 == 0)
+            .attr('class', 'tick even');
+
+        yAxisG.selectAll('.tick')
+            .filter((d, i) => i % 2 != 0)
+            .attr('class', 'tick odd');
+
+        yAxisG.selectAll('.tick')
+            .filter((d, i) => i == 0)
+            .attr('class', 'tick main');
 
         this.svg
             .append('text')
@@ -89,17 +100,7 @@ class YAxis extends Component {
     }
 
     private transition(time = 200) {
-        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis).on('end', this.applyStyle);
-
-    }
-
-
-    private applyStyle() {
-        select(this).selectAll('g.tick text')
-            .style('font', '1.4em Montserrat, sans-serif')
-            .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127');
-        select(this).selectAll('g.tick line')
-            .style('stroke', (d, i) => isEven(i) && i !== 0 ? '#5e6b70' : '#dbdad8');
+        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis);
     }
 
     /**

@@ -24,7 +24,6 @@ class XAxis extends Component {
         super();
     }
 
-
     public render(): void {
         let width = this.config.get('width'),
             height = this.config.get('height'),
@@ -91,18 +90,7 @@ class XAxis extends Component {
     }
 
     private transition(time: number = 200) {
-        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis).on('end', this.applyStyle);
-    }
-
-    private applyStyle() {
-        select(this).selectAll('g.tick text')
-            .style('font', '1.4em Montserrat, sans-serif')
-            .style('fill', (d, i) => !isEven(i) || i === 0 ? '#5e6b70' : '#1a2127')
-            .style('fill', (d) => '#1a2127')
-
-        select(this).selectAll(['path', 'line'])
-            .attr('stroke', 'gray')
-            .attr('stroke-width', .3);
+        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
     }
 
     /**

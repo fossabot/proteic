@@ -1,0 +1,48 @@
+/* TODO SASS */
+
+/*.axis path,*/
+/*.axis .tick line {*/
+/*!*fill: none;*!*/
+/*!*stroke: #000;*!*/
+/*!*shape-rendering: crispEdges;*!*/
+/*}*/
+
+.y.axis path {
+    display: none;
+}
+
+.x.axis path {
+    /*stroke: #dbdad8;*/
+    /*stroke-width: 2px;*/
+    display: none;
+}
+
+.axis .tick:not(.main) line {
+    stroke-dasharray: 1,5;
+}
+
+.y.axis .tick.odd line {
+    stroke: #dbdad8;
+}
+
+.y.axis .tick.main line {
+    stroke: #dbdad8;
+    stroke-width: 2px;
+    /*display: none;*/
+}
+
+.y.axis .tick.even line {
+    stroke: #5e6b70;
+}
+
+.axis text {
+    font: 1.4em Montserrat, sans-serif;
+}
+
+.y.axis .tick.even text {
+    fill: #1a2127;
+}
+
+.y.axis .tick.odd text {
+    fill: #5e6b70;
+}
