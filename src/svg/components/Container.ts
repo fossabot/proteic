@@ -63,9 +63,10 @@ class Container {
             .style('width', `${width}px`)
             .style('height', `${height}px`)
             .append('svg:svg')
-            .style('position', 'absolute')
+            .attr('class', 'proteic')
             .attr('width', width)
             .attr('height', height)
+            .style('position', 'absolute')
             .append('g')
             .attr('class', 'chartContainer')
             .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')');

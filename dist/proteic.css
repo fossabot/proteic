@@ -7,42 +7,42 @@
 /*!*shape-rendering: crispEdges;*!*/
 /*}*/
 
-.y.axis path {
+.proteic .y.axis path {
     display: none;
 }
 
-.x.axis path {
+.proteic .x.axis path {
     /*stroke: #dbdad8;*/
     /*stroke-width: 2px;*/
     display: none;
 }
 
-.axis .tick:not(.main) line {
+.proteic .y.axis .tick:not(:nth-of-type(1)) line {
     stroke-dasharray: 1,5;
 }
 
-.y.axis .tick.odd line {
+.proteic .y.axis .tick:nth-child(odd) line {
     stroke: #dbdad8;
 }
 
-.y.axis .tick.main line {
+.proteic .y.axis .tick.main line {
     stroke: #dbdad8;
     stroke-width: 2px;
     /*display: none;*/
 }
 
-.y.axis .tick.even line {
+.proteic .y.axis .tick:nth-child(even) line {
     stroke: #5e6b70;
 }
 
-.axis text {
+.proteic .axis text {
     font: 1.4em Montserrat, sans-serif;
 }
 
-.y.axis .tick.even text {
-    fill: #1a2127;
+.proteic .y.axis .tick:nth-child(even) text {
+    fill: #5e6b70;
 }
 
-.y.axis .tick.odd text {
-    fill: #5e6b70;
+.proteic .y.axis .tick:nth-child(odd) text {
+    fill: #1a2127;
 }

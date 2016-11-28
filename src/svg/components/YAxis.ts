@@ -40,18 +40,6 @@ class YAxis extends Component {
             .attr('class', 'y axis')
             .call(this._yAxis);
 
-        yAxisG.selectAll('.tick')
-            .filter((d, i) => i % 2 == 0)
-            .attr('class', 'tick even');
-
-        yAxisG.selectAll('.tick')
-            .filter((d, i) => i % 2 != 0)
-            .attr('class', 'tick odd');
-
-        yAxisG.selectAll('.tick')
-            .filter((d, i) => i == 0)
-            .attr('class', 'tick main');
-
         this.svg
             .append('text')
             .attr('class', 'yaxis-title')
