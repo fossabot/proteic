@@ -2303,14 +2303,17 @@ var SvgStrategyNetwork = (function (_super) {
     SvgStrategyNetwork.prototype.initialize = function () {
         _super.prototype.initialize.call(this);
         var legend = this.config.get('legend');
+        var zoom$$1 = this.config.get('zoom');
         this.linkedNodes = new LinkedNodeset();
         this.container.add(this.linkedNodes);
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
         }
-        this.zoom = new ZoomComponent(this.linkedNodes);
-        this.container.add(this.zoom);
+        if (zoom$$1) {
+            this.zoom = new ZoomComponent(this.linkedNodes);
+            this.container.add(this.zoom);
+        }
     };
     return SvgStrategyNetwork;
 }(SvgChart));
@@ -2335,6 +2338,7 @@ var defaults$8 = {
     weighted: false,
     labelShow: true,
     labelField: 'id',
+    zoom: true,
     onDown: function (d) {
     },
     onHover: function (d) {
@@ -2366,7 +2370,7 @@ var Network = (function (_super) {
     Network.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$8.selector, marginTop = userData['marginTop'] || defaults$8.marginTop, marginLeft = userData['marginLeft'] || defaults$8.marginLeft, marginRight = userData['marginRight'] || defaults$8.marginRight, marginBottom = userData['marginBottom'] || defaults$8.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$8.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$8.height, colorScale = userData['colorScale'] || defaults$8.colorScale, nodeRadius = userData['nodeRadius'] || defaults$8.nodeRadius, legend = (typeof userData['legend'] === 'undefined') ? defaults$8.legend : userData['legend'], onDown = userData['onDown'] || defaults$8.onDown, onUp = userData['onUp'] || defaults$8.onUp, onHover = userData['onHover'] || defaults$8.onHover, onClick = userData['onClick'] || defaults$8.onClick, onLeave = userData['onLeave'] || defaults$8.onLeave, weighted = (typeof userData['weighted'] === 'undefined') ? defaults$8.weighted : userData['weighted'], linkWeight = userData['linkWeight'] || defaults$8.linkWeight, nodeWeight = userData['nodeWeight'] || defaults$8.nodeWeight, minLinkValue = userData['minLinkValue'] || defaults$8.minLinkValue, maxLinkValue = userData['maxLinkValue'] || defaults$8.maxLinkValue, minNodeWeight = userData['minNodeWeight'] || defaults$8.minNodeWeight, maxNodeWeight = userData['maxNodeWeight'] || defaults$8.maxNodeWeight, labelShow = (typeof userData['labelShow'] === 'undefined') ? defaults$8.labelShow : userData['labelShow'], labelField = userData['labelField'] || defaults$8.labelField;
+            : calculateWidth(defaults$8.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$8.height, colorScale = userData['colorScale'] || defaults$8.colorScale, nodeRadius = userData['nodeRadius'] || defaults$8.nodeRadius, legend = (typeof userData['legend'] === 'undefined') ? defaults$8.legend : userData['legend'], onDown = userData['onDown'] || defaults$8.onDown, onUp = userData['onUp'] || defaults$8.onUp, onHover = userData['onHover'] || defaults$8.onHover, onClick = userData['onClick'] || defaults$8.onClick, onLeave = userData['onLeave'] || defaults$8.onLeave, weighted = (typeof userData['weighted'] === 'undefined') ? defaults$8.weighted : userData['weighted'], linkWeight = userData['linkWeight'] || defaults$8.linkWeight, nodeWeight = userData['nodeWeight'] || defaults$8.nodeWeight, minLinkValue = userData['minLinkValue'] || defaults$8.minLinkValue, maxLinkValue = userData['maxLinkValue'] || defaults$8.maxLinkValue, minNodeWeight = userData['minNodeWeight'] || defaults$8.minNodeWeight, maxNodeWeight = userData['maxNodeWeight'] || defaults$8.maxNodeWeight, zoom$$1 = (typeof userData['zoom'] === 'undefined') ? defaults$8.zoom : userData['zoom'], labelShow = (typeof userData['labelShow'] === 'undefined') ? defaults$8.labelShow : userData['labelShow'], labelField = userData['labelField'] || defaults$8.labelField;
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -2391,6 +2395,7 @@ var Network = (function (_super) {
         config.put('maxNodeWeight', maxNodeWeight);
         config.put('labelShow', labelShow);
         config.put('labelField', labelField);
+        config.put('zoom', zoom$$1);
         return config;
     };
     return Network;

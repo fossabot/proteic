@@ -1,12 +1,5 @@
 /* TODO SASS */
 
-/*.axis path,*/
-/*.axis .tick line {*/
-/*!*fill: none;*!*/
-/*!*stroke: #000;*!*/
-/*!*shape-rendering: crispEdges;*!*/
-/*}*/
-
 .proteic .y.axis path {
     display: none;
 }
