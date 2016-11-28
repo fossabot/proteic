@@ -121,23 +121,30 @@ class LinkedNodeset extends Component {
             .on('click.user', this.config.get('onClick'));
 
         //Append node labels
-        text = this.svg.select('g.serie').append("g")
-            .attr("class", "labels")
-            .selectAll('text')
-            .data(data.nodes)
-            .enter()
-            .append('text')
-            .attr('dx', 10)
-            .attr('dy', '.35em')
-            .attr('font-size', '.85em')
-            .text(typeof labelField === 'string' ? (d: any) => d[labelField] : labelField);
-
-        this.simulation.nodes(data.nodes).on("tick", () => this.ticked(link, node, text));
+        if (labelShow) {
+            text = this.svg.select('g.serie').append("g")
+                .attr("class", "labels")
+                .selectAll('text')
+                .data(data.nodes)
+                .enter()
+                .append('text')
+                .attr('dx', 10)
+                .attr('dy', '.35em')
+                .attr('font-size', '.85em')
+                .text(typeof labelField === 'string' ? (d: any) => d[labelField] : labelField);
+        }
+        this.simulation.nodes(data.nodes).on("tick", () => labelShow ? this.tickedWithText(link, node, text) : this.ticked(link, node));
         this.simulation.force("link").links(data.links);
 
     }
+    private tickedWithText(link: any, node: any, text: any) {
+        this.ticked(link, node);
+        text
+            .attr('x', (d: any) => d.x)
+            .attr('y', (d: any) => d.y);
+    }
 
-    private ticked(link: any, node: any, text: any) {
+    private ticked(link: any, node: any) {
         link
             .attr("x1", (d: any) => d.source.x)
             .attr("y1", (d: any) => d.source.y)
@@ -147,10 +154,6 @@ class LinkedNodeset extends Component {
         node
             .attr("cx", (d: any) => d.x)
             .attr("cy", (d: any) => d.y);
-
-        text
-            .attr('x', (d: any) => d.x)
-            .attr('y', (d: any) => d.y);
     }
 
 }

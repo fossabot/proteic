@@ -16,9 +16,13 @@
 <body>
   <h1> Normal network</h1>
   <div id='chart'></div>
-  <h1> Weighted network</h1>
 
+  <h1> Weighted network</h1>
   <div id='weightedNetwork'></div>
+
+  <h1> Network without labels</h1>
+  <div id='noLabelsChart'></div>
+
 
   <script>
         var data = [
@@ -100,8 +104,19 @@
       labelField: (d) => 'label: ' + d.id,
       onClick: (d) => console.log('clicking', d)
     });
+
+  noLabelsChart = new proteic.Network(data, {
+      selector: '#noLabelsChart',
+      width: '100%',
+      height: 600,
+      labelShow: false,
+      onClick: (d) => console.log('clicking', d)
+    });
+
+
     chart.draw();
     weightedChart.draw();
+    noLabelsChart.draw();
   </script>
 </body>
 
