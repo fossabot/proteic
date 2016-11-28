@@ -22,6 +22,9 @@ export const defaults = {
     minNodeWeight: 0,
     maxNodeWeight: 100,
     weighted: false,
+    //Labels
+    labelShow: true,
+    labelField: 'id',
     //Events
     onDown(d: any) {
     },

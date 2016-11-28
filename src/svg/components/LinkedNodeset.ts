@@ -72,29 +72,18 @@ class LinkedNodeset extends Component {
             maxNodeWeight = this.config.get('maxNodeWeight'),
             weighted = this.config.get('weighted'),
             linkScaleRadius = scaleLinear().domain([minLinkWeight, maxLinkWeight]).range([0, 3]),
-            nodeScaleRadius = scaleLinear().domain([minNodeWeight, maxNodeWeight]).range([0, 15]);
-
+            nodeScaleRadius = scaleLinear().domain([minNodeWeight, maxNodeWeight]).range([0, 15]),
+            labelShow = this.config.get('labelShow'),
+            labelField = this.config.get('labelField'),
+            node: any = null,
+            link: any = null,
+            text: any = null;
         //Transform data
         data = simple2Linked(data);
-        this.linkedByIndex = {};
 
-        for (let i = 0; i < data.nodes.length; i++) {
-            this.linkedByIndex[i + "," + i] = 1;
-        };
+        console.log('labelshow', labelShow, 'labelField', labelField, typeof labelField);
 
-
-        console.log(data.links);
-        for (let i = 0; i < data.links.length; i++) {
-            let d = data.links[i];
-            console.log(d.source, d.target);
-
-            this.linkedByIndex[d.source.index + "," + d.target.index] = 1
-        }
-
-
-        console.log(this.linkedByIndex);
-
-        let link = this.svg.append('g')
+        link = this.svg.append('g')
             .attr('class', 'serie')
             .append("g")
             .attr("class", "links")
@@ -105,7 +94,7 @@ class LinkedNodeset extends Component {
             .attr("stroke", "#999")
             .attr("stroke-opacity", 1);
 
-        var node = this.svg.select('g.serie').append("g")
+        node = this.svg.select('g.serie').append("g")
             .attr("class", "nodes")
             .selectAll("circle")
             .data(data.nodes)
@@ -122,50 +111,33 @@ class LinkedNodeset extends Component {
 
         let chart = this;
         node
-            .on('dblclick.default', function () {
-                chart.connectedNodes(this, node, link);
-            })
+            //   .on('dblclick.default', function() {
+            //      chart.connectedNodes(this, node, link);
+            // })
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
             .on('mouseleave.user', this.config.get('onLeave'))
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
 
+        //Append node labels
+        text = this.svg.select('g.serie').append("g")
+            .attr("class", "labels")
+            .selectAll('text')
+            .data(data.nodes)
+            .enter()
+            .append('text')
+            .attr('dx', 10)
+            .attr('dy', '.35em')
+            .attr('font-size', '.85em')
+            .text(typeof labelField === 'string' ? (d: any) => d[labelField] : labelField);
 
-        this.simulation.nodes(data.nodes).on("tick", () => this.ticked(link, node));
+        this.simulation.nodes(data.nodes).on("tick", () => this.ticked(link, node, text));
         this.simulation.force("link").links(data.links);
-    }
-
-
-    private neighboring(a: any, b: any) {
-        return this.linkedByIndex[a.index + "," + b.index];
-    }
-
-
-    private connectedNodes(ctx: any, nodes: any, links: any) {
-        if (this.toggle == 0) {
-            //Reduce the opacity of all but the neighbouring nodes
-            let d = select(ctx).node().__data__;
-            nodes.style("opacity", (o: any) => {
-                console.log(d.index, o.index, this.neighboring(d, o), this.neighboring(o, d));
-                return this.neighboring(d, o) || this.neighboring(o, d) ? 1 : 0.1;
-            });
-
-            links.style("opacity", (o: any) => {
-                return d.index == o.source.index || d.index == o.target.index ? 1 : 0.1;
-            });
-            //Reduce the op
-            this.toggle = 1;
-        } else {
-            //Put them back to opacity=1
-            nodes.style("opacity", 1);
-            links.style("opacity", 1);
-            this.toggle = 0;
-        }
 
     }
 
-    private ticked(link: any, node: any) {
+    private ticked(link: any, node: any, text: any) {
         link
             .attr("x1", (d: any) => d.source.x)
             .attr("y1", (d: any) => d.source.y)
@@ -175,6 +147,10 @@ class LinkedNodeset extends Component {
         node
             .attr("cx", (d: any) => d.x)
             .attr("cy", (d: any) => d.y);
+
+        text
+            .attr('x', (d: any) => d.x)
+            .attr('y', (d: any) => d.y);
     }
 
 }

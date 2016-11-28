@@ -87,6 +87,7 @@
       height: 600,
       linkWeght: 0.4,
       nodeWeight: 5,
+      labelField: 'class',
       onClick: (d) => console.log('clicking', d)
     });
 
@@ -96,6 +97,7 @@
       width: '100%',
       height: 600,
       weighted: true,
+      labelField: (d) => 'label: ' + d.id,
       onClick: (d) => console.log('clicking', d)
     });
     chart.draw();

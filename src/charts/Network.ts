@@ -60,7 +60,10 @@ class Network extends Chart {
             minLinkValue = userData['minLinkValue'] || defaults.minLinkValue,
             maxLinkValue = userData['maxLinkValue'] || defaults.maxLinkValue,
             minNodeWeight = userData['minNodeWeight'] || defaults.minNodeWeight,
-            maxNodeWeight = userData['maxNodeWeight'] || defaults.maxNodeWeight;
+            maxNodeWeight = userData['maxNodeWeight'] || defaults.maxNodeWeight,
+            //Labels
+            labelShow = (typeof userData['labelShow'] === 'undefined') ? defaults.labelShow : userData['labelShow'],
+            labelField = userData['labelField'] || defaults.labelField;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -84,6 +87,8 @@ class Network extends Chart {
         config.put('maxLinkValue', maxLinkValue);
         config.put('minNodeWeight', minNodeWeight);
         config.put('maxNodeWeight', maxNodeWeight);
+        config.put('labelShow', labelShow);
+        config.put('labelField', labelField);
 
         return config;
     }
