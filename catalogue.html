@@ -412,7 +412,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 1
+    marginLeft: 50
   });
   areas.draw();
   var dsAreas = new proteic.WebsocketDatasource({
@@ -421,12 +421,12 @@
   new proteic.StackedArea([], {
     selector: '#areas-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsAreas);
   dsAreas.start();
 
   var bars = new proteic.Barchart(dataGrouped, {
-    selector: '#bars', height: 200, width: '100%', marginRight: 100, marginLeft: 10
+    selector: '#bars', height: 200, width: '100%', marginRight: 100, marginLeft: 50
   });
   bars.draw();
   var barsStacked = new proteic.Barchart(dataGrouped, {
@@ -435,7 +435,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 1
+    marginLeft: 50
   });
   barsStacked.draw();
   var dsBars = new proteic.WebsocketDatasource({
@@ -446,7 +446,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsBars);
   dsBars.start();
   //	var dsBarsStacked = new proteic.WebsocketDatasource({
@@ -472,7 +472,7 @@
   var lines = new proteic.Linechart(data, {
     selector: '#lines', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   lines.draw();
   var linesAreas = new proteic.Linechart(data, {
@@ -481,7 +481,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   linesAreas.draw();
   var dsLines = new proteic.WebsocketDatasource({
@@ -490,7 +490,7 @@
   new proteic.Linechart([], {
     selector: '#lines-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsLines);
   dsLines.start();
   var dsLinesAreas = new proteic.WebsocketDatasource({
@@ -502,19 +502,23 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsLinesAreas);
   dsLinesAreas.start();
 
 
-    var network = new proteic.Network(dataNetwork, {
-      selector: '#network',
-      height: 200,
-      width: '100%',
-      marginRight: 100,
-      marginLeft: 10
-    });
-    network.draw();
+  var network =  new proteic.Network(dataNetwork, {
+    selector: '#network',
+    width: '100%',
+    height: 200,
+    linkWeght: 0.4,
+    nodeWeight: 5,
+    labelField: 'class',
+  });
+
+  network.draw();
+
+
 
 
   var scatterplot = new proteic.Scatterplot(data, {
@@ -522,7 +526,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   scatterplot.draw();
   var scatterplotCanvas = new proteic.Scatterplot(data, {
@@ -531,7 +535,7 @@
     height: 200,
     width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   scatterplotCanvas.draw();
   var dsScatterplot = new proteic.WebsocketDatasource({
@@ -540,7 +544,7 @@
   new proteic.Scatterplot([], {
     selector: '#scatterplot-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsScatterplot);
   dsScatterplot.start();
   var dsScatterplotCanvas = new proteic.WebsocketDatasource({
@@ -550,7 +554,7 @@
     selector: '#scatterplotCanvas-ws',
     canvas: true,
     marginRight: 100,
-    marginLeft: 10,
+    marginLeft: 50,
     height: 200,
     width: '100%'
   }).datasource(dsScatterplotCanvas);
@@ -558,7 +562,7 @@
   var streamgraph = new proteic.Streamgraph(dataTemporal, {
     selector: '#streamgraph', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   streamgraph.draw();
   var dsStreamgraph = new proteic.WebsocketDatasource({
@@ -567,7 +571,7 @@
   new proteic.Streamgraph([], {
     selector: '#streamgraph-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsStreamgraph);
   dsStreamgraph.start();
 
@@ -575,7 +579,7 @@
   var sunburst = new proteic.Sunburst(dataHierarchic, {
     selector: '#sunburst', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   });
   sunburst.draw();
   var dsSunburst = new proteic.WebsocketDatasource({
@@ -584,7 +588,7 @@
   new proteic.Sunburst([], {
     selector: '#sunburst-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 50
   }).datasource(dsSunburst);
   dsSunburst.start();
 
@@ -592,7 +596,7 @@
   var swimlane = new proteic.Swimlane(dataLanes, {
     selector: '#swimlane', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 70
   });
   swimlane.draw();
   var dsSwimlane = new proteic.WebsocketDatasource({
@@ -601,10 +605,9 @@
   new proteic.Swimlane([], {
     selector: '#swimlane-ws', height: 200, width: '100%',
     marginRight: 100,
-    marginLeft: 10
+    marginLeft: 70
   }).datasource(dsSwimlane);
   dsSwimlane.start();
-
 
 </script>
 </body>
