@@ -1,4 +1,6 @@
 import Component from './Component';
+import Zoomable from './Zoomable';
+
 import Config from '../../Config';
 import { simple2Linked } from '../../utils/dataTransformation';
 
@@ -16,10 +18,11 @@ import {
     SimulationNodeDatum,
     SimulationLinkDatum,
     Force,
-    scaleLinear
+    scaleLinear,
+    D3ZoomEvent
 } from 'd3';
 
-class LinkedNodeset extends Component {
+class LinkedNodeset extends Component implements Zoomable {
 
     private simulation: any;
     private dragstarted: any;
@@ -81,8 +84,6 @@ class LinkedNodeset extends Component {
         //Transform data
         data = simple2Linked(data);
 
-        console.log('labelshow', labelShow, 'labelField', labelField, typeof labelField);
-
         link = this.svg.append('g')
             .attr('class', 'serie')
             .append("g")
@@ -131,7 +132,12 @@ class LinkedNodeset extends Component {
                 .attr('dx', 10)
                 .attr('dy', '.35em')
                 .attr('font-size', '.85em')
-                .text(typeof labelField === 'string' ? (d: any) => d[labelField] : labelField);
+                .text(typeof labelField === 'string' ? (d: any) => d[labelField] : labelField)
+                .on('mousedown.user', this.config.get('onDown'))
+                .on('mouseup.user', this.config.get('onUp'))
+                .on('mouseleave.user', this.config.get('onLeave'))
+                .on('mouseover.user', this.config.get('onHover'))
+                .on('click.user', this.config.get('onClick'));
         }
         this.simulation.nodes(data.nodes).on("tick", () => labelShow ? this.tickedWithText(link, node, text) : this.ticked(link, node));
         this.simulation.force("link").links(data.links);
@@ -154,6 +160,14 @@ class LinkedNodeset extends Component {
         node
             .attr("cx", (d: any) => d.x)
             .attr("cy", (d: any) => d.y);
+    }
+
+    public zoom(event: D3ZoomEvent<any, any>) {
+        let transform: any = event.transform;
+
+        this.svg.selectAll('.nodes circle').attr('transform', transform);
+        this.svg.selectAll('.links line').attr('transform', transform);
+        this.svg.selectAll('.labels text').attr('transform', transform);
     }
 
 }

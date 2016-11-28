@@ -1,14 +1,15 @@
 import LinkedNodeset from '../components/LinkedNodeset';
 import Legend from '../components/Legend';
-
+import ZoomComponent from '../components/ZoomComponent';
 import Config from '../../Config';
 import SvgChart from '../base/SvgChart';
 import { sortByField } from '../../utils/dataSorting';
 
 class SvgStrategyNetwork extends SvgChart {
 
-    private nodes: LinkedNodeset;
+    private linkedNodes: LinkedNodeset;
     private legend: Legend;
+    private zoom: ZoomComponent;
 
     constructor() {
         super();
@@ -23,12 +24,14 @@ class SvgStrategyNetwork extends SvgChart {
         super.initialize();
         let legend = this.config.get('legend');
 
-        this.nodes = new LinkedNodeset();
-        this.container.add(this.nodes);
+        this.linkedNodes = new LinkedNodeset();
+        this.container.add(this.linkedNodes);
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
         }
+        this.zoom = new ZoomComponent(this.linkedNodes);
+        this.container.add(this.zoom);
     }
 }
 
