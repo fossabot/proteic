@@ -15,7 +15,7 @@
     "build": "rollup -c rollup.config.js && uglifyjs dist/proteic.js -c negate_iife=false -o dist/proteic.min.js && node rollup.config.node.js && node-sass scss/proteic.scss dist/proteic.css",
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
-    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ \"",
+    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ scss/\"",
     "prepublish": "npm run build && node rollup.config.node.js"
   },
   "keywords": [
