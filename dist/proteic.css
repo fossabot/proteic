@@ -26,3 +26,12 @@
 
 .proteic .y.axis .tick:nth-child(odd) text {
   fill: #1a2127; }
+
+.text-indicator {
+  white-space: nowrap;
+  overflow: hidden; }
+  .text-indicator .value {
+    font: 2em Montserrat, sans-serif; }
+  .text-indicator .label {
+    font: 1em Montserrat, sans-serif;
+    text-overflow: ellipsis; }

@@ -25,8 +25,7 @@ class TextIndicator extends Component {
             .attr('x', 0)
             .attr('y', 0)
             .attr('pointer-events', 'none')
-            .text('0')
-            .style('font', '48px Montserrat, sans-serif')
+            .text('')
             .style('text-anchor', 'middle');
 
         indicator.append('text')
@@ -35,7 +34,6 @@ class TextIndicator extends Component {
             .attr('y', 0)
             .attr('pointer-events', 'none')
             .text('')
-            .style('font', '24px Montserrat, sans-serif')
             .style('transform', 'translate(0, 1.5em')
             .style('text-anchor', 'middle');
     }
