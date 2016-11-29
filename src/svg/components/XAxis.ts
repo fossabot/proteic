@@ -31,11 +31,11 @@ class XAxis extends Component {
             xAxisType = this.config.get('xAxisType'),
             xAxisLabel = this.config.get('xAxisLabel');
 
-        this.initializeXAxis(width, xAxisFormat, xAxisType);
+        this.initializeXAxis(width, height, xAxisFormat, xAxisType);
 
         this.svg
             .append('g')
-            .attr('class', 'x axis')
+            .attr('class', `x axis ${xAxisType}`)
             .attr('transform', 'translate(0,' + height + ')')
             .call(this._xAxis);
 
@@ -104,16 +104,22 @@ class XAxis extends Component {
      *
      * @memberOf XAxis
      */
-    private initializeXAxis(width: string | number, xAxisFormat: string, xAxisType: string): void {
+    private initializeXAxis(width: string | number, height: string | number, xAxisFormat: string, xAxisType: string): void {
         switch (xAxisType) {
             case 'time':
-                this._xAxis = axisBottom(scaleTime().range([0, width]));
+                this._xAxis = axisBottom(scaleTime().range([0, width]))
+                    .tickSizeInner(-height)
+                    .tickPadding(9);
                 break;
             case 'linear':
-                this._xAxis = axisBottom(scaleLinear().range([0, width])).tickFormat(format(xAxisFormat));
+                this._xAxis = axisBottom(scaleLinear().range([0, width]))
+                    .tickFormat(format(xAxisFormat))
+                    .tickSizeInner(-height)
+                    .tickPadding(9);
                 break;
             case 'categorical':
-                this._xAxis = axisBottom(scaleBand().rangeRound([0, width]).padding(0.1).align(0.5));
+                this._xAxis = axisBottom(scaleBand().rangeRound([0, width])
+                    .padding(0.1).align(0.5));
                 break;
             default:
                 throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
