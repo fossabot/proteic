@@ -92,7 +92,7 @@ class Pointset extends Component {
             .enter()
             .append('g')
             .attr('class', 'points')
-            .attr('data-key', (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .style('stroke', (d: any) => colorScale(d.key))
             .selectAll('circle')
             .data((d: any) => d.values)

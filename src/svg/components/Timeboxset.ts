@@ -3,6 +3,7 @@ import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
 import { simple2nested } from '../../utils/dataTransformation';
+import Globals from '../../Globals';
 
 import {
     extent,
@@ -57,7 +58,7 @@ class Timeboxset extends Component {
 
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie')
-            .attr('data-key', (d: any) => d.key);
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
 
         box = layerMerge.selectAll('rect')

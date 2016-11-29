@@ -3,7 +3,7 @@ import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
 import {simple2stacked} from '../../utils/dataTransformation';
-
+import Globals from '../../Globals';
 import {
     area,
     curveCardinal,
@@ -45,9 +45,12 @@ class Streamset extends Component {
             data4stack = simple2stacked(data),
             stack = this.config.get('stack'),
             dataSeries = stack(data4stack),
-            series = null;
+            series : any = null;
 
-        this.areaGenerator.x((d) => this.xyAxes.x.xAxis.scale()((new Date(d.data.key))));
+            console.log('data', data);
+            console.log('dataSeries', dataSeries);
+            
+        this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data.key))));
 
         series = this.svg.selectAll('.serie')
             .data(dataSeries)
@@ -55,7 +58,7 @@ class Streamset extends Component {
             .append('g')
             .attr('class', 'serie')
             .style('stroke', (d: any, i: number) => colorScale(d.key))
-            .attr('data-key', (d: any) => d.key);
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
         series
             .append('path')
