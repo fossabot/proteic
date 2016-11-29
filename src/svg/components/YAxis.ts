@@ -106,7 +106,11 @@ class YAxis extends Component {
     private initializeYAxis(width: string | number, height: string | number, yAxisFormat: string, yAxisType: string): void {
         switch (yAxisType) {
             case 'linear':
-                this._yAxis = axisLeft(scaleLinear().range([height, 0])).tickFormat(format(yAxisFormat)).tickSizeInner(-width).tickSizeOuter(0).tickPadding(20);
+                this._yAxis = axisLeft(scaleLinear().range([height, 0]))
+                    .tickFormat(format(yAxisFormat))
+                    .tickSizeInner(-width)
+                    .tickSizeOuter(0)
+                    .tickPadding(20);
                 break;
             case 'categorical':
                 this._yAxis = axisLeft(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));

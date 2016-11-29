@@ -104,10 +104,10 @@ var XAxis = (function (_super) {
     }
     XAxis.prototype.render = function () {
         var width = this.config.get('width'), height = this.config.get('height'), xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), xAxisLabel = this.config.get('xAxisLabel');
-        this.initializeXAxis(width, xAxisFormat, xAxisType);
+        this.initializeXAxis(width, height, xAxisFormat, xAxisType);
         this.svg
             .append('g')
-            .attr('class', 'x axis')
+            .attr('class', "x axis " + xAxisType)
             .attr('transform', 'translate(0,' + height + ')')
             .call(this._xAxis);
         this.svg
@@ -145,16 +145,22 @@ var XAxis = (function (_super) {
         if (time === void 0) { time = 200; }
         this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
     };
-    XAxis.prototype.initializeXAxis = function (width, xAxisFormat, xAxisType) {
+    XAxis.prototype.initializeXAxis = function (width, height, xAxisFormat, xAxisType) {
         switch (xAxisType) {
             case 'time':
-                this._xAxis = d3.axisBottom(d3.scaleTime().range([0, width]));
+                this._xAxis = d3.axisBottom(d3.scaleTime().range([0, width]))
+                    .tickSizeInner(-height)
+                    .tickPadding(9);
                 break;
             case 'linear':
-                this._xAxis = d3.axisBottom(d3.scaleLinear().range([0, width])).tickFormat(d3.format(xAxisFormat));
+                this._xAxis = d3.axisBottom(d3.scaleLinear().range([0, width]))
+                    .tickFormat(d3.format(xAxisFormat))
+                    .tickSizeInner(-height)
+                    .tickPadding(9);
                 break;
             case 'categorical':
-                this._xAxis = d3.axisBottom(d3.scaleBand().rangeRound([0, width]).padding(0.1).align(0.5));
+                this._xAxis = d3.axisBottom(d3.scaleBand().rangeRound([0, width])
+                    .padding(0.1).align(0.5));
                 break;
             default:
                 throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
@@ -279,7 +285,11 @@ var YAxis = (function (_super) {
     YAxis.prototype.initializeYAxis = function (width, height, yAxisFormat, yAxisType) {
         switch (yAxisType) {
             case 'linear':
-                this._yAxis = d3.axisLeft(d3.scaleLinear().range([height, 0])).tickFormat(d3.format(yAxisFormat)).tickSizeInner(-width).tickSizeOuter(0).tickPadding(20);
+                this._yAxis = d3.axisLeft(d3.scaleLinear().range([height, 0]))
+                    .tickFormat(d3.format(yAxisFormat))
+                    .tickSizeInner(-width)
+                    .tickSizeOuter(0)
+                    .tickPadding(20);
                 break;
             case 'categorical':
                 this._yAxis = d3.axisLeft(d3.scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
