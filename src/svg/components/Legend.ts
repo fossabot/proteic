@@ -1,5 +1,6 @@
 import Component from './Component';
 import Config from '../../Config';
+import Globals from '../../Globals';
 
 import {
   selection,
@@ -73,7 +74,7 @@ class Legend extends Component {
     if (!element.empty()) {
       let opacity = element.style('opacity');
       opacity = (opacity == 1) ? 0 : 1;
-      element.style('opacity', opacity);
+      element.transition().duration(Globals.COMPONENT_TRANSITION_TIME).style('opacity', opacity);
     }
 
   }
