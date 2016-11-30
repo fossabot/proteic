@@ -48,7 +48,6 @@ class Barchart extends Chart {
             }
         }
 
-        console.log('to draw', this.data);
         this.draw(copy(this.data));
     }
 

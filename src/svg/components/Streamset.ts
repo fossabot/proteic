@@ -46,9 +46,6 @@ class Streamset extends Component {
             stack = this.config.get('stack'),
             dataSeries = stack(data4stack),
             series : any = null;
-
-            console.log('data', data);
-            console.log('dataSeries', dataSeries);
             
         this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data.key))));
 
