@@ -28,6 +28,9 @@ export const defaults = {
     width: '100%', // %, auto, or numeric
     height: 250,
     legend: true,
+    propertyX: 'x',
+    propertyY: 'y',
+    propertyKey: 'key',
     //Events
     onDown(d) {
     },

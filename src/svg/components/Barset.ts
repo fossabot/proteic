@@ -51,7 +51,8 @@ class Barset extends Component {
     }
 
     private updateStacked(data: [any]) {
-        let keys: any = map(data, (d) => d.key).keys();
+        let propertyKey = this.config.get('propertyKey');
+        let keys: any = map(data, (d) => d[propertyKey]).keys();
         let stack = this.config.get('stack');
         data = stack.keys(keys)(simple2stacked(data));
 
@@ -63,19 +64,23 @@ class Barset extends Component {
 
         layer.merge(layerEnter)
             .attr('class', 'serie')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
-            .style('fill', (d: any, i: number) => d.key !== undefined ? colorScale(d.key) : colorScale(i))
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
             .selectAll('rect')
             .data((d: any) => d)
             .enter().append('rect')
-            .attr("x", (d: any) => x(d.data.key))
+            .attr("x", (d: any) => x(d.data[propertyKey]))
             .attr("y", (d: any) => y(d[1]))
             .attr("height", (d: any) => y(d[0]) - y(d[1]))
             .attr("width", x.bandwidth());
     }
 
     private updateGrouped(data: [any]) {
-        let keys = map(data, (d) => d.key).keys(),
+        let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+
+        let keys = map(data, (d) => d[propertyKey]).keys(),
             colorScale = this.config.get('colorScale'),
             layer: any = null,
             x = this.x.xAxis.scale(),
@@ -91,17 +96,17 @@ class Barset extends Component {
         layer.enter()
             .append('g')
             .attr('class', 'serie')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .selectAll('rect')
             .data((d: any) => d.values)
             .enter()
             .append('rect')
-            .attr('transform', (d: any) => 'translate(' + x(d.x) + ')')
+            .attr('transform', (d: any) => 'translate(' + x(d[propertyX]) + ')')
             .attr('width', xGroup.bandwidth())
-            .attr("x", (d: any) => xGroup(d.key))
-            .attr("y", (d: any) => y(d.y))
-            .attr("height", (d: any) => height - y(d.y))
-            .style('fill', (d: any, i: number) => d.key !== undefined ? colorScale(d.key) : colorScale(i));
+            .attr("x", (d: any) => xGroup(d[propertyKey]))
+            .attr("y", (d: any) => y(d[propertyY]))
+            .attr("height", (d: any) => height - y(d[propertyY]))
+            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i));
     }
 
 }

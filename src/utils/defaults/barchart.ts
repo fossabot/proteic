@@ -8,11 +8,11 @@ export const defaults = {
     //Axes
     xAxisType: 'categorical',
     xAxisFormat: '',
-    xAxisLabel: null,
+    xAxisLabel: '',
     xAxisGrid: false,
     yAxisType: 'linear',
     yAxisFormat: '',
-    yAxisLabel: null,
+    yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
     //margins
@@ -24,15 +24,18 @@ export const defaults = {
     width: '100%',
     height: 350,
     legend: true,
+    propertyX: 'x',
+    propertyY: 'y',
+    propertyKey: 'key',
     //Events
-    onDown(d) {
+    onDown(d: any) {
     },
-    onHover(d) {
+    onHover(d: any) {
     },
-    onLeave(d) {
+    onLeave(d: any) {
     },
-    onClick(d) {
+    onClick(d: any) {
     },
-    onUp(d){
+    onUp(d: any) {
     }
 };

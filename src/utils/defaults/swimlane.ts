@@ -6,14 +6,13 @@ export const defaults = {
     //Axes
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
-    xAxisLabel: null,
+    xAxisLabel: '',
     xAxisGrid: true,
     yAxisType: 'categorical',
     yAxisFormat: 's',
-    yAxisLabel: null,
+    yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
-
     //margins
     marginTop: 20,
     marginRight: 250,
@@ -23,16 +22,19 @@ export const defaults = {
     width: '100%', // %, auto, or numeric 
     height: 250,
     legend: true,
+    propertyStart: 'start', 
+    propertyEnd: 'end',
+    propertyKey: 'key',
     //Events
-    onDown(d) {
+    onDown(d: any) {
     },
-    onHover(d) {
+    onHover(d: any) {
     },
-    onLeave(d) {
+    onLeave(d: any) {
     },
-    onClick(d) {
+    onClick(d: any) {
     },
-    onUp(d) {
+    onUp(d: any) {
 
     }
 };

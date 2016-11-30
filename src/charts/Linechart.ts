@@ -3,7 +3,7 @@ import SvgStrategyLinechart from '../svg/strategies/SvgStrategyLinechart';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/linechart';
 import { calculateWidth } from '../utils/screen';
-import {copy} from '../utils/functions';
+import { copy } from '../utils/functions';
 
 class Linechart extends Chart {
 
@@ -67,7 +67,10 @@ class Linechart extends Chart {
             //Area
             areaOpacity = (typeof userData['areaOpacity'] === 'undefined' || userData['markerSize'] < 0) ? defaults.areaOpacity : userData['areaOpacity'],
 
-            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
+            propertyX = userData['propertyX'] || defaults.propertyX,
+            propertyY = userData['propertyY'] || defaults.propertyY,
+            propertyKey = userData['propertyKey'] || defaults.propertyKey;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -96,6 +99,9 @@ class Linechart extends Chart {
         config.put('markerSize', markerSize);
         config.put('areaOpacity', areaOpacity);
         config.put('legend', legend);
+        config.put('propertyKey', propertyKey);
+        config.put('propertyX', propertyX);
+        config.put('propertyY', propertyY);
 
         return config;
     }

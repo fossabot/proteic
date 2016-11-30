@@ -91,8 +91,11 @@ class Barchart extends Chart {
 
             stacked = (typeof userData['stacked'] === 'undefined') ? defaults.stacked : userData['stacked'],
             stack = d3stack().value((d, k) => d.value[k]),
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
 
-            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
+            propertyX = userData['propertyX'] || defaults.propertyX,
+            propertyY = userData['propertyY'] || defaults.propertyY,
+            propertyKey = userData['propertyKey'] || defaults.propertyKey;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -119,6 +122,9 @@ class Barchart extends Chart {
         config.put('legend', legend);
         config.put('stacked', stacked);
         config.put('stack', stack);
+        config.put('propertyX', propertyX);
+        config.put('propertyY', propertyY);
+        config.put('propertyKey', propertyKey);
 
         return config;
     }

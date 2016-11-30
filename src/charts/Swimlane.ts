@@ -67,7 +67,13 @@ class Swimlane extends Chart {
             onClick = userData['onClick'] || defaults.onClick,
             onLeave = userData['onLeave'] || defaults.onLeave,
 
-            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
+            legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
+            
+            propertyStart = userData['propertyStart'] || defaults.propertyStart,
+            propertyEnd = userData['propertyEnd'] || defaults.propertyEnd,
+            propertyKey = userData['propertyKey'] || defaults.propertyKey;
+
+
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -92,6 +98,9 @@ class Swimlane extends Chart {
         config.put('onLeave', onLeave);
         config.put('onUp', onUp);
         config.put('legend', legend);
+        config.put('propertyStart', propertyStart);
+        config.put('propertyEnd', propertyEnd);
+        config.put('propertyKey', propertyKey);
 
         return config;
     }

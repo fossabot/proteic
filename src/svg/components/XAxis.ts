@@ -51,22 +51,23 @@ class XAxis extends Component {
     }
 
     public update(data: [any]): void {
+        let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
 
         if (xAxisType === 'linear') {
             //TODO: Optimize it. Currently we are looping data twice.
-            let min = d3Min(data, (d) => d.x),
-                max = d3Max(data, (d) => d.x);
+            let min = d3Min(data, (d) => d[propertyX]),
+                max = d3Max(data, (d) => d[propertyX]);
             this.updateDomainByMinMax(min, max);
 
         } else if (xAxisType === 'time') {
-            let min = d3Min(data, (d) => (d.x || d.start)),
-                max = d3Max(data, (d) => (d.x || d.end));
+            let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')])),
+                max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
-            
+
         }
         else {
-            let keys: [string] = map(data, (d) => d.x).keys();
+            let keys: [string] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
@@ -86,7 +87,7 @@ class XAxis extends Component {
 
     }
 
-    private updateDomainByMinMax(min, max) {
+    private updateDomainByMinMax(min: number, max: number) {
         this._xAxis.scale().domain([min, max]);
     }
 

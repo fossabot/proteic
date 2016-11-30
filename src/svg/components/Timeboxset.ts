@@ -29,6 +29,10 @@ class Timeboxset extends Component {
     }
 
     public update(data: [any]): void {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyStart = this.config.get('propertyStart');
+        let propertyEnd = this.config.get('propertyEnd');
+
         let colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
             onDown = this.config.get('onDown'),
@@ -36,7 +40,7 @@ class Timeboxset extends Component {
             onLeave = this.config.get('onLeave'),
             onHover = this.config.get('onHover'),
             onClick = this.config.get('onClick'),
-            keys = map(data, (d) => d.key).keys(),
+            keys = map(data, (d) => d[propertyKey]).keys(),
             layer = this.svg.selectAll('.serie').data(data),
             layerEnter = null,
             layerMerge = null,
@@ -58,20 +62,20 @@ class Timeboxset extends Component {
 
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
 
         box = layerMerge.selectAll('rect')
-            .data((d) => d.values);
+            .data((d: any) => d.values);
 
         boxEnter = box.enter().append('rect');
 
         boxMerge = box.merge(boxEnter)
-            .attr('width', (d) => x(d.end) - x(d.start))
-            .attr('x', (d) => x(d.start))
-            .attr('y', (d) => y(d.key))
+            .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
+            .attr('x', (d: any) => x(d[propertyStart]))
+            .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
-            .style('fill', (d) => colorScale(d.key));
+            .style('fill', (d: any) => colorScale(d[propertyKey]));
 
         box = this.svg.selectAll('g.serie rect');
 

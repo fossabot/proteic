@@ -37,9 +37,12 @@ class Pointset extends Component {
     }
 
     public update(data: [any]) {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
 
         let dataSeries = nest()
-            .key((d: any) => d.key)
+            .key((d: any) => d[propertyKey])
             .entries(data),
             markers: any = null,
             markerShape = this.config.get('markerShape'),
@@ -88,29 +91,29 @@ class Pointset extends Component {
 
 
         points = series
-            .data(dataSeries, (d: any) => d.values, (d: any) => d.x) // bind it twice
+            .data(dataSeries, (d: any) => d.values, (d: any) => d[propertyX]) // bind it twice
             .enter()
             .append('g')
             .attr('class', 'points')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
-            .style('stroke', (d: any) => colorScale(d.key))
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .style('stroke', (d: any) => colorScale(d[propertyKey]))
             .selectAll('circle')
             .data((d: any) => d.values)
             .enter()
             .append('path')
             .attr('class', 'marker')
             .attr('d', shape)
-            .style('stroke', (d: any) => colorScale(d.key))
-            .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d.key) : 'transparent')
+            .style('stroke', (d: any) => colorScale(d[propertyKey]))
+            .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
             //.style('fill-opacity', 0.8)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d.x)}, ${this.y.yAxis.scale()(d.y)})`);
+            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
 
         //Update existing markers
         this.svg.selectAll('.marker')
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(easeLinear)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d.x)}, ${this.y.yAxis.scale()(d.y)})`);
+            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
 
         markers = this.svg.selectAll('.marker');
         markers

@@ -1,7 +1,8 @@
 import Component from "./Component";
 import YAxis from "./YAxis";
 import XAxis from "./XAxis";
-import {select,
+import {
+    select,
     symbol,
     symbolCircle,
     symbolCross,
@@ -25,6 +26,9 @@ class CanvasPointset extends Component {
     }
 
     public update(data: [any]): void {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
 
         let markerShape = this.config.get('markerShape'),
             markerSize = this.config.get('markerSize'),
@@ -79,17 +83,17 @@ class CanvasPointset extends Component {
         this.canvasCtx.clearRect(0, 0, width, height);
 
         series
-            .data(data, (d) => d.key)
+            .data(data, (d) => d[propertyKey])
             .enter()
             .call((s) => {
                 let self = this;
                 console.log(s);
                 s.each(function (d) {
                     self.canvasCtx.save();
-                    self.canvasCtx.translate(self.x.xAxis.scale()(d.x), self.y.yAxis.scale()(d.y));
+                    self.canvasCtx.translate(self.x.xAxis.scale()(d[propertyX]), self.y.yAxis.scale()(d[propertyY]));
                     self.canvasCtx.beginPath();
-                    self.canvasCtx.strokeStyle = colorScale(d.key);
-                    self.canvasCtx.fillStyle = colorScale(d.key);
+                    self.canvasCtx.strokeStyle = colorScale(d[propertyKey]);
+                    self.canvasCtx.fillStyle = colorScale(d[propertyKey]);
                     shape();
                     self.canvasCtx.closePath();
                     self.canvasCtx.stroke();

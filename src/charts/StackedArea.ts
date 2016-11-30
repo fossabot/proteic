@@ -3,7 +3,7 @@ import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/stackedArea';
 import { calculateWidth } from '../utils/screen';
-import {copy} from '../utils/functions';
+import { copy } from '../utils/functions';
 import {
     stackOrderInsideOut,
     stackOffsetNone,
@@ -70,8 +70,11 @@ class StackedArea extends Chart {
 
             legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'],
             stacked = true, // Streamgraph is always stacked; ignoring default or user properties.
-            stack = d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone);
-
+            stack = d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone),
+            propertyX = userData['propertyX'] || defaults.propertyX,
+            propertyY = userData['propertyY'] || defaults.propertyY,
+            propertyKey = userData['propertyKey'] || defaults.propertyKey;
+      
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -97,7 +100,9 @@ class StackedArea extends Chart {
         config.put('legend', legend);
         config.put('stacked', stacked);
         config.put('stack', stack);
-
+        config.put('propertyX', propertyX);
+        config.put('propertyY', propertyY);
+        config.put('propertyKey', propertyKey);
         return config;
     }
 

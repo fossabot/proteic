@@ -15,7 +15,7 @@ import {
 } from 'd3';
 
 import { isEven } from '../../utils/functions';
-import {simple2stacked} from '../../utils/dataTransformation';
+import { simple2stacked } from '../../utils/dataTransformation';
 
 class YAxis extends Component {
 
@@ -24,7 +24,7 @@ class YAxis extends Component {
     constructor() {
         super();
     }
-    
+
 
     public render(): void {
         let width = this.config.get('width'),
@@ -53,6 +53,9 @@ class YAxis extends Component {
     }
 
     public update(data): void {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyY = this.config.get('propertyY');
+
         let yAxisType = this.config.get('yAxisType'),
             yAxisShow = this.config.get('yAxisShow'),
             layoutStacked = this.config.get('stacked');
@@ -61,20 +64,20 @@ class YAxis extends Component {
 
         if (yAxisType === 'linear') {
             if (layoutStacked) { //TODO: Improve
-                let keys: [string] = map(data, (d) => d.key).keys();
+                let keys: [string] = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
                 let stackedData = stack.keys(keys)(simple2stacked(data));
-                let min = d3Min(stackedData, (serie) => d3Min(serie, (d) => d[0]));
-                let max = d3Max(stackedData, (serie) => d3Max(serie, (d) => d[1]));
+                let min = d3Min(stackedData, (serie) => d3Min(serie, (d: any) => d[0]));
+                let max = d3Max(stackedData, (serie) => d3Max(serie, (d: any) => d[1]));
                 this.updateDomainByMinMax(min, max);
             } else {
-                let min = d3Min(data, (d) => d.y),
-                    max = d3Max(data, (d) => d.y);
+                let min = d3Min(data, (d: any) => d[propertyY]),
+                    max = d3Max(data, (d: any) => d[propertyY]);
 
                 this.updateDomainByMinMax(min, max);
             }
         } else if (yAxisType === 'categorical') {
-            let keys = map(data, (d) => d.key).keys().sort();
+            let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
             this._yAxis.scale().domain(keys);
         }
         else {
@@ -84,7 +87,7 @@ class YAxis extends Component {
         this.transition();
     }
 
-    private updateDomainByMinMax(min, max) {
+    private updateDomainByMinMax(min: number, max: number) {
         this._yAxis.scale().domain([min, max]);
     }
 

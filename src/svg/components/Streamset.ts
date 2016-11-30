@@ -2,7 +2,7 @@
 import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
-import {simple2stacked} from '../../utils/dataTransformation';
+import { simple2stacked } from '../../utils/dataTransformation';
 import Globals from '../../Globals';
 import {
     area,
@@ -34,6 +34,10 @@ class Streamset extends Component {
     }
 
     public update(data: [any]): void {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+
         this.clean();
         let colorScale = this.config.get('colorScale'),
             onDown = this.config.get('onDown'),
@@ -41,31 +45,30 @@ class Streamset extends Component {
             onLeave = this.config.get('onLeave'),
             onHover = this.config.get('onHover'),
             onClick = this.config.get('onClick'),
-            keys = map(data, (d) => d.key).keys(),
+            keys = map(data, (d) => d[propertyKey]).keys(),
             data4stack = simple2stacked(data),
             stack = this.config.get('stack'),
             dataSeries = stack(data4stack),
-            series : any = null;
+            series: any = null;
 
-            console.log('data', data);
-            console.log('dataSeries', dataSeries);
-            
-        this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data.key))));
+        console.log('data', data);
+        console.log('dataSeries', dataSeries);
+
+        this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data[propertyKey]))));
 
         series = this.svg.selectAll('.serie')
             .data(dataSeries)
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .style('stroke', (d: any, i: number) => colorScale(d.key))
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
+            .style('stroke', (d: any, i: number) => colorScale(d[propertyKey]))
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
         series
             .append('path')
             .attr('class', 'layer')
             .attr('d', this.areaGenerator)
-            .style('fill', (d: any, i: number) => colorScale(d.key));
-
+            .style('fill', (d: any, i: number) => colorScale(d[propertyKey]));
 
         series.exit().remove();
 

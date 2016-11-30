@@ -17,14 +17,14 @@ export const defaults = {
         prop: 'x'
     },
     //Events
-    onDown(d) {
+    onDown(d: any) {
     },
-    onHover(d) {
+    onHover(d: any) {
     },
-    onLeave(d) {
+    onLeave(d: any) {
     },
-    onClick(d) {
+    onClick(d: any) {
     },
-    onUp(d) {
+    onUp(d: any) {
     }
 };

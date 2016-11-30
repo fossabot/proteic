@@ -6,11 +6,11 @@ export const defaults = {
     //Axes
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
-    xAxisLabel: null,
+    xAxisLabel: '',
     xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '',
-    yAxisLabel: null,
+    yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
 
@@ -23,16 +23,20 @@ export const defaults = {
     width: '100%', // %, auto, or numeric 
     height: 250,
     legend: true,
+    propertyX: 'x',
+    propertyY: 'y',
+    propertyKey: 'key',
     //Events
-    onDown(d) {
+    onDown(d: any) {
     },
-    onHover(d) {
+    onHover(d: any) {
     },
-    onLeave(d) {
+    onLeave(d: any) {
     },
-    onClick(d) {
+    onClick(d: any) {
     },
-    onUp(d) {
+    onUp(d: any) {
+
     },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };
