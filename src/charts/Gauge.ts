@@ -44,7 +44,8 @@ class Gauge extends Chart {
             needleLenghtRatio = userData['needleLenghtRatio'] || defaults.needleLenghtRatio,
             numericIndicator = (typeof userData['numericIndicator'] === 'undefined') ? defaults.numericIndicator : userData['numericIndicator'],
             label = userData['label'] || defaults.label,
-            ticks = userData['ticks'] || defaults.ticks;
+            ticks = userData['ticks'] || defaults.ticks,
+            propertyValue = userData['propertyValue'] || defaults.propertyValue;
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);
@@ -55,7 +56,6 @@ class Gauge extends Chart {
         config.put('height', height);
         config.put('colorScale', colorScale);
         config.put('invertColorScale', invertColorScale);
-
         config.put('minLevel', minLevel);
         config.put('maxLevel', maxLevel);
         config.put('minAngle', minAngle);
@@ -68,6 +68,7 @@ class Gauge extends Chart {
         config.put('numericIndicator', numericIndicator);
         config.put('label', label);
         config.put('ticks', ticks);
+        config.put('propertyValue', propertyValue);
 
         return config;
     }

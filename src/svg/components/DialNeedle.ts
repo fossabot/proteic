@@ -76,6 +76,7 @@ class DialNeedle extends Component {
             height = this.config.get('height'),
             needleNutRadius = this.config.get('needleNutRadius'),
             needleLenghtRatio = this.config.get('needleLenghtRatio'),
+            propertyValue = this.config.get('propertyValue'),
             minAngle = this.config.get('minAngle'),
             maxAngle = this.config.get('maxAngle'),
             minLevel = this.config.get('minLevel'),
@@ -90,7 +91,7 @@ class DialNeedle extends Component {
 
         this.svg.select('.needle')
             .transition()
-            .attr('transform', (d) => `translate(${r}, ${r}) rotate(${angleScale(datum.value) - 90})`)
+            .attr('transform', (d) => `translate(${r}, ${r}) rotate(${angleScale(datum[propertyValue]) - 90})`)
             .attr('d', `M ${0 - needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${needleNutRadius} ${0}`);
     }
 

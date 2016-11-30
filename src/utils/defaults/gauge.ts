@@ -24,4 +24,5 @@ export const defaults =  {
     width: '50%', // %, auto, or numeric
     height: 250,
     ticks: 10, // ticks for y dial.
+    propertyValue: 'value'
 };
