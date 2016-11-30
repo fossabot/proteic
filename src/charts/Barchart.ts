@@ -3,8 +3,8 @@ import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/barchart';
 import { calculateWidth } from '../utils/screen';
-import {copy} from '../utils/functions';
-import {stack as d3stack} from 'd3';
+import { copy } from '../utils/functions';
+import { stack as d3stack } from 'd3';
 
 class Barchart extends Chart {
 
@@ -37,13 +37,13 @@ class Barchart extends Chart {
             let found = false;
             for (let i = 0; i < this.data.length; i++) {
                 var d = this.data[i];
-                if (d['x'] === datum['x']) {
+                if (d['x'] === datum['x'] && d['key'] === datum['key']) {
                     this.data[i] = datum;
                     found = true;
                     break;
                 }
             }
-            if(!found){
+            if (!found) {
                 this.data.push(datum);
             }
         }
@@ -60,7 +60,7 @@ class Barchart extends Chart {
             selector = userData['selector'] || defaults.selector,
             //Margins 
             marginTop = userData['marginTop'] || defaults.marginTop,
-            marginLeft = (userData['marginLeft']  !== undefined) ?  userData['marginLeft']  :  defaults.marginLeft,
+            marginLeft = (userData['marginLeft'] !== undefined) ? userData['marginLeft'] : defaults.marginLeft,
             marginRight = userData['marginRight'] || defaults.marginRight,
             marginBottom = userData['marginBottom'] || defaults.marginBottom,
             //Width & height
