@@ -61,11 +61,10 @@ class Network extends Chart {
             maxLinkValue = userData['maxLinkValue'] || defaults.maxLinkValue,
             minNodeWeight = userData['minNodeWeight'] || defaults.minNodeWeight,
             maxNodeWeight = userData['maxNodeWeight'] || defaults.maxNodeWeight,
-            zoom = (typeof userData['zoom'] === 'undefined') ? defaults.zoom : userData['zoom'],
-
             //Labels
             labelShow = (typeof userData['labelShow'] === 'undefined') ? defaults.labelShow : userData['labelShow'],
-            labelField = userData['labelField'] || defaults.labelField;
+            labelField = userData['labelField'] || defaults.labelField,
+            zoom = (typeof userData['zoom'] === 'undefined') ? defaults.zoom : userData['zoom'];
 
         config.put('selector', selector);
         config.put('marginTop', marginTop);

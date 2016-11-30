@@ -34,14 +34,21 @@ class Barchart extends Chart {
             this.data = datum;
         }
         else {
+            let found = false;
             for (let i = 0; i < this.data.length; i++) {
                 var d = this.data[i];
                 if (d['x'] === datum['x']) {
                     this.data[i] = datum;
+                    found = true;
                     break;
                 }
             }
+            if(!found){
+                this.data.push(datum);
+            }
         }
+
+        console.log('to draw', this.data);
         this.draw(copy(this.data));
     }
 

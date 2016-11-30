@@ -35,7 +35,7 @@ class Lineset extends Component {
             .enter()
             .append('g')
             .attr('class', 'serie')
-            .attr('data-key', (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .attr('stroke', (d: any) => colorScale(d.key))
             .append('svg:path')
             .style('stroke', (d: any) => colorScale(d.key))

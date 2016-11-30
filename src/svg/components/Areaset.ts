@@ -46,7 +46,7 @@ class Areaset extends Component {
             .enter()
             .append('g')
             .attr('class', 'area')
-            .attr('data-key', (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .append('svg:path')
             .style('fill', (d: any) => colorScale(d.key))
             .style('fill-opacity', areaOpacity)

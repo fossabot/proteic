@@ -3,7 +3,7 @@ import Config from '../../Config';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
 import { simple2nested, simple2stacked } from '../../utils/dataTransformation';
-
+import Globals from '../../Globals';
 import {
     stack,
     scaleBand,
@@ -63,7 +63,7 @@ class Barset extends Component {
 
         layer.merge(layerEnter)
             .attr('class', 'serie')
-            .attr('data-key', (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .style('fill', (d: any, i: number) => d.key !== undefined ? colorScale(d.key) : colorScale(i))
             .selectAll('rect')
             .data((d: any) => d)
@@ -91,7 +91,7 @@ class Barset extends Component {
         layer.enter()
             .append('g')
             .attr('class', 'serie')
-            .attr('data-key', (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .selectAll('rect')
             .data((d: any) => d.values)
             .enter()

@@ -1,8 +1,8 @@
 import Component from './Component';
 import Zoomable from './Zoomable';
-
 import Config from '../../Config';
 import { simple2Linked } from '../../utils/dataTransformation';
+import Globals from '../../Globals';
 
 import {
     drag,
@@ -84,13 +84,19 @@ class LinkedNodeset extends Component implements Zoomable {
         //Transform data
         data = simple2Linked(data);
 
+        this.svg.selectAll('g.links').remove();
+        this.svg.selectAll('g.nodes').remove();
+        this.svg.selectAll('g.labels').remove();
+
         link = this.svg.append('g')
             .attr('class', 'serie')
             .append("g")
             .attr("class", "links")
             .selectAll("line")
             .data(data.links)
-            .enter().append("line")
+            .enter()
+            .append("line")
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => {console.log(d); return  d.key})
             .attr("stroke-width", (d: any) => (weighted && d.weight) ? linkScaleRadius(d.weight) : linkWeight)
             .attr("stroke", "#999")
             .attr("stroke-opacity", 1);
@@ -101,7 +107,7 @@ class LinkedNodeset extends Component implements Zoomable {
             .data(data.nodes)
             .enter()
             .append("circle")
-            .attr("data-key", (d: any) => d.key)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .attr("r", (d: any) => (weighted && d.weight) ? nodeScaleRadius(d.weight) : nodeWeight)
             .attr("fill", (d: any) => colorScale(d.key))
             .attr("stroke", "white")
@@ -129,6 +135,7 @@ class LinkedNodeset extends Component implements Zoomable {
                 .data(data.nodes)
                 .enter()
                 .append('text')
+                .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
                 .attr('dx', 10)
                 .attr('dy', '.35em')
                 .attr('font-size', '.85em')
