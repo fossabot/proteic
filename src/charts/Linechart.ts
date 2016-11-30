@@ -28,15 +28,17 @@ class Linechart extends Chart {
     }
 
 
-    protected loadConfigFromUser(userData: { [key: string]: any; }): Config {
+    protected loadConfigFromUser(userData: { [key: string]: any; }): Config {       
+        console.log(userData);
         let config = new Config(),
+        
             //Selector
             selector = userData['selector'] || defaults.selector,
             //Margins 
-            marginTop = userData['marginTop'] || defaults.marginTop,
-            marginLeft = userData['marginLeft'] || defaults.marginLeft,
-            marginRight = userData['marginRight'] || defaults.marginRight,
-            marginBottom = userData['marginBottom'] || defaults.marginBottom,
+            marginTop = (userData['marginTop'] !== undefined) ? userData['marginTop'] : defaults.marginTop,
+            marginLeft = (userData['marginLeft'] !== undefined) ? userData['marginLeft'] : defaults.marginLeft,
+            marginRight = (userData['marginRight'] !== undefined) ? userData['marginRight'] : defaults.marginRight,
+            marginBottom = (userData['marginBottom'] !== undefined) ? userData['marginBottom'] : defaults.marginBottom,
             //Width & height
             width = userData['width']
                 ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
