@@ -44,7 +44,8 @@ class Legend extends Component {
             .data(dataSeries, (d: any) => d.key)
             .enter()
             .append('g')
-            .attr('class', 'legend-entry');
+            .attr('class', 'legend-entry')
+            .attr(Globals.LEGEND_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
 
         entries.append('rect')
@@ -74,6 +75,8 @@ class Legend extends Component {
         if (!element.empty()) {
             let opacity = element.style('opacity');
             opacity = (opacity == 1) ? 0 : 1;
+            let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
+            legendEntry.transition().duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME).style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
             element.transition().duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME).style('opacity', opacity);
         }
     }
