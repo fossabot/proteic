@@ -41,3 +41,7 @@ export {
 export {
     default as HTTPDatasource
 } from './src/datasources/HTTPDatasource';
+
+export {
+    default as Globals
+} from './src/Globals';
