@@ -61,14 +61,17 @@ class Barchart extends Chart {
                 ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
                 : calculateWidth(defaults.width, selector) - marginLeft - marginRight,
             height = userData['height'] || defaults.height,
+
             //Axis
             xAxisType = userData['xAxisType'] || defaults.xAxisType,
             xAxisFormat = userData['xAxisFormat'] || defaults.xAxisFormat,
             xAxisLabel = userData['xAxisLabel'] || defaults.xAxisLabel,
+            xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults.xAxisGrid : userData['xAxisGrid'],
             yAxisType = userData['yAxisType'] || defaults.yAxisType,
             yAxisFormat = userData['yAxisFormat'] || defaults.yAxisFormat,
             yAxisLabel = userData['yAxisLabel'] || defaults.yAxisLabel,
             yAxisShow = userData['yAxisShow'] || defaults.yAxisShow,
+            yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults.yAxisGrid : userData['yAxisGrid'],
 
             //Color
             colorScale = userData['colorScale'] || defaults.colorScale,
@@ -94,10 +97,12 @@ class Barchart extends Chart {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);

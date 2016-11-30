@@ -31,9 +31,10 @@ class YAxis extends Component {
             height = this.config.get('height'),
             yAxisFormat = this.config.get('yAxisFormat'),
             yAxisType = this.config.get('yAxisType'),
-            yAxisLabel = this.config.get('yAxisLabel');
+            yAxisLabel = this.config.get('yAxisLabel'),
+            yAxisGrid = this.config.get('yAxisGrid');
 
-        this.initializeYAxis(width, height, yAxisFormat, yAxisType);
+        this.initializeYAxis(width, height, yAxisFormat, yAxisType, yAxisGrid);
 
         let yAxisG = this.svg
             .append('g')
@@ -103,14 +104,11 @@ class YAxis extends Component {
      * @memberOf XAxis
      */
 
-    private initializeYAxis(width: string | number, height: string | number, yAxisFormat: string, yAxisType: string): void {
+    private initializeYAxis(width: string | number, height: string | number, yAxisFormat: string, yAxisType: string, yAxisGrid: boolean): void {
         switch (yAxisType) {
             case 'linear':
                 this._yAxis = axisLeft(scaleLinear().range([height, 0]))
-                    .tickFormat(format(yAxisFormat))
-                    .tickSizeInner(-width)
-                    .tickSizeOuter(0)
-                    .tickPadding(20);
+                    .tickFormat(format(yAxisFormat));
                 break;
             case 'categorical':
                 this._yAxis = axisLeft(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
@@ -119,10 +117,12 @@ class YAxis extends Component {
                 throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
         }
 
-        this._yAxis
-            .tickSizeInner(-width)
-            .tickSizeOuter(0)
-            .tickPadding(20);
+        if (yAxisGrid) {
+            this._yAxis
+                .tickSizeInner(-width)
+                .tickSizeOuter(0)
+                .tickPadding(20);
+        }
     }
 
     get yAxis() {

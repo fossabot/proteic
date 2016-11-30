@@ -20,12 +20,12 @@
   stroke: $structure-color-bright;
 }
 
-.proteic .y.axis .tick:not(:nth-of-type(1)) line {
+.proteic .y.axis .tick line {
   stroke-dasharray: $grid-h-dasharray;
 }
 
-.proteic .y.axis .tick:nth-of-type(1) line {
-  stroke: $structure-color-bright;
-  stroke-width: $y-axis-line-width;
-  /*display: none;*/
-}
+//.proteic .y.axis .tick:nth-of-type(1) line {
+//  stroke: $structure-color-bright;
+//  stroke-width: $y-axis-line-width;
+//  /*display: none;*/
+//}

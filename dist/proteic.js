@@ -103,8 +103,8 @@ var XAxis = (function (_super) {
         _super.call(this);
     }
     XAxis.prototype.render = function () {
-        var width = this.config.get('width'), height = this.config.get('height'), xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), xAxisLabel = this.config.get('xAxisLabel');
-        this.initializeXAxis(width, height, xAxisFormat, xAxisType);
+        var width = this.config.get('width'), height = this.config.get('height'), xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), xAxisLabel = this.config.get('xAxisLabel'), xAxisGrid = this.config.get('xAxisGrid');
+        this.initializeXAxis(width, height, xAxisFormat, xAxisType, xAxisGrid);
         this.svg
             .append('g')
             .attr('class', "x axis " + xAxisType)
@@ -145,18 +145,14 @@ var XAxis = (function (_super) {
         if (time === void 0) { time = 200; }
         this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
     };
-    XAxis.prototype.initializeXAxis = function (width, height, xAxisFormat, xAxisType) {
+    XAxis.prototype.initializeXAxis = function (width, height, xAxisFormat, xAxisType, xAxisGrid) {
         switch (xAxisType) {
             case 'time':
-                this._xAxis = d3.axisBottom(d3.scaleTime().range([0, width]))
-                    .tickSizeInner(-height)
-                    .tickPadding(9);
+                this._xAxis = d3.axisBottom(d3.scaleTime().range([0, width]));
                 break;
             case 'linear':
                 this._xAxis = d3.axisBottom(d3.scaleLinear().range([0, width]))
-                    .tickFormat(d3.format(xAxisFormat))
-                    .tickSizeInner(-height)
-                    .tickPadding(9);
+                    .tickFormat(d3.format(xAxisFormat));
                 break;
             case 'categorical':
                 this._xAxis = d3.axisBottom(d3.scaleBand().rangeRound([0, width])
@@ -164,6 +160,11 @@ var XAxis = (function (_super) {
                 break;
             default:
                 throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+        }
+        if (xAxisGrid) {
+            this._xAxis
+                .tickSizeInner(-height)
+                .tickPadding(9);
         }
     };
     Object.defineProperty(XAxis.prototype, "xAxis", {
@@ -233,8 +234,8 @@ var YAxis = (function (_super) {
         _super.call(this);
     }
     YAxis.prototype.render = function () {
-        var width = this.config.get('width'), height = this.config.get('height'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), yAxisLabel = this.config.get('yAxisLabel');
-        this.initializeYAxis(width, height, yAxisFormat, yAxisType);
+        var width = this.config.get('width'), height = this.config.get('height'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), yAxisLabel = this.config.get('yAxisLabel'), yAxisGrid = this.config.get('yAxisGrid');
+        this.initializeYAxis(width, height, yAxisFormat, yAxisType, yAxisGrid);
         var yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
@@ -282,14 +283,11 @@ var YAxis = (function (_super) {
         if (time === void 0) { time = 200; }
         this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis);
     };
-    YAxis.prototype.initializeYAxis = function (width, height, yAxisFormat, yAxisType) {
+    YAxis.prototype.initializeYAxis = function (width, height, yAxisFormat, yAxisType, yAxisGrid) {
         switch (yAxisType) {
             case 'linear':
                 this._yAxis = d3.axisLeft(d3.scaleLinear().range([height, 0]))
-                    .tickFormat(d3.format(yAxisFormat))
-                    .tickSizeInner(-width)
-                    .tickSizeOuter(0)
-                    .tickPadding(20);
+                    .tickFormat(d3.format(yAxisFormat));
                 break;
             case 'categorical':
                 this._yAxis = d3.axisLeft(d3.scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
@@ -297,10 +295,12 @@ var YAxis = (function (_super) {
             default:
                 throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
         }
-        this._yAxis
-            .tickSizeInner(-width)
-            .tickSizeOuter(0)
-            .tickPadding(20);
+        if (yAxisGrid) {
+            this._yAxis
+                .tickSizeInner(-width)
+                .tickSizeOuter(0)
+                .tickPadding(20);
+        }
     };
     Object.defineProperty(YAxis.prototype, "yAxis", {
         get: function () {
@@ -831,10 +831,12 @@ var defaults = {
     xAxisType: 'linear',
     xAxisFormat: '',
     xAxisLabel: null,
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
@@ -901,7 +903,7 @@ var Linechart = (function (_super) {
     Linechart.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults.selector, marginTop = userData['marginTop'] || defaults.marginTop, marginLeft = userData['marginLeft'] || defaults.marginLeft, marginRight = userData['marginRight'] || defaults.marginRight, marginBottom = userData['marginBottom'] || defaults.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults.height, xAxisType = userData['xAxisType'] || defaults.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults.xAxisLabel, yAxisType = userData['yAxisType'] || defaults.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults.yAxisShow, colorScale = userData['colorScale'] || defaults.colorScale, onDown = userData['onDown'] || defaults.onDown, onUp = userData['onUp'] || defaults.onUp, onHover = userData['onHover'] || defaults.onHover, onClick = userData['onClick'] || defaults.onClick, onLeave = userData['onLeave'] || defaults.onLeave, markerOutlineWidth = userData['markerOutlineWidth'] || defaults.markerOutlineWidth, markerShape = userData['markerShape'] || defaults.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults.markerSize : userData['markerSize'], areaOpacity = (typeof userData['areaOpacity'] === 'undefined' || userData['markerSize'] < 0) ? defaults.areaOpacity : userData['areaOpacity'], legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
+            : calculateWidth(defaults.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults.height, xAxisType = userData['xAxisType'] || defaults.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults.colorScale, onDown = userData['onDown'] || defaults.onDown, onUp = userData['onUp'] || defaults.onUp, onHover = userData['onHover'] || defaults.onHover, onClick = userData['onClick'] || defaults.onClick, onLeave = userData['onLeave'] || defaults.onLeave, markerOutlineWidth = userData['markerOutlineWidth'] || defaults.markerOutlineWidth, markerShape = userData['markerShape'] || defaults.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults.markerSize : userData['markerSize'], areaOpacity = (typeof userData['areaOpacity'] === 'undefined' || userData['markerSize'] < 0) ? defaults.areaOpacity : userData['areaOpacity'], legend = (typeof userData['legend'] === 'undefined') ? defaults.legend : userData['legend'];
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -912,10 +914,12 @@ var Linechart = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);
@@ -1030,10 +1034,12 @@ var defaults$1 = {
     xAxisType: 'categorical',
     xAxisFormat: '',
     xAxisLabel: null,
+    xAxisGrid: false,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
@@ -1089,7 +1095,7 @@ var Barchart = (function (_super) {
     Barchart.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$1.selector, marginTop = userData['marginTop'] || defaults$1.marginTop, marginLeft = (userData['marginLeft'] !== undefined) ? userData['marginLeft'] : defaults$1.marginLeft, marginRight = userData['marginRight'] || defaults$1.marginRight, marginBottom = userData['marginBottom'] || defaults$1.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$1.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$1.height, xAxisType = userData['xAxisType'] || defaults$1.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$1.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$1.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$1.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$1.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$1.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$1.yAxisShow, colorScale = userData['colorScale'] || defaults$1.colorScale, onDown = userData['onDown'] || defaults$1.onDown, onUp = userData['onUp'] || defaults$1.onUp, onHover = userData['onHover'] || defaults$1.onHover, onClick = userData['onClick'] || defaults$1.onClick, onLeave = userData['onLeave'] || defaults$1.onLeave, stacked = (typeof userData['stacked'] === 'undefined') ? defaults$1.stacked : userData['stacked'], stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }), legend = (typeof userData['legend'] === 'undefined') ? defaults$1.legend : userData['legend'];
+            : calculateWidth(defaults$1.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$1.height, xAxisType = userData['xAxisType'] || defaults$1.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$1.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$1.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults$1.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults$1.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$1.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$1.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$1.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults$1.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults$1.colorScale, onDown = userData['onDown'] || defaults$1.onDown, onUp = userData['onUp'] || defaults$1.onUp, onHover = userData['onHover'] || defaults$1.onHover, onClick = userData['onClick'] || defaults$1.onClick, onLeave = userData['onLeave'] || defaults$1.onLeave, stacked = (typeof userData['stacked'] === 'undefined') ? defaults$1.stacked : userData['stacked'], stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }), legend = (typeof userData['legend'] === 'undefined') ? defaults$1.legend : userData['legend'];
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1100,10 +1106,12 @@ var Barchart = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);
@@ -1457,10 +1465,12 @@ var defaults$3 = {
     xAxisType: 'linear',
     xAxisFormat: '.1f',
     xAxisLabel: '',
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '.1f',
     yAxisLabel: '',
     yAxisShow: true,
+    yAxisGrid: true,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
@@ -1508,7 +1518,7 @@ var Scatterplot = (function (_super) {
     Scatterplot.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$3.selector, marginTop = userData['marginTop'] || defaults$3.marginTop, marginLeft = userData['marginLeft'] || defaults$3.marginLeft, marginRight = userData['marginRight'] || defaults$3.marginRight, marginBottom = userData['marginBottom'] || defaults$3.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$3.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$3.height, xAxisType = userData['xAxisType'] || defaults$3.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$3.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$3.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$3.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$3.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$3.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$3.yAxisShow, colorScale = userData['colorScale'] || defaults$3.colorScale, onDown = userData['onDown'] || defaults$3.onDown, onUp = userData['onUp'] || defaults$3.onUp, onHover = userData['onHover'] || defaults$3.onHover, onClick = userData['onClick'] || defaults$3.onClick, onLeave = userData['onLeave'] || defaults$3.onLeave, markerShape = userData['markerShape'] || defaults$3.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults$3.markerSize : userData['markerSize'], legend = (typeof userData['legend'] === 'undefined') ? defaults$3.legend : userData['legend'], canvas = userData['canvas'] || defaults$3.canvas;
+            : calculateWidth(defaults$3.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$3.height, xAxisType = userData['xAxisType'] || defaults$3.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$3.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$3.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults$3.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults$3.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$3.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$3.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$3.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults$3.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults$3.colorScale, onDown = userData['onDown'] || defaults$3.onDown, onUp = userData['onUp'] || defaults$3.onUp, onHover = userData['onHover'] || defaults$3.onHover, onClick = userData['onClick'] || defaults$3.onClick, onLeave = userData['onLeave'] || defaults$3.onLeave, markerShape = userData['markerShape'] || defaults$3.markerShape, markerSize = (typeof userData['markerSize'] === 'undefined' || userData['markerSize'] < 0) ? defaults$3.markerSize : userData['markerSize'], legend = (typeof userData['legend'] === 'undefined') ? defaults$3.legend : userData['legend'], canvas = userData['canvas'] || defaults$3.canvas;
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1519,10 +1529,12 @@ var Scatterplot = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);
@@ -1611,10 +1623,12 @@ var defaults$4 = {
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: false,
+    yAxisGrid: false,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
@@ -1654,7 +1668,7 @@ var Streamgraph = (function (_super) {
     Streamgraph.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$4.selector, marginTop = userData['marginTop'] || defaults$4.marginTop, marginLeft = userData['marginLeft'] || defaults$4.marginLeft, marginRight = userData['marginRight'] || defaults$4.marginRight, marginBottom = userData['marginBottom'] || defaults$4.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$4.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$4.height, xAxisType = userData['xAxisType'] || defaults$4.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$4.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$4.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$4.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$4.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$4.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$4.yAxisShow, colorScale = userData['colorScale'] || defaults$4.colorScale, onDown = userData['onDown'] || defaults$4.onDown, onUp = userData['onUp'] || defaults$4.onUp, onHover = userData['onHover'] || defaults$4.onHover, onClick = userData['onClick'] || defaults$4.onClick, onLeave = userData['onLeave'] || defaults$4.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$4.legend : userData['legend'], stacked = true, stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }).order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle);
+            : calculateWidth(defaults$4.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$4.height, xAxisType = userData['xAxisType'] || defaults$4.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$4.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$4.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults$4.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults$4.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$4.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$4.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$4.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults$4.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults$4.colorScale, onDown = userData['onDown'] || defaults$4.onDown, onUp = userData['onUp'] || defaults$4.onUp, onHover = userData['onHover'] || defaults$4.onHover, onClick = userData['onClick'] || defaults$4.onClick, onLeave = userData['onLeave'] || defaults$4.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$4.legend : userData['legend'], stacked = true, stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }).order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle);
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1665,10 +1679,12 @@ var Streamgraph = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);
@@ -1689,10 +1705,12 @@ var defaults$5 = {
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
@@ -1732,7 +1750,7 @@ var StackedArea = (function (_super) {
     StackedArea.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$5.selector, marginTop = userData['marginTop'] || defaults$5.marginTop, marginLeft = userData['marginLeft'] || defaults$5.marginLeft, marginRight = userData['marginRight'] || defaults$5.marginRight, marginBottom = userData['marginBottom'] || defaults$5.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$5.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$5.height, xAxisType = userData['xAxisType'] || defaults$5.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$5.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$5.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$5.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$5.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$5.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$5.yAxisShow, colorScale = userData['colorScale'] || defaults$5.colorScale, onDown = userData['onDown'] || defaults$5.onDown, onUp = userData['onUp'] || defaults$5.onUp, onHover = userData['onHover'] || defaults$5.onHover, onClick = userData['onClick'] || defaults$5.onClick, onLeave = userData['onLeave'] || defaults$5.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$5.legend : userData['legend'], stacked = true, stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }).order(d3.stackOrderInsideOut).offset(d3.stackOffsetNone);
+            : calculateWidth(defaults$5.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$5.height, xAxisType = userData['xAxisType'] || defaults$5.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$5.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$5.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults$5.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults$5.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$5.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$5.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$5.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults$5.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults$5.colorScale, onDown = userData['onDown'] || defaults$5.onDown, onUp = userData['onUp'] || defaults$5.onUp, onHover = userData['onHover'] || defaults$5.onHover, onClick = userData['onClick'] || defaults$5.onClick, onLeave = userData['onLeave'] || defaults$5.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$5.legend : userData['legend'], stacked = true, stack$$1 = d3.stack().value(function (d, k) { return d.value[k]; }).order(d3.stackOrderInsideOut).offset(d3.stackOffsetNone);
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1743,10 +1761,12 @@ var StackedArea = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);
@@ -1830,10 +1850,12 @@ var defaults$6 = {
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
+    xAxisGrid: true,
     yAxisType: 'categorical',
     yAxisFormat: 's',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
     marginTop: 20,
     marginRight: 250,
     marginBottom: 30,
@@ -1872,7 +1894,7 @@ var Swimlane = (function (_super) {
     Swimlane.prototype.loadConfigFromUser = function (userData) {
         var config = new Config(), selector = userData['selector'] || defaults$6.selector, marginTop = userData['marginTop'] || defaults$6.marginTop, marginLeft = userData['marginLeft'] || defaults$6.marginLeft, marginRight = userData['marginRight'] || defaults$6.marginRight, marginBottom = userData['marginBottom'] || defaults$6.marginBottom, width = userData['width']
             ? calculateWidth(userData['width'], selector) - marginLeft - marginRight
-            : calculateWidth(defaults$6.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$6.height, xAxisType = userData['xAxisType'] || defaults$6.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$6.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$6.xAxisLabel, yAxisType = userData['yAxisType'] || defaults$6.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$6.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$6.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$6.yAxisShow, colorScale = userData['colorScale'] || defaults$6.colorScale, onDown = userData['onDown'] || defaults$6.onDown, onUp = userData['onUp'] || defaults$6.onUp, onHover = userData['onHover'] || defaults$6.onHover, onClick = userData['onClick'] || defaults$6.onClick, onLeave = userData['onLeave'] || defaults$6.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$6.legend : userData['legend'];
+            : calculateWidth(defaults$6.width, selector) - marginLeft - marginRight, height = userData['height'] || defaults$6.height, xAxisType = userData['xAxisType'] || defaults$6.xAxisType, xAxisFormat = userData['xAxisFormat'] || defaults$6.xAxisFormat, xAxisLabel = userData['xAxisLabel'] || defaults$6.xAxisLabel, xAxisGrid = (typeof userData['xAxisGrid'] === 'undefined') ? defaults$6.xAxisGrid : userData['xAxisGrid'], yAxisType = userData['yAxisType'] || defaults$6.yAxisType, yAxisFormat = userData['yAxisFormat'] || defaults$6.yAxisFormat, yAxisLabel = userData['yAxisLabel'] || defaults$6.yAxisLabel, yAxisShow = userData['yAxisShow'] || defaults$6.yAxisShow, yAxisGrid = (typeof userData['yAxisGrid'] === 'undefined') ? defaults$6.yAxisGrid : userData['yAxisGrid'], colorScale = userData['colorScale'] || defaults$6.colorScale, onDown = userData['onDown'] || defaults$6.onDown, onUp = userData['onUp'] || defaults$6.onUp, onHover = userData['onHover'] || defaults$6.onHover, onClick = userData['onClick'] || defaults$6.onClick, onLeave = userData['onLeave'] || defaults$6.onLeave, legend = (typeof userData['legend'] === 'undefined') ? defaults$6.legend : userData['legend'];
         config.put('selector', selector);
         config.put('marginTop', marginTop);
         config.put('marginLeft', marginLeft);
@@ -1883,10 +1905,12 @@ var Swimlane = (function (_super) {
         config.put('xAxisType', xAxisType);
         config.put('xAxisFormat', xAxisFormat);
         config.put('xAxisLabel', xAxisLabel);
+        config.put('xAxisGrid', xAxisGrid);
         config.put('yAxisType', yAxisType);
         config.put('yAxisFormat', yAxisFormat);
         config.put('yAxisLabel', yAxisLabel);
         config.put('yAxisShow', yAxisShow);
+        config.put('yAxisGrid', yAxisGrid);
         config.put('colorScale', colorScale);
         config.put('onDown', onDown);
         config.put('onUp', onUp);

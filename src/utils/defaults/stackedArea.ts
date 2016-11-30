@@ -7,10 +7,12 @@ export const defaults = {
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: null,
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
 
     //margins
     marginTop: 20,

@@ -8,10 +8,12 @@ export const defaults = {
     xAxisType: 'linear',
     xAxisFormat: '.1f',
     xAxisLabel: '',
+    xAxisGrid: true,
     yAxisType: 'linear',
     yAxisFormat: '.1f',
     yAxisLabel: '',
     yAxisShow: true,
+    yAxisGrid: true,
     //margins
     marginTop: 20,
     marginRight: 250,

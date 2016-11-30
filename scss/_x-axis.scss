@@ -4,7 +4,9 @@
   .x.axis {
 
     path {
-      display: none;
+      stroke: $structure-color-bright;
+      stroke-width: $y-axis-line-width;
+      opacity: 1;
     }
 
     line {
@@ -19,15 +21,14 @@
         fill: $font-color-dark;
       }
     }
-
-    .tick:nth-of-type(odd) {
-      line {
-        stroke: $structure-color-bright;
-      }
-    }
   }
 
-  .x.axis.linear .tick:nth-of-type(odd) text {
-    fill: $font-color-bright;
+  .x.axis.linear .tick:nth-of-type(odd) {
+    text {
+      fill: $font-color-bright;
+    }
+    line {
+      stroke: $structure-color-bright;
+    }
   }
 }

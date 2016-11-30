@@ -29,9 +29,10 @@ class XAxis extends Component {
             height = this.config.get('height'),
             xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
-            xAxisLabel = this.config.get('xAxisLabel');
+            xAxisLabel = this.config.get('xAxisLabel'),
+            xAxisGrid = this.config.get('xAxisGrid');
 
-        this.initializeXAxis(width, height, xAxisFormat, xAxisType);
+        this.initializeXAxis(width, height, xAxisFormat, xAxisType, xAxisGrid);
 
         this.svg
             .append('g')
@@ -104,18 +105,14 @@ class XAxis extends Component {
      *
      * @memberOf XAxis
      */
-    private initializeXAxis(width: string | number, height: string | number, xAxisFormat: string, xAxisType: string): void {
+    private initializeXAxis(width: string | number, height: string | number, xAxisFormat: string, xAxisType: string, xAxisGrid: boolean): void {
         switch (xAxisType) {
             case 'time':
-                this._xAxis = axisBottom(scaleTime().range([0, width]))
-                    .tickSizeInner(-height)
-                    .tickPadding(9);
+                this._xAxis = axisBottom(scaleTime().range([0, width]));
                 break;
             case 'linear':
                 this._xAxis = axisBottom(scaleLinear().range([0, width]))
-                    .tickFormat(format(xAxisFormat))
-                    .tickSizeInner(-height)
-                    .tickPadding(9);
+                    .tickFormat(format(xAxisFormat));
                 break;
             case 'categorical':
                 this._xAxis = axisBottom(scaleBand().rangeRound([0, width])
@@ -123,6 +120,12 @@ class XAxis extends Component {
                 break;
             default:
                 throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+        }
+
+        if (xAxisGrid) {
+            this._xAxis
+                .tickSizeInner(-height)
+                .tickPadding(9);
         }
     }
 

@@ -9,10 +9,12 @@ export const defaults = {
     xAxisType: 'categorical',
     xAxisFormat: '',
     xAxisLabel: null,
+    xAxisGrid: false,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: null,
     yAxisShow: true,
+    yAxisGrid: true,
     //margins
     marginTop: 20,
     marginRight: 250,
