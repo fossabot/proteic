@@ -87,7 +87,6 @@ class CanvasPointset extends Component {
             .enter()
             .call((s) => {
                 let self = this;
-                console.log(s);
                 s.each(function (d) {
                     self.canvasCtx.save();
                     self.canvasCtx.translate(self.x.xAxis.scale()(d[propertyX]), self.y.yAxis.scale()(d[propertyY]));
