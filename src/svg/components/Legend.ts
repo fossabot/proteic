@@ -54,6 +54,7 @@ class Legend extends Component {
             .attr('height', 20)
             .attr('width', 20)
             .style('fill', (d: any) => colorScale(d.key))
+            .style('stroke', (d: any) => colorScale(d.key))
             .style('opacity', 0.8)
             .on('click.default', (d: any) => this.toggle(d));
 
@@ -70,14 +71,27 @@ class Legend extends Component {
 
     private toggle(d: any): void {
         let key = d.key,
-            element = this.svg.selectAll('*[' + Globals.COMPONENT_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
+            element = this.svg.selectAll('*[' + Globals.COMPONENT_DATA_KEY_ATTRIBUTE + '="' + key + '"]'),
+            colorScale = this.config.get('colorScale');
 
         if (!element.empty()) {
             let opacity = element.style('opacity');
             opacity = (opacity == 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
             let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
-            legendEntry.transition().duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME).style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
-            element.transition().duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME).style('opacity', opacity);
+            legendEntry
+                .transition()
+                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+                .style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
+
+            legendEntry.selectAll('rect')
+                .transition()
+                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+                .style('fill', (opacity === 1) ? (d: any) => colorScale(d.key) : 'transparent');
+
+            element
+                .transition()
+                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+                .style('opacity', opacity);
         }
     }
 
