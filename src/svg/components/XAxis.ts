@@ -67,7 +67,7 @@ class XAxis extends Component {
 
         }
         else {
-            let keys: [string] = map(data, (d) => d[propertyX]).keys();
+            let keys: string [] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
@@ -82,7 +82,7 @@ class XAxis extends Component {
      * @memberOf XAxis
     
      */
-    private updateDomainByKeys(keys: [string]) {
+    private updateDomainByKeys(keys: string[]) {
         this._xAxis.scale().domain(keys);
 
     }
@@ -106,7 +106,7 @@ class XAxis extends Component {
      *
      * @memberOf XAxis
      */
-    private initializeXAxis(width: string | number, height: string | number, xAxisFormat: string, xAxisType: string, xAxisGrid: boolean): void {
+    private initializeXAxis(width: number, height: string | number, xAxisFormat: string, xAxisType: string, xAxisGrid: boolean): void {
         switch (xAxisType) {
             case 'time':
                 this._xAxis = axisBottom(scaleTime().range([0, width]));
