@@ -78,10 +78,10 @@ class Legend extends Component {
             let opacity = element.style('opacity');
             opacity = (opacity == 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
             let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
-            legendEntry
-                .transition()
-                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
-                .style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
+            /// legendEntry
+            //   .transition()
+            //  .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+            //  .style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
 
             legendEntry.selectAll('rect')
                 .transition()

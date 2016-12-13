@@ -1,6 +1,7 @@
 import * as Colors from '../colors';
+import { stack as d3stack } from 'd3';
 
-export const defaults = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category5(),
     //Stacked
@@ -27,6 +28,8 @@ export const defaults = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
+    stack:  d3stack().value((d, k) => d.value[k]),
+
     //Events
     onDown(d: any) {
     },

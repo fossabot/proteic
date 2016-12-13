@@ -1,6 +1,6 @@
 import * as Colors from '../colors';
 
-export const defaults =  {
+export const defaults : any =  {
     selector: '#chart',
     colorScale: Colors.diverging_spectral2(),
     invertColorScale: true,

@@ -1,6 +1,11 @@
 import * as Colors from '../colors';
+import {
+    stackOrderInsideOut,
+    stackOffsetWiggle,
+    stack as d3Stack
+} from 'd3';
 
-export const defaults = {
+export const defaults : any = {
     selector: '#chart',
     colorScale: Colors.category4(),
     //Axes
@@ -25,6 +30,8 @@ export const defaults = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
+    stack: d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetWiggle),
+    stacked: true,
     //Events
     onDown(d: any) {
     },

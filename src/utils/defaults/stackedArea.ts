@@ -1,6 +1,11 @@
 import * as Colors from '../colors';
+import {
+    stackOrderInsideOut,
+    stackOffsetNone,
+    stack as d3Stack
+} from 'd3';
 
-export const defaults = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category2(),
     //Axes
@@ -13,7 +18,6 @@ export const defaults = {
     yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
-
     //margins
     marginTop: 20,
     marginRight: 250,
@@ -26,6 +30,8 @@ export const defaults = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
+    stacked: true,
+    stack: d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone),
     //Events
     onDown(d: any) {
     },

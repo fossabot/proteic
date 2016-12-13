@@ -41,7 +41,7 @@ class SvgStrategyLinechart extends SvgChart {
     constructor() {
         super();
         this.axes = new XYAxes();
-        this.lines = new Lineset(this.axes);
+        this.lines = new Lineset(this.axes.x, this.axes.y);
     }
 
     public draw(data: [{}]) {

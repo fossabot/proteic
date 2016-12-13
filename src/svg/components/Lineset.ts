@@ -1,6 +1,7 @@
 
 import Component from './Component';
-import XYAxes from './XYAxes';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
 import Config from '../../Config';
 import Globals from '../../Globals';
 
@@ -9,13 +10,14 @@ import { line, nest, easeLinear } from 'd3';
 
 class Lineset extends Component {
 
-    private xyAxes: XYAxes;
+    private x : XAxis;
+    private y : YAxis;
     private lineGenerator: any;
 
-    constructor(xyAxes: XYAxes) {
+    constructor(x: XAxis, y:YAxis) {
         super();
-        this.xyAxes = xyAxes;
-
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -24,21 +26,21 @@ class Lineset extends Component {
         let propertyY = this.config.get('propertyY');
 
         this.lineGenerator = line()
-            .x((d) => this.xyAxes.x.xAxis.scale()(d[propertyX]))
-            .y((d) => this.xyAxes.y.yAxis.scale()(d[propertyY]));
+            .x((d) => this.x.xAxis.scale()(d[propertyX]))
+            .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }
 
     public update(data: [any]): void {
         let propertyKey = this.config.get('propertyKey');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
-        let series = this.svg.selectAll('g.serie');
+        let series = this.svg.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
         //Update new lines
         let lines = series.data(dataSeries, (d: any) => d[propertyKey])
             .enter()
             .append('g')
-            .attr('class', 'serie')
+            .attr('class', 'lineSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .attr('stroke', (d: any) => colorScale(d[propertyKey]))
             .append('svg:path')

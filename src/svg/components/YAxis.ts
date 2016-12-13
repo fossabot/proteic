@@ -1,5 +1,6 @@
 import Config from '../../Config';
 import Component from './Component';
+import Globals from '../../Globals';
 import {
     stack,
     map,
@@ -10,6 +11,7 @@ import {
     scaleBand,
     format,
     axisLeft,
+    axisRight,
     min as d3Min,
     max as d3Max
 } from 'd3';
@@ -20,11 +22,20 @@ import { simple2stacked } from '../../utils/dataTransformation';
 class YAxis extends Component {
 
     private _yAxis: any;
+    private _orient: string = 'left';
+    private selection: any = null;
 
-    constructor() {
+
+    constructor(orient?: string) {
         super();
+        if (orient != null) {
+            this._orient = orient;
+        }
     }
 
+    get orient(): string {
+        return this._orient;
+    }
 
     public render(): void {
         let width = this.config.get('width'),
@@ -39,6 +50,10 @@ class YAxis extends Component {
         let yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
+            .attr("transform", this.orient === 'left'
+                ? "translate( 0, 0 )"
+                : "translate( " + width + ", 0 )"
+            )
             .call(this._yAxis);
 
         this.svg
@@ -50,9 +65,11 @@ class YAxis extends Component {
             .attr('y', 0 - 55)
             .text(yAxisLabel)
             .style('font', '0.8em Montserrat, sans-serif');
+
+        this.selection = yAxisG;
     }
 
-    public update(data): void {
+    public update(data: any): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
 
@@ -60,15 +77,15 @@ class YAxis extends Component {
             yAxisShow = this.config.get('yAxisShow'),
             layoutStacked = this.config.get('stacked');
 
-        this.svg.select('g.y.axis').attr('opacity', yAxisShow ? 1 : 0);
+        this.selection.attr('opacity', yAxisShow ? 1 : 0);
 
         if (yAxisType === 'linear') {
             if (layoutStacked) { //TODO: Improve
-                let keys: [string] = map(data, (d: any) => d[propertyKey]).keys();
+                let keys: string[] = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
                 let stackedData = stack.keys(keys)(simple2stacked(data));
-                let min = d3Min(stackedData, (serie) => d3Min(serie, (d: any) => d[0]));
-                let max = d3Max(stackedData, (serie) => d3Max(serie, (d: any) => d[1]));
+                let min = d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0]));
+                let max = d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1]));
                 this.updateDomainByMinMax(min, max);
             } else {
                 let min = d3Min(data, (d: any) => d[propertyY]),
@@ -84,7 +101,10 @@ class YAxis extends Component {
             console.warn('could not recognize y axis type', yAxisType);
         }
 
-        this.transition();
+        if (data !== null && data.length) {
+            this.transition();
+        }
+
     }
 
     private updateDomainByMinMax(min: number, max: number) {
@@ -92,7 +112,7 @@ class YAxis extends Component {
     }
 
     private transition(time = 200) {
-        this.svg.selectAll('.y.axis').transition().duration(200).call(this._yAxis);
+        this.selection.transition().duration(Globals.COMPONENT_TRANSITION_TIME).call(this._yAxis);
     }
 
     /**
@@ -107,25 +127,30 @@ class YAxis extends Component {
      * @memberOf XAxis
      */
 
-    private initializeYAxis(width: string | number, height: string | number, yAxisFormat: string, yAxisType: string, yAxisGrid: boolean): void {
+    private initializeYAxis(width: string | number, height: number, yAxisFormat: string, yAxisType: string, yAxisGrid: boolean): void {
         switch (yAxisType) {
             case 'linear':
-                this._yAxis = axisLeft(scaleLinear().range([height, 0]))
-                    .tickFormat(format(yAxisFormat));
+                this._yAxis = (this.orient === 'left')
+                    ? axisLeft(scaleLinear().range([height, 0])).tickFormat(format(yAxisFormat))
+                    : axisRight(scaleLinear().range([height, 0])).tickFormat(format(yAxisFormat));
                 break;
             case 'categorical':
-                this._yAxis = axisLeft(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
+                this._yAxis = (this.orient === 'left')
+                    ? axisLeft(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5))
+                    : axisRight(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
                 break;
             default:
                 throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
         }
 
-        if (yAxisGrid) {
+        if (yAxisGrid && this.orient === 'left') {
             this._yAxis
                 .tickSizeInner(-width)
                 .tickSizeOuter(0)
                 .tickPadding(20);
         }
+
+        //
     }
 
     get yAxis() {

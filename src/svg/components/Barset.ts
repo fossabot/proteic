@@ -41,7 +41,7 @@ class Barset extends Component {
         } else {
             this.updateGrouped(data);
         }
-        bars = this.svg.selectAll('g.serie rect');
+        bars = this.svg.selectAll('g.barSeries rect');
         bars
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
@@ -57,13 +57,13 @@ class Barset extends Component {
         data = stack.keys(keys)(simple2stacked(data));
 
         let colorScale = this.config.get('colorScale'),
-            layer = this.svg.selectAll('.serie').data(data),
+            layer = this.svg.selectAll('.barSeries').data(data),
             layerEnter = layer.enter().append('g'),
             x = this.x.xAxis.scale(),
             y = this.y.yAxis.scale();
 
         layer.merge(layerEnter)
-            .attr('class', 'serie')
+            .attr('class', 'barSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
             .selectAll('rect')
@@ -90,12 +90,12 @@ class Barset extends Component {
 
         data = simple2nested(data, 'key');
 
-        layer = this.svg.selectAll('g.serie')
+        layer = this.svg.selectAll('g.barSeries')
             .data(data, (d: any) => d.values);
 
         layer.enter()
             .append('g')
-            .attr('class', 'serie')
+            .attr('class', 'barSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .selectAll('rect')
             .data((d: any) => d.values)

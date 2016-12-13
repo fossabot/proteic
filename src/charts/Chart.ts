@@ -3,7 +3,7 @@ import SvgChart from '../svg/base/SvgChart';
 import Config from '../Config';
 import { copy } from '../utils/functions';
 import Datasource from '../datasources/Datasource';
-
+import { calculateWidth } from '../utils/screen';
 import { dispatch } from 'd3';
 
 abstract class Chart {
@@ -15,8 +15,8 @@ abstract class Chart {
     private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
 
 
-    constructor(strategy: SvgChart, data: any, userConfig: any) {
-        this.config = this.loadConfigFromUser(userConfig);
+    constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
+        this.config = this.loadConfigFromUser(userConfig, defaults);
         this.context = new SvgContext(strategy, this.config);
         this.data = data;
     }
@@ -54,7 +54,16 @@ abstract class Chart {
 
     }
 
-    protected abstract loadConfigFromUser(userData: { [key: string]: any; }): Config;
+    protected loadConfigFromUser(userData: any, defaults: any): Config {
+        let config = new Config();
+        for (let v in defaults) {
+            config.put(v, (v in userData) ? userData[v] : defaults[v]);
+        }
+        let width = config.get('width');
+        width = calculateWidth(width, config.get('selector')) - config.get('marginLeft') - config.get('marginRight')
+        config.put('width', width);
+        return config;
+    }
 
     protected abstract keepDrawing(datum: any): void;
 
