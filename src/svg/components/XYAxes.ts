@@ -16,21 +16,21 @@ class XYAxis extends Component {
     }
 
     public render(): void {
-        this._x.render();
         this._y.render();
+        this._x.render();
 
     }
 
     public update(data): void {
-        this._x.update(data);
         this._y.update(data);
+        this._x.update(data);
     }
     
     
     public configure(config: Config, svg: any){
         super.configure(config, svg);
-        this._x.configure(config, svg);
         this._y.configure(config, svg);
+        this._x.configure(config, svg);
     }
 
     get x(): XAxis {

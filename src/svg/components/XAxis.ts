@@ -93,6 +93,8 @@ class XAxis extends Component {
 
     private transition(time: number = 200) {
         this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
+        // Reorder the axis path to appear over the ticks
+        this.svg.select('.x.axis path').raise();
     }
 
     /**
