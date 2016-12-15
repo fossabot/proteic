@@ -1,8 +1,10 @@
 import * as Colors from '../colors';
+import Interpolation from '../../svg/Interpolation';
 
 export const defaults : any = {
     selector: '#chart',
     colorScale: Colors.category7(),
+    curve: Interpolation.CURVE_MONOTONE_X,
     //Area
     areaOpacity: 0,
     //Axes
@@ -22,7 +24,7 @@ export const defaults : any = {
     marginLeft: 150,
     //markers
     markerShape: 'dot',
-    markerSize: 5,
+    markerSize: 0,
     markerOutlineWidth: 2,
     //Width & height
     width: '100%', // %, auto, or numeric
@@ -42,5 +44,5 @@ export const defaults : any = {
     },
     onUp(d) {
     },
-    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+    maxNumberOfElements: 10, // used by keepDrawing method to reduce the number of elements in the current chart
 };

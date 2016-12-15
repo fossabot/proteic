@@ -6,15 +6,20 @@ import Config from '../../Config';
 import Globals from '../../Globals';
 
 
-import { line, nest, easeLinear } from 'd3';
+import {
+    line,
+    nest,
+    easeLinear,
+    CurveFactory
+} from 'd3';
 
 class Lineset extends Component {
 
-    private x : XAxis;
-    private y : YAxis;
+    private x: XAxis;
+    private y: YAxis;
     private lineGenerator: any;
 
-    constructor(x: XAxis, y:YAxis) {
+    constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
         this.y = y;
@@ -24,8 +29,10 @@ class Lineset extends Component {
     public render(): void {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
+        let curve: CurveFactory = this.config.get('curve');
 
         this.lineGenerator = line()
+            .curve(curve)
             .x((d) => this.x.xAxis.scale()(d[propertyX]))
             .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }

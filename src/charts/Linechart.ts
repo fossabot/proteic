@@ -16,7 +16,10 @@ class Linechart extends Chart {
     }
 
     public keepDrawing(datum: any) {
-        var datumType = datum.constructor;
+        let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
+            numberOfElements = this.data.length,
+            position = -1,
+            datumType = datum.constructor;
 
         if (datumType === Array) {
             this.data = this.data.concat(datum);
@@ -24,6 +27,12 @@ class Linechart extends Chart {
         else {
             this.data.push(datum);
         }
+        //Detect excess of elements given a maxNumberOfElements property
+        if (numberOfElements > maxNumberOfElements) {
+            let position = numberOfElements - maxNumberOfElements;
+            this.data = this.data.slice(position);
+        }
+
         this.draw(copy(this.data));
     }
 

@@ -8,7 +8,8 @@ import {
     area,
     selection,
     nest,
-    easeLinear
+    easeLinear,
+    CurveFactory
 } from 'd3';
 
 
@@ -27,10 +28,12 @@ class Areaset extends Component {
     public render() {
         let height = this.config.get('height'),
             propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY');
-
+            propertyY = this.config.get('propertyY'),
+            curve: CurveFactory = this.config.get('curve');
 
         this.areaGenerator = area()
+            .curve(curve)
+
             .x((d: any) => this.x.xAxis.scale()(d[propertyX]))
             .y0(height)
             .y1((d: any) => this.y.yAxis.scale()(d[propertyY]));
