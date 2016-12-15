@@ -22,7 +22,6 @@ class Legend extends Component {
 
     public update(data: any) {
         //Exclude those values that do not contain a 'key'.
-        data = data.filter((d: any) => d.key !== undefined);
         let dataSeries = nest()
             .key((d) => d.key)
             .entries(data),

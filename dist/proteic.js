@@ -614,7 +614,6 @@ var Legend = (function (_super) {
     };
     Legend.prototype.update = function (data) {
         var _this = this;
-        data = data.filter(function (d) { return d.key !== undefined; });
         var dataSeries = d3.nest()
             .key(function (d) { return d.key; })
             .entries(data), legend = null, entries = null, colorScale = this.config.get('colorScale'), height = this.config.get('height'), width = this.config.get('width');
