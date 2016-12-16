@@ -54,7 +54,6 @@ class Pointset extends Component {
 
         let shape = symbol().size(markerSize);
 
-
         series = this.svg.selectAll('g.points');
 
         switch (markerShape) {
@@ -89,10 +88,9 @@ class Pointset extends Component {
                 shape.type(symbolCircle);
         }
 
-
         points = series
-            .data(dataSeries, (d: any) => d.values, (d: any) => d[propertyX]) // bind it twice
-            .enter()
+            .data(dataSeries, (d: any) => d.values, (d: any) => d[propertyX]); // bind it twice
+        points.enter()
             .append('g')
             .attr('class', 'points')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
@@ -115,6 +113,11 @@ class Pointset extends Component {
             .ease(easeLinear)
             .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
 
+        // Remove old markers
+        points
+            .exit()
+            .remove();
+
         markers = this.svg.selectAll('.marker');
         markers
             .on('mousedown.user', this.config.get('onDown'))
@@ -122,8 +125,6 @@ class Pointset extends Component {
             .on('mouseleave.user', this.config.get('onLeave'))
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
-
-
     }
 
 }

@@ -539,8 +539,8 @@ var Pointset = (function (_super) {
                 shape.type(d3.symbolCircle);
         }
         points = series
-            .data(dataSeries, function (d) { return d.values; }, function (d) { return d[propertyX]; })
-            .enter()
+            .data(dataSeries, function (d) { return d.values; }, function (d) { return d[propertyX]; });
+        points.enter()
             .append('g')
             .attr('class', 'points')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, function (d) { return d[propertyKey]; })
@@ -559,6 +559,9 @@ var Pointset = (function (_super) {
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(d3.easeLinear)
             .attr('transform', function (d) { return "translate(" + _this.x.xAxis.scale()(d[propertyX]) + ", " + _this.y.yAxis.scale()(d[propertyY]) + ")"; });
+        points
+            .exit()
+            .remove();
         markers = this.svg.selectAll('.marker');
         markers
             .on('mousedown.user', this.config.get('onDown'))
