@@ -62,8 +62,7 @@ class Areaset extends Component {
         this.svg.selectAll('.areaPath')
             .data(dataSeries, (d: any) => d[propertyKey])
             .transition()
-            //.duration(Globals.COMPONENT_TRANSITION_TIME)
-            //.ease(easeLinear)
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
             .attr('d', (d: any) => this.areaGenerator(d.values));
 
     }
