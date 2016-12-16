@@ -479,10 +479,10 @@ var Lineset = (function (_super) {
             .attr('class', 'line');
         this.svg.selectAll('.line')
             .data(dataSeries, function (d) { return d[propertyKey]; })
+            .attr('d', function (d) { return _this.lineGenerator(d.values); })
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(d3.easeLinear)
-            .attr('d', function (d) { return _this.lineGenerator(d.values); });
+            .ease(d3.easeLinear);
     };
     return Lineset;
 }(Component));

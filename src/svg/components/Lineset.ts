@@ -60,10 +60,10 @@ class Lineset extends Component {
         //update existing lines
         this.svg.selectAll('.line')
             .data(dataSeries, (d: any) => d[propertyKey])
+            .attr('d', (d: any) => this.lineGenerator(d.values))
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear)
-            .attr('d', (d: any) => this.lineGenerator(d.values));
+            .ease(easeLinear);
     }
 
 }
