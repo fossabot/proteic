@@ -1,1 +1,1 @@
-import * as proteic from './index';
+export * from './index';
