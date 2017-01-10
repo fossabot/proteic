@@ -1,14 +1,16 @@
 import Config from '../../Config';
 
+import { Selection } from 'd3';
+
 abstract class Component {
 
     protected config: Config;
-    protected svg: any;
+    protected svg: Selection<any, any, any, any>;
 
     constructor() {
     }
 
-    abstract update(data): void;
+    abstract update(data: any): void;
     abstract render(): void;
 
     /**
@@ -29,7 +31,7 @@ abstract class Component {
      * 
      * Clean the current series.
      */
-    public clean () {
+    public clean() {
         this.svg.selectAll('.serie').remove();
     }
 };

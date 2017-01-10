@@ -8,10 +8,10 @@ import Config from '../../Config';
  */
 class ClipPath extends Component {
 
-    private width: Number;
-    private height: Number;
+    private width: number;
+    private height: number;
 
-    constructor(width: Number, height: Number) {
+    constructor(width: number, height: number) {
         super();
         this.width = width;
         this.height = height;
