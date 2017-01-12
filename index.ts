@@ -35,6 +35,10 @@ default as Network
 } from './src/charts/Network';
 
 export {
+default as PieChart
+} from './src/charts/PieChart';
+
+export {
     default as WebsocketDatasource
 } from './src/datasources/WebsocketDatasource';
 
