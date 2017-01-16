@@ -698,6 +698,9 @@ var Container = (function () {
             .style('width', width + "px")
             .style('height', height + "px")
             .append('svg:svg')
+            .attr('preserveAspectRatio', "xMinYMin meet")
+            .attr("viewBox", "0 0 " + width + " " + height)
+            .attr('width', '100%')
             .attr('class', 'proteic')
             .attr('width', width)
             .attr('height', height)
@@ -2304,6 +2307,114 @@ var Network = (function (_super) {
     return Network;
 }(Chart));
 
+var SectorSet = (function (_super) {
+    __extends(SectorSet, _super);
+    function SectorSet() {
+        return _super.call(this) || this;
+    }
+    SectorSet.prototype.render = function () {
+    };
+    SectorSet.prototype.update = function (data) {
+        var propertyKey = this.config.get('propertyKey');
+        var propertyX = this.config.get('propertyX');
+        var width = this.config.get('width');
+        var height = this.config.get('height');
+        var radius = Math.min(width, height) / 2;
+        var colorScale = this.config.get('colorScale');
+        var myPie = d3.pie().value(function (d) { return d[propertyX]; })(data);
+        var myArc = d3.arc().innerRadius(0).outerRadius(radius);
+        var arcs = this.svg.selectAll("g.slice").data(myPie);
+        var newBlock = arcs.enter();
+        newBlock
+            .append("g")
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, function (d) { return d.data[propertyKey]; })
+            .append("path")
+            .attr('fill', function (d, i) {
+            return d.data[propertyKey] !== undefined ? colorScale(d.data[propertyKey]) : colorScale(i);
+        })
+            .attr("d", myArc);
+    };
+    return SectorSet;
+}(Component));
+
+var SvgStrategyPieChart = (function (_super) {
+    __extends(SvgStrategyPieChart, _super);
+    function SvgStrategyPieChart() {
+        var _this = _super.call(this) || this;
+        _this.sectors = new SectorSet();
+        return _this;
+    }
+    SvgStrategyPieChart.prototype.draw = function (data) {
+        this.container.translate(this.config.get('width') / 2, this.config.get('height') / 2);
+        this.container.updateComponents(data);
+    };
+    SvgStrategyPieChart.prototype.initialize = function () {
+        _super.prototype.initialize.call(this);
+        this.container
+            .add(this.sectors);
+        var legend = this.config.get('legend');
+        if (legend) {
+            this.legend = new Legend();
+            this.container.add(this.legend);
+        }
+    };
+    return SvgStrategyPieChart;
+}(SvgChart));
+
+var defaults$9 = {
+    selector: '#chart',
+    colorScale: category8(),
+    marginTop: 0,
+    marginRight: '100',
+    marginBottom: 0,
+    marginLeft: 0,
+    width: '500',
+    height: '500',
+    transitionDuration: 300,
+    maxNumberOfElements: 5,
+    legend: true,
+    propertyX: 'x',
+    propertyKey: 'key',
+    sortData: {
+        descending: false,
+        prop: 'x'
+    },
+    onDown: function (d) {
+    },
+    onHover: function (d) {
+    },
+    onLeave: function (d) {
+    },
+    onClick: function (d) {
+    },
+    onUp: function (d) {
+    }
+};
+
+var PieChart = (function (_super) {
+    __extends(PieChart, _super);
+    function PieChart(data, userConfig) {
+        if (userConfig === void 0) { userConfig = {}; }
+        return _super.call(this, new SvgStrategyPieChart, data, userConfig, defaults$9) || this;
+    }
+    PieChart.prototype.keepDrawing = function (datum) {
+        var datumType = datum.constructor;
+        if (datumType === Array) {
+            if (this.data) {
+                this.data = this.data.concat(datum);
+            }
+            else {
+                this.data = datum;
+            }
+        }
+        else {
+            this.data.push(datum);
+        }
+        this.draw(copy(this.data));
+    };
+    return PieChart;
+}(Chart));
+
 var Datasource = (function () {
     function Datasource() {
         this.dispatcher = null;
@@ -2434,6 +2545,7 @@ exports.StackedArea = StackedArea;
 exports.Swimlane = Swimlane;
 exports.Sunburst = Sunburst;
 exports.Network = Network;
+exports.PieChart = PieChart;
 exports.WebsocketDatasource = WebsocketDatasource;
 exports.HTTPDatasource = HTTPDatasource;
 exports.Globals = Globals;
