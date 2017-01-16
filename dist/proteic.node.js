@@ -810,6 +810,7 @@ var paletteCategory2 = [
     '#f29a83',
     '#8d7e9e'
 ];
+
 var paletteCategory3 = [
     '#6b68a9',
     '#8cc590',
@@ -821,6 +822,7 @@ var paletteCategory3 = [
     '#ccaf44',
     '#d0553c'
 ];
+
 var paletteCategory4 = [
     '#f1a30d',
     '#1d4763',
@@ -832,6 +834,7 @@ var paletteCategory4 = [
     '#563a2d',
     '#87325d'
 ];
+
 var paletteCategory5 = [
     '#f1a30d',
     '#0c3183',
@@ -843,6 +846,19 @@ var paletteCategory5 = [
     '#8d2d84',
     '#f09bbc'
 ];
+
+var paletteCategory6 = [
+    '#71bbc3',
+    '#1d4763',
+    '#8fbe46',
+    '#4e6936',
+    '#ee8998',
+    '#c1212d',
+    '#f5af3c',
+    '#e95e2e',
+    '#634484'
+];
+
 var paletteCategory7 = [
     '#ea671e',
     '#684592',
@@ -854,6 +870,7 @@ var paletteCategory7 = [
     '#5db68b',
     '#775e47'
 ];
+
 var paletteCategory8 = [
     '#ebd646',
     '#a50f38',
@@ -901,32 +918,12 @@ function category8() {
     return d3.scaleOrdinal().range(paletteCategory8);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function diverging_spectral2() {
     return d3.scaleQuantile().range(paletteDivergingSpectral2);
 }
 
 var Interpolation = (function () {
-    function Interpolation() {
+    function Interpolation() 
     }
     return Interpolation;
 }());
@@ -2408,7 +2405,13 @@ var PieChart = (function (_super) {
             }
         }
         else {
-            this.data.push(datum);
+            var link = document.createElement('a');
+            link.style = 'position: fixed; left -10000px;'; // making it invisible
+            link.href = uri;
+            link.download = this$1.constructor.name + '.svg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
         this.draw(copy(this.data));
     };
