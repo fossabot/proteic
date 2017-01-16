@@ -10,14 +10,15 @@ import {
     line,
     nest,
     easeLinear,
-    CurveFactory
+    CurveFactory,
+    Line
 } from 'd3';
 
 class Lineset extends Component {
 
     private x: XAxis;
     private y: YAxis;
-    private lineGenerator: any;
+    private lineGenerator: Line<any>;
 
     constructor(x: XAxis, y: YAxis) {
         super();

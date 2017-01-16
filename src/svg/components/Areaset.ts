@@ -9,7 +9,8 @@ import {
     selection,
     nest,
     easeLinear,
-    CurveFactory
+    CurveFactory,
+    Area
 } from 'd3';
 
 
@@ -17,7 +18,7 @@ class Areaset extends Component {
 
     private x: XAxis;
     private y: YAxis;
-    private areaGenerator: any;
+    private areaGenerator: Area<any>;
 
     constructor(x: XAxis, y: YAxis) {
         super();
