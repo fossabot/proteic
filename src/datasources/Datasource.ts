@@ -1,4 +1,4 @@
-import {dispatch} from 'd3';
+import { dispatch } from 'd3';
 
 /**
  * 
@@ -19,8 +19,8 @@ class Datasource {
     
      */
     protected dispatcher: any = null;
-    protected source : {any} = null;
-    protected isWaitingForData : boolean = true;
+    protected source: any = null;
+    protected isWaitingForData: boolean = true;
 
     constructor() {
         // this.filters = [];
@@ -49,43 +49,8 @@ class Datasource {
     }
 
 
-    configure(dispatcher) {
+    configure(dispatcher: any) {
         this.dispatcher = dispatcher;
-    }
-
-/*
-
-    property(prop, newProp, cast) {
-        this.properties.push({ 'p': prop, 'newP': newProp, cast: cast });
-        return this;
-    }
-
-
-    convert(data) {
-        let result = {};
-        for (let i in this.properties) {
-            let p = this.properties[i].p;
-            let value = eval('data.' + this.properties[i].newP);
-            // if(this.properties[i].cast){
-            //    value = new this.properties[i].cast(value);
-            // }
-
-            result[p] = value;
-        }
-        return result;
-    }
-    */
-
-    /**
-     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
-     * 
-     * @param {any} filter A filter condition
-     * @returns this Datasource instance
-     * 
-     * @memberOf Datasource
-     */
-    filter(filter) {
-        return this;
     }
 }
 

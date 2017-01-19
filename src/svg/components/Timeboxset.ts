@@ -48,7 +48,7 @@ class Timeboxset extends Component {
             boxEnter = null,
             boxMerge = null,
             extLanes = null,
-            yLanes = null,
+            yLanes : any = null,
             yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),
             x = this.xyAxes.x.xAxis.scale(),
             y = this.xyAxes.y.yAxis.scale();
