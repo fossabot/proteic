@@ -40,14 +40,23 @@ class Lineset extends Component {
 
     public update(data: [any]): void {
         let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
         let series = this.svg.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
+        // console.log(data[1][propertyX]);
+        // console.log(data[data.length - 1][propertyX]);
+
+        // update x domain
+        // this.x.xAxis.scale().domain(data[1][propertyX], data[data.length - 1][propertyX]);
+
         //Update new lines
-        let lines = series.data(dataSeries, (d: any) => d[propertyKey])
+        // let lines =
+        series.data(dataSeries, (d: any) => d[propertyKey])
             .enter()
             .append('g')
+            .attr('clip-path', 'url(#proteic-clip-path)')
             .attr('class', 'lineSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .attr('stroke', (d: any) => colorScale(d[propertyKey]))
@@ -55,16 +64,29 @@ class Lineset extends Component {
             .style('stroke', (d: any) => colorScale(d[propertyKey]))
             .style('stroke-width', 1.9)
             .style('fill', 'none')
-            .attr('d', (d: any) => this.lineGenerator(d.values))
-            .attr('class', 'line');
+            // .attr('d', (d: any) => this.lineGenerator(d.values))
+            .attr('class', 'line')
+            ;
 
+        let lines = this.svg.selectAll('.line');
+        let slideDistance =
+            this.x.xAxis.scale()(dataSeries[0].values[dataSeries[0].values.length - 2][propertyX])
+            - this.x.xAxis.scale()(dataSeries[0].values[dataSeries[0].values.length - 1][propertyX]);
+
+            // this.x.xAxis.scale()(data[data.length - 2][propertyX]) - this.x.xAxis.scale()(data[data.length - 1][propertyX]);
+        window.dataseries = dataSeries;
         //update existing lines
-        this.svg.selectAll('.line')
-            .data(dataSeries, (d: any) => d[propertyKey])
+        lines.data(dataSeries, (d: any) => d[propertyKey])
             .attr('d', (d: any) => this.lineGenerator(d.values))
+            .attr('transform', null)
             .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear);
+            .duration(Globals.SLIDE_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('transform', `translate(${slideDistance})`)
+        ;
+
+
+
     }
 
 }

@@ -4,6 +4,7 @@ class Globals {
     public static COMPONENT_HIDE_SHOW_TRANSITION_TIME = 300;
     public static COMPONENT_HIDE_OPACITY = 0.06;
     public static COMPONENT_DATA_KEY_ATTRIBUTE = 'data-proteic-key';
+    public static SLIDE_TRANSITION_TIME = 750;
     public static LEGEND_DATA_KEY_ATTRIBUTE = 'data-proteic-legend-key';
     public static LEGEND_HIDE_OPACITY = 0.3;
     public static BREAKPOINT = 768;

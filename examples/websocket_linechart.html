@@ -21,11 +21,11 @@
         <div id='chart'></div>
         <script>
             var data = {
-            endpoint: 'ws://192.168.3.32:3000/linechart'
+            endpoint: 'ws://localhost:3000/linechart'
           };
           
           var ds = new proteic.WebsocketDatasource(data);
-          linechart = new proteic.Linechart([], {markerSize: 100, areaOpacity: 0.7}).datasource(ds);
+          linechart = new proteic.Linechart([], {markerSize: 0, areaOpacity: 0, maxNumberOfElements: 12}).datasource(ds);
           ds.start();
         </script>
     </body>

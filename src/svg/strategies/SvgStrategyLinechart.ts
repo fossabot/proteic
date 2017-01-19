@@ -8,12 +8,14 @@ import Config from '../../Config';
 import SvgChart from '../base/SvgChart';
 import { sortByField } from '../../utils/dataSorting';
 import { convertByXYFormat } from '../../utils/dataTransformation';
+import ClipPath from "../components/ClipPath";
 
 class SvgStrategyLinechart extends SvgChart {
     /**
      * 
      * XY Axes. Horizontal and vertical references
-     * 
+     * XY Axes. Horizontal and vertical references
+     *
      * @private
      * @type {XYAxes}
      * @memberOf SvgStrategyLinechart
@@ -29,14 +31,10 @@ class SvgStrategyLinechart extends SvgChart {
     
      */
     private lines: Lineset;
-
-
+    private clipPath: ClipPath;
     private markers : Pointset;
-
     private area : Areaset;
-
     private legend : Legend;
-
 
     constructor() {
         super();
@@ -61,9 +59,11 @@ class SvgStrategyLinechart extends SvgChart {
         super.initialize();
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend');
+            legend = this.config.get('legend'),
+            width = this.config.get('width'),
+            height = this.config.get('height');
 
-        this.container.add(this.axes).add(this.lines);
+        this.container.add(this.axes).add(new ClipPath(width, height)).add(this.lines);
 
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);

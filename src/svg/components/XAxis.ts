@@ -8,13 +8,15 @@ import {
     axisBottom,
     timeParse,
     min as d3Min,
-    max as d3Max
+    max as d3Max,
+    easeLinear
 } from 'd3';
 
 import Component from './Component';
 import Config from '../../Config';
 
 import { isEven } from '../../utils/functions';
+import Globals from "../../Globals";
 
 class XAxis extends Component {
 
@@ -58,20 +60,21 @@ class XAxis extends Component {
             //TODO: Optimize it. Currently we are looping data twice.
             let min = d3Min(data, (d) => d[propertyX]),
                 max = d3Max(data, (d) => d[propertyX]);
-            this.updateDomainByMinMax(min, max);
+            // this.updateDomainByMinMax(min, max);
+            // console.log(`${min}  ${max}`);
+            this.updateDomainByMinMax(min, max - 1);
 
         } else if (xAxisType === 'time') {
             let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')])),
                 max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
-
         }
         else {
             let keys: string [] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
-        this.transition();
+        this.transition(Globals.SLIDE_TRANSITION_TIME);
     }
     /**
      * 
@@ -92,7 +95,7 @@ class XAxis extends Component {
     }
 
     private transition(time: number = 200) {
-        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
+        this.svg.selectAll('.x.axis').transition().ease(easeLinear).duration(time).call(this._xAxis);
         // Reorder the axis path to appear over the ticks
         this.svg.select('.x.axis path').raise();
     }
