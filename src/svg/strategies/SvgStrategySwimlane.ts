@@ -30,11 +30,14 @@ class SvgStrategySwimlane extends SvgChart {
     }
 
     public draw(data: [{}]) {
-        let xAxisFormat = this.config.get('xAxisFormat');
-        convertPropretiesToTimeFormat(data, ['start', 'end'], xAxisFormat);       
-        
-        sortByField(data, 'start');
-        
+        let xAxisFormat = this.config.get('xAxisFormat'),
+            propertyStart = this.config.get('propertyStart'),
+            propertyEnd = this.config.get('propertyEnd');
+            
+        convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+
+        sortByField(data, propertyStart);
+
         this.container.updateComponents(data);
     }
 

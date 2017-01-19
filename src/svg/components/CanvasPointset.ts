@@ -10,7 +10,8 @@ import {
     symbolSquare,
     symbolStar,
     symbolTriangle,
-    symbolWye
+    symbolWye,
+    Selection
 } from "d3";
 
 class CanvasPointset extends Component {
@@ -18,6 +19,7 @@ class CanvasPointset extends Component {
     private x: XAxis;
     private y: YAxis;
     private canvasCtx: any;
+    private canvas: Selection<any, any, any, any>;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -38,8 +40,6 @@ class CanvasPointset extends Component {
             dataContainer = null,
             width = this.config.get('width'),
             height = this.config.get('height');
-
-
 
         let shape = symbol()
             .size(markerSize)

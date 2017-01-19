@@ -31,11 +31,11 @@ class SvgStrategyLinechart extends SvgChart {
     private lines: Lineset;
 
 
-    private markers : Pointset;
+    private markers: Pointset;
 
-    private area : Areaset;
+    private area: Areaset;
 
-    private legend : Legend;
+    private legend: Legend;
 
 
     constructor() {
@@ -48,10 +48,12 @@ class SvgStrategyLinechart extends SvgChart {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType');
+            yAxisType = this.config.get('yAxisType'),
+            propertyX = this.config.get('propertyX'),
+            propertyY = this.config.get('propertyY');
 
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType);
-        sortByField(data, 'x');
+        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+        sortByField(data, propertyX);
 
         this.container.updateComponents(data);
     }
@@ -75,7 +77,7 @@ class SvgStrategyLinechart extends SvgChart {
             this.container.add(this.markers);
         }
 
-        if(legend){
+        if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
         }

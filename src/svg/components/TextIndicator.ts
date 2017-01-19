@@ -2,7 +2,9 @@ import Component from "./Component";
 
 class TextIndicator extends Component {
 
-    constructor() {}
+    constructor() {
+        super();
+    }
 
     update(data: [any]): void {
         let datum = data[data.length - 1];

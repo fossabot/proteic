@@ -88,12 +88,13 @@ class Barset extends Component {
             xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
             height = this.config.get('height');
 
-        data = simple2nested(data, 'key');
+        let dataNested = simple2nested(data, 'key');
 
         layer = this.svg.selectAll('g.barSeries')
-            .data(data, (d: any) => d.values);
+            .data(dataNested, (d: any) => d.values);
 
-        layer.enter()
+        layer
+            .enter()
             .append('g')
             .attr('class', 'barSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
@@ -106,7 +107,20 @@ class Barset extends Component {
             .attr("x", (d: any) => xGroup(d[propertyKey]))
             .attr("y", (d: any) => y(d[propertyY]))
             .attr("height", (d: any) => height - y(d[propertyY]))
-            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i));
+            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .attr('class', 'bar');
+
+        //update existing lines
+        this.svg.selectAll('.bar')
+            .data(data, (d: any) => d[propertyX])
+            .attr('width', xGroup.bandwidth())
+            .attr("x", (d: any) => xGroup(d[propertyKey]))
+            .attr("y", (d: any) => y(d[propertyY]))
+            .attr("height", (d: any) => height - y(d[propertyY]))
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+
+
     }
 
 }

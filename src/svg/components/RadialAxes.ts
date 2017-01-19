@@ -24,7 +24,7 @@ class RadialAxes extends Component {
         this._y.render();
     }
 
-    public update(data): void {
+    public update(data: any): void {
         this._x.update(data);
         this._y.update(data);
     }
