@@ -45,24 +45,24 @@ export function convertPropretiesToTimeFormat(data, properties, format) {
   });
 }
 
-export function convertByXYFormat(data, xAxisFormat: string, xAxisType: string, yAxisFormat: string, yAxisType: string) {
+export function convertByXYFormat(data, xAxisFormat: string, xAxisType: string, yAxisFormat: string, yAxisType: string, propertyX: string, propertyY: string) {
   data.forEach((d) => {
     //parse x coordinate
     switch (xAxisType) {
       case 'time':
-        d.x = timeParse(xAxisFormat)(d.x);
+        d[propertyX] = timeParse(xAxisFormat)(d[propertyX]);
         break;
       case 'linear':
-        d.x = +d.x;
+        d[propertyX] = +d[propertyX];
         break;
     }
     //parse Y coordinate
     switch (yAxisType) {
       case 'time':
-        d.y = timeParse(yAxisFormat)(d.y);
+        d[propertyY] = timeParse(yAxisFormat)(d[propertyY]);
         break;
       case 'linear':
-        d.y = +d.y;
+        d[propertyY] = +d[propertyY];
         break;
     }
   });
