@@ -34,7 +34,7 @@ class Datasource {
      * @memberOf Datasource
      */
     start() {
-        window.console.log('Starting datasource');
+        //window.console.log('Starting datasource');
     }
 
     /**
@@ -45,7 +45,7 @@ class Datasource {
     
      */
     stop() {
-        window.console.log('Stopping datasource');
+        //window.console.log('Stopping datasource');
     }
 
 

@@ -47,7 +47,7 @@ class Legend extends Component {
 
 
         entries.append('rect')
-            .attr('x', width + 10- 100)
+            .attr('x', width + 10)
             .attr('y', (d: any, i: number) => i * 25)
             .attr('height', 20)
             .attr('width', 20)
@@ -58,7 +58,7 @@ class Legend extends Component {
 
 
         entries.append('text')
-            .attr("x", width + 25 + 10-100)
+            .attr("x", width + 25 + 10)
             .attr("y", (d: any, i: number) => i * 25 + 7)
             .attr("dy", "0.55em")
             .text((d: any) => d.key)

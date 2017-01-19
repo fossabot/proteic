@@ -42,10 +42,12 @@ class SvgStrategyBarchart extends SvgChart {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType');
+            yAxisType = this.config.get('yAxisType'),
+            propertyX = this.config.get('propertyX'),
+            propertyY = this.config.get('propertyY');
 
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType);
-        sortByField(data, 'x');
+        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+        sortByField(data, propertyX);
 
         this.container.updateComponents(data);
     }
