@@ -113,10 +113,9 @@ var Chart = (function () {
         this.dispatcher.on('removeLoading', function () { return _this.context.removeLoading(); });
         this.dispatcher.on('onmessage', function (data) { return _this.keepDrawing(data); });
         this.dispatcher.on('onopen', function (event$$1) {
-            console.log('onopen', event$$1);
         });
         this.dispatcher.on('onerror', function (error) {
-            console.log('onerror', error);
+            console.error('onerror', error);
         });
     };
     Chart.prototype.loadConfigFromUser = function (userData, defaults) {
@@ -636,7 +635,7 @@ var Legend = (function (_super) {
             .attr('class', 'legend-entry')
             .attr(Globals.LEGEND_DATA_KEY_ATTRIBUTE, function (d) { return d.key; });
         entries.append('rect')
-            .attr('x', width + 10 - 100)
+            .attr('x', width + 10)
             .attr('y', function (d, i) { return i * 25; })
             .attr('height', 20)
             .attr('width', 20)
@@ -645,7 +644,7 @@ var Legend = (function (_super) {
             .style('opacity', 0.8)
             .on('click.default', function (d) { return _this.toggle(d); });
         entries.append('text')
-            .attr("x", width + 25 + 10 - 100)
+            .attr("x", width + 25 + 10)
             .attr("y", function (d, i) { return i * 25 + 7; })
             .attr("dy", "0.55em")
             .text(function (d) { return d.key; })
@@ -1044,10 +1043,11 @@ var Barset = (function (_super) {
         var propertyX = this.config.get('propertyX');
         var propertyY = this.config.get('propertyY');
         var keys = d3.map(data, function (d) { return d[propertyKey]; }).keys(), colorScale = this.config.get('colorScale'), layer = null, x = this.x.xAxis.scale(), y = this.y.yAxis.scale(), xGroup = d3.scaleBand().domain(keys).range([0, x.bandwidth()]), height = this.config.get('height');
-        data = simple2nested(data, 'key');
+        var dataNested = simple2nested(data, 'key');
         layer = this.svg.selectAll('g.barSeries')
-            .data(data, function (d) { return d.values; });
-        layer.enter()
+            .data(dataNested, function (d) { return d.values; });
+        layer
+            .enter()
             .append('g')
             .attr('class', 'barSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, function (d) { return d[propertyKey]; })
@@ -1060,7 +1060,16 @@ var Barset = (function (_super) {
             .attr("x", function (d) { return xGroup(d[propertyKey]); })
             .attr("y", function (d) { return y(d[propertyY]); })
             .attr("height", function (d) { return height - y(d[propertyY]); })
-            .style('fill', function (d, i) { return d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i); });
+            .style('fill', function (d, i) { return d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i); })
+            .attr('class', 'bar');
+        this.svg.selectAll('.bar')
+            .data(data, function (d) { return d[propertyX]; })
+            .attr('width', xGroup.bandwidth())
+            .attr("x", function (d) { return xGroup(d[propertyKey]); })
+            .attr("y", function (d) { return y(d[propertyY]); })
+            .attr("height", function (d) { return height - y(d[propertyY]); })
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
     };
     return Barset;
 }(Component));
@@ -1073,9 +1082,9 @@ var SvgStrategyBarchart = (function (_super) {
         this.bars = new Barset(this.axes.x, this.axes.y);
     }
     SvgStrategyBarchart.prototype.draw = function (data) {
-        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType');
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType);
-        sortByField(data, 'x');
+        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), propertyX = this.config.get('propertyX'), propertyY = this.config.get('propertyY');
+        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+        sortByField(data, propertyX);
         this.container.updateComponents(data);
     };
     SvgStrategyBarchart.prototype.initialize = function () {
@@ -1454,9 +1463,9 @@ var SvgStrategyScatterplot = (function (_super) {
         this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
     }
     SvgStrategyScatterplot.prototype.draw = function (data) {
-        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType');
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType);
-        sortByField(data, 'x');
+        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), propertyX = this.config.get('propertyX'), propertyY = this.config.get('propertyY');
+        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+        sortByField(data, propertyX);
         this.container.updateComponents(data);
     };
     SvgStrategyScatterplot.prototype.initialize = function () {
@@ -1592,9 +1601,9 @@ var SvgStrategyStreamgraph = (function (_super) {
         this.streams = new Streamset(this.axes);
     }
     SvgStrategyStreamgraph.prototype.draw = function (data) {
-        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType');
-        convertPropretiesToTimeFormat(data, ['x'], xAxisFormat);
-        sortByField(data, 'x');
+        var xAxisFormat = this.config.get('xAxisFormat'), xAxisType = this.config.get('xAxisType'), yAxisFormat = this.config.get('yAxisFormat'), yAxisType = this.config.get('yAxisType'), propertyX = this.config.get('propertyX'), propertyY = this.config.get('propertyY');
+        convertPropretiesToTimeFormat(data, [propertyX], xAxisFormat);
+        sortByField(data, propertyX);
         this.container.updateComponents(data);
     };
     SvgStrategyStreamgraph.prototype.initialize = function () {
@@ -1770,9 +1779,9 @@ var SvgStrategySwimlane = (function (_super) {
         this.boxes = new Timeboxset(this.axes);
     }
     SvgStrategySwimlane.prototype.draw = function (data) {
-        var xAxisFormat = this.config.get('xAxisFormat');
-        convertPropretiesToTimeFormat(data, ['start', 'end'], xAxisFormat);
-        sortByField(data, 'start');
+        var xAxisFormat = this.config.get('xAxisFormat'), propertyStart = this.config.get('propertyStart'), propertyEnd = this.config.get('propertyEnd');
+        convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+        sortByField(data, propertyStart);
         this.container.updateComponents(data);
     };
     SvgStrategySwimlane.prototype.initialize = function () {
@@ -2400,10 +2409,8 @@ var Datasource = (function () {
         this.isWaitingForData = true;
     }
     Datasource.prototype.start = function () {
-        window.console.log('Starting datasource');
     };
     Datasource.prototype.stop = function () {
-        window.console.log('Stopping datasource');
     };
     Datasource.prototype.configure = function (dispatcher) {
         this.dispatcher = dispatcher;
