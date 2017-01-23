@@ -1,22 +1,22 @@
-import { dispatch, Dispatch } from 'd3';
+import {Dispatch} from "d3";
 
 /**
- * 
+ *
  * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
  * such as start() and stop().
- * 
+ *
  * @export Default export: Datasource class
- * 
+ *
  * @class Datasource The Datasource class
- * 
+ *
  */
 class Datasource {
     /**
      * Creates an instance of Datasource.
-     * 
-     * 
+     *
+     *
      * @memberOf Datasource
-    
+
      */
     protected dispatcher: Dispatch<HTMLElement> = null;
     protected source: any = null;
@@ -29,8 +29,8 @@ class Datasource {
 
     /**
      * Starts the stream of data
-     * 
-     * 
+     *
+     *
      * @memberOf Datasource
      */
     start() {
@@ -38,16 +38,15 @@ class Datasource {
     }
 
     /**
-     * 
+     *
      * If started, this method stops the stream of data
-     * 
+     *
      * @memberOf Datasource
-    
+
      */
     stop() {
         //window.console.log('Stopping datasource');
     }
-
 
     configure(dispatcher: any) {
         this.dispatcher = dispatcher;

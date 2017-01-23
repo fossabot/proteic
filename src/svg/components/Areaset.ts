@@ -1,17 +1,8 @@
-import Component from './Component';
-import Config from '../../Config';
-import XAxis from './XAxis';
-import YAxis from './YAxis';
-import Globals from '../../Globals';
-
-import {
-    area,
-    selection,
-    nest,
-    easeLinear,
-    CurveFactory,
-    Area
-} from 'd3';
+import Component from "./Component";
+import XAxis from "./XAxis";
+import YAxis from "./YAxis";
+import Globals from "../../Globals";
+import {area, nest, CurveFactory, Area} from "d3";
 
 
 class Areaset extends Component {
@@ -65,9 +56,7 @@ class Areaset extends Component {
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .attr('d', (d: any) => this.areaGenerator(d.values));
-
     }
-
 }
 
 export default Areaset;

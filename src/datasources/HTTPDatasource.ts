@@ -1,9 +1,9 @@
-import Datasource from './Datasource';
-import { request } from 'd3';
+import Datasource from "./Datasource";
+import {request} from "d3";
 
 /**
- * 
- * This datasource set up a connection to a http server. 
+ *
+ * This datasource set up a connection to a http server.
  * @export
  * @class HTTPDatasource
  * @extends {Datasource}
@@ -17,18 +17,17 @@ export default class HTTPDatasource extends Datasource {
      *    var source = {
      *      endpoint: 'https://randomuser.me/api';
      *    };
-     * 
+     *
      *    linechart = new proteic.Linechart(new proteic.HTTPwDatasource(source));
      * </pre>
-     * 
-     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
-     * @param {any} source An http endpoint. If invalid, this class will throw an Error. 
-     *  
+     *
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records.
+     * @param {source} An http endpoint. If invalid, this class will throw an Error.
+     *
      * @memberOf HTTPDatasource
-     * 
+     *
      */
     private intervalId: number;
-
 
     constructor(source: any) {
         super();
@@ -37,13 +36,12 @@ export default class HTTPDatasource extends Datasource {
         this.isWaitingForData = false;
     }
 
-
     /**
-     * 
+     *
      * Initialize an HTTP connection
-     * 
+     *
      * @memberOf HTTPDatasource
-    
+
      */
     public start() {
         if (!this.isWaitingForData) {
@@ -90,9 +88,9 @@ export default class HTTPDatasource extends Datasource {
 
     /**
      * If started, this method close the HTTP connection.
-     * 
+     *
      * @memberOf HTTPDatasource
-    * */
+     * */
     public stop() {
         if (this.isWaitingForData) {
             this._stopPolling();

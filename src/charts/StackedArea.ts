@@ -1,13 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/stackedArea';
-import { copy } from '../utils/functions';
-import {
-    stackOrderInsideOut,
-    stackOffsetNone,
-    stack as d3Stack
-} from 'd3';
+import Chart from "./Chart";
+import SvgStrategyStreamgraph from "../svg/strategies/SvgStrategyStreamgraph";
+import {defaults} from "../utils/defaults/stackedArea";
+import {copy} from "../utils/functions";
 
 class StackedArea extends Chart {
 
@@ -21,7 +15,7 @@ class StackedArea extends Chart {
     }
 
     public keepDrawing(datum: any) {
-        var datumType = datum.constructor;
+        let datumType = datum.constructor;
 
         if (datumType === Array) {
             this.data = this.data.concat(datum);
@@ -31,8 +25,6 @@ class StackedArea extends Chart {
         }
         this.draw(copy(this.data));
     }
-
-
 }
 
 export default StackedArea;

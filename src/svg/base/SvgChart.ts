@@ -1,5 +1,5 @@
-import Container from '../components/Container';
-import Config from '../../Config';
+import Container from "../components/Container";
+import Config from "../../Config";
 
 abstract class SvgChart {
 
@@ -28,9 +28,6 @@ abstract class SvgChart {
     public removeLoading() {
         this.container.removeLoadingIcon();
     }
-
-
-
 }
 
 export default SvgChart;

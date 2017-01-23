@@ -1,11 +1,6 @@
-import {deg2rad} from '../../utils/functions';
-import Component from './Component';
-
-import {
-    scaleLinear,
-    arc as d3arc,
-    range as d3range
-} from 'd3';
+import {deg2rad} from "../../utils/functions";
+import Component from "./Component";
+import {scaleLinear, arc as d3arc, range as d3range} from "d3";
 
 class DialNeedle extends Component {
 
@@ -14,8 +9,7 @@ class DialNeedle extends Component {
     }
 
     public render() {
-        let labels = null,
-            invertColorScale = this.config.get('invertColorScale'),
+        let invertColorScale = this.config.get('invertColorScale'),
             colorScale = this.config.get('colorScale'),
             width = this.config.get('width'),
             height = this.config.get('height'),
@@ -36,17 +30,11 @@ class DialNeedle extends Component {
 
             range = maxAngle - minAngle,
             r = ((width > height) ?
-                height : width
-            ) / 2,
+                        height : width
+                ) / 2,
             needleLen = needleLenghtRatio * (r),
 
             translation = (() => 'translate(' + r + ',' + r + ')'),
-            tickData = d3range(ticks).map(() => 1 / ticks),
-            arc = d3arc()
-                .innerRadius(r - ringWidth - ringMargin)
-                .outerRadius(r - ringMargin)
-                .startAngle((d: any, i: number) => deg2rad(minAngle + ((d * i) * range)))
-                .endAngle((d: any, i: number) => deg2rad(minAngle + ((d * (i + 1)) * range))),
 
             angleScale = scaleLinear()
                 .domain([minLevel, maxLevel])
@@ -82,8 +70,8 @@ class DialNeedle extends Component {
             minLevel = this.config.get('minLevel'),
             maxLevel = this.config.get('maxLevel'),
             r = ((width > height) ?
-                height : width
-            ) / 2,
+                        height : width
+                ) / 2,
             needleLen = needleLenghtRatio * (r),
             angleScale = scaleLinear()
                 .domain([minLevel, maxLevel])

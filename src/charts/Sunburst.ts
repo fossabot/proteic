@@ -1,11 +1,9 @@
 import Chart from "./Chart";
-import Config from "../Config";
 import SvgStrategySunburst from "../svg/strategies/SvgStrategySunburst";
-import { defaults } from "../utils/defaults/sunburst";
-import { copy } from "../utils/functions";
+import {defaults} from "../utils/defaults/sunburst";
+import {copy} from "../utils/functions";
 
 class Sunburst extends Chart {
-
 
     constructor(data: any, userConfig: any = {}) {
         super(
@@ -30,7 +28,6 @@ class Sunburst extends Chart {
         }
         this.draw(copy(this.data));
     }
-
 }
 
 export default Sunburst;
