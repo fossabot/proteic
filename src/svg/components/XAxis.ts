@@ -13,7 +13,7 @@ import Component from './Component';
 
 class XAxis extends Component {
 
-    private _xAxis: Axis<any>;
+    private _xAxis: any;
 
     constructor() {
         super();
