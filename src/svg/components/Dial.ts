@@ -6,6 +6,7 @@ import {
     arc as d3arc,
     range as d3range
 } from 'd3';
+import {DefaultArcObject, Arc, PieArcDatum} from "d3-shape";
 
 class Dial extends Component {
 
@@ -38,7 +39,7 @@ class Dial extends Component {
             ) / 2,
             translation = (() => 'translate(' + r + ',' + r + ')'),
             tickData = d3range(ticks).map(() => 1 / ticks),
-            arc = d3arc()
+            arc: Arc<any, any> = d3arc()
                 .innerRadius(r - ringWidth - ringMargin)
                 .outerRadius(r - ringMargin)
                 .startAngle((d: any, i) => deg2rad(minAngle + ((d * i) * range)))
