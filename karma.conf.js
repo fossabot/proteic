@@ -1,6 +1,6 @@
 // Karma configuration
 // Generated on Wed Apr 06 2016 14:18:09 GMT+0200 (CEST)
-var buble = require('rollup-plugin-buble');
+var webpackConfig = require('./webpack.config');
 
 module.exports = (config) => {
   config.set({
@@ -17,9 +17,7 @@ module.exports = (config) => {
     // list of files / patterns to load in the browser
     // If multiple patterns match the same file, it's included as if it only matched the first pattern.
     files: [
-      'node_modules/d3/build/d3.min.js',
-      'dist/proteic.js',
-      'test/test*.js'
+      'test/**/*.ts'
     ],
 
     // list of files to exclude
@@ -30,27 +28,15 @@ module.exports = (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/!(defaults)/*.js': ['coverage'],
-      'test/test.*.js': ['rollup']
+      'test/**/*.ts': ['webpack']
     },
 
-    rollupPreprocessor: {
-      plugins: [
-        require('rollup-plugin-istanbul')({
-          exclude: ['test/**/*.js', 'node_modules/**/*']
-        }),
-        buble() // ES2015 compiler by the same author as Rollup
-      ],
-      // will help to prevent conflicts between different tests entries
-      format: 'iife',
-      sourceMap: 'inline',
-      globals: {
-        d3: 'd3',
-        chai: 'chai',
-       // 'proteus-colors': 'proteus-colors'
-      },
-      external: ['d3', 'chai']
+    webpack: {
+      module: webpackConfig.module,
+      resolve: webpackConfig.resolve
     },
+    reporters: ['progress'],
+
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
