@@ -1,4 +1,4 @@
-export function sortByField (array, field){
+export function sortByField (array: Array<any>, field: string){
     array.sort((e1, e2) => {
         var a = e1[field];
         var b = e2[field];
