@@ -67,6 +67,18 @@ function copy(object) {
 function deg2rad(deg) {
     return deg * Math.PI / 180;
 }
+function isValuesInObjectKeys(values, keys) {
+    return function (obj) {
+        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+            var key = keys_1[_i];
+            var value = obj[key];
+            if (values.indexOf(value) != -1) {
+                return false;
+            }
+        }
+        return true;
+    };
+}
 
 function calculateWidth(widthConfig, selector) {
     if (widthConfig === 'auto') {
@@ -966,6 +978,7 @@ var defaults = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null],
     onDown: function (d) {
     },
     onHover: function (d) {
@@ -986,9 +999,15 @@ var Linechart = (function (_super) {
         return _super.call(this, new SvgStrategyLinechart(), data, userConfig, defaults) || this;
     }
     Linechart.prototype.keepDrawing = function (datum) {
-        var maxNumberOfElements = this.config.get('maxNumberOfElements'), numberOfElements = this.data.length, position = -1, datumType = datum.constructor;
+        var nullValues = this.config.get('nullValues');
+        var maxNumberOfElements = this.config.get('maxNumberOfElements'), numberOfElements = this.data.length, position = -1, datumType = datum.constructor, keys$$1 = [
+            this.config.get('propertyX'),
+            this.config.get('propertyY'),
+            this.config.get('propertyKey')
+        ];
         if (datumType === Array) {
-            this.data = this.data.concat(datum);
+            var filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys$$1));
+            this.data = this.data.concat(filteredDatum);
         }
         else {
             this.data.push(datum);

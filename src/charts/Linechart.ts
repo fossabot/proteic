@@ -2,7 +2,7 @@ import Chart from './Chart';
 import SvgStrategyLinechart from '../svg/strategies/SvgStrategyLinechart';
 import Config from '../Config';
 import { defaults } from '../utils/defaults/linechart';
-import { copy } from '../utils/functions';
+import {copy, isValuesInObject, isValuesInObjectKeys} from '../utils/functions';
 
 class Linechart extends Chart {
 
@@ -16,13 +16,21 @@ class Linechart extends Chart {
     }
 
     public keepDrawing(datum: any) {
+
+        let nullValues = this.config.get('nullValues');
         let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
             position = -1,
-            datumType = datum.constructor;
+            datumType = datum.constructor,
+            keys = [
+                this.config.get('propertyX'),
+                this.config.get('propertyY'),
+                this.config.get('propertyKey')
+            ];
 
         if (datumType === Array) {
-            this.data = this.data.concat(datum);
+            let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+            this.data = this.data.concat(filteredDatum);
         }
         else {
             this.data.push(datum);
@@ -35,7 +43,6 @@ class Linechart extends Chart {
 
         this.draw(copy(this.data));
     }
-
 }
 
 export default Linechart;
