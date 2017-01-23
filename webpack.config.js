@@ -1,8 +1,12 @@
+var webpack = require('webpack');
+
 module.exports = {
     watch: false,
     entry: './index.ts',
+    id: 'proteic',
     output: {
-        filename: 'dist/proteic.js'
+        filename: 'dist/proteic.js',
+        library: 'proteic'
     },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
@@ -11,5 +15,12 @@ module.exports = {
         loaders: [
             { test: /\.ts$/, loader: 'ts-loader' }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ]
 }

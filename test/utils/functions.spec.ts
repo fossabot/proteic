@@ -38,7 +38,7 @@ describe('Utils', () => {
     });
 
     it('utils.isFunction()', () => {
-      assert.isOk(isFunction((d) => d));
+      assert.isOk(isFunction((d: any) => d));
       assert.isNotOk(isFunction(''));
       assert.isNotOk(isFunction({}));
       assert.isNotOk(isFunction([]));
