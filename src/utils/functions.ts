@@ -90,3 +90,23 @@ export function copy(object: {}) {
 export function deg2rad(deg: number) {
   return deg * Math.PI / 180;
 }
+
+/**
+ * This is intended as a test function for a filter. It returns a function that is true when any of the`keys` of the
+ * tested object contains any of the`values`
+ *
+ * @param values
+ * @param keys
+ * @returns {(obj:any)=>boolean}
+ */
+export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>) {
+  return function (obj: any) {
+    for (let key of keys) {
+      let value: any = obj[key];
+      if (values.indexOf(value) != -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
