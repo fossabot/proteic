@@ -15,7 +15,6 @@ class Linechart extends Chart {
     }
 
     public keepDrawing(datum: any) {
-
         let nullValues = this.config.get('nullValues');
         let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,

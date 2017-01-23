@@ -21,7 +21,7 @@ class XYAxis extends Component {
 
     }
 
-    public update(data): void {
+    public update(data: any): void {
         this._y.update(data);
         this._x.update(data);
     }

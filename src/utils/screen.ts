@@ -4,7 +4,7 @@ import {
 
 import { select } from 'd3';
 
-export function calculateWidth(widthConfig, selector) {
+export function calculateWidth(widthConfig: any, selector: any) {
   if (widthConfig === 'auto') {
     return select(selector)
       .node()
