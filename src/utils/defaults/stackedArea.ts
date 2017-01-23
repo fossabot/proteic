@@ -31,7 +31,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyKey: 'key',
     stacked: true,
-    stack: d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone),
+    stack: d3Stack().value((d: any, k: any) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone),
     //Events
     onDown(d: any) {
     },

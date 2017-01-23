@@ -52,9 +52,12 @@ class Barset extends Component {
 
     private updateStacked(data: [any]) {
         let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+
         let keys: any = map(data, (d) => d[propertyKey]).keys();
         let stack = this.config.get('stack');
-        data = stack.keys(keys)(simple2stacked(data));
+        data = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
 
         let colorScale = this.config.get('colorScale'),
             layer = this.svg.selectAll('.barSeries').data(data),

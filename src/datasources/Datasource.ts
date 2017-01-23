@@ -1,4 +1,4 @@
-import { dispatch } from 'd3';
+import { dispatch, Dispatch } from 'd3';
 
 /**
  * 
@@ -18,7 +18,7 @@ class Datasource {
      * @memberOf Datasource
     
      */
-    protected dispatcher: any = null;
+    protected dispatcher: Dispatch<HTMLElement> = null;
     protected source: any = null;
     protected isWaitingForData: boolean = true;
 

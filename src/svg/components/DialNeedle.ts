@@ -45,8 +45,8 @@ class DialNeedle extends Component {
             arc = d3arc()
                 .innerRadius(r - ringWidth - ringMargin)
                 .outerRadius(r - ringMargin)
-                .startAngle((d, i) => deg2rad(minAngle + ((d * i) * range)))
-                .endAngle((d, i) => deg2rad(minAngle + ((d * (i + 1)) * range))),
+                .startAngle((d: any, i: number) => deg2rad(minAngle + ((d * i) * range)))
+                .endAngle((d: any, i: number) => deg2rad(minAngle + ((d * (i + 1)) * range))),
 
             angleScale = scaleLinear()
                 .domain([minLevel, maxLevel])

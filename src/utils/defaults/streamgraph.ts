@@ -30,7 +30,7 @@ export const defaults : any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    stack: d3Stack().value((d, k) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetWiggle),
+    stack: d3Stack().value((d: any, k: any) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetWiggle),
     stacked: true,
     //Events
     onDown(d: any) {

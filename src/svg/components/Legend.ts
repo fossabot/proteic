@@ -80,7 +80,9 @@ class Legend extends Component {
             legendEntry.selectAll('rect')
                 .transition()
                 .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
-                .style('fill', (opacity === 1) ? (d: any) => colorScale(d.key) : 'transparent');
+                .style('fill', (d: any): any => {
+                    return (opacity === 1) ? colorScale(d.key) : 'transparent';
+                });
 
             element
                 .transition()

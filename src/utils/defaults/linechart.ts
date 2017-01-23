@@ -34,15 +34,15 @@ export const defaults : any = {
     propertyY: 'y',
     propertyKey: 'key',
     //Events
-    onDown(d) {
+    onDown(d: any) {
     },
-    onHover(d) {
+    onHover(d: any) {
     },
-    onLeave(d) {
+    onLeave(d: any) {
     },
-    onClick(d) {
+    onClick(d: any) {
     },
-    onUp(d) {
+    onUp(d: any) {
     },
     maxNumberOfElements: 10, // used by keepDrawing method to reduce the number of elements in the current chart
 };

@@ -28,7 +28,7 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    stack:  d3stack().value((d, k) => d.value[k]),
+    stack:  d3stack().value((d: any, k: any) => d.value[k]),
 
     //Events
     onDown(d: any) {
