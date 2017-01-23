@@ -10,19 +10,31 @@ module.exports = function (config) {
     exclude: [
     ],
     preprocessors: {
+      'src/**/!(defaults)/*.js': ['coverage'],
       'test/**/*.ts': ['webpack']
     },
     webpack: {
       module: webpackConfig.module,
       resolve: webpackConfig.resolve
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
     browsers: ['Chrome'],
     singleRun: true,
-    concurrency: Infinity
+    concurrency: Infinity,
+    coverageReporter: {
+      includeAllSources: true,
+      reporters: [
+        // generates ./coverage/lcov.info
+        { type: 'lcovonly', subdir: '.' },
+        // generates ./coverage/coverage-final.json
+        { type: 'json', subdir: '.' },
+        // generates HTML reports
+        { type: 'html', dir: 'coverage/' }
+      ]
+    },
   })
 }
