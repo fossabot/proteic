@@ -1,12 +1,7 @@
-import {deg2rad} from '../../utils/functions';
-import Component from './Component';
-
-import {
-    scaleLinear,
-    arc as d3arc,
-    range as d3range
-} from 'd3';
-import {DefaultArcObject, Arc, PieArcDatum} from "d3-shape";
+import {deg2rad} from "../../utils/functions";
+import Component from "./Component";
+import {scaleLinear, arc as d3arc, range as d3range} from "d3";
+import {Arc} from "d3-shape";
 
 class Dial extends Component {
 
@@ -35,8 +30,8 @@ class Dial extends Component {
 
             range = maxAngle - minAngle,
             r = ((width > height) ?
-                height : width
-            ) / 2,
+                        height : width
+                ) / 2,
             translation = (() => 'translate(' + r + ',' + r + ')'),
             tickData = d3range(ticks).map(() => 1 / ticks),
             arc: Arc<any, any> = d3arc()
@@ -44,8 +39,8 @@ class Dial extends Component {
                 .outerRadius(r - ringMargin)
                 .startAngle((d: any, i) => deg2rad(minAngle + ((d * i) * range)))
                 .endAngle((d: any, i) => deg2rad(minAngle + ((d * (i + 1)) * range)));
-                
-         colorScale.domain([0,1]);
+
+        colorScale.domain([0, 1]);
 
         // Append the ring
         let arcs = this.svg.append('g')

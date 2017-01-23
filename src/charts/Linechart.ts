@@ -1,8 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyLinechart from '../svg/strategies/SvgStrategyLinechart';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/linechart';
-import {copy, isValuesInObject, isValuesInObjectKeys} from '../utils/functions';
+import Chart from "./Chart";
+import SvgStrategyLinechart from "../svg/strategies/SvgStrategyLinechart";
+import {defaults} from "../utils/defaults/linechart";
+import {copy, isValuesInObjectKeys} from "../utils/functions";
 
 class Linechart extends Chart {
 
@@ -20,7 +19,6 @@ class Linechart extends Chart {
         let nullValues = this.config.get('nullValues');
         let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
-            position = -1,
             datumType = datum.constructor,
             keys = [
                 this.config.get('propertyX'),

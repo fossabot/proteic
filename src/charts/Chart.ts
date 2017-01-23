@@ -1,10 +1,10 @@
-import { SvgContext } from '../svg/strategies/SvgStrategy'
-import SvgChart from '../svg/base/SvgChart';
-import Config from '../Config';
-import { copy } from '../utils/functions';
-import Datasource from '../datasources/Datasource';
-import { calculateWidth } from '../utils/screen';
-import { dispatch } from 'd3';
+import {SvgContext} from "../svg/strategies/SvgStrategy";
+import SvgChart from "../svg/base/SvgChart";
+import Config from "../Config";
+import {copy} from "../utils/functions";
+import Datasource from "../datasources/Datasource";
+import {calculateWidth} from "../utils/screen";
+import {dispatch} from "d3";
 
 abstract class Chart {
 
@@ -13,7 +13,6 @@ abstract class Chart {
     protected data: any;
     private ds: Datasource = null;
     private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
-
 
     constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
@@ -27,12 +26,12 @@ abstract class Chart {
     }
 
     /**
-     * 
+     *
      * Configure a datasources for the current instance. Datasources allows data to be catached from many sources, such as websockets endpoints, HTTP urls, etc.
      * @param {Datasource} ds A datasource
-     * 
+     *
      * @memberOf Chart
-    
+
      */
     public datasource(ds: Datasource) {
         this.ds = ds;
@@ -65,7 +64,6 @@ abstract class Chart {
     }
 
     protected abstract keepDrawing(datum: any): void;
-
 }
 
 export default Chart;

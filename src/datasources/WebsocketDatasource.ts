@@ -1,8 +1,7 @@
-import Datasource from './Datasource';
-import Globals from '../Globals';
+import Datasource from "./Datasource";
 /**
- * 
- * This datasource set up a connection to a websocket server. 
+ *
+ * This datasource set up a connection to a websocket server.
  * @export
  * @class WebsocketDatasource
  * @extends {Datasource}
@@ -16,18 +15,17 @@ class WebsocketDatasource extends Datasource {
      *    var source = {
      *      endpoint: 'ws://192.168.3.32:3000/pathToWebsocketEndpoint';
      *    };
-     * 
+     *
      *    linechart = new proteic.Linechart(new proteic.WebsocketDatasource(source));
      * </pre>
-     * 
-     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records. 
-     * @param {any} source A websocket endpoint. If invalid, this class will throw an Error. 
-     *  
+     *
+     * If new data is available, this datasource will forward the data records to the chart, which automatically repaint the chart with these new records.
+     * @param {source} A websocket endpoint. If invalid, this class will throw an Error.
+     *
      * @memberOf WebsocketDatasource
-    
+
      */
     private ws: WebSocket;
-
 
     constructor(source: any) {
         super();
@@ -36,9 +34,9 @@ class WebsocketDatasource extends Datasource {
 
     /**
      * Configure a dispatcher for this datasource.
-     * 
-     * @param {any} dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
-     * 
+     *
+     * @param dispatcher A d3 dispatcher. This dispatcher is in charge of receiving and sending events.
+     *
      * @memberOf WebsocketDatasource
      */
     configure(dispatcher: any) {
@@ -46,11 +44,11 @@ class WebsocketDatasource extends Datasource {
     }
 
     /**
-     * 
+     *
      * Initialize a websocket connection
-     * 
+     *
      * @memberOf WebsocketDatasource
-    
+
      */
     start() {
         super.start();
@@ -70,15 +68,16 @@ class WebsocketDatasource extends Datasource {
                 this.dispatcher.call('removeLoading', null, e);
                 this.isWaitingForData = false;
             }
-            var data = JSON.parse(e.data);
+            let data = JSON.parse(e.data);
             this.dispatcher.call('onmessage', null, data);
         };
     }
+
     /**
      * If started, this method close the websocket connection.
-     * 
+     *
      * @memberOf WebsocketDatasource
-    * */
+     * */
     stop() {
         super.stop();
         if (this.ws) {

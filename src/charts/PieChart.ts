@@ -1,11 +1,9 @@
 import Chart from "./Chart";
-import Config from "../Config";
 import SvgStrategyPieChart from "../svg/strategies/SvgStrategyPieChart";
-import { defaults } from "../utils/defaults/piechart";
-import { copy } from "../utils/functions";
+import {defaults} from "../utils/defaults/piechart";
+import {copy} from "../utils/functions";
 
 class PieChart extends Chart {
-
 
     constructor(data: any, userConfig: any = {}) {
         super(
@@ -30,7 +28,6 @@ class PieChart extends Chart {
         }
         this.draw(copy(this.data));
     }
-
 }
 
 export default PieChart;

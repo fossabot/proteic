@@ -1,10 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/streamgraph';
-import { copy } from '../utils/functions';
-
-
+import Chart from "./Chart";
+import SvgStrategyStreamgraph from "../svg/strategies/SvgStrategyStreamgraph";
+import {defaults} from "../utils/defaults/streamgraph";
+import {copy} from "../utils/functions";
 
 class Streamgraph extends Chart {
 
@@ -18,7 +15,7 @@ class Streamgraph extends Chart {
     }
 
     public keepDrawing(datum: any) {
-        var datumType = datum.constructor;
+        let datumType = datum.constructor;
 
         if (datumType === Array) {
             this.data = this.data.concat(datum);
@@ -28,7 +25,6 @@ class Streamgraph extends Chart {
         }
         this.draw(copy(this.data));
     }
-
 }
 
 export default Streamgraph;

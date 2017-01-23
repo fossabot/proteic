@@ -1,8 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/barchart';
-import { copy } from '../utils/functions';
+import Chart from "./Chart";
+import SvgStrategyBarchart from "../svg/strategies/SvgStrategyBarchart";
+import {defaults} from "../utils/defaults/barchart";
+import {copy} from "../utils/functions";
 
 class Barchart extends Chart {
 
@@ -35,7 +34,7 @@ class Barchart extends Chart {
         else {
             let found = false;
             for (let i = 0; i < this.data.length; i++) {
-                var d = this.data[i];
+                let d = this.data[i];
                 if (d['x'] === datum['x'] && d['key'] === datum['key']) {
                     this.data[i] = datum;
                     found = true;
@@ -49,7 +48,6 @@ class Barchart extends Chart {
 
         this.draw(copy(this.data));
     }
-
 }
 
 export default Barchart;

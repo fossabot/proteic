@@ -1001,7 +1001,7 @@ var Linechart = (function (_super) {
     }
     Linechart.prototype.keepDrawing = function (datum) {
         var nullValues = this.config.get('nullValues');
-        var maxNumberOfElements = this.config.get('maxNumberOfElements'), numberOfElements = this.data.length, position = -1, datumType = datum.constructor, keys$$1 = [
+        var maxNumberOfElements = this.config.get('maxNumberOfElements'), numberOfElements = this.data.length, datumType = datum.constructor, keys$$1 = [
             this.config.get('propertyX'),
             this.config.get('propertyY'),
             this.config.get('propertyKey')
@@ -1014,8 +1014,8 @@ var Linechart = (function (_super) {
             this.data.push(datum);
         }
         if (numberOfElements > maxNumberOfElements) {
-            var position_1 = numberOfElements - maxNumberOfElements;
-            this.data = this.data.slice(position_1);
+            var position = numberOfElements - maxNumberOfElements;
+            this.data = this.data.slice(position);
         }
         this.draw(copy(this.data));
     };
@@ -1260,14 +1260,10 @@ var DialNeedle = (function (_super) {
         return _super.call(this) || this;
     }
     DialNeedle.prototype.render = function () {
-        var labels = null, invertColorScale = this.config.get('invertColorScale'), colorScale = this.config.get('colorScale'), width = this.config.get('width'), height = this.config.get('height'), ringWidth = this.config.get('ringWidth'), ringMargin = this.config.get('ringMargin'), ticks = this.config.get('ticks'), minAngle = this.config.get('minAngle'), maxAngle = this.config.get('maxAngle'), minLevel = this.config.get('minLevel'), maxLevel = this.config.get('maxLevel'), labelInset = this.config.get('labelInset'), needleNutRadius = this.config.get('needleNutRadius'), needleLenghtRatio = this.config.get('needleLenghtRatio'), scale = d3.scaleLinear()
+        var invertColorScale = this.config.get('invertColorScale'), colorScale = this.config.get('colorScale'), width = this.config.get('width'), height = this.config.get('height'), ringWidth = this.config.get('ringWidth'), ringMargin = this.config.get('ringMargin'), ticks = this.config.get('ticks'), minAngle = this.config.get('minAngle'), maxAngle = this.config.get('maxAngle'), minLevel = this.config.get('minLevel'), maxLevel = this.config.get('maxLevel'), labelInset = this.config.get('labelInset'), needleNutRadius = this.config.get('needleNutRadius'), needleLenghtRatio = this.config.get('needleLenghtRatio'), scale = d3.scaleLinear()
             .domain([minLevel, maxLevel])
             .range([0, 1]), scaleMarkers = scale.ticks(ticks), range$$1 = maxAngle - minAngle, r = ((width > height) ?
-            height : width) / 2, needleLen = needleLenghtRatio * (r), translation = (function () { return 'translate(' + r + ',' + r + ')'; }), tickData = d3.range(ticks).map(function () { return 1 / ticks; }), arc$$1 = d3.arc()
-            .innerRadius(r - ringWidth - ringMargin)
-            .outerRadius(r - ringMargin)
-            .startAngle(function (d, i) { return deg2rad(minAngle + ((d * i) * range$$1)); })
-            .endAngle(function (d, i) { return deg2rad(minAngle + ((d * (i + 1)) * range$$1)); }), angleScale = d3.scaleLinear()
+            height : width) / 2, needleLen = needleLenghtRatio * (r), translation = (function () { return 'translate(' + r + ',' + r + ')'; }), angleScale = d3.scaleLinear()
             .domain([minLevel, maxLevel])
             .range([90 + minAngle, 90 + maxAngle]);
         this.svg.append('path')

@@ -1,9 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyNetwork from '../svg/strategies/SvgStrategyNetwork';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/network';
-import { copy } from '../utils/functions';
-
+import Chart from "./Chart";
+import SvgStrategyNetwork from "../svg/strategies/SvgStrategyNetwork";
+import {defaults} from "../utils/defaults/network";
+import {copy} from "../utils/functions";
 
 class Network extends Chart {
 
@@ -16,9 +14,8 @@ class Network extends Chart {
         );
     }
 
-
     public keepDrawing(datum: any) {
-        var datumType = datum.constructor;
+        let datumType = datum.constructor;
 
         if (datumType === Array) {
             this.data = this.data.concat(datum);
@@ -28,7 +25,6 @@ class Network extends Chart {
         }
         this.draw(copy(this.data));
     }
-
 }
 
 export default Network;

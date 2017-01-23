@@ -1,9 +1,7 @@
-import Chart from './Chart';
-import SvgStrategyScatterplot from '../svg/strategies/SvgStrategyScatterplot';
-import Config from '../Config';
-import { defaults } from '../utils/defaults/scatterplot';
-import { copy } from '../utils/functions';
-
+import Chart from "./Chart";
+import SvgStrategyScatterplot from "../svg/strategies/SvgStrategyScatterplot";
+import {defaults} from "../utils/defaults/scatterplot";
+import {copy} from "../utils/functions";
 
 class Scatterplot extends Chart {
 
@@ -16,9 +14,8 @@ class Scatterplot extends Chart {
         );
     }
 
-
     public keepDrawing(datum: any) {
-        var datumType = datum.constructor;
+        let datumType = datum.constructor;
 
         if (datumType === Array) {
             if (this.data) {
@@ -32,9 +29,6 @@ class Scatterplot extends Chart {
         }
         this.draw(copy(this.data));
     }
-
-
-
 }
 
 export default Scatterplot;
