@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
+    devtool: 'source-map',
     watch: false,
     entry: './index.ts',
     id: 'proteic',
