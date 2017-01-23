@@ -9,14 +9,13 @@
   "jsnext:main": "index",
   "scripts": {
     "lint": "jshint src/**/*.js",
-    "pretest": "npm run build",
-    "test": "echo 'tests disabled'",
+    "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
-    "build": "rollup -c rollup.config.js && uglifyjs dist/proteic.js -c negate_iife=false -o dist/proteic.min.js && node rollup.config.node.js && node-sass scss/proteic.scss dist/proteic.css",
+    "build": "webpack && uglifyjs dist/proteic.js -c negate_iife=false -o dist/proteic.min.js && node-sass scss/proteic.scss dist/proteic.css",
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ scss/\"",
-    "prepublish": "npm run build && node rollup.config.node.js"
+    "prepublish": "npm run build"
   },
   "keywords": [
     "d3",
@@ -51,6 +50,7 @@
     "d3": "^4.4.3"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
     "@types/d3": "^4.3.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
@@ -62,21 +62,18 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.0.0",
     "karma-mocha": "^1.0.1",
-    "karma-rollup-plugin": "^0.2.4",
+    "karma-webpack": "^2.0.1",
     "live-server": "^1.1.0",
     "mocha": "^2.4.5",
     "node-sass": "^3.13.0",
     "parallelshell": "^2.0.0",
     "protractor": "^3.3.0",
     "rimraf": "^2.5.4",
-    "rollup-plugin-buble": "^0.14.0",
-    "rollup-plugin-commonjs": "^5.0.4",
-    "rollup-plugin-istanbul": "^1.1.0",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-typescript": "^0.8.1",
     "socket.io": "^1.4.5",
+    "ts-loader": "^2.0.0",
     "typescript": "^2.0.8",
     "uglify-js": "^2.7.4",
-    "watch": "^0.19.2"
+    "watch": "^0.19.2",
+    "webpack": "^1.14.0"
   }
 }
