@@ -1,12 +1,8 @@
-import Config from '../../Config';
 import Component from './Component';
 import Globals from '../../Globals';
 import {
     stack,
     map,
-    stackOrderInsideOut,
-    stackOffsetWiggle,
-    select,
     scaleLinear,
     scaleBand,
     format,
@@ -15,8 +11,6 @@ import {
     min as d3Min,
     max as d3Max
 } from 'd3';
-
-import { isEven } from '../../utils/functions';
 import { simple2stacked } from '../../utils/dataTransformation';
 
 class YAxis extends Component {
@@ -72,6 +66,7 @@ class YAxis extends Component {
     public update(data: any): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
+        let propertyX = this.config.get('propertyX');
 
         let yAxisType = this.config.get('yAxisType'),
             yAxisShow = this.config.get('yAxisShow'),
@@ -83,7 +78,7 @@ class YAxis extends Component {
             if (layoutStacked) { //TODO: Improve
                 let keys: string[] = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
-                let stackedData = stack.keys(keys)(simple2stacked(data));
+                let stackedData = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
                 let min = d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0]));
                 let max = d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1]));
                 this.updateDomainByMinMax(min, max);

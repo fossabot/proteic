@@ -1,19 +1,10 @@
 import Component from './Component';
-import Config from '../../Config';
-import XAxis from './XAxis';
-import YAxis from './YAxis';
-import { simple2nested, simple2stacked } from '../../utils/dataTransformation';
 import Globals from '../../Globals';
 import {
-    stack,
-    scaleBand,
-    map,
-    area,
-    selection,
-    nest,
     pie,
     arc
 } from 'd3';
+import {Arc} from "d3-shape";
 
 
 class SectorSet extends Component {
@@ -37,7 +28,7 @@ class SectorSet extends Component {
         let colorScale = this.config.get('colorScale');
         
         let myPie = pie().value((d:any) => d[propertyX])(data);
-        let myArc = arc().innerRadius(0).outerRadius(radius);
+        let myArc: Arc<any, any> = arc().innerRadius(0).outerRadius(radius);
         
         let arcs = this.svg.selectAll("g.slice").data(myPie);
         let newBlock = arcs.enter(); 

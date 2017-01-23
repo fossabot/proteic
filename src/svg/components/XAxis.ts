@@ -1,21 +1,15 @@
 import {
     map,
-    select,
     scaleTime,
     scaleLinear,
     scaleBand,
     format,
     axisBottom,
-    timeParse,
     min as d3Min,
     max as d3Max,
     Axis
 } from 'd3';
-
 import Component from './Component';
-import Config from '../../Config';
-
-import { isEven } from '../../utils/functions';
 
 class XAxis extends Component {
 
@@ -68,20 +62,19 @@ class XAxis extends Component {
 
         }
         else {
-            let keys: string [] = map(data, (d) => d[propertyX]).keys();
+            let keys: string[] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
         this.transition();
     }
+
     /**
-     * 
      * Update x domain by keys
+     *
      * @private
-     * @param {*} data
-     * 
      * @memberOf XAxis
-    
+     * @param keys
      */
     private updateDomainByKeys(keys: string[]) {
         this._xAxis.scale().domain(keys);

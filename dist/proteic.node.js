@@ -347,13 +347,14 @@ var YAxis = (function (_super) {
     YAxis.prototype.update = function (data) {
         var propertyKey = this.config.get('propertyKey');
         var propertyY = this.config.get('propertyY');
+        var propertyX = this.config.get('propertyX');
         var yAxisType = this.config.get('yAxisType'), yAxisShow = this.config.get('yAxisShow'), layoutStacked = this.config.get('stacked');
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
         if (yAxisType === 'linear') {
             if (layoutStacked) {
                 var keys = d3.map(data, function (d) { return d[propertyKey]; }).keys();
                 var stack_1 = this.config.get('stack');
-                var stackedData = stack_1.keys(keys)(simple2stacked(data));
+                var stackedData = stack_1.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
                 var min$$1 = d3.min(stackedData, function (serie) { return d3.min(serie, function (d) { return d[0]; }); });
                 var max$$1 = d3.max(stackedData, function (serie) { return d3.max(serie, function (d) { return d[1]; }); });
                 this.updateDomainByMinMax(min$$1, max$$1);
