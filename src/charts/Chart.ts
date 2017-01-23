@@ -45,11 +45,10 @@ abstract class Chart {
         this.dispatcher.on('onmessage', (data: any) => this.keepDrawing(data));
 
         this.dispatcher.on('onopen', (event: any) => {
-            console.log('onopen', event);
         });
 
         this.dispatcher.on('onerror', (error: any) => {
-            console.log('onerror', error);
+            console.error('onerror', error);
         });
 
     }

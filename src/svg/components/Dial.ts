@@ -13,7 +13,6 @@ class Dial extends Component {
         super();
     }
 
-
     public render() {
         let labels = null,
             invertColorScale = this.config.get('invertColorScale'),
@@ -42,8 +41,8 @@ class Dial extends Component {
             arc = d3arc()
                 .innerRadius(r - ringWidth - ringMargin)
                 .outerRadius(r - ringMargin)
-                .startAngle((d, i) => deg2rad(minAngle + ((d * i) * range)))
-                .endAngle((d, i) => deg2rad(minAngle + ((d * (i + 1)) * range)));
+                .startAngle((d: any, i) => deg2rad(minAngle + ((d * i) * range)))
+                .endAngle((d: any, i) => deg2rad(minAngle + ((d * (i + 1)) * range)));
                 
          colorScale.domain([0,1]);
 
@@ -61,7 +60,7 @@ class Dial extends Component {
             .attr('d', arc);
 
         // Fill colors
-        arcPaths.attr('fill', (d, i) => colorScale(invertColorScale
+        arcPaths.attr('fill', (d: number, i: number) => colorScale(invertColorScale
             ? (1 - d * i)
             : (d * i))
         );

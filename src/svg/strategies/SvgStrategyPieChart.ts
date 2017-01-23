@@ -10,7 +10,6 @@ class SvgStrategyPieChart extends SvgChart {
     constructor() {
         super();
         this.sectors = new SectorSet();
-        
     }
 
     public draw(data: [{}]) {

@@ -1,4 +1,4 @@
-import {dispatch} from 'd3';
+import { dispatch, Dispatch } from 'd3';
 
 /**
  * 
@@ -18,9 +18,9 @@ class Datasource {
      * @memberOf Datasource
     
      */
-    protected dispatcher: any = null;
-    protected source : {any} = null;
-    protected isWaitingForData : boolean = true;
+    protected dispatcher: Dispatch<HTMLElement> = null;
+    protected source: any = null;
+    protected isWaitingForData: boolean = true;
 
     constructor() {
         // this.filters = [];
@@ -34,7 +34,7 @@ class Datasource {
      * @memberOf Datasource
      */
     start() {
-        window.console.log('Starting datasource');
+        //window.console.log('Starting datasource');
     }
 
     /**
@@ -45,47 +45,12 @@ class Datasource {
     
      */
     stop() {
-        window.console.log('Stopping datasource');
+        //window.console.log('Stopping datasource');
     }
 
 
-    configure(dispatcher) {
+    configure(dispatcher: any) {
         this.dispatcher = dispatcher;
-    }
-
-/*
-
-    property(prop, newProp, cast) {
-        this.properties.push({ 'p': prop, 'newP': newProp, cast: cast });
-        return this;
-    }
-
-
-    convert(data) {
-        let result = {};
-        for (let i in this.properties) {
-            let p = this.properties[i].p;
-            let value = eval('data.' + this.properties[i].newP);
-            // if(this.properties[i].cast){
-            //    value = new this.properties[i].cast(value);
-            // }
-
-            result[p] = value;
-        }
-        return result;
-    }
-    */
-
-    /**
-     * Filters the incoming messages. Each data record that do not comply the filter condition will be discarded
-     * 
-     * @param {any} filter A filter condition
-     * @returns this Datasource instance
-     * 
-     * @memberOf Datasource
-     */
-    filter(filter) {
-        return this;
     }
 }
 

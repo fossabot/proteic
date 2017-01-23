@@ -57,21 +57,21 @@ class WebsocketDatasource extends Datasource {
         this.ws = new WebSocket(this.source['endpoint']);
 
 
-        this.dispatcher.call('addLoading', this, {});
+        this.dispatcher.call('addLoading', null, {});
 
         this.ws.onopen = (e) => {
-            this.dispatcher.call('onopen', this, e);
+            this.dispatcher.call('onopen', null, e);
         };
         this.ws.onerror = (e) => {
             throw new Error('An error occurred trying to reach the websocket server' + e);
         };
         this.ws.onmessage = (e) => {
             if (this.isWaitingForData) {
-                this.dispatcher.call('removeLoading', this, e);
+                this.dispatcher.call('removeLoading', null, e);
                 this.isWaitingForData = false;
             }
             var data = JSON.parse(e.data);
-            this.dispatcher.call('onmessage', this, data);
+            this.dispatcher.call('onmessage', null, data);
         };
     }
     /**

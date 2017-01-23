@@ -46,7 +46,7 @@ class Streamset extends Component {
             onHover = this.config.get('onHover'),
             onClick = this.config.get('onClick'),
             keys = map(data, (d) => d[propertyKey]).keys(),
-            data4stack = simple2stacked(data),
+            data4stack = simple2stacked(data, propertyX, propertyY, propertyKey),
             stack = this.config.get('stack'),
             dataSeries = stack(data4stack),
             series: any = null;

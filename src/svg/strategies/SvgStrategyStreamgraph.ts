@@ -33,11 +33,13 @@ class SvgStrategyStreamgraph extends SvgChart {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType');
-            
-        convertPropretiesToTimeFormat(data, ['x'], xAxisFormat);     
+            yAxisType = this.config.get('yAxisType'),
+            propertyX = this.config.get('propertyX'),
+            propertyY = this.config.get('propertyY');
 
-        sortByField(data, 'x');
+        convertPropretiesToTimeFormat(data, [propertyX], xAxisFormat);
+
+        sortByField(data, propertyX);
 
         this.container.updateComponents(data);
     }

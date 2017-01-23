@@ -1,5 +1,5 @@
 import Datasource from './Datasource';
-import {request} from 'd3';
+import { request } from 'd3';
 
 /**
  * 
@@ -27,14 +27,17 @@ export default class HTTPDatasource extends Datasource {
      * @memberOf HTTPDatasource
      * 
      */
-    constructor(source) {
+    private intervalId: number;
+
+
+    constructor(source: any) {
         super();
         this.source = source;
         this.intervalId = -1;
-        this.started = false;
+        this.isWaitingForData = false;
     }
 
-   
+
     /**
      * 
      * Initialize an HTTP connection
@@ -42,34 +45,32 @@ export default class HTTPDatasource extends Datasource {
      * @memberOf HTTPDatasource
     
      */
-    start() {
-        if (!this.started) {
+    public start() {
+        if (!this.isWaitingForData) {
             super.start();
             let pollingTime = this.source.pollingTime;
             let url = this.source.url;
             this._startPolling(url, pollingTime);
-            this.started = true;
+            this.isWaitingForData = true;
         }
     }
 
-
-    _startPolling(url, time = 1000) {
+    private _startPolling(url: string, time = 1000) {
         let interval = window.setInterval;
         this.intervalId = interval(() => this._startRequest(url), time);
     }
 
-    _startRequest(url) {
-        window.console.log('url', url);
-        request(url).get((e, response) => this._handleResponse(response));
+    private _startRequest(url: string) {
+        request(url).get((e: any, response: any) => this._handleResponse(response));
     }
 
-    _stopPolling() {
+    private _stopPolling() {
         let clearInterval = window.clearInterval;
         clearInterval(this.intervalId);
     }
 
-    _handleResponse(xmlHttpRequest) {
-        let parseJson = window.JSON.parse;
+    private _handleResponse(xmlHttpRequest: XMLHttpRequest) {
+        let parseJson = JSON.parse;
         if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
             let response = parseJson(xmlHttpRequest.response);
             this._handleOK(response);
@@ -79,15 +80,12 @@ export default class HTTPDatasource extends Datasource {
         }
     }
 
-    _handleOK(data) {
-        if(this.properties.length > 0 ) {
-            data = this.convert(data);
-        }
-        this.dispatcher.call('onmessage', this, data);
+    private _handleOK(data: any) {
+        this.dispatcher.call('onmessage', null, data);
     }
 
-    _handleError(data) {
-        this.dispatcher.call('onerror', this, data);
+    private _handleError(data: any) {
+        this.dispatcher.call('onerror', null, data);
     }
 
     /**
@@ -95,10 +93,10 @@ export default class HTTPDatasource extends Datasource {
      * 
      * @memberOf HTTPDatasource
     * */
-    stop() {
-        if (this.started) {
+    public stop() {
+        if (this.isWaitingForData) {
             this._stopPolling();
-            this.started = false;
+            this.isWaitingForData = false;
         }
     }
 }

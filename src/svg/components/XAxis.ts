@@ -8,7 +8,8 @@ import {
     axisBottom,
     timeParse,
     min as d3Min,
-    max as d3Max
+    max as d3Max,
+    Axis
 } from 'd3';
 
 import Component from './Component';
@@ -18,7 +19,7 @@ import { isEven } from '../../utils/functions';
 
 class XAxis extends Component {
 
-    private _xAxis: any;
+    private _xAxis: Axis<any>;
 
     constructor() {
         super();
@@ -84,7 +85,6 @@ class XAxis extends Component {
      */
     private updateDomainByKeys(keys: string[]) {
         this._xAxis.scale().domain(keys);
-
     }
 
     private updateDomainByMinMax(min: number, max: number) {

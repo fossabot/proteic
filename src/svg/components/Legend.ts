@@ -23,8 +23,7 @@ class Legend extends Component {
     public update(data: any) {
         //Exclude those values that do not contain a 'key'.
         let dataSeries = nest()
-            .key((d) => d.key)
-            .entries(data),
+            .key((d: any) => d.key).entries(data),
             legend = null,
             entries = null,
             colorScale = this.config.get('colorScale'),
@@ -74,18 +73,16 @@ class Legend extends Component {
             colorScale = this.config.get('colorScale');
 
         if (!element.empty()) {
-            let opacity = element.style('opacity');
+            let opacity: number = parseInt(element.style('opacity'));
             opacity = (opacity == 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
             let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
-            /// legendEntry
-            //   .transition()
-            //  .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
-            //  .style('opacity', (opacity === 1) ? 1 : Globals.LEGEND_HIDE_OPACITY);
 
             legendEntry.selectAll('rect')
                 .transition()
                 .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
-                .style('fill', (opacity === 1) ? (d: any) => colorScale(d.key) : 'transparent');
+                .style('fill', (d: any): any => {
+                    return (opacity === 1) ? colorScale(d.key) : 'transparent';
+                });
 
             element
                 .transition()

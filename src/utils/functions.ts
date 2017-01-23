@@ -1,25 +1,25 @@
 
-export function isArray(d) {
+export function isArray(d: any) {
   return d && d.constructor === Array && d instanceof Array;
 }
 
-export function isObject(d) {
+export function isObject(d: any) {
   return d && d.constructor === Object && d instanceof Object;
 }
 
-export function isFunction(func) {
+export function isFunction(func: any) {
   return func && {}.toString.call(func) === '[object Function]';
 }
 
-export function isNumeric(n) {
+export function isNumeric(n: any) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export function isEven(n) {
+export function isEven(n: number) {
   return n % 2 === 0;
 }
 
-export function isPercentage(n) {
+export function isPercentage(n: any) {
   let split = null;
   let number = null;
   if (!n || typeof n !== 'string') {
@@ -32,12 +32,12 @@ export function isPercentage(n) {
     (number <= 100);
 }
 
-export function keys(array, field) {
+export function keys(array: Array<any>, field: string): Set<any> {
   var keys = new Set();
   var element = null;
 
   if (!array || !array.length) {
-    return [];
+    return new Set();
   }
 
   for (let i = 0; i < array.length; i++) {
@@ -50,10 +50,10 @@ export function keys(array, field) {
 }
 
 
-export function sortBy(array, o) {
-  var _toString = Object.prototype.toString;
-  var _parser = (x) => { return x; };
-  var _getItem = (x) => {
+export function sortBy(array: Array<any>, o: any) {
+  let _toString = Object.prototype.toString;
+  let _parser = (x: any) => x;
+  let _getItem = (x: any) => {
     return _parser((x !== null && typeof x === 'object' && x[o.prop]) || x);
   };
 
@@ -74,7 +74,7 @@ export function sortBy(array, o) {
   });
 }
 
-export function findElement(arr, propName, propValue) {
+export function findElement(arr: Array<any>, propName: string, propValue: any) {
   for (var i = 0; i < arr.length; i++) {
     if (arr[i][propName] === propValue) {
       return arr[i];
@@ -83,11 +83,11 @@ export function findElement(arr, propName, propValue) {
   return null;
 }
 
-export function copy(object){
+export function copy(object: {}) {
   return object != null ? JSON.parse(JSON.stringify(object)) : null;
 }
 
-export function deg2rad(deg) {
+export function deg2rad(deg: number) {
   return deg * Math.PI / 180;
 }
 
