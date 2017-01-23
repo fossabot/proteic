@@ -11,11 +11,7 @@
     "lint": "jshint src/**/*.js",
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
-<<<<<<< HEAD
     "build": "webpack && node-sass scss/proteic.scss dist/proteic.css",
-=======
-    "build": "webpack && uglifyjs dist/proteic.js -c negate_iife=false -o dist/proteic.min.js && node-sass scss/proteic.scss dist/proteic.css",
->>>>>>> webpack
     "docs": "esdoc -c esdoc.json",
     "serve": "live-server",
     "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ scss/\"",
@@ -76,11 +72,7 @@
     "rimraf": "^2.5.4",
     "socket.io": "^1.4.5",
     "ts-loader": "^2.0.0",
-<<<<<<< HEAD
     "typescript": "^2.1.5",
-=======
-    "typescript": "^2.0.8",
->>>>>>> webpack
     "uglify-js": "^2.7.4",
     "watch": "^0.19.2",
     "webpack": "^1.14.0"
