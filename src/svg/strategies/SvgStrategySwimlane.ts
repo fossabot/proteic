@@ -4,8 +4,8 @@ import TimeBoxset from '../components/Timeboxset';
 
 import Config from '../../Config';
 import SvgChart from '../base/SvgChart';
-import { sortByField } from '../../utils/dataSorting';
-import { convertPropretiesToTimeFormat } from '../../utils/dataTransformation';
+import { sortByField } from '../../utils/data/sorting';
+import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
 
 class SvgStrategySwimlane extends SvgChart {
     /**

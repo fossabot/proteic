@@ -2,7 +2,7 @@
 import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
-import { simple2nested } from '../../utils/dataTransformation';
+import { simple2nested } from '../../utils/data/transforming';
 import Globals from '../../Globals';
 
 import {
