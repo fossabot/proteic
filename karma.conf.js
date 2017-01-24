@@ -7,6 +7,11 @@ module.exports = function (config) {
     files: [
       'test/**/*.ts'
     ],
+    
+    mime: {
+      'text/x-typescript': ['ts', 'tsx']
+    },
+
     exclude: [
     ],
     preprocessors: {
