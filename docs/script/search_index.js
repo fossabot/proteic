@@ -336,6 +336,12 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/utils/factory.js",
+    "file/src/utils/factory.js.html",
+    "src/utils/factory.js",
+    "file"
+  ],
+  [
     "src/utils/image.js",
     "file/src/utils/image.js.html",
     "src/utils/image.js",
