@@ -1,6 +1,6 @@
 {
   "name": "proteic",
-  "version": "0.0.7",
+  "version": "0.0.6",
   "description": "",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
