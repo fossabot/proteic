@@ -2,7 +2,7 @@
 import Component from './Component';
 import XYAxes from './XYAxes';
 import Config from '../../Config';
-import { simple2stacked } from '../../utils/dataTransformation';
+import { simple2stacked } from '../../utils/data/transformation';
 import Globals from '../../Globals';
 import {
     area,

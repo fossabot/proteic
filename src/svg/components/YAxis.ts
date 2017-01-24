@@ -11,7 +11,7 @@ import {
     min as d3Min,
     max as d3Max
 } from 'd3';
-import { simple2stacked } from '../../utils/dataTransformation';
+import { simple2stacked } from '../../utils/data/transformation';
 
 class YAxis extends Component {
 
