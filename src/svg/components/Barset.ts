@@ -2,7 +2,7 @@ import Component from './Component';
 import Config from '../../Config';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { simple2nested, simple2stacked } from '../../utils/data/transformation';
+import { simple2nested, simple2stacked } from '../../utils/dataTransformation';
 import Globals from '../../Globals';
 import {
     stack,

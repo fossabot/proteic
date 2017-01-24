@@ -1,7 +1,7 @@
 import Component from './Component';
 import Zoomable from './Zoomable';
 import Config from '../../Config';
-import { simple2Linked } from '../../utils/data/transformation';
+import { simple2Linked } from '../../utils/dataTransformation';
 import Globals from '../../Globals';
 
 import {

@@ -3,7 +3,8 @@ import Legend from '../components/Legend';
 import ZoomComponent from '../components/ZoomComponent';
 import Config from '../../Config';
 import SvgChart from '../base/SvgChart';
-import { sortByField } from '../../utils/data/sorting';
+import { sortByField } from '../../utils/dataSorting';
+
 class SvgStrategyNetwork extends SvgChart {
 
     private linkedNodes: LinkedNodeset;
