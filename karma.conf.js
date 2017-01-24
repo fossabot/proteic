@@ -22,7 +22,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: ['Chrome'],
+    browsers: ['ChromeES6'],
     singleRun: true,
     concurrency: Infinity,
     coverageReporter: {
@@ -36,5 +36,11 @@ module.exports = function (config) {
         { type: 'html', dir: 'coverage/' }
       ]
     },
+    customLaunchers: {
+      ChromeES6: {
+        base: 'Chrome',
+        flags: ['--javascript-harmony', '--no-sandbox']
+      }
+    }
   })
 }
