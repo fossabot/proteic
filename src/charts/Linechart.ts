@@ -6,8 +6,6 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class Linechart extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-
-        console.log('aaaaaa');
         super(
             new SvgStrategyLinechart(),
             data,
