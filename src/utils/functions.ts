@@ -99,8 +99,8 @@ export function deg2rad(deg: number) {
  * @param keys
  * @returns {(obj:any)=>boolean}
  */
-export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>) {
-  return function (obj: any) {
+export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>): Function {
+  return function (obj: any): boolean {
     for (let key of keys) {
       let value: any = obj[key];
       if (values.indexOf(value) != -1) {
@@ -110,3 +110,8 @@ export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>) {
     return true;
   }
 }
+
+
+export function arrayDiff(a: Array<string>, b: Array<string>) {
+  return b.filter((i) => a.indexOf(i) < 0);
+};

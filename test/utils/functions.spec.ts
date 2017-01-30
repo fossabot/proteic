@@ -6,15 +6,23 @@ import {
   isNumeric,
   sortBy,
   findElement,
-  deg2rad
+  deg2rad,
+  arrayDiff
 } from '../../src/utils/functions';
 
 import { assert } from 'chai';
-import {  } from 'mocha';
+import { } from 'mocha';
 
 describe('Utils', () => {
 
   describe('functions', () => {
+
+    it('arrayDiff(a,b)', () => {
+      let a = ["a", "b"];
+      let b = ["a", "b", "c", "d"];
+      assert.deepEqual(arrayDiff(a, b), ["c", "d"]);
+
+    });
 
     it('utils.isArray()', () => {
       assert.isOk(isArray([]));
