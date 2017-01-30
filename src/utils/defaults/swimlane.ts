@@ -24,6 +24,7 @@ export const defaults : any = {
     legend: true,
     propertyStart: 'start', 
     propertyEnd: 'end',
+    propertyY: 'key',
     propertyKey: 'key',
     //Events
     onDown(d: any) {

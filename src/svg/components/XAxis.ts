@@ -80,11 +80,11 @@ class XAxis extends Component {
         this._xAxis.scale().domain(keys);
     }
 
-    private updateDomainByMinMax(min: number, max: number) {
+    public updateDomainByMinMax(min: number, max: number) {
         this._xAxis.scale().domain([min, max]);
     }
 
-    private transition(time: number = 200) {
+    public transition(time: number = 200) {
         this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
         // Reorder the axis path to appear over the ticks
         this.svg.select('.x.axis path').raise();

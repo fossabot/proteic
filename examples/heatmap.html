@@ -1,0 +1,101 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+	<title>Heatmap</title>
+	<script src='../node_modules/d3/build/d3.min.js'></script>
+	<script src='../dist/proteic.js'></script>
+	<meta charset='utf-8' />
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+	<link rel='stylesheet' href='../dist/proteic.css'>
+</head>
+
+
+<body>
+
+	<div style id='heatmap'></div>
+	<div style id='heatmap-categorical'></div>
+	<div style id='heatmap-mixed1'></div>
+	<div style id='heatmap-mixed2'></div>
+
+	<script>        
+    var data = [
+      { 'x': 3, 'y': 2, 'z': -2 },
+      { 'x': 3, 'y': 3, 'z': 13 },
+	  { 'x': 0, 'y': 0, 'z': 0 },
+      { 'x': 1, 'y': 1, 'z': 4 },
+      { 'x': 0, 'y': 2, 'z': 2 },
+      { 'x': 0, 'y': 1, 'z': 1 },
+      { 'x': 0, 'y': 3, 'z': 3 },
+      { 'x': 3, 'y': 0, 'z': 10 },
+      { 'x': 1, 'y': 0, 'z': 3 },
+      { 'x': 1, 'y': 2, 'z': 5 },
+      { 'x': 1, 'y': 3, 'z': 6 },
+      { 'x': 2, 'y': 0, 'z': 6 },
+//      { 'x': 2, 'y': 1, 'z': 7 },
+      { 'x': 2, 'y': 2, 'z': 8 },
+      { 'x': 2, 'y': 3, 'z': 9 },
+      { 'x': 3, 'y': 1, 'z': 11 },
+      { 'x': -1, 'y': -1, 'z': 18 },
+      { 'x': 3, 'y': 2, 'z': 12 }
+    ];
+
+    var dataCategorical = [
+	  {'x': 'a', 'y': 'a', 'z': 0},
+      {'x': 'a', 'y': 'b', 'z': 1},
+      {'x': 'b', 'y': 'a', 'z': 2},
+      {'x': 'c', 'y': 'c', 'z': 3}
+	];
+
+    var dataMixed1 = [
+      {'x': 'a', 'y': 0, 'z': 0},
+      {'x': 'a', 'y': 1, 'z': 1},
+      {'x': 'b', 'y': 2, 'z': 2},
+      {'x': 'c', 'y': 2, 'z': 3}
+    ];
+
+    var dataMixed2 = [
+      {'x': 0, 'y': 'a', 'z': 0},
+      {'x': 1, 'y': 'a', 'z': 1},
+      {'x': 2, 'y': 'b', 'z': 2},
+      {'x': 2, 'y': 'c', 'z': 3}
+    ];
+
+    var heatmap = new proteic.Heatmap(data, {
+      selector: '#heatmap',
+      xAxisType: 'linear',
+      yAxisType: 'linear',
+      width: 1000
+    });
+    heatmap.draw();
+
+    var heatmapCategorical = new proteic.Heatmap(dataCategorical, {
+      selector: '#heatmap-categorical',
+      width: 1000
+    });
+    heatmapCategorical.draw();
+
+    var heatmapMixed1 = new proteic.Heatmap(data, {
+      selector: '#heatmap-mixed1',
+      xAxisType: 'categorical',
+      yAxisType: 'linear',
+      width: 1000
+    });
+    heatmapMixed1.draw();
+
+    var heatmapMixed2 = new proteic.Heatmap(data, {
+      selector: '#heatmap-mixed2',
+      xAxisType: 'linear',
+      yAxisType: 'categorical',
+      width: 1000
+    });
+    heatmapMixed2.draw();
+  </script>
+</body>
+
+</html>
