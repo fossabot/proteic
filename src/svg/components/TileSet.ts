@@ -2,6 +2,7 @@ import Component from "./Component";
 import XAxis from "./XAxis";
 import YAxis from "./YAxis";
 import {max, min} from "d3-array";
+import Globals from "../../Globals";
 
 class TileSet extends Component {
     private x: XAxis;
@@ -52,10 +53,15 @@ class TileSet extends Component {
             heigth = y.step();
         }
 
-        this.svg.selectAll('g.tile')
-            .data(data)
+        // Data join
+        let tiles = this.svg.selectAll('.tile')
+            .data(data);
+
+        // Enter + update
+        tiles
             .enter().append('rect')
             .attr('class', 'tile')
+            .merge(tiles)
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
@@ -67,6 +73,16 @@ class TileSet extends Component {
             .attr('width', width)
             .attr('height', heigth)
             .style('fill', (d) => colorScale(d[propertyZ]));
+
+        // Exit
+        tiles.exit().remove();
+
+        tiles
+            .on('mousedown.user', this.config.get('onDown'))
+            .on('mouseup.user', this.config.get('onUp'))
+            .on('mouseleave.user', this.config.get('onLeave'))
+            .on('mouseover.user', this.config.get('onHover'))
+            .on('click.user', this.config.get('onClick'));
     }
 }
 

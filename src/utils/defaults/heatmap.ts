@@ -4,7 +4,7 @@ import {scaleLinear} from "d3-scale";
 
 export const defaults: any = {
     selector: '#chart',
-    colorScale: scaleLinear().range(['lightyellow', 'steelblue']),
+    colorScale: Colors.diverging_spectral1(), // TODO fix error and use proteic colours
     xStep: 1,
     yStep: 1,
     //Axes
