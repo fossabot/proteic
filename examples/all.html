@@ -110,6 +110,9 @@
             <div class="column">
                 <div id='heatmap'></div>
             </div>
+            <div class="column">
+                <div id='heatmap-ws'></div>
+            </div>
         </div>
     </section>
 
@@ -454,9 +457,22 @@
       yAxisType: 'categorical',
       marginRight: 100,
       marginLeft: 50,
-      height: 200, width: '100%',
+      height: 200, width: '100%'
     });
     heatmap.draw();
+
+    var dsHeatmap = new proteic.WebsocketDatasource({
+      endpoint: 'wss://proteicws.herokuapp.com/matrix'
+    });
+    new proteic.Heatmap([], {
+      selector: '#heatmap-ws',
+      propertyX: 'a',
+      propertyY: 'b',
+      marginRight: 100,
+      marginLeft: 50,
+      height: 200, width: '100%'
+    }).datasource(dsHeatmap);
+    dsHeatmap.start();
 
     var lines = new proteic.Linechart(data, {
         selector: '#lines', height: 200, width: '100%',
