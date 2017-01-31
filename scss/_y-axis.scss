@@ -1,4 +1,4 @@
-@import "colors";
+@import "./_colors";
 
 .proteic .y.axis path {
   display: none;
@@ -23,9 +23,3 @@
 .proteic .y.axis .tick line {
   stroke-dasharray: $grid-h-dasharray;
 }
-
-//.proteic .y.axis .tick:nth-of-type(1) line {
-//  stroke: $structure-color-bright;
-//  stroke-width: $y-axis-line-width;
-//  /*display: none;*/
-//}

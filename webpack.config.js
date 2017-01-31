@@ -1,10 +1,14 @@
 var webpack = require('webpack');
 var path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     devtool: 'source-map',
     watch: false,
-    entry: './index.ts',
+    entry: {
+        js: './index.ts',
+        css: './scss/proteic.scss'
+    },
     id: 'proteic',
     output: {
         filename: 'dist/proteic.js',
@@ -15,12 +19,22 @@ module.exports = {
         inline: true
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
     },
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts-loader' }
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader'
+            },
+ { 
+      test: /\.scss$/, 
+      loader: ExtractTextPlugin.extract("style", "css!sass") 
+  }
         ]
     },
-    plugins: []
+    plugins: [
+        new ExtractTextPlugin("./dist/proteic.css")
+
+    ]
 }
