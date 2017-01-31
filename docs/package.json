@@ -11,9 +11,10 @@
     "lint": "jshint src/**/*.js",
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
-    "build": "webpack --config webpack.production.config.js && node-sass scss/proteic.scss dist/proteic.css --output-style compressed",
+    "build": "webpack && node-sass scss/proteic.scss dist/proteic.css",
     "docs": "esdoc -c esdoc.json",
-    "serve": "webpack-dev-server",
+    "serve": "live-server",
+    "serve:watch": "parallelshell \"npm run serve\" \"watch 'npm run build' src/ scss/\"",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -70,13 +71,10 @@
     "protractor": "^5.0.0",
     "rimraf": "^2.5.4",
     "socket.io": "^1.4.5",
-    "strip-loader": "^0.1.2",
     "ts-loader": "^2.0.0",
     "typescript": "^2.1.5",
     "uglify-js": "^2.7.4",
     "watch": "^1.0.1",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2",
-    "webpack-strip": "^0.1.0"
+    "webpack": "^1.14.0"
   }
 }
