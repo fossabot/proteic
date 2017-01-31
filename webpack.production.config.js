@@ -10,10 +10,6 @@ module.exports = {
         filename: 'dist/proteic.js',
         library: 'proteic'
     },
-    devServer: {
-        contentBase: path.join(__dirname, '.'),
-        inline: true
-    },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
@@ -22,5 +18,14 @@ module.exports = {
             { test: /\.ts$/, loader: 'ts-loader' }
         ]
     },
-    plugins: []
+    plugins: [
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            sourceMap : false
+        })
+
+    ]
 }
