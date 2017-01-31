@@ -1,10 +1,10 @@
-import {SvgContext} from "../svg/strategies/SvgStrategy";
+import { SvgContext } from "../svg/strategies/SvgStrategy";
 import SvgChart from "../svg/base/SvgChart";
 import Config from "../Config";
-import {copy} from "../utils/functions";
+import { copy } from "../utils/functions";
 import Datasource from "../datasources/Datasource";
-import {calculateWidth} from "../utils/screen";
-import {dispatch} from "d3";
+import { calculateWidth } from "../utils/screen";
+import { dispatch } from "d3";
 
 abstract class Chart {
 
@@ -34,6 +34,9 @@ abstract class Chart {
 
      */
     public datasource(ds: Datasource) {
+        if (this.data.length) {
+            this.draw();
+        }
         this.ds = ds;
 
         this.ds.configure(this.dispatcher);
