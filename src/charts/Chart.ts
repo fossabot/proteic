@@ -5,6 +5,7 @@ import { copy } from "../utils/functions";
 import Datasource from "../datasources/Datasource";
 import { calculateWidth } from "../utils/screen";
 import { dispatch } from "d3";
+import StreamingStrategy from './enums/StreamingStrategy';
 
 abstract class Chart {
 
@@ -13,6 +14,7 @@ abstract class Chart {
     protected data: any;
     private ds: Datasource = null;
     private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
+    protected streamingStrategy : StreamingStrategy;
 
     constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);

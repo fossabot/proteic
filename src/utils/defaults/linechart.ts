@@ -1,7 +1,8 @@
 import * as Colors from '../colors';
 import Interpolation from '../../svg/Interpolation';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category7(),
     curve: Interpolation.CURVE_MONOTONE_X,
@@ -45,5 +46,6 @@ export const defaults : any = {
     },
     onUp(d: any) {
     },
-    maxNumberOfElements: 10, // used by keepDrawing method to reduce the number of elements in the current chart
+    streamingStrategy: StreamingStrategy.ADD,
+    maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

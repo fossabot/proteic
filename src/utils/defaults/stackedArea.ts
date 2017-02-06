@@ -4,6 +4,7 @@ import {
     stackOffsetNone,
     stack as d3Stack
 } from 'd3';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
@@ -44,5 +45,7 @@ export const defaults: any = {
     onUp(d: any) {
 
     },
+    streamingStrategy: StreamingStrategy.ADD,
+
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

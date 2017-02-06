@@ -35,6 +35,11 @@ class StorageService {
         this.storage.setItem(key, JSON.stringify(array));
     }
 
+    setArray(key: string, values: Array<any>) {
+        this.storage.setItem(key, JSON.stringify(values));
+    }
+
+
     getArray(key: string) {
         let item = this.storage.getItem(key);
         if (!item) {

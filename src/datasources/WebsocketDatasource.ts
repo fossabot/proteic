@@ -3,7 +3,10 @@ import { unwind } from '../utils/data/transforming';
 import { discardProperties } from '../utils/data/filtering';
 import StorageService from '../services/StorageService';
 import { inject } from '../Injector';
+import Config from '../Config';
+import StreamingStrategy from '../charts/enums/StreamingStrategy';
 
+import { fitArrayByOldAndNewValue } from '../utils/array/array';
 /**
  *
  * This datasource set up a connection to a websocket server.
@@ -47,41 +50,56 @@ class WebsocketDatasource extends Datasource {
      *
      * @memberOf WebsocketDatasource
      */
-    configure(dispatcher: any) {
+    configure(dispatcher: any, config: Config) {
+        super.configure(dispatcher, config);
         this.dispatcher = dispatcher;
-
+        let chartIdentifierKey: string = this.config.get('chartIdentifierKey');
         this.visibilityChangeSource.subscribe((e: any) => {
             let hidden = e.hidden;
+
             if (hidden) {
-                this.enableBackupData();
+                this.enableBackupData(chartIdentifierKey);
             } else {
-                this.enableShowData();
+                this.enableShowData(chartIdentifierKey);
             }
         });
     }
 
 
-    private enableBackupData() {
-        //Do nothing
-        this.ws.onmessage = (e) => e;
-        
-        //TODO: if draw strategy is replace, do nothing. If it's add, store values in a temporal buffer without overcoming
-        //the maxNumberOfElements 
+    private enableBackupData(chartIdentifierKey: string) {
+        console.log('Enabling backup mode...Storing websocket data in the backroung');
+        let streamingStrategy: StreamingStrategy = this.config.get('streamingStrategy');
 
-        /**
-         this.ws.onmessage = (e) => {
-             let data = JSON.parse(e.data);
-             if (data.constructor === Array) {
-                 this.sessionStorage.addAll('chart', data);
-             }
-             else {
-                 this.sessionStorage.add('chart', data);
-             }
-         };
-         **/
+        switch (streamingStrategy) {
+            case StreamingStrategy.ADD:
+                this.ws.onmessage = (e) => {
+                    let originalData = this.sessionStorage.getArray(chartIdentifierKey);
+                    let data = JSON.parse(e.data);
+                    let newData = data.constructor === Array ? data : [data];
+                    let maxNumberOfElements = this.config.get('maxNumberOfElements');
+                    let data2store = fitArrayByOldAndNewValue(newData, originalData, maxNumberOfElements);
+                    this.sessionStorage.setArray(chartIdentifierKey, data2store);
+                }
+                break;
+            case StreamingStrategy.REPLACE:
+                this.ws.onmessage = (e) => e;
+                break;
+            default:
+                throw Error(`Unknown StreamingStrategy: ${streamingStrategy}`);
+        }
+
     }
 
-    private enableShowData() {
+    private enableShowData(chartIdentifierKey: string) {
+        let storedData = this.sessionStorage.getArray(chartIdentifierKey);
+        console.log(`Disabling backup mode... Showing stored data (length): ${storedData.length}`);
+
+        if (storedData != null && storedData.length) {
+            this.dispatcher.call('onmessage', null, storedData);
+            this.sessionStorage.setArray(chartIdentifierKey, []);
+        }
+
+
         this.ws.onmessage = (e) => {
             if (e.data && e.data.length) {
                 let data = JSON.parse(e.data);

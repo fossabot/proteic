@@ -1,5 +1,6 @@
 import * as Colors from '../colors';
 import { stack as d3stack } from 'd3';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
@@ -28,7 +29,8 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    stack:  d3stack().value((d: any, k: any) => d.value[k]),
+    stack: d3stack().value((d: any, k: any) => d.value[k]),
+    streamingStrategy: StreamingStrategy.REPLACE,
 
     //Events
     onDown(d: any) {
