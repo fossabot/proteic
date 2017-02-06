@@ -24,7 +24,7 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            sourceMap : false
+            sourceMap : true
         })
 
     ]
