@@ -39,7 +39,7 @@ abstract class Chart {
         }
         this.ds = ds;
 
-        this.ds.configure(this.dispatcher);
+        this.ds.configure(this.dispatcher, this.config);
 
         this.dispatcher.on('addLoading', () => this.context.addLoading());
         this.dispatcher.on('removeLoading', () => this.context.removeLoading());
@@ -52,7 +52,6 @@ abstract class Chart {
         this.dispatcher.on('onerror', (error: any) => {
             console.error('onerror', error);
         });
-
     }
 
     protected loadConfigFromUser(userData: any, defaults: any): Config {

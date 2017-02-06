@@ -1,4 +1,9 @@
 import Datasource from "./Datasource";
+import { unwind } from '../utils/data/transforming';
+import { discardProperties } from '../utils/data/filtering';
+import StorageService from '../services/StorageService';
+import { inject } from '../Injector';
+
 /**
  *
  * This datasource set up a connection to a websocket server.
@@ -27,6 +32,9 @@ class WebsocketDatasource extends Datasource {
      */
     private ws: WebSocket;
 
+    @inject('sessionStorageService')
+    private sessionStorage: StorageService;
+
     constructor(source: any) {
         super();
         this.source = source;
@@ -41,8 +49,47 @@ class WebsocketDatasource extends Datasource {
      */
     configure(dispatcher: any) {
         this.dispatcher = dispatcher;
+
+        this.visibilityChangeSource.subscribe((e: any) => {
+            let hidden = e.hidden;
+            if (hidden) {
+                this.enableBackupData();
+            } else {
+                this.enableShowData();
+            }
+        });
     }
 
+
+    private enableBackupData() {
+        //Do nothing
+        this.ws.onmessage = (e) => e;
+        
+        //TODO: if draw strategy is replace, do nothing. If it's add, store values in a temporal buffer without overcoming
+        //the maxNumberOfElements 
+
+        /**
+         this.ws.onmessage = (e) => {
+             let data = JSON.parse(e.data);
+             if (data.constructor === Array) {
+                 this.sessionStorage.addAll('chart', data);
+             }
+             else {
+                 this.sessionStorage.add('chart', data);
+             }
+         };
+         **/
+    }
+
+    private enableShowData() {
+        this.ws.onmessage = (e) => {
+            if (e.data && e.data.length) {
+                let data = JSON.parse(e.data);
+                this.dispatcher.call('onmessage', null, data);
+            };
+        };
+
+    }
     /**
      *
      * Initialize a websocket connection
@@ -54,7 +101,6 @@ class WebsocketDatasource extends Datasource {
         super.start();
         this.ws = new WebSocket(this.source['endpoint']);
 
-
         this.dispatcher.call('addLoading', null, {});
 
         this.ws.onopen = (e) => {
@@ -64,12 +110,10 @@ class WebsocketDatasource extends Datasource {
             throw new Error('An error occurred trying to reach the websocket server' + e);
         };
         this.ws.onmessage = (e) => {
-            if (this.isWaitingForData) {
-                this.dispatcher.call('removeLoading', null, e);
-                this.isWaitingForData = false;
-            }
-            let data = JSON.parse(e.data);
-            this.dispatcher.call('onmessage', null, data);
+            if (e.data && e.data.length) {
+                let data = JSON.parse(e.data);
+                this.dispatcher.call('onmessage', null, data);
+            };
         };
     }
 
