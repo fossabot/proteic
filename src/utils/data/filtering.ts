@@ -7,14 +7,10 @@ export function discardProperties(data: Array<any>, properties: string[]) {
         let register = data[i];
         discardPropertiesObject(register, properties);
     }
-    console.log('result', data);
 };
 
 export function discardPropertiesObject(object: any, properties: string[]) {
     for (let p of properties) {
-        console.log(object, p);
         delete object[p];
-                console.log('new', object);
-
     }
 }
