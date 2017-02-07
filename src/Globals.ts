@@ -9,6 +9,8 @@ class Globals {
     public static LEGEND_HIDE_OPACITY = 0.3;
     public static BREAKPOINT = 768;
     public static ASPECT_RATIO = 0.7;
+    public static SELECTOR_SERIE = 'proteic-serie';
+    public static SELECTOR_ELEMENT = 'proteic-element';  
 };
 
 export default Globals;
