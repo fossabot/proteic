@@ -35,8 +35,6 @@ class Barset extends Component {
         let bars: any = null,
             stacked = this.config.get('stacked');
 
-        this.clean();
-
         if (stacked) {
             this.updateStacked(data);
         } else {
@@ -89,7 +87,6 @@ class Barset extends Component {
         let keys = map(data, (d) => d[propertyKey]).keys(),
             colorScale = this.config.get('colorScale'),
             layer: any = null,
-            bars: any = null,
             x = this.x.xAxis.scale(),
             y = this.y.yAxis.scale(),
             xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
@@ -100,47 +97,61 @@ class Barset extends Component {
 
         let nestedData = simple2nested(data, propertyKey);
 
+        // JOIN series
+        let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
+        .data(nestedData);
 
-        let serie = this.svg.selectAll(".serie")
-            .data(nestedData);
+        // UPDATE series
+        serie.attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
-        let newSerie = serie.enter().append('g')
-            .attr('class', 'serie')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
+        // ENTER + UPDATE series
+        serie = serie.enter().append('g')
+        .attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .merge(serie);
 
+        // EXIT series
+        serie.exit().remove();
 
-        //        serie
-        //          .merge(newSerie)
+        // JOIN bars
+        let bars = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
+        .data((d: any) => d.values, (d: any) => d[propertyX]);
 
+        // UPDATE bars
+        bars.attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+        .attr('x', (d: any) => x(d[propertyX]))
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('y', (d: any) => height - y(d[propertyY]))
+        .attr('width', xGroup.bandwidth())
+        .attr('height', (d: any) => y(d[propertyY]));
 
-        let bar = newSerie.selectAll(".bar")
-            .data((d: any) => d.values, (d: any)=>d.x)
+        // ENTER bars
+        bars.enter().append('rect')
+        .attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+        .attr('height', 0)  // This makes the transition start
+        .attr('y', height)  // at the bottom of the chart
+        .attr('x', (d: any) => x(d[propertyX]))
+        .attr('width', xGroup.bandwidth())
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('y', (d: any) => height - y(d[propertyY]))
+        .attr('height', (d: any) => y(d[propertyY]));
 
-        bar.exit()
-            .attr("height", 0)
-            .remove();
-
-        let newBar = bar.enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr('width', xGroup.bandwidth())
-            .attr("height", 0)
-            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
-            .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
-            .attr("x", (d: any) => x(d[propertyX]))
-            .attr("y", (d: any) => { console.log('entered'); return height });
-
-        bar
-            .merge(newBar)
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
-            .ease(easeLinear)
-            .attr("height", (d: any) => height - y(d[propertyY]))
-            .attr("x", (d: any) => x(d[propertyX]))
-            .attr("y", (d: any) => { console.log('updated'); return y(d[propertyY]) })
-            .attr('dataUpdated', 'updated');
-
-
+        // EXIT bars
+        bars.exit()
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('fill-opacity', 0)
+        .remove();
     }
 
 }
