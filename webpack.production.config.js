@@ -4,7 +4,7 @@ var path = require('path');
 module.exports = {
     devtool: 'source-map',
     watch: false,
-    entry: './index.ts',
+    entry: ['./src/core.ts', './index.ts'],
     id: 'proteic',
     output: {
         filename: 'dist/proteic.js',
@@ -24,7 +24,7 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            sourceMap : false
+            sourceMap : true
         })
 
     ]

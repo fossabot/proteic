@@ -1,6 +1,7 @@
 import * as Colors from '../colors';
 import { stack as d3stack } from 'd3';
 import {scaleLinear} from "d3-scale";
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
@@ -30,6 +31,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyZ: 'z',
     stack:  d3stack().value((d: any, k: any) => d.value[k]),
+    streamingStrategy: StreamingStrategy.ADD,
 
     //Events
     onDown(d: any) {

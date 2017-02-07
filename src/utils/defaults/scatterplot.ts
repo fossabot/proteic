@@ -1,4 +1,5 @@
 import * as Colors from '../colors';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults : any = {
     selector: '#chart',
@@ -41,5 +42,6 @@ export const defaults : any = {
     onUp(d: any) {
     },
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+    streamingStrategy: StreamingStrategy.ADD,
     canvas: false
 };

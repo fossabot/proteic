@@ -6,7 +6,7 @@ module.exports = {
     devtool: 'source-map',
     watch: false,
     entry: {
-        js: './index.ts',
+        js: ['./src/core.ts', './index.ts'],
         css: './scss/proteic.scss'
     },
     id: 'proteic',
@@ -27,10 +27,10 @@ module.exports = {
                 test: /\.ts$/,
                 loader: 'ts-loader'
             },
- { 
-      test: /\.scss$/, 
-      loader: ExtractTextPlugin.extract("style", "css!sass") 
-  }
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract("style", "css!sass")
+            }
         ]
     },
     plugins: [

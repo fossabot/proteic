@@ -46,7 +46,8 @@
     "url": "https://github.com/proteus-h2020/proteic/issues"
   },
   "dependencies": {
-    "d3": "^4.4.3"
+    "d3": "^4.4.3",
+    "rxjs": "^5.1.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",

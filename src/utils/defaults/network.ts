@@ -1,6 +1,7 @@
 import * as Colors from '../colors';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category7(),
     //margins
@@ -27,6 +28,7 @@ export const defaults : any = {
     labelField: 'id',
     //Events
     zoom: true,
+    streamingStrategy: StreamingStrategy.ADD,
     onDown(d: any) {
     },
     onHover(d: any) {

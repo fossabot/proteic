@@ -4,8 +4,9 @@ import {
     stackOffsetWiggle,
     stack as d3Stack
 } from 'd3';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category4(),
     //Axes
@@ -44,5 +45,6 @@ export const defaults : any = {
     onUp(d: any) {
 
     },
+    streamingStrategy: StreamingStrategy.ADD,
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
 };

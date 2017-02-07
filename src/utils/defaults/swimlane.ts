@@ -1,6 +1,7 @@
 import * as Colors from '../colors';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category3(),
     //Axes
@@ -22,10 +23,11 @@ export const defaults : any = {
     width: '100%', // %, auto, or numeric 
     height: 250,
     legend: true,
-    propertyStart: 'start', 
+    propertyStart: 'start',
     propertyEnd: 'end',
     propertyY: 'key',
     propertyKey: 'key',
+    streamingStrategy: StreamingStrategy.ADD,
     //Events
     onDown(d: any) {
     },
