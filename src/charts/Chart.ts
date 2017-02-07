@@ -36,7 +36,7 @@ abstract class Chart {
 
      */
     public datasource(ds: Datasource) {
-        if (this.data.length) {
+        if (this.data && this.data.length) {
             this.draw();
         }
         this.ds = ds;
