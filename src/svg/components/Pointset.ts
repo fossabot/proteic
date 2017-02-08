@@ -48,13 +48,11 @@ class Pointset extends Component {
             markerShape = this.config.get('markerShape'),
             markerSize = this.config.get('markerSize'),
             markerOutlineWidth = this.config.get('markerOutlineWidth'),
-            colorScale = this.config.get('colorScale'),
-            points: any = null,
-            series: any = null;
+            colorScale = this.config.get('colorScale');
 
         let shape = symbol().size(markerSize);
 
-        series = this.svg.selectAll('g.points');
+        // series = this.svg.selectAll('g.points');
 
         switch (markerShape) {
             case 'dot':
@@ -88,38 +86,47 @@ class Pointset extends Component {
                 shape.type(symbolCircle);
         }
 
-        points = series
-            .data(dataSeries, (d: any) => d.values, (d: any) => d[propertyX]); // bind it twice
-        points.enter()
-            .append('g')
-            .attr('class', 'points')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .style('stroke', (d: any) => colorScale(d[propertyKey]))
-            .selectAll('circle')
-            .data((d: any) => d.values)
-            .enter()
-            .append('path')
-            .attr('class', 'marker')
-            .attr('d', shape)
-            .style('stroke', (d: any) => colorScale(d[propertyKey]))
-            .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
-            //.style('fill-opacity', 0.8)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+        // JOIN series
+        let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
+        .data(dataSeries);
 
-        //Update existing markers
-        this.svg.selectAll('.marker')
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+        // UPDATE series
+        serie.attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
-        // Remove old markers
+        // ENTER + UPDATE series
+        serie = serie.enter().append('g')
+        .attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .merge(serie);
+
+        // EXIT series
+        serie.exit().remove();
+
+        // JOIN points
+        let points = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
+        .data((d: any) => d.values, (d: any) => d[propertyX]);
+
+        // ENTER points
+        points.enter().append('path')
+        .attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
+        // .style('stroke', (d: any) => colorScale(d[propertyKey]))
+        // .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
+        // .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
+        .merge(points)
+        .attr('d', shape) 
+        .style('stroke', (d: any) => colorScale(d[propertyKey]))
+        .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
+        .transition()
+        .duration(Globals.COMPONENT_TRANSITION_TIME)
+        .ease(easeLinear)
+        .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+
+        // EXIT points
+        points.exit().remove();
+
         points
-            .exit()
-            .remove();
-
-        markers = this.svg.selectAll('.marker');
-        markers
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
             .on('mouseleave.user', this.config.get('onLeave'))
