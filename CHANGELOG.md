@@ -1,3 +1,23 @@
+# 0.0.9 (2017-02-08)
+* ⭐ **New visualization: heatmap**
+* Barset transitions improved
+* Upgraded dependencies
+* Fixed a major bug in legends and data updates
+* Various bugfixes and improvements
+
+# 0.0.9 (2017-01-24)
+* Upgraded dependencies
+
+# 0.0.7 (2017-01-24)
+* Fix some broken tests
+* Lots of bug fixes
+* Now Webpack bundler replaces Rollup
+* Some refactoring with filenames and folder structure
+
+# 0.0.6 (2017-01-19)
+* A major bug fixed. It was a problem with parameters propertyY and propertyX. They were sometimes ignored
+* Some minor changes
+
 # 0.0.5 (2017-01-16)
 * Add pie chart
 * Improve responsive behaviour
