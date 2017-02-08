@@ -103,6 +103,7 @@ class Container {
     }
 
     public addLoadingIcon() {
+        /**
         let icon = Globals.LOADING_ICON;
 
         this.svg.append('image').attr('id', 'loadingIcon')
@@ -111,10 +112,11 @@ class Container {
             .attr('x', '25%')
             .attr('y', '25%')
             .attr('xlink:href', icon)
+            **/
     }
 
     public removeLoadingIcon() {
-        this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
+        //this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
     }
 }
 

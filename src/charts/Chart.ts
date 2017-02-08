@@ -1,10 +1,11 @@
-import {SvgContext} from "../svg/strategies/SvgStrategy";
+import { SvgContext } from "../svg/strategies/SvgStrategy";
 import SvgChart from "../svg/base/SvgChart";
 import Config from "../Config";
-import {copy} from "../utils/functions";
+import { copy } from "../utils/functions";
 import Datasource from "../datasources/Datasource";
-import {calculateWidth} from "../utils/screen";
-import {dispatch} from "d3";
+import { calculateWidth } from "../utils/screen";
+import { dispatch } from "d3";
+import StreamingStrategy from './enums/StreamingStrategy';
 
 abstract class Chart {
 
@@ -13,6 +14,7 @@ abstract class Chart {
     protected data: any;
     private ds: Datasource = null;
     private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
+    protected streamingStrategy : StreamingStrategy;
 
     constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
@@ -34,9 +36,12 @@ abstract class Chart {
 
      */
     public datasource(ds: Datasource) {
+        if (this.data && this.data.length) {
+            this.draw();
+        }
         this.ds = ds;
 
-        this.ds.configure(this.dispatcher);
+        this.ds.configure(this.dispatcher, this.config);
 
         this.dispatcher.on('addLoading', () => this.context.addLoading());
         this.dispatcher.on('removeLoading', () => this.context.removeLoading());
@@ -49,7 +54,6 @@ abstract class Chart {
         this.dispatcher.on('onerror', (error: any) => {
             console.error('onerror', error);
         });
-
     }
 
     protected loadConfigFromUser(userData: any, defaults: any): Config {

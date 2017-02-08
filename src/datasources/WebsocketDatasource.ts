@@ -1,4 +1,12 @@
 import Datasource from "./Datasource";
+import { unwind } from '../utils/data/transforming';
+import { discardProperties } from '../utils/data/filtering';
+import StorageService from '../services/StorageService';
+import { inject } from '../Injector';
+import Config from '../Config';
+import StreamingStrategy from '../charts/enums/StreamingStrategy';
+
+import { fitArrayByOldAndNewValue } from '../utils/array/array';
 /**
  *
  * This datasource set up a connection to a websocket server.
@@ -27,6 +35,9 @@ class WebsocketDatasource extends Datasource {
      */
     private ws: WebSocket;
 
+    @inject('sessionStorageService')
+    private sessionStorage: StorageService;
+
     constructor(source: any) {
         super();
         this.source = source;
@@ -39,10 +50,64 @@ class WebsocketDatasource extends Datasource {
      *
      * @memberOf WebsocketDatasource
      */
-    configure(dispatcher: any) {
+    configure(dispatcher: any, config: Config) {
+        super.configure(dispatcher, config);
         this.dispatcher = dispatcher;
+        let chartIdentifierKey: string = this.config.get('chartIdentifierKey');
+        this.visibilityChangeSource.subscribe((e: any) => {
+            let hidden = e.hidden;
+
+            if (hidden) {
+                this.enableBackupData(chartIdentifierKey);
+            } else {
+                this.enableShowData(chartIdentifierKey);
+            }
+        });
     }
 
+
+    private enableBackupData(chartIdentifierKey: string) {
+        console.log('Enabling backup mode...Storing websocket data in the backroung');
+        let streamingStrategy: StreamingStrategy = this.config.get('streamingStrategy');
+
+        switch (streamingStrategy) {
+            case StreamingStrategy.ADD:
+                this.ws.onmessage = (e) => {
+                    let originalData = this.sessionStorage.getArray(chartIdentifierKey);
+                    let data = JSON.parse(e.data);
+                    let newData = data.constructor === Array ? data : [data];
+                    let maxNumberOfElements = this.config.get('maxNumberOfElements');
+                    let data2store = fitArrayByOldAndNewValue(newData, originalData, maxNumberOfElements);
+                    this.sessionStorage.setArray(chartIdentifierKey, data2store);
+                }
+                break;
+            case StreamingStrategy.REPLACE:
+                this.ws.onmessage = (e) => e;
+                break;
+            default:
+                throw Error(`Unknown StreamingStrategy: ${streamingStrategy}`);
+        }
+
+    }
+
+    private enableShowData(chartIdentifierKey: string) {
+        let storedData = this.sessionStorage.getArray(chartIdentifierKey);
+        console.log(`Disabling backup mode... Showing stored data (length): ${storedData.length}`);
+
+        if (storedData != null && storedData.length) {
+            this.dispatcher.call('onmessage', null, storedData);
+            this.sessionStorage.setArray(chartIdentifierKey, []);
+        }
+
+
+        this.ws.onmessage = (e) => {
+            if (e.data && e.data.length) {
+                let data = JSON.parse(e.data);
+                this.dispatcher.call('onmessage', null, data);
+            };
+        };
+
+    }
     /**
      *
      * Initialize a websocket connection
@@ -54,7 +119,6 @@ class WebsocketDatasource extends Datasource {
         super.start();
         this.ws = new WebSocket(this.source['endpoint']);
 
-
         this.dispatcher.call('addLoading', null, {});
 
         this.ws.onopen = (e) => {
@@ -64,12 +128,10 @@ class WebsocketDatasource extends Datasource {
             throw new Error('An error occurred trying to reach the websocket server' + e);
         };
         this.ws.onmessage = (e) => {
-            if (this.isWaitingForData) {
-                this.dispatcher.call('removeLoading', null, e);
-                this.isWaitingForData = false;
-            }
-            let data = JSON.parse(e.data);
-            this.dispatcher.call('onmessage', null, data);
+            if (e.data && e.data.length) {
+                let data = JSON.parse(e.data);
+                this.dispatcher.call('onmessage', null, data);
+            };
         };
     }
 

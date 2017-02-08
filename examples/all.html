@@ -47,6 +47,7 @@
                         <li><a href="#areas">Areas</a></li>
                         <li><a href="#bars">Barchart</a></li>
                         <li><a href="#gauge">Gauge</a></li>
+                        <li><a href="#heatmap">Heatmap</a></li>
                         <li><a href="#lines">Linechart</a></li>
                         <li><a href="#scatterplot">Scatterplot</a></li>
                         <li><a href="#streamgraph">Streamgraph</a></li>
@@ -99,6 +100,18 @@
             </div>
             <div class="column">
                 <div id='gauge-ws'></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="title is-2">Heatmap</h2>
+        <div class="columns">
+            <div class="column">
+                <div id='heatmap'></div>
+            </div>
+            <div class="column">
+                <div id='heatmap-ws'></div>
             </div>
         </div>
     </section>
@@ -252,6 +265,21 @@
         {x: 'BR', key: '- 18', y: 20},
         {x: 'BR', key: '+ 18 - 35', y: 40},
         {x: 'BR', key: '+ 35', y: 40}
+    ];
+
+    var dataHeatmap = [
+      { x: 0, y: 'a', z: 0},
+      { x: 0, y: 'b', z: 1},
+      { x: 0, y: 'c', z: 2},
+      { x: 0, y: 'd', z: 3},
+      { x: 1, y: 'a', z: 4},
+      { x: 1, y: 'b', z: 5},
+      { x: 1, y: 'c', z: 6},
+      { x: 1, y: 'd', z: 7},
+      { x: 2, y: 'a', z: 8},
+      { x: 2, y: 'b', z: 9},
+      { x: 2, y: 'c', z: 10},
+      { x: 2, y: 'd', z: 11},
     ];
 
     var dataHierarchic = [
@@ -423,6 +451,28 @@
     }).datasource(dsGauge);
     dsGauge.start();
 
+    var heatmap = new proteic.Heatmap(dataHeatmap, {
+      selector: '#heatmap',
+      xAxisType: 'linear',
+      yAxisType: 'categorical',
+      marginRight: 100,
+      marginLeft: 50,
+      height: 200, width: '100%'
+    });
+    heatmap.draw();
+
+    var dsHeatmap = new proteic.WebsocketDatasource({
+      endpoint: 'wss://proteicws.herokuapp.com/matrix'
+    });
+    new proteic.Heatmap([], {
+      selector: '#heatmap-ws',
+      propertyX: 'a',
+      propertyY: 'b',
+      marginRight: 100,
+      marginLeft: 50,
+      height: 200, width: '100%'
+    }).datasource(dsHeatmap);
+    dsHeatmap.start();
 
     var lines = new proteic.Linechart(data, {
         selector: '#lines', height: 200, width: '100%',

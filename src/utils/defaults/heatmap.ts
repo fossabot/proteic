@@ -1,33 +1,38 @@
 import * as Colors from '../colors';
+import { stack as d3stack } from 'd3';
+import {scaleLinear} from "d3-scale";
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
-    colorScale: Colors.category3(),
+    colorScale: Colors.diverging_spectral1(), // TODO fix error and use proteic colours
+    xStep: 1,
+    yStep: 1,
     //Axes
-    xAxisType: 'time',
-    xAxisFormat: '%y/%m/%d',
+    xAxisType: 'categorical',
+    xAxisFormat: '',
     xAxisLabel: '',
-    xAxisGrid: true,
+    xAxisGrid: false,
     yAxisType: 'categorical',
-    yAxisFormat: 's',
+    yAxisFormat: '',
     yAxisLabel: '',
     yAxisShow: true,
-    yAxisGrid: true,
+    yAxisGrid: false,
     //margins
     marginTop: 20,
     marginRight: 250,
-    marginBottom: 30,
-    marginLeft: 50,
-    //Width & height
-    width: '100%', // %, auto, or numeric 
-    height: 250,
+    marginBottom: 130,
+    marginLeft: 150,
+    //width & height
+    width: '100%',
+    height: 350,
     legend: true,
-    propertyStart: 'start',
-    propertyEnd: 'end',
-    propertyY: 'key',
-    propertyKey: 'key',
+    propertyX: 'x',
+    propertyY: 'y',
+    propertyZ: 'z',
+    stack:  d3stack().value((d: any, k: any) => d.value[k]),
     streamingStrategy: StreamingStrategy.ADD,
+
     //Events
     onDown(d: any) {
     },
@@ -38,6 +43,5 @@ export const defaults: any = {
     onClick(d: any) {
     },
     onUp(d: any) {
-
     }
 };

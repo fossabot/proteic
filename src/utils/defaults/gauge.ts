@@ -1,6 +1,7 @@
 import * as Colors from '../colors';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any =  {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.diverging_spectral2(),
     invertColorScale: true,
@@ -24,5 +25,7 @@ export const defaults : any =  {
     width: '50%', // %, auto, or numeric
     height: 250,
     ticks: 10, // ticks for y dial.
-    propertyValue: 'value'
+    propertyValue: 'value',
+    streamingStrategy: StreamingStrategy.REPLACE
+
 };

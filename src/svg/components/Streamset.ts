@@ -38,7 +38,6 @@ class Streamset extends Component {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        this.clean();
         let colorScale = this.config.get('colorScale'),
             onDown = this.config.get('onDown'),
             onUp = this.config.get('onUp'),
@@ -48,25 +47,29 @@ class Streamset extends Component {
             keys = map(data, (d) => d[propertyKey]).keys(),
             data4stack = simple2stacked(data, propertyX, propertyY, propertyKey),
             stack = this.config.get('stack'),
-            dataSeries = stack(data4stack),
-            series: any = null;
+            dataSeries = stack(data4stack);
             
         this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data[propertyKey]))));
 
-        series = this.svg.selectAll('.serie')
-            .data(dataSeries)
-            .enter()
-            .append('g')
-            .attr('class', 'serie')
-            .style('stroke', (d: any, i: number) => colorScale(d[propertyKey]))
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
+        // JOIN series
+        let series = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
+        .data(dataSeries);
 
-        series
-            .append('path')
-            .attr('class', 'layer')
-            .attr('d', this.areaGenerator)
-            .style('fill', (d: any, i: number) => colorScale(d[propertyKey]));
+        // UPDATE series
+        series.attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .attr('d', this.areaGenerator)
+        .style('fill', (d: any, i: number) => colorScale(d[propertyKey]));
 
+        // ENTER + UPDATE series
+        series = series.enter().append('path')
+        .attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .attr('d', this.areaGenerator)
+        .style('fill', (d: any, i: number) => colorScale(d[propertyKey]))
+        .merge(series);
+
+        // EXIT series
         series.exit().remove();
 
         series
@@ -77,7 +80,6 @@ class Streamset extends Component {
             .on('mouseover.user', onHover)
             .on('click.user', onClick);
     }
-
 }
 
 export default Streamset;

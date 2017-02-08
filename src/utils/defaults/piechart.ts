@@ -1,4 +1,5 @@
 import * as Colors from '../colors';
+import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults : any = {
     selector: '#chart',
@@ -14,10 +15,7 @@ export const defaults : any = {
     legend: true,
     propertyX: 'x',
     propertyKey: 'key',
-    sortData: {
-        descending: false,
-        prop: 'x'
-    },
+    streamingStrategy: StreamingStrategy.REPLACE,
     //Events
     onDown(d: any) {
     },

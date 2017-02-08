@@ -1,4 +1,5 @@
 import { nest, timeParse } from 'd3';
+import { arrayDiff } from '../functions';
 
 export function simple2stacked(data: Array<any>, xProperty: string, yProperty: string, keyProperty: string): any {
     return nest().key((d: any) => d[xProperty]).rollup((values: any): any => {
@@ -67,4 +68,48 @@ export function convertByXYFormat(data: any, xAxisFormat: string, xAxisType: str
         }
     });
     return data;
+}
+
+export function unwind(data: Array<any>, valueNames: string[]): Array<any> {
+    if (!valueNames || !valueNames.length || !data || !data.length || data.constructor !== Array || valueNames.constructor !== Array) {
+        return data;
+    }
+
+    let unwinded = new Array();
+
+    for (let i = 0; i < data.length; i++) {
+        let result = unwindObject(data[i], valueNames);
+        if (result && result.length) {
+            unwinded = unwinded.concat(result);
+        }
+        else {
+            unwinded = unwinded.concat(data[i]);
+        }
+
+    }
+    return unwinded;
+}
+
+export function unwindObject(object: any, valueNames: string[]): Array<any> {
+    let unwinded = new Array();
+
+    let registerKeys = Object.getOwnPropertyNames(object);
+    let keyDiffs = arrayDiff(valueNames, registerKeys);
+
+    for (let j = 0; j < valueNames.length; j++) {
+        let toPush: any = {};
+
+        if (object.hasOwnProperty(valueNames[j])) {
+            toPush[valueNames[j]] = object[valueNames[j]];
+            for (let k = 0; k < keyDiffs.length; k++) {
+                toPush[keyDiffs[k]] = object[keyDiffs[k]];
+            }
+            unwinded.push(toPush);
+        }
+        if (unwinded.length === 0) {
+            unwinded = [];
+        }
+    }
+
+    return unwinded;
 }

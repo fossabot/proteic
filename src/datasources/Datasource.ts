@@ -1,4 +1,7 @@
-import {Dispatch} from "d3";
+import { Dispatch } from "d3";
+import { Observable } from 'rxjs';
+import { inject } from '../Injector';
+import Config from '../Config';
 
 /**
  *
@@ -20,11 +23,18 @@ class Datasource {
      */
     protected dispatcher: Dispatch<HTMLElement> = null;
     protected source: any = null;
+    protected config : Config = null;
     protected isWaitingForData: boolean = true;
+    protected unwindValueNames: string[] = Array();
+    protected discardValueNames: string[] = Array();
+    protected transformFunction: Function = (d: any) => d = d;
+
+
+    @inject('onVisibilityChange')
+    protected visibilityChangeSource: Observable<any>;
 
     constructor() {
-        // this.filters = [];
-        // this.properties = [];
+
     }
 
     /**
@@ -34,7 +44,6 @@ class Datasource {
      * @memberOf Datasource
      */
     start() {
-        //window.console.log('Starting datasource');
     }
 
     /**
@@ -48,8 +57,35 @@ class Datasource {
         //window.console.log('Stopping datasource');
     }
 
-    configure(dispatcher: any) {
+
+    onMessage(datum: any) {
+        if (datum.constructor.name === 'Array') {
+            for (let d of datum) {
+                this.onMessage(d);
+            }
+        } else {
+            this.transformFunction(datum);
+        }
+
+    }
+    configure(dispatcher: any, config : Config) {
         this.dispatcher = dispatcher;
+        this.config = config;
+    }
+
+    unwind(valueNames: string[]) {
+        this.unwindValueNames = valueNames;
+        return this;
+    }
+
+    discard(valueNames: string[]) {
+        this.discardValueNames = valueNames;
+        return this;
+    }
+
+    transform(fn: Function) {
+        this.transformFunction = fn;
+
     }
 }
 

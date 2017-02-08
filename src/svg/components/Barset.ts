@@ -10,7 +10,8 @@ import {
     map,
     area,
     selection,
-    nest
+    nest,
+    easeLinear
 } from 'd3';
 
 
@@ -33,8 +34,6 @@ class Barset extends Component {
     public update(data: [any]) {
         let bars: any = null,
             stacked = this.config.get('stacked');
-
-        this.clean();
 
         if (stacked) {
             this.updateStacked(data);
@@ -71,7 +70,8 @@ class Barset extends Component {
             .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
             .selectAll('rect')
             .data((d: any) => d)
-            .enter().append('rect')
+            .enter()
+            .append('rect')
             .attr("x", (d: any) => x(d.data[propertyKey]))
             .attr("y", (d: any) => y(d[1]))
             .attr("height", (d: any) => y(d[0]) - y(d[1]))
@@ -82,6 +82,7 @@ class Barset extends Component {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
+        let width = this.config.get('width');
 
         let keys = map(data, (d) => d[propertyKey]).keys(),
             colorScale = this.config.get('colorScale'),
@@ -89,41 +90,68 @@ class Barset extends Component {
             x = this.x.xAxis.scale(),
             y = this.y.yAxis.scale(),
             xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
+
             height = this.config.get('height');
 
-        let dataNested = simple2nested(data, 'key');
+        // console.log('x', x.domain(), 'group', xGroup.domain());
 
-        layer = this.svg.selectAll('g.barSeries')
-            .data(dataNested, (d: any) => d.values);
+        let nestedData = simple2nested(data, propertyKey);
 
-        layer
-            .enter()
-            .append('g')
-            .attr('class', 'barSeries')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .selectAll('rect')
-            .data((d: any) => d.values)
-            .enter()
-            .append('rect')
-            .attr('transform', (d: any) => 'translate(' + x(d[propertyX]) + ')')
-            .attr('width', xGroup.bandwidth())
-            .attr("x", (d: any) => xGroup(d[propertyKey]))
-            .attr("y", (d: any) => y(d[propertyY]))
-            .attr("height", (d: any) => height - y(d[propertyY]))
-            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
-            .attr('class', 'bar');
+        // JOIN series
+        let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
+        .data(nestedData);
 
-        //update existing lines
-        this.svg.selectAll('.bar')
-            .data(data, (d: any) => d[propertyX])
-            .attr('width', xGroup.bandwidth())
-            .attr("x", (d: any) => xGroup(d[propertyKey]))
-            .attr("y", (d: any) => y(d[propertyY]))
-            .attr("height", (d: any) => height - y(d[propertyY]))
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
+        // UPDATE series
+        serie.attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
+        // ENTER + UPDATE series
+        serie = serie.enter().append('g')
+        .attr('class', Globals.SELECTOR_SERIE)
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .merge(serie);
 
+        // EXIT series
+        serie.exit().remove();
+
+        // JOIN bars
+        let bars = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
+        .data((d: any) => d.values, (d: any) => d[propertyX]);
+
+        // UPDATE bars
+        bars.attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+        .attr('x', (d: any) => x(d[propertyX]))
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('y', (d: any) => height - y(d[propertyY]))
+        .attr('width', xGroup.bandwidth())
+        .attr('height', (d: any) => y(d[propertyY]));
+
+        // ENTER bars
+        bars.enter().append('rect')
+        .attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+        .attr('height', 0)  // This makes the transition start
+        .attr('y', height)  // at the bottom of the chart
+        .attr('x', (d: any) => x(d[propertyX]))
+        .attr('width', xGroup.bandwidth())
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('y', (d: any) => height - y(d[propertyY]))
+        .attr('height', (d: any) => y(d[propertyY]));
+
+        // EXIT bars
+        bars.exit()
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .ease(easeLinear)
+        .attr('fill-opacity', 0)
+        .remove();
     }
 
 }

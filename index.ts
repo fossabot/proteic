@@ -11,6 +11,10 @@ default as Gauge
 } from './src/charts/Gauge';
 
 export {
+    default as Heatmap
+} from './src/charts/Heatmap'
+
+export {
 default as Scatterplot
 } from './src/charts/Scatterplot';
 

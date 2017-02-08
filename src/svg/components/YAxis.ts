@@ -89,7 +89,8 @@ class YAxis extends Component {
                 this.updateDomainByMinMax(min, max);
             }
         } else if (yAxisType === 'categorical') {
-            let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
+            // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
+            let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
         }
         else {
@@ -102,11 +103,11 @@ class YAxis extends Component {
 
     }
 
-    private updateDomainByMinMax(min: number, max: number) {
+    public updateDomainByMinMax(min: number, max: number) {
         this._yAxis.scale().domain([min, max]);
     }
 
-    private transition(time = 200) {
+    public transition(time = 200) {
         this.selection.transition().duration(Globals.COMPONENT_TRANSITION_TIME).call(this._yAxis);
         // Reorder the axis path to appear over the ticks
         this.svg.selectAll('.y.axis path').raise();
