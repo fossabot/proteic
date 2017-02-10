@@ -58,10 +58,16 @@ class TileSet extends Component {
             .data(data);
 
         // Enter + update
-        tiles
+        var enterTiles = tiles
             .enter().append('rect')
-            .attr('class', 'tile')
-            .merge(tiles)
+            .attr('class', 'tile');
+
+        enterTiles.attr('fill-opacity', 0)
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .attr('fill-opacity', 1);
+
+        enterTiles.merge(tiles)
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
