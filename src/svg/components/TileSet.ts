@@ -69,7 +69,8 @@ class TileSet extends Component {
                 }
             })
             .attr('width', width)
-            .attr('height', heigth);
+            .attr('height', heigth)
+            .style('fill', (d) => colorScale(d[propertyZ]));
 
         // Enter
         tiles
