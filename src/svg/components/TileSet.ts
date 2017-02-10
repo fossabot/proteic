@@ -58,7 +58,7 @@ class TileSet extends Component {
             .data(data);
 
         // Enter + update
-        var enterTiles = tiles
+        let enterTiles = tiles
             .enter().append('rect')
             .attr('class', 'tile');
 
