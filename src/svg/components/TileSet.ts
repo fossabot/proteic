@@ -1,7 +1,7 @@
 import Component from "./Component";
 import XAxis from "./XAxis";
 import YAxis from "./YAxis";
-import {max, min} from "d3-array";
+import { max, min } from "d3-array";
 import Globals from "../../Globals";
 
 class TileSet extends Component {
@@ -57,17 +57,24 @@ class TileSet extends Component {
         let tiles = this.svg.selectAll('.tile')
             .data(data);
 
-        // Enter + update
-        let enterTiles = tiles
-            .enter().append('rect')
-            .attr('class', 'tile');
-
-        enterTiles.attr('fill-opacity', 0)
+        // Update
+        tiles.attr('class', 'tile')
             .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
-            .attr('fill-opacity', 1);
+            .attr('x', (d) => x(d[propertyX]))
+            .attr('y', (d) => {
+                if (yAxisType === 'linear') {
+                    return y(d[propertyY] + yStep);
+                } else {
+                    return y(d[propertyY]);
+                }
+            })
+            .attr('width', width)
+            .attr('height', heigth);
 
-        enterTiles.merge(tiles)
+        // Enter
+        tiles
+            .enter().append('rect')
+            .attr('class', 'tile')
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
@@ -78,7 +85,11 @@ class TileSet extends Component {
             })
             .attr('width', width)
             .attr('height', heigth)
-            .style('fill', (d) => colorScale(d[propertyZ]));
+            .style('fill', (d) => colorScale(d[propertyZ]))
+            .attr('fill-opacity', 0)
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .attr('fill-opacity', 1);
 
         // Exit
         tiles.exit().remove();
