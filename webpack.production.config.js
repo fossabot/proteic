@@ -8,7 +8,8 @@ module.exports = {
     id: 'proteic',
     output: {
         filename: 'dist/proteic.js',
-        library: 'proteic'
+        library: 'proteic',
+        libraryTarget: 'umd'
     },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
