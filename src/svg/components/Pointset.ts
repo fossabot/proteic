@@ -107,21 +107,35 @@ class Pointset extends Component {
         let points = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
         .data((d: any) => d.values, (d: any) => d[propertyX]);
 
-        // ENTER points
-        points.enter().append('path')
-        .attr('class', Globals.SELECTOR_ELEMENT)
-        .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
-        // .style('stroke', (d: any) => colorScale(d[propertyKey]))
-        // .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
-        // .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
-        .merge(points)
-        .attr('d', shape) 
-        .style('stroke', (d: any) => colorScale(d[propertyKey]))
-        .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
+        // UPDATE points
+        points.attr('class', Globals.SELECTOR_ELEMENT)
         .transition()
         .duration(Globals.COMPONENT_TRANSITION_TIME)
         .ease(easeLinear)
         .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+
+
+        // ENTER points
+        points.enter().append('path')
+        .attr('class', Globals.SELECTOR_ELEMENT)
+        .attr('d', shape) 
+        .style('stroke', (d: any) => colorScale(d[propertyKey]))
+        .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
+        .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
+        .attr('fill-opacity', 0)
+        .attr('stroke-opacity', 0)
+        .transition()
+        .duration(Globals.COMPONENT_ANIMATION_TIME)
+        .attr('fill-opacity', 1)
+        .attr('stroke-opacity', 1);
+        // .merge(points)
+        // .attr('d', shape) 
+        // .style('stroke', (d: any) => colorScale(d[propertyKey]))
+        // .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
+        // .transition()
+        // .duration(Globals.COMPONENT_TRANSITION_TIME)
+        // .ease(easeLinear)
+        // .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
 
         // EXIT points
         points.exit().remove();
