@@ -1,3 +1,9 @@
+# 0.0.11 (2017-02-14)
+* Minor fix
+
+# 0.0.10 (2017-02-13)
+* Update packaging library to UMD 
+
 # 0.0.9 (2017-02-08)
 * ⭐ **New visualization: heatmap**
 * Barset transitions improved
@@ -5,7 +11,7 @@
 * Fixed a major bug in legends and data updates
 * Various bugfixes and improvements
 
-# 0.0.9 (2017-01-24)
+# 0.0.8 (2017-01-24)
 * Upgraded dependencies
 
 # 0.0.7 (2017-01-24)
