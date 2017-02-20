@@ -57,3 +57,8 @@ export {
 export {
     default as Globals
 } from './src/Globals';
+
+// Functions
+export {
+    getAvailableVisualizations
+} from './src/core';

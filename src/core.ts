@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import Injector from './Injector';
 import StorageService from './services/StorageService';
+import Chart from './charts/Chart'
 
 
 //Events
@@ -22,3 +23,18 @@ Injector.register('onResize', resizeSource);
 
 Injector.register('localStorageService', localStorageService);
 Injector.register('sessionStorageService', sessionStorageService);
+
+/** 
+ * Get the list of visualizations available in Proteic.js
+ */
+export function getAvailableVisualizations(): String[] {
+    let visualizations = new Set<String>();
+
+    for (let property in this) {
+        if (Object.getPrototypeOf(this[property].prototype).constructor.name === Chart.name) {
+            visualizations.add(this[property].name);
+        }
+    }
+
+    return Array.from(visualizations);
+}
