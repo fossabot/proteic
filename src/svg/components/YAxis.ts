@@ -103,7 +103,7 @@ class YAxis extends Component {
 
     }
 
-    public updateDomainByMinMax(min: string, max: string) {
+    public updateDomainByMinMax(min: number, max: number) {
         this._yAxis.scale().domain([min, max]);
     }
 

@@ -1,3 +1,6 @@
+# 0.0.13 (2017-02-22)
+* Fix compilation error
+
 # 0.0.12 (2017-02-21)
 * Add method to get the available visualizations 
 
