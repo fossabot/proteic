@@ -1,3 +1,6 @@
+# 0.0.12 (2017-02-21)
+* Add method to get the available visualizations 
+
 # 0.0.11 (2017-02-14)
 * Minor fix
 
