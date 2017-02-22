@@ -1,4 +1,7 @@
-# 0.0.13 (2017-02-22)
+# 0.0.14 (2017-02-22)
+* Add helper methods that retrieve available configurations and scales
+
+# 0.0.13 (2017-02-21)
 * Fix compilation error
 
 # 0.0.12 (2017-02-21)
