@@ -28,13 +28,5 @@ Injector.register('sessionStorageService', sessionStorageService);
  * Get the list of visualizations available in Proteic.js
  */
 export function getAvailableVisualizations(): String[] {
-    let visualizations = new Set<String>();
-
-    for (let property in this) {
-        if (Object.getPrototypeOf(this[property].prototype).constructor.name === Chart.name) {
-            visualizations.add(this[property].name);
-        }
-    }
-
-    return Array.from(visualizations);
+    return ["Linechart", "Barchart", "Gauge", "Heatmap", "Scatterplot", "Streamgraph", "StackedArea", "Swimlane", "Sunburst", "Network", "PieChart"];
 }
