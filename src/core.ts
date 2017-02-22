@@ -4,6 +4,7 @@ import StorageService from './services/StorageService';
 import Chart from './charts/Chart'
 import * as charts from './charts/'
 import * as colors from './utils/colors'
+import * as defaults from './utils/defaults/'
 
 //Events
 let visibilityChangeSource = Observable.fromEvent(window, 'visibilitychange');
@@ -41,9 +42,46 @@ export function getAvailableVisualizations(): String[] {
 }
 
 export function getDefaultOptions(visualization: string) {
-    
-    
-    // return  ;
+    let options = null;
+
+    switch (visualization) {
+        case "Linechart":
+            options = defaults.LinechartDefaults;
+        break;
+        case "Barchart":
+            options = defaults.BarchartDefaults;
+        break;
+        case "Gauge":
+            options = defaults.GaugeDefaults;
+        break;
+        case "Heatmap":
+            options = defaults.HeatmapDefaults;
+        break;
+        case "Scatterplot":
+            options = defaults.ScatterplotDefaults;
+        break;
+        case "Streamgraph":
+            options = defaults.StreamgraphDefaults;
+        break;
+        case "StackedArea":
+            options = defaults.StackedAreaDefaults;
+        break;
+        case "Swimlane":
+            options = defaults.SwimlaneDefaults;
+        break;
+        case "Sunburst":
+            options = defaults.SunburstDefaults;
+        break;
+        case "Network":
+            options = defaults.NetworkDefaults;
+        break;
+        case "PieChart":
+            options = defaults.PieChartDefaults;
+        break;
+        default:
+            throw new Error('Unrecognised visualization.');
+    }
+    return options;
 }
 
 export function getColorScales() {
