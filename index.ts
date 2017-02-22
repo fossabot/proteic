@@ -24,3 +24,7 @@ export {
 export {
     getColorScales
 } from './src/core';
+
+export {
+    getColorScale
+} from './src/core';
