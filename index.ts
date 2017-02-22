@@ -20,3 +20,7 @@ export {
 export {
     getDefaultOptions
 } from './src/core';
+
+export {
+    getColorScales
+} from './src/core';

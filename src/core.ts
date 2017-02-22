@@ -3,6 +3,7 @@ import Injector from './Injector';
 import StorageService from './services/StorageService';
 import Chart from './charts/Chart'
 import * as charts from './charts/'
+import * as colors from './utils/colors'
 
 //Events
 let visibilityChangeSource = Observable.fromEvent(window, 'visibilitychange');
@@ -28,12 +29,11 @@ Injector.register('sessionStorageService', sessionStorageService);
 //  * Get the list of visualizations available in Proteic.js
 //  */
 export function getAvailableVisualizations(): String[] {
-
     let visualizations = new Set<String>();
 
     for (let property in charts) {
-        if (Object.getPrototypeOf(this[property].prototype).constructor.name === charts.Chart.name) {
-            visualizations.add(this[property].name);
+        if (typeof property == 'string' && property !== Chart.name) {
+            visualizations.add(property);
         }
     }
 
@@ -42,5 +42,18 @@ export function getAvailableVisualizations(): String[] {
 
 export function getDefaultOptions(visualization: string) {
     
+    
     // return  ;
+}
+
+export function getColorScales() {
+    let colorScales = new Set<String>();
+
+    for (let property in colors) {
+        if (typeof property == 'string') {
+            colorScales.add(property);
+        }
+    }
+
+    return Array.from(colorScales);
 }
