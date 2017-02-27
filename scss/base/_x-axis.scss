@@ -1,4 +1,3 @@
-@import "./_colors";
 
 .proteic {
   .x.axis {
@@ -11,6 +10,14 @@
 
     line {
       stroke-dasharray: $grid-v-dasharray;
+    }
+
+    text {
+      fill: $font-color-bright;
+    }
+    
+    line {
+      stroke: $structure-color-bright;
     }
 
     .tick:nth-of-type(even) {
@@ -30,5 +37,9 @@
     line {
       stroke: $structure-color-bright;
     }
+  }
+
+  .xaxis-title {
+    fill: $font-color-dark;
   }
 }
