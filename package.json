@@ -1,7 +1,7 @@
 {
   "name": "proteic",
-  "version": "0.0.15",
-  "description": "",
+  "version": "0.0.16",
+  "description": "Modern visualization library, ready for batch and streaming data",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
   "browser": "dist/proteic.js",
@@ -11,7 +11,7 @@
     "lint": "jshint src/**/*.js",
     "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
-    "build": "webpack --config webpack.production.config.js && node-sass scss/proteic.scss dist/proteic.css --output-style compressed",
+    "build": "webpack --config webpack.production.config.js && node-sass scss/themes/default/proteic.scss dist/proteic.css --output-style compressed && node-sass scss/themes/lighter/lighter.scss dist/lighter.css --output-style compressed",
     "docs": "esdoc -c esdoc.json",
     "start": "webpack-dev-server",
     "prepublish": "npm run build"
@@ -25,8 +25,7 @@
     "name": "Treelogic S.L.",
     "url": "http://www.treelogic.com/"
   },
-  "contributors": [
-    {
+  "contributors": [{
       "name": "Nacho García Fernández",
       "email": "0xnacho@gmail.com",
       "url": "https://0xnacho.github.io/"

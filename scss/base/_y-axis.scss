@@ -1,0 +1,24 @@
+.proteic .y.axis {
+  path {
+    display: none;
+  }
+  .tick:nth-child(even) line {
+    stroke: $structure-color-dark;
+  }
+  .tick:nth-child(even) text {
+    fill: $font-color-dark;
+  }
+  .tick:nth-child(odd) text {
+    fill: $font-color-bright;
+  }
+  .tick:nth-child(odd) line {
+    stroke: $structure-color-bright;
+  }
+  .tick line {
+    stroke-dasharray: $grid-h-dasharray;
+  }
+}
+
+.yaxis-title {
+  fill: $font-color-dark;
+}

@@ -7,7 +7,7 @@ module.exports = {
     watch: false,
     entry: {
         js: ['./src/core.ts', './index.ts'],
-        css: './scss/proteic.scss'
+        css: './scss/themes/default/proteic.scss'
     },
     id: 'proteic',
     output: {
@@ -22,8 +22,7 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
     },
     module: {
-        loaders: [
-            {
+        loaders: [{
                 test: /\.ts$/,
                 loader: 'ts-loader'
             },

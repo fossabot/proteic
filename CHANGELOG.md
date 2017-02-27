@@ -1,3 +1,6 @@
+# 0.0.16 (2017-02-24)
+* Add CSS themes :art: 
+
 # 0.0.15 (2017-02-24)
 * Fix missing dist folder
 
