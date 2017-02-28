@@ -1,7 +1,7 @@
 import Chart from "./Chart";
 import SvgStrategyBarchart from "../svg/strategies/SvgStrategyBarchart";
 import {defaults} from "../utils/defaults/barchart";
-import {copy} from "../utils/functions";
+import {copy, isValuesInObjectKeys} from "../utils/functions";
 
 class Barchart extends Chart {
 
@@ -28,8 +28,16 @@ class Barchart extends Chart {
 
     public keepDrawing(datum: any) {
         let datumType = datum.constructor;
+        let nullValues = this.config.get('nullValues'),
+            keys = [
+                    this.config.get('propertyX'),
+                    this.config.get('propertyY'),
+                    this.config.get('propertyKey')
+                ];
+        
         if (datumType === Array) {
-            this.data = datum;
+            let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+            this.data = filteredDatum;
         }
         else {
             let found = false;

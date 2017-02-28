@@ -29,6 +29,7 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null],
     stack: d3stack().value((d: any, k: any) => d.value[k]),
     streamingStrategy: StreamingStrategy.REPLACE,
 
