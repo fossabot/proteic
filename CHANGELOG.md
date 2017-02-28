@@ -1,3 +1,8 @@
+# 0.0.17 (2017-02-28)
+* Now you can connect several visualizations to the same websocket
+* Add a filter for null values to several visualizations
+* Minor fixes and improvements
+
 # 0.0.16 (2017-02-24)
 * Add CSS themes :art: 
 
