@@ -38,7 +38,7 @@ abstract class Chart {
      * @memberOf Chart
 
      */
-    public addDatasource(ds: WebsocketDatasource) {
+    public datasource(ds: WebsocketDatasource) {
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
             (e: any) => throwError(e),

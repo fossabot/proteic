@@ -61,13 +61,11 @@
     <div id='chart'></div>
 
     <script>
-        var data = {
-            endpoint: 'ws://192.168.3.32:3000/swimlane'
-        };
-        
-        var ds = new proteic.WebsocketDatasource(data);
+        var ws = new WebSocket('ws://192.168.3.32:3000/swimlane');
 
-        swimlane = new proteic.Swimlane([],{}).datasource(ds);
+        var ds = new proteic.WebsocketDatasource(ws);
+
+        swimlane = new proteic.Swimlane([], {}).datasource(ds);
 
         ds.start();
     </script>

@@ -20,13 +20,9 @@
   <div id='chart-cat'></div>
 
   <script>
-    var ds = new proteic.WebsocketDatasource({
-      endpoint: 'ws://localhost:3000/matrix'
-    });
-    var dsCat = new proteic.WebsocketDatasource({
-      endpoint: 'ws://localhost:3000/matrix'
-    });
-    
+    var ws = new WebSocket('ws://localhost:3000/matrix');
+    var ds = new proteic.WebsocketDatasource(ws);
+
     chart = new proteic.Heatmap([], {
       xAxisType: 'linear',
       yAxisType: 'linear'
@@ -36,11 +32,9 @@
       selector: '#chart-cat',
       propertyX: 'a',
       propertyY: 'b'
-    }).datasource(dsCat);
+    }).datasource(ds);
 
     ds.start();
-    dsCat.start();
-
   </script>
 </body>
 
