@@ -25,9 +25,6 @@ class Heatmap extends Chart {
 
         if(datumType === Array) {
             let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
-            console.log(datum);
-            console.log(filteredDatum);
-            console.log('-----------');
             if (this.data) {
                 this.data = this.data.concat(filteredDatum);
             } else {
