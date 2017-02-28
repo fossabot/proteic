@@ -1,7 +1,7 @@
 import Chart from "./Chart";
 import SvgStrategyScatterplot from "../svg/strategies/SvgStrategyScatterplot";
 import {defaults} from "../utils/defaults/scatterplot";
-import {copy} from "../utils/functions";
+import {copy, isValuesInObjectKeys} from "../utils/functions";
 
 class Scatterplot extends Chart {
 
@@ -15,11 +15,18 @@ class Scatterplot extends Chart {
     }
 
     public keepDrawing(datum: any) {
-        let datumType = datum.constructor;
+        let datumType = datum.constructor,
+            nullValues = this.config.get('nullValues'),
+            keys = [
+                this.config.get('propertyX'),
+                this.config.get('propertyY'),
+                this.config.get('propertyKey')
+            ];
 
         if (datumType === Array) {
             if (this.data) {
-                this.data = this.data.concat(datum);
+                let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+                this.data = this.data.concat(filteredDatum);
             } else {
                 this.data = datum;
             }
