@@ -1,0 +1,89 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+
+    <head>
+        <title>Real-time Linechart</title>
+        <script src='../node_modules/d3/build/d3.min.js'></script>
+        <script src='../dist/proteic.js'></script>
+        <meta charset="utf-8" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <link rel="stylesheet" href="../dist/proteic.css">
+    </head>
+
+    <body>
+        <div id='chart'></div>
+        <div id='chart2'></div>
+        <div id='chart3'></div>
+        <div id='chart4'></div>
+
+        <script>
+            var linechart = new proteic.Linechart([{ x: 1, y: 4 }, { x: 2, y: 6 }],
+                {
+                    markerSize: 0,
+                    areaOpacity: 0,
+                    nullValues: ['NULL', 'NUL', '\\N', NaN, null, "NaN"],
+                    //propertyX: 'positionX',
+                    //propertyY: 'c0025'
+                });
+
+            linechart.draw();
+
+            var linechart2 = new proteic.Linechart([{ x: 1, y: 4 }, { x: 2, y: 6 }],
+                {
+                    selector: '#chart2',
+                    markerSize: 0,
+                    areaOpacity: 0,
+                    nullValues: ['NULL', 'NUL', '\\N', NaN, null, "NaN"],
+                    //propertyX: 'positionX',
+                    //propertyY: 'c0025'
+                });
+
+            linechart2.draw();
+
+
+            var linechart3 = new proteic.Linechart([{ x: 1, y: 4 }, { x: 2, y: 6 }],
+                {
+                    selector: '#chart3',
+                    markerSize: 0,
+                    areaOpacity: 0,
+                    nullValues: ['NULL', 'NUL', '\\N', NaN, null, "NaN"],
+                    //propertyX: 'positionX',
+                    //propertyY: 'c0025'
+                });
+
+            linechart3.draw();
+
+            var linechart4 = new proteic.Linechart([{ x: 1, y: 4 }, { x: 2, y: 6 }],
+                {
+                    selector: '#chart4',
+                    markerSize: 0,
+                    areaOpacity: 0,
+                    nullValues: ['NULL', 'NUL', '\\N', NaN, null, "NaN"],
+                    //propertyX: 'positionX',
+                    //propertyY: 'c0025'
+                });
+
+            linechart4.draw();
+
+            var ws = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+
+            var ds = new proteic.WebsocketDatasource(ws);
+
+            linechart.addDatasource(ds);
+            linechart2.addDatasource(ds);
+            linechart3.addDatasource(ds);
+            linechart4.addDatasource(ds);
+
+
+            ds.start();
+        </script>
+    </body>
+
+</html>

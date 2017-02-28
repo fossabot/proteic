@@ -2,9 +2,12 @@ import { SvgContext } from "../svg/strategies/SvgStrategy";
 import SvgChart from "../svg/base/SvgChart";
 import Config from "../Config";
 import { copy } from "../utils/functions";
+import { throwError } from "../utils/error";
 import Datasource from "../datasources/Datasource";
+import WebsocketDatasource from "../datasources/WebsocketDatasource";
+import { Subscription } from 'rxjs';
+
 import { calculateWidth } from "../utils/screen";
-import { dispatch } from "d3";
 import StreamingStrategy from './enums/StreamingStrategy';
 
 abstract class Chart {
@@ -12,9 +15,9 @@ abstract class Chart {
     private context: SvgContext;
     protected config: Config;
     protected data: any;
-    private ds: Datasource = null;
-    private dispatcher: any = dispatch('onmessage', 'onopen', 'onerror', 'addLoading', 'removeLoading');
-    protected streamingStrategy : StreamingStrategy;
+    private subscription: Subscription;
+
+    protected streamingStrategy: StreamingStrategy;
 
     constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
@@ -35,25 +38,20 @@ abstract class Chart {
      * @memberOf Chart
 
      */
-    public datasource(ds: Datasource) {
-        if (this.data && this.data.length) {
-            this.draw();
+    public addDatasource(ds: WebsocketDatasource) {
+        let subscription: Subscription = ds.subscription().subscribe(
+            (data: any) => this.keepDrawing(data),
+            (e: any) => throwError(e),
+            () => console.log('Completed subject')
+        );
+
+        this.subscription = subscription;
+    }
+
+    public removeDatasource() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
-        this.ds = ds;
-
-        this.ds.configure(this.dispatcher, this.config);
-
-        this.dispatcher.on('addLoading', () => this.context.addLoading());
-        this.dispatcher.on('removeLoading', () => this.context.removeLoading());
-
-        this.dispatcher.on('onmessage', (data: any) => this.keepDrawing(data));
-
-        this.dispatcher.on('onopen', (event: any) => {
-        });
-
-        this.dispatcher.on('onerror', (error: any) => {
-            console.error('onerror', error);
-        });
     }
 
     protected loadConfigFromUser(userData: any, defaults: any): Config {

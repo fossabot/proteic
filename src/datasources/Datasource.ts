@@ -1,5 +1,5 @@
 import { Dispatch } from "d3";
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { inject } from '../Injector';
 import Config from '../Config';
 
@@ -14,79 +14,17 @@ import Config from '../Config';
  *
  */
 class Datasource {
-    /**
-     * Creates an instance of Datasource.
-     *
-     *
-     * @memberOf Datasource
-
-     */
-    protected dispatcher: Dispatch<HTMLElement> = null;
-    protected source: any = null;
-    protected config : Config = null;
-    protected isWaitingForData: boolean = true;
-    protected unwindValueNames: string[] = Array();
-    protected discardValueNames: string[] = Array();
-    protected transformFunction: Function = (d: any) => d = d;
-
 
     @inject('onVisibilityChange')
     protected visibilityChangeSource: Observable<any>;
+
+    protected visibilityChangeSourceSubscription: Subscription;
 
     constructor() {
 
     }
 
-    /**
-     * Starts the stream of data
-     *
-     *
-     * @memberOf Datasource
-     */
-    start() {
-    }
 
-    /**
-     *
-     * If started, this method stops the stream of data
-     *
-     * @memberOf Datasource
-
-     */
-    stop() {
-        //window.console.log('Stopping datasource');
-    }
-
-
-    onMessage(datum: any) {
-        if (datum.constructor.name === 'Array') {
-            for (let d of datum) {
-                this.onMessage(d);
-            }
-        } else {
-            this.transformFunction(datum);
-        }
-
-    }
-    configure(dispatcher: any, config : Config) {
-        this.dispatcher = dispatcher;
-        this.config = config;
-    }
-
-    unwind(valueNames: string[]) {
-        this.unwindValueNames = valueNames;
-        return this;
-    }
-
-    discard(valueNames: string[]) {
-        this.discardValueNames = valueNames;
-        return this;
-    }
-
-    transform(fn: Function) {
-        this.transformFunction = fn;
-
-    }
 }
 
 export default Datasource;
