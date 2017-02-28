@@ -1,4 +1,5 @@
-export * from './src/charts/index'
+export * from './src/charts/index';
+import * as Colors from './src/utils/colors';
 
 export {
     default as WebsocketDatasource
@@ -11,6 +12,8 @@ export {
 export {
     default as Globals
 } from './src/Globals';
+
+export { Colors };
 
 // Functions
 export {
