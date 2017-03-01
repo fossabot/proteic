@@ -76,33 +76,36 @@ abstract class Chart {
                 this.config.get('propertyX'),
                 this.config.get('propertyY'),
                 this.config.get('propertyKey')
-            ];
+            ], 
+            filteredDatum = [];
+
+        if (datumType === Array) {
+            filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+        } else {
+            if (!hasValuesWithKeys(datum, nullValues, keys)) {
+                filteredDatum.push(datum);
+            }
+        }
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
-                if (datumType === Array) {
-                    let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
-                    this.data = this.data.concat(filteredDatum);
-                }
-                else {
-                    if (!hasValuesWithKeys(datum, nullValues, keys)) {
-                        this.data.push(datum);
-                    }
-                }
-                //Detect excess of elements given a maxNumberOfElements property
-                if (numberOfElements > maxNumberOfElements) {
-                    let position = numberOfElements - maxNumberOfElements;
-                    this.data = this.data.slice(position);
-                }
-
-                this.draw(copy(this.data));
+                this.data = this.data.concat(filteredDatum);
                 break;
             case StreamingStrategy.REPLACE:
+                this.data = filteredDatum;
                 break;
             case StreamingStrategy.NONE:
                 break;
             default:
         }
+
+        //Detect excess of elements given a maxNumberOfElements property
+        if (numberOfElements > maxNumberOfElements) {
+            let position = numberOfElements - maxNumberOfElements;
+            this.data = this.data.slice(position);
+        }
+
+        this.draw(copy(this.data));
     }
 }
 
