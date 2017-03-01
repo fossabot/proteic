@@ -13,29 +13,6 @@ class Scatterplot extends Chart {
             defaults
         );
     }
-
-    public keepDrawing(datum: any) {
-        let datumType = datum.constructor,
-            nullValues = this.config.get('nullValues'),
-            keys = [
-                this.config.get('propertyX'),
-                this.config.get('propertyY'),
-                this.config.get('propertyKey')
-            ];
-
-        if (datumType === Array) {
-            if (this.data) {
-                let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
-                this.data = this.data.concat(filteredDatum);
-            } else {
-                this.data = datum;
-            }
-        }
-        else {
-            this.data.push(datum);
-        }
-        this.draw(copy(this.data));
-    }
 }
 
 export default Scatterplot;
