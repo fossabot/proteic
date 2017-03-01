@@ -1,3 +1,9 @@
+# 0.0.20 (2017-03-01)
+* Small bugfixes
+
+# 0.0.19 (2017-03-01)
+* Small bugfixes
+
 # 0.0.18 (2017-03-01)
 * Hotfix unmerged changes
 
