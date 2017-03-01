@@ -25,6 +25,7 @@ class Linechart extends Chart {
                 this.config.get('propertyKey')
             ];
 
+
         if (datumType === Array) {
             let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
             console.log(datum);
@@ -33,17 +34,20 @@ class Linechart extends Chart {
             this.data = this.data.concat(filteredDatum);
         }
         else {
-            let add = true;
-            for (let i of nullValues) {
-                if (i == datum[this.config.get('propertyX')] ||
-                 i == datum[this.config.get('propertyY')] ||
-                 i == datum[this.config.get('propertyKey')]) {
+                                        let add = true;
 
+            for (let i of nullValues) {
+
+                if (i == datum[this.config.get('propertyX')] ||
+                 i == datum[this.config.get('propertyY')]) {
+                        console.log('null');
                      add = false;
                  }
+                  }
                  if (add) {
+                    //  console.log(datum);
                      this.data.push(datum);
-                 }
+                
             }
             
         }
