@@ -13,29 +13,6 @@ class Heatmap extends Chart {
             defaults
         );
     }
-
-    public keepDrawing(datum: any): void {
-        let datumType = datum.constructor,
-            nullValues = this.config.get('nullValues'),
-            keys = [
-                this.config.get('propertyX'),
-                this.config.get('propertyY'),
-                this.config.get('propertyKey')
-            ];
-
-        if(datumType === Array) {
-            let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
-            if (this.data) {
-                this.data = this.data.concat(filteredDatum);
-            } else {
-                this.data = datum;
-            }
-        } else {
-            this.data.push(datum);
-        }
-        this.draw(copy(this.data));
-    }
-
 }
 
 export default Heatmap;
