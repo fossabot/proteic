@@ -27,10 +27,25 @@ class Linechart extends Chart {
 
         if (datumType === Array) {
             let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+            console.log(datum);
+            console.log(filteredDatum);
+            console.log('---------------');
             this.data = this.data.concat(filteredDatum);
         }
         else {
-            this.data.push(datum);
+            let add = true;
+            for (let i of nullValues) {
+                if (i == datum[this.config.get('propertyX')] ||
+                 i == datum[this.config.get('propertyY')] ||
+                 i == datum[this.config.get('propertyKey')]) {
+
+                     add = false;
+                 }
+                 if (add) {
+                     this.data.push(datum);
+                 }
+            }
+            
         }
         //Detect excess of elements given a maxNumberOfElements property
         if (numberOfElements > maxNumberOfElements) {

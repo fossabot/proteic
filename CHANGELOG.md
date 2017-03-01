@@ -1,3 +1,6 @@
+# 0.0.18 (2017-03-01)
+* Hotfix unmerged changes
+
 # 0.0.17 (2017-02-28)
 * Now you can connect several visualizations to the same websocket
 * Add a filter for null values to several visualizations
