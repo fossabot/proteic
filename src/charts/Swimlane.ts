@@ -13,18 +13,6 @@ class Swimlane extends Chart {
             defaults
         );
     }
-
-    public keepDrawing(datum: any) {
-        let datumType = datum.constructor;
-
-        if (datumType === Array) {
-            this.data = this.data.concat(datum);
-        }
-        else {
-            this.data.push(datum);
-        }
-        this.draw(copy(this.data));
-    }
 }
 
 export default Swimlane;
