@@ -1,6 +1,6 @@
 {
   "name": "proteic",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Modern visualization library, ready for batch and streaming data",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
