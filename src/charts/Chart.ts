@@ -1,7 +1,7 @@
 import { SvgContext } from "../svg/strategies/SvgStrategy";
 import SvgChart from "../svg/base/SvgChart";
 import Config from "../Config";
-import { copy } from "../utils/functions";
+import { copy, isValuesInObjectKeys, hasValuesWithKeys } from "../utils/functions";
 import { throwError } from "../utils/error";
 import Datasource from "../datasources/Datasource";
 import WebsocketDatasource from "../datasources/WebsocketDatasource";
@@ -22,6 +22,7 @@ abstract class Chart {
     constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
         this.context = new SvgContext(strategy, this.config);
+        if (data === undefined) { data = []};
         this.data = data;
     }
 
@@ -65,7 +66,47 @@ abstract class Chart {
         return config;
     }
 
-    protected abstract keepDrawing(datum: any): void;
+    protected keepDrawing(datum: any): void {
+        let streamingStrategy = this.config.get('streamingStrategy'),
+            nullValues = this.config.get('nullValues'),
+            maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
+            numberOfElements = this.data.length,
+            datumType = datum.constructor,
+            keys = [
+                this.config.get('propertyX'),
+                this.config.get('propertyY'),
+                this.config.get('propertyKey')
+            ], 
+            filteredDatum = [];
+
+        if (datumType === Array) {
+            filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+        } else {
+            if (!hasValuesWithKeys(datum, nullValues, keys)) {
+                filteredDatum.push(datum);
+            }
+        }
+
+        switch (streamingStrategy) {
+            case StreamingStrategy.ADD:
+                this.data = this.data.concat(filteredDatum);
+                break;
+            case StreamingStrategy.REPLACE:
+                this.data = filteredDatum;
+                break;
+            case StreamingStrategy.NONE:
+                break;
+            default:
+        }
+
+        //Detect excess of elements given a maxNumberOfElements property
+        if (numberOfElements > maxNumberOfElements) {
+            let position = numberOfElements - maxNumberOfElements;
+            this.data = this.data.slice(position);
+        }
+
+        this.draw(copy(this.data));
+    }
 }
 
 export default Chart;

@@ -92,8 +92,8 @@ export function deg2rad(deg: number) {
 }
 
 /**
- * This is intended as a test function for a filter. It returns a function that is true when any of the`keys` of the
- * tested object contains any of the`values`
+ * This is intended as a test function for a filter. It returns a function that is true when any of the`keys`
+ *  of the tested object contains any of the`values`
  *
  * @param values
  * @param keys
@@ -101,14 +101,18 @@ export function deg2rad(deg: number) {
  */
 export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>): Function {
   return function (obj: any): boolean {
+    return !hasValuesWithKeys(obj, values, keys);
+  }
+}
+
+export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>) {
     for (let key of keys) {
       let value: any = obj[key];
       if (values.indexOf(value) != -1) {
-        return false;
+        return true;
       }
     }
-    return true;
-  }
+    return false;
 }
 
 

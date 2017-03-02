@@ -28,6 +28,7 @@ export const defaults: any = {
     propertyY: 'key',
     propertyKey: 'key',
     streamingStrategy: StreamingStrategy.ADD,
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     //Events
     onDown(d: any) {
     },
