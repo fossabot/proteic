@@ -1,3 +1,6 @@
+# 0.0.21 (2017-03-02)
+* Refactor keepDrawing
+
 # 0.0.20 (2017-03-01)
 * Small bugfixes
 
