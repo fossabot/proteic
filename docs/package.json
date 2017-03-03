@@ -1,6 +1,6 @@
 {
   "name": "proteic",
-  "version": "0.0.21",
+  "version": "0.0.20",
   "description": "Modern visualization library, ready for batch and streaming data",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/d3": "^4.3.0",
+    "@types/d3": "^4.5.0",
     "@types/mocha": "^2.2.38",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
