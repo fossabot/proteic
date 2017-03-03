@@ -5,10 +5,10 @@ import Areaset from '../components/Areaset';
 import Legend from '../components/Legend';
 
 import Config from '../../Config';
-import SvgChart from '../base/SvgChart';
+import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
-class SvgStrategyLinechart extends SvgChart {
+class SvgStrategyLinechart extends SvgStrategy {
     /**
      * 
      * XY Axes. Horizontal and vertical references

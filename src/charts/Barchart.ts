@@ -6,12 +6,7 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class Barchart extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyBarchart(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyBarchart, userConfig, data, defaults);
     }
 
     fire(event: string, data: string) {//TODO: improve this section

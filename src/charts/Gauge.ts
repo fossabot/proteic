@@ -5,12 +5,7 @@ import {defaults} from "../utils/defaults/gauge";
 class Gauge extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyGauge(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyGauge, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

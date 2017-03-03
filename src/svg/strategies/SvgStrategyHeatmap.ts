@@ -1,9 +1,9 @@
-import SvgChart from "../base/SvgChart";
+import SvgStrategy from "../base/SvgStrategy";
 import XYAxes from "../components/XYAxes";
 import TileSet from "../components/TileSet";
 import {sortByField} from "../../utils/data/sorting";
 
-class SvgStrategyHeatmap extends SvgChart {
+class SvgStrategyHeatmap extends SvgStrategy {
 
     private axes: XYAxes;
     private tiles: TileSet;

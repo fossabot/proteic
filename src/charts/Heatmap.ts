@@ -6,12 +6,7 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class Heatmap extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyHeatmap(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyHeatmap, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any): void {

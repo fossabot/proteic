@@ -6,12 +6,7 @@ import {copy} from "../utils/functions";
 class Network extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyNetwork(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyNetwork, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

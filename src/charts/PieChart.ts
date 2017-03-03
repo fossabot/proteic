@@ -6,12 +6,7 @@ import {copy} from "../utils/functions";
 class PieChart extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyPieChart,
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyPieChart, userConfig, data, defaults);
     }
 
     protected keepDrawing(datum: any) {

@@ -1,9 +1,12 @@
 import Container from "../components/Container";
 import Config from "../../Config";
+import inject from '../../inject';
 
-abstract class SvgChart {
+abstract class SvgStrategy {
 
     protected container: Container;
+
+    @inject('Config')
     protected config: Config;
 
     constructor() {
@@ -12,10 +15,6 @@ abstract class SvgChart {
 
     initialize() {
         this.container = new Container(this.config);
-    }
-
-    setConfig(config: Config) {
-        this.config = config;
     }
 
     abstract draw(data: [{}]): void;
@@ -30,4 +29,4 @@ abstract class SvgChart {
     }
 }
 
-export default SvgChart;
+export default SvgStrategy;

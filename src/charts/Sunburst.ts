@@ -6,12 +6,7 @@ import {copy} from "../utils/functions";
 class Sunburst extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategySunburst(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategySunburst, userConfig, data, defaults);
     }
 
     protected keepDrawing(datum: any) {

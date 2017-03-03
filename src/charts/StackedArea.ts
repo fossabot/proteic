@@ -6,12 +6,7 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class StackedArea extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyStreamgraph(), //It uses the same strategy than streamgraph. The only difference is the stack.
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyStreamgraph, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

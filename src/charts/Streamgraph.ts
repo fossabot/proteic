@@ -6,12 +6,7 @@ import {copy} from "../utils/functions";
 class Streamgraph extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyStreamgraph(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyStreamgraph, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

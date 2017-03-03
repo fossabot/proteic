@@ -6,12 +6,7 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class Linechart extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyLinechart(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyLinechart, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

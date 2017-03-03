@@ -6,12 +6,7 @@ import {copy, isValuesInObjectKeys} from "../utils/functions";
 class Scatterplot extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategyScatterplot(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategyScatterplot, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {

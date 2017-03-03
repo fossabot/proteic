@@ -6,12 +6,7 @@ import {copy} from "../utils/functions";
 class Swimlane extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
-        super(
-            new SvgStrategySwimlane(),
-            data,
-            userConfig,
-            defaults
-        );
+        super(SvgStrategySwimlane, userConfig, data, defaults);
     }
 
     public keepDrawing(datum: any) {
