@@ -449,232 +449,221 @@
     {"class": "link", "source": "Dahlia", "target": "Fameuil", "value": 3},
     {"class": "link", "source": "Dahlia", "target": "Blacheville", "value": 3}
   ];
-
-  var areas = new proteic.StackedArea(dataTemporal, {
-    selector: '#areas',
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  areas.draw();
-  var dsAreas = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
-  });
-  new proteic.StackedArea([], {
-    selector: '#areas-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsAreas);
-  dsAreas.start();
-
-  var bars = new proteic.Barchart(dataGrouped, {
-    selector: '#bars', height: 200, width: '100%', marginRight: 100, marginLeft: 50
-  });
-  bars.draw();
-  var barsStacked = new proteic.Barchart(dataGrouped, {
-    selector: '#barsStacked',
-    stacked: true,
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  barsStacked.draw();
-  var dsBars = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/barchart'
-  });
-  new proteic.Barchart([], {
-    selector: '#bars-ws',
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsBars);
-  dsBars.start();
-  //	var dsBarsStacked = new proteic.WebsocketDatasource({
-  //		endpoint: 'wss://proteicws.herokuapp.com/barchart'
-  //	});
-  //	new proteic.Barchart([], {selector: '#barsStacked-ws', stacked: true}).datasource(dsBars);
-  //	dsBarsStacked.start();
-
-
-  var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
-  gauge.draw();
-  var dsGauge = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/gauge'
-  });
-  new proteic.Gauge([], {
-    selector: '#gauge-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 10
-  }).datasource(dsGauge);
-  dsGauge.start();
     
+    var wsBarchart = new WebSocket('wss://proteicws.herokuapp.com/barchart');
+    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+    var wsMatrix = new WebSocket('wss://proteicws.herokuapp.com/matrix');
+    var wsStreamgraph = new WebSocket('wss://proteicws.herokuapp.com/streamgraph');
+    var wsGauge = new WebSocket('wss://proteicws.herokuapp.com/gauge');
+    var wsScatterplot = new WebSocket('wss://proteicws.herokuapp.com/scatterplot');
+    var wsSunburst = new WebSocket('wss://proteicws.herokuapp.com/sunburst');
+    var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
+
+    var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
+    var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
+    var dsMatrix = new proteic.WebsocketDatasource(wsMatrix);
+    var dsStreamgraph = new proteic.WebsocketDatasource(wsStreamgraph);
+    var dsGauge = new proteic.WebsocketDatasource(wsGauge);
+    var dsScatterplot = new proteic.WebsocketDatasource(wsScatterplot);
+    var dsSunburst = new proteic.WebsocketDatasource(wsSunburst);
+    var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
+
+    dsBarchart.start();
+    dsLinechart.start();
+    dsMatrix.start();
+    dsStreamgraph.start();
+    dsGauge.start();
+    dsScatterplot.start();
+    dsSunburst.start();
+    dsSwimlane.start();
     
-    var heatmap = new proteic.Heatmap(dataHeatmap, {
-        selector: '#heatmap',
-        xAxisType: 'linear',
-        yAxisType: 'categorical',
+    var areas = new proteic.StackedArea(dataTemporal, {
+        selector: '#areas',
+        height: 200,
+        width: '100%',
         marginRight: 100,
-        marginLeft: 50,
-        height: 200, width: '100%'
+        marginLeft: 50
+    });
+    areas.draw();
+
+    new proteic.StackedArea([], {
+        selector: '#areas-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsStreamgraph);
+
+    var bars = new proteic.Barchart(dataGrouped, {
+        selector: '#bars', height: 200, width: '100%', marginRight: 100, marginLeft: 50
+    });
+    bars.draw();
+    var barsStacked = new proteic.Barchart(dataGrouped, {
+        selector: '#barsStacked',
+        stacked: true,
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    barsStacked.draw();
+
+    new proteic.Barchart([], {
+        selector: '#bars-ws',
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsBarchart);
+
+    //	var dsBarsStacked = new proteic.WebsocketDatasource({
+    //		endpoint: 'wss://proteicws.herokuapp.com/barchart'
+    //	});
+    //	new proteic.Barchart([], {selector: '#barsStacked-ws', stacked: true}).datasource(dsBars);
+    //	dsBarsStacked.start();
+
+
+    var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
+    new proteic.Gauge([], {
+        selector: '#gauge-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 10
+    }).datasource(dsGauge);
+
+    var heatmap = new proteic.Heatmap(dataHeatmap, {
+      selector: '#heatmap',
+      xAxisType: 'linear',
+      yAxisType: 'categorical',
+      marginRight: 100,
+      marginLeft: 50,
+      height: 200, width: '100%'
     });
     heatmap.draw();
 
-    var dsHeatmap = new proteic.WebsocketDatasource({
-        endpoint: 'wss://proteicws.herokuapp.com/matrix'
-    });
     new proteic.Heatmap([], {
-        selector: '#heatmap-ws',
-        propertyX: 'a',
-        propertyY: 'b',
+      selector: '#heatmap-ws',
+      propertyX: 'a',
+      propertyY: 'b',
+      marginRight: 100,
+      marginLeft: 50,
+      height: 200, width: '100%'
+    }).datasource(dsMatrix);
+
+    var lines = new proteic.Linechart(data, {
+        selector: '#lines', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    lines.draw();
+    var linesAreas = new proteic.Linechart(data, {
+        selector: '#linesAreas',
+        areaOpacity: 0.4,
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    linesAreas.draw();
+
+    new proteic.Linechart([], {
+        selector: '#lines-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsLinechart);
+
+    new proteic.Linechart([], {
+        selector: '#linesAreas-ws',
+        areaOpacity: 0.4,
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsLinechart);
+
+
+     var network =  new proteic.Network(dataNetwork, {
+         selector: '#network',
+        width: '100%',
+        height: 200,
+        linkWeght: 0.4,
+        nodeWeight: 5,
+        labelField: 'class',
+      });
+
+      network.draw();
+
+
+
+
+    var scatterplot = new proteic.Scatterplot(data, {
+        selector: '#scatterplot',
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    scatterplot.draw();
+    var scatterplotCanvas = new proteic.Scatterplot(data, {
+        selector: '#scatterplotCanvas',
+        canvas: true,
+        height: 200,
+        width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    scatterplotCanvas.draw();
+
+    new proteic.Scatterplot([], {
+        selector: '#scatterplot-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsScatterplot);
+
+    new proteic.Scatterplot([], {
+        selector: '#scatterplotCanvas-ws',
+        canvas: true,
         marginRight: 100,
         marginLeft: 50,
-        height: 200, width: '100%'
-    }).datasource(dsHeatmap);
-    dsHeatmap.start();
+        height: 200,
+        width: '100%'
+    }).datasource(dsScatterplot);
 
+    var streamgraph = new proteic.Streamgraph(dataTemporal, {
+        selector: '#streamgraph', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    streamgraph.draw();
 
-  var lines = new proteic.Linechart(data, {
-    selector: '#lines', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  lines.draw();
-  var linesAreas = new proteic.Linechart(data, {
-    selector: '#linesAreas',
-    areaOpacity: 0.4,
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  linesAreas.draw();
-  var dsLines = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/linechart'
-  });
-  new proteic.Linechart([], {
-    selector: '#lines-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsLines);
-  dsLines.start();
-  var dsLinesAreas = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/linechart'
-  });
-  new proteic.Linechart([], {
-    selector: '#linesAreas-ws',
-    areaOpacity: 0.4,
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsLinesAreas);
-  dsLinesAreas.start();
+    new proteic.Streamgraph([], {
+        selector: '#streamgraph-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsStreamgraph);
 
+    var sunburst = new proteic.Sunburst(dataHierarchic, {
+        selector: '#sunburst', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    });
+    sunburst.draw();
 
-  var network =  new proteic.Network(dataNetwork, {
-    selector: '#network',
-    width: '100%',
-    height: 200,
-    linkWeght: 0.4,
-    nodeWeight: 5,
-    labelField: 'class',
-  });
+    new proteic.Sunburst([], {
+        selector: '#sunburst-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 50
+    }).datasource(dsSunburst);
 
-  network.draw();
+    var swimlane = new proteic.Swimlane(dataLanes, {
+        selector: '#swimlane', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 70
+    });
+    swimlane.draw();
 
-
-
-
-  var scatterplot = new proteic.Scatterplot(data, {
-    selector: '#scatterplot',
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  scatterplot.draw();
-  var scatterplotCanvas = new proteic.Scatterplot(data, {
-    selector: '#scatterplotCanvas',
-    canvas: true,
-    height: 200,
-    width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  scatterplotCanvas.draw();
-  var dsScatterplot = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
-  });
-  new proteic.Scatterplot([], {
-    selector: '#scatterplot-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsScatterplot);
-  dsScatterplot.start();
-  var dsScatterplotCanvas = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
-  });
-  new proteic.Scatterplot([], {
-    selector: '#scatterplotCanvas-ws',
-    canvas: true,
-    marginRight: 100,
-    marginLeft: 50,
-    height: 200,
-    width: '100%'
-  }).datasource(dsScatterplotCanvas);
-  dsScatterplotCanvas.start();
-  var streamgraph = new proteic.Streamgraph(dataTemporal, {
-    selector: '#streamgraph', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  streamgraph.draw();
-  var dsStreamgraph = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
-  });
-  new proteic.Streamgraph([], {
-    selector: '#streamgraph-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsStreamgraph);
-  dsStreamgraph.start();
-
-
-  var sunburst = new proteic.Sunburst(dataHierarchic, {
-    selector: '#sunburst', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  });
-  sunburst.draw();
-  var dsSunburst = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/sunburst'
-  });
-  new proteic.Sunburst([], {
-    selector: '#sunburst-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 50
-  }).datasource(dsSunburst);
-  dsSunburst.start();
-
-
-  var swimlane = new proteic.Swimlane(dataLanes, {
-    selector: '#swimlane', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 70
-  });
-  swimlane.draw();
-  var dsSwimlane = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/swimlane'
-  });
-  new proteic.Swimlane([], {
-    selector: '#swimlane-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 70
-  }).datasource(dsSwimlane);
-  dsSwimlane.start();
+    new proteic.Swimlane([], {
+        selector: '#swimlane-ws', height: 200, width: '100%',
+        marginRight: 100,
+        marginLeft: 70
+    }).datasource(dsSwimlane);
 
 </script>
 <script>
