@@ -1,4 +1,4 @@
-import { scaleOrdinal } from 'd3';
+import { scaleOrdinal, scaleQuantize } from 'd3';
 
 const paletteCategory1 = [
     '#e1c8df',
@@ -658,133 +658,133 @@ export function category8() {
 }
 
 export function sequentialYellow() {
-    return scaleOrdinal().range(paletteSequentialYellow);
+    return scaleQuantize<string>().range(paletteSequentialYellow);
 }
 
 export function sequentialRedOrange() {
-    return scaleOrdinal().range(paletteSequentialRedOrange);
+    return scaleQuantize<string>().range(paletteSequentialRedOrange);
 }
 
 export function sequentialRed() {
-    return scaleOrdinal().range(paletteSequentialRed);
+    return scaleQuantize<string>().range(paletteSequentialRed);
 }
 
 export function sequentialPink() {
-    return scaleOrdinal().range(paletteSequentialPink);
+    return scaleQuantize<string>().range(paletteSequentialPink);
 }
 
 export function sequentialPurplePink() {
-    return scaleOrdinal().range(paletteSequentialPurplePink);
+    return scaleQuantize<string>().range(paletteSequentialPurplePink);
 }
 
 export function sequentialPurple() {
-    return scaleOrdinal().range(paletteSequentialPurple);
+    return scaleQuantize<string>().range(paletteSequentialPurple);
 }
 
 export function sequentialBlue() {
-    return scaleOrdinal().range(paletteSequentialBlue);
+    return scaleQuantize<string>().range(paletteSequentialBlue);
 }
 
 export function sequentialLightBlue() {
-    return scaleOrdinal().range(paletteSequentialLightBlue);
+    return scaleQuantize<string>().range(paletteSequentialLightBlue);
 }
 
 export function sequentialBlueViolet() {
-    return scaleOrdinal().range(paletteSequentialBlueViolet);
+    return scaleQuantize<string>().range(paletteSequentialBlueViolet);
 }
 
 export function sequentialTurquoise() {
-    return scaleOrdinal().range(paletteSequentialTurquoise);
+    return scaleQuantize<string>().range(paletteSequentialTurquoise);
 }
 
 export function sequentialLightGreen() {
-    return scaleOrdinal().range(paletteSequentialLightGreen);
+    return scaleQuantize<string>().range(paletteSequentialLightGreen);
 }
 
 export function sequentialDarkGreen() {
-    return scaleOrdinal().range(paletteSequentialDarkGreen);
+    return scaleQuantize<string>().range(paletteSequentialDarkGreen);
 }
 
 export function sequentialGreenBrown() {
-    return scaleOrdinal().range(paletteSequentialGreenBrown);
+    return scaleQuantize<string>().range(paletteSequentialGreenBrown);
 }
 
 export function sequentialBrown() {
-    return scaleOrdinal().range(paletteSequentialBrown);
+    return scaleQuantize<string>().range(paletteSequentialBrown);
 }
 
 export function sequentialGrey() {
-    return scaleOrdinal().range(paletteSequentialGrey);
+    return scaleQuantize<string>().range(paletteSequentialGrey);
 }
 
 export function sequentialVioletCb() {
-    return scaleOrdinal().range(paletteSequentialVioletCb);
+    return scaleQuantize<string>().range(paletteSequentialVioletCb);
 }
 
 export function sequentialPinkCb() {
-    return scaleOrdinal().range(paletteSequentialPinkCb);
+    return scaleQuantize<string>().range(paletteSequentialPinkCb);
 }
 
 export function sequentialBlueCb() {
-    return scaleOrdinal().range(paletteSequentialBlueCb);
+    return scaleQuantize<string>().range(paletteSequentialBlueCb);
 }
 
 export function sequentialGreenCb() {
-    return scaleOrdinal().range(paletteSequentialGreenCb);
+    return scaleQuantize<string>().range(paletteSequentialGreenCb);
 }
 
 export function sequentialGreenBrownCb() {
-    return scaleOrdinal().range(paletteSequentialGreenBrownCb);
+    return scaleQuantize<string>().range(paletteSequentialGreenBrownCb);
 }
 
 export function diverging_spectral1() {
-    return scaleOrdinal().range(paletteDivergingSpectral1);
+    return scaleQuantize<string>().range(paletteDivergingSpectral1);
 }
 
 export function diverging_spectral2() {
-    return scaleOrdinal().range(paletteDivergingSpectral2);
+    return scaleQuantize<string>().range(paletteDivergingSpectral2);
 }
 
 export function diverging_spectral3() {
-    return scaleOrdinal().range(paletteDivergingSpectral3);
+    return scaleQuantize<string>().range(paletteDivergingSpectral3);
 }
 
 export function diverging_brown_turquoise() {
-    return scaleOrdinal().range(paletteDivergingBrownTurquoise);
+    return scaleQuantize<string>().range(paletteDivergingBrownTurquoise);
 }
 
 export function diverging_orange_pink() {
-    return scaleOrdinal().range(paletteDivergingOrangePink);
+    return scaleQuantize<string>().range(paletteDivergingOrangePink);
 }
 
 export function diverging_red_blue() {
-    return scaleOrdinal().range(paletteDivergingRedBlue);
+    return scaleQuantize<string>().range(paletteDivergingRedBlue);
 }
 
 export function diverging_red_grey() {
-    return scaleOrdinal().range(paletteDivergingRedGrey);
+    return scaleQuantize<string>().range(paletteDivergingRedGrey);
 }
 
 export function diverging_orange_violet() {
-    return scaleOrdinal().range(paletteDivergingOrangeViolet);
+    return scaleQuantize<string>().range(paletteDivergingOrangeViolet);
 }
 
 export function diverging_purple_green() {
-    return scaleOrdinal().range(paletteDivergingPurpleGreen);
+    return scaleQuantize<string>().range(paletteDivergingPurpleGreen);
 }
 
 export function diverging_violet_green() {
-    return scaleOrdinal().range(paletteDivergingVioletGreen);
+    return scaleQuantize<string>().range(paletteDivergingVioletGreen);
 }
 
 export function diverging_red_green() {
-    return scaleOrdinal().range(paletteDivergingRedGreen);
+    return scaleQuantize<string>().range(paletteDivergingRedGreen);
 }
 
 export function diverging_brown_green() {
-    return scaleOrdinal().range(paletteDivergingBrownGreen);
+    return scaleQuantize<string>().range(paletteDivergingBrownGreen);
 }
 
 export function diverging_lightBrown_turquoise() {
-    return scaleOrdinal().range(paletteDivergingLightBrownTurquoise);
+    return scaleQuantize<string>().range(paletteDivergingLightBrownTurquoise);
 }
