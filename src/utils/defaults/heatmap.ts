@@ -5,7 +5,7 @@ import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
-    colorScale: Colors.diverging_spectral1(), // TODO fix error and use proteic colours
+    colorScale: Colors.sequentialVioletCb(), // TODO fix error and use proteic colours
     xStep: 1,
     yStep: 1,
     //Axes
@@ -30,10 +30,9 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyZ: 'z',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, null],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     stack:  d3stack().value((d: any, k: any) => d.value[k]),
     streamingStrategy: StreamingStrategy.ADD,
-
     //Events
     onDown(d: any) {
     },
