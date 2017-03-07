@@ -1,3 +1,6 @@
+# 0.0.24 (2017-03-07)
+* Sequential scales bugfix
+
 # 0.0.23 (2017-03-07)
 * Heatmap bugfix
 
