@@ -1,3 +1,9 @@
+# 0.0.23 (2017-03-07)
+* Heatmap bugfix
+
+# 0.0.22 (2017-03-03)
+* Improve datasource subscriptions
+
 # 0.0.21 (2017-03-02)
 * Refactor keepDrawing
 
