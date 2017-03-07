@@ -75,7 +75,7 @@ abstract class Chart {
             keys = [
                 this.config.get('propertyX'),
                 this.config.get('propertyY'),
-                this.config.get('propertyKey')
+                this.config.get('propertyZ')
             ], 
             filteredDatum = [];
 
