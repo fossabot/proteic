@@ -2,11 +2,13 @@ import SvgChart from "../base/SvgChart";
 import XYAxes from "../components/XYAxes";
 import TileSet from "../components/TileSet";
 import {sortByField} from "../../utils/data/sorting";
+import ColorLegend from '../components/ColorLegend';
 
 class SvgStrategyHeatmap extends SvgChart {
 
     private axes: XYAxes;
     private tiles: TileSet;
+    private legend: ColorLegend;
 
     constructor() {
         super();
@@ -26,10 +28,15 @@ class SvgStrategyHeatmap extends SvgChart {
     }
 
     public initialize(): void {
+        let legend = this.config.get('legend');
+
         super.initialize();
-        // TODO legend
         this.container.add(this.axes).add(this.tiles);
-        // this.container.add(this.axes);
+
+        if (legend) {
+            this.legend = new ColorLegend();
+            this.container.add(this.legend);
+        }
     }
 
 }
