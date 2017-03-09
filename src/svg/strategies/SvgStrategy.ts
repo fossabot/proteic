@@ -21,4 +21,8 @@ export class SvgContext {
     public removeLoading(){
         this.strategy.removeLoading();
     }
+
+    public remove(){
+        this.strategy.remove();
+    }
 }

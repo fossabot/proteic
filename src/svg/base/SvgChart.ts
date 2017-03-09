@@ -10,11 +10,11 @@ abstract class SvgChart {
 
     }
 
-    initialize() {
+    public initialize() {
         this.container = new Container(this.config);
     }
 
-    setConfig(config: Config) {
+    public setConfig(config: Config) {
         this.config = config;
     }
 
@@ -27,6 +27,11 @@ abstract class SvgChart {
 
     public removeLoading() {
         this.container.removeLoadingIcon();
+    }
+
+    public remove() {
+        console.log('removing strategy');
+        this.container.svg.node().parentNode.remove();
     }
 }
 
