@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "d3": "^4.4.3",
+    "d3-svg-legend": "github:jorgeyp/d3-legend",
     "rxjs": "^5.1.0"
   },
   "devDependencies": {
