@@ -45,7 +45,7 @@
     "url": "https://github.com/proteus-h2020/proteic/issues"
   },
   "dependencies": {
-    "d3": "^4.4.3",
+    "d3": "^4.7.1",
     "d3-svg-legend": "github:jorgeyp/d3-legend",
     "rxjs": "^5.1.0"
   },
