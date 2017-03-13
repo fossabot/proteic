@@ -25,7 +25,8 @@
     "name": "Treelogic S.L.",
     "url": "http://www.treelogic.com/"
   },
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Nacho García Fernández",
       "email": "0xnacho@gmail.com",
       "url": "https://0xnacho.github.io/"
@@ -46,7 +47,7 @@
   },
   "dependencies": {
     "d3": "^4.4.3",
-    "d3-svg-legend": "github:jorgeyp/d3-legend",
+    "d3-svg-legend": "^2.22.0",
     "rxjs": "^5.1.0"
   },
   "devDependencies": {
