@@ -1,10 +1,7 @@
-
 .proteic .legend {
-    .legend-txt {
-        fill: $font-color-dark;
-    }
+    font-family: $font-main;
 
-    .label {
-        font-family: $font-main;
+    text {
+        fill: $font-color-dark;
     }
 }
