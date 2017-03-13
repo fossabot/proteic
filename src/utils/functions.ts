@@ -132,7 +132,7 @@ export function getAvailableVisualizations(): String[] {
   let visualizations = new Set<String>();
 
   for (let property in charts) {
-    if (typeof property == 'string' && property !== charts.Chart.name) {
+    if (typeof property == 'string' && property !== charts.Chart.prototype.constructor.name) {
       visualizations.add(property);
     }
   }

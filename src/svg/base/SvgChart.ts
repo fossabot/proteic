@@ -31,7 +31,9 @@ abstract class SvgChart {
 
     public remove() {
         console.log('removing strategy');
-        this.container.svg.node().parentNode.remove();
+        // TODO
+        // this.container.svg.node().parentNode.remove();
+        console.warn('Pending implementation: SvgChart.remove()');
     }
 }
 

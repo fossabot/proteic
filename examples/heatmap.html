@@ -68,14 +68,18 @@
     var heatmap = new proteic.Heatmap(data, {
       selector: '#heatmap',
       xAxisType: 'linear',
+      xAxisLabel: 'X axis label',
       yAxisType: 'linear',
-      width: 1000
+      yAxisLabel: 'Y axis label',
+      width: 1000,
+      legendTitle: 'Min should be 0 and max 18'
     });
     heatmap.draw();
 
     var heatmapCategorical = new proteic.Heatmap(dataCategorical, {
       selector: '#heatmap-categorical',
-      width: 1000
+      width: 1000,
+      legend: false
     });
     heatmapCategorical.draw();
 

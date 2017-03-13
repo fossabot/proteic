@@ -25,7 +25,8 @@
     "name": "Treelogic S.L.",
     "url": "http://www.treelogic.com/"
   },
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Nacho García Fernández",
       "email": "0xnacho@gmail.com",
       "url": "https://0xnacho.github.io/"
