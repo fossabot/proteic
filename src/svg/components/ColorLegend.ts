@@ -47,6 +47,7 @@ class ColorLegend extends Component {
 
         let colorLegend = legendColor()
             .title(legendTitle)
+            .labelDelimiter('–')
             .scale(colorScale);
         legend = this.svg.select('.legend');
         legend.call(colorLegend); 
