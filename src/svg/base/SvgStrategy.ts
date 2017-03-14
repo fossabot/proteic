@@ -1,21 +1,20 @@
 import Container from "../components/Container";
 import Config from "../../Config";
+import inject from '../../inject';
 
-abstract class SvgChart {
+abstract class SvgStrategy {
 
     protected container: Container;
+
+    @inject('Config')
     protected config: Config;
 
     constructor() {
 
     }
 
-    public initialize() {
+    initialize() {
         this.container = new Container(this.config);
-    }
-
-    public setConfig(config: Config) {
-        this.config = config;
     }
 
     abstract draw(data: [{}]): void;
@@ -28,13 +27,6 @@ abstract class SvgChart {
     public removeLoading() {
         this.container.removeLoadingIcon();
     }
-
-    public remove() {
-        console.log('removing strategy');
-        // TODO
-        // this.container.svg.node().parentNode.remove();
-        console.warn('Pending implementation: SvgChart.remove()');
-    }
 }
 
-export default SvgChart;
+export default SvgStrategy;

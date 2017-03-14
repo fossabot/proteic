@@ -3,12 +3,12 @@ import Pointset from '../components/Pointset';
 import Legend from '../components/Legend';
 
 import Config from '../../Config';
-import SvgChart from '../base/SvgChart';
+import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
 import CanvasPointset from "../components/CanvasPointset";
 
-class SvgStrategyScatterplot extends SvgChart {
+class SvgStrategyScatterplot extends SvgStrategy {
     /**
      * 
      * XY Axes. Horizontal and vertical references

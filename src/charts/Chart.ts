@@ -1,14 +1,15 @@
-import { SvgContext } from "../svg/strategies/SvgStrategy";
-import SvgChart from "../svg/base/SvgChart";
-import Config from "../Config";
+import { SvgContext } from "../svg/base/SvgContext";
 import { copy, isValuesInObjectKeys, hasValuesWithKeys } from "../utils/functions";
 import { throwError } from "../utils/error";
+import { Subscription } from 'rxjs';
+import { calculateWidth } from "../utils/screen";
+
+import StreamingStrategy from './enums/StreamingStrategy';
+import Injector from '../MyInjector';
 import Datasource from "../datasources/Datasource";
 import WebsocketDatasource from "../datasources/WebsocketDatasource";
-import { Subscription } from 'rxjs';
-
-import { calculateWidth } from "../utils/screen";
-import StreamingStrategy from './enums/StreamingStrategy';
+import Config from "../Config";
+import SvgStrategy from "../svg/base/SvgStrategy";
 
 abstract class Chart {
 
@@ -16,15 +17,34 @@ abstract class Chart {
     protected config: Config;
     protected data: any;
     private subscription: Subscription;
+    private _injector: Injector = new Injector();
+    private strategy: SvgStrategy;
 
     protected streamingStrategy: StreamingStrategy;
 
-    constructor(strategy: SvgChart, data: any, userConfig: any, defaults: any) {
+    constructor(Class: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
+
         this.config = this.loadConfigFromUser(userConfig, defaults);
-        this.context = new SvgContext(strategy, this.config);
-        if (data === undefined) { data = []};
+        this._injector = new Injector();
+
+        this._instantiateInjections(Class);
+
         this.data = data;
     }
+
+    private _instantiateInjections(Class: { new (...args: any[]): SvgStrategy }) {
+        this._injector.mapValue('Config', this.config);
+
+        //Instantiate SvgStrategy
+        this.strategy = this._injector.instantiate(Class);
+        this.strategy.initialize();
+
+        this._injector.mapValue('Strategy', this.strategy);
+        //Instantiate SvgContext
+        this.context = this._injector.instantiate(SvgContext);
+    }
+
+
 
     public draw(data: [{}] = this.data) { //TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
         this.context.draw(copy(data));
@@ -37,7 +57,6 @@ abstract class Chart {
      * @param {Datasource} ds A datasource
      *
      * @memberOf Chart
-
      */
     public datasource(ds: WebsocketDatasource) {
         let subscription: Subscription = ds.subscription().subscribe(
@@ -76,7 +95,7 @@ abstract class Chart {
                 this.config.get('propertyX'),
                 this.config.get('propertyY'),
                 this.config.get('propertyZ')
-            ], 
+            ],
             filteredDatum = [];
 
         if (datumType === Array) {
@@ -86,6 +105,7 @@ abstract class Chart {
                 filteredDatum.push(datum);
             }
         }
+
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
