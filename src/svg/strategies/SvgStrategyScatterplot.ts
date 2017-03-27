@@ -7,6 +7,7 @@ import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
 import CanvasPointset from "../components/CanvasPointset";
+import Annotations from "../components/Annotations";
 
 class SvgStrategyScatterplot extends SvgStrategy {
     /**
@@ -38,14 +39,15 @@ class SvgStrategyScatterplot extends SvgStrategy {
      * @memberOf SvgStrategyScatterplot
      */
     private canvasMarkers: CanvasPointset;
-
     private legend: Legend;
+    private annotations: Annotations;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.markers = new Pointset(this.axes.x, this.axes.y);
         this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
+        this.annotations = new Annotations(this.axes.x, this.axes.y);
     }
 
     public draw(data: [{}]) {
@@ -67,7 +69,7 @@ class SvgStrategyScatterplot extends SvgStrategy {
         super.initialize();
         let legend = this.config.get('legend');
 
-        this.container.add(this.axes);
+        this.container.add(this.axes).add(this.annotations);
 
         if (this.config.get('canvas')) {
             this.container.add(this.canvasMarkers);

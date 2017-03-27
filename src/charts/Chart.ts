@@ -44,7 +44,10 @@ abstract class Chart {
         this.context = this._injector.instantiate(SvgContext);
     }
 
-
+    public annotations(annotations: any): Chart {
+        this.config.put('annotations', annotations);
+        return this;
+    }
 
     public draw(data: [{}] = this.data) { //TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
         this.context.draw(copy(data));
@@ -105,7 +108,6 @@ abstract class Chart {
                 filteredDatum.push(datum);
             }
         }
-
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
