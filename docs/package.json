@@ -47,7 +47,8 @@
   },
   "dependencies": {
     "d3": "^4.7.1",
-    "d3-svg-legend": "github:jorgeyp/d3-legend",
+    "d3-svg-annotation": "github:jorgeyp/d3-annotation",
+    "d3-svg-legend": "^2.22.0",
     "rxjs": "^5.1.0"
   },
   "devDependencies": {
