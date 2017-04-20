@@ -119,11 +119,19 @@ export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>
   return false;
 }
 
-
 export function arrayDiff(a: Array<string>, b: Array<string>) {
   return b.filter((i) => a.indexOf(i) < 0);
 };
 
+export function filterKeys(datum: any, keys: any[]) {
+    let anemicDatum: any = {};
+
+    for (let k of keys) {
+        anemicDatum[k] = datum[k];
+    }
+
+    return anemicDatum;
+}
 
 // /** 
 //  * Get the list of visualizations available in Proteic.js

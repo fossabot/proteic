@@ -43,7 +43,7 @@ class ColorLegend extends Component {
             return;
         }
 
-        colorScale.domain([0, max(data, (d: any) => d[propertyZ])]);
+        colorScale.domain([min(data, (d: any) => d[propertyZ]), max(data, (d: any) => d[propertyZ])]);
 
         let colorLegend = legendColor()
             .title(legendTitle)

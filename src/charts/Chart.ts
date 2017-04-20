@@ -1,5 +1,5 @@
 import { SvgContext } from "../svg/base/SvgContext";
-import { copy, isValuesInObjectKeys, hasValuesWithKeys } from "../utils/functions";
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from "../utils/functions";
 import { throwError } from "../utils/error";
 import { Subscription } from 'rxjs';
 import { calculateWidth } from "../utils/screen";
@@ -99,22 +99,23 @@ abstract class Chart {
                 this.config.get('propertyY'),
                 this.config.get('propertyZ')
             ],
-            filteredDatum = [];
+            cleanDatum = [],
+            filteredDatum = filterKeys(datum, keys);
 
         if (datumType === Array) {
-            filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+            cleanDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
         } else {
-            if (!hasValuesWithKeys(datum, nullValues, keys)) {
-                filteredDatum.push(datum);
+            if (!hasValuesWithKeys(filteredDatum, nullValues, keys)) {
+                cleanDatum.push(filteredDatum);
             }
         }
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
-                this.data = this.data.concat(filteredDatum);
+                this.data = this.data.concat(cleanDatum);
                 break;
             case StreamingStrategy.REPLACE:
-                this.data = filteredDatum;
+                this.data = cleanDatum;
                 break;
             case StreamingStrategy.NONE:
                 break;
@@ -123,6 +124,7 @@ abstract class Chart {
 
         //Detect excess of elements given a maxNumberOfElements property
         if (numberOfElements > maxNumberOfElements) {
+            console.log('MAXNUMBEROFELEMENTS');
             let position = numberOfElements - maxNumberOfElements;
             this.data = this.data.slice(position);
         }
