@@ -10,6 +10,7 @@ import Datasource from "../datasources/Datasource";
 import WebsocketDatasource from "../datasources/WebsocketDatasource";
 import Config from "../Config";
 import SvgStrategy from "../svg/base/SvgStrategy";
+import Globals from '../Globals';
 
 abstract class Chart {
 
@@ -69,6 +70,7 @@ abstract class Chart {
         );
 
         this.subscription = subscription;
+        setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
     }
 
     public removeDatasource() {
@@ -128,8 +130,6 @@ abstract class Chart {
             let position = numberOfElements - maxNumberOfElements;
             this.data = this.data.slice(position);
         }
-
-        this.draw(copy(this.data));
     }
 }
 
