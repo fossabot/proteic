@@ -49,6 +49,9 @@
                     <a class="nav-item" href="catalogue.html">
                         Catalogue
                     </a>
+                    <a class="nav-item" href="components.html">
+                        Components
+                    </a>
                     <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
                         Documentation
                     </a>
@@ -93,6 +96,7 @@
         <nav class="tabs">
             <div class="container">
                 <ul>
+                    <li><a href="#annotations">Annotations</a></li>
                     <li><a href="#areas">Areas</a></li>
                     <li><a href="#bars">Barchart</a></li>
                     <li><a href="#gauge">Gauge</a></li>
@@ -106,6 +110,18 @@
                 </ul>
             </div>
         </nav>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="title is-2">Annotations</h2>
+    <div class="columns">
+        <div class="column">
+            <div id='annotations-scatterplot'></div>
+        </div>
+        <div class="column">
+            <div id='annotations-linechart'></div>
+        </div>
     </div>
 </section>
 
@@ -479,6 +495,21 @@
     dsSunburst.start();
     dsSwimlane.start();
     
+    var annotationsScatterplot = new proteic.Scatterplot(iris,{
+        selector: '#annotations-scatterplot',
+		xAxisLabel:'Petal length (cm)',
+		propertyX: 'petalLength',
+		yAxisLabel:'Petal width (cm)',
+		propertyY: 'petalWidth',
+		markerShape: 'triangle',
+		propertyKey: 'species',
+		onClick: (d) => window.console.log(d)
+	}).annotations([
+		{ type: 'threshold', axis: 'y', value: 1.8, text: 'Test' },
+		{ type: 'threshold', axis: 'x', value: 2, text: 'Test' }
+	]);
+    annotationsScatterplot.draw();
+
     var areas = new proteic.StackedArea(dataTemporal, {
         selector: '#areas',
         height: 200,
