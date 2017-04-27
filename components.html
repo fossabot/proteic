@@ -1,0 +1,175 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>
+<html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>
+<html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+    <title>Components | Proteic.js</title>
+   <!-- <script src="https://d3js.org/d3.v4.min.js"></script>-->
+    <script src="https://rawgit.com/proteus-h2020/proteic/development/dist/proteic.js"></script>
+    <script src="https://use.fontawesome.com/4286931dd8.js"></script>
+    <script src="https://cdn.rawgit.com/tholman/elevator.js/master/elevator.min.js"></script>
+    <script src="./datasets.js"></script>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/proteus-h2020/proteic/development/dist/proteic.css">
+    <style>
+        .elevator-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="hero is-primary is-bold">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <header class="nav">
+            <div class="container">
+                <div class="nav-left">
+                    <a class="nav-item is-brand">
+                        <img src="images/favicon.png" alt="Logo">
+                    </a>
+                    <a href="/" class="nav-item title">Proteic.js</a>
+                </div>
+                <div class="nav-right nav-menu">
+                    <a class="nav-item is-active" href="index.html">
+                        Home
+                    </a>
+                    <a class="nav-item" href="catalogue.html">
+                        Catalogue
+                    </a>
+                    <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
+                        Documentation
+                    </a>
+                    <a href="docs/" class="nav-item">
+                        API docs
+                    </a>
+                    <a href="/bundle.html" class="nav-item">
+                        Customize your bundle
+                    </a>
+                    <a href="https://twitter.com/proteicjs" class="nav-item">
+                        <span class="icon">
+                            <i class="fa fa-twitter"></i>
+                        </span>
+                    </a>
+                    <span class="nav-item">
+                    <a class="button is-primary is-inverted" href="https://github.com/proteus-h2020/proteic">
+                        <span class="icon">
+                        <i class="fa fa-github"></i>
+                        </span>
+                        <span>Source code</span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="colums">
+                <div class="column ">
+                    <h1 class="title">
+                        Visualization catalogue
+                    </h1>
+                    <h2 class="subtitle">
+                        These are the visualizations available in Proteic.js. More coming soon!
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-foot">
+        <nav class="tabs">
+            <div class="container">
+                <ul>
+                    <li><a href="#annotations">Annotations</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="title is-2">Annotations</h2>
+    <p>You can double click the annotations to edit them.</p>
+    <p><strong>Try moving the mean petal length annotation out the way!</strong></p>
+    <div class="columns">
+        <div class="column">
+            <div id='annotations-scatterplot'></div>
+        </div>
+        <div class="column">
+            <div id='annotations-linechart'></div>
+        </div>
+    </div>
+</section>
+
+
+<a class="button is-small elevator-button">
+    <span class="icon is-small">
+        <i class="fa fa-chevron-up"></i>
+    </span>
+    <span>Top</span>
+</a>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <div class="image is-96x96 is-flex" style="align-items: center; margin: auto; display: flex;">
+                <img src="images/eu-flag.jpg" alt="">
+            </div>
+            <p style="font-family: Calibri, sans-serif">This project is funded by the European Union.</p>
+            <p style="font-family: Calibri, sans-serif">(Horizon 2020, Ref: 687691)</p>
+            <a class="icon" href="https://github.com/proteus-h2020/">
+                <i class="fa fa-github"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+
+    var annotationsScatterplot = new proteic.Scatterplot(iris,{
+        selector: '#annotations-scatterplot',
+		xAxisLabel:'Petal length (cm)',
+		propertyX: 'petalLength',
+		yAxisLabel:'Petal width (cm)',
+		propertyY: 'petalWidth',
+		markerShape: 'triangle',
+		propertyKey: 'species',
+		onClick: (d) => window.console.log(d),
+        marginRight: 130,
+        marginLeft: 100,
+        height: 200,
+        width: '100%'
+	}).annotations([
+		{ type: 'threshold', axis: 'y', value: 1.199, text: 'Mean petal width' },
+		{ type: 'threshold', axis: 'x', value: 3.758, text: 'Mean petal length' }
+	]);
+    annotationsScatterplot.draw();
+
+
+</script>
+<script>
+  // Elevator script included on the page, already.
+
+  window.onload = function() {
+    var elevator = new Elevator({
+      element: document.querySelector('.elevator-button'),
+      duration: 1000 // milliseconds
+    });
+  }
+</script>
+</body>
+
+</html>
