@@ -12,6 +12,7 @@
 Proteic.js is a general purpose data visualization library built for both static and streaming data. It provides a wide [catalogue](https://proteic.js.org/catalogue.html) of ready-to-use visualizations, a fluent API for easy configuration, and connectors for streams of data over different protocols like WebSocket and HTTP. The library is built with a modular architecture, focusing on code cleanliness so it can be easily extended and customized. 
 
 Development of Proteic.js is funded by the European Union as part of the broader [PROTEUS project](https://www.proteus-bigdata.com/). 🇪🇺
+
 We invite you to [contribute](/CONTRIBUTING.md)! 🌎🌍🌏  
 
 ![Annotated scatterplot](/images/annotated-scatterplot.png)
