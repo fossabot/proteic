@@ -40,7 +40,7 @@ class Pointset extends Component {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
-
+        
         let dataSeries = nest()
             .key((d: any) => d[propertyKey])
             .entries(data),
@@ -91,13 +91,14 @@ class Pointset extends Component {
         .data(dataSeries);
 
         // UPDATE series
+        // NOTE: d.key instead of d[propertyKey] because dataSeries is d3.Nest
         serie.attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
         // ENTER + UPDATE series
         serie = serie.enter().append('g')
         .attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
         .merge(serie);
 
         // EXIT series
