@@ -5,6 +5,7 @@ import { max, min } from "d3-array";
 import Globals from "../../Globals";
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from "../../utils/functions";
 
 class Annotations extends Component {
     private y: YAxis;
@@ -22,7 +23,7 @@ class Annotations extends Component {
             .attr('class', 'annotations');
     }
 
-    public update(data: [any]) {
+    public update(data: [any], events: Map<string,any>) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
@@ -32,13 +33,18 @@ class Annotations extends Component {
             minX = min(data, (d) => d[propertyX]),
             minY = min(data, (d) => d[propertyY]),
             maxX = max(data, (d) => d[propertyX]),
-            maxY = max(data, (d) => d[propertyY]);
+            maxY = max(data, (d) => d[propertyY]),
+            datum = null;
 
-        this.x.updateDomainByMinMax(minX, maxX);
-        this.y.updateDomainByMinMax(minY, maxY);
 
         if (!annotations) {
             return;
+        }
+
+        for (let a of annotations) {
+            if (a.event) {
+                a.value = events.get(a.event);
+            }
         }
 
         let annotation = d3Annotation.annotation()
@@ -46,7 +52,9 @@ class Annotations extends Component {
                 let annotation = null;
                 switch (a.type) {
                     case 'threshold':
-                        annotation = this.makeThresholdAnnotation(a);
+                        if (a.value) {
+                            annotation = this.makeThresholdAnnotation(a);
+                        }
                         break;
                 }
                 return annotation;

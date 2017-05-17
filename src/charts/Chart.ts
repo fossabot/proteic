@@ -17,6 +17,7 @@ abstract class Chart {
     private context: SvgContext;
     protected config: Config;
     protected data: any;
+    private events: Map<string, any>;
     private subscription: Subscription;
     private _injector: Injector = new Injector();
     private strategy: SvgStrategy;
@@ -31,6 +32,7 @@ abstract class Chart {
         this._instantiateInjections(Class);
 
         this.data = data;
+        this.events = new Map();
     }
 
     private _instantiateInjections(Class: { new (...args: any[]): SvgStrategy }) {
@@ -50,8 +52,8 @@ abstract class Chart {
         return this;
     }
 
-    public draw(data: [{}] = this.data) { //TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
-        this.context.draw(copy(data));
+    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) { //TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
+        this.context.draw(copy(data), this.events);
         this.data = data;
     }
 
@@ -63,8 +65,24 @@ abstract class Chart {
      * @memberOf Chart
      */
     public datasource(ds: WebsocketDatasource) {
+        let annotations = this.config.get('annotations'),
+            eventKeys: Array<string> = [];
+
+        if (annotations) {
+            annotations.forEach((a: any) => eventKeys.push(a.event))
+        }
+
         let subscription: Subscription = ds.subscription().subscribe(
-            (data: any) => this.keepDrawing(data),
+            (data: any) => {
+                // Event detection
+                for (let e of eventKeys) {
+                    if (e in data) {
+                        this.events.set(e, data[e]);
+                        return;
+                    }
+                }
+                return this.keepDrawing(data);
+            },
             (e: any) => throwError(e),
             () => console.log('Completed subject')
         );
@@ -90,27 +108,38 @@ abstract class Chart {
         return config;
     }
 
-    protected keepDrawing(datum: any): void {
-        let streamingStrategy = this.config.get('streamingStrategy'),
-            nullValues = this.config.get('nullValues'),
-            maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
-            numberOfElements = this.data.length,
+    private cleanDatum(datum: any, dataKeys: Array<any>) {
+        let cleanDatum = [],
             datumType = datum.constructor,
-            keys = [
-                this.config.get('propertyX'),
-                this.config.get('propertyY'),
-                this.config.get('propertyZ')
-            ],
-            cleanDatum = [],
-            filteredDatum = filterKeys(datum, keys);
+            nullValues = this.config.get('nullValues'),
+            filteredDatum = filterKeys(datum, dataKeys);
 
         if (datumType === Array) {
-            cleanDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
+            cleanDatum = datum.filter(isValuesInObjectKeys(nullValues, dataKeys));
         } else {
-            if (!hasValuesWithKeys(filteredDatum, nullValues, keys)) {
+            if (!hasValuesWithKeys(filteredDatum, nullValues, dataKeys)) {
                 cleanDatum.push(filteredDatum);
             }
         }
+
+        return cleanDatum;
+    }
+
+    protected keepDrawing(datum: any): void {
+        let streamingStrategy = this.config.get('streamingStrategy'),
+            maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
+            numberOfElements = this.data.length,
+            propertyX = this.config.get('propertyX'),
+            propertyY = this.config.get('propertyY'),
+            propertyZ = this.config.get('propertyZ');
+
+        let dataKeys = [
+            propertyX,
+            propertyY,
+            propertyZ
+        ].filter((p) => p !== undefined);
+
+        let cleanDatum = this.cleanDatum(datum, dataKeys);
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
@@ -126,7 +155,6 @@ abstract class Chart {
 
         //Detect excess of elements given a maxNumberOfElements property
         if (numberOfElements > maxNumberOfElements) {
-            console.log('MAXNUMBEROFELEMENTS');
             let position = numberOfElements - maxNumberOfElements;
             this.data = this.data.slice(position);
         }

@@ -83,10 +83,10 @@ class Container {
      * @memberOf Container
     
      */
-    public updateComponents(data: [{}]): void {
+    public updateComponents(data: [{}], events?: Map<string, any>): void {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
-            component.update(data);
+            component.update(data, events);
         }
     }
 
