@@ -126,17 +126,20 @@ abstract class Chart {
     }
 
     protected keepDrawing(datum: any): void {
+        console.log(datum);
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
-            propertyZ = this.config.get('propertyZ');
+            propertyZ = this.config.get('propertyZ'),
+            propertyKey = this.config.get('propertyKey');
 
         let dataKeys = [
             propertyX,
             propertyY,
-            propertyZ
+            propertyZ,
+            propertyKey
         ].filter((p) => p !== undefined);
 
         let cleanDatum = this.cleanDatum(datum, dataKeys);
