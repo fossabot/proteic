@@ -1,5 +1,5 @@
 import { SvgContext } from "../svg/base/SvgContext";
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from "../utils/functions";
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys, melt } from "../utils/functions";
 import { throwError } from "../utils/error";
 import { Subscription } from 'rxjs';
 import { calculateWidth } from "../utils/screen";
@@ -81,7 +81,23 @@ abstract class Chart {
                         return;
                     }
                 }
-                return this.keepDrawing(data);
+                // Wide data to narrow and draw
+                let pivotVars = this.config.get('pivotVars');
+                let keys = Object.keys(data);
+                let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
+                let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
+                
+                if(varsInDatum.length < 2) {
+                    this.keepDrawing(data);
+                } else {
+                    this.keepDrawing(melt(
+                        data, 
+                        varsInDatum, 
+                        ids, 
+                        this.config.get('propertyKey'),
+                        'value'
+                    ));
+                }
             },
             (e: any) => throwError(e),
             () => console.log('Completed subject')
@@ -89,6 +105,19 @@ abstract class Chart {
 
         this.subscription = subscription;
         setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+
+        return this;
+    }
+
+    /**
+     * Pivot wide format data coming from the Datasource to narrow format.
+     * 
+     * Incoming data may contain mixed narrow and wide formats that will be
+     * treated appropriately.
+     */
+    public pivot(vars: Array<string>): Chart {
+        this.config.put('pivotVars', vars);
+        return this;
     }
 
     public removeDatasource() {
