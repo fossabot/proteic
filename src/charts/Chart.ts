@@ -79,7 +79,6 @@ abstract class Chart {
                 for (let e of eventKeys) {
                     if (e in data) {
                         this.events.set(e, data[e]);
-                        return;
                     }
                 }
                 // Wide data to narrow and draw
