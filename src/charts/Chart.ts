@@ -1,5 +1,5 @@
 import { SvgContext } from "../svg/base/SvgContext";
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from "../utils/functions";
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys, melt } from "../utils/functions";
 import { throwError } from "../utils/error";
 import { Subscription } from 'rxjs';
 import { calculateWidth } from "../utils/screen";
@@ -33,6 +33,7 @@ abstract class Chart {
 
         this.data = data;
         this.events = new Map();
+        this.config.put('pivotVars', []);
     }
 
     private _instantiateInjections(Class: { new (...args: any[]): SvgStrategy }) {
@@ -81,7 +82,23 @@ abstract class Chart {
                         return;
                     }
                 }
-                return this.keepDrawing(data);
+                // Wide data to narrow and draw
+                let pivotVars = this.config.get('pivotVars');
+                let keys = Object.keys(data);
+                let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
+                let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
+                
+                if(varsInDatum.length < 2) {
+                    this.keepDrawing(data);
+                } else {
+                    this.keepDrawing(melt(
+                        data, 
+                        varsInDatum, 
+                        ids, 
+                        this.config.get('propertyKey'),
+                        'value'
+                    ));
+                }
             },
             (e: any) => throwError(e),
             () => console.log('Completed subject')
@@ -89,6 +106,19 @@ abstract class Chart {
 
         this.subscription = subscription;
         setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+
+        return this;
+    }
+
+    /**
+     * Unpivot wide format data coming from the Datasource to narrow format.
+     * 
+     * Incoming data may contain mixed narrow and wide formats that will be
+     * treated appropriately.
+     */
+    public unpivot(vars: Array<string>): Chart {
+        this.config.put('pivotVars', vars);
+        return this;
     }
 
     public removeDatasource() {
@@ -126,7 +156,6 @@ abstract class Chart {
     }
 
     protected keepDrawing(datum: any): void {
-        console.log(datum);
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,

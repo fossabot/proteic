@@ -53,6 +53,33 @@ export function keys(array: Array<any>, field: string): Set<any> {
   return keys;
 }
 
+/**
+ * Reshapes a datum from wide format to narrow
+ * 
+ * For example:
+ * { id: 1234, name: 'Bob', age: 32, weight: 86 }
+ *    =>
+ * [
+ *    { id: 1234, name: 'Bob', key: age, value: 32 },
+ *    { id: 1234, name: 'Bob', key: weight, value: 86 }
+ * ]
+ * 
+ */
+export function melt(wideDatum: any, vars: Array<string>, id: Array<string>, propertyKey: string, propertyValue: string) {
+    let narrow: any = [];
+
+    vars.forEach((v) => {
+        let obs: any = {};
+        let value = wideDatum[v];
+        obs[propertyKey] = v;
+        obs[propertyValue] = value;
+        id.forEach((id: any) => { obs[id] = wideDatum[id] });
+        narrow.push(obs);
+    });
+
+    return narrow;
+}
+
 
 export function sortBy(array: Array<any>, o: any) {
   let _toString = Object.prototype.toString;
