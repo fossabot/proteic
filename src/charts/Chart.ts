@@ -110,12 +110,12 @@ abstract class Chart {
     }
 
     /**
-     * Pivot wide format data coming from the Datasource to narrow format.
+     * Unpivot wide format data coming from the Datasource to narrow format.
      * 
      * Incoming data may contain mixed narrow and wide formats that will be
      * treated appropriately.
      */
-    public pivot(vars: Array<string>): Chart {
+    public unpivot(vars: Array<string>): Chart {
         this.config.put('pivotVars', vars);
         return this;
     }
