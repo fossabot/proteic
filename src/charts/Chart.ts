@@ -33,6 +33,7 @@ abstract class Chart {
 
         this.data = data;
         this.events = new Map();
+        this.config.put('pivotVars', []);
     }
 
     private _instantiateInjections(Class: { new (...args: any[]): SvgStrategy }) {
@@ -155,7 +156,6 @@ abstract class Chart {
     }
 
     protected keepDrawing(datum: any): void {
-        console.log(datum);
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
