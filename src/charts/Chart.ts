@@ -67,20 +67,25 @@ abstract class Chart {
      */
     public datasource(ds: WebsocketDatasource) {
         let annotations = this.config.get('annotations'),
-            eventKeys: Array<string> = [];
+            eventKeys: Set<string> = new Set;
 
         if (annotations) {
-            annotations.forEach((a: any) => eventKeys.push(a.event))
+            annotations.forEach((a: any) => {
+                eventKeys.add(a.event);
+                eventKeys.add(a.variable);
+                eventKeys.add(a.width);
+            })
         }
 
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => {
                 // Event detection
-                for (let e of eventKeys) {
+                eventKeys.forEach((e) => {
                     if (e in data) {
                         this.events.set(e, data[e]);
                     }
-                }
+                });
+
                 // Wide data to narrow and draw
                 let pivotVars = this.config.get('pivotVars');
                 let keys = Object.keys(data);
