@@ -48,7 +48,7 @@ abstract class Chart {
         this.context = this._injector.instantiate(SvgContext);
     }
 
-    public annotations(annotations: any): Chart {
+    public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         return this;
     }
@@ -120,7 +120,7 @@ abstract class Chart {
      * Incoming data may contain mixed narrow and wide formats that will be
      * treated appropriately.
      */
-    public unpivot(vars: Array<string>): Chart {
+    public unpivot(vars: Array<string>) {
         this.config.put('pivotVars', vars);
         return this;
     }
