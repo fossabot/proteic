@@ -36,18 +36,8 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
-
         if (!annotations) {
             return;
-        }
-
-        for (let a of annotations) {
-            if (a.event) {
-                a.value = events.get(a.event);
-            } else if (a.variable && a.width) {
-                a.value = events.get(a.variable);
-                a.width = events.get('variance');
-            }
         }
 
         let annotation = d3Annotation.annotation()
@@ -55,21 +45,29 @@ class Annotations extends Component {
                 let annotation = null;
                 switch (a.type) {
                     case 'threshold':
+                        if (a.variable) {
+                            a.value = events.get(a.variable);
+                        }
                         if (a.value) {
                             annotation = this.makeThresholdAnnotation(a);
                         }
                         break;
                     case 'band':
-                        annotation = this.makeBandAnnotation(a, minY);
+                        a.value = events.get(a.variable);
+                        a.width = events.get('variance');
+                        if (a.value && a.width) {
+                            annotation = this.makeBandAnnotation(a, minY);
+                        }
                         break;
                     default:
                         console.warn('Unknown annotation type', a.type);
                 }
                 return annotation;
-            }));
+            }).filter((a: any) => a)); // Filter nulls
+        
         this.svg.select('.annotations')
-        .call(annotation)
-        .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
+            .call(annotation)
+            .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
     }
 
     private makeBandAnnotation(annotationData: any, minY: number) {
