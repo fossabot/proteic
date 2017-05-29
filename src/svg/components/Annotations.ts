@@ -36,15 +36,8 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
-
         if (!annotations) {
             return;
-        }
-
-        for (let a of annotations) {
-            if (a.event) {
-                a.value = events.get(a.event);
-            }
         }
 
         let annotation = d3Annotation.annotation()
@@ -52,16 +45,47 @@ class Annotations extends Component {
                 let annotation = null;
                 switch (a.type) {
                     case 'threshold':
+                        if (a.variable) {
+                            a.value = events.get(a.variable);
+                        }
                         if (a.value) {
                             annotation = this.makeThresholdAnnotation(a);
                         }
                         break;
+                    case 'band':
+                        a.value = events.get(a.variable);
+                        a.width = events.get('variance');
+                        if (a.value && a.width) {
+                            annotation = this.makeBandAnnotation(a, minY);
+                        }
+                        break;
+                    default:
+                        console.warn('Unknown annotation type', a.type);
                 }
                 return annotation;
-            }));
+            }).filter((a: any) => a)); // Filter nulls
+        
         this.svg.select('.annotations')
-        .call(annotation)
-        .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
+            .call(annotation)
+            .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
+    }
+
+    private makeBandAnnotation(annotationData: any, minY: number) {
+        let width: number = this.config.get('width'),
+            height: number = this.config.get('height'),
+            annotation = null,
+            y = this.y.yAxis.scale(),
+            annotationHeight = y(height) - y(annotationData.width),
+            annotationY = y(annotationData.value) - annotationHeight / 2;
+
+            annotation = this.makeAreaAnnotation(
+                annotationY,
+                width,
+                annotationHeight,
+                annotationData.text
+            );
+        
+        return annotation;
     }
 
     private makeThresholdAnnotation(annotationData: any) {
@@ -84,6 +108,23 @@ class Annotations extends Component {
                 throw new SyntaxError(`Unknown annotation axis: ${annotationData.axis}`);
         }
         return annotation;
+    }
+
+    private makeAreaAnnotation(y: number, width: number, height: number, text: string) {
+        return {
+            x: 0, // Rect X
+            y: y, // Rect Y
+            type: d3Annotation.annotationCalloutRect,
+            dy: 80, // Label Y
+            dx: width+20, // Label X
+            subject: {
+                width: width, // Width of the rect
+                height: height // Height of the rect
+            },
+            note: {
+                label: text,
+            }
+        }
     }
 
     private makeXThresholdAnnotation(x: number, y: number, text: string) {

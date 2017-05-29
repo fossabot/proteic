@@ -48,7 +48,7 @@ abstract class Chart {
         this.context = this._injector.instantiate(SvgContext);
     }
 
-    public annotations(annotations: any): Chart {
+    public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         return this;
     }
@@ -67,20 +67,25 @@ abstract class Chart {
      */
     public datasource(ds: WebsocketDatasource) {
         let annotations = this.config.get('annotations'),
-            eventKeys: Array<string> = [];
+            eventKeys: Set<string> = new Set;
 
         if (annotations) {
-            annotations.forEach((a: any) => eventKeys.push(a.event))
+            annotations.forEach((a: any) => {
+                eventKeys.add(a.event);
+                eventKeys.add(a.variable);
+                eventKeys.add(a.width);
+            })
         }
 
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => {
                 // Event detection
-                for (let e of eventKeys) {
+                eventKeys.forEach((e) => {
                     if (e in data) {
                         this.events.set(e, data[e]);
                     }
-                }
+                });
+
                 // Wide data to narrow and draw
                 let pivotVars = this.config.get('pivotVars');
                 let keys = Object.keys(data);
@@ -115,7 +120,7 @@ abstract class Chart {
      * Incoming data may contain mixed narrow and wide formats that will be
      * treated appropriately.
      */
-    public unpivot(vars: Array<string>): Chart {
+    public unpivot(vars: Array<string>) {
         this.config.put('pivotVars', vars);
         return this;
     }
