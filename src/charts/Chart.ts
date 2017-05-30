@@ -191,6 +191,8 @@ abstract class Chart {
             let position = numberOfElements - maxNumberOfElements;
             this.data = this.data.slice(position);
         }
+                this.draw(copy(this.data));
+
     }
 }
 
