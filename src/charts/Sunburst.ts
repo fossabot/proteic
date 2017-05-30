@@ -14,7 +14,7 @@ class Sunburst extends Chart {
         );
     }
 
-    protected keepDrawing(datum: any) {
+    public keepDrawing(datum: any) {
         let datumType = datum.constructor;
         if (datumType === Array) {
             if (this.data) {
