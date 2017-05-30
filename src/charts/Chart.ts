@@ -66,44 +66,8 @@ abstract class Chart {
      * @memberOf Chart
      */
     public datasource(ds: WebsocketDatasource) {
-        let annotations = this.config.get('annotations'),
-            eventKeys: Set<string> = new Set;
-
-        if (annotations) {
-            annotations.forEach((a: any) => {
-                eventKeys.add(a.event);
-                eventKeys.add(a.variable);
-                eventKeys.add(a.width);
-            })
-        }
-
         let subscription: Subscription = ds.subscription().subscribe(
-            (data: any) => {
-                // Event detection
-                eventKeys.forEach((e) => {
-                    if (e in data) {
-                        this.events.set(e, data[e]);
-                    }
-                });
-
-                // Wide data to narrow and draw
-                let pivotVars = this.config.get('pivotVars');
-                let keys = Object.keys(data);
-                let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
-                let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
-                
-                if(varsInDatum.length < 2) {
-                    this.keepDrawing(data);
-                } else {
-                    this.keepDrawing(melt(
-                        data, 
-                        varsInDatum, 
-                        ids, 
-                        this.config.get('propertyKey'),
-                        'value'
-                    ));
-                }
-            },
+            (data: any) => this.keepDrawing(data),
             (e: any) => throwError(e),
             () => console.log('Completed subject')
         );
@@ -174,6 +138,39 @@ abstract class Chart {
             propertyZ,
             propertyKey
         ].filter((p) => p !== undefined);
+
+        let annotations = this.config.get('annotations'),
+        eventKeys: Set<string> = new Set;
+
+        if (annotations) {
+            annotations.forEach((a: any) => {
+                eventKeys.add(a.variable);
+                eventKeys.add(a.width);
+            })
+        }
+
+        // Event detection
+        eventKeys.forEach((e) => {
+            if (e in datum) {
+                this.events.set(e, datum[e]);
+            }
+        });
+
+        // Wide data to narrow and draw
+        let pivotVars = this.config.get('pivotVars');
+        let keys = Object.keys(datum);
+        let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
+        let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
+
+        if (varsInDatum.length >= 2) {
+            datum = melt(
+                datum, 
+                varsInDatum, 
+                ids, 
+                this.config.get('propertyKey'),
+                'value'
+            )
+        }
 
         let cleanDatum = this.cleanDatum(datum, dataKeys);
 
