@@ -17,7 +17,7 @@ abstract class SvgStrategy {
         this.container = new Container(this.config);
     }
 
-    abstract draw(data: [{}], events: Map<string, any>): void;
+    abstract draw(data: [{}]): void;
 
 
     public addLoading() {

@@ -26,15 +26,11 @@
         <h2>Canvas</h2>
         <div id='chart2'></div>
         <script>
-            var ws = new WebSocket('ws://localhost:3000/scatterplot');
+            var ws = new WebSocket('wss://proteicws.herokuapp.com/scatterplot');
             var ds = new proteic.WebsocketDatasource(ws);
             //No draw() call, since it is connected to a endpoint and data is automaticaly drawn.
             //Chart uses #chart selector by default
-            chart = new proteic.Scatterplot([]).annotations([
-                {type: 'threshold', axis: 'y', event: 'meanY', text: 'Y Mean'},
-                {type: 'threshold', axis: 'x', value: 5, text: 'Test'},
-                {type: 'threshold', axis: 'x', event: 'meanX', text: 'X Mean'}
-            ]).datasource(ds);
+            chart = new proteic.Scatterplot([]).datasource(ds);
             //Start streaming
 
             chart2 = new proteic.Scatterplot([], {
