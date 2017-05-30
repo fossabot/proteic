@@ -123,7 +123,7 @@ abstract class Chart {
         return cleanDatum;
     }
 
-    protected keepDrawing(datum: any): void {
+    public keepDrawing(datum: any): void {
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
