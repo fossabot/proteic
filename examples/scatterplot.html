@@ -19,8 +19,6 @@
 <div id='chart'></div>
 <h2>Canvas</h2>
 <div id='chart2'></div>
-<h2>Behold the Datasaurus!</h2>
-<div id='datasaurus'></div>
 
 <script>
 	var data = [
@@ -198,16 +196,6 @@
 				onClick: (d) => window.console.log(d)
 	});
 	chart2.draw();
-
-	var chartDatasaurus = new proteic.Scatterplot(datasaurus ,{
-			selector: '#datasaurus',
-			onClick: (d) => window.console.log(d)
-	}).annotations([
-		{type: 'threshold', axis: 'x', event: 'x-mean', text: 'X Mean'}
-		// {type: 'threshold', axis: 'x', value: 54.26, text: 'X Mean'},
-		// {type: 'threshold', axis: 'y', value: 47.83, text: 'Y Mean'}
-	]);
-	chartDatasaurus.draw();
 
 </script>
 </body>

@@ -9,7 +9,7 @@ abstract class Component {
     constructor() {
     }
 
-    abstract update(data: any, events?: Map<string, any>): void;
+    abstract update(data: any): void;
 
     abstract render(): void;
 
