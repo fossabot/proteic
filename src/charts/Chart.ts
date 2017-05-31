@@ -21,6 +21,7 @@ abstract class Chart {
     private subscription: Subscription;
     private _injector: Injector = new Injector();
     private strategy: SvgStrategy;
+    private isStreaming: boolean = false;
 
     protected streamingStrategy: StreamingStrategy;
 
@@ -73,7 +74,6 @@ abstract class Chart {
         );
 
         this.subscription = subscription;
-        setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
 
         return this;
     }
@@ -138,6 +138,11 @@ abstract class Chart {
             propertyZ,
             propertyKey
         ].filter((p) => p !== undefined);
+
+        if (!this.isStreaming) {
+            setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+            this.isStreaming = true;   
+        }
 
         let annotations = this.config.get('annotations'),
         eventKeys: Set<string> = new Set;
