@@ -13,6 +13,7 @@ export const defaults: any = {
     xAxisFormat: '',
     xAxisLabel: '',
     xAxisGrid: false,
+    xTicksTextRotation: 65,
     yAxisType: 'categorical',
     yAxisFormat: '',
     yAxisLabel: '',

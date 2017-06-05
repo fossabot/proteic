@@ -25,20 +25,23 @@ class XAxis extends Component {
             xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             xAxisLabel = this.config.get('xAxisLabel'),
-            xAxisGrid = this.config.get('xAxisGrid');
+            xAxisGrid = this.config.get('xAxisGrid'),
+            xTicksTextRotation = this.config.get('xTicksTextRotation');
 
         this.initializeXAxis(width, height, xAxisFormat, xAxisType, xAxisGrid);
 
-        this.svg
+        let axis = this.svg
             .append('g')
             .attr('class', `x axis ${xAxisType}`)
             .attr('transform', 'translate(0,' + height + ')')
             .call(this._xAxis);
 
+        this.rotateTicksText(axis.selectAll('text'));
+
         this.svg
             .append('text')
             .attr('class', 'xaxis-title')
-            .attr("text-anchor", "middle")
+            .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height + 40)
             .text(xAxisLabel)
@@ -69,6 +72,28 @@ class XAxis extends Component {
         this.transition();
     }
 
+    private rotateTicksText(ticksText: any) {
+        let rotation = this.config.get('xTicksTextRotation') || 0;
+        
+        switch(rotation) {
+            case 65 :
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '0.5em')
+                    .attr('dy', '0.1em')
+                    .style('text-anchor', 'start');
+            break;
+            case -90 :
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '-0.5em')
+                    .attr('dy', '-0.25em')
+                    .style('text-anchor', 'end');
+            break;
+            default:
+        }
+    }
+
     /**
      * Update x domain by keys
      *
@@ -85,7 +110,9 @@ class XAxis extends Component {
     }
 
     public transition(time: number = 200) {
-        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
+        let axis = this.svg.selectAll('.x.axis').transition().duration(time)
+        .call(this._xAxis);
+        this.rotateTicksText(axis.selectAll('text'));
         // Reorder the axis path to appear over the ticks
         this.svg.select('.x.axis path').raise();
     }
@@ -115,7 +142,7 @@ class XAxis extends Component {
                     .padding(0.1).align(0.5));
                 break;
             default:
-                throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+                throw new Error('Not allowed type for XAxis. Only allowed time,  linear or categorical. Got: ' + xAxisType);
         }
 
         if (xAxisGrid) {

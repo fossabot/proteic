@@ -14,6 +14,7 @@ export const defaults: any = {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: '',
     xAxisGrid: true,
+    xTicksTextRotation: 65,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: '',
