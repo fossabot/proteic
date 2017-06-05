@@ -19,7 +19,7 @@ export const defaults: any = {
     yAxisShow: true,
     yAxisGrid: true,
     //margins
-    marginTop: 20,
+    marginTop: 50,
     marginRight: 250,
     marginBottom: 130,
     marginLeft: 150,
@@ -31,6 +31,7 @@ export const defaults: any = {
     width: '100%', // %, auto, or numeric
     height: 250,
     legend: true,
+    legendPosition: 'right',
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',

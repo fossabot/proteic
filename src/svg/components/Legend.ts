@@ -27,7 +27,8 @@ class Legend extends Component {
             entries = null,
             colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
-            width = this.config.get('width');
+            width = this.config.get('width'),
+            legendPosition = this.config.get('legendPosition') || 'right';
 
         if (dataSeries.length === 1 && dataSeries[0].key === 'undefined') {
             console.warn('Not showing legend, since there is a valid key');
@@ -48,8 +49,6 @@ class Legend extends Component {
 
         enterEntries.append('rect')
         .attr('class', 'legend-cb')
-        .attr('x', width + 10)
-        .attr('y', (d: any, i: number) => i * 25)
         .attr('height', 20)
         .attr('width', 20)
         .style('fill', (d: any) => colorScale(d.key))
@@ -59,8 +58,6 @@ class Legend extends Component {
 
         enterEntries.append('text')
         .attr('class', 'legend-txt')
-        .attr("x", width + 25 + 10)
-        .attr("y", (d: any, i: number) => i * 25 + 7)
         .attr("dy", "0.55em")
         .text((d: any) => d.key)
         .style('font', '14px Montserrat, sans-serif')
@@ -68,17 +65,46 @@ class Legend extends Component {
 
         enterEntries.merge(entries);
 
+        switch(legendPosition) {
+            case 'top': 
+                this.drawTopLegendCb(legend);  
+                this.drawTopLegendTxt(legend);
+            break;
+            case 'right':
+                this.drawRightLegendCb(legend, width);  
+                this.drawRightLegendTxt(legend, width);
+            break;
+        }
+
+        entries.exit().remove();
+    }
+
+    private drawTopLegendCb(legend: any) {
+        legend.selectAll('.legend-cb')
+            .attr('x', (d: any, i: number) => i * 100)
+            .attr('y', -20 - 5)
+            .on('click.default', (d: any) => this.toggle(d));  
+    }
+
+    private drawRightLegendCb(legend: any, width: number) {
         legend.selectAll('.legend-cb')
             .attr('x', width + 10)
             .attr('y', (d: any, i: number) => i * 25)
-            .on('click.default', (d: any) => this.toggle(d));   
+            .on('click.default', (d: any) => this.toggle(d));  
+    }
 
+    private drawTopLegendTxt(legend: any) {
+        legend.selectAll('.legend-txt')
+        .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
+        .attr('y', -20 - 5 + 10)
+        .on('click.default', () => this.toggle);
+    }
+
+    private drawRightLegendTxt(legend: any, width: number) {
         legend.selectAll('.legend-txt')
         .attr("x", width + 25 + 10)
         .attr("y", (d: any, i: number) => i * 25 + 7)
         .on('click.default', () => this.toggle);
-
-        entries.exit().remove();
     }
 
     private toggle(d: any): void {
