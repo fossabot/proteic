@@ -9,6 +9,7 @@ export const defaults: any = {
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: '',
     xAxisGrid: true,
+    xTicksTextRotation: 0,
     yAxisType: 'categorical',
     yAxisFormat: 's',
     yAxisLabel: '',
