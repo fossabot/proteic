@@ -23,6 +23,7 @@ export const defaults: any = {
     width: '100%', // %, auto, or numeric 
     height: 250,
     legend: true,
+    legendPosition: 'right',
     propertyStart: 'start',
     propertyEnd: 'end',
     propertyY: 'key',

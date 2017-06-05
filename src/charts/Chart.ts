@@ -3,6 +3,7 @@ import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys, melt } from 
 import { throwError } from "../utils/error";
 import { Subscription } from 'rxjs';
 import { calculateWidth } from "../utils/screen";
+import { select } from 'd3-selection';
 
 import StreamingStrategy from './enums/StreamingStrategy';
 import Injector from '../MyInjector';
@@ -21,7 +22,7 @@ abstract class Chart {
     private subscription: Subscription;
     private _injector: Injector = new Injector();
     private strategy: SvgStrategy;
-    private isStreaming: boolean = false;
+    private streaming: number = null;
 
     protected streamingStrategy: StreamingStrategy;
 
@@ -95,6 +96,16 @@ abstract class Chart {
         }
     }
 
+    public stopDrawing() {
+        clearInterval(this.streaming);
+    }
+
+    public erase() {
+        this.removeDatasource();
+        this.stopDrawing();
+        select(this.config.get('selector')).remove();
+    }
+
     protected loadConfigFromUser(userData: any, defaults: any): Config {
         let config = new Config();
         for (let v in defaults) {
@@ -139,9 +150,8 @@ abstract class Chart {
             propertyKey
         ].filter((p) => p !== undefined);
 
-        if (!this.isStreaming) {
-            setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
-            this.isStreaming = true;   
+        if (!this.streaming) {
+            this.streaming = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
 
         let annotations = this.config.get('annotations'),

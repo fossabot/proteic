@@ -54,9 +54,12 @@ class Annotations extends Component {
                         break;
                     case 'band':
                         a.value = events.get(a.variable);
-                        a.width = events.get('variance');
                         if (a.value && a.width) {
-                            annotation = this.makeBandAnnotation(a, minY);
+                            let width = a.width;
+                            if (typeof a.width == 'string') {
+                                width = events.get(a.width);
+                            } 
+                            annotation = this.makeBandAnnotation(a.value, width, a.text, minY);
                         }
                         break;
                     default:
@@ -70,19 +73,19 @@ class Annotations extends Component {
             .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
     }
 
-    private makeBandAnnotation(annotationData: any, minY: number) {
-        let width: number = this.config.get('width'),
-            height: number = this.config.get('height'),
+    private makeBandAnnotation(value: number, width: number, text: string, minY: number) {
+        let chartWidth: number = this.config.get('width'),
+            chartHeight: number = this.config.get('height'),
             annotation = null,
             y = this.y.yAxis.scale(),
-            annotationHeight = y(height) - y(annotationData.width),
-            annotationY = y(annotationData.value) - annotationHeight / 2;
+            annotationHeight = y(chartHeight) - y(width),
+            annotationY = y(value) - annotationHeight / 2;
 
             annotation = this.makeAreaAnnotation(
                 annotationY,
-                width,
+                chartWidth,
                 annotationHeight,
-                annotationData.text
+                text
             );
         
         return annotation;
