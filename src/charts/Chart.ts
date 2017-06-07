@@ -177,7 +177,7 @@ abstract class Chart {
         let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
         let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
 
-        if (varsInDatum.length >= 2) {
+        if (varsInDatum.length >= 1) {
             datum = melt(
                 datum, 
                 varsInDatum, 
