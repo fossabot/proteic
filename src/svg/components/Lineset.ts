@@ -45,14 +45,14 @@ class Lineset extends Component {
         let colorScale = this.config.get('colorScale');
 
         //Update new lines
-        let lines = series.data(dataSeries, (d: any) => d[propertyKey])
+        let lines = series.data(dataSeries, (d: any) => d.key)
             .enter()
             .append('g')
             .attr('class', 'lineSeries')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .attr('stroke', (d: any) => colorScale(d[propertyKey]))
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
+            .attr('stroke', (d: any) => colorScale(d.key))
             .append('svg:path')
-            .style('stroke', (d: any) => colorScale(d[propertyKey]))
+            .style('stroke', (d: any) => colorScale(d.key))
             .style('stroke-width', 1.9)
             .style('fill', 'none')
             .attr('d', (d: any) => this.lineGenerator(d.values))
@@ -60,7 +60,7 @@ class Lineset extends Component {
 
         //update existing lines
         this.svg.selectAll('.line')
-            .data(dataSeries, (d: any) => d[propertyKey])
+            .data(dataSeries, (d: any) => d.key)
             .attr('d', (d: any) => this.lineGenerator(d.values))
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
