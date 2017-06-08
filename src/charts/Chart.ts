@@ -106,6 +106,10 @@ abstract class Chart {
         select(this.config.get('selector')).remove();
     }
 
+    public clear() {
+        this.data = [];
+    }
+
     protected loadConfigFromUser(userData: any, defaults: any): Config {
         let config = new Config();
         for (let v in defaults) {
