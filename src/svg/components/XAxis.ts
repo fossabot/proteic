@@ -83,6 +83,13 @@ class XAxis extends Component {
                     .attr('dy', '0.1em')
                     .style('text-anchor', 'start');
             break;
+                case -65 :
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '-0.5em')
+                    .attr('dy', '0.5em')
+                    .style('text-anchor', 'end');
+                break;
             case -90 :
                 ticksText
                     .attr('transform', `rotate(${rotation})`)

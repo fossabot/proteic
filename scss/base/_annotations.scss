@@ -12,6 +12,7 @@
 .annotation path.connector-arrow,
 .annotation.callout.rect path.subject{
   fill: var(--annotation-color);
+  font: $font-main;
 }
 
 .annotation-note-title {
