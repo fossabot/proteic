@@ -78,7 +78,7 @@ class Annotations extends Component {
             chartHeight: number = this.config.get('height'),
             annotation = null,
             y = this.y.yAxis.scale(),
-            annotationHeight = y(chartHeight) - y(width),
+            annotationHeight = y((value - width)) - y((value + width)),
             annotationY = y(value) - annotationHeight / 2;
 
             annotation = this.makeAreaAnnotation(
