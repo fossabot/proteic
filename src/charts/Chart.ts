@@ -187,7 +187,7 @@ abstract class Chart {
                 varsInDatum, 
                 ids, 
                 this.config.get('propertyKey'),
-                'value'
+                this.config.get('propertyY')
             )
         }
 
