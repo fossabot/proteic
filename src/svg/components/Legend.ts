@@ -74,15 +74,26 @@ class Legend extends Component {
                 this.drawRightLegendCb(legend, width);  
                 this.drawRightLegendTxt(legend, width);
             break;
+            case 'bottom':
+                this.drawBottomLegendCb(legend, height);  
+                this.drawBottomLegendTxt(legend, height);
+            break;
         }
 
         entries.exit().remove();
     }
-
+    
     private drawTopLegendCb(legend: any) {
         legend.selectAll('.legend-cb')
             .attr('x', (d: any, i: number) => i * 100)
-            .attr('y', -20 - 5)
+            .attr('y', -20 - 15)
+            .on('click.default', (d: any) => this.toggle(d));  
+    }
+
+    private drawBottomLegendCb(legend: any, height: number) {
+        legend.selectAll('.legend-cb')
+            .attr('x', (d: any, i: number) => i * 100)
+            .attr('y', height + 70)
             .on('click.default', (d: any) => this.toggle(d));  
     }
 
@@ -93,10 +104,17 @@ class Legend extends Component {
             .on('click.default', (d: any) => this.toggle(d));  
     }
 
+    private drawBottomLegendTxt(legend: any, height: number) {
+        legend.selectAll('.legend-txt')
+        .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
+        .attr('y', height + 70 + 10)
+        .on('click.default', () => this.toggle);
+    }
+
     private drawTopLegendTxt(legend: any) {
         legend.selectAll('.legend-txt')
         .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
-        .attr('y', -20 - 5 + 10)
+        .attr('y', -20 - 15 + 10)
         .on('click.default', () => this.toggle);
     }
 
