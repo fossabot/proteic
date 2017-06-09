@@ -20,7 +20,8 @@ class Annotations extends Component {
 
     render() {
         let annotations = this.svg.append('g')
-            .attr('class', 'annotations');
+            .attr('class', 'annotations')
+            .attr('clip-path', 'url(#proteic-clip-path)');
     }
 
     public update(data: [any], events: Map<string,any>) {

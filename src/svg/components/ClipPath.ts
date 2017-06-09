@@ -15,8 +15,7 @@ class ClipPath extends Component {
         this.height = height;
     }
 
-    update(data): void {
-    }
+    update(data: any): void { }
 
     public render(): void {
         this.svg.append('clipPath')
