@@ -4,6 +4,7 @@ import Pointset from '../components/Pointset';
 import Areaset from '../components/Areaset';
 import Legend from '../components/Legend';
 import Annotations from '../components/Annotations';
+import Alerts from '../components/Alerts';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -33,12 +34,14 @@ class SvgStrategyLinechart extends SvgStrategy {
     private area: Areaset;
     private legend: Legend;
     private annotations : Annotations;
+    private alerts: Alerts;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.lines = new Lineset(this.axes.x, this.axes.y);
         this.annotations = new Annotations(this.axes.x, this.axes.y);
+        this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
     public draw(data: [{}], events: Map<string, any>) {
@@ -63,7 +66,11 @@ class SvgStrategyLinechart extends SvgStrategy {
             legend = this.config.get('legend'),
             annotations = this.config.get('annotations');
 
-        this.container.add(this.axes).add(this.lines).add(this.annotations);
+        this.container
+            .add(this.axes)
+            .add(this.lines)
+            .add(this.annotations)
+            .add(this.alerts);
 
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
