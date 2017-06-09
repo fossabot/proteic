@@ -17,7 +17,7 @@ class Alerts extends Component {
 
     render() {
         this.alertsContainer = this.svg.append('g')
-            .attr('class', Globals.SELECTOR_BASE + 'alerts');
+            .attr('class', 'alerts');
     }
 
     public update(data: [any], events: Map<string, any>) {
@@ -37,7 +37,7 @@ class Alerts extends Component {
                 });        
 
             // JOIN new and old data
-            let alerts = this.alertsContainer.selectAll(`.${Globals.SELECTOR_BASE}alert`)
+            let alerts = this.alertsContainer.selectAll(`.alert`)
             .data(alertSerie);
 
             // EXIT
@@ -45,24 +45,17 @@ class Alerts extends Component {
 
             // Update old data
             alerts
-                // .transition()
-                // .duration(Globals.COMPONENT_TRANSITION_TIME)
-                // .ease(easeLinear)
                 .attr('cx', (d: any) => x(d[propertyX]))
                 .attr('cy', (d: any) => y(d[propertyY]));
 
             // ENTER
             alerts = alerts.enter().append('circle')
-            .attr('class', Globals.SELECTOR_BASE + 'alert')
-            .attr('r', 5)
+            .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
-            .style('fill', '#FF7900');
-
-            // // EXIT
-            // alerts.exit().remove();
-
-                 
+            .attr('r', 20)
+            .transition(Globals.COMPONENT_ANIMATION_TIME)
+            .attr('r', 5);
     }
 }
 
