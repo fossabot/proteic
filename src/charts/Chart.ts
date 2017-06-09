@@ -79,6 +79,12 @@ abstract class Chart {
         return this;
     }
 
+    public alert(variable: string, condition: Function) {
+        this.config.put('alertVariable', variable);
+        this.config.put('alertFunction', condition);
+        return this;
+    }
+
     /**
      * Unpivot wide format data coming from the Datasource to narrow format.
      * 
