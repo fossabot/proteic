@@ -33,6 +33,11 @@ class ZoomComponent extends Component {
     public update(data: [any]) {
 
     }
+
+    public clear() {
+        console.warn('Not yet implemented');
+    }
+
 }
 
 export default ZoomComponent;

@@ -118,6 +118,10 @@ class Container {
     public removeLoadingIcon() {
         //this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
     }
+
+    public getComponents() : Component[]{
+        return this.components;
+    }
 }
 
 export default Container;

@@ -24,7 +24,7 @@ class Annotations extends Component {
             .attr('clip-path', 'url(#proteic-clip-path)');
     }
 
-    public update(data: [any], events: Map<string,any>) {
+    public update(data: [any], events: Map<string, any>) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
@@ -59,7 +59,7 @@ class Annotations extends Component {
                             let width = a.width;
                             if (typeof a.width == 'string') {
                                 width = events.get(a.width);
-                            } 
+                            }
                             annotation = this.makeBandAnnotation(a.value, width, a.text, minY);
                         }
                         break;
@@ -68,7 +68,7 @@ class Annotations extends Component {
                 }
                 return annotation;
             }).filter((a: any) => a)); // Filter nulls
-        
+
         this.svg.select('.annotations')
             .call(annotation)
             .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
@@ -82,13 +82,13 @@ class Annotations extends Component {
             annotationHeight = y((value - width)) - y((value + width)),
             annotationY = y(value) - annotationHeight / 2;
 
-            annotation = this.makeAreaAnnotation(
-                annotationY,
-                chartWidth,
-                annotationHeight,
-                text
-            );
-        
+        annotation = this.makeAreaAnnotation(
+            annotationY,
+            chartWidth,
+            annotationHeight,
+            text
+        );
+
         return annotation;
     }
 
@@ -105,7 +105,7 @@ class Annotations extends Component {
             case 'y':
                 annotation = this.makeYThresholdAnnotation(width, y(annotationData.value), annotationData.text);
                 break;
-            case 'x': 
+            case 'x':
                 annotation = this.makeXThresholdAnnotation(x(annotationData.value), height, annotationData.text);
                 break;
             default:
@@ -120,7 +120,7 @@ class Annotations extends Component {
             y: y, // Rect Y
             type: d3Annotation.annotationCalloutRect,
             dy: 80, // Label Y
-            dx: width+20, // Label X
+            dx: width + 20, // Label X
             subject: {
                 width: width, // Width of the rect
                 height: height // Height of the rect
@@ -163,6 +163,10 @@ class Annotations extends Component {
                 label: text,
             }
         };
+    }
+
+    public clear() {
+        console.warn('TODO: Not yet implemented');
     }
 }
 

@@ -96,7 +96,7 @@ class LinkedNodeset extends Component implements Zoomable {
             .data(data.links)
             .enter()
             .append("line")
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => {console.log(d); return  d.key})
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => { console.log(d); return d.key })
             .attr("stroke-width", (d: any) => (weighted && d.weight) ? linkScaleRadius(d.weight) : linkWeight)
             .attr("stroke", "#999")
             .attr("stroke-opacity", 1);
@@ -177,6 +177,11 @@ class LinkedNodeset extends Component implements Zoomable {
         this.svg.selectAll('.labels text').attr('transform', transform);
     }
 
+    public clear() {
+        this.svg.selectAll('.nodes').remove();
+        this.svg.selectAll('.links').remove();
+        this.svg.selectAll('.labels').remove();
+    }
 }
 
 export default LinkedNodeset;

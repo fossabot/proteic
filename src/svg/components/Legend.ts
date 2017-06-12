@@ -41,88 +41,92 @@ class Legend extends Component {
 
         // JOIN entries
         entries = legend.selectAll(`.legend-entry`)
-        .data(dataSeries, (d: any) => d.key);
+            .data(dataSeries, (d: any) => d.key);
 
         let enterEntries = entries.enter().append('g')
-        .attr('class', 'legend-entry')
-        .attr(Globals.LEGEND_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
+            .attr('class', 'legend-entry')
+            .attr(Globals.LEGEND_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
         enterEntries.append('rect')
-        .attr('class', 'legend-cb')
-        .attr('height', 20)
-        .attr('width', 20)
-        .style('fill', (d: any) => colorScale(d.key))
-        .style('stroke', (d: any) => colorScale(d.key))
-        .style('opacity', 0.8)
-        .on('click.default', (d: any) => this.toggle(d));
+            .attr('class', 'legend-cb')
+            .attr('height', 20)
+            .attr('width', 20)
+            .style('fill', (d: any) => colorScale(d.key))
+            .style('stroke', (d: any) => colorScale(d.key))
+            .style('opacity', 0.8)
+            .on('click.default', (d: any) => this.toggle(d));
 
         enterEntries.append('text')
-        .attr('class', 'legend-txt')
-        .attr("dy", "0.55em")
-        .text((d: any) => d.key)
-        .style('font', '14px Montserrat, sans-serif')
-        .on('click.default', () => this.toggle);
+            .attr('class', 'legend-txt')
+            .attr("dy", "0.55em")
+            .text((d: any) => d.key)
+            .style('font', '14px Montserrat, sans-serif')
+            .on('click.default', () => this.toggle);
 
         enterEntries.merge(entries);
 
-        switch(legendPosition) {
-            case 'top': 
-                this.drawTopLegendCb(legend);  
+        switch (legendPosition) {
+            case 'top':
+                this.drawTopLegendCb(legend);
                 this.drawTopLegendTxt(legend);
-            break;
+                break;
             case 'right':
-                this.drawRightLegendCb(legend, width);  
+                this.drawRightLegendCb(legend, width);
                 this.drawRightLegendTxt(legend, width);
-            break;
+                break;
             case 'bottom':
-                this.drawBottomLegendCb(legend, height);  
+                this.drawBottomLegendCb(legend, height);
                 this.drawBottomLegendTxt(legend, height);
-            break;
+                break;
         }
 
         entries.exit().remove();
     }
-    
+
+    public clear() {
+        this.svg.select("g.legend").selectAll("*").remove();
+    }
+
     private drawTopLegendCb(legend: any) {
         legend.selectAll('.legend-cb')
             .attr('x', (d: any, i: number) => i * 100)
             .attr('y', -20 - 15)
-            .on('click.default', (d: any) => this.toggle(d));  
+            .on('click.default', (d: any) => this.toggle(d));
     }
 
     private drawBottomLegendCb(legend: any, height: number) {
         legend.selectAll('.legend-cb')
             .attr('x', (d: any, i: number) => i * 100)
             .attr('y', height + 70)
-            .on('click.default', (d: any) => this.toggle(d));  
+            .on('click.default', (d: any) => this.toggle(d));
     }
 
     private drawRightLegendCb(legend: any, width: number) {
         legend.selectAll('.legend-cb')
             .attr('x', width + 10)
             .attr('y', (d: any, i: number) => i * 25)
-            .on('click.default', (d: any) => this.toggle(d));  
+            .on('click.default', (d: any) => this.toggle(d));
     }
 
     private drawBottomLegendTxt(legend: any, height: number) {
         legend.selectAll('.legend-txt')
-        .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
-        .attr('y', height + 70 + 10)
-        .on('click.default', () => this.toggle);
+            .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
+            .attr('y', height + 70 + 10)
+            .on('click.default', () => this.toggle);
     }
 
     private drawTopLegendTxt(legend: any) {
         legend.selectAll('.legend-txt')
-        .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
-        .attr('y', -20 - 15 + 10)
-        .on('click.default', () => this.toggle);
+            .attr('x', (d: any, i: number) => i * 100 + 20 + 5)
+            .attr('y', -20 - 15 + 10)
+            .on('click.default', () => this.toggle);
     }
 
     private drawRightLegendTxt(legend: any, width: number) {
         legend.selectAll('.legend-txt')
-        .attr("x", width + 25 + 10)
-        .attr("y", (d: any, i: number) => i * 25 + 7)
-        .on('click.default', () => this.toggle);
+            .attr("x", width + 25 + 10)
+            .attr("y", (d: any, i: number) => i * 25 + 7)
+            .on('click.default', () => this.toggle);
     }
 
     private toggle(d: any): void {

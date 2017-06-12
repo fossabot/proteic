@@ -45,9 +45,14 @@ class Areaset extends Component {
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .append('svg:path')
+            .attr('data-proteic-element', 'area')
             .style('fill', (d: any) => colorScale(d[propertyKey]))
             .style('fill-opacity', areaOpacity)
             .attr('d', (d: any) => this.areaGenerator(d.values));
+    }
+
+    public clear() {
+        this.svg.selectAll('*[data-proteic-element="area"]').remove();
     }
 }
 

@@ -50,10 +50,15 @@ class ColorLegend extends Component {
             .labelDelimiter('–')
             .scale(colorScale);
         legend = this.svg.select('.legend');
-        legend.call(colorLegend); 
-        
+        legend.call(colorLegend);
+
         legend.attr('transform', `translate(${width + 10}, 0)`);
     }
+
+    public clear() {
+        this.svg.select("g.legend").selectAll("*").remove();
+    }
+
 }
 
 export default ColorLegend;

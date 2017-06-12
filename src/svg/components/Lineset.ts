@@ -67,6 +67,10 @@ class Lineset extends Component {
             .ease(easeLinear);
     }
 
+    public clear(){
+        this.svg.selectAll('.line').remove();
+    }
+
 }
 
 export default Lineset;

@@ -1,5 +1,5 @@
 import Component from "./Component";
-import {scaleLinear} from "d3";
+import { scaleLinear } from "d3";
 
 class XRadialAxis extends Component {
 
@@ -9,7 +9,7 @@ class XRadialAxis extends Component {
         super();
     }
 
-    update(data: any): void {}
+    update(data: any): void { }
 
     render(): void {
         this._xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);
@@ -17,6 +17,10 @@ class XRadialAxis extends Component {
 
     get xRadialAxis(): any {
         return this._xRadialAxis;
+    }
+
+    public clear() {
+        console.warn('Not yet implemented');
     }
 }
 

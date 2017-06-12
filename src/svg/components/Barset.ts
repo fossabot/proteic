@@ -72,6 +72,7 @@ class Barset extends Component {
             .data((d: any) => d)
             .enter()
             .append('rect')
+            .attr('data-proteic-element', 'bar')
             .attr("x", (d: any) => x(d.data[propertyKey]))
             .attr("y", (d: any) => y(d[1]))
             .attr("height", (d: any) => y(d[0]) - y(d[1]))
@@ -119,7 +120,8 @@ class Barset extends Component {
         .data((d: any) => d.values, (d: any) => d[propertyX]);
 
         // UPDATE bars
-        bars.attr('class', Globals.SELECTOR_ELEMENT)
+        bars
+        .attr('class', Globals.SELECTOR_ELEMENT)
         .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
         .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
         .attr('x', (d: any) => x(d[propertyX]))
@@ -131,7 +133,9 @@ class Barset extends Component {
         .attr('height', (d: any) => y(d[propertyY]));
 
         // ENTER bars
-        bars.enter().append('rect')
+        bars.enter()
+        .append('rect')
+        .attr('data-proteic-element', 'bar')
         .attr('class', Globals.SELECTOR_ELEMENT)
         .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
         .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
@@ -154,6 +158,9 @@ class Barset extends Component {
         .remove();
     }
 
+    public clear() {
+        this.svg.selectAll('*[data-proteic-element="bar"]').remove();
+    }
 }
 
 export default Barset;

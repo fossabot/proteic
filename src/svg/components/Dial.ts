@@ -84,6 +84,9 @@ class Dial extends Component {
 
     }
 
+    public clear(){
+        console.warn('TODO: Not yet implemented');
+    }
 }
 
 export default Dial;

@@ -154,6 +154,11 @@ class YAxis extends Component {
     get yAxis() {
         return this._yAxis;
     }
+
+    public clear() {
+        this.updateDomainByMinMax(0, 1);
+        this.transition();
+    }
 }
 
 export default YAxis;

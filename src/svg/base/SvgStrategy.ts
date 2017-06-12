@@ -19,6 +19,13 @@ abstract class SvgStrategy {
 
     abstract draw(data: [{}], events: Map<string, any>): void;
 
+    public clear(){
+        let components = this.container.getComponents();
+        for(const c of components){
+            c.clear();
+        }
+    }
+
 
     public addLoading() {
         this.container.addLoadingIcon();

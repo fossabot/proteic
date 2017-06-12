@@ -74,29 +74,29 @@ class XAxis extends Component {
 
     private rotateTicksText(ticksText: any) {
         let rotation = this.config.get('xTicksTextRotation') || 0;
-        
-        switch(rotation) {
-            case 65 :
+
+        switch (rotation) {
+            case 65:
                 ticksText
                     .attr('transform', `rotate(${rotation})`)
                     .attr('dx', '0.5em')
                     .attr('dy', '0.1em')
                     .style('text-anchor', 'start');
-            break;
-                case -65 :
+                break;
+            case -65:
                 ticksText
                     .attr('transform', `rotate(${rotation})`)
                     .attr('dx', '-0.5em')
                     .attr('dy', '0.5em')
                     .style('text-anchor', 'end');
                 break;
-            case -90 :
+            case -90:
                 ticksText
                     .attr('transform', `rotate(${rotation})`)
                     .attr('dx', '-0.5em')
                     .attr('dy', '-0.25em')
                     .style('text-anchor', 'end');
-            break;
+                break;
             default:
         }
     }
@@ -118,7 +118,7 @@ class XAxis extends Component {
 
     public transition(time: number = 200) {
         let axis = this.svg.selectAll('.x.axis').transition().duration(time)
-        .call(this._xAxis);
+            .call(this._xAxis);
         this.rotateTicksText(axis.selectAll('text'));
         // Reorder the axis path to appear over the ticks
         this.svg.select('.x.axis path').raise();
@@ -161,6 +161,11 @@ class XAxis extends Component {
 
     get xAxis() {
         return this._xAxis;
+    }
+
+    public clear() {
+        this.updateDomainByMinMax(0,1);
+        this.transition();
     }
 }
 

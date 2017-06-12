@@ -48,7 +48,7 @@ class Timeboxset extends Component {
             boxEnter = null,
             boxMerge = null,
             extLanes = null,
-            yLanes : any = null,
+            yLanes: any = null,
             yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),
             x = this.xyAxes.x.xAxis.scale(),
             y = this.xyAxes.y.yAxis.scale();
@@ -71,6 +71,7 @@ class Timeboxset extends Component {
         boxEnter = box.enter().append('rect');
 
         boxMerge = box.merge(boxEnter)
+            .attr('data-proteic-element', 'timeBox')
             .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
@@ -85,6 +86,10 @@ class Timeboxset extends Component {
             .on('mouseleave.user', onLeave)
             .on('mouseover.user', onHover)
             .on('click.user', onClick);
+    }
+
+    public clear() {
+        this.svg.selectAll('*[data-proteic-element="timeBox"]').remove();
     }
 
 }
