@@ -46,6 +46,10 @@ class TextIndicator extends Component {
             .attr('transform', `translate(${x}, ${y})`);
     }
 
+    public clear() {
+        console.warn('Not yet implemented');
+    }
+
 }
 
 export default TextIndicator;

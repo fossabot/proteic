@@ -11,6 +11,8 @@ abstract class Component {
 
     abstract update(data: any, events?: Map<string, any>): void;
 
+    abstract clear() : void;
+
     abstract render(): void;
 
     /**

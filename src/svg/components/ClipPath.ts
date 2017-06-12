@@ -24,6 +24,10 @@ class ClipPath extends Component {
             .attr('width', this.width)
             .attr('height', this.height);
     }
+
+    public clear() {
+        console.warn('TODO: Not yet implemented');
+    }
 }
 
 export default ClipPath;

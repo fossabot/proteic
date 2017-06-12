@@ -37,6 +37,10 @@ class RadialAxes extends Component {
     get y(): YRadialAxis {
         return this._y;
     }
+
+    public clear(){
+        console.warn('Not yet implemented');
+    }
 }
 
 export default RadialAxes;

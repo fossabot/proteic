@@ -104,6 +104,10 @@ class TileSet extends Component {
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
     }
+
+    public clear() {
+        console.warn('Not yet implemented');
+    }
 }
 
 export default TileSet;

@@ -115,6 +115,10 @@ class CanvasPointset extends Component {
 
         this.canvasCtx = this.canvas.node().getContext('2d');
     }
+
+    public clear(){
+        console.warn('TODO: Not yet implemented');
+    }
 }
 
 export default CanvasPointset;

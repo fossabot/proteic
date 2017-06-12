@@ -32,10 +32,10 @@ class HistogramBarset extends Component {
     public render() {
         //Do nothing, since points render only when new data is received.
         this.svg.append('g')
-        .attr('class', 'proteic-bars')
-        .style('fill', '#f1a30d')
-        .style('stroke', '#0c3183')
-        .style('shape-rendering', 'crispEdges');
+            .attr('class', 'proteic-bars')
+            .style('fill', '#f1a30d')
+            .style('stroke', '#0c3183')
+            .style('shape-rendering', 'crispEdges');
     }
 
     public update(data: [any]) {
@@ -51,9 +51,9 @@ class HistogramBarset extends Component {
         let histogramData = data.map((d) => d[propertyX]);
 
         let bins = histogram()
-        .domain(x.domain())
-        .thresholds(x.ticks(ticks))
-        (histogramData);
+            .domain(x.domain())
+            .thresholds(x.ticks(ticks))
+            (histogramData);
 
         this.y.updateDomainByMinMax(0, max(bins, (d) => d.length));
         this.y.transition();
@@ -63,26 +63,28 @@ class HistogramBarset extends Component {
 
         // JOIN bars
         let bars = this.svg.selectAll('.proteic-bars').selectAll('.' + Globals.SELECTOR_ELEMENT)
-        .data(bins);
+            .data(bins);
 
         // Update bars
         bars
-        .transition()
-        .duration(Globals.COMPONENT_TRANSITION_TIME)
-        .ease(easeLinear)
-        .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-        .attr('height', (d) => height - y(d.length))
-        .attr('y', (d) => y(d.length))
-        .attr('x', (d) => x(d.x0));
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
+            .attr('height', (d) => height - y(d.length))
+            .attr('y', (d) => y(d.length))
+            .attr('x', (d) => x(d.x0));
 
         // Enter bars
         bars
-        .enter().append('rect')
-        .attr('class', Globals.SELECTOR_ELEMENT)
-        .attr('x', (d) => x(d.x0))
-        .attr('y', (d) => y(d.length))
-        .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-        .attr('height', (d) => height - y(d.length));
+            .enter().append('rect')
+            .attr('class', Globals.SELECTOR_ELEMENT)
+            .attr('data-proteic-element', 'barHistogram')
+
+            .attr('x', (d) => x(d.x0))
+            .attr('y', (d) => y(d.length))
+            .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
+            .attr('height', (d) => height - y(d.length));
 
         bars.exit().remove();
 
@@ -93,6 +95,11 @@ class HistogramBarset extends Component {
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
     }
+
+    public clear() {
+        this.svg.selectAll('*[data-proteic-element="barHistogram"]').remove();
+    }
+
 }
 
 export default HistogramBarset;

@@ -115,6 +115,7 @@ abstract class Chart {
 
     public clear() {
         this.data = [];
+        this.context.clear();
     }
 
     protected loadConfigFromUser(userData: any, defaults: any): Config {

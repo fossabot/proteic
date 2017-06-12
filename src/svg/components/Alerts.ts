@@ -57,6 +57,10 @@ class Alerts extends Component {
             .transition(Globals.COMPONENT_ANIMATION_TIME)
             .attr('r', 5);
     }
+
+    public clear(){
+        console.warn('TODO: Not yet implemented');
+    }
 }
 
 export default Alerts;

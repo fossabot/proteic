@@ -18,11 +18,15 @@ class YRadialAxis extends Component {
         radius = (Math.min(width, height) / 2) - 10;
         this._yRadialAxis = scaleSqrt().range([0, radius]);
     };
-    
-    public update(data: [any]) {};
+
+    public update(data: [any]) { };
 
     get yRadialAxis(): any {
         return this._yRadialAxis;
+    }
+    
+    public clear() {
+        console.warn('Not yet implemented');
     }
 }
 
