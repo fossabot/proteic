@@ -56,7 +56,8 @@ class ColorLegend extends Component {
     }
 
     public clear() {
-        this.svg.select("g.legend").selectAll("*").remove();
+        console.log('Not yet implemented');
+        //this.svg.select("g.legend").selectAll("*").remove();
     }
 
 }

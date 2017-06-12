@@ -13,7 +13,7 @@
     "prebuild": "rimraf dist/*",
     "build": "webpack --config webpack.production.config.js && node-sass scss/themes/default/proteic.scss dist/proteic.css --output-style compressed && node-sass scss/themes/lighter/lighter.scss dist/lighter.css --output-style compressed",
     "docs": "esdoc -c esdoc.json",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --port 4049",
     "prepublish": "npm run build"
   },
   "keywords": [

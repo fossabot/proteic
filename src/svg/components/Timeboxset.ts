@@ -28,7 +28,7 @@ class Timeboxset extends Component {
         //Do nothing, since lines render only when new data is received.
     }
 
-    public update(data: [any]): void {
+    public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
         let propertyEnd = this.config.get('propertyEnd');
@@ -46,6 +46,7 @@ class Timeboxset extends Component {
             layerMerge = null,
             box = null,
             boxEnter = null,
+            boxExit = null,
             boxMerge = null,
             extLanes = null,
             yLanes: any = null,
@@ -67,6 +68,8 @@ class Timeboxset extends Component {
 
         box = layerMerge.selectAll('rect')
             .data((d: any) => d.values);
+            
+        boxExit = layer.exit().remove();
 
         boxEnter = box.enter().append('rect');
 
@@ -77,7 +80,8 @@ class Timeboxset extends Component {
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
             .style('fill', (d: any) => colorScale(d[propertyKey]));
-
+            
+        
         box = this.svg.selectAll('g.serie rect');
 
         box
@@ -89,7 +93,7 @@ class Timeboxset extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('*[data-proteic-element="timeBox"]').remove();
+        this.update([]);
     }
 
 }

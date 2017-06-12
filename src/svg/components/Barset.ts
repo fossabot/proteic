@@ -31,7 +31,7 @@ class Barset extends Component {
 
     }
 
-    public update(data: [any]) {
+    public update(data: any[]) {
         let bars: any = null,
             stacked = this.config.get('stacked');
 
@@ -41,6 +41,7 @@ class Barset extends Component {
             this.updateGrouped(data);
         }
         bars = this.svg.selectAll('g.barSeries rect');
+
         bars
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
@@ -49,7 +50,7 @@ class Barset extends Component {
             .on('click.user', this.config.get('onClick'));
     }
 
-    private updateStacked(data: [any]) {
+    private updateStacked(data: any[]) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -63,6 +64,8 @@ class Barset extends Component {
             layerEnter = layer.enter().append('g'),
             x = this.x.xAxis.scale(),
             y = this.y.yAxis.scale();
+
+        layer.exit().remove();
 
         layer.merge(layerEnter)
             .attr('class', 'barSeries')
@@ -79,7 +82,7 @@ class Barset extends Component {
             .attr("width", x.bandwidth());
     }
 
-    private updateGrouped(data: [any]) {
+    private updateGrouped(data: any[]) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -94,72 +97,72 @@ class Barset extends Component {
 
             height = this.config.get('height');
 
-        // console.log('x', x.domain(), 'group', xGroup.domain());
-
         let nestedData = simple2nested(data, propertyKey);
 
         // JOIN series
         let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
-        .data(nestedData);
+            .data(nestedData);
+
+        serie.exit().remove();
 
         // UPDATE series
         serie.attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
 
         // ENTER + UPDATE series
         serie = serie.enter().append('g')
-        .attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-        .merge(serie);
+            .attr('class', Globals.SELECTOR_SERIE)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .merge(serie);
 
         // EXIT series
         serie.exit().remove();
 
         // JOIN bars
         let bars = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
-        .data((d: any) => d.values, (d: any) => d[propertyX]);
+            .data((d: any) => d.values, (d: any) => d[propertyX]);
 
         // UPDATE bars
         bars
-        .attr('class', Globals.SELECTOR_ELEMENT)
-        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
-        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
-        .attr('x', (d: any) => x(d[propertyX]))
-        .transition()
-        .duration(Globals.COMPONENT_ANIMATION_TIME)
-        .ease(easeLinear)
-        .attr('y', (d: any) => height - y(d[propertyY]))
-        .attr('width', xGroup.bandwidth())
-        .attr('height', (d: any) => y(d[propertyY]));
+            .attr('class', Globals.SELECTOR_ELEMENT)
+            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+            .attr('x', (d: any) => x(d[propertyX]))
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear)
+            .attr('y', (d: any) => height - y(d[propertyY]))
+            .attr('width', xGroup.bandwidth())
+            .attr('height', (d: any) => y(d[propertyY]));
 
         // ENTER bars
         bars.enter()
-        .append('rect')
-        .attr('data-proteic-element', 'bar')
-        .attr('class', Globals.SELECTOR_ELEMENT)
-        .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
-        .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
-        .attr('height', 0)  // This makes the transition start
-        .attr('y', height)  // at the bottom of the chart
-        .attr('x', (d: any) => x(d[propertyX]))
-        .attr('width', xGroup.bandwidth())
-        .transition()
-        .duration(Globals.COMPONENT_ANIMATION_TIME)
-        .ease(easeLinear)
-        .attr('y', (d: any) => height - y(d[propertyY]))
-        .attr('height', (d: any) => y(d[propertyY]));
+            .append('rect')
+            .attr('data-proteic-element', 'bar')
+            .attr('class', Globals.SELECTOR_ELEMENT)
+            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
+            .attr('height', 0)  // This makes the transition start
+            .attr('y', height)  // at the bottom of the chart
+            .attr('x', (d: any) => x(d[propertyX]))
+            .attr('width', xGroup.bandwidth())
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear)
+            .attr('y', (d: any) => height - y(d[propertyY]))
+            .attr('height', (d: any) => y(d[propertyY]));
 
         // EXIT bars
         bars.exit()
-        .transition()
-        .duration(Globals.COMPONENT_ANIMATION_TIME)
-        .ease(easeLinear)
-        .attr('fill-opacity', 0)
-        .remove();
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear)
+            .attr('fill-opacity', 0)
+            .remove();
     }
 
     public clear() {
-        this.svg.selectAll('*[data-proteic-element="bar"]').remove();
+        this.update([]);
     }
 }
 

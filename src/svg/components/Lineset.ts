@@ -38,15 +38,16 @@ class Lineset extends Component {
             .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }
 
-    public update(data: [any]): void {
+    public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
         let series = this.svg.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
         //Update new lines
-        let lines = series.data(dataSeries, (d: any) => d.key)
-            .enter()
+        let lines = series.data(dataSeries, (d: any) => d.key);
+        
+        lines.enter()
             .append('g')
             .attr('class', 'lineSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
@@ -58,6 +59,8 @@ class Lineset extends Component {
             .attr('d', (d: any) => this.lineGenerator(d.values))
             .attr('class', 'line');
 
+        lines.exit().remove();
+
         //update existing lines
         this.svg.selectAll('.line')
             .data(dataSeries, (d: any) => d.key)
@@ -67,8 +70,8 @@ class Lineset extends Component {
             .ease(easeLinear);
     }
 
-    public clear(){
-        this.svg.selectAll('.line').remove();
+    public clear() {
+        this.update([]);
     }
 
 }

@@ -38,7 +38,7 @@ class HistogramBarset extends Component {
             .style('shape-rendering', 'crispEdges');
     }
 
-    public update(data: [any]) {
+    public update(data: any[]) {
         let propertyKey = this.config.get('propertyKey'),
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
@@ -97,7 +97,7 @@ class HistogramBarset extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('*[data-proteic-element="barHistogram"]').remove();
+        this.update([]);
     }
 
 }
