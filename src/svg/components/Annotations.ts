@@ -21,7 +21,7 @@ class Annotations extends Component {
     render() {
         let annotations = this.svg.append('g')
             .attr('class', 'annotations')
-            .attr('clip-path', 'url(#proteic-clip-path)');
+            .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
     public update(data: [any], events: Map<string,any>) {
@@ -68,7 +68,7 @@ class Annotations extends Component {
                 }
                 return annotation;
             }).filter((a: any) => a)); // Filter nulls
-        
+
         this.svg.select('.annotations')
             .call(annotation)
             .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
@@ -111,6 +111,7 @@ class Annotations extends Component {
             default:
                 throw new SyntaxError(`Unknown annotation axis: ${annotationData.axis}`);
         }
+        
         return annotation;
     }
 
@@ -154,7 +155,7 @@ class Annotations extends Component {
             y: y,
             type: d3Annotation.annotationXYThreshold,
             // dy: 120,
-            dx: 20,
+            dx: -50,
             subject: {
                 x1: 0,
                 x2: x

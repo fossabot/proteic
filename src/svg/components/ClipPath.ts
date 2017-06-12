@@ -19,7 +19,7 @@ class ClipPath extends Component {
 
     public render(): void {
         this.svg.append('clipPath')
-            .attr('id', 'proteic-clip-path')
+            .attr('id', this.config.get('proteicID'))
             .append('rect')
             .attr('width', this.width)
             .attr('height', this.height);
