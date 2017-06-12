@@ -75,7 +75,7 @@ class SvgStrategyLinechart extends SvgStrategy {
             .add(this.lines)
             .add(this.annotations)
             .add(this.alerts)
-            .add(new ClipPath(width, height));
+            .add(new ClipPath(width + this.config.get('marginRight'), height));
 
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
