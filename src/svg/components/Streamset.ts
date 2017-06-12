@@ -33,7 +33,7 @@ class Streamset extends Component {
         //Do nothing, since lines render only when new data is received.
     }
 
-    public update(data: [any]): void {
+    public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -83,7 +83,7 @@ class Streamset extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('*[data-proteic-element="stream"]').remove();
+        this.update([]);
     }
 }
 

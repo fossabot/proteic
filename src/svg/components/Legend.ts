@@ -38,10 +38,13 @@ class Legend extends Component {
         // this.svg.selectAll('g.legend').remove();
 
         legend = this.svg.select('.legend');
+        
 
         // JOIN entries
         entries = legend.selectAll(`.legend-entry`)
             .data(dataSeries, (d: any) => d.key);
+
+        entries.exit().remove();
 
         let enterEntries = entries.enter().append('g')
             .attr('class', 'legend-entry')
@@ -84,7 +87,7 @@ class Legend extends Component {
     }
 
     public clear() {
-        this.svg.select("g.legend").selectAll("*").remove();
+        this.update([]);
     }
 
     private drawTopLegendCb(legend: any) {

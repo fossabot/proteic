@@ -18,7 +18,7 @@ class TileSet extends Component {
         // Do nothing. (a tile set allways needs data)
     }
 
-    public update(data: [any]) {
+    public update(data: any[]) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
@@ -106,7 +106,7 @@ class TileSet extends Component {
     }
 
     public clear() {
-        console.warn('Not yet implemented');
+        this.update([]);
     }
 }
 
