@@ -29,6 +29,7 @@ abstract class Chart {
     constructor(Class: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
 
         this.config = this.loadConfigFromUser(userConfig, defaults);
+        this.config.put('proteicID', 'proteic-' + Date.now());
         this._injector = new Injector();
 
         this._instantiateInjections(Class);
