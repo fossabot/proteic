@@ -28,13 +28,13 @@ class Alerts extends Component {
             y = this.y.yAxis.scale(),
             x = this.x.xAxis.scale(),
             alertVariable: string = this.config.get('alertVariable'),
-            alertFunction: Function = this.config.get('alertFunction'),
+            alertFunction = this.config.get('alertFunction'),
             alertCallback = this.config.get('alertCallback');
 
             let alertSerie = data
                 .filter((d) => {
                     return d[propertyKey] === alertVariable && 
-                        alertFunction(d[propertyY], events);
+                        alertFunction(d, events);
                 });        
 
             // JOIN new and old data
@@ -54,10 +54,14 @@ class Alerts extends Component {
             .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
-            .attr('r', 20)
-            .transition(Globals.COMPONENT_ANIMATION_TIME)
+            // .attr('r', 20)
+            // .transition(Globals.COMPONENT_ANIMATION_TIME)
             .attr('r', 5)
-            .call((s: any) => s.each((d: any) => alertCallback(d)));
+            .call((s: any) => {
+                if (alertCallback) {
+                    return s.each((d: any) => alertCallback(d));
+                }
+            });
     }
 
     public clear(){
