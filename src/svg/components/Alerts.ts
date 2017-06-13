@@ -29,12 +29,13 @@ class Alerts extends Component {
             x = this.x.xAxis.scale(),
             alertVariable: string = this.config.get('alertVariable'),
             alertFunction = this.config.get('alertFunction'),
-            alertCallback = this.config.get('alertCallback');
+            alertCallback = this.config.get('alertCallback'),
+            alertEvents = this.config.get('alertEvents');
 
             let alertSerie = data
                 .filter((d) => {
                     return d[propertyKey] === alertVariable && 
-                        alertFunction(d, events);
+                        alertFunction(d[propertyY], events);
                 });        
 
             // JOIN new and old data
@@ -59,9 +60,15 @@ class Alerts extends Component {
             .attr('r', 5)
             .call((s: any) => {
                 if (alertCallback) {
-                    return s.each((d: any) => alertCallback(d));
+                    return s.each((d: any) => {
+                        alertCallback(d);
+                    });
                 }
             });
+
+            for (let e of Object.keys(alertEvents)) {
+                alerts.on(e, alertEvents[e]);
+            }
     }
 
     public clear(){
