@@ -28,8 +28,9 @@ class Alerts extends Component {
             y = this.y.yAxis.scale(),
             x = this.x.xAxis.scale(),
             alertVariable: string = this.config.get('alertVariable'),
-            alertFunction: Function = this.config.get('alertFunction'),
-            alertCallback = this.config.get('alertCallback');
+            alertFunction = this.config.get('alertFunction'),
+            alertCallback = this.config.get('alertCallback'),
+            alertEvents = this.config.get('alertEvents');
 
             let alertSerie = data
                 .filter((d) => {
@@ -54,10 +55,20 @@ class Alerts extends Component {
             .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
-            .attr('r', 20)
-            .transition(Globals.COMPONENT_ANIMATION_TIME)
+            // .attr('r', 20)
+            // .transition(Globals.COMPONENT_ANIMATION_TIME)
             .attr('r', 5)
-            .call((s: any) => s.each((d: any) => alertCallback(d)));
+            .call((s: any) => {
+                if (alertCallback) {
+                    return s.each((d: any) => {
+                        alertCallback(d);
+                    });
+                }
+            });
+
+            for (let e of Object.keys(alertEvents)) {
+                alerts.on(e, alertEvents[e]);
+            }
     }
 
     public clear(){
