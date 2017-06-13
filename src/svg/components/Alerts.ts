@@ -32,6 +32,10 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
+            if (!alertVariable) {
+                return;
+            }
+
             let alertSerie = data
                 .filter((d) => {
                     return d[propertyKey] === alertVariable && 
