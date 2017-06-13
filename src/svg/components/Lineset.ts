@@ -19,6 +19,7 @@ class Lineset extends Component {
     private x: XAxis;
     private y: YAxis;
     private lineGenerator: Line<any>;
+    private linesContainer: any;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -31,6 +32,8 @@ class Lineset extends Component {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let curve: CurveFactory = this.config.get('curve');
+        this.linesContainer = this.svg.append('g')
+            .attr('class', 'lineSet');
 
         this.lineGenerator = line()
             .curve(curve)
@@ -41,7 +44,7 @@ class Lineset extends Component {
     public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
-        let series = this.svg.selectAll('g.lineSeries');
+        let series = this.linesContainer.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
         //Update new lines
