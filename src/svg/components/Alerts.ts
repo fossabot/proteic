@@ -70,8 +70,10 @@ class Alerts extends Component {
                 }
             });
 
-            for (let e of Object.keys(alertEvents)) {
-                alerts.on(e, alertEvents[e]);
+            if (alertEvents) {
+                for (let e of Object.keys(alertEvents)) {
+                    alerts.on(e, alertEvents[e]);
+                }
             }
     }
 
