@@ -167,7 +167,7 @@ class Annotations extends Component {
     }
 
     public clear() {
-        console.warn('TODO: Not yet implemented');
+        this.svg.selectAll('.annotation').remove();
     }
 }
 

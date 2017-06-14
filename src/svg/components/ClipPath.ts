@@ -26,7 +26,7 @@ class ClipPath extends Component {
     }
 
     public clear() {
-        console.warn('TODO: Not yet implemented');
+        console.warn('TODO: clipPath.clear()', 'Not yet implemented');
     }
 }
 
