@@ -11,11 +11,13 @@ class Annotations extends Component {
     private y: YAxis;
     private x: XAxis;
     private thresholdConfig: any;
+    private annotations: any;
 
-    constructor(x: XAxis, y: YAxis) {
+    constructor(x: XAxis, y: YAxis, annotations: any) {
         super();
         this.x = x;
         this.y = y;
+        this.annotations = annotations;
     }
 
     render() {
@@ -28,7 +30,6 @@ class Annotations extends Component {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
-            annotations = this.config.get('annotations'),
             y = this.y.yAxis.scale(),
             x = this.x.xAxis.scale(),
             minX = min(data, (d) => d[propertyX]),
@@ -37,12 +38,12 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
-        if (!annotations) {
+        if (!this.annotations) {
             return;
         }
 
         let annotation = d3Annotation.annotation()
-            .annotations(annotations.map((a: any) => {
+            .annotations(this.annotations.map((a: any) => {
                 let annotation = null;
                 switch (a.type) {
                     case 'threshold':

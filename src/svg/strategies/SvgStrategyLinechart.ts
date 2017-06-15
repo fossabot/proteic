@@ -42,7 +42,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         super();
         this.axes = new XYAxes();
         this.lines = new Lineset(this.axes.x, this.axes.y);
-        this.annotations = new Annotations(this.axes.x, this.axes.y);
+        // this.annotations = new Annotations(this.axes.x, this.axes.y);
         this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
@@ -66,14 +66,13 @@ class SvgStrategyLinechart extends SvgStrategy {
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
             legend = this.config.get('legend'),
-            annotations = this.config.get('annotations'),
             width = this.config.get('width'),
             height = this.config.get('height');
 
         this.container
             .add(this.axes)
             .add(this.lines)
-            .add(this.annotations)
+            // .add(this.annotations)
             .add(this.alerts)
             .add(new ClipPath(width + this.config.get('marginRight'), height));
 
