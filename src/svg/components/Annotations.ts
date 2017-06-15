@@ -112,7 +112,7 @@ class Annotations extends Component {
             default:
                 throw new SyntaxError(`Unknown annotation axis: ${annotationData.axis}`);
         }
-        
+
         return annotation;
     }
 
@@ -169,6 +169,10 @@ class Annotations extends Component {
 
     public clear() {
         this.svg.selectAll('.annotation').remove();
+    }
+
+    public transition() {
+        console.log('no transition for annotations');
     }
 }
 

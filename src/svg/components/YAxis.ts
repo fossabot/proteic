@@ -107,8 +107,11 @@ class YAxis extends Component {
         this._yAxis.scale().domain([min, max]);
     }
 
-    public transition(time = 200) {
-        this.selection.transition().duration(Globals.COMPONENT_TRANSITION_TIME).call(this._yAxis);
+    public transition() {
+        this.selection
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .call(this._yAxis);
         // Reorder the axis path to appear over the ticks
         this.svg.selectAll('.y.axis path').raise();
     }

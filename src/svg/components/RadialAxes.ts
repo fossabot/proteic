@@ -41,6 +41,11 @@ class RadialAxes extends Component {
     public clear(){
         console.warn('Not yet implemented');
     }
+
+    public transition(){
+        this._x.transition();
+        this._y.transition();
+    }
 }
 
 export default RadialAxes;

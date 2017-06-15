@@ -37,7 +37,10 @@ class ZoomComponent extends Component {
     public clear() {
         console.warn('Not yet implemented');
     }
-
+    
+    public transition() {
+        console.warn('no transition implemented for xradial');
+    }
 }
 
 export default ZoomComponent;

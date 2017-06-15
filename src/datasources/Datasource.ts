@@ -15,10 +15,6 @@ import Config from '../Config';
  */
 class Datasource {
 
-    @inject('onVisibilityChange')
-    protected visibilityChangeSource: Observable<any>;
-
-    protected visibilityChangeSourceSubscription: Subscription;
 
     constructor() {
 

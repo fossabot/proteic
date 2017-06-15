@@ -10,6 +10,7 @@ import {
     Axis
 } from 'd3';
 import Component from './Component';
+import { Globals } from "../../../index";
 
 class XAxis extends Component {
 
@@ -116,8 +117,10 @@ class XAxis extends Component {
         this._xAxis.scale().domain([min, max]);
     }
 
-    public transition(time: number = 200) {
-        let axis = this.svg.selectAll('.x.axis').transition().duration(time)
+    public transition() {
+        let axis = this.svg.selectAll('.x.axis')
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
             .call(this._xAxis);
         this.rotateTicksText(axis.selectAll('text'));
         // Reorder the axis path to appear over the ticks
@@ -164,7 +167,7 @@ class XAxis extends Component {
     }
 
     public clear() {
-        this.updateDomainByMinMax(0,1);
+        this.updateDomainByMinMax(0, 1);
         this.transition();
     }
 }

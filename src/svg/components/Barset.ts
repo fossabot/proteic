@@ -19,6 +19,7 @@ class Barset extends Component {
 
     private x: XAxis;
     private y: YAxis;
+    private keys: Array<any>;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -88,8 +89,11 @@ class Barset extends Component {
         let propertyY = this.config.get('propertyY');
         let width = this.config.get('width');
 
-        let keys = map(data, (d) => d[propertyKey]).keys(),
-            colorScale = this.config.get('colorScale'),
+        let keys = map(data, (d) => d[propertyKey]).keys();
+
+        this.keys = keys;
+
+        let colorScale = this.config.get('colorScale'),
             layer: any = null,
             x = this.x.xAxis.scale(),
             y = this.y.yAxis.scale(),
@@ -123,20 +127,14 @@ class Barset extends Component {
             .data((d: any) => d.values, (d: any) => d[propertyX]);
 
         // UPDATE bars
-        bars
+        this.elementUpdate = bars
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
             .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
-            .attr('x', (d: any) => x(d[propertyX]))
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
-            .ease(easeLinear)
-            .attr('y', (d: any) => height - y(d[propertyY]))
-            .attr('width', xGroup.bandwidth())
-            .attr('height', (d: any) => y(d[propertyY]));
+            .attr('x', (d: any) => x(d[propertyX]));
 
         // ENTER bars
-        bars.enter()
+        this.elementEnter = bars.enter()
             .append('rect')
             .attr('data-proteic-element', 'bar')
             .attr('class', Globals.SELECTOR_ELEMENT)
@@ -145,20 +143,56 @@ class Barset extends Component {
             .attr('height', 0)  // This makes the transition start
             .attr('y', height)  // at the bottom of the chart
             .attr('x', (d: any) => x(d[propertyX]))
-            .attr('width', xGroup.bandwidth())
+            .attr('width', xGroup.bandwidth());
+
+
+        // EXIT bars
+        this.elementExit = bars.exit();
+
+    }
+
+    public transition() {
+        let stacked = this.config.get('stacked');
+
+        if (stacked) {
+            this.transitionStacked();
+        } else {
+            this.transitionGrouped();
+        }
+    }
+
+    private transitionStacked() {
+
+    }
+
+    private transitionGrouped() {
+        let propertyY = this.config.get('propertyY');
+        let y = this.y.yAxis.scale();
+        let height = this.config.get('height');
+        let x = this.x.xAxis.scale();
+        let xGroup = scaleBand().domain(this.keys).range([0, x.bandwidth()]);
+
+        this.elementEnter
             .transition()
             .duration(Globals.COMPONENT_ANIMATION_TIME)
             .ease(easeLinear)
             .attr('y', (d: any) => height - y(d[propertyY]))
             .attr('height', (d: any) => y(d[propertyY]));
 
-        // EXIT bars
-        bars.exit()
+        this.elementExit
             .transition()
             .duration(Globals.COMPONENT_ANIMATION_TIME)
             .ease(easeLinear)
             .attr('fill-opacity', 0)
             .remove();
+
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear)
+            .attr('y', (d: any) => height - y(d[propertyY]))
+            .attr('width', xGroup.bandwidth())
+            .attr('height', (d: any) => y(d[propertyY]));
     }
 
     public clear() {

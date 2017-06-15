@@ -109,15 +109,11 @@ class Pointset extends Component {
             .data((d: any) => d.values, (d: any) => d[propertyX]);
 
         // UPDATE points
-        points.attr('class', Globals.SELECTOR_ELEMENT)
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+        this.elementUpdate = points.attr('class', Globals.SELECTOR_ELEMENT);
 
 
         // ENTER points
-        points.enter().append('path')
+        this.elementEnter = points.enter().append('path')
             .attr('data-proteic-element', 'point')
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr('d', shape)
@@ -125,22 +121,10 @@ class Pointset extends Component {
             .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
             .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
             .attr('fill-opacity', 0)
-            .attr('stroke-opacity', 0)
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
-            .attr('fill-opacity', 1)
-            .attr('stroke-opacity', 1);
-        // .merge(points)
-        // .attr('d', shape) 
-        // .style('stroke', (d: any) => colorScale(d[propertyKey]))
-        // .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
-        // .transition()
-        // .duration(Globals.COMPONENT_TRANSITION_TIME)
-        // .ease(easeLinear)
-        // .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+            .attr('stroke-opacity', 0);
 
         // EXIT points
-        points.exit().remove();
+        this.elementExit = points.exit().remove();
 
         points
             .on('mousedown.user', this.config.get('onDown'))
@@ -153,6 +137,24 @@ class Pointset extends Component {
     public clear() {
         this.svg.selectAll('*[data-proteic-element="point"]').remove();
     }
+
+    public transition() {
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+
+        this.elementEnter
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .attr('fill-opacity', 1)
+            .attr('stroke-opacity', 1);
+    }
+
 }
 
 export default Pointset;

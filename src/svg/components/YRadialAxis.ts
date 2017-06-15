@@ -24,10 +24,15 @@ class YRadialAxis extends Component {
     get yRadialAxis(): any {
         return this._yRadialAxis;
     }
-    
+
     public clear() {
         console.warn('Not yet implemented');
     }
+
+    public transition() {
+        console.warn('no transition implemented for xradial');
+    }
+
 }
 
 export default YRadialAxis;

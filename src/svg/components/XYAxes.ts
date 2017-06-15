@@ -32,6 +32,10 @@ class XYAxis extends Component {
         this._y.configure(config, svg);
         this._x.configure(config, svg);
     }
+    public transition(){
+        this._x.transition();
+        this._y.transition();
+    }
 
     get x(): XAxis {
         return this._x;

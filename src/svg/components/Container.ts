@@ -1,16 +1,25 @@
 import { select, Selection, zoom } from 'd3';
+import { Observable } from "rxjs/Observable";
 
 import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
+import Injector from '../../Injector';
 
 class Container {
 
     private svg: Selection<any, any, any, any>;
     private config: Config;
     private components: Component[] = [];
+    private visibilityObservable: Observable<any>; //TODO: Inject with annotations?
+    protected udpateWithTransition: boolean = true;
 
     constructor(config: Config) {
+        this.visibilityObservable = Injector.getRegistered('onVisibilityChange');
+        this.visibilityObservable.subscribe((event: any) => {
+            this.udpateWithTransition = !event.hidden
+        });
+        
         this.config = config;
 
         let selector: string = this.config.get('selector'),
@@ -87,6 +96,12 @@ class Container {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             component.update(data, events);
+            if (this.udpateWithTransition){
+                component.transition();
+            }
+            else{
+                console.log('NO TRANSITION');
+            }
         }
     }
 
@@ -119,7 +134,7 @@ class Container {
         //this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
     }
 
-    public getComponents() : Component[]{
+    public getComponents(): Component[] {
         return this.components;
     }
 

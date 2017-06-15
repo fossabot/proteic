@@ -23,4 +23,3 @@ Injector.register('onResize', resizeSource);
 
 Injector.register('localStorageService', localStorageService);
 Injector.register('sessionStorageService', sessionStorageService);
-

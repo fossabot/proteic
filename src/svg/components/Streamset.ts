@@ -85,6 +85,12 @@ class Streamset extends Component {
     public clear() {
         this.update([]);
     }
+
+    public transition() {
+        console.warn('no transition for streamset');
+    }
+
+
 }
 
 export default Streamset;
