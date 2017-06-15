@@ -55,8 +55,8 @@ class XAxis extends Component {
 
         if (xAxisType === 'linear') {
             //TODO: Optimize it. Currently we are looping data twice.
-            let min = d3Min(data, (d) => d[propertyX]),
-                max = d3Max(data, (d) => d[propertyX]);
+            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
+                max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
             this.updateDomainByMinMax(min, Math.ceil(max));
 
         } else if (xAxisType === 'time') {
