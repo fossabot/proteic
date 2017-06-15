@@ -24,7 +24,6 @@ class Alerts extends Component {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyKey = this.config.get('propertyKey'),
-            annotations = this.config.get('annotations'),
             y = this.y.yAxis.scale(),
             x = this.x.xAxis.scale(),
             alertVariable: string = this.config.get('alertVariable'),

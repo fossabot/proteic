@@ -12,12 +12,14 @@ import WebsocketDatasource from "../datasources/WebsocketDatasource";
 import Config from "../Config";
 import SvgStrategy from "../svg/base/SvgStrategy";
 import Globals from '../Globals';
+import Annotations from '../svg/components/Annotations';
 
 abstract class Chart {
 
     private context: SvgContext;
     protected config: Config;
     protected data: any;
+    private annotationsConfig: any;
     private events: Map<string, any>;
     private subscription: Subscription;
     private _injector: Injector = new Injector();
@@ -47,12 +49,14 @@ abstract class Chart {
         this.strategy.initialize();
 
         this._injector.mapValue('Strategy', this.strategy);
+
         //Instantiate SvgContext
         this.context = this._injector.instantiate(SvgContext);
     }
 
     public annotations(annotations: any) {
-        this.config.put('annotations', annotations);
+        this.annotationsConfig = annotations;
+        this.strategy.addComponent(Annotations, annotations);
         return this;
     }
 
@@ -172,11 +176,10 @@ abstract class Chart {
             this.streaming = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
 
-        let annotations = this.config.get('annotations'),
-        eventKeys: Set<string> = new Set;
+        let eventKeys: Set<string> = new Set;
 
-        if (annotations) {
-            annotations.forEach((a: any) => {
+        if (this.annotationsConfig) {
+            this.annotationsConfig.forEach((a: any) => {
                 eventKeys.add(a.variable);
                 eventKeys.add(a.width);
             })
