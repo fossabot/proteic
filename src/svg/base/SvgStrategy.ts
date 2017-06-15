@@ -1,5 +1,7 @@
 import Container from '../components/Container';
 import Component from '../components/Component';
+import XYAxes from '../components/XYAxes';
+import Annotations from '../components/Annotations';
 import Config from '../../Config';
 import inject from '../../inject';
 
@@ -20,7 +22,14 @@ abstract class SvgStrategy {
 
     abstract draw(data: [{}], events: Map<string, any>): void;
 
-    abstract addComponent(component: Function, config: any): void;
+    public addComponent(component: Function, config: any) {
+        switch(component.name) {
+            case Annotations.name:
+                let axes: XYAxes = <XYAxes> this.container.getComponent(XYAxes.name);
+                this.container.add(new Annotations(axes.x, axes.y, config));
+            break;
+        }
+    }
 
     public clear(){
         let components = this.container.getComponents();

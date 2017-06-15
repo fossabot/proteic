@@ -49,14 +49,6 @@ class SvgStrategyScatterplot extends SvgStrategy {
         this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
     }
 
-    public addComponent(component: Function, config: any) {
-        switch(component.name) {
-            case Annotations.name:
-                this.container.add(new Annotations(this.axes.x, this.axes.y, config));
-            break;
-        }
-    }
-
     public draw(data: [{}], events: Map<string, any>) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),

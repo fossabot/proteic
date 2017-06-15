@@ -122,6 +122,10 @@ class Container {
     public getComponents() : Component[]{
         return this.components;
     }
+
+    public getComponent(componentName: string): Component {
+        return this.components.find((c: Component) => componentName === c.constructor.name);
+    }
 }
 
 export default Container;

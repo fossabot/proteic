@@ -21,10 +21,6 @@ class SvgStrategyGauge extends SvgStrategy {
         this.textIndicator = new TextIndicator();
     }
 
-    public addComponent(component: Function, data: any) {
-        console.warn('addComponent method not yet implemented');
-    }
-
     public draw(data: [{}]) {
         this.container.updateComponents(data);
     }

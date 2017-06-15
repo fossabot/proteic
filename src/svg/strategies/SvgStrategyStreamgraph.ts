@@ -29,10 +29,6 @@ class SvgStrategyStreamgraph extends SvgStrategy {
         this.streams = new Streamset(this.axes);
     }
 
-    public addComponent(component: Function, data: any) {
-        console.warn('addComponent method not yet implemented');
-    }
-
     public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
