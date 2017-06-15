@@ -155,13 +155,17 @@ abstract class Chart {
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
-            propertyKey = this.config.get('propertyKey');
+            propertyKey = this.config.get('propertyKey'),
+            propertyStart = this.config.get('propertyStart'),
+            propertyEnd = this.config.get('propertyEnd');
 
         let dataKeys = [
             propertyX,
             propertyY,
             propertyZ,
-            propertyKey
+            propertyKey,
+            propertyStart,
+            propertyEnd
         ].filter((p) => p !== undefined);
 
         if (!this.streaming) {
@@ -201,7 +205,7 @@ abstract class Chart {
             )
         }
 
-        let cleanDatum = this.cleanDatum(datum, dataKeys);
+       let cleanDatum = this.cleanDatum(datum, dataKeys);
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
