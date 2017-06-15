@@ -37,6 +37,9 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
+        if (!annotations) {
+            return;
+        }
 
         let annotation = d3Annotation.annotation()
             .annotations(annotations.map((a: any) => {
@@ -70,11 +73,6 @@ class Annotations extends Component {
             .call(annotation)
             .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
     }
-
-    public transition() {
-        console.warn('Annotations have not transition effects');
-    }
-
 
     private makeBandAnnotation(value: number, width: number, text: string, minY: number) {
         let chartWidth: number = this.config.get('width'),
@@ -169,7 +167,12 @@ class Annotations extends Component {
     }
 
     public clear() {
-        console.warn('TODO: Not yet implemented');
+        this.svg.selectAll('.annotation').remove();
+    }
+
+
+    public transition() {
+        console.log('no transition for annotations');
     }
 }
 

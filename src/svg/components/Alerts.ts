@@ -32,6 +32,10 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
+            if (!alertVariable) {
+                return;
+            }
+
             let alertSerie = data
                 .filter((d) => {
                     return d[propertyKey] === alertVariable && 
@@ -73,12 +77,12 @@ class Alerts extends Component {
             }
     }
 
-    public transition(){
-        console.warn('Alerts have not transition effects');
-    }
-
     public clear(){
         this.svg.selectAll('.alert').remove();
+    }
+
+    public transition(){
+        console.log('no transition for alerts');
     }
 }
 
