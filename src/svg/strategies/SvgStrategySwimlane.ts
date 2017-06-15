@@ -32,9 +32,12 @@ class SvgStrategySwimlane extends SvgStrategy {
     public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             propertyStart = this.config.get('propertyStart'),
-            propertyEnd = this.config.get('propertyEnd');
-            
-        convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+            propertyEnd = this.config.get('propertyEnd'),
+            xAxisType = this.config.get('xAxisType');
+        
+        if (xAxisType === 'time') {
+            convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+        }
 
         sortByField(data, propertyStart);
 
