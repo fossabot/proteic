@@ -1,7 +1,7 @@
-import {deg2rad} from "../../utils/functions";
+import { deg2rad } from "../../utils/functions";
 import Component from "./Component";
-import {scaleLinear, arc as d3arc, range as d3range} from "d3";
-import {Arc} from "d3-shape";
+import { scaleLinear, arc as d3arc, range as d3range } from "d3";
+import { Arc } from "d3-shape";
 
 class Dial extends Component {
 
@@ -30,8 +30,8 @@ class Dial extends Component {
 
             range = maxAngle - minAngle,
             r = ((width > height) ?
-                        height : width
-                ) / 2,
+                height : width
+            ) / 2,
             translation = (() => 'translate(' + r + ',' + r + ')'),
             tickData = d3range(ticks).map(() => 1 / ticks),
             arc: Arc<any, any> = d3arc()
@@ -84,9 +84,14 @@ class Dial extends Component {
 
     }
 
-    public clear(){
+    public clear() {
         console.warn('TODO: Not yet implemented');
     }
+
+    public transition() {
+        console.warn('No transition effects for dial');
+    }
+
 }
 
 export default Dial;

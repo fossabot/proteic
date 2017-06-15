@@ -96,6 +96,9 @@ class Timeboxset extends Component {
         this.update([]);
     }
 
+    public transition(){
+        console.warn('no transition implemented for timeboxset');
+    }
 }
 
 export default Timeboxset;

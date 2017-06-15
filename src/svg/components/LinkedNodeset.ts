@@ -182,6 +182,11 @@ class LinkedNodeset extends Component implements Zoomable {
         this.svg.selectAll('.links').remove();
         this.svg.selectAll('.labels').remove();
     }
+
+    public transition() {
+        console.warn('No transition effects for ', this.constructor.name);
+    }
+
 }
 
 export default LinkedNodeset;

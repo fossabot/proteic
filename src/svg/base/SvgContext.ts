@@ -6,7 +6,7 @@ export class SvgContext {
 
     @inject('Strategy')
     public strategy: SvgStrategy;
-
+    
     public draw(data: [{}], events: Map<string, any>): void {
         this.strategy.draw(data, events);
     }

@@ -1,17 +1,25 @@
+import { Observable } from 'rxjs';
 import Config from "../../Config";
-import {Selection} from "d3";
+import { Selection } from "d3";
 
 abstract class Component {
 
     protected config: Config;
     protected svg: Selection<any, any, any, any>;
 
-    constructor() {
-    }
+    protected elementEnter: any;
+    protected elementExit: any;
+    protected elementUpdate: any;
+
+
+    constructor() { }
 
     abstract update(data: any, events?: Map<string, any>): void;
 
-    abstract clear() : void;
+    //abstract transition(selection : Selection<any, any, any,any>) : void;
+    abstract transition(): void;
+
+    abstract clear(): void;
 
     abstract render(): void;
 
@@ -29,6 +37,6 @@ abstract class Component {
         this.svg = svg;
     }
 }
-;
+
 
 export default Component;    

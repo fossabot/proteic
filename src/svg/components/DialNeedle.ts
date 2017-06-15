@@ -78,13 +78,17 @@ class DialNeedle extends Component {
                 .range([90 + minAngle, 90 + maxAngle]);
 
         this.svg.select('.needle')
-            .transition()
+            //.transition()
             .attr('transform', (d) => `translate(${r}, ${r}) rotate(${angleScale(datum[propertyValue]) - 90})`)
             .attr('d', `M ${0 - needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${needleNutRadius} ${0}`);
     }
 
     public clear() {
         console.warn('TODO: Not yet implemented');
+    }
+
+    public transition(){
+        console.warn('transition not yet implemented for dialneedle');
     }
 
 }

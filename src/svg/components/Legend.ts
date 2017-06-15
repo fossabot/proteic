@@ -90,6 +90,10 @@ class Legend extends Component {
         this.update([]);
     }
 
+    public transition(){
+        console.warn('No transition effects for ', this.constructor.name);
+    }
+
     private drawTopLegendCb(legend: any) {
         legend.selectAll('.legend-cb')
             .attr('x', (d: any, i: number) => i * 100)
@@ -143,15 +147,15 @@ class Legend extends Component {
             let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
 
             legendEntry.selectAll('rect')
-                .transition()
-                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+                //.transition()
+                //.duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
                 .style('fill', (d: any): any => {
                     return (opacity === 1) ? colorScale(d.key) : 'transparent';
                 });
 
             element
-                .transition()
-                .duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
+                //.transition()
+                //.duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
                 .style('opacity', opacity);
         }
     }

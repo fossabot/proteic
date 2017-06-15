@@ -22,6 +22,7 @@ class HistogramBarset extends Component {
 
     private x: XAxis;
     private y: YAxis;
+    private bins: any;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -55,6 +56,8 @@ class HistogramBarset extends Component {
             .thresholds(x.ticks(ticks))
             (histogramData);
 
+        this.bins = bins;
+
         this.y.updateDomainByMinMax(0, max(bins, (d) => d.length));
         this.y.transition();
 
@@ -66,27 +69,19 @@ class HistogramBarset extends Component {
             .data(bins);
 
         // Update bars
-        bars
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear)
-            .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-            .attr('height', (d) => height - y(d.length))
-            .attr('y', (d) => y(d.length))
-            .attr('x', (d) => x(d.x0));
+        this.elementUpdate = bars;
 
         // Enter bars
-        bars
+        this.elementEnter = bars
             .enter().append('rect')
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr('data-proteic-element', 'barHistogram')
-
             .attr('x', (d) => x(d.x0))
             .attr('y', (d) => y(d.length))
             .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
             .attr('height', (d) => height - y(d.length));
 
-        bars.exit().remove();
+        this.elementExit = bars.exit().remove();
 
         bars
             .on('mousedown.user', this.config.get('onDown'))
@@ -100,6 +95,20 @@ class HistogramBarset extends Component {
         this.update([]);
     }
 
+    public transition() {
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
+        let height = this.config.get('height');
+
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('width', x(this.bins[0].x1) - x(this.bins[0].x0) - 1)
+            .attr('height', (d: any) => height - y(d.length))
+            .attr('y', (d: any) => y(d.length))
+            .attr('x', (d: any) => x(d.x0));
+    }
 }
 
 export default HistogramBarset;

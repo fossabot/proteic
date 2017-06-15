@@ -34,7 +34,7 @@ class SvgStrategyLinechart extends SvgStrategy {
     private markers: Pointset;
     private area: Areaset;
     private legend: Legend;
-    private annotations : Annotations;
+    private annotations: Annotations;
     private alerts: Alerts;
     private clipPath: ClipPath;
 
@@ -42,8 +42,6 @@ class SvgStrategyLinechart extends SvgStrategy {
         super();
         this.axes = new XYAxes();
         this.lines = new Lineset(this.axes.x, this.axes.y);
-        this.annotations = new Annotations(this.axes.x, this.axes.y);
-        this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
     public draw(data: [{}], events: Map<string, any>) {
@@ -66,16 +64,14 @@ class SvgStrategyLinechart extends SvgStrategy {
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
             legend = this.config.get('legend'),
-            annotations = this.config.get('annotations'),
+            annotationsConfig = this.config.get('annotations'),
+            alertsConfig = this.config.get('alertVariable'),
             width = this.config.get('width'),
             height = this.config.get('height');
 
         this.container
             .add(this.axes)
-            .add(this.lines)
-            .add(this.annotations)
-            .add(this.alerts)
-            .add(new ClipPath(width + this.config.get('marginRight'), height));
+            .add(this.lines);
 
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
@@ -90,6 +86,18 @@ class SvgStrategyLinechart extends SvgStrategy {
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
+        }
+
+        if (annotationsConfig) {
+            this.annotations = new Annotations(this.axes.x, this.axes.y);
+            this.container.add(this.annotations);
+            this.container.add(new ClipPath(width + this.config.get('marginRight'), height));
+        }
+
+        if (alertsConfig) {
+            this.alerts = new Alerts(this.axes.x, this.axes.y);
+            this.container.add(this.alerts);
+            this.container.add(new ClipPath(width + this.config.get('marginRight'), height));
         }
     }
 }

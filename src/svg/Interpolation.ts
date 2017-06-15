@@ -20,10 +20,6 @@ class Interpolation {
     public static CURVE_STEP = curveStep;
     public static CURVE_STEP_AFTER = curveStepAfter;
     public static CURVE_STEP_BEFORE = curveStepBefore;
-
-    // public create(): CurveFactory {
-    //    return curveStepBefore;
-    // }
 };
 
 export default Interpolation;

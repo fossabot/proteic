@@ -11,7 +11,8 @@ import {
     nest,
     easeLinear,
     CurveFactory,
-    Line
+    Line,
+    Selection,
 } from 'd3';
 
 class Lineset extends Component {
@@ -49,8 +50,8 @@ class Lineset extends Component {
 
         //Update new lines
         let lines = series.data(dataSeries, (d: any) => d.key);
-        
-        lines.enter()
+
+        this.elementEnter = lines.enter()
             .append('g')
             .attr('class', 'lineSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
@@ -62,16 +63,30 @@ class Lineset extends Component {
             .attr('d', (d: any) => this.lineGenerator(d.values))
             .attr('class', 'line');
 
-        lines.exit().remove();
+        this.elementExit = lines.exit().remove();
 
         //update existing lines
-        this.svg.selectAll('.line')
+        this.elementUpdate = this.svg.selectAll('.line')
             .data(dataSeries, (d: any) => d.key)
             .attr('d', (d: any) => this.lineGenerator(d.values))
+    }
+
+
+    public transition() {
+        this.elementUpdate
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(easeLinear);
+
+        this.elementEnter
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+        this.elementExit
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
     }
+
 
     public clear() {
         this.update([]);

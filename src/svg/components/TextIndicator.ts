@@ -50,6 +50,11 @@ class TextIndicator extends Component {
         console.warn('Not yet implemented');
     }
 
+    public transition() {
+        console.warn('no transition for sunburst disk');
+    }
+
+
 }
 
 export default TextIndicator;

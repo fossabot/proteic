@@ -40,14 +40,14 @@ class TileSet extends Component {
 
         if (xAxisType === 'linear') {
             this.x.updateDomainByMinMax(minX, maxX + xStep);
-            this.x.transition(Globals.COMPONENT_ANIMATION_TIME);
+            this.x.transition();
             width = x(xStep) - x(0);
         } else if (xAxisType === 'categorical') {
             width = x.step();
         }
         if (yAxisType === 'linear') {
             this.y.updateDomainByMinMax(minY, maxY + yStep);
-            this.y.transition(Globals.COMPONENT_ANIMATION_TIME);
+            this.y.transition();
             heigth = y(0) - y(yStep);
         } else if (yAxisType === 'categorical') {
             heigth = y.step();
@@ -59,8 +59,8 @@ class TileSet extends Component {
 
         // Update
         tiles.attr('class', 'tile')
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            //.transition()
+            //.duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
@@ -90,8 +90,8 @@ class TileSet extends Component {
             .attr('height', heigth)
             .style('fill', (d) => colorScale(d[propertyZ]))
             .attr('fill-opacity', 0)
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            //.transition()
+            //.duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('fill-opacity', 1);
 
         // Exit
@@ -108,6 +108,11 @@ class TileSet extends Component {
     public clear() {
         this.update([]);
     }
+
+    public transition() {
+        console.warn('no transition implemented for tileset');
+    }
+
 }
 
 export default TileSet;
