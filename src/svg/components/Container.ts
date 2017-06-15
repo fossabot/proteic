@@ -18,7 +18,6 @@ class Container {
         this.visibilityObservable = Injector.getRegistered('onVisibilityChange');
         this.visibilityObservable.subscribe((event: any) => {
             this.udpateWithTransition = !event.hidden
-            console.log('transition?', this.udpateWithTransition);   
         });
         
         this.config = config;
@@ -99,6 +98,9 @@ class Container {
             component.update(data, events);
             if (this.udpateWithTransition){
                 component.transition();
+            }
+            else{
+                console.log('NO TRANSITION');
             }
         }
     }
