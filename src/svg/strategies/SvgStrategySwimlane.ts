@@ -29,6 +29,10 @@ class SvgStrategySwimlane extends SvgStrategy {
         this.boxes = new TimeBoxset(this.axes);
     }
 
+    public addComponent(component: Function, data: any) {
+        console.warn('addComponent method not yet implemented');
+    }
+
     public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             propertyStart = this.config.get('propertyStart'),

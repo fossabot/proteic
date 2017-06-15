@@ -38,6 +38,10 @@ class SvgStrategyBarchart extends SvgStrategy {
         this.bars = new Barset(this.axes.x, this.axes.y);
     }
 
+    public addComponent(component: Function, data: any) {
+        console.warn('addComponent method not yet implemented');
+    }
+
     public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),

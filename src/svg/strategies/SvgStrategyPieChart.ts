@@ -12,6 +12,10 @@ class SvgStrategyPieChart extends SvgStrategy {
         this.sectors = new SectorSet();
     }
 
+    public addComponent(component: Function, data: any) {
+        console.warn('addComponent method not yet implemented');
+    }
+
     public draw(data: [{}]) {
         this.container.translate(
             this.config.get('width') / 2,

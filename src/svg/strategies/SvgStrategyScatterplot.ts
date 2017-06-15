@@ -40,14 +40,21 @@ class SvgStrategyScatterplot extends SvgStrategy {
      */
     private canvasMarkers: CanvasPointset;
     private legend: Legend;
-    private annotations: Annotations;
+    private annotations: any;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.markers = new Pointset(this.axes.x, this.axes.y);
         this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
-        this.annotations = new Annotations(this.axes.x, this.axes.y);
+    }
+
+    public addComponent(component: Function, config: any) {
+        switch(component.name) {
+            case Annotations.name:
+                this.container.add(new Annotations(this.axes.x, this.axes.y, config));
+            break;
+        }
     }
 
     public draw(data: [{}], events: Map<string, any>) {
@@ -69,7 +76,7 @@ class SvgStrategyScatterplot extends SvgStrategy {
         super.initialize();
         let legend = this.config.get('legend');
 
-        this.container.add(this.axes).add(this.annotations);
+        this.container.add(this.axes);
 
         if (this.config.get('canvas')) {
             this.container.add(this.canvasMarkers);
