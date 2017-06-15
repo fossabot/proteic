@@ -32,6 +32,8 @@ class Timeboxset extends Component {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
         let propertyEnd = this.config.get('propertyEnd');
+        
+        data = data.filter((d) => propertyEnd in d || propertyStart in d);
 
         let colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
@@ -54,7 +56,8 @@ class Timeboxset extends Component {
             x = this.xyAxes.x.xAxis.scale(),
             y = this.xyAxes.y.yAxis.scale();
 
-        data = simple2nested(data);
+        data = simple2nested(data, propertyKey);
+        
         extLanes = extent(data, (d, i) => i);
         yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, height]);
 
@@ -64,8 +67,8 @@ class Timeboxset extends Component {
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
-
-
+            
+            
         box = layerMerge.selectAll('rect')
             .data((d: any) => d.values);
             
@@ -80,7 +83,7 @@ class Timeboxset extends Component {
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
             .style('fill', (d: any) => colorScale(d[propertyKey]));
-            
+
         
         box = this.svg.selectAll('g.serie rect');
 

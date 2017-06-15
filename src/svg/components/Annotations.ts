@@ -170,7 +170,6 @@ class Annotations extends Component {
         this.svg.selectAll('.annotation').remove();
     }
 
-
     public transition() {
         console.log('no transition for annotations');
     }
