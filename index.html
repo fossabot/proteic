@@ -14,515 +14,828 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://rawgit.com/proteus-h2020/proteic/development/dist/proteic.js"></script>
     <script src="https://use.fontawesome.com/4286931dd8.js"></script>
-    <meta charset="utf-8"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/proteus-h2020/proteic/development/dist/proteic.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-light.min.css">
 </head>
 
 <body>
 
-<section class="hero is-primary is-bold">
-    <div class="hero-head">
-        <header class="nav">
-            <div class="container">
-                <div class="nav-left">
-                    <a class="nav-item is-brand">
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <header class="nav">
+                <div class="container">
+                    <div class="nav-left">
+                        <a class="nav-item is-brand">
                         <img src="images/favicon.png" alt="Logo">
                     </a>
-                    <a href="/" class="nav-item title">Proteic.js</a>
-                </div>
-                <div class="nav-right nav-menu">
-                    <a class="nav-item is-active" href="index.html">
+                        <a href="/" class="nav-item title">Proteic.js</a>
+                    </div>
+                    <div class="nav-right nav-menu">
+                        <a class="nav-item is-active" href="index.html">
                         Home
                     </a>
-                    <a class="nav-item" href="catalogue.html">
+                        <a class="nav-item" href="catalogue.html">
                         Catalogue
                     </a>
-                    <a class="nav-item" href="components.html">
-                        Components
+                        <a class="nav-item" href="components.html">
+                        Features
                     </a>
-                    <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
+                        <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
                         Documentation
                     </a>
-                    <a href="docs/" class="nav-item">
+                        <a href="docs/" class="nav-item">
                         API docs
                     </a>
-                    <a href="/bundle.html" class="nav-item">
+                        <a href="/bundle.html" class="nav-item">
                         Customize your bundle
                     </a>
-                    <a href="https://twitter.com/proteicjs" class="nav-item">
+                        <a href="https://twitter.com/proteicjs" class="nav-item">
                         <span class="icon">
                             <i class="fa fa-twitter"></i>
                         </span>
                     </a>
-                    <span class="nav-item">
+                        <span class="nav-item">
                     <a class="button is-primary is-inverted" href="https://github.com/proteus-h2020/proteic">
                         <span class="icon">
                         <i class="fa fa-github"></i>
                         </span>
                         <span>Source code</span>
                         </a>
-                    </span>
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </header>
-    </div>
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <div class="columns is-vcentered">
-                <div class="column is-3 is-offset-3">
-                    <h1 class="title is-1">
-                        Proteic.js
-                    </h1>
-                    <h2 class="subtitle">
-                        Modern visualization library, ready for batch and streaming data
-                    </h2>
-                    <a href="https://github.com/proteus-h2020/proteic/wiki/Getting-started" class="button is-primary is-inverted is-medium">Get started</a>
-                </div>
-                <div class="column is-4">
+            </header>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered">
+                    <div class="column is-3 is-offset-3">
+                        <h1 class="title is-1">
+                            Proteic.js
+                        </h1>
+                        <h2 class="subtitle">
+                            Streaming and static data visualization for the modern web
+                        </h2>
+                        <a href="https://github.com/proteus-h2020/proteic/wiki/Getting-started" class="button is-primary is-inverted is-medium">Get started</a>
+                    </div>
+                    <div class="column is-4">
                         <figure class="image is-4by3">
                             <img src="images/proteic4x3.png" alt="Proteic logo">
                         </figure>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section">
-    <h1 class="title">Features</h1>
-    <div class="columns">
-        <div class="column">
-            <article class="media">
-                <figure class="media-left">
-                    <span class="icon is-large">
+    <section class="section">
+        <h1 class="title">Features</h1>
+        <div class="columns">
+            <div class="column">
+                <article class="media">
+                    <figure class="media-left">
+                        <span class="icon is-large">
                       <i class="fa fa-bolt"></i>
                     </span>
-                </figure>
-                <div class="media-content">
-                    <p><strong>Ready for both static and streaming data</strong></p>
-                    <p>This library make the difference. You don't need to implement your own functions to synchronize your stream data. Proteic.js does it automatically for you.</p>
-                </div>
-            </article>
-        </div>
-        <div class="column">
-            <article class="media">
-                <figure class="media-left">
-                    <span class="icon is-large">
+                    </figure>
+                    <div class="media-content">
+                        <p><strong>Ready for both static and streaming data</strong></p>
+                        <p>This library make the difference. You don't need to implement your own functions to synchronize your
+                            stream data. Proteic.js does it automatically for you.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="column">
+                <article class="media">
+                    <figure class="media-left">
+                        <span class="icon is-large">
                       <i class="fa fa-mobile"></i>
                     </span>
-                </figure>
-                <div class="media-content">
-                    <p><strong>Responsive</strong></p>
-                    <p>Proteic.js is 100% responsive, adaptable to all devices.</p>
-                </div>
-            </article>
+                    </figure>
+                    <div class="media-content">
+                        <p><strong>Responsive</strong></p>
+                        <p>Proteic.js is 100% responsive, adaptable to all devices.</p>
+                    </div>
+                </article>
+            </div>
         </div>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <article class="media">
-                <figure class="media-left">
-                    <span class="icon is-large">
+        <div class="columns">
+            <div class="column">
+                <article class="media">
+                    <figure class="media-left">
+                        <span class="icon is-large">
                       <i class="fa fa-code-fork"></i>
                     </span>
-                </figure>
-                <div class="media-content">
-                    <p><strong>Open source</strong></p>
-                    <p>Proteic.js is an open-source project. Our goal is to create and maintain this visualization tool that you can use for visualize both your streaming and static data. Also, you can contribute to the project by reporting bugs or sending PRs with some improvements.</p>
-                </div>
-            </article>
-        </div>
-        <div class="column">
-            <article class="media">
-                <figure class="media-left">
-                    <span class="icon is-large">
+                    </figure>
+                    <div class="media-content">
+                        <p><strong>Open source</strong></p>
+                        <p>Proteic.js is an open-source project. Our goal is to create and maintain this visualization tool
+                            that you can use for visualize both your streaming and static data. Also, you can contribute
+                            to the project by reporting bugs or sending PRs with some improvements.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="column">
+                <article class="media">
+                    <figure class="media-left">
+                        <span class="icon is-large">
                       <i class="fa fa-database"></i>
                     </span>
-                </figure>
-                <div class="media-content">
-                    <p><strong>Datasource</strong></p>
-                    <p>Support for streaming and static data is direclty supported through datasources, instead of the classical 'data' attribute :). Check out how it works.</p>
+                    </figure>
+                    <div class="media-content">
+                        <p><strong>Datasource</strong></p>
+                        <p>Support for streaming and static data is direclty supported through datasources, instead of the classical
+                            'data' attribute :). Check out how it works.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h1 class="title">Examples</h1>
+
+        <div class="container">
+            <h2 class="title is-4">Barchart</h2>
+            <div class="columns">
+                <div class="column">
+                    <div id="bars"></div>
                 </div>
-            </article>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <h1 class="title">Examples</h1>
-
-    <div class="container">
-        <h2 class="title is-4">Barchart</h2>
-        <div class="columns">
-            <div class="column">
-                <div id="bars"></div>
-            </div>
-            <div class="column">
-                <div class="box">
-                                <pre><code class="javascript">var chart = new proteic.Barchart(data);
-    barchart.draw();</code></pre>
+                <div class="column">
+                    <div class="box">
+<pre><code class="javascript">let chart = new proteic.Barchart(data);
+barchart.draw();</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <h2 class="title is-4">Linechart with streaming data</h2>
-        <div class="columns">
-            <div class="column">
-                <div id="lines-ws"></div>
-            </div>
-            <div class="column">
-                <div class="box">
-                                <pre><code class="javascript">var dsLines = new proteic.WebsocketDatasource({
-        endpoint: 'wss://localhost:3000/linechart'
-    });
-    new proteic.Linechart([]).datasource(dsLines);
-    dsLines.start();</code></pre>
+        <div class="container">
+            <h2 class="title is-4">Linechart with streaming data</h2>
+            <div class="columns">
+                <div class="column">
+                    <div id="lines-ws"></div>
+                </div>
+                <div class="column">
+                    <div class="box">
+<pre><code class="javascript">let ws = new WebSocket('wss://localhost:3000/linechart');
+var dsLines = new proteic.WebsocketDatasource(ws);
+new proteic.Linechart([]).datasource(dsLines);
+dsLines.start();</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="container">
+            <a href="catalogue.html" class="button is-info is-large">See the full catalogue</a>
         </div>
-    </div>
-    <div class="container">
-        <a href="catalogue.html" class="button is-info is-large">See the full catalogue</a>
-    </div>
-</section>
+    </section>
 
-<section class="section">
-    <h1 class="title">About PROTEUS</h1>
-    <h2 class="subtitle">Proteic.js is part of the PROTEUS project, funded by the European Union under the H2020 programme.</h2>
-    <div class="content">
-        <p>
-            PROTEUS is an EU H2020 funded research project to evolve massive online machine learning strategies for predictive analytics and real-time interactive visualization methods – in terms of scalability, usability and effectiveness dealing with extremely large data sets and data streams – into ready to use solutions, and to integrate them into enhanced version of Apache Flink, the EU Big Data platform. PROTEUS project is being carried out by an international consortium of 6 partners including Treelogic (creators of Lambdoop), DFKI (part of the team creator of Apache Flink), ArcelorMitall (worlds’s leading steel company), Lambdoop/Novelti (startup focused on streaming analytics) and Trilateral (policy and regulatory advice on new technologies).
-        </p>
-    </div>
-    <a href="http://www.proteus-bigdata.com/" class="button is-info is-outlined">
+    <section class="section">
+        <h1 class="title">About PROTEUS</h1>
+        <h2 class="subtitle">Proteic.js is part of the PROTEUS project, funded by the European Union under the H2020 programme.</h2>
+        <div class="content">
+            <p>
+                PROTEUS is an EU H2020 funded research project to evolve massive online machine learning strategies for predictive analytics
+                and real-time interactive visualization methods – in terms of scalability, usability and effectiveness dealing
+                with extremely large data sets and data streams – into ready to use solutions, and to integrate them into
+                enhanced version of Apache Flink, the EU Big Data platform. PROTEUS project is being carried out by an international
+                consortium of 6 partners including Treelogic (creators of Lambdoop), DFKI (part of the team creator of Apache
+                Flink), ArcelorMitall (worlds’s leading steel company), Lambdoop/Novelti (startup focused on streaming analytics)
+                and Trilateral (policy and regulatory advice on new technologies).
+            </p>
+        </div>
+        <a href="http://www.proteus-bigdata.com/" class="button is-info is-outlined">
         <span class="icon">
             <i class="fa fa-info"></i>
         </span>
         <span>Learn more</span>
     </a>
-    <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
-            <div class="image">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/aiq6J_4v9jY" frameborder="0" allowfullscreen></iframe>
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <div class="image">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/aiq6J_4v9jY" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="content has-text-centered">
-            <div class="image is-96x96 is-flex" style="align-items: center; margin: auto; display: flex;">
-                <img src="images/eu-flag.jpg" alt="">
-            </div>
-            <p style="font-family: Calibri, sans-serif">This project is funded by the European Union.</p>
-            <p style="font-family: Calibri, sans-serif">(Horizon 2020, Ref: 687691)</p>
-            <a class="icon" href="https://github.com/proteus-h2020/">
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <div class="image is-96x96 is-flex" style="align-items: center; margin: auto; display: flex;">
+                    <img src="images/eu-flag.jpg" alt="">
+                </div>
+                <p style="font-family: Calibri, sans-serif">This project is funded by the European Union.</p>
+                <p style="font-family: Calibri, sans-serif">(Horizon 2020, Ref: 687691)</p>
+                <a class="icon" href="https://github.com/proteus-h2020/">
                 <i class="fa fa-github"></i>
             </a>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<script>hljs.initHighlightingOnLoad();</script>
-<script>
-  var data = [
-    {key: 'serie1', x: 1, y: 5},
-    {key: 'serie1', x: 2, y: 15},
-    {key: 'serie1', x: 3, y: 35},
-    {key: 'serie1', x: 4, y: 25},
-    {key: 'serie1', x: 5, y: 12},
-    {key: 'serie1', x: 6, y: 0},
-    {key: 'serie1', x: 7, y: 21},
-    {key: 'serie1', x: 8, y: 0},
-    {key: 'serie2', x: 1, y: 4},
-    {key: 'serie2', x: 2, y: 4},
-    {key: 'serie2', x: 3, y: 20},
-    {key: 'serie2', x: 7, y: 12},
-    {key: 'serie2', x: 5, y: 14},
-    {key: 'serie2', x: 6, y: 9},
-    {key: 'serie2', x: 4, y: 12},
-    {key: 'serie2', x: 8, y: 13}
-  ];
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script>
+        var data = [{
+                key: 'serie1',
+                x: 1,
+                y: 5
+            },
+            {
+                key: 'serie1',
+                x: 2,
+                y: 15
+            },
+            {
+                key: 'serie1',
+                x: 3,
+                y: 35
+            },
+            {
+                key: 'serie1',
+                x: 4,
+                y: 25
+            },
+            {
+                key: 'serie1',
+                x: 5,
+                y: 12
+            },
+            {
+                key: 'serie1',
+                x: 6,
+                y: 0
+            },
+            {
+                key: 'serie1',
+                x: 7,
+                y: 21
+            },
+            {
+                key: 'serie1',
+                x: 8,
+                y: 0
+            },
+            {
+                key: 'serie2',
+                x: 1,
+                y: 4
+            },
+            {
+                key: 'serie2',
+                x: 2,
+                y: 4
+            },
+            {
+                key: 'serie2',
+                x: 3,
+                y: 20
+            },
+            {
+                key: 'serie2',
+                x: 7,
+                y: 12
+            },
+            {
+                key: 'serie2',
+                x: 5,
+                y: 14
+            },
+            {
+                key: 'serie2',
+                x: 6,
+                y: 9
+            },
+            {
+                key: 'serie2',
+                x: 4,
+                y: 12
+            },
+            {
+                key: 'serie2',
+                x: 8,
+                y: 13
+            }
+        ];
 
-  var dataTemporal = [
-    {'key': 'ES', x: '01/08/13', y: 30},
-    {'key': 'UK', x: '01/08/13', y: 40},
-    {'key': 'ES', x: '01/09/13', y: 10},
-    {'key': 'UK', x: '01/09/13', y: 10},
-    {'key': 'ES', x: '01/10/13', y: 70},
-    {'key': 'UK', x: '01/10/13', y: 30},
-    {'key': 'ES', x: '01/11/13', y: 50},
-    {'key': 'UK', x: '01/11/13', y: 50},
-    {'key': 'ES', x: '01/12/13', y: 25},
-    {'key': 'UK', x: '01/12/13', y: 75},
-    {'key': 'ES', x: '01/13/13', y: 80},
-    {'key': 'UK', x: '01/13/13', y: 20},
-    {'key': 'ES', x: '01/14/13', y: 90},
-    {'key': 'UK', x: '01/14/13', y: 10}
-  ];
+        var dataTemporal = [{
+                'key': 'ES',
+                x: '01/08/13',
+                y: 30
+            },
+            {
+                'key': 'UK',
+                x: '01/08/13',
+                y: 40
+            },
+            {
+                'key': 'ES',
+                x: '01/09/13',
+                y: 10
+            },
+            {
+                'key': 'UK',
+                x: '01/09/13',
+                y: 10
+            },
+            {
+                'key': 'ES',
+                x: '01/10/13',
+                y: 70
+            },
+            {
+                'key': 'UK',
+                x: '01/10/13',
+                y: 30
+            },
+            {
+                'key': 'ES',
+                x: '01/11/13',
+                y: 50
+            },
+            {
+                'key': 'UK',
+                x: '01/11/13',
+                y: 50
+            },
+            {
+                'key': 'ES',
+                x: '01/12/13',
+                y: 25
+            },
+            {
+                'key': 'UK',
+                x: '01/12/13',
+                y: 75
+            },
+            {
+                'key': 'ES',
+                x: '01/13/13',
+                y: 80
+            },
+            {
+                'key': 'UK',
+                x: '01/13/13',
+                y: 20
+            },
+            {
+                'key': 'ES',
+                x: '01/14/13',
+                y: 90
+            },
+            {
+                'key': 'UK',
+                x: '01/14/13',
+                y: 10
+            }
+        ];
 
-  var dataGrouped = [
-    {x: 'SP', key: '- 18', y: 30},
-    {x: 'SP', key: '+ 18 - 35', y: 25},
-    {x: 'SP', key: '+ 35', y: 45},
+        var dataGrouped = [{
+                x: 'SP',
+                key: '- 18',
+                y: 30
+            },
+            {
+                x: 'SP',
+                key: '+ 18 - 35',
+                y: 25
+            },
+            {
+                x: 'SP',
+                key: '+ 35',
+                y: 45
+            },
 
-    {x: 'FR', key: '- 18', y: 10},
-    {x: 'FR', key: '+ 18 - 35', y: 50},
-    {x: 'FR', key: '+ 35', y: 40},
+            {
+                x: 'FR',
+                key: '- 18',
+                y: 10
+            },
+            {
+                x: 'FR',
+                key: '+ 18 - 35',
+                y: 50
+            },
+            {
+                x: 'FR',
+                key: '+ 35',
+                y: 40
+            },
 
-    {x: 'BR', key: '- 18', y: 20},
-    {x: 'BR', key: '+ 18 - 35', y: 40},
-    {x: 'BR', key: '+ 35', y: 40}
-  ];
+            {
+                x: 'BR',
+                key: '- 18',
+                y: 20
+            },
+            {
+                x: 'BR',
+                key: '+ 18 - 35',
+                y: 40
+            },
+            {
+                x: 'BR',
+                key: '+ 35',
+                y: 40
+            }
+        ];
 
-  var dataHierarchic = [
-    {"id": "root", "parent": "", "value": "0", "label": "sequences"},
-    {"id": "1", "parent": "root", "value": "50", "label": "home"},
-    {"id": "2", "parent": "root", "value": "0", "label": "about"},
-    {"id": "2.1", "parent": "2", "value": "25", "label": "contact"},
-    {"id": "3", "parent": "root", "value": "0", "label": "product"},
-    {"id": "3.1", "parent": "3", "value": "0", "label": "product"},
-    {"id": "3.1.1", "parent": "3.1", "value": "25", "label": "cart"}
-  ];
+        var dataHierarchic = [{
+                "id": "root",
+                "parent": "",
+                "value": "0",
+                "label": "sequences"
+            },
+            {
+                "id": "1",
+                "parent": "root",
+                "value": "50",
+                "label": "home"
+            },
+            {
+                "id": "2",
+                "parent": "root",
+                "value": "0",
+                "label": "about"
+            },
+            {
+                "id": "2.1",
+                "parent": "2",
+                "value": "25",
+                "label": "contact"
+            },
+            {
+                "id": "3",
+                "parent": "root",
+                "value": "0",
+                "label": "product"
+            },
+            {
+                "id": "3.1",
+                "parent": "3",
+                "value": "0",
+                "label": "product"
+            },
+            {
+                "id": "3.1.1",
+                "parent": "3.1",
+                "value": "25",
+                "label": "cart"
+            }
+        ];
 
-  var dataLanes = [
-    {key: 'Lane1', start: "2012-01-01", end: "2012-01-03"},
-    {key: 'Lane1', start: "2012-01-05", end: "2012-01-10"},
-    {key: 'Lane1', start: "2012-01-12", end: "2012-01-15"},
-    {key: 'Lane1', start: "2012-01-16", end: "2012-01-20"},
+        var dataLanes = [{
+                key: 'Lane1',
+                start: "2012-01-01",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane1',
+                start: "2012-01-05",
+                end: "2012-01-10"
+            },
+            {
+                key: 'Lane1',
+                start: "2012-01-12",
+                end: "2012-01-15"
+            },
+            {
+                key: 'Lane1',
+                start: "2012-01-16",
+                end: "2012-01-20"
+            },
 
-    {key: 'Lane2', start: "2012-01-01", end: "2012-01-03"},
-    {key: 'Lane2', start: "2012-01-05", end: "2012-01-10"},
-    {key: 'Lane2', start: "2012-01-12", end: "2012-01-12"},
-    {key: 'Lane2', start: "2012-01-13", end: "2012-01-20"},
+            {
+                key: 'Lane2',
+                start: "2012-01-01",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane2',
+                start: "2012-01-05",
+                end: "2012-01-10"
+            },
+            {
+                key: 'Lane2',
+                start: "2012-01-12",
+                end: "2012-01-12"
+            },
+            {
+                key: 'Lane2',
+                start: "2012-01-13",
+                end: "2012-01-20"
+            },
 
-    {key: 'Lane3', start: "2012-01-01", end: "2012-01-01"},
-    {key: 'Lane3', start: "2012-01-02", end: "2012-01-03"},
-    {key: 'Lane3', start: "2012-01-05", end: "2012-01-08"},
-    {key: 'Lane3', start: "2012-01-10", end: "2012-01-20"},
+            {
+                key: 'Lane3',
+                start: "2012-01-01",
+                end: "2012-01-01"
+            },
+            {
+                key: 'Lane3',
+                start: "2012-01-02",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane3',
+                start: "2012-01-05",
+                end: "2012-01-08"
+            },
+            {
+                key: 'Lane3',
+                start: "2012-01-10",
+                end: "2012-01-20"
+            },
 
-    {key: 'Lane4', start: "2012-01-01", end: "2012-01-01"},
-    {key: 'Lane4', start: "2012-01-03", end: "2012-01-03"},
-    {key: 'Lane4', start: "2012-01-04", end: "2012-01-04"},
-    {key: 'Lane4', start: "2012-01-12", end: "2012-01-15"},
+            {
+                key: 'Lane4',
+                start: "2012-01-01",
+                end: "2012-01-01"
+            },
+            {
+                key: 'Lane4',
+                start: "2012-01-03",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane4',
+                start: "2012-01-04",
+                end: "2012-01-04"
+            },
+            {
+                key: 'Lane4',
+                start: "2012-01-12",
+                end: "2012-01-15"
+            },
 
-    {key: 'Lane5', start: "2012-01-01", end: "2012-01-03"},
-    {key: 'Lane5', start: "2012-01-05", end: "2012-01-10"},
-    {key: 'Lane5', start: "2012-01-12", end: "2012-01-15"},
-    {key: 'Lane5', start: "2012-01-16", end: "2012-01-20"},
+            {
+                key: 'Lane5',
+                start: "2012-01-01",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane5',
+                start: "2012-01-05",
+                end: "2012-01-10"
+            },
+            {
+                key: 'Lane5',
+                start: "2012-01-12",
+                end: "2012-01-15"
+            },
+            {
+                key: 'Lane5',
+                start: "2012-01-16",
+                end: "2012-01-20"
+            },
 
-    {key: 'Lane6', start: "2012-01-01", end: "2012-01-03"},
-    {key: 'Lane6', start: "2012-01-05", end: "2012-01-10"},
-    {key: 'Lane6', start: "2012-01-12", end: "2012-01-15"},
-    {key: 'Lane6', start: "2012-01-16", end: "2012-01-20"},
+            {
+                key: 'Lane6',
+                start: "2012-01-01",
+                end: "2012-01-03"
+            },
+            {
+                key: 'Lane6',
+                start: "2012-01-05",
+                end: "2012-01-10"
+            },
+            {
+                key: 'Lane6',
+                start: "2012-01-12",
+                end: "2012-01-15"
+            },
+            {
+                key: 'Lane6',
+                start: "2012-01-16",
+                end: "2012-01-20"
+            },
 
-    {key: 'Lane7', start: "2012-01-04", end: "2012-01-04"},
-    {key: 'Lane7', start: "2012-01-10", end: "2012-01-10"},
-    {key: 'Lane7', start: "2012-01-10", end: "2012-01-15"},
-    {key: 'Lane7', start: "2012-01-16", end: "2012-01-20"}
-  ];
+            {
+                key: 'Lane7',
+                start: "2012-01-04",
+                end: "2012-01-04"
+            },
+            {
+                key: 'Lane7',
+                start: "2012-01-10",
+                end: "2012-01-10"
+            },
+            {
+                key: 'Lane7',
+                start: "2012-01-10",
+                end: "2012-01-15"
+            },
+            {
+                key: 'Lane7',
+                start: "2012-01-16",
+                end: "2012-01-20"
+            }
+        ];
 
-//  var areas = new proteic.StackedArea(dataTemporal, {
-//    selector: '#areas',
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 1
-//  });
-//  areas.draw();
-//  var dsAreas = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
-//  });
-//  new proteic.StackedArea([], {
-//    selector: '#areas-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsAreas);
-//  dsAreas.start();
-//
-  var bars = new proteic.Barchart(dataGrouped, {
-    selector: '#bars', height: 200, width: '100%', marginRight: 100, marginLeft: 10
-  });
-  bars.draw();
-//  var barsStacked = new proteic.Barchart(dataGrouped, {
-//    selector: '#barsStacked',
-//    stacked: true,
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 1
-//  });
-//  barsStacked.draw();
-//  var dsBars = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/barchart'
-//  });
-//  new proteic.Barchart([], {
-//    selector: '#bars-ws',
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsBars);
-//  dsBars.start();
-//  //	var dsBarsStacked = new proteic.WebsocketDatasource({
-//  //		endpoint: 'wss://proteicws.herokuapp.com/barchart'
-//  //	});
-//  //	new proteic.Barchart([], {selector: '#barsStacked-ws', stacked: true}).datasource(dsBars);
-//  //	dsBarsStacked.start();
-//
-//
-//  var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
-//  gauge.draw();
-//  var dsGauge = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/gauge'
-//  });
-//  new proteic.Gauge([], {
-//    selector: '#gauge-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsGauge);
-//  dsGauge.start();
-//
-//
-//  var lines = new proteic.Linechart(data, {
-//    selector: '#lines', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  lines.draw();
-//  var linesAreas = new proteic.Linechart(data, {
-//    selector: '#linesAreas',
-//    areaOpacity: 0.4,
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  linesAreas.draw();
-  var dsLines = new proteic.WebsocketDatasource({
-    endpoint: 'wss://proteicws.herokuapp.com/linechart'
-  });
-  new proteic.Linechart([], {
-    selector: '#lines-ws', height: 200, width: '100%',
-    marginRight: 100,
-    marginLeft: 10
-  }).datasource(dsLines);
-  dsLines.start();
-//  var dsLinesAreas = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/linechart'
-//  });
-//  new proteic.Linechart([], {
-//    selector: '#linesAreas-ws',
-//    areaOpacity: 0.4,
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsLinesAreas);
-//  dsLinesAreas.start();
-//
-//
-//  //	var network = new proteic.Networkgraph();
-//
-//
-//  var scatterplot = new proteic.Scatterplot(data, {
-//    selector: '#scatterplot',
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  scatterplot.draw();
-//  var scatterplotCanvas = new proteic.Scatterplot(data, {
-//    selector: '#scatterplotCanvas',
-//    canvas: true,
-//    height: 200,
-//    width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  scatterplotCanvas.draw();
-//  var dsScatterplot = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
-//  });
-//  new proteic.Scatterplot([], {
-//    selector: '#scatterplot-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsScatterplot);
-//  dsScatterplot.start();
-//  var dsScatterplotCanvas = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
-//  });
-//  new proteic.Scatterplot([], {
-//    selector: '#scatterplotCanvas-ws',
-//    canvas: true,
-//    marginRight: 100,
-//    marginLeft: 10,
-//    height: 200,
-//    width: '100%'
-//  }).datasource(dsScatterplotCanvas);
-//  dsScatterplotCanvas.start();
-//  var streamgraph = new proteic.Streamgraph(dataTemporal, {
-//    selector: '#streamgraph', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  streamgraph.draw();
-//  var dsStreamgraph = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
-//  });
-//  new proteic.Streamgraph([], {
-//    selector: '#streamgraph-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsStreamgraph);
-//  dsStreamgraph.start();
-//
-//
-//  var sunburst = new proteic.Sunburst(dataHierarchic, {
-//    selector: '#sunburst', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  sunburst.draw();
-//  var dsSunburst = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/sunburst'
-//  });
-//  new proteic.Sunburst([], {
-//    selector: '#sunburst-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsSunburst);
-//  dsSunburst.start();
-//
-//
-//  var swimlane = new proteic.Swimlane(dataLanes, {
-//    selector: '#swimlane', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  });
-//  swimlane.draw();
-//  var dsSwimlane = new proteic.WebsocketDatasource({
-//    endpoint: 'wss://proteicws.herokuapp.com/swimlane'
-//  });
-//  new proteic.Swimlane([], {
-//    selector: '#swimlane-ws', height: 200, width: '100%',
-//    marginRight: 100,
-//    marginLeft: 10
-//  }).datasource(dsSwimlane);
-//  dsSwimlane.start();
-
-
-</script>
-<script>
-
-</script>
+        //  var areas = new proteic.StackedArea(dataTemporal, {
+        //    selector: '#areas',
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 1
+        //  });
+        //  areas.draw();
+        //  var dsAreas = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
+        //  });
+        //  new proteic.StackedArea([], {
+        //    selector: '#areas-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsAreas);
+        //  dsAreas.start();
+        //
+        var bars = new proteic.Barchart(dataGrouped, {
+            selector: '#bars',
+            height: 200,
+            width: '100%',
+            marginRight: 100,
+            marginLeft: 10
+        });
+        bars.draw();
+        //  var barsStacked = new proteic.Barchart(dataGrouped, {
+        //    selector: '#barsStacked',
+        //    stacked: true,
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 1
+        //  });
+        //  barsStacked.draw();
+        //  var dsBars = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/barchart'
+        //  });
+        //  new proteic.Barchart([], {
+        //    selector: '#bars-ws',
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsBars);
+        //  dsBars.start();
+        //  //	var dsBarsStacked = new proteic.WebsocketDatasource({
+        //  //		endpoint: 'wss://proteicws.herokuapp.com/barchart'
+        //  //	});
+        //  //	new proteic.Barchart([], {selector: '#barsStacked-ws', stacked: true}).datasource(dsBars);
+        //  //	dsBarsStacked.start();
+        //
+        //
+        //  var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
+        //  gauge.draw();
+        //  var dsGauge = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/gauge'
+        //  });
+        //  new proteic.Gauge([], {
+        //    selector: '#gauge-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsGauge);
+        //  dsGauge.start();
+        //
+        //
+        //  var lines = new proteic.Linechart(data, {
+        //    selector: '#lines', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  lines.draw();
+        //  var linesAreas = new proteic.Linechart(data, {
+        //    selector: '#linesAreas',
+        //    areaOpacity: 0.4,
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  linesAreas.draw();
+        let ws = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+        var dsLines = new proteic.WebsocketDatasource(ws);
+        new proteic.Linechart([], {
+            selector: '#lines-ws',
+            height: 200,
+            width: '100%',
+            marginRight: 100,
+            marginLeft: 10
+        }).datasource(dsLines);
+        dsLines.start();
+        //  var dsLinesAreas = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/linechart'
+        //  });
+        //  new proteic.Linechart([], {
+        //    selector: '#linesAreas-ws',
+        //    areaOpacity: 0.4,
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsLinesAreas);
+        //  dsLinesAreas.start();
+        //
+        //
+        //  //	var network = new proteic.Networkgraph();
+        //
+        //
+        //  var scatterplot = new proteic.Scatterplot(data, {
+        //    selector: '#scatterplot',
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  scatterplot.draw();
+        //  var scatterplotCanvas = new proteic.Scatterplot(data, {
+        //    selector: '#scatterplotCanvas',
+        //    canvas: true,
+        //    height: 200,
+        //    width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  scatterplotCanvas.draw();
+        //  var dsScatterplot = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
+        //  });
+        //  new proteic.Scatterplot([], {
+        //    selector: '#scatterplot-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsScatterplot);
+        //  dsScatterplot.start();
+        //  var dsScatterplotCanvas = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/scatterplot'
+        //  });
+        //  new proteic.Scatterplot([], {
+        //    selector: '#scatterplotCanvas-ws',
+        //    canvas: true,
+        //    marginRight: 100,
+        //    marginLeft: 10,
+        //    height: 200,
+        //    width: '100%'
+        //  }).datasource(dsScatterplotCanvas);
+        //  dsScatterplotCanvas.start();
+        //  var streamgraph = new proteic.Streamgraph(dataTemporal, {
+        //    selector: '#streamgraph', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  streamgraph.draw();
+        //  var dsStreamgraph = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/streamgraph'
+        //  });
+        //  new proteic.Streamgraph([], {
+        //    selector: '#streamgraph-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsStreamgraph);
+        //  dsStreamgraph.start();
+        //
+        //
+        //  var sunburst = new proteic.Sunburst(dataHierarchic, {
+        //    selector: '#sunburst', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  sunburst.draw();
+        //  var dsSunburst = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/sunburst'
+        //  });
+        //  new proteic.Sunburst([], {
+        //    selector: '#sunburst-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsSunburst);
+        //  dsSunburst.start();
+        //
+        //
+        //  var swimlane = new proteic.Swimlane(dataLanes, {
+        //    selector: '#swimlane', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  });
+        //  swimlane.draw();
+        //  var dsSwimlane = new proteic.WebsocketDatasource({
+        //    endpoint: 'wss://proteicws.herokuapp.com/swimlane'
+        //  });
+        //  new proteic.Swimlane([], {
+        //    selector: '#swimlane-ws', height: 200, width: '100%',
+        //    marginRight: 100,
+        //    marginLeft: 10
+        //  }).datasource(dsSwimlane);
+        //  dsSwimlane.start();
+    </script>
+    <script>
+    </script>
 </body>
 
 </html>

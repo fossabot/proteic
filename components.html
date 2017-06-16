@@ -15,11 +15,13 @@
     <script src="https://rawgit.com/proteus-h2020/proteic/development/dist/proteic.js"></script>
     <script src="https://use.fontawesome.com/4286931dd8.js"></script>
     <script src="https://cdn.rawgit.com/tholman/elevator.js/master/elevator.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="./datasets.js"></script>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/proteus-h2020/proteic/development/dist/proteic.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-light.min.css">
     <style>
         .elevator-button {
             position: fixed;
@@ -43,11 +45,14 @@
                     <a href="/" class="nav-item title">Proteic.js</a>
                 </div>
                 <div class="nav-right nav-menu">
-                    <a class="nav-item is-active" href="index.html">
+                    <a class="nav-item" href="index.html">
                         Home
                     </a>
                     <a class="nav-item" href="catalogue.html">
                         Catalogue
+                    </a>
+                    <a class="nav-item is-active" href="components.html">
+                        Features
                     </a>
                     <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
                         Documentation
@@ -80,10 +85,10 @@
             <div class="colums">
                 <div class="column ">
                     <h1 class="title">
-                        Visualization catalogue
+                        Features
                     </h1>
                     <h2 class="subtitle">
-                        These are the visualizations available in Proteic.js. More coming soon!
+                        Proteic visualizations are built with components that bring useful features.
                     </h2>
                 </div>
             </div>
@@ -94,6 +99,7 @@
             <div class="container">
                 <ul>
                     <li><a href="#annotations">Annotations</a></li>
+                    <li><a href="#annotations">Legend</a></li>
                 </ul>
             </div>
         </nav>
@@ -102,14 +108,71 @@
 
 <section class="section">
     <h2 class="title is-2">Annotations</h2>
-    <p>You can double click the annotations to edit them.</p>
-    <p><strong>Try moving the mean petal length annotation out the way!</strong></p>
+    <p><strong>Try double clicking the annotations to move them.</strong></p>
+
     <div class="columns">
         <div class="column">
             <div id='annotations-scatterplot'></div>
         </div>
         <div class="column">
-            <div id='annotations-linechart'></div>
+            <h3 class="title is-3">Static threshold</h3>
+            <div class="box">
+<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{
+    xAxisLabel:'Petal length (cm)',
+    yAxisLabel:'Petal width (cm)',
+    markerShape: 'star',
+    legendPosition: 'bottom',
+})
+.annotations([
+    { type: 'threshold', axis: 'y', value: 1.8, text: 'Mean width' },
+    { type: 'threshold', axis: 'x', value: 2, text: 'Mean length' }
+]);
+annotationsScatterplot.draw();
+</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <div id='annotations2'></div>
+        </div>
+        <div class="column">
+            <h3 class="title is-3">Dynamic threshold</h3>
+            <div class="box">
+<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{
+    xAxisLabel:'Petal length (cm)',
+    yAxisLabel:'Petal width (cm)',
+    markerShape: 'star',
+    legendPosition: 'bottom',
+})
+.annotations([
+    { type: 'threshold', axis: 'y', value: 1.8, text: 'Mean width' },
+    { type: 'threshold', axis: 'x', value: 2, text: 'Mean length' }
+]);
+annotationsScatterplot.draw();
+</code></pre>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="section">
+    <h2 class="title is-2">Legend</h2>
+    <p>The legend position can be customised.</p>
+    <div class="columns">
+        <div class="column">
+            <div id='legend1'></div>
+            <div class="box"><pre><code class="javascript">legendPosition: right</code></pre></div>
+        </div>
+        <div class="column">
+            <div id='legend2'></div>
+            <div class="box"><pre><code class="javascript">legendPosition: bottom</code></pre></div>
+        </div>
+        <div class="column">
+            <div id='legend3'></div>
+            <div class="box"><pre><code class="javascript">legendPosition: top</code></pre></div>
         </div>
     </div>
 </section>
@@ -138,6 +201,40 @@
 </footer>
 
 <script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script>
+
+    let margins = {
+        top: 20,
+        left: 70,
+        bottom: 100,
+        right: 20
+    };
+
+    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+    var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
+    dsLinechart.start();
+
+    new proteic.Linechart([], {
+        selector: '#annotations2',
+        areaOpacity: 0.4,
+        height: 200,
+        width: '100%',
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers',
+        xTicksTextRotation: 0,
+    })
+    .annotations([
+        { type: 'threshold', axis: 'y', variable: 'serie3', text: 'current value'}
+    ])
+    .datasource(dsLinechart);
 
     var annotationsScatterplot = new proteic.Scatterplot(iris,{
         selector: '#annotations-scatterplot',
@@ -145,18 +242,66 @@
 		propertyX: 'petalLength',
 		yAxisLabel:'Petal width (cm)',
 		propertyY: 'petalWidth',
-		markerShape: 'triangle',
+		markerShape: 'star',
 		propertyKey: 'species',
-		onClick: (d) => window.console.log(d),
-        marginRight: 130,
-        marginLeft: 100,
-        height: 200,
-        width: '100%'
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
 	}).annotations([
-		{ type: 'threshold', axis: 'y', value: 1.199, text: 'Mean petal width' },
-		{ type: 'threshold', axis: 'x', value: 3.758, text: 'Mean petal length' }
+		{ type: 'threshold', axis: 'y', value: 1.8, text: 'Mean width' },
+		{ type: 'threshold', axis: 'x', value: 2, text: 'Mean length' }
 	]);
     annotationsScatterplot.draw();
+
+    var legend1 = new proteic.Scatterplot(iris,{
+        selector: '#legend1',
+		xAxisLabel:'Petal length (cm)',
+		propertyX: 'petalLength',
+		yAxisLabel:'Petal width (cm)',
+		propertyY: 'petalWidth',
+		markerShape: 'ring',
+		propertyKey: 'species',
+        legendPosition: 'right',
+        marginTop: margins.top+ 25,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
+	});
+    legend1.draw();
+
+    var legend2 = new proteic.Scatterplot(iris,{
+        selector: '#legend2',
+		xAxisLabel:'Petal length (cm)',
+		propertyX: 'petalLength',
+		yAxisLabel:'Petal width (cm)',
+		propertyY: 'petalWidth',
+		markerShape: 'ring',
+		propertyKey: 'species',
+        legendPosition: 'bottom',
+        marginTop: margins.top+ 25,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
+	});
+    legend2.draw();
+
+    var legend3 = new proteic.Scatterplot(iris,{
+        selector: '#legend3',
+		xAxisLabel:'Petal length (cm)',
+		propertyX: 'petalLength',
+		yAxisLabel:'Petal width (cm)',
+		propertyY: 'petalWidth',
+		markerShape: 'ring',
+		propertyKey: 'species',
+        legendPosition: 'top',
+        marginTop: margins.top+ 25,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
+	});
+    legend3.draw();
 
 
 </script>

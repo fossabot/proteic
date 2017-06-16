@@ -26,6 +26,10 @@
             bottom: 20px;
             right: 20px;
         }
+
+        .chart {
+            /*border: 1px solid crimson;*/
+        }
     </style>
 </head>
 
@@ -43,14 +47,14 @@
                     <a href="/" class="nav-item title">Proteic.js</a>
                 </div>
                 <div class="nav-right nav-menu">
-                    <a class="nav-item is-active" href="index.html">
+                    <a class="nav-item" href="index.html">
                         Home
                     </a>
-                    <a class="nav-item" href="catalogue.html">
+                    <a class="nav-item is-active" href="catalogue.html">
                         Catalogue
                     </a>
                     <a class="nav-item" href="components.html">
-                        Components
+                        Features
                     </a>
                     <a class="nav-item" href="https://github.com/proteus-h2020/proteic/wiki">
                         Documentation
@@ -117,10 +121,10 @@
     <h2 class="title is-2">Annotations</h2>
     <div class="columns">
         <div class="column">
-            <div id='annotations-scatterplot'></div>
+            <div class="chart" id='annotations-scatterplot'></div>
         </div>
         <div class="column">
-            <div id='annotations-linechart'></div>
+            <div class="chart" id='annotations-linechart'></div>
         </div>
     </div>
 </section>
@@ -129,10 +133,10 @@
     <h2 class="title is-2">Areas</h2>
     <div class="columns">
         <div class="column">
-            <div id='areas'></div>
+            <div class="chart" id='areas'></div>
         </div>
         <div class="column">
-            <div id='areas-ws'></div>
+            <div class="chart" id='areas-ws'></div>
         </div>
     </div>
 </section>
@@ -141,18 +145,18 @@
     <h2 class="title is-2">Barchart</h2>
     <div class="columns">
         <div class="column">
-            <div id='bars'></div>
+            <divv id='bars'></divv>
         </div>
         <div class="column">
-            <div id='barsStacked'></div>
+            <divv id='barsStacked'></divv>
         </div>
     </div>
     <div class="columns">
         <div class="column">
-            <div id='bars-ws'></div>
+            <div class="chart" id='bars-ws'></div>
         </div>
         <div class="column">
-            <div id='barsStacked-ws'></div>
+            <div class="chart" id='barsStacked-ws'></div>
         </div>
     </div>
 </section>
@@ -161,10 +165,10 @@
     <h2 class="title is-2">Gauge</h2>
     <div class="columns">
         <div class="column">
-            <div id='gauge'></div>
+            <div class="chart" id='gauge'></div>
         </div>
         <div class="column">
-            <div id='gauge-ws'></div>
+            <div class="chart" id='gauge-ws'></div>
         </div>
     </div>
 </section>
@@ -173,10 +177,10 @@
     <h2 class="title is-2">Heatmap</h2>
     <div class="columns">
         <div class="column">
-            <div id='heatmap'></div>
+            <div class="chart" id='heatmap'></div>
         </div>
         <div class="column">
-            <div id='heatmap-ws'></div>
+            <div class="chart" id='heatmap-ws'></div>
         </div>
     </div>
 </section>
@@ -185,18 +189,18 @@
     <h2 class="title is-2">Linechart</h2>
     <div class="columns">
         <div class="column">
-            <div id='lines'></div>
+            <div class="chart" id='lines'></div>
         </div>
         <div class="column">
-            <div id='linesAreas'></div>
+            <div class="chart" id='linesAreas'></div>
         </div>
     </div>
     <div class="columns">
         <div class="column">
-            <div id='lines-ws'></div>
+            <div class="chart" id='lines-ws'></div>
         </div>
         <div class="column">
-            <div id='linesAreas-ws'></div>
+            <div class="chart" id='linesAreas-ws'></div>
         </div>
     </div>
 </section>
@@ -206,19 +210,19 @@
         <div class="columns">
             <div class="column">
                 <h3 class="title is-3">SVG</h3>
-                <div id='scatterplot'></div>
+                <div class="chart" id='scatterplot'></div>
             </div>
             <div class="column">
                 <h3 class="title is-3">Canvas</h3>
-                <div id='scatterplotCanvas'></div>
+                <div class="chart" id='scatterplotCanvas'></div>
             </div>
         </div>
         <div class="columns">
             <div class="column">
-                <div id='scatterplot-ws'></div>
+                <div class="chart" id='scatterplot-ws'></div>
             </div>
             <div class="column">
-                <div id='scatterplotCanvas-ws'></div>
+                <div class="chart" id='scatterplotCanvas-ws'></div>
             </div>
         </div>
     </section>
@@ -228,10 +232,10 @@
     <h2 class="title is-2">Streamgraph</h2>
     <div class="columns">
         <div class="column">
-            <div id='streamgraph'></div>
+            <div class="chart" id='streamgraph'></div>
         </div>
         <div class="column">
-            <div id='streamgraph-ws'></div>
+            <div class="chart" id='streamgraph-ws'></div>
         </div>
     </div>
 </section>
@@ -240,10 +244,10 @@
     <h2 class="title is-2">Network</h2>
     <div class="columns">
         <div class="column">
-            <div id='network'></div>
+            <div class="chart" id='network'></div>
         </div>
         <div class="column">
-            <div id='network-ws'></div>
+            <div class="chart" id='network-ws'></div>
         </div>
     </div>
 </section>
@@ -252,10 +256,10 @@
     <h2 class="title is-2">Sunburst</h2>
     <div class="columns">
         <div class="column">
-            <div id='sunburst'></div>
+            <div class="chart" id='sunburst'></div>
         </div>
         <div class="column">
-            <div id='sunburst-ws'></div>
+            <div class="chart" id='sunburst-ws'></div>
         </div>
     </div>
 </section>
@@ -264,10 +268,10 @@
     <h2 class="title is-2">Swimlane</h2>
     <div class="columns">
         <div class="column">
-            <div id='swimlane'></div>
+            <div class="chart" id='swimlane'></div>
         </div>
         <div class="column">
-            <div id='swimlane-ws'></div>
+            <div class="chart" id='swimlane-ws'></div>
         </div>
     </div>
 </section>
@@ -295,6 +299,14 @@
 </footer>
 
 <script>
+
+    let margins = {
+        top: 20,
+        left: 70,
+        bottom: 100,
+        right: 20
+    };
+
   var data = [
     {key: 'serie1', x: 1, y: 5},
     {key: 'serie1', x: 2, y: 15},
@@ -503,10 +515,15 @@
 		propertyY: 'petalWidth',
 		markerShape: 'triangle',
 		propertyKey: 'species',
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
 		onClick: (d) => window.console.log(d)
 	}).annotations([
-		{ type: 'threshold', axis: 'y', value: 1.8, text: 'Test' },
-		{ type: 'threshold', axis: 'x', value: 2, text: 'Test' }
+		{ type: 'threshold', axis: 'y', value: 1.8, text: 'Mean width' },
+		{ type: 'threshold', axis: 'x', value: 2, text: 'Mean length' }
 	]);
     annotationsScatterplot.draw();
 
@@ -514,15 +531,25 @@
         selector: '#areas',
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        xTicksTextRotation: -65,
+        legendPosition: 'top',
+        marginTop: margins.top + 25,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
     });
     areas.draw();
 
     new proteic.StackedArea([], {
-        selector: '#areas-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        selector: '#areas-ws', 
+        height: 200, 
+        width: '100%',
+        xTicksTextRotation: -65,
+        legendPosition: 'top',
+        marginTop: margins.top + 25,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
     }).datasource(dsStreamgraph);
 
     var bars = new proteic.Barchart(dataGrouped, {
@@ -534,17 +561,25 @@
         stacked: true,
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'top',
+        marginTop: margins.top + 25,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left
     });
     barsStacked.draw();
 
     new proteic.Barchart([], {
         selector: '#bars-ws',
+        xAxisLabel: 'Countries',
+        yAxisLabel: 'Memes per second',
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'top',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom - 50,
+        marginLeft: margins.left
     }).datasource(dsBarchart);
 
     //	var dsBarsStacked = new proteic.WebsocketDatasource({
@@ -554,36 +589,66 @@
     //	dsBarsStacked.start();
 
 
-    var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
+    var gauge = new proteic.Gauge([{value: 30}], {
+        selector: '#gauge', 
+        height: 200, 
+        width: '100%',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: 0,
+        marginLeft: margins.left
+    });
     new proteic.Gauge([], {
-        selector: '#gauge-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 10
+        selector: '#gauge-ws', 
+        height: 200, 
+        width: '100%',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: 0,
+        marginLeft: margins.left
     }).datasource(dsGauge);
 
     var heatmap = new proteic.Heatmap(dataHeatmap, {
-      selector: '#heatmap',
-      xAxisType: 'linear',
-      yAxisType: 'categorical',
-      marginRight: 100,
-      marginLeft: 50,
-      height: 200, width: '100%'
+        selector: '#heatmap',
+        xAxisType: 'linear',
+        yAxisType: 'categorical',
+        height: 200, width: '100%',
+        marginTop: margins.top,
+        marginRight: margins.right + 100,
+        marginBottom: margins.bottom - 50,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Categories',
+        xTicksTextRotation: -65,
     });
     heatmap.draw();
 
     new proteic.Heatmap([], {
-      selector: '#heatmap-ws',
-      propertyX: 'a',
-      propertyY: 'b',
-      marginRight: 100,
-      marginLeft: 50,
-      height: 200, width: '100%'
+        selector: '#heatmap-ws',
+        propertyX: 'a',
+        propertyY: 'b',
+        marginRight: 100,
+        marginLeft: 50,
+        height: 200, width: '100%',
+        marginTop: margins.top,
+        marginRight: margins.right + 120,
+        marginBottom: margins.bottom - 50,
+        marginLeft: margins.left,
+        xAxisLabel: 'Categories',
+        yAxisLabel: 'Categories',
+        xTicksTextRotation: -65,
     }).datasource(dsMatrix);
 
     var lines = new proteic.Linechart(data, {
         selector: '#lines', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers',
+        xTicksTextRotation: 0,
     });
     lines.draw();
     var linesAreas = new proteic.Linechart(data, {
@@ -591,15 +656,27 @@
         areaOpacity: 0.4,
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers',
+        xTicksTextRotation: 0,
     });
     linesAreas.draw();
 
     new proteic.Linechart([], {
         selector: '#lines-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers',
+        xTicksTextRotation: 0,
     }).datasource(dsLinechart);
 
     new proteic.Linechart([], {
@@ -607,8 +684,14 @@
         areaOpacity: 0.4,
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers',
+        xTicksTextRotation: 0,
     }).datasource(dsLinechart);
 
 
@@ -619,12 +702,13 @@
         linkWeght: 0.4,
         nodeWeight: 5,
         labelField: 'class',
+        marginTop: 100,
+        marginRight: 0,
+        marginBottom: 100,
+        marginLeft: 0,
       });
 
       network.draw();
-
-
-
 
     var scatterplot = new proteic.Scatterplot(iris, {
         selector: '#scatterplot',
@@ -636,8 +720,11 @@
 		propertyKey: 'species',
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
     });
     scatterplot.draw();
     var scatterplotCanvas = new proteic.Scatterplot(iris, {
@@ -651,43 +738,64 @@
         canvas: true,
         height: 200,
         width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
     });
     scatterplotCanvas.draw();
 
     new proteic.Scatterplot([], {
         selector: '#scatterplot-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        marginTop: margins.top,
+        marginRight: margins.right + 70,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers'
     }).datasource(dsScatterplot);
 
     new proteic.Scatterplot([], {
         selector: '#scatterplotCanvas-ws',
         canvas: true,
-        marginRight: 100,
-        marginLeft: 50,
         height: 200,
-        width: '100%'
+        width: '100%',
+        marginTop: margins.top,
+        marginRight: margins.right + 70,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xAxisLabel: 'Numbers',
+        yAxisLabel: 'Numbers'
     }).datasource(dsScatterplot);
 
     var streamgraph = new proteic.Streamgraph(dataTemporal, {
         selector: '#streamgraph', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        marginTop: margins.top + 25,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left - 50,
+        xTicksTextRotation: -65,
+        legendPosition: 'top'
     });
     streamgraph.draw();
 
     new proteic.Streamgraph([], {
         selector: '#streamgraph-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        marginTop: margins.top + 25,
+        marginRight: margins.right,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left - 50,
+        xTicksTextRotation: -65,
+        legendPosition: 'top'
     }).datasource(dsStreamgraph);
 
     var sunburst = new proteic.Sunburst(dataHierarchic, {
         selector: '#sunburst', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 50
+        marginTop: 0,
+        marginRight: margins.right,
+        marginBottom: 0,
+        marginLeft: margins.left,
     });
     sunburst.draw();
 
@@ -702,15 +810,21 @@
         xAxisFormat: '%Y-%m-%d',
         height: 200, 
         width: '100%',
-        marginRight: 100,
-        marginLeft: 70
+        marginTop: margins.top,
+        marginRight: margins.right + 70,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xTicksTextRotation: -65,
     });
     swimlane.draw();
 
     new proteic.Swimlane([], {
         selector: '#swimlane-ws', height: 200, width: '100%',
-        marginRight: 100,
-        marginLeft: 70
+        marginTop: margins.top,
+        marginRight: margins.right + 70,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        xTicksTextRotation: -65,
     }).datasource(dsSwimlane);
 
 </script>
