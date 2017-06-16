@@ -150,7 +150,7 @@ annotationsScatterplot.draw();
         </div>
     </div>
 
-        <div class="columns">
+    <div class="columns">
         <div class="column">
             <div id='annotations3'></div>
             <p>Data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a>*</p>
@@ -162,7 +162,8 @@ annotationsScatterplot.draw();
 <pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
 .annotations([
     { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'},
-    { type: 'band', axis: 'y', variable: 'flow', 'width': 'flowError', text: 'error'}
+    { type: 'band', axis: 'y', 
+      variable: 'flow', width: 'flowError', text: 'error'}
 ])
 annotationsScatterplot.draw();
 </code></pre>
@@ -238,7 +239,7 @@ annotationsScatterplot.draw();
         width: '100%',
         legendPosition: 'bottom',
         marginTop: margins.top,
-        marginRight: margins.right + 75,
+        marginRight: margins.right + 80,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
         yAxisLabel: 'Amount',
@@ -263,7 +264,7 @@ annotationsScatterplot.draw();
         width: '100%',
         legendPosition: 'bottom',
         marginTop: margins.top,
-        marginRight: margins.right + 75,
+        marginRight: margins.right + 80,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
         yAxisLabel: 'Amount',
