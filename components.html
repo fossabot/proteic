@@ -155,15 +155,16 @@ annotationsScatterplot.draw();
         <div class="column">
             <div id='annotations3'></div>
             <p>Data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a>*</p>
-            <p><em>* Error data is simulated for demonstration purposes.</em></p>
+            <p><em>* Error data has been faked for demonstration purposes.</em></p>
         </div>
         <div class="column">
             <h3 class="title is-3">Dynamic error band</h3>
             <div class="box">
 <pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
 .annotations([
-    { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
-]);
+    { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'},
+    { type: 'band', axis: 'y', variable: 'flow', 'width': 'flowError', text: 'error'}
+])
 annotationsScatterplot.draw();
 </code></pre>
             </div>
@@ -227,8 +228,7 @@ annotationsScatterplot.draw();
         right: 20
     };
 
-    // var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
-    var wsLinechart = new WebSocket('ws://localhost:3000/rain');
+    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/rain');
     var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
     dsLinechart.start();
 

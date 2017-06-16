@@ -179,6 +179,7 @@ barchart.draw();</code></pre>
             <div class="columns">
                 <div class="column">
                     <div id="lines-ws"></div>
+                    <p>Data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a>*</p>
                 </div>
                 <div class="column">
                     <div class="box">
@@ -243,6 +244,15 @@ dsLines.start();</code></pre>
         hljs.initHighlightingOnLoad();
     </script>
     <script>
+
+    let margins = {
+        top: 20,
+        left: 70,
+        bottom: 100,
+        right: 20
+    };
+
+
         var data = [{
                 key: 'serie1',
                 x: 1,
@@ -719,15 +729,27 @@ dsLines.start();</code></pre>
         //    marginLeft: 10
         //  });
         //  linesAreas.draw();
-        let ws = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+        let ws = new WebSocket('wss://proteicws.herokuapp.com/rain');
         var dsLines = new proteic.WebsocketDatasource(ws);
         new proteic.Linechart([], {
             selector: '#lines-ws',
             height: 200,
             width: '100%',
-            marginRight: 100,
-            marginLeft: 10
-        }).datasource(dsLines);
+            marginTop: margins.top,
+            marginRight: margins.right + 75,
+            marginBottom: margins.bottom - 50,
+            marginLeft: margins.left,
+            yAxisLabel: 'Amount',
+            xTicksTextRotation: -65,
+            propertyX: 'time',
+            propertyY: 'value',
+            propertyKey: 'key',
+            xAxisType: 'time',
+            xAxisFormat: '%Y-%m-%d %H:%M:%S',
+            maxNumberOfElements: 5855,
+        })
+        .unpivot(['flow', 'rain'])
+        .datasource(dsLines);
         dsLines.start();
         //  var dsLinesAreas = new proteic.WebsocketDatasource({
         //    endpoint: 'wss://proteicws.herokuapp.com/linechart'
