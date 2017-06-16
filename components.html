@@ -151,6 +151,25 @@ annotationsScatterplot.draw();
         </div>
     </div>
 
+        <div class="columns">
+        <div class="column">
+            <div id='annotations3'></div>
+            <p>Data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a>*</p>
+            <p><em>* Error data is simulated for demonstration purposes.</em></p>
+        </div>
+        <div class="column">
+            <h3 class="title is-3">Dynamic error band</h3>
+            <div class="box">
+<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
+.annotations([
+    { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
+]);
+annotationsScatterplot.draw();
+</code></pre>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 <section class="section">
@@ -222,19 +241,44 @@ annotationsScatterplot.draw();
         marginRight: margins.right + 75,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
-        xAxisLabel: 'Numbers',
-        yAxisLabel: 'Numbers',
-        xTicksTextRotation: 0,
+        yAxisLabel: 'Amount',
+        xTicksTextRotation: -65,
         propertyX: 'time',
         propertyY: 'value',
         propertyKey: 'key',
         xAxisType: 'time',
         xAxisFormat: '%Y-%m-%d %H:%M:%S',
-        maxNumberOfElements: 3000,
+        maxNumberOfElements: 5855,
         // 1972-12-31 19:30:00
     })
     .annotations([
         { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
+    ])
+    .unpivot(['rain', 'flow'])
+    .datasource(dsLinechart);
+
+    new proteic.Linechart([], {
+        selector: '#annotations3',
+        height: 200,
+        width: '100%',
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right + 75,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        yAxisLabel: 'Amount',
+        xTicksTextRotation: -65,
+        propertyX: 'time',
+        propertyY: 'value',
+        propertyKey: 'key',
+        xAxisType: 'time',
+        xAxisFormat: '%Y-%m-%d %H:%M:%S',
+        maxNumberOfElements: 5855,
+        // 1972-12-31 19:30:00
+    })
+    .annotations([
+        { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'},
+        { type: 'band', axis: 'y', variable: 'flow', 'width': 'flowError', text: 'error'}
     ])
     .unpivot(['rain', 'flow'])
     .datasource(dsLinechart);
