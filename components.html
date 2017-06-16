@@ -136,19 +136,14 @@ annotationsScatterplot.draw();
     <div class="columns">
         <div class="column">
             <div id='annotations2'></div>
+            <p>Data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a></p>
         </div>
         <div class="column">
             <h3 class="title is-3">Dynamic threshold</h3>
             <div class="box">
-<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{
-    xAxisLabel:'Petal length (cm)',
-    yAxisLabel:'Petal width (cm)',
-    markerShape: 'star',
-    legendPosition: 'bottom',
-})
+<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
 .annotations([
-    { type: 'threshold', axis: 'y', value: 1.8, text: 'Mean width' },
-    { type: 'threshold', axis: 'x', value: 2, text: 'Mean length' }
+    { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
 ]);
 annotationsScatterplot.draw();
 </code></pre>
@@ -213,27 +208,35 @@ annotationsScatterplot.draw();
         right: 20
     };
 
-    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+    // var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+    var wsLinechart = new WebSocket('ws://localhost:3000/rain');
     var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
     dsLinechart.start();
 
     new proteic.Linechart([], {
         selector: '#annotations2',
-        areaOpacity: 0.4,
         height: 200,
         width: '100%',
         legendPosition: 'bottom',
         marginTop: margins.top,
-        marginRight: margins.right,
+        marginRight: margins.right + 75,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
         xAxisLabel: 'Numbers',
         yAxisLabel: 'Numbers',
         xTicksTextRotation: 0,
+        propertyX: 'time',
+        propertyY: 'value',
+        propertyKey: 'key',
+        xAxisType: 'time',
+        xAxisFormat: '%Y-%m-%d %H:%M:%S',
+        maxNumberOfElements: 3000,
+        // 1972-12-31 19:30:00
     })
     .annotations([
-        { type: 'threshold', axis: 'y', variable: 'serie3', text: 'current value'}
+        { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
     ])
+    .unpivot(['rain', 'flow'])
     .datasource(dsLinechart);
 
     var annotationsScatterplot = new proteic.Scatterplot(iris,{
