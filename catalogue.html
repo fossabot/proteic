@@ -291,6 +291,7 @@
             </div>
             <p style="font-family: Calibri, sans-serif">This project is funded by the European Union.</p>
             <p style="font-family: Calibri, sans-serif">(Horizon 2020, Ref: 687691)</p>
+            <p style="font-family: Calibri, sans-serif"> Streaming data from: Time Series Data Library (citing: Andrews & Herzberg (1985)) via <a href="https://datamarket.com/data/set/232a/half-hourly-precipitation-and-stream-flow-river-hirnant-wales-uk-november-and-december-1972#!ds=232a!2eqz&display=line">DataMarket</a>*</p>
             <a class="icon" href="https://github.com/proteus-h2020/">
                 <i class="fa fa-github"></i>
             </a>
@@ -481,7 +482,7 @@
   ];
     
     var wsBarchart = new WebSocket('wss://proteicws.herokuapp.com/barchart');
-    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/linechart');
+    var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/rain');
     var wsMatrix = new WebSocket('wss://proteicws.herokuapp.com/matrix');
     var wsStreamgraph = new WebSocket('wss://proteicws.herokuapp.com/streamgraph');
     var wsGauge = new WebSocket('wss://proteicws.herokuapp.com/gauge');
@@ -674,10 +675,15 @@
         marginRight: margins.right,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
-        xAxisLabel: 'Numbers',
-        yAxisLabel: 'Numbers',
-        xTicksTextRotation: 0,
-    }).datasource(dsLinechart);
+        yAxisLabel: 'Amount',
+        xTicksTextRotation: -65,
+        propertyX: 'time',
+        propertyY: 'value',
+        propertyKey: 'key',
+        xAxisType: 'time',
+        xAxisFormat: '%Y-%m-%d %H:%M:%S',
+        maxNumberOfElements: 5855,
+    }).unpivot(['flow', 'rain']).datasource(dsLinechart);
 
     new proteic.Linechart([], {
         selector: '#linesAreas-ws',
@@ -689,10 +695,15 @@
         marginRight: margins.right,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
-        xAxisLabel: 'Numbers',
-        yAxisLabel: 'Numbers',
-        xTicksTextRotation: 0,
-    }).datasource(dsLinechart);
+        yAxisLabel: 'Amount',
+        xTicksTextRotation: -65,
+        propertyX: 'time',
+        propertyY: 'value',
+        propertyKey: 'key',
+        xAxisType: 'time',
+        xAxisFormat: '%Y-%m-%d %H:%M:%S',
+        maxNumberOfElements: 5855,
+    }).unpivot(['flow', 'rain']).datasource(dsLinechart);
 
 
      var network =  new proteic.Network(dataNetwork, {
