@@ -17,6 +17,7 @@
     <script src="https://cdn.rawgit.com/tholman/elevator.js/master/elevator.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="./datasets.js"></script>
+    <script src="./colors.js"></script>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
@@ -99,14 +100,15 @@
             <div class="container">
                 <ul>
                     <li><a href="#annotations">Annotations</a></li>
-                    <li><a href="#annotations">Legend</a></li>
+                    <li><a href="#legend">Legend</a></li>
+                    <li><a href="#color-palettes">Color palettes</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 </section>
 
-<section class="section">
+<section class="section" id="annotations">
     <h2 class="title is-2">Annotations</h2>
     <p><strong>Try double clicking the annotations to move them.</strong></p>
 
@@ -140,11 +142,12 @@ annotationsScatterplot.draw();
         <div class="column">
             <h3 class="title is-3">Dynamic threshold</h3>
             <div class="box">
-<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
+<pre><code class="javascript">var chart = new proteic.Linechart(data,{...})
 .annotations([
     { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'}
-]);
-annotationsScatterplot.draw();
+])
+.datasource(ds)
+chart.draw();
 </code></pre>
             </div>
         </div>
@@ -159,13 +162,35 @@ annotationsScatterplot.draw();
         <div class="column">
             <h3 class="title is-3">Dynamic error band</h3>
             <div class="box">
-<pre><code class="javascript">var annotationsScatterplot = new proteic.Scatterplot(data,{...})
+<pre><code class="javascript">var chart = new proteic.Linechart(data,{...})
 .annotations([
     { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'},
     { type: 'band', axis: 'y', 
       variable: 'flow', width: 'flowError', text: 'error'}
 ])
-annotationsScatterplot.draw();
+.datasource(ds)
+chart.draw();
+</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <div id='annotations4'></div>
+        </div>
+        <div class="column">
+            <h3 class="title is-3">Alerts</h3>
+            <div class="box">
+<pre><code class="javascript">var chart = new proteic.Linechart(data,{...})
+.annotations([
+    { type: 'threshold', axis: 'y', value: 0.1, text: 'rain alert' },
+])
+.alert('rain', (value, events) => {  
+    return  value > 0.1;  
+}, callback, events)
+.datasource(ds)
+chart.draw();
 </code></pre>
             </div>
         </div>
@@ -173,7 +198,7 @@ annotationsScatterplot.draw();
 
 </section>
 
-<section class="section">
+<section class="section" id="legend">
     <h2 class="title is-2">Legend</h2>
     <p>The legend position can be customised.</p>
     <div class="columns">
@@ -192,6 +217,167 @@ annotationsScatterplot.draw();
     </div>
 </section>
 
+<section class="section" id="color-palettes">
+    <h2 class="title is-2">Color palettes</h2>
+
+    <section class="section">
+        <h3 class="title is-3">Categorical</h3>
+        <div class="columns">
+            <div class="column">
+                <div id='Category1'></div>
+            </div>
+            <div class="column">
+                <div id='Category2'></div>
+            </div>
+            <div class="column">
+                <div id='Category3'></div>
+            </div>
+            <div class="column">
+                <div id='Category4'></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div id='Category5'></div>
+            </div>
+            <div class="column">
+                <div id='Category6'></div>
+            </div>
+            <div class="column">
+                <div id='Category7'></div>
+            </div>
+            <div class="column">
+                <div id='Category8'></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="title is-3">Sequential</h3>
+        <div class="columns">
+            <div class="column">
+                <div id="SequentialYellow"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialRedOrange"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialRed"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialPink"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialPurplePink"></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div id="SequentialPurple"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialBlue"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialLightBlue"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialBlueViolet"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialTurquoise"></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div id="SequentialLightGreen"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialDarkGreen"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialGreenBrown"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialBrown"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialGrey"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="title is-3">Accesible sequential palettes</h3>
+        <div class="columns">
+            <div class="column">
+                <div id="SequentialVioletCb"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialPinkCb"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialBlueCb"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialGreenCb"></div>
+            </div>
+            <div class="column">
+                <div id="SequentialGreenBrownCb"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="title is-3">Diverging</h3>
+        <div class="columns">
+            <div class="column">
+                <div id="DivergingSpectral1"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingSpectral2"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingSpectral3"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingBrownTurquoise"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingOrangePink"></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div id="DivergingRedBlue"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingRedGrey"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingOrangeViolet"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingPurpleGreen"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingVioletGreen"></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div id="DivergingRedGreen"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingBrownGreen"></div>
+            </div>
+            <div class="column">
+                <div id="DivergingLightBrownTurquoise"></div>
+            </div>
+        </div>
+    </section>
+
+</section>
 
 <a class="button is-small elevator-button">
     <span class="icon is-small">
@@ -284,6 +470,33 @@ annotationsScatterplot.draw();
     .unpivot(['rain', 'flow'])
     .datasource(dsLinechart);
 
+    new proteic.Linechart([], {
+        selector: '#annotations4',
+        height: 200,
+        width: '100%',
+        legendPosition: 'bottom',
+        marginTop: margins.top,
+        marginRight: margins.right + 80,
+        marginBottom: margins.bottom,
+        marginLeft: margins.left,
+        yAxisLabel: 'Amount',
+        xTicksTextRotation: -65,
+        propertyX: 'time',
+        propertyY: 'value',
+        propertyKey: 'key',
+        xAxisType: 'time',
+        xAxisFormat: '%Y-%m-%d %H:%M:%S',
+        maxNumberOfElements: 5855,
+    })
+    .annotations([
+        { type: 'threshold', axis: 'y', value: 0.1, text: 'rain alert' },
+    ])
+    .alert('rain', (value, events) => {  
+        return  value > 0.1;  
+        }, null, null)
+    .unpivot(['rain', 'flow'])
+    .datasource(dsLinechart); 
+
     var annotationsScatterplot = new proteic.Scatterplot(iris,{
         selector: '#annotations-scatterplot',
 		xAxisLabel:'Petal length (cm)',
@@ -351,6 +564,89 @@ annotationsScatterplot.draw();
 	});
     legend3.draw();
 
+    function drawPalette(name, palette, colors) {
+        var color1 = new proteic.Barchart([
+            { x: name, key: colors[0], y:1 },
+            { x: name, key: colors[1], y:1 },
+            { x: name, key: colors[2], y:1 },
+            { x: name, key: colors[3], y:1 },
+            { x: name, key: colors[4], y:1 },
+            { x: name, key: colors[5], y:1 },
+            { x: name, key: colors[6], y:1 },
+            { x: name, key: colors[7], y:1 },
+            { x: name, key: colors[8], y:1 }
+        ], {
+            selector: '#' + name,
+            height: 200,
+            marginTop: 0,
+            marginRight: margins.right + 80,
+            marginBottom: 30,
+            marginLeft: 0,
+            colorScale: palette
+        })
+        color1.draw();
+    };
+
+    function drawPaletteSeq(name, palette, colors) {
+        var color1 = new proteic.Gauge([ { value: 0 } ], {
+            selector: '#' + name,
+            width: '100%',
+            marginTop: 5,
+            marginRight: 0,
+            marginBottom: 0,
+            marginLeft: 5,
+            colorScale: palette,
+            needleNutRadius: 0,
+            minLevel: 0,
+            maxLevel: 1,
+            label: name
+        })
+    };
+
+    drawPalette('Category1', proteic.Colors.category1(), paletteCategory1);
+    drawPalette('Category2', proteic.Colors.category2(), paletteCategory2);
+    drawPalette('Category3', proteic.Colors.category3(), paletteCategory3);
+    drawPalette('Category4', proteic.Colors.category4(), paletteCategory4);
+    drawPalette('Category5', proteic.Colors.category5(), paletteCategory5);
+    drawPalette('Category6', proteic.Colors.category6(), paletteCategory6);
+    drawPalette('Category7', proteic.Colors.category7(), paletteCategory7);
+    drawPalette('Category8', proteic.Colors.category8(), paletteCategory8);
+
+    drawPaletteSeq('SequentialYellow', proteic.Colors.sequentialYellow(), paletteSequentialYellow);
+    drawPaletteSeq('SequentialRedOrange', proteic.Colors.sequentialRedOrange(), paletteSequentialRedOrange);
+    drawPaletteSeq('SequentialRed', proteic.Colors.sequentialRed(), paletteSequentialRed);
+    drawPaletteSeq('SequentialPink', proteic.Colors.sequentialPink(), paletteSequentialPink);
+    drawPaletteSeq('SequentialPurplePink', proteic.Colors.sequentialPurplePink(), paletteSequentialPurplePink);
+    drawPaletteSeq('SequentialPurple', proteic.Colors.sequentialPurple(), paletteSequentialPurple);
+    drawPaletteSeq('SequentialBlue', proteic.Colors.sequentialBlue(), paletteSequentialBlue);
+    drawPaletteSeq('SequentialLightBlue', proteic.Colors.sequentialLightBlue(), paletteSequentialLightBlue);
+    drawPaletteSeq('SequentialBlueViolet', proteic.Colors.sequentialBlueViolet(), paletteSequentialBlueViolet);
+    drawPaletteSeq('SequentialTurquoise', proteic.Colors.sequentialTurquoise(), paletteSequentialTurquoise);
+    drawPaletteSeq('SequentialLightGreen', proteic.Colors.sequentialLightGreen(), paletteSequentialLightGreen);
+    drawPaletteSeq('SequentialDarkGreen', proteic.Colors.sequentialDarkGreen(), paletteSequentialDarkGreen);
+    drawPaletteSeq('SequentialGreenBrown', proteic.Colors.sequentialGreenBrown(), paletteSequentialGreenBrown);
+    drawPaletteSeq('SequentialBrown', proteic.Colors.sequentialBrown(), paletteSequentialBrown);
+    drawPaletteSeq('SequentialGrey', proteic.Colors.sequentialGrey(), paletteSequentialGrey);
+
+    drawPaletteSeq('SequentialVioletCb', proteic.Colors.sequentialVioletCb(), paletteSequentialVioletCb);
+    drawPaletteSeq('SequentialPinkCb', proteic.Colors.sequentialPinkCb(), paletteSequentialPinkCb);
+    drawPaletteSeq('SequentialBlueCb', proteic.Colors.sequentialBlueCb(), paletteSequentialBlueCb);
+    drawPaletteSeq('SequentialGreenCb', proteic.Colors.sequentialGreenCb(), paletteSequentialGreenCb);
+    drawPaletteSeq('SequentialGreenBrownCb', proteic.Colors.sequentialGreenBrownCb(), paletteSequentialGreenBrownCb);
+
+    drawPaletteSeq('DivergingSpectral1', proteic.Colors.diverging_spectral1(), paletteDivergingSpectral1);
+    drawPaletteSeq('DivergingSpectral2', proteic.Colors.diverging_spectral2(), paletteDivergingSpectral2);
+    drawPaletteSeq('DivergingSpectral3', proteic.Colors.diverging_spectral3(), paletteDivergingSpectral3);
+    drawPaletteSeq('DivergingBrownTurquoise', proteic.Colors.diverging_brown_turquoise(), paletteDivergingBrownTurquoise);
+    drawPaletteSeq('DivergingOrangePink', proteic.Colors.diverging_orange_pink(), paletteDivergingOrangePink);
+    drawPaletteSeq('DivergingRedBlue', proteic.Colors.diverging_red_blue(), paletteDivergingRedBlue);
+    drawPaletteSeq('DivergingRedGrey', proteic.Colors.diverging_red_grey(), paletteDivergingRedGrey);
+    drawPaletteSeq('DivergingOrangeViolet', proteic.Colors.diverging_orange_violet(), paletteDivergingOrangeViolet);
+    drawPaletteSeq('DivergingPurpleGreen', proteic.Colors.diverging_purple_green(), paletteDivergingPurpleGreen);
+    drawPaletteSeq('DivergingVioletGreen', proteic.Colors.diverging_violet_green(), paletteDivergingVioletGreen);
+    drawPaletteSeq('DivergingRedGreen', proteic.Colors.diverging_red_green(), paletteDivergingRedGreen);
+    drawPaletteSeq('DivergingBrownGreen', proteic.Colors.diverging_brown_green(), paletteDivergingBrownGreen);
+    drawPaletteSeq('DivergingLightBrownTurquoise', proteic.Colors.diverging_lightBrown_turquoise(), paletteDivergingLightBrownTurquoise);
 
 </script>
 <script>
