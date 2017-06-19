@@ -36,10 +36,10 @@ class ColorLegend extends Component {
             propertyZ = this.config.get('propertyZ'),
             colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
-            width = this.config.get('width');
+            width = this.config.get('width'),
+            legendCells = this.config.get('legendCells');
 
         if (data.length <= 1) {
-
             return;
         }
 
@@ -48,6 +48,7 @@ class ColorLegend extends Component {
         let colorLegend = legendColor()
             .title(legendTitle)
             .labelDelimiter('–')
+            .cells(legendCells)
             .scale(colorScale);
         legend = this.svg.select('.legend');
         legend.call(colorLegend);
