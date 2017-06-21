@@ -1,11 +1,13 @@
 import * as Colors from '../colors';
 import { stack as d3stack } from 'd3';
-import {scaleLinear} from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
 export const defaults: any = {
     selector: '#chart',
-    colorScale: Colors.sequentialVioletCb(), // TODO fix error and use proteic colours
+    colorScale: Colors.sequentialRedInterpolated(),
+    legendCells: 5,
+    maxNumberOfElements: 11,
     xStep: 1,
     yStep: 1,
     //Axes
@@ -13,7 +15,7 @@ export const defaults: any = {
     xAxisFormat: '',
     xAxisLabel: '',
     xAxisGrid: false,
-    xTicksTextRotation: 65,
+    xTicksTextRotation: -65,
     yAxisType: 'categorical',
     yAxisFormat: '',
     yAxisLabel: '',
@@ -23,10 +25,10 @@ export const defaults: any = {
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
-    marginLeft: 150,
+    marginLeft: 30,
     //width & height
     width: '100%',
-    height: 350,
+    height: 250,
     legend: true,
     legendPosition: 'right',
     legendTitle: '',
@@ -34,7 +36,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyZ: 'z',
     nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
-    stack:  d3stack().value((d: any, k: any) => d.value[k]),
+    stack: d3stack().value((d: any, k: any) => d.value[k]),
     streamingStrategy: StreamingStrategy.ADD,
     //Events
     onDown(d: any) {

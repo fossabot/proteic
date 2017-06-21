@@ -7,7 +7,7 @@ export const defaults : any = {
     marginTop: 0,
     marginRight: '100',
     marginBottom: 0,
-    marginLeft: 0,
+    marginLeft: 70,
     width: '500', // %, auto, or numeric
     height: '500',
     transitionDuration: 300,
