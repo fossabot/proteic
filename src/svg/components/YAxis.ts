@@ -85,7 +85,7 @@ class YAxis extends Component {
             } else {
                 let min = (d3Min(data, (d: any) => d[propertyY])),
                     max = (d3Max(data, (d: any) => d[propertyY]));
-
+                    
                 this.updateDomainByMinMax(+min, +max);
             }
         } else if (yAxisType === 'categorical') {
@@ -104,7 +104,8 @@ class YAxis extends Component {
     }
 
     public updateDomainByMinMax(min: number, max: number) {
-        this._yAxis.scale().domain([min, max]);
+        let margin = (+max + min) * 0.1 || 1;
+        this._yAxis.scale().domain([min, max + margin]);
     }
 
     public transition() {
