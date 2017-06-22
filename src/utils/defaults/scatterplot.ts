@@ -20,7 +20,7 @@ export const defaults : any = {
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
-    marginLeft: 150,
+    marginLeft: 70,
     //markers
     markerShape: 'circle',
     markerSize: 15,

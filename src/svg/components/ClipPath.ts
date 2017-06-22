@@ -26,11 +26,11 @@ class ClipPath extends Component {
     }
 
     public clear() {
-        console.warn('TODO: clipPath.clear()', 'Not yet implemented');
+     ///   console.warn('TODO: clipPath.clear()', 'Not yet implemented');
     }
 
     public transition() {
-        console.warn('No transition effects for clippath');
+     ///   console.warn('No transition effects for clippath');
     }
 
 }

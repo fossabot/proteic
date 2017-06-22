@@ -24,7 +24,7 @@ export const defaults: any = {
     marginTop: 20,
     marginRight: 250,
     marginBottom: 130,
-    marginLeft: 150,
+    marginLeft: 70,
     //Width & height
     width: '100%', // %, auto, or numeric 
     height: 250,

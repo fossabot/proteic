@@ -7,7 +7,7 @@ export const defaults: any = {
     marginTop: 20,
     marginRight: 20,
     marginBottom: 30,
-    marginLeft: 50,
+    marginLeft: 70,
     width: '50%', // %, auto, or numeric
     height: 450,
     tickLabel: '',

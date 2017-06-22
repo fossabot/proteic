@@ -23,7 +23,7 @@ export const defaults: any = {
     marginTop: 50,
     marginRight: 250,
     marginBottom: 130,
-    marginLeft: 150,
+    marginLeft: 70,
     //markers
     markerShape: 'dot',
     markerSize: 0,

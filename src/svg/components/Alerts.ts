@@ -81,7 +81,7 @@ class Alerts extends Component {
     }
 
     public transition(){
-        console.log('no transition for alerts');
+       /// console.log('no transition for alerts');
     }
 }
 
