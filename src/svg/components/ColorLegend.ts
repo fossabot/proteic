@@ -45,11 +45,14 @@ class ColorLegend extends Component {
 
         colorScale.domain([min(data, (d: any) => d[propertyZ]), max(data, (d: any) => d[propertyZ])]);
 
-        let colorLegend = legendColor()
+        let colorLegend: any = legendColor()
             .title(legendTitle)
-            .labelDelimiter('–')
-            .cells(legendCells)
-            .scale(colorScale);
+            .labelDelimiter('–');
+        if (legendCells) {
+            colorLegend.cells(legendCells);
+        }   
+        colorLegend.scale(colorScale);
+        
         legend = this.svg.select('.legend');
         legend.call(colorLegend);
 
