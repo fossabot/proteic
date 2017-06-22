@@ -61,7 +61,9 @@ class Annotations extends Component {
                             if (typeof a.width == 'string') {
                                 width = events.get(a.width);
                             }
-                            annotation = this.makeBandAnnotation(a.value, width, a.text, minY);
+                            if (width !== 0) {
+                                annotation = this.makeBandAnnotation(a.value, width, a.text, minY);
+                            }
                         }
                         break;
                     default:
