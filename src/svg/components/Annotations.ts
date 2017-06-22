@@ -172,7 +172,7 @@ class Annotations extends Component {
     }
 
     public transition() {
-        console.log('no transition for annotations');
+     ///   console.log('no transition for annotations');
     }
 }
 

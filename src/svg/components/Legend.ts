@@ -91,7 +91,7 @@ class Legend extends Component {
     }
 
     public transition(){
-        console.warn('No transition effects for ', this.constructor.name);
+      ///  console.warn('No transition effects for ', this.constructor.name);
     }
 
     private drawTopLegendCb(legend: any) {

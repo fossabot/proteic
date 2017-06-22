@@ -110,7 +110,7 @@ class TileSet extends Component {
     }
 
     public transition() {
-        console.warn('no transition implemented for tileset');
+      //  console.warn('no transition implemented for tileset');
     }
 
 }
