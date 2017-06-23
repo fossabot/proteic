@@ -29,6 +29,7 @@ export const defaults: any = {
     propertyEnd: 'end',
     propertyY: 'key',
     propertyKey: 'key',
+    propertyZ: 'value',
     streamingStrategy: StreamingStrategy.ADD,
     nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     //Events
