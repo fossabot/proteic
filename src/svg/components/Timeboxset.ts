@@ -11,7 +11,7 @@ import {
     nest,
     scaleBand,
     scaleLinear,
-    map
+    map,
 } from 'd3';
 
 class Timeboxset extends Component {
@@ -31,7 +31,8 @@ class Timeboxset extends Component {
     public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
-        let propertyEnd = this.config.get('propertyEnd');
+        let propertyEnd = this.config.get('propertyEnd')
+        let propertyZ = this.config.get('propertyZ');
         
         data = data.filter((d) => propertyEnd in d || propertyStart in d);
 
@@ -69,21 +70,41 @@ class Timeboxset extends Component {
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
             
             
-        box = layerMerge.selectAll('rect')
+        box = layerMerge.selectAll('.box')
             .data((d: any) => d.values);
             
         boxExit = layer.exit().remove();
 
-        boxEnter = box.enter().append('rect');
+        boxEnter = box.enter()
+            .append('g')
+            .attr('class', 'box');
 
-        boxMerge = box.merge(boxEnter)
+        boxEnter.append('rect')
             .attr('data-proteic-element', 'timeBox')
             .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
             .style('fill', (d: any) => colorScale(d[propertyKey]));
+        boxEnter.append('text')
+            .attr('x', (d: any) => x(d[propertyStart]))
+            .attr('y', (d: any) => y(d[propertyKey]))
+            .text((d: any) => d[propertyZ]);
 
+        boxMerge = box.merge(boxEnter);
+
+        boxMerge.select('rect')
+            .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
+            .attr('x', (d: any) => x(d[propertyStart]))
+            .attr('y', (d: any) => y(d[propertyKey]))
+            .attr('height', () => 0.8 * yLanes(1));
+
+        boxMerge.select('text')
+            .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
+            .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
+            .attr('dy', '3')
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle');
         
         box = this.svg.selectAll('g.serie rect');
 
