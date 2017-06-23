@@ -6,6 +6,7 @@ import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
+import ColorLegend from '../components/ColorLegend';
 
 class SvgStrategySwimlane extends SvgStrategy {
     /**
@@ -17,9 +18,6 @@ class SvgStrategySwimlane extends SvgStrategy {
      * @memberOf SvgStrategySwimlane
      */
     private axes: XYAxes;
-
-    private legend: Legend;
-
 
     private boxes: TimeBoxset;
 
@@ -49,13 +47,21 @@ class SvgStrategySwimlane extends SvgStrategy {
         super.initialize();
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend');
+            legend = this.config.get('legend'),
+            colorScaleType = this.config.get('colorScaleType');
 
         this.container.add(this.axes);
 
         if (legend) {
-            this.legend = new Legend();
-            this.container.add(this.legend).add(this.boxes);
+            switch (colorScaleType) {
+                case 'categorical': 
+                    this.container.add(new Legend()).add(this.boxes);
+                    break;
+                case 'sequential':
+                    this.container.add(new ColorLegend()).add(this.boxes);
+                    break;
+            }
+            
         }
     }
 }

@@ -12,6 +12,8 @@ import {
     scaleBand,
     scaleLinear,
     map,
+    min as d3Min, 
+    max as d3Max,
 } from 'd3';
 
 class Timeboxset extends Component {
@@ -37,12 +39,14 @@ class Timeboxset extends Component {
         data = data.filter((d) => propertyEnd in d || propertyStart in d);
 
         let colorScale = this.config.get('colorScale'),
+            colorScaleType = this.config.get('colorScaleType'),
             height = this.config.get('height'),
             onDown = this.config.get('onDown'),
             onUp = this.config.get('onUp'),
             onLeave = this.config.get('onLeave'),
             onHover = this.config.get('onHover'),
             onClick = this.config.get('onClick'),
+            displayPropertyZ = this.config.get('displayPropertyZ'),
             keys = map(data, (d) => d[propertyKey]).keys(),
             layer = this.svg.selectAll('.serie').data(data),
             layerEnter = null,
@@ -56,6 +60,12 @@ class Timeboxset extends Component {
             yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),
             x = this.xyAxes.x.xAxis.scale(),
             y = this.xyAxes.y.yAxis.scale();
+
+        if (colorScaleType === 'sequential') {
+            let min = (d3Min(data, (d: any) => +d[propertyZ])),
+                max = (d3Max(data, (d: any) => +d[propertyZ]));
+            colorScale.domain([min, max]);
+        }
 
         data = simple2nested(data, propertyKey);
         
@@ -87,11 +97,17 @@ class Timeboxset extends Component {
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
-            .style('fill', (d: any) => colorScale(d[propertyKey]));
-        boxEnter.append('text')
-            .attr('x', (d: any) => x(d[propertyStart]))
-            .attr('y', (d: any) => y(d[propertyKey]))
-            .text((d: any) => d[propertyZ]);
+            .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
+
+        if (displayPropertyZ) {
+            boxEnter.append('text')
+                .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
+                .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
+                .attr('dy', '3')
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .text((d: any) => d[propertyZ]);
+        }
 
         boxMerge = box.merge(boxEnter);
 
@@ -99,14 +115,17 @@ class Timeboxset extends Component {
             .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
-            .attr('height', () => 0.8 * yLanes(1));
+            .attr('height', () => 0.8 * yLanes(1))
+            .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
 
-        boxMerge.select('text')
-            .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
-            .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
-            .attr('dy', '3')
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'middle');
+        if (displayPropertyZ) {
+            boxMerge.select('text')
+                .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
+                .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
+                .attr('dy', '3')
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle');
+        }
         
         box = this.svg.selectAll('g.serie rect');
 

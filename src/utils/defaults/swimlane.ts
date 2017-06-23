@@ -4,6 +4,7 @@ import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category3(),
+    colorScaleType: 'categorical',
     //Axes
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
@@ -25,11 +26,13 @@ export const defaults: any = {
     height: 250,
     legend: true,
     legendPosition: 'right',
+    legendTitle: '',
     propertyStart: 'start',
     propertyEnd: 'end',
     propertyY: 'key',
     propertyKey: 'key',
     propertyZ: 'value',
+    displayPropertyZ: false,
     streamingStrategy: StreamingStrategy.ADD,
     nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     //Events
