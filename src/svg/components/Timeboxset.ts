@@ -63,11 +63,13 @@ class Timeboxset extends Component {
         yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, height]);
 
         layer = this.svg.selectAll('.serie').data(data);
-        layerEnter = layer.enter().append('g');
+        // NOTE: d.key instead of d[propertyKey] because data is d3.Nest
+        layerEnter = layer.enter()
+            .append('g')
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
 
         layerMerge = layer.merge(layerEnter)
-            .attr('class', 'serie')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey]);
+            .attr('class', 'serie');
             
             
         box = layerMerge.selectAll('.box')
