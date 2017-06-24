@@ -12,13 +12,13 @@ class Container {
     private config: Config;
     private components: Component[] = [];
     private visibilityObservable: Observable<any>; //TODO: Inject with annotations?
-    // protected udpateWithTransition: boolean = true;
+    protected udpateWithTransition: boolean = true;
 
     constructor(config: Config) {
-        //this.visibilityObservable = GlobalInjector.getRegistered('onVisibilityChange');
-        //this.visibilityObservable.subscribe((event: any) => {
-        //    this.udpateWithTransition = !event.hidden
-        // });
+        this.visibilityObservable = GlobalInjector.getRegistered('onVisibilityChange');
+        this.visibilityObservable.subscribe((event: any) => {
+            this.udpateWithTransition = !event.hidden
+        });
 
         this.config = config;
 
@@ -96,9 +96,9 @@ class Container {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             component.update(data, events);
-            //if (this.udpateWithTransition){
-            component.transition();
-            // }
+            if (this.udpateWithTransition){
+                component.transition();
+            }
         }
     }
 

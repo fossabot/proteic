@@ -71,6 +71,7 @@ abstract class Chart {
     }
 
     public draw(data: [{}] = this.data, events: Map<string, any> = this.events) { //TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
+        console.log('drawing');
         this.context.draw(copy(data), this.events);
         this.data = data;
     }
@@ -120,10 +121,7 @@ abstract class Chart {
     }
 
     public stopDrawing() {
-        if (this.streaming) {
-            clearInterval(this.streaming);
-            this.streaming = 0;
-        }
+        clearInterval(this.streaming);
     }
 
     public erase() {
