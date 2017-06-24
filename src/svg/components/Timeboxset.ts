@@ -142,7 +142,7 @@ class Timeboxset extends Component {
     }
 
     public transition(){
-        console.warn('no transition implemented for timeboxset');
+        ///console.warn('no transition implemented for timeboxset');
     }
 }
 

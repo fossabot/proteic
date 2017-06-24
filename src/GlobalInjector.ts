@@ -1,9 +1,9 @@
-export default class Injector {
+export default class GlobalInjector {
 
     private static registery: { [key: string]: any } = {};
 
     static getRegistered(key: string) {
-        let registered = Injector.registery[key];
+        let registered = GlobalInjector.registery[key];
         if (registered) {
             return registered;
         } else {
@@ -12,8 +12,8 @@ export default class Injector {
     }
 
     static register(key: string, value: any) {
-        let registered = Injector.registery[key];
-        Injector.registery[key] = value;
+        let registered = GlobalInjector.registery[key];
+        GlobalInjector.registery[key] = value;
     }
 }
 
@@ -21,7 +21,7 @@ function injectMethod(...keys: string[]) {
     return (target: any, key: string, descriptor: any) => {
         let originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
-            let add = keys.map((key: string) => Injector.getRegistered(key));
+            let add = keys.map((key: string) => GlobalInjector.getRegistered(key));
             args = args.concat(add);
 
             let result = originalMethod.apply(this, args);
@@ -33,7 +33,7 @@ function injectMethod(...keys: string[]) {
 
 function injectProperty(...keys: string[]) {
     return (target: any, key: string) => {
-        target[key] = Injector.getRegistered(keys[0]);
+        target[key] = GlobalInjector.getRegistered(keys[0]);
     };
 }
 

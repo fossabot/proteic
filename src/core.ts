@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import Injector from './Injector';
+import GlobalInjector from './GlobalInjector';
 import StorageService from './services/StorageService';
 import Chart from './charts/Chart'
 
@@ -18,8 +18,7 @@ visibilityChangeSource.subscribe((event: any) => {
     event.hidden = document.hidden;
 });
 
-Injector.register('onVisibilityChange', visibilityChangeSource);
-Injector.register('onResize', resizeSource);
-
-Injector.register('localStorageService', localStorageService);
-Injector.register('sessionStorageService', sessionStorageService);
+GlobalInjector.register('onVisibilityChange', visibilityChangeSource);
+GlobalInjector.register('onResize', resizeSource);
+GlobalInjector.register('localStorageService', localStorageService);
+GlobalInjector.register('sessionStorageService', sessionStorageService);

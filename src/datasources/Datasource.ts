@@ -1,6 +1,5 @@
 import { Dispatch } from "d3";
 import { Observable, Subscription } from 'rxjs';
-import { inject } from '../Injector';
 import Config from '../Config';
 
 /**

@@ -2,7 +2,6 @@ import Datasource from "./Datasource";
 import { unwind } from '../utils/data/transforming';
 import { discardProperties } from '../utils/data/filtering';
 import StorageService from '../services/StorageService';
-import { inject } from '../Injector';
 import Config from '../Config';
 import StreamingStrategy from '../charts/enums/StreamingStrategy';
 import { fitArrayByOldAndNewValue } from '../utils/array/array';
