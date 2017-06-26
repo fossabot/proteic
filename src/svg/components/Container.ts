@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
-import Injector from '../../Injector';
+import GlobalInjector from '../../GlobalInjector';
 
 class Container {
 
@@ -15,11 +15,11 @@ class Container {
     protected udpateWithTransition: boolean = true;
 
     constructor(config: Config) {
-        this.visibilityObservable = Injector.getRegistered('onVisibilityChange');
+        this.visibilityObservable = GlobalInjector.getRegistered('onVisibilityChange');
         this.visibilityObservable.subscribe((event: any) => {
             this.udpateWithTransition = !event.hidden
         });
-        
+
         this.config = config;
 
         let selector: string = this.config.get('selector'),
@@ -98,9 +98,6 @@ class Container {
             component.update(data, events);
             if (this.udpateWithTransition){
                 component.transition();
-            }
-            else{
-                console.log('NO TRANSITION');
             }
         }
     }

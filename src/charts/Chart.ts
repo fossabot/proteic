@@ -1,7 +1,7 @@
 import { SvgContext } from "../svg/base/SvgContext";
 import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys, melt } from "../utils/functions";
 import { throwError } from "../utils/error";
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { calculateWidth } from "../utils/screen";
 import { select } from 'd3-selection';
 
@@ -13,6 +13,7 @@ import Config from "../Config";
 import SvgStrategy from "../svg/base/SvgStrategy";
 import Globals from '../Globals';
 import Annotations from '../svg/components/Annotations';
+import GlobalInjector from '../GlobalInjector';
 
 abstract class Chart {
 
@@ -25,11 +26,11 @@ abstract class Chart {
     private _injector: Injector = new Injector();
     private strategy: SvgStrategy;
     private streaming: number = null;
+    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange'); //TODO: Inject with annotations?
 
     protected streamingStrategy: StreamingStrategy;
 
     constructor(Class: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
-
         this.config = this.loadConfigFromUser(userConfig, defaults);
         this.config.put('proteicID', 'proteic-' + Date.now());
         this._injector = new Injector();
@@ -39,6 +40,15 @@ abstract class Chart {
         this.data = data;
         this.events = new Map();
         this.config.put('pivotVars', []);
+
+        this.visibilityObservable.subscribe((event: any) => {
+            this.stopDrawing();
+            if (!event.hidden) {
+                this.streaming = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+            }
+            //Don't wait until the timer.
+            this.draw(copy(this.data));
+        });
     }
 
     private _instantiateInjections(Class: { new (...args: any[]): SvgStrategy }) {
@@ -200,15 +210,15 @@ abstract class Chart {
 
         if (varsInDatum.length >= 1) {
             datum = melt(
-                datum, 
-                varsInDatum, 
-                ids, 
+                datum,
+                varsInDatum,
+                ids,
                 this.config.get('propertyKey'),
                 this.config.get('propertyY')
             )
         }
 
-       let cleanDatum = this.cleanDatum(datum, dataKeys);
+        let cleanDatum = this.cleanDatum(datum, dataKeys);
 
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
