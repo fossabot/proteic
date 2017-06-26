@@ -91,7 +91,7 @@ class YAxis extends Component {
             let minNumber = +min;
             let maxNumber = +max;
             
-            if (annotations && annotations.length) {
+            if (annotations && annotations.length) {//TODO: Refactor and move this piece of code.
                 let annotation = annotations[0];
                 let variable: string = annotation.variable;
                 let width: string = annotation.width;
@@ -105,7 +105,6 @@ class YAxis extends Component {
                             maxNumber = a[propertyY] + a[width];
                         }
                     }
-                    console.log('MIN AND MAX CALCUALTED. ', minNumber, maxNumber);
                 }
             }
             this.updateDomainByMinMax(minNumber, maxNumber);
