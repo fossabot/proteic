@@ -5,7 +5,6 @@ import Areaset from '../components/Areaset';
 import Legend from '../components/Legend';
 import Annotations from '../components/Annotations';
 import Alerts from '../components/Alerts';
-import ClipPath from '../components/ClipPath';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -36,7 +35,6 @@ class SvgStrategyLinechart extends SvgStrategy {
     private legend: Legend;
     private annotations : Annotations;
     private alerts: Alerts;
-    private clipPath: ClipPath;
 
     constructor() {
         super();
@@ -73,9 +71,8 @@ class SvgStrategyLinechart extends SvgStrategy {
             .add(this.axes)
             .add(this.lines)
             // .add(this.annotations)
-            .add(this.alerts)
-            .add(new ClipPath(width + this.config.get('marginRight'), height));
-
+            .add(this.alerts);
+            
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
             this.container.add(this.area);
