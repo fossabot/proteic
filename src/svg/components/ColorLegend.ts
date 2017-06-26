@@ -63,8 +63,9 @@ class ColorLegend extends Component {
         console.log('Not yet implemented');
         //this.svg.select("g.legend").selectAll("*").remove();
     }
-        public transition(){
-        console.warn('No transition effects for color legend');
+    
+    public transition(){
+        //console.warn('No transition effects for color legend');
     }
 
 }
