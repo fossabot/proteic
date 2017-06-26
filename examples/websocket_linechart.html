@@ -20,10 +20,46 @@
     <body>
         <div id='chart'></div>
         <script>
-            var ws = new WebSocket('ws://192.168.3.32:3000/linechart');
+
+    let margins = {
+        top: 20,
+        left: 70,
+        bottom: 100,
+        right: 20
+    };
+
+            var ws = new WebSocket('wss://proteicws.herokuapp.com/rain');
 
             var ds = new proteic.WebsocketDatasource(ws);
-            linechart = new proteic.Linechart([], { markerSize: 100, areaOpacity: 0.7 }).datasource(ds);
+            linechart = new proteic.Linechart([], { 
+                height: 200,
+                width: '100%',
+                legendPosition: 'bottom',
+                marginTop: margins.top,
+                marginRight: margins.right + 100,
+                marginBottom: margins.bottom,
+                marginLeft: margins.left,
+                yAxisLabel: 'Amount',
+                xTicksTextRotation: -65,
+                propertyX: 'time',
+                propertyY: 'value',
+                propertyKey: 'key',
+                xAxisType: 'time',
+                xAxisFormat: '%Y-%m-%d %H:%M:%S',
+                maxNumberOfElements: 5855, 
+                colorScale: proteic.Colors.category7(),
+            })
+            .unpivot(['rain', 'flow'])
+            .annotations([
+                { type: 'threshold', axis: 'y', value: 0.02, text: 'fixed threshold'},
+                { type: 'threshold', axis: 'y', variable: 'flow', text: 'current flow'},
+                { type: 'band', axis: 'y', 
+                variable: 'rain', width: 0.01, text: 'fixed width'},
+                { type: 'band', axis: 'y', 
+                variable: 'flow', width: 'flowError', text: 'dynamic width'}
+            ])
+            .datasource(ds);
+
             ds.start();
         </script>
     </body>
