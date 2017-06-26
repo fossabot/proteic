@@ -46,8 +46,6 @@ abstract class Chart {
             if (!event.hidden) {
                 this.streaming = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
             }
-            //Don't wait until the timer.
-           // this.draw(copy(this.data));
         });
     }
 
