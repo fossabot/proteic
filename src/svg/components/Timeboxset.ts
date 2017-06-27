@@ -14,6 +14,7 @@ import {
     map,
     min as d3Min, 
     max as d3Max,
+    format
 } from 'd3';
 
 class Timeboxset extends Component {
@@ -46,7 +47,8 @@ class Timeboxset extends Component {
             onLeave = this.config.get('onLeave'),
             onHover = this.config.get('onHover'),
             onClick = this.config.get('onClick'),
-            displayPropertyZ = this.config.get('displayPropertyZ'),
+            displayValues = this.config.get('displayValues'),
+            valuesFormat = this.config.get('valuesFormat'),
             keys = map(data, (d) => d[propertyKey]).keys(),
             layer = this.svg.selectAll('.serie').data(data),
             layerEnter = null,
@@ -99,14 +101,14 @@ class Timeboxset extends Component {
             .attr('height', () => 0.8 * yLanes(1))
             .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
 
-        if (displayPropertyZ) {
+        if (displayValues) {
             boxEnter.append('text')
                 .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
                 .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
                 .attr('dy', '3')
                 .attr('text-anchor', 'middle')
                 .attr('dominant-baseline', 'middle')
-                .text((d: any) => d[propertyZ]);
+                .text((d: any) => format(valuesFormat)(d[propertyZ]));
         }
 
         boxMerge = box.merge(boxEnter);
@@ -118,7 +120,7 @@ class Timeboxset extends Component {
             .attr('height', () => 0.8 * yLanes(1))
             .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
 
-        if (displayPropertyZ) {
+        if (displayValues) {
             boxMerge.select('text')
                 .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
                 .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)

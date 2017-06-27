@@ -50,15 +50,15 @@ class SvgStrategySwimlane extends SvgStrategy {
             legend = this.config.get('legend'),
             colorScaleType = this.config.get('colorScaleType');
 
-        this.container.add(this.axes);
+        this.container.add(this.axes).add(this.boxes);
 
         if (legend) {
             switch (colorScaleType) {
                 case 'categorical': 
-                    this.container.add(new Legend()).add(this.boxes);
+                    this.container.add(new Legend());
                     break;
                 case 'sequential':
-                    this.container.add(new ColorLegend()).add(this.boxes);
+                    this.container.add(new ColorLegend());
                     break;
             }
             

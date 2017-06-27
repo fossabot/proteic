@@ -4,7 +4,13 @@
   .box {
     text {
       font: $font-main;
+      font-weight: bold;
       fill: $font-color-inverse;
+      text-shadow:
+        -1px -1px 0 $font-color-dark,  
+        1px -1px 0 $font-color-dark,
+        -1px 1px 0 $font-color-dark,
+        1px 1px 0 $font-color-dark;
     } 
   }
 }
