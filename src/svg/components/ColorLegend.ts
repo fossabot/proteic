@@ -4,11 +4,12 @@ import Config from '../../Config';
 import Globals from '../../Globals';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { max, min } from "d3-array";
 
 import {
     selection,
-    nest
+    nest,
+    min as d3min,
+    max as d3max
 } from 'd3';
 
 
@@ -39,11 +40,17 @@ class ColorLegend extends Component {
             width = this.config.get('width'),
             legendCells = this.config.get('legendCells');
 
+        this.svg.select('.legend').remove();
+        legend = this.svg.append('g').attr('class', 'legend');
+
         if (data.length <= 1) {
             return;
         }
 
-        colorScale.domain([min(data, (d: any) => d[propertyZ]), max(data, (d: any) => d[propertyZ])]);
+        let min = d3min(data, (d: any) => +d[propertyZ]),
+            max = d3max(data, (d: any) => +d[propertyZ]);
+
+        colorScale.domain([min, max]);
 
         let colorLegend: any = legendColor()
             .title(legendTitle)
@@ -53,7 +60,6 @@ class ColorLegend extends Component {
         }   
         colorLegend.scale(colorScale);
         
-        legend = this.svg.select('.legend');
         legend.call(colorLegend);
 
         legend.attr('transform', `translate(${width + 10}, 0)`);
