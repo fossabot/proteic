@@ -9,7 +9,8 @@ import {
     selection,
     nest,
     min as d3min,
-    max as d3max
+    max as d3max,
+    format
 } from 'd3';
 
 
@@ -38,7 +39,8 @@ class ColorLegend extends Component {
             colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
             width = this.config.get('width'),
-            legendCells = this.config.get('legendCells');
+            legendCells = this.config.get('legendCells'),
+            valuesFormat = this.config.get('valuesFormat');
 
         this.svg.select('.legend').remove();
         legend = this.svg.append('g').attr('class', 'legend');
@@ -54,7 +56,8 @@ class ColorLegend extends Component {
 
         let colorLegend: any = legendColor()
             .title(legendTitle)
-            .labelDelimiter('–');
+            .labelDelimiter('–')
+            .labelFormat(format(valuesFormat));
         if (legendCells) {
             colorLegend.cells(legendCells);
         }   
