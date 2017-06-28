@@ -51,8 +51,6 @@ class ColorLegend extends Component {
             legendCells = data.length;
         }
 
-        console.log(data.length, legendCells);
-
         let min = d3min(data, (d: any) => +d[propertyZ]),
             max = d3max(data, (d: any) => +d[propertyZ]);
 
