@@ -46,8 +46,12 @@ class ColorLegend extends Component {
         legend = this.svg.append('g').attr('class', 'legend');
 
         if (data.length <= 1) {
-            return;
+            legendCells = 1;
+        } else if (data.length <= legendCells) {
+            legendCells = data.length;
         }
+
+        console.log(data.length, legendCells);
 
         let min = d3min(data, (d: any) => +d[propertyZ]),
             max = d3max(data, (d: any) => +d[propertyZ]);
