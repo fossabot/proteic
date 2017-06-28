@@ -45,12 +45,14 @@ class ColorLegend extends Component {
         this.svg.select('.legend').remove();
         legend = this.svg.append('g').attr('class', 'legend');
 
-        if (data.length <= 1) {
-            return;
-        }
-
         let min = d3min(data, (d: any) => +d[propertyZ]),
             max = d3max(data, (d: any) => +d[propertyZ]);
+
+        if (data.length <= 1 || min == max) {
+            legendCells = 2;
+        } else if (data.length <= legendCells) {
+            legendCells = data.length;
+        }
 
         colorScale.domain([min, max]);
 
