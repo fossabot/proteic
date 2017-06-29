@@ -1,7 +1,7 @@
-import SvgStrategy from "../base/SvgStrategy";
-import XYAxes from "../components/XYAxes";
-import TileSet from "../components/TileSet";
-import {sortByField} from "../../utils/data/sorting";
+import SvgStrategy from '../base/SvgStrategy';
+import XYAxes from '../components/XYAxes';
+import TileSet from '../components/TileSet';
+import { sortByField } from '../../utils/data/sorting';
 import ColorLegend from '../components/ColorLegend';
 
 class SvgStrategyHeatmap extends SvgStrategy {

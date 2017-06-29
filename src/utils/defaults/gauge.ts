@@ -16,16 +16,13 @@ export const defaults: any = {
     needleLenghtRatio: 0.8,
     numericIndicator: true,
     label: 'km/h',
-    //margins
     marginTop: 20,
     marginRight: 250,
     marginBottom: 30,
     marginLeft: 70,
-    //Width & height
     width: '50%', // %, auto, or numeric
     height: 250,
     ticks: 10, // ticks for y dial.
     propertyValue: 'value',
     streamingStrategy: StreamingStrategy.REPLACE
-
 };

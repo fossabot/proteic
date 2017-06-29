@@ -14,7 +14,6 @@ export const defaults: any = {
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     streamingStrategy: StreamingStrategy.ADD,
-    //Events
     onDown(d: any) {
     },
     onHover(d: any) {

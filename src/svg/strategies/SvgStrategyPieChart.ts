@@ -1,6 +1,6 @@
-import SvgStrategy from "../base/SvgStrategy";
-import SectorSet from "../components/SectorSet";
-import Legend from "../components/Legend";
+import SvgStrategy from '../base/SvgStrategy';
+import SectorSet from '../components/SectorSet';
+import Legend from '../components/Legend';
 
 class SvgStrategyPieChart extends SvgStrategy {
 
@@ -23,16 +23,17 @@ class SvgStrategyPieChart extends SvgStrategy {
     public initialize(): void {
         super.initialize();
         this.container
-            .add(this.sectors)
-            
+            .add(this.sectors);
+
         let legend = this.config.get('legend');
-        if(legend) {
+        if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
         }
-            
+
     }
 
 }
 
 export default SvgStrategyPieChart;
+

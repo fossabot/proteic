@@ -44,17 +44,17 @@ class YAxis extends Component {
         let yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
-            .attr("transform", this.orient === 'left'
-                ? "translate( 0, 0 )"
-                : "translate( " + width + ", 0 )"
+            .attr('transform', this.orient === 'left'
+                ? 'translate( 0, 0 )'
+                : 'translate( ' + width + ', 0 )'
             )
             .call(this._yAxis);
 
         this.svg
             .append('text')
             .attr('class', 'yaxis-title')
-            .attr("transform", "rotate(-90)")
-            .attr("text-anchor", "middle")
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
             .attr('x', 0 - height / 2)
             .attr('y', 0 - 55)
             .text(yAxisLabel)
@@ -74,10 +74,10 @@ class YAxis extends Component {
             annotations = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
-        let min: string = "0", max: string = "0";
+        let min: string = '0', max: string = '0';
 
         if (yAxisType === 'linear') {
-            if (layoutStacked) { //TODO: Improve
+            if (layoutStacked) {
                 let keys: string[] = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
                 let stackedData = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
@@ -90,8 +90,9 @@ class YAxis extends Component {
 
             let minNumber = +min;
             let maxNumber = +max;
-            
-            if (annotations && annotations.length) {//TODO: Refactor and move this piece of code.
+
+            // TODO: Refactor and move this piece of code.
+            if (annotations && annotations.length) {
                 let annotation = annotations[0];
                 let variable: string = annotation.variable;
                 let width: string = annotation.width;
@@ -113,8 +114,7 @@ class YAxis extends Component {
             // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
             let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
-        }
-        else {
+        } else {
             console.warn('could not recognize y axis type', yAxisType);
         }
 
@@ -150,7 +150,13 @@ class YAxis extends Component {
      * @memberOf XAxis
      */
 
-    private initializeYAxis(width: string | number, height: number, yAxisFormat: string, yAxisType: string, yAxisGrid: boolean): void {
+    private initializeYAxis(
+        width: string | number,
+        height: number,
+        yAxisFormat: string,
+        yAxisType: string,
+        yAxisGrid: boolean
+    ): void {
         switch (yAxisType) {
             case 'linear':
                 this._yAxis = (this.orient === 'left')
@@ -163,7 +169,8 @@ class YAxis extends Component {
                     : axisRight(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
                 break;
             default:
-                throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
+                throw new Error(`Not allowed type for YAxis. Only allowed 'time', 
+                 'linear' or 'categorical'. Got: ` + yAxisType);
         }
 
         if (yAxisGrid && this.orient === 'left') {

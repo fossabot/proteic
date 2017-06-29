@@ -1,6 +1,6 @@
-import { deg2rad } from "../../utils/functions";
-import Component from "./Component";
-import { scaleLinear, arc as d3arc, range as d3range } from "d3";
+import { deg2rad } from '../../utils/functions';
+import Component from './Component';
+import { scaleLinear, arc as d3arc, range as d3range } from 'd3';
 
 class DialNeedle extends Component {
 
@@ -78,7 +78,6 @@ class DialNeedle extends Component {
                 .range([90 + minAngle, 90 + maxAngle]);
 
         this.svg.select('.needle')
-            //.transition()
             .attr('transform', (d) => `translate(${r}, ${r}) rotate(${angleScale(datum[propertyValue]) - 90})`)
             .attr('d', `M ${0 - needleNutRadius} ${0} L ${0} ${0 - needleLen} L ${needleNutRadius} ${0}`);
     }
@@ -87,7 +86,7 @@ class DialNeedle extends Component {
         console.warn('TODO: Not yet implemented');
     }
 
-    public transition(){
+    public transition() {
         // console.warn('transition not yet implemented for dialneedle');
     }
 

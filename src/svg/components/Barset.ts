@@ -27,10 +27,7 @@ class Barset extends Component {
         this.y = y;
     }
 
-    public render() {
-        //Do nothing, since points render only when new data is received.
-
-    }
+    public render() {}
 
     public update(data: any[]) {
         let bars: any = null,
@@ -71,16 +68,19 @@ class Barset extends Component {
         layer.merge(layerEnter)
             .attr('class', 'barSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .style('fill', (d: any, i: number) => d[propertyKey] !== undefined
+                ? colorScale(d[propertyKey])
+                : colorScale(i)
+            )
             .selectAll('rect')
             .data((d: any) => d)
             .enter()
             .append('rect')
             .attr('data-proteic-element', 'bar')
-            .attr("x", (d: any) => x(d.data[propertyKey]))
-            .attr("y", (d: any) => y(d[1]))
-            .attr("height", (d: any) => y(d[0]) - y(d[1]))
-            .attr("width", x.bandwidth());
+            .attr('x', (d: any) => x(d.data[propertyKey]))
+            .attr('y', (d: any) => y(d[1]))
+            .attr('height', (d: any) => y(d[0]) - y(d[1]))
+            .attr('width', x.bandwidth());
     }
 
     private updateGrouped(data: any[]) {
@@ -129,7 +129,10 @@ class Barset extends Component {
         // UPDATE bars
         this.elementUpdate = bars
             .attr('class', Globals.SELECTOR_ELEMENT)
-            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined
+                ? colorScale(d[propertyKey])
+                : colorScale(i)
+            )
             .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
             .attr('x', (d: any) => x(d[propertyX]));
 
@@ -138,13 +141,15 @@ class Barset extends Component {
             .append('rect')
             .attr('data-proteic-element', 'bar')
             .attr('class', Globals.SELECTOR_ELEMENT)
-            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined ? colorScale(d[propertyKey]) : colorScale(i))
+            .attr('fill', (d: any, i: number) => d[propertyKey] !== undefined
+                ? colorScale(d[propertyKey])
+                : colorScale(i)
+            )
             .attr('transform', (d: any) => 'translate(' + xGroup(d[propertyKey]) + ')')
             .attr('height', 0)  // This makes the transition start
             .attr('y', height)  // at the bottom of the chart
             .attr('x', (d: any) => x(d[propertyX]))
             .attr('width', xGroup.bandwidth());
-
 
         // EXIT bars
         this.elementExit = bars.exit();

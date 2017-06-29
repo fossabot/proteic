@@ -33,14 +33,13 @@ class SvgStrategyLinechart extends SvgStrategy {
     private markers: Pointset;
     private area: Areaset;
     private legend: Legend;
-    private annotations : Annotations;
+    private annotations: Annotations;
     private alerts: Alerts;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.lines = new Lineset(this.axes.x, this.axes.y);
-        // this.annotations = new Annotations(this.axes.x, this.axes.y);
         this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
@@ -70,7 +69,6 @@ class SvgStrategyLinechart extends SvgStrategy {
         this.container
             .add(this.axes)
             .add(this.lines)
-            // .add(this.annotations)
             .add(this.alerts);
             
         if (areaOpacity > 0) {

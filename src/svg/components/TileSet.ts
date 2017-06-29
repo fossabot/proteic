@@ -1,8 +1,8 @@
-import Component from "./Component";
-import XAxis from "./XAxis";
-import YAxis from "./YAxis";
-import { max, min } from "d3-array";
-import Globals from "../../Globals";
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
+import { max, min } from 'd3-array';
+import Globals from '../../Globals';
 
 class TileSet extends Component {
     private x: XAxis;
@@ -14,9 +14,7 @@ class TileSet extends Component {
         this.y = y;
     }
 
-    render() {
-        // Do nothing. (a tile set allways needs data)
-    }
+    public render() {}
 
     public update(data: any[]) {
         let propertyX = this.config.get('propertyX'),
@@ -59,8 +57,6 @@ class TileSet extends Component {
 
         // Update
         tiles.attr('class', 'tile')
-            //.transition()
-            //.duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
@@ -90,8 +86,6 @@ class TileSet extends Component {
             .attr('height', heigth)
             .style('fill', (d) => colorScale(d[propertyZ]))
             .attr('fill-opacity', 0)
-            //.transition()
-            //.duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('fill-opacity', 1);
 
         // Exit
@@ -109,9 +103,7 @@ class TileSet extends Component {
         this.update([]);
     }
 
-    public transition() {
-      //  console.warn('no transition implemented for tileset');
-    }
+    public transition() {}
 
 }
 

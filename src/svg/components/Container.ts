@@ -1,5 +1,5 @@
 import { select, Selection, zoom } from 'd3';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 import Component from './Component';
 import Config from '../../Config';
@@ -11,13 +11,13 @@ class Container {
     private svg: Selection<any, any, any, any>;
     private config: Config;
     private components: Component[] = [];
-    private visibilityObservable: Observable<any>; //TODO: Inject with annotations?
+    private visibilityObservable: Observable<any>; // TODO: Inject with annotations?
     protected udpateWithTransition: boolean = true;
 
     constructor(config: Config) {
         this.visibilityObservable = GlobalInjector.getRegistered('onVisibilityChange');
         this.visibilityObservable.subscribe((event: any) => {
-            this.udpateWithTransition = !event.hidden
+            this.udpateWithTransition = !event.hidden;
         });
 
         this.config = config;
@@ -66,14 +66,20 @@ class Container {
      * @memberOf Container
     
      */
-    private initializeContainer(selector: string, width: (number | string), height: (number | string), marginLeft: number, marginTop: number): void {
+    private initializeContainer(
+        selector: string,
+        width: (number | string),
+        height: (number | string),
+        marginLeft: number,
+        marginTop: number,
+    ): void {
         this.svg = select(selector)
             .style('position', 'relative')
             .style('width', `${width}px`)
             .style('height', `${height}px`)
             .append('svg:svg')
-            .attr('preserveAspectRatio', "xMinYMin meet")
-            .attr("viewBox", "0 0 " + width + " " + height)
+            .attr('preserveAspectRatio', 'xMinYMin meet')
+            .attr('viewBox', '0 0 ' + width + ' ' + height)
             .attr('width', '100%')
             .attr('class', 'proteic')
             .attr('width', width)
@@ -96,41 +102,24 @@ class Container {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             component.update(data, events);
-            if (this.udpateWithTransition){
+            if (this.udpateWithTransition) {
                 component.transition();
             }
         }
     }
 
     public translate(x: Number, y: Number) {
-        this.svg.attr('transform', `translate(${x}, ${y})`)
+        this.svg.attr('transform', `translate(${x}, ${y})`);
     }
 
     public viewBox(w: number, h: number) {
-        this.svg.attr("viewBox", "0 0 " + w + " " + h);
+        this.svg.attr('viewBox', '0 0 ' + w + ' ' + h);
     }
 
     public zoom(z: any) {
-        this.svg.call(zoom().scaleExtent([1 / 2, 4]).on("zoom", z));
+        this.svg.call(zoom().scaleExtent([1 / 2, 4]).on('zoom', z));
     }
-
-    public addLoadingIcon() {
-        /**
-        let icon = Globals.LOADING_ICON;
-
-        this.svg.append('image').attr('id', 'loadingIcon')
-            .attr('width', '25%')
-            .attr('height', '25%')
-            .attr('x', '25%')
-            .attr('y', '25%')
-            .attr('xlink:href', icon)
-            **/
-    }
-
-    public removeLoadingIcon() {
-        //this.svg.select('image[id="loadingIcon"]').transition().duration(200).remove();
-    }
-
+    
     public getComponents(): Component[] {
         return this.components;
     }

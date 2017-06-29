@@ -7,7 +7,7 @@ export function discardProperties(data: Array<any>, properties: string[]) {
         let register = data[i];
         discardPropertiesObject(register, properties);
     }
-};
+}
 
 export function discardPropertiesObject(object: any, properties: string[]) {
     for (let p of properties) {
