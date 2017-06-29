@@ -121,7 +121,7 @@ class CanvasPointset extends Component {
     }
 
     public transition() {
-        console.warn('No transition effects for canvas pointset');
+        // console.warn('No transition effects for canvas pointset');
     }
 }
 

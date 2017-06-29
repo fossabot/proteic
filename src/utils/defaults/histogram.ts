@@ -24,7 +24,7 @@ export const defaults: any = {
     legend: true,
     legendPosition: 'right',
     propertyX: 'x',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, 'NaN', null],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, 'NaN', null, undefined],
     streamingStrategy: StreamingStrategy.ADD,
     onDown(d: any) {
     },

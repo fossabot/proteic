@@ -184,7 +184,7 @@ class LinkedNodeset extends Component implements Zoomable {
     }
 
     public transition() {
-        console.warn('No transition effects for ', this.constructor.name);
+        // console.warn('No transition effects for ', this.constructor.name);
     }
 
 }
