@@ -30,7 +30,7 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, null],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, undefined],
     stacked: true,
     stack: d3Stack().value((d: any, k: any) => d.value[k]).order(stackOrderInsideOut).offset(stackOffsetNone),
     onDown(d: any) {

@@ -46,8 +46,8 @@ class SectorSet extends Component {
         console.warn('Not yet implemented');
     }
 
-    public transition() {
-        console.warn('No transition for sector set');
+    public transition(){
+        // console.warn('No transition for sector set');
     }
 }
 

@@ -85,7 +85,7 @@ class Streamset extends Component {
     }
 
     public transition() {
-        console.warn('no transition for streamset');
+        // console.warn('no transition for streamset');
     }
 
 

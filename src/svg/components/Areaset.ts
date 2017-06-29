@@ -52,7 +52,7 @@ class Areaset extends Component {
     }
 
     public transition() {
-        console.warn('No transition implementation for areas');
+        // console.warn('No transition implementation for areas');
     }
 
     public clear() {
