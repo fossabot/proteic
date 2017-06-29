@@ -42,7 +42,7 @@ class Annotations extends Component {
             return;
         }
 
-        let annotation = d3Annotation.annotation()
+        let annotation: any = d3Annotation.annotation()
             .annotations(this.annotations.map((a: any) => {
                 let annotation = null;
                 switch (a.type) {
