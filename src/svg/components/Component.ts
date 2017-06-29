@@ -11,9 +11,6 @@ abstract class Component {
     protected elementExit: any;
     protected elementUpdate: any;
 
-
-    constructor() {}
-
     public abstract update(data: any, events?: Map<string, any>): void;
 
     public abstract transition(): void;

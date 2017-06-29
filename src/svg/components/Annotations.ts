@@ -57,7 +57,7 @@ class Annotations extends Component {
                         a.value = events.get(a.variable);
                         if (a.value && a.width) {
                             let width = a.width;
-                            if (typeof a.width == 'string') {
+                            if (typeof a.width === 'string') {
                                 width = events.get(a.width);
                             }
                             if (width !== 0) {

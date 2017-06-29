@@ -4,7 +4,7 @@ import * as defaults from './defaults/';
 
 
 export function isArray(d: any) {
-  return d && d.constructor === Array && d instanceof Array;
+    return d && d.constructor === Array && d instanceof Array;
 }
 
 export function isObject(d: any) {
@@ -98,34 +98,34 @@ export function sortBy(array: Array<any>, o: any) {
     return [];
   }
   if (_toString.call(o) !== '[object Object]') {
-    o = {};
+      o = {};
   }
-  if (typeof o.parser !== 'function') {
+    if (typeof o.parser !== 'function') {
     o.parser = _parser;
   }
-  o.desc = o.desc ? -1 : 1;
-  return array.sort((a, b) => {
-    a = _getItem.call(o, a);
-    b = _getItem.call(o, b);
-    return o.desc * (a < b ? -1 : +(a > b));
+    o.desc = o.desc ? -1 : 1;
+    return array.sort((a, b) => {
+      a = _getItem.call(o, a);
+      b = _getItem.call(o, b);
+      return o.desc * (a < b ? -1 : +(a > b));
   });
 }
 
 export function findElement(arr: Array<any>, propName: string, propValue: any) {
-  for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
     if (arr[i][propName] === propValue) {
       return arr[i];
     }
   }
-  return null;
+    return null;
 }
 
 export function copy(object: {}) {
-  return object != null ? JSON.parse(JSON.stringify(object)) : null;
+    return object !== null ? JSON.parse(JSON.stringify(object)) : null;
 }
 
 export function deg2rad(deg: number) {
-  return deg * Math.PI / 180;
+    return deg * Math.PI / 180;
 }
 
 /**
@@ -137,74 +137,74 @@ export function deg2rad(deg: number) {
  * @returns {(obj:any)=>boolean}
  */
 export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>): Function {
-  return function (obj: any): boolean {
-    return !hasValuesWithKeys(obj, values, keys);
+    return function (obj: any): boolean {
+      return !hasValuesWithKeys(obj, values, keys);
   };
 }
 
 export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>) {
-  for (let key of keys) {
+    for (let key of keys) {
     let value: any = obj[key];
-    if (values.indexOf(value) != -1) {
+    if (values.indexOf(value) !== -1) {
       return true;
     }
   }
-  return false;
+    return false;
 }
 
 export function arrayDiff(a: Array<string>, b: Array<string>) {
-  return b.filter((i) => a.indexOf(i) < 0);
+    return b.filter((i) => a.indexOf(i) < 0);
 }
 
 export function filterKeys(datum: any, keys: any[]) {
-  let anemicDatum: any = {};
+    let anemicDatum: any = {};
 
-  for (let k of keys) {
+    for (let k of keys) {
     anemicDatum[k] = datum[k];
   }
 
-  return anemicDatum;
+    return anemicDatum;
 }
 
 // /** 
 //  * Get the list of visualizations available in Proteic.js
 //  */
 export function getAvailableVisualizations(): String[] {
-  let visualizations = new Set<String>();
+    let visualizations = new Set<String>();
 
-  for (let property in charts) {
-    if (typeof property == 'string' && property !== charts.Chart.prototype.constructor.name) {
+    for (let property in charts) {
+    if (typeof property === 'string' && property !== charts.Chart.prototype.constructor.name) {
       visualizations.add(property);
     }
   }
 
-  return Array.from(visualizations);
+    return Array.from(visualizations);
 }
 
 export function getDefaultOptions(visualization: string) {
-  if (visualization in defaults) {
-    return (<any>defaults)[visualization];
+    if (visualization in defaults) {
+      return (<any>defaults)[visualization];
   } else {
-    throw new Error('Unrecognised visualization.');
+      throw new Error('Unrecognised visualization.');
   }
 }
 
 export function getColorScales() {
-  let colorScales = new Set<String>();
+    let colorScales = new Set<String>();
 
-  for (let property in colors) {
-    if (typeof property == 'string') {
+    for (let property in colors) {
+    if (typeof property === 'string') {
       colorScales.add(property);
     }
   }
 
-  return Array.from(colorScales);
+    return Array.from(colorScales);
 }
 
 export function getColorScale(name: string) {
-  if (name in colors) {
-    return (<any>colors)[name];
+    if (name in colors) {
+      return (<any>colors)[name];
   } else {
-    throw new Error('Unrecognised color scale.');
+      throw new Error('Unrecognised color scale.');
   }
 }

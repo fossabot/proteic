@@ -110,7 +110,7 @@ abstract class Chart {
     private streamingIntervalIdentifier: number = null;
 
     // TODO: Inject with annotations?
-    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange'); 
+    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange');
 
     /**
      * Creates an instance of Chart.
@@ -157,7 +157,7 @@ abstract class Chart {
         return this;
     }
 
-    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) { 
+    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
         // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
         this.context.draw(copy(data), this.events);
         this.data = data;
@@ -223,7 +223,9 @@ abstract class Chart {
     protected loadConfigFromUser(userData: any, defaults: any): Config {
         let config = new Config();
         for (let v in defaults) {
-            config.put(v, (v in userData) ? userData[v] : defaults[v]);
+            if (defaults.hasOwnProperty(v)) {
+                config.put(v, (v in userData) ? userData[v] : defaults[v]);
+            }
         }
         let width = config.get('width');
         width = calculateWidth(width, config.get('selector')) - config.get('marginLeft') - config.get('marginRight');
@@ -291,8 +293,8 @@ abstract class Chart {
         // Wide data to narrow and draw
         let pivotVars = this.config.get('pivotVars');
         let keys = Object.keys(datum);
-        let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) != -1);
-        let ids = keys.filter((k) => pivotVars.indexOf(k) == -1);
+        let varsInDatum = keys.filter((k) => pivotVars.indexOf(k) !== -1);
+        let ids = keys.filter((k) => pivotVars.indexOf(k) === -1);
 
         if (varsInDatum.length >= 1) {
             datum = melt(

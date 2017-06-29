@@ -3,6 +3,18 @@
     "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
+    "no-multi-spaces": true,
+    "no-duplicate-variable": true,
+    "ban": [
+      true,
+      [
+        "alert",
+        "confirm",
+        "prompt"
+      ]
+    ],
+    "forin": true,
+    "triple-equals": true,
     "member-access": true,
     "max-line-length": [
       true,
@@ -132,7 +144,7 @@
     "no-console": [
       true,
       "log"
-    ],   
+    ],
     "space-in-parens": [
       "error",
       "info",

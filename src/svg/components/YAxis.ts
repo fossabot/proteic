@@ -22,7 +22,7 @@ class YAxis extends Component {
 
     constructor(orient?: string) {
         super();
-        if (orient != null) {
+        if (orient !== null) {
             this._orient = orient;
         }
     }
@@ -96,7 +96,7 @@ class YAxis extends Component {
                 let annotation = annotations[0];
                 let variable: string = annotation.variable;
                 let width: string = annotation.width;
-                let annotationArray = data.filter((d: any) => d[propertyKey] == variable);
+                let annotationArray = data.filter((d: any) => d[propertyKey] === variable);
                 if (annotationArray && annotationArray.length) {
                     for (let a of annotationArray) {
                         if (a[propertyY] - a[width] < minNumber) {

@@ -136,7 +136,7 @@ class Legend extends Component {
 
         if (!element.empty()) {
             let opacity: number = parseInt(element.style('opacity'));
-            opacity = (opacity == 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
+            opacity = (opacity === 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
             let legendEntry = this.svg.select(`.legend-entry[${Globals.LEGEND_DATA_KEY_ATTRIBUTE}='${key}']`);
 
             legendEntry.selectAll('rect')

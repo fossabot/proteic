@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 /**
  * Creates an SVG clip path component that is attached to the chart.
@@ -15,7 +15,7 @@ class ClipPath extends Component {
         this.height = height;
     }
 
-    update(data: any): void { }
+    public update(data: any): void { }
 
     public render(): void {
         this.svg.append('clipPath')
@@ -25,13 +25,9 @@ class ClipPath extends Component {
             .attr('height', this.height);
     }
 
-    public clear() {
-     ///   console.warn('TODO: clipPath.clear()', 'Not yet implemented');
-    }
+    public clear() {}
 
-    public transition() {
-     ///   console.warn('No transition effects for clippath');
-    }
+    public transition() {}
 
 }
 
