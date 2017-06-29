@@ -20,7 +20,7 @@ class Annotations extends Component {
         this.annotations = annotations;
     }
 
-    render() {
+    public render() {
         let annotations = this.svg.append('g')
             .attr('class', 'annotations')
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');

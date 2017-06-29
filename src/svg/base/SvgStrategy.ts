@@ -16,11 +16,11 @@ abstract class SvgStrategy {
 
     }
 
-    initialize() {
+    public initialize() {
         this.container = new Container(this.config);
     }
 
-    abstract draw(data: [{}], events: Map<string, any>): void;
+    public abstract draw(data: [{}], events: Map<string, any>): void;
 
     public addComponent(component: Function, config: any) {
         switch (component.name) {

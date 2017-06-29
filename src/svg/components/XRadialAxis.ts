@@ -9,9 +9,9 @@ class XRadialAxis extends Component {
         super();
     }
 
-    update(data: any): void { }
+    public update(data: any): void { }
 
-    render(): void {
+    public render(): void {
         this._xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);
     }
 

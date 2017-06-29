@@ -15,7 +15,7 @@ class Alerts extends Component {
         this.y = y;
     }
 
-    render() {
+    public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
     }

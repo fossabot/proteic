@@ -14,7 +14,7 @@ class Barchart extends Chart {
         );
     }
 
-    fire(event: string, data: string) {
+    public fire(event: string, data: string) {
         if (event === 'transition') {
             if (data === 'grouped') {
                 this.config.put('stacked', false);

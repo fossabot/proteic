@@ -16,7 +16,7 @@ class SvgStrategyHeatmap extends SvgStrategy {
         this.tiles = new TileSet(this.axes.x, this.axes.y);
     }
 
-    draw(data: [{}]): void {
+    public draw(data: [{}]): void {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),

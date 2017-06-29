@@ -15,7 +15,7 @@ export default class Injector {
      * @param {string} injectionKey
      * @param {*} value
      */
-    mapValue(injectionKey: string, value: any): void {
+    public mapValue(injectionKey: string, value: any): void {
         this.valuesByInjectionKey[injectionKey] = value;
     }
 
@@ -27,7 +27,7 @@ export default class Injector {
      * @returns {T}
      */
     // instantiate<T extends Injectable>(clazz: { new (...args: any[]): T }): T {
-    instantiate<T>(clazz: { new (...args: any[]): T }): T {
+    public instantiate<T>(clazz: { new (...args: any[]): T }): T {
 
         // Start by creating a new instance of the target clazz.
         const instance: any = new clazz();

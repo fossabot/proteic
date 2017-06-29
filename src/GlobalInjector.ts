@@ -2,7 +2,7 @@ export default class GlobalInjector {
 
     private static registery: { [key: string]: any } = {};
 
-    static getRegistered(key: string) {
+    public static getRegistered(key: string) {
         let registered = GlobalInjector.registery[key];
         if (registered) {
             return registered;
@@ -11,7 +11,7 @@ export default class GlobalInjector {
         }
     }
 
-    static register(key: string, value: any) {
+    public static register(key: string, value: any) {
         let registered = GlobalInjector.registery[key];
         GlobalInjector.registery[key] = value;
     }

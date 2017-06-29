@@ -6,7 +6,7 @@ class TextIndicator extends Component {
         super();
     }
 
-    update(data: [any]): void {
+    public update(data: [any]): void {
         let datum = data[data.length - 1];
 
         this.svg.select('.value')
@@ -15,7 +15,7 @@ class TextIndicator extends Component {
             .text(datum.label);
     }
 
-    render(): void {
+    public render(): void {
         let indicator = this.svg.append('g')
             .attr('class', 'text-indicator')
             .attr('pointer-events', 'none')
@@ -40,7 +40,7 @@ class TextIndicator extends Component {
             .style('text-anchor', 'middle');
     }
 
-    translate(x: Number, y: Number) {
+    public translate(x: Number, y: Number) {
         this.svg
             .select('g.text-indicator')
             .attr('transform', `translate(${x}, ${y})`);

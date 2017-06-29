@@ -40,7 +40,7 @@ class SunburstDisk extends Component {
         return path;
     }
 
-    update(data: [any]): void {
+    public update(data: [any]): void {
         let arcGen = arc()
             .startAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x0))))
             .endAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x1))))
@@ -105,7 +105,7 @@ class SunburstDisk extends Component {
             .on('click.user', this.config.get('onClick'));
     }
 
-    render(): void {
+    public render(): void {
     }
 
     public clear() {

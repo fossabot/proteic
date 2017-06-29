@@ -14,13 +14,13 @@ abstract class Component {
 
     constructor() {}
 
-    abstract update(data: any, events?: Map<string, any>): void;
+    public abstract update(data: any, events?: Map<string, any>): void;
 
-    abstract transition(): void;
+    public abstract transition(): void;
 
-    abstract clear(): void;
+    public abstract clear(): void;
 
-    abstract render(): void;
+    public abstract render(): void;
 
     /**
      *
