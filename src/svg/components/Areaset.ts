@@ -1,8 +1,8 @@
-import Component from "./Component";
-import XAxis from "./XAxis";
-import YAxis from "./YAxis";
-import Globals from "../../Globals";
-import { area, nest, CurveFactory, Area } from "d3";
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
+import Globals from '../../Globals';
+import { area, nest, CurveFactory, Area } from 'd3';
 
 
 class Areaset extends Component {
@@ -56,7 +56,7 @@ class Areaset extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('*[data-proteic-element="area"]').remove();
+        this.svg.selectAll(`*[data-proteic-element='area']`).remove();
     }
 
 }

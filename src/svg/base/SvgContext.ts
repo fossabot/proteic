@@ -11,16 +11,8 @@ export class SvgContext {
         this.strategy.draw(data, events);
     }
 
-    public clear(){
+    public clear() {
         this.strategy.clear();
     }
-
-    public addLoading() {
-        this.strategy.addLoading();
-    }
-    public removeLoading() {
-        this.strategy.removeLoading();
-    }
-
 
 }

@@ -76,13 +76,11 @@ class Alerts extends Component {
             }
     }
 
-    public clear(){
+    public clear() {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition(){
-       /// console.log('no transition for alerts');
-    }
+    public transition() {}
 }
 
 export default Alerts;

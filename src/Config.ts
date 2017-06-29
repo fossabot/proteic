@@ -10,6 +10,6 @@ class Config {
     public get(key: string): any {
         return this.properties[key];
     }
-};
+}
 
 export default Config;

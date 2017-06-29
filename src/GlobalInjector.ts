@@ -21,7 +21,7 @@ function injectMethod(...keys: string[]) {
     return (target: any, key: string, descriptor: any) => {
         let originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
-            let add = keys.map((key: string) => GlobalInjector.getRegistered(key));
+            let add = keys.map((k: string) => GlobalInjector.getRegistered(k));
             args = args.concat(add);
 
             let result = originalMethod.apply(this, args);
@@ -41,7 +41,9 @@ export function inject(...keys: string[]) {
     return (...args: any[]) => {
         let params = [];
         for (let i = 0; i < args.length; i++) {
-            args[i] ? params.push(args[i]) : null
+            if (args[i]) {
+                params.push(args[i]);
+            }
         }
         switch (params.length) {
             case 2:
@@ -49,7 +51,7 @@ export function inject(...keys: string[]) {
             case 3:
                 return injectMethod(...keys).apply(this, args);
             default:
-                throw new Error("Decorators are not valid here!");
+                throw new Error('Decorators are not valid here!');
         }
     };
 }

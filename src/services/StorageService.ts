@@ -4,7 +4,8 @@ class StorageService {
 
     constructor(serviceLevel: string) {
         if (serviceLevel !== 'session' && serviceLevel !== 'local') {
-            throw new Error(`Storage service level should be \'session\' or \'local\'. ${serviceLevel} is not a valid identifier`);
+            throw new Error(`Storage service level should be \'session\' or \'local\'. ${serviceLevel}
+             is not a valid identifier`);
         }
 
         this.storage = serviceLevel === 'local' ? window.localStorage : window.sessionStorage;
@@ -44,8 +45,7 @@ class StorageService {
         let item = this.storage.getItem(key);
         if (!item) {
             return [];
-        }
-        else {
+        } else {
             return JSON.parse(item);
         }
     }

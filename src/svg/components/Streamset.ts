@@ -29,9 +29,7 @@ class Streamset extends Component {
     }
 
 
-    public render(): void {
-        //Do nothing, since lines render only when new data is received.
-    }
+    public render(): void {}
 
     public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');

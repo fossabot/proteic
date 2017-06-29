@@ -126,14 +126,7 @@
       }
     ],
     "no-var-keyword": true,
-    "prefer-const": true,
-    "trailing-comma": [
-      true,
-      {
-        "multiline": "always",
-        "singleline": "never"
-      }
-    ],
+    "prefer-const": false,
     "no-conditional-assignment": true,
     "no-console": [
       true,

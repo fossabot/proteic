@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import SvgStrategyBarchart from "../svg/strategies/SvgStrategyBarchart";
-import {defaults} from "../utils/defaults/barchart";
-import {copy, isValuesInObjectKeys} from "../utils/functions";
+import Chart from './Chart';
+import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
+import { defaults } from '../utils/defaults/barchart';
+import { copy, isValuesInObjectKeys } from '../utils/functions';
 
 class Barchart extends Chart {
 
@@ -14,12 +14,11 @@ class Barchart extends Chart {
         );
     }
 
-    fire(event: string, data: string) {//TODO: improve this section
+    fire(event: string, data: string) {
         if (event === 'transition') {
             if (data === 'grouped') {
                 this.config.put('stacked', false);
-            }
-            else if (data === 'stacked') {
+            } else if (data === 'stacked') {
                 this.config.put('stacked', true);
             }
             this.draw();

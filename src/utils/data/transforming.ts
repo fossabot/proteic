@@ -1,7 +1,12 @@
 import { nest, timeParse } from 'd3';
 import { arrayDiff } from '../functions';
 
-export function simple2stacked(data: Array<any>, xProperty: string, yProperty: string, keyProperty: string): any {
+export function simple2stacked(
+    data: Array<any>,
+    xProperty: string,
+    yProperty: string,
+    keyProperty: string
+): any {
     return nest().key((d: any) => d[xProperty]).rollup((values: any): any => {
         let r: any = {};
         for (let i = 0; i < values.length; i++) {
@@ -32,7 +37,7 @@ export function nested2simple(data: any) {
 }
 
 export function simple2Linked(data: any) {
-    var linkedData = { links: Array(), nodes: Array() };
+    let linkedData = { links: Array(), nodes: Array() };
     data.map((d: any) => d.class === 'link' ? linkedData.links.push(d) : linkedData.nodes.push(d));
     return linkedData;
 }
@@ -46,9 +51,16 @@ export function convertPropretiesToTimeFormat(data: any, properties: Array<any>,
     });
 }
 
-export function convertByXYFormat(data: any, xAxisFormat: string, xAxisType: string, yAxisFormat: string, yAxisType: string, propertyX: string, propertyY: string) {
+export function convertByXYFormat(
+    data: any,
+    xAxisFormat: string,
+    xAxisType: string,
+    yAxisFormat: string,
+    yAxisType: string,
+    propertyX: string,
+    propertyY: string
+) {
     data.forEach((d: any) => {
-        //parse x coordinate
         switch (xAxisType) {
             case 'time':
                 d[propertyX] = timeParse(xAxisFormat)(d[propertyX]);
@@ -57,7 +69,6 @@ export function convertByXYFormat(data: any, xAxisFormat: string, xAxisType: str
                 d[propertyX] = +d[propertyX];
                 break;
         }
-        //parse Y coordinate
         switch (yAxisType) {
             case 'time':
                 d[propertyY] = timeParse(yAxisFormat)(d[propertyY]);
@@ -71,7 +82,14 @@ export function convertByXYFormat(data: any, xAxisFormat: string, xAxisType: str
 }
 
 export function unwind(data: Array<any>, valueNames: string[]): Array<any> {
-    if (!valueNames || !valueNames.length || !data || !data.length || data.constructor !== Array || valueNames.constructor !== Array) {
+    if (
+        !valueNames ||
+        !valueNames.length ||
+        !data ||
+        !data.length ||
+        data.constructor !== Array
+        || valueNames.constructor !== Array
+    ) {
         return data;
     }
 
@@ -81,8 +99,7 @@ export function unwind(data: Array<any>, valueNames: string[]): Array<any> {
         let result = unwindObject(data[i], valueNames);
         if (result && result.length) {
             unwinded = unwinded.concat(result);
-        }
-        else {
+        } else {
             unwinded = unwinded.concat(data[i]);
         }
 

@@ -6,7 +6,6 @@ export const defaults: any = {
     colorScale: Colors.category3(),
     legendCells: 5,
     colorScaleType: 'categorical',
-    //Axes
     xAxisType: 'time',
     xAxisFormat: '%y/%m/%d',
     xAxisLabel: '',
@@ -17,12 +16,10 @@ export const defaults: any = {
     yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
-    //margins
     marginTop: 20,
     marginRight: 250,
     marginBottom: 30,
     marginLeft: 70,
-    //Width & height
     width: '100%', // %, auto, or numeric 
     height: 250,
     legend: true,
@@ -37,7 +34,6 @@ export const defaults: any = {
     valuesFormat: '.2',
     streamingStrategy: StreamingStrategy.ADD,
     nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
-    //Events
     onDown(d: any) {
     },
     onHover(d: any) {

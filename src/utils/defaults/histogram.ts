@@ -5,7 +5,6 @@ import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 export const defaults: any = {
     selector: '#chart',
     bins: 20,
-    //Axes
     xAxisType: 'linear',
     xAxisFormat: '',
     xAxisLabel: '',
@@ -16,21 +15,17 @@ export const defaults: any = {
     yAxisLabel: '',
     yAxisShow: true,
     yAxisGrid: true,
-    //margins
     marginTop: 20,
     marginRight: 20,
     marginBottom: 130,
     marginLeft: 70,
-    //width & height
     width: '100%',
     height: 350,
     legend: true,
     legendPosition: 'right',
     propertyX: 'x',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, "NaN", null],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, 'NaN', null],
     streamingStrategy: StreamingStrategy.ADD,
-
-    //Events
     onDown(d: any) {
     },
     onHover(d: any) {

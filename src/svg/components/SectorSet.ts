@@ -4,7 +4,7 @@ import {
     pie,
     arc
 } from 'd3';
-import { Arc } from "d3-shape";
+import { Arc } from 'd3-shape';
 
 
 class SectorSet extends Component {
@@ -14,9 +14,7 @@ class SectorSet extends Component {
         super();
     }
 
-    public render() {
-        //Do nothing, since points render only when new data is received.
-    }
+    public render() {}
 
     public update(data: [any]) {
         let propertyKey = this.config.get('propertyKey');
@@ -30,17 +28,17 @@ class SectorSet extends Component {
         let myPie = pie().value((d: any) => d[propertyX])(data);
         let myArc: Arc<any, any> = arc().innerRadius(0).outerRadius(radius);
 
-        let arcs = this.svg.selectAll("g.slice").data(myPie);
+        let arcs = this.svg.selectAll('g.slice').data(myPie);
         let newBlock = arcs.enter();
 
         newBlock
-            .append("g")
+            .append('g')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.data[propertyKey])
-            .append("path")
+            .append('path')
             .attr('fill',
             (d: any, i: number) =>
                 d.data[propertyKey] !== undefined ? colorScale(d.data[propertyKey]) : colorScale(i))
-            .attr("d", myArc);
+            .attr('d', myArc);
 
     }
 
@@ -48,7 +46,7 @@ class SectorSet extends Component {
         console.warn('Not yet implemented');
     }
 
-    public transition(){
+    public transition() {
         console.warn('No transition for sector set');
     }
 }
