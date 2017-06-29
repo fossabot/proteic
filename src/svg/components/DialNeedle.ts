@@ -86,7 +86,7 @@ class DialNeedle extends Component {
         console.warn('TODO: Not yet implemented');
     }
 
-    public transition(){
+    public transition() {
         // console.warn('transition not yet implemented for dialneedle');
     }
 

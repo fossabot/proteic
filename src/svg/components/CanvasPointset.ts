@@ -120,7 +120,7 @@ class CanvasPointset extends Component {
         console.warn('TODO: Not yet implemented');
     }
 
-    public transition(){
+    public transition() {
         // console.warn('No transition effects for canvas pointset');
     }
 }
