@@ -28,7 +28,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyKey: 'key',
     nullValues: ['NULL', 'NUL', '\\N', NaN, 'NaN', null, undefined],
-    //Events
+    // Events
     onDown(d: any) {
     },
     onHover(d: any) {

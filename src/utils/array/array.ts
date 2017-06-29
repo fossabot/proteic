@@ -11,8 +11,7 @@ export function fitArrayByOldAndNewValue(newData: Array<any>, oldData: Array<any
         }
         if (value === undefined) {
             break;
-        }
-        else {
+        } else {
             array.push(value);
         }
     }
