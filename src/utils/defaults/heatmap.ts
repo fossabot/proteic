@@ -35,7 +35,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyZ: 'z',
     valuesFormat: '.1f',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN', undefined],
     stack: d3stack().value((d: any, k: any) => d.value[k]),
     streamingStrategy: StreamingStrategy.ADD,
     //Events

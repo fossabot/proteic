@@ -113,7 +113,7 @@ class SunburstDisk extends Component {
     }
 
     public transition() {
-        console.warn('no transition implemented for sun disk');
+        // console.warn('no transition implemented for sun disk');
     }
 
 }

@@ -51,7 +51,7 @@ class TextIndicator extends Component {
     }
 
     public transition() {
-        console.warn('no transition for sunburst disk');
+        // console.warn('no transition for sunburst disk');
     }
 
 
