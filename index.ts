@@ -17,5 +17,9 @@ export { Colors };
 
 // Functions
 export {
-    getDefaultOptions,getAvailableVisualizations,getColorScales,getColorScale
+    getDefaultOptions,
+    getAvailableVisualizations,
+    getColorScales,
+    getColorScale
 } from './src/utils/functions';
+

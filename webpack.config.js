@@ -22,7 +22,12 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
     },
     module: {
-        loaders: [{
+        preLoaders: [
+            { test: /\.ts$/, loader: 'tslint' }
+        ],
+
+        loaders: [
+            {
                 test: /\.ts$/,
                 loader: 'ts-loader'
             },
@@ -30,7 +35,13 @@ module.exports = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract("style", "css!sass")
             }
-        ]
+        ],
+        tslint: {
+            typeCheck: true,
+            failOnHint: true,
+            emitErrors: true,
+            configuration: require('./tslint.json')
+        }
     },
     plugins: [
         new ExtractTextPlugin("./dist/proteic.css")

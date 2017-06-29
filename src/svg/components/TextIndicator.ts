@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 class TextIndicator extends Component {
 
@@ -53,7 +53,6 @@ class TextIndicator extends Component {
     public transition() {
         // console.warn('no transition for sunburst disk');
     }
-
 
 }
 

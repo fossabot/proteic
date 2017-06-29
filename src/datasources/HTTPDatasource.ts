@@ -1,5 +1,5 @@
-import Datasource from "./Datasource";
-import {request} from "d3";
+import Datasource from './Datasource';
+import { request } from 'd3';
 
 /**
  *
@@ -9,7 +9,4 @@ import {request} from "d3";
  * @extends {Datasource}
 
  */
-export default class HTTPDatasource extends Datasource {
-
-
-}
+export default class HTTPDatasource extends Datasource { }

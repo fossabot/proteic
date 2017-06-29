@@ -10,11 +10,9 @@ export function calculateWidth(widthConfig: any, selector: any) {
       .node()
       .getBoundingClientRect()
       .width;
-  }
-  else if (isNumeric(widthConfig)) {
+  } else if (isNumeric(widthConfig)) {
     return widthConfig;
-  }
-  else if (isPercentage(widthConfig)) {
+  } else if (isPercentage(widthConfig)) {
     let containerWidth, percentage;
     containerWidth = select(selector)
       .node()

@@ -27,14 +27,12 @@ class Timeboxset extends Component {
     }
 
 
-    public render(): void {
-        //Do nothing, since lines render only when new data is received.
-    }
+    public render(): void {}
 
     public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
-        let propertyEnd = this.config.get('propertyEnd')
+        let propertyEnd = this.config.get('propertyEnd');
         let propertyZ = this.config.get('propertyZ');
         
         data = data.filter((d) => propertyEnd in d || propertyStart in d);
@@ -75,6 +73,7 @@ class Timeboxset extends Component {
         yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, height]);
 
         layer = this.svg.selectAll('.serie').data(data);
+        
         // NOTE: d.key instead of d[propertyKey] because data is d3.Nest
         layerEnter = layer.enter()
             .append('g')
@@ -99,7 +98,10 @@ class Timeboxset extends Component {
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
-            .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
+            .style('fill', (d: any) => colorScaleType === 'sequential'
+                ? colorScale(d[propertyZ])
+                : colorScale(d[propertyKey])
+            );
 
         if (displayValues) {
             boxEnter.append('text')
@@ -118,7 +120,10 @@ class Timeboxset extends Component {
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
             .attr('height', () => 0.8 * yLanes(1))
-            .style('fill', (d: any) => colorScaleType === 'sequential' ? colorScale(d[propertyZ]) : colorScale(d[propertyKey]));
+            .style('fill', (d: any) => colorScaleType === 'sequential'
+                ? colorScale(d[propertyZ])
+                : colorScale(d[propertyKey])
+            );
 
         if (displayValues) {
             boxMerge.select('text')
@@ -143,9 +148,7 @@ class Timeboxset extends Component {
         this.update([]);
     }
 
-    public transition(){
-        ///console.warn('no transition implemented for timeboxset');
-    }
+    public transition() {}
 }
 
 export default Timeboxset;

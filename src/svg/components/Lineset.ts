@@ -48,7 +48,6 @@ class Lineset extends Component {
         let series = this.linesContainer.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
-        //Update new lines
         let lines = series.data(dataSeries, (d: any) => d.key);
 
         this.elementEnter = lines.enter()
@@ -65,10 +64,9 @@ class Lineset extends Component {
 
         this.elementExit = lines.exit().remove();
 
-        //update existing lines
         this.elementUpdate = this.svg.selectAll('.line')
             .data(dataSeries, (d: any) => d.key)
-            .attr('d', (d: any) => this.lineGenerator(d.values))
+            .attr('d', (d: any) => this.lineGenerator(d.values));
     }
 
 

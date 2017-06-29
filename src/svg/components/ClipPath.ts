@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 /**
  * Creates an SVG clip path component that is attached to the chart.

@@ -31,7 +31,6 @@ class HistogramBarset extends Component {
     }
 
     public render() {
-        //Do nothing, since points render only when new data is received.
         this.svg.append('g')
             .attr('class', 'proteic-bars')
             .style('fill', '#f1a30d')
@@ -61,7 +60,11 @@ class HistogramBarset extends Component {
         this.y.updateDomainByMinMax(0, max(bins, (d) => d.length));
         this.y.transition();
 
-        this.x.updateDomainByMinMax(min(data, (d) => d[propertyX]), max(data, (d) => d[propertyX] + (bins[0].x1 - bins[0].x0)));
+        this.x.updateDomainByMinMax(
+            min(data, (d) => d[propertyX]),
+            max(data, (d) => d[propertyX] + (bins[0].x1 - bins[0].x0))
+        );
+
         this.x.transition();
 
         // JOIN bars

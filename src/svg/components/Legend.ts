@@ -20,7 +20,6 @@ class Legend extends Component {
 
     public update(data: any) {
         let propertyKey: string = this.config.get('propertyKey');
-        //Exclude those values that do not contain a 'key'.
         let dataSeries = nest()
             .key((d: any) => d[propertyKey]).entries(data),
             legend = null,
@@ -35,12 +34,8 @@ class Legend extends Component {
             return;
         }
 
-        // this.svg.selectAll('g.legend').remove();
-
         legend = this.svg.select('.legend');
         
-
-        // JOIN entries
         entries = legend.selectAll(`.legend-entry`)
             .data(dataSeries, (d: any) => d.key);
 
@@ -61,7 +56,7 @@ class Legend extends Component {
 
         enterEntries.append('text')
             .attr('class', 'legend-txt')
-            .attr("dy", "0.55em")
+            .attr('dy', '0.55em')
             .text((d: any) => d.key)
             .style('font', '14px Montserrat, sans-serif')
             .on('click.default', () => this.toggle);
@@ -90,9 +85,7 @@ class Legend extends Component {
         this.update([]);
     }
 
-    public transition(){
-      ///  console.warn('No transition effects for ', this.constructor.name);
-    }
+    public transition() {}
 
     private drawTopLegendCb(legend: any) {
         legend.selectAll('.legend-cb')
@@ -131,31 +124,28 @@ class Legend extends Component {
 
     private drawRightLegendTxt(legend: any, width: number) {
         legend.selectAll('.legend-txt')
-            .attr("x", width + 25 + 10)
-            .attr("y", (d: any, i: number) => i * 25 + 7)
+            .attr('x', width + 25 + 10)
+            .attr('y', (d: any, i: number) => i * 25 + 7)
             .on('click.default', () => this.toggle);
     }
 
     private toggle(d: any): void {
         let key: string = d.key,
-            element = this.svg.selectAll('*[' + Globals.COMPONENT_DATA_KEY_ATTRIBUTE + '="' + key + '"]'),
+            element = this.svg.selectAll(`*[${Globals.COMPONENT_DATA_KEY_ATTRIBUTE}='${key}']`),
             colorScale = this.config.get('colorScale');
 
         if (!element.empty()) {
             let opacity: number = parseInt(element.style('opacity'));
             opacity = (opacity == 1) ? Globals.COMPONENT_HIDE_OPACITY : 1;
-            let legendEntry = this.svg.select('.legend-entry[' + Globals.LEGEND_DATA_KEY_ATTRIBUTE + '="' + key + '"]');
+            let legendEntry = this.svg.select(`.legend-entry[${Globals.LEGEND_DATA_KEY_ATTRIBUTE}='${key}']`);
 
             legendEntry.selectAll('rect')
-                //.transition()
-                //.duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
-                .style('fill', (d: any): any => {
-                    return (opacity === 1) ? colorScale(d.key) : 'transparent';
-                });
+                .style('fill', (field: any): any => (opacity === 1)
+                    ? colorScale(field.key)
+                    : 'transparent'
+                );
 
             element
-                //.transition()
-                //.duration(Globals.COMPONENT_HIDE_SHOW_TRANSITION_TIME)
                 .style('opacity', opacity);
         }
     }

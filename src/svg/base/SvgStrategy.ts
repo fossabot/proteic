@@ -23,27 +23,19 @@ abstract class SvgStrategy {
     abstract draw(data: [{}], events: Map<string, any>): void;
 
     public addComponent(component: Function, config: any) {
-        switch(component.name) {
+        switch (component.name) {
             case Annotations.name:
-                let axes: XYAxes = <XYAxes> this.container.getComponent(XYAxes.name);
+                let axes: XYAxes = <XYAxes>this.container.getComponent(XYAxes.name);
                 this.container.add(new Annotations(axes.x, axes.y, config));
-            break;
+                break;
         }
     }
 
-    public clear(){
+    public clear() {
         let components = this.container.getComponents();
-        for(const c of components){
+        for (const c of components) {
             c.clear();
         }
-    }
-
-    public addLoading() {
-        this.container.addLoadingIcon();
-    }
-
-    public removeLoading() {
-        this.container.removeLoadingIcon();
     }
 }
 

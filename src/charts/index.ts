@@ -1,6 +1,6 @@
 export {
     default as Chart
-} from './Chart'
+} from './Chart';
 
 export {
     default as Linechart
@@ -16,11 +16,11 @@ export {
 
 export {
     default as Heatmap
-} from './Heatmap'
+} from './Heatmap';
 
 export {
     default as Histogram
-} from './Histogram'
+} from './Histogram';
 
 export {
     default as Scatterplot
