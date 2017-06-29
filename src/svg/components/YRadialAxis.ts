@@ -30,7 +30,7 @@ class YRadialAxis extends Component {
     }
 
     public transition() {
-        console.warn('no transition implemented for xradial');
+        // console.warn('no transition implemented for xradial');
     }
 
 }

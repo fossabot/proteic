@@ -89,7 +89,7 @@ class Dial extends Component {
     }
 
     public transition() {
-        console.warn('No transition effects for dial');
+        // console.warn('No transition effects for dial');
     }
 
 }
