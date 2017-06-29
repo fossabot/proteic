@@ -31,7 +31,8 @@ class ColorLegend extends Component {
 
     public update(data: any) {
         let propertyKey: string = this.config.get('propertyKey');
-        //Exclude those values that do not contain a 'key'.
+        
+        // Exclude those values that do not contain a 'key'.
         let legend = null,
             entries = null,
             legendTitle = this.config.get('legendTitle'),
@@ -71,13 +72,10 @@ class ColorLegend extends Component {
     }
 
     public clear() {
-        console.log('Not yet implemented');
-        //this.svg.select("g.legend").selectAll("*").remove();
+        throw new Error('Not yet implemented');
     }
     
-    public transition(){
-        //console.warn('No transition effects for color legend');
-    }
+    public transition() {}
 
 }
 

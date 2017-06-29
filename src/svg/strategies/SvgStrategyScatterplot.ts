@@ -6,8 +6,8 @@ import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
-import CanvasPointset from "../components/CanvasPointset";
-import Annotations from "../components/Annotations";
+import CanvasPointset from '../components/CanvasPointset';
+import Annotations from '../components/Annotations';
 
 class SvgStrategyScatterplot extends SvgStrategy {
     /**

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import Config from "../../Config";
-import { Selection } from "d3";
+import Config from '../../Config';
+import { Selection } from 'd3';
 
 abstract class Component {
 
@@ -12,11 +12,10 @@ abstract class Component {
     protected elementUpdate: any;
 
 
-    constructor() { }
+    constructor() {}
 
     abstract update(data: any, events?: Map<string, any>): void;
 
-    //abstract transition(selection : Selection<any, any, any,any>) : void;
     abstract transition(): void;
 
     abstract clear(): void;
@@ -25,7 +24,8 @@ abstract class Component {
 
     /**
      *
-     * Configure this component to use a given configuration and a SVG selector. This method is automatically by the Container.
+     * Configure this component to use a given configuration and a SVG selector.
+     * This method is automatically by the Container.
      * @param {Config} config A configuration object
      * @param {*} svg A D3 selector object
      *

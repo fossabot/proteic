@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import {defaults} from "../utils/defaults/heatmap";
-import SvgStrategyHeatmap from "../svg/strategies/SvgStrategyHeatmap";
-import {copy, isValuesInObjectKeys} from "../utils/functions";
+import Chart from './Chart';
+import { defaults } from '../utils/defaults/heatmap';
+import SvgStrategyHeatmap from '../svg/strategies/SvgStrategyHeatmap';
+import { copy, isValuesInObjectKeys } from '../utils/functions';
 
 class Heatmap extends Chart {
 

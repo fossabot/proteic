@@ -29,12 +29,7 @@ class Pointset extends Component {
         this.y = y;
     }
 
-
-
-    public render() {
-        //Do nothing, since points render only when new data is received.
-
-    }
+    public render() {}
 
     public update(data: [any]) {
         let propertyKey = this.config.get('propertyKey');
@@ -51,8 +46,6 @@ class Pointset extends Component {
             colorScale = this.config.get('colorScale');
 
         let shape = symbol().size(markerSize);
-
-        // series = this.svg.selectAll('g.points');
 
         switch (markerShape) {
             case 'dot':
@@ -118,8 +111,12 @@ class Pointset extends Component {
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr('d', shape)
             .style('stroke', (d: any) => colorScale(d[propertyKey]))
-            .style('fill', (d: any) => markerShape !== 'ring' ? colorScale(d[propertyKey]) : 'transparent')
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
+            .style('fill', (d: any) => markerShape !== 'ring'
+                ? colorScale(d[propertyKey])
+                : 'transparent'
+            )
+            .attr('transform', (d: any) =>
+                `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
             .attr('fill-opacity', 0)
             .attr('stroke-opacity', 0);
 
@@ -146,7 +143,9 @@ class Pointset extends Component {
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(easeLinear)
-            .attr('transform', (d: any) => `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
+            .attr('transform', (d: any) =>
+                `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`
+            );
 
         this.elementEnter
             .transition()

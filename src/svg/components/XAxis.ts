@@ -10,7 +10,7 @@ import {
     Axis
 } from 'd3';
 import Component from './Component';
-import { Globals } from "../../../index";
+import { Globals } from '../../../index';
 
 class XAxis extends Component {
 
@@ -53,8 +53,8 @@ class XAxis extends Component {
         let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
 
+        // TODO: Optimize it. Currently we are looping data twice.
         if (xAxisType === 'linear') {
-            //TODO: Optimize it. Currently we are looping data twice.
             let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
                 max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
             this.updateDomainByMinMax(min, Math.ceil(max));
@@ -64,8 +64,7 @@ class XAxis extends Component {
                 max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
 
-        }
-        else {
+        } else {
             let keys: string[] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
@@ -138,7 +137,13 @@ class XAxis extends Component {
      *
      * @memberOf XAxis
      */
-    private initializeXAxis(width: number, height: string | number, xAxisFormat: string, xAxisType: string, xAxisGrid: boolean): void {
+    private initializeXAxis(
+        width: number,
+        height: string | number,
+        xAxisFormat: string,
+        xAxisType: string,
+        xAxisGrid: boolean
+    ): void {
         switch (xAxisType) {
             case 'time':
                 this._xAxis = axisBottom(scaleTime().range([0, width]));
@@ -152,7 +157,8 @@ class XAxis extends Component {
                     .padding(0.1).align(0.5));
                 break;
             default:
-                throw new Error('Not allowed type for XAxis. Only allowed time,  linear or categorical. Got: ' + xAxisType);
+                throw new Error(`Not allowed type for XAxis. Only allowed time,
+                linear or categorical. Got:${xAxisType}`);
         }
 
         if (xAxisGrid) {

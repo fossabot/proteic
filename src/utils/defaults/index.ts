@@ -1,44 +1,44 @@
 
 export {
     defaults as barchart
-} from './barchart'
+} from './barchart';
 
 export {
     defaults as gauge
-} from './gauge'
+} from './gauge';
 
 export {
     defaults as heatmap
-} from './heatmap'
+} from './heatmap';
 
 export {
     defaults as linechart
-} from './linechart'
+} from './linechart';
 
 export {
     defaults as network
-} from './network'
+} from './network';
 
 export {
     defaults as pieChart
-} from './piechart'
+} from './piechart';
 
 export {
     defaults as scatterplot
-} from './scatterplot'
+} from './scatterplot';
 
 export {
     defaults as stackedArea
-} from './stackedArea'
+} from './stackedArea';
 
 export {
     defaults as streamgraph
-} from './streamgraph'
+} from './streamgraph';
 
 export {
     defaults as sunburst
-} from './sunburst'
+} from './sunburst';
 
 export {
     defaults as swimlane
-} from './swimlane'
+} from './swimlane';

@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import SvgStrategyStreamgraph from "../svg/strategies/SvgStrategyStreamgraph";
-import {defaults} from "../utils/defaults/streamgraph";
-import {copy} from "../utils/functions";
+import Chart from './Chart';
+import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
+import { defaults } from '../utils/defaults/streamgraph';
+import { copy } from '../utils/functions';
 
 class Streamgraph extends Chart {
 

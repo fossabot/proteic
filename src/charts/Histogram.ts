@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import SvgStrategyHistogram from "../svg/strategies/SvgStrategyHistogram";
-import {defaults} from "../utils/defaults/histogram";
-import {copy, isValuesInObjectKeys} from "../utils/functions";
+import Chart from './Chart';
+import SvgStrategyHistogram from '../svg/strategies/SvgStrategyHistogram';
+import { defaults } from '../utils/defaults/histogram';
+import { copy, isValuesInObjectKeys } from '../utils/functions';
 
 class Histogram extends Chart {
 

@@ -1,11 +1,11 @@
-import Component from "./Component";
-import XAxis from "./XAxis";
-import YAxis from "./YAxis";
-import { max, min } from "d3-array";
-import Globals from "../../Globals";
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
+import { max, min } from 'd3-array';
+import Globals from '../../Globals';
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from "../../utils/functions";
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from '../../utils/functions';
 
 class Annotations extends Component {
     private y: YAxis;
@@ -44,14 +44,13 @@ class Annotations extends Component {
 
         let annotation = d3Annotation.annotation()
             .annotations(this.annotations.map((a: any) => {
-                let annotation = null;
                 switch (a.type) {
                     case 'threshold':
                         if (a.variable) {
                             a.value = events.get(a.variable);
                         }
                         if (a.value) {
-                            annotation = this.makeThresholdAnnotation(a);
+                            return this.makeThresholdAnnotation(a);
                         }
                         break;
                     case 'band':
@@ -62,12 +61,12 @@ class Annotations extends Component {
                                 width = events.get(a.width);
                             }
                             if (width !== 0) {
-                                annotation = this.makeBandAnnotation(a.value, width, a.text, minY);
+                                return this.makeBandAnnotation(a.value, width, a.text, minY);
                             }
                         }
                         break;
                     default:
-                        console.warn('Unknown annotation type', a.type);
+                        throw new Error(`Unknown annotation type: ${a.type}`);
                 }
                 return annotation;
             }).filter((a: any) => a)); // Filter nulls
@@ -132,7 +131,7 @@ class Annotations extends Component {
             note: {
                 label: text,
             }
-        }
+        };
     }
 
     private makeXThresholdAnnotation(x: number, y: number, text: string) {
@@ -173,9 +172,7 @@ class Annotations extends Component {
         this.svg.selectAll('.annotation').remove();
     }
 
-    public transition() {
-     ///   console.log('no transition for annotations');
-    }
+    public transition() { }
 }
 
 export default Annotations;

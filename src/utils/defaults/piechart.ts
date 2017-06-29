@@ -1,7 +1,7 @@
 import * as Colors from '../colors';
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 
-export const defaults : any = {
+export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category8(),
     marginTop: 0,
@@ -17,7 +17,6 @@ export const defaults : any = {
     propertyX: 'x',
     propertyKey: 'key',
     streamingStrategy: StreamingStrategy.REPLACE,
-    //Events
     onDown(d: any) {
     },
     onHover(d: any) {
