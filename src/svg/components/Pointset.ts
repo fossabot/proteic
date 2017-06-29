@@ -86,26 +86,25 @@ class Pointset extends Component {
                 shape.type(symbolCircle);
         }
 
+        console.log(dataSeries);
+
         // JOIN series
-        let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
-            .data(dataSeries);
-
-        // UPDATE series
         // NOTE: d.key instead of d[propertyKey] because dataSeries is d3.Nest
-        serie.attr('class', Globals.SELECTOR_SERIE)
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key);
-
-        // ENTER + UPDATE series
-        serie = serie.enter().append('g')
-            .attr('class', Globals.SELECTOR_SERIE)
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
-            .merge(serie);
+        let series = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
+            .data(dataSeries, (d: any) => d.key);
 
         // EXIT series
-        serie.exit().remove();
+        series.exit().remove();
+
+        // ENTER new series
+        series.enter().append('g')
+            .attr('class', Globals.SELECTOR_SERIE)
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
+            .merge(series)
+            ;
 
         // JOIN points
-        let points = serie.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
+        let points = series.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
             .data((d: any) => d.values, (d: any) => d[propertyX]);
 
         // UPDATE points
