@@ -88,7 +88,7 @@ class Pointset extends Component {
         series.exit().remove();
 
         // ENTER new series
-        series.enter().append('g')
+        series = series.enter().append('g')
             .attr('class', Globals.SELECTOR_SERIE)
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
             .merge(series)
@@ -113,9 +113,7 @@ class Pointset extends Component {
                 : 'transparent'
             )
             .attr('transform', (d: any) =>
-                `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`)
-            .attr('fill-opacity', 0)
-            .attr('stroke-opacity', 0);
+                `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`);
 
         // EXIT points
         this.elementExit = points.exit().remove();
