@@ -79,8 +79,6 @@ class Pointset extends Component {
                 shape.type(symbolCircle);
         }
 
-        console.log(dataSeries);
-
         // JOIN series
         // NOTE: d.key instead of d[propertyKey] because dataSeries is d3.Nest
         let series = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
