@@ -31,30 +31,30 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
-            if (!alertVariable) {
-                return;
-            }
+        if (!alertVariable) {
+            return;
+        }
 
-            let alertSerie = data
-                .filter((d) => {
-                    return d[propertyKey] === alertVariable && 
-                        alertFunction(d[propertyY], events);
-                });        
+        let alertSerie = data
+            .filter((d) => {
+                return d[propertyKey] === alertVariable &&
+                    alertFunction(d[propertyY], events);
+            });
 
-            // JOIN new and old data
-            let alerts = this.alertsContainer.selectAll(`.alert`)
+        // JOIN new and old data
+        let alerts = this.alertsContainer.selectAll(`.alert`)
             .data(alertSerie);
 
-            // EXIT
-            alerts.exit().remove();
+        // EXIT
+        alerts.exit().remove();
 
-            // Update old data
-            alerts
-                .attr('cx', (d: any) => x(d[propertyX]))
-                .attr('cy', (d: any) => y(d[propertyY]));
+        // Update old data
+        alerts
+            .attr('cx', (d: any) => x(d[propertyX]))
+            .attr('cy', (d: any) => y(d[propertyY]));
 
-            // ENTER
-            alerts = alerts.enter().append('circle')
+        // ENTER
+        alerts = alerts.enter().append('circle')
             .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
@@ -69,18 +69,18 @@ class Alerts extends Component {
                 }
             });
 
-            if (alertEvents) {
-                for (let e of Object.keys(alertEvents)) {
-                    alerts.on(e, alertEvents[e]);
-                }
+        if (alertEvents) {
+            for (let e of Object.keys(alertEvents)) {
+                alerts.on(e, alertEvents[e]);
             }
+        }
     }
 
     public clear() {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition() {}
+    public transition() { }
 }
 
 export default Alerts;

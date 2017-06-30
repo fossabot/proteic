@@ -98,6 +98,7 @@ class XAxis extends Component {
                     .style('text-anchor', 'end');
                 break;
             default:
+                throw new Error(`Invalid rotation value (${rotation}). Just allowed: 65,-65,-90`);
         }
     }
 
@@ -149,12 +150,10 @@ class XAxis extends Component {
                 this._xAxis = axisBottom(scaleTime().range([0, width]));
                 break;
             case 'linear':
-                this._xAxis = axisBottom(scaleLinear().range([0, width]))
-                    .tickFormat(format(xAxisFormat));
+                this._xAxis = axisBottom(scaleLinear().range([0, width])).tickFormat(format(xAxisFormat));
                 break;
             case 'categorical':
-                this._xAxis = axisBottom(scaleBand().rangeRound([0, width])
-                    .padding(0.1).align(0.5));
+                this._xAxis = axisBottom(scaleBand().rangeRound([0, width]).padding(0.1).align(0.5));
                 break;
             default:
                 throw new Error(`Not allowed type for XAxis. Only allowed time,

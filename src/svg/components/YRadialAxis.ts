@@ -26,7 +26,7 @@ class YRadialAxis extends Component {
     }
 
     public clear() {
-console.warn('Not yet implemented');
+        console.warn('Not yet implemented');
     }
 
     public transition() {

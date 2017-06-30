@@ -179,8 +179,6 @@ class YAxis extends Component {
                 .tickSizeOuter(0)
                 .tickPadding(20);
         }
-
-        //
     }
 
     get yAxis() {

@@ -25,6 +25,14 @@
       true,
       "check-space"
     ],
+
+    "ter-indent": [
+      true,
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "indent": [
       true,
       "spaces"
