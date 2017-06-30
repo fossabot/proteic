@@ -1,19 +1,19 @@
 {
   "name": "proteic",
-  "version": "0.0.25",
-  "description": "Modern visualization library, ready for batch and streaming data",
+  "version": "0.0.26",
+  "description": "Streaming and static data visualization for the modern web",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
   "browser": "dist/proteic.js",
   "module": "index",
   "jsnext:main": "index",
   "scripts": {
-    "lint": "jshint src/**/*.js",
-    "test": "karma start -c karma.conf.js",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "test": "npm run lint  && karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
     "build": "webpack --config webpack.production.config.js && node-sass scss/themes/default/proteic.scss dist/proteic.css --output-style compressed && node-sass scss/themes/lighter/lighter.scss dist/lighter.css --output-style compressed",
     "docs": "esdoc -c esdoc.json",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --port 4049",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "d3": "^4.7.1",
-    "d3-svg-annotation": "github:jorgeyp/d3-annotation",
+    "d3-svg-annotation": "^1.17.1",
     "d3-svg-legend": "^2.22.0",
     "rxjs": "^5.1.0"
   },
@@ -78,8 +78,11 @@
     "socket.io": "^1.4.5",
     "strip-loader": "^0.1.2",
     "style-loader": "^0.13.1",
-    "ts-loader": "^2.0.0",
-    "typescript": "^2.1.5",
+    "ts-loader": "^2.2.1",
+    "tslint": "^5.4.3",
+    "tslint-eslint-rules": "^4.1.1",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^2.1.6",
     "uglify-js": "^2.7.4",
     "watch": "^1.0.1",
     "webpack": "^1.14.0",

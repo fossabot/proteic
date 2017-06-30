@@ -1,7 +1,7 @@
-import SvgStrategy from "../base/SvgStrategy";
-import RadialAxes from "../components/RadialAxes";
-import SunburstDisk from "../components/SunburstDisk";
-import TextIndicator from "../components/TextIndicator";
+import SvgStrategy from '../base/SvgStrategy';
+import RadialAxes from '../components/RadialAxes';
+import SunburstDisk from '../components/SunburstDisk';
+import TextIndicator from '../components/TextIndicator';
 
 class SvgStrategySunburst extends SvgStrategy {
 
@@ -37,3 +37,4 @@ class SvgStrategySunburst extends SvgStrategy {
 }
 
 export default SvgStrategySunburst;
+

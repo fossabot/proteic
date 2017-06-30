@@ -1,11 +1,10 @@
-import { Dispatch } from "d3";
 import { Observable, Subscription } from 'rxjs';
-import { inject } from '../Injector';
 import Config from '../Config';
 
 /**
  *
- * A Datasource is the name given to the connection set up to a data endpoint. This class defines the common methods for the datasources,
+ * A Datasource is the name given to the connection set up to a data endpoint.
+ * This class defines the common methods for the datasources,
  * such as start() and stop().
  *
  * @export Default export: Datasource class
@@ -15,16 +14,8 @@ import Config from '../Config';
  */
 class Datasource {
 
-    @inject('onVisibilityChange')
-    protected visibilityChangeSource: Observable<any>;
-
-    protected visibilityChangeSourceSubscription: Subscription;
-
-    constructor() {
-
-    }
-
-
+    constructor() {}
+    
 }
 
 export default Datasource;

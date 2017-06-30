@@ -41,12 +41,12 @@ class LinkedNodeset extends Component implements Zoomable {
             height: number = this.config.get('height');
 
         this.simulation = forceSimulation()
-            .force("link", forceLink().id((d: any) => d.id).distance(50))
-            .force("charge", forceManyBody())
-            .force("center", forceCenter(width / 2, height / 2));
+            .force('link', forceLink().id((d: any) => d.id).distance(50))
+            .force('charge', forceManyBody())
+            .force('center', forceCenter(width / 2, height / 2));
 
         this.dragstarted = (d: SimulationNodeDatum) => {
-            if (!event.active) this.simulation.alphaTarget(0.3).restart();
+            if (!event.active) { this.simulation.alphaTarget(0.3).restart(); }
             d.fx = d.x;
             d.fy = d.y;
         };
@@ -57,7 +57,7 @@ class LinkedNodeset extends Component implements Zoomable {
         };
 
         this.dragended = (d: SimulationNodeDatum) => {
-            if (!event.active) this.simulation.alphaTarget(1);
+            if (!event.active) { this.simulation.alphaTarget(1); }
             d.fx = null;
             d.fy = null;
         };
@@ -81,7 +81,7 @@ class LinkedNodeset extends Component implements Zoomable {
             node: any = null,
             link: any = null,
             text: any = null;
-        //Transform data
+
         data = simple2Linked(data);
 
         this.svg.selectAll('g.links').remove();
@@ -90,47 +90,44 @@ class LinkedNodeset extends Component implements Zoomable {
 
         link = this.svg.append('g')
             .attr('class', 'serie')
-            .append("g")
-            .attr("class", "links")
-            .selectAll("line")
+            .append('g')
+            .attr('class', 'links')
+            .selectAll('line')
             .data(data.links)
             .enter()
-            .append("line")
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => {console.log(d); return  d.key})
-            .attr("stroke-width", (d: any) => (weighted && d.weight) ? linkScaleRadius(d.weight) : linkWeight)
-            .attr("stroke", "#999")
-            .attr("stroke-opacity", 1);
+            .append('line')
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
+            .attr('stroke-width', (d: any) => (weighted && d.weight) ? linkScaleRadius(d.weight) : linkWeight)
+            .attr('stroke', '#999')
+            .attr('stroke-opacity', 1);
 
-        node = this.svg.select('g.serie').append("g")
-            .attr("class", "nodes")
-            .selectAll("circle")
+        node = this.svg.select('g.serie').append('g')
+            .attr('class', 'nodes')
+            .selectAll('circle')
             .data(data.nodes)
             .enter()
-            .append("circle")
+            .append('circle')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
-            .attr("r", (d: any) => (weighted && d.weight) ? nodeScaleRadius(d.weight) : nodeWeight)
-            .attr("fill", (d: any) => colorScale(d.key))
-            .attr("stroke", "white")
+            .attr('r', (d: any) => (weighted && d.weight) ? nodeScaleRadius(d.weight) : nodeWeight)
+            .attr('fill', (d: any) => colorScale(d.key))
+            .attr('stroke', 'white')
             .call(drag()
-                .on("start", this.dragstarted)
-                .on("drag", this.dragged)
-                .on("end", this.dragended));
+                .on('start', this.dragstarted)
+                .on('drag', this.dragged)
+                .on('end', this.dragended));
 
         let chart = this;
         node
-            //   .on('dblclick.default', function() {
-            //      chart.connectedNodes(this, node, link);
-            // })
+
             .on('mousedown.user', this.config.get('onDown'))
             .on('mouseup.user', this.config.get('onUp'))
             .on('mouseleave.user', this.config.get('onLeave'))
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
 
-        //Append node labels
         if (labelShow) {
-            text = this.svg.select('g.serie').append("g")
-                .attr("class", "labels")
+            text = this.svg.select('g.serie').append('g')
+                .attr('class', 'labels')
                 .selectAll('text')
                 .data(data.nodes)
                 .enter()
@@ -146,8 +143,11 @@ class LinkedNodeset extends Component implements Zoomable {
                 .on('mouseover.user', this.config.get('onHover'))
                 .on('click.user', this.config.get('onClick'));
         }
-        this.simulation.nodes(data.nodes).on("tick", () => labelShow ? this.tickedWithText(link, node, text) : this.ticked(link, node));
-        this.simulation.force("link").links(data.links);
+        this.simulation.nodes(data.nodes).on('tick', () => labelShow
+            ? this.tickedWithText(link, node, text)
+            : this.ticked(link, node));
+
+        this.simulation.force('link').links(data.links);
 
     }
     private tickedWithText(link: any, node: any, text: any) {
@@ -159,14 +159,14 @@ class LinkedNodeset extends Component implements Zoomable {
 
     private ticked(link: any, node: any) {
         link
-            .attr("x1", (d: any) => d.source.x)
-            .attr("y1", (d: any) => d.source.y)
-            .attr("x2", (d: any) => d.target.x)
-            .attr("y2", (d: any) => d.target.y);
+            .attr('x1', (d: any) => d.source.x)
+            .attr('y1', (d: any) => d.source.y)
+            .attr('x2', (d: any) => d.target.x)
+            .attr('y2', (d: any) => d.target.y);
 
         node
-            .attr("cx", (d: any) => d.x)
-            .attr("cy", (d: any) => d.y);
+            .attr('cx', (d: any) => d.x)
+            .attr('cy', (d: any) => d.y);
     }
 
     public zoom(event: D3ZoomEvent<any, any>) {
@@ -175,6 +175,16 @@ class LinkedNodeset extends Component implements Zoomable {
         this.svg.selectAll('.nodes circle').attr('transform', transform);
         this.svg.selectAll('.links line').attr('transform', transform);
         this.svg.selectAll('.labels text').attr('transform', transform);
+    }
+
+    public clear() {
+        this.svg.selectAll('.nodes').remove();
+        this.svg.selectAll('.links').remove();
+        this.svg.selectAll('.labels').remove();
+    }
+
+    public transition() {
+        // console.warn('No transition effects for ', this.constructor.name);
     }
 
 }

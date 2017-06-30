@@ -44,7 +44,6 @@ class SvgStrategyStreamgraph extends SvgStrategy {
         this.container.updateComponents(data);
     }
 
-
     public initialize(): void {
         super.initialize();
         let markerSize = this.config.get('markerSize'),

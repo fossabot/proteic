@@ -10,6 +10,7 @@ import {
     Axis
 } from 'd3';
 import Component from './Component';
+import { Globals } from '../../../index';
 
 class XAxis extends Component {
 
@@ -25,20 +26,23 @@ class XAxis extends Component {
             xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             xAxisLabel = this.config.get('xAxisLabel'),
-            xAxisGrid = this.config.get('xAxisGrid');
+            xAxisGrid = this.config.get('xAxisGrid'),
+            xTicksTextRotation = this.config.get('xTicksTextRotation');
 
         this.initializeXAxis(width, height, xAxisFormat, xAxisType, xAxisGrid);
 
-        this.svg
+        let axis = this.svg
             .append('g')
             .attr('class', `x axis ${xAxisType}`)
             .attr('transform', 'translate(0,' + height + ')')
             .call(this._xAxis);
 
+        this.rotateTicksText(axis.selectAll('text'));
+
         this.svg
             .append('text')
             .attr('class', 'xaxis-title')
-            .attr("text-anchor", "middle")
+            .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height + 40)
             .text(xAxisLabel)
@@ -49,10 +53,10 @@ class XAxis extends Component {
         let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
 
+        // TODO: Optimize it. Currently we are looping data twice.
         if (xAxisType === 'linear') {
-            //TODO: Optimize it. Currently we are looping data twice.
-            let min = d3Min(data, (d) => d[propertyX]),
-                max = d3Max(data, (d) => d[propertyX]);
+            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
+                max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
             this.updateDomainByMinMax(min, Math.ceil(max));
 
         } else if (xAxisType === 'time') {
@@ -60,13 +64,41 @@ class XAxis extends Component {
                 max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
 
-        }
-        else {
+        } else {
             let keys: string[] = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
         this.transition();
+    }
+
+    private rotateTicksText(ticksText: any) {
+        let rotation = this.config.get('xTicksTextRotation') || 0;
+
+        switch (rotation) {
+            case 65:
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '0.5em')
+                    .attr('dy', '0.1em')
+                    .style('text-anchor', 'start');
+                break;
+            case -65:
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '-0.5em')
+                    .attr('dy', '0.5em')
+                    .style('text-anchor', 'end');
+                break;
+            case -90:
+                ticksText
+                    .attr('transform', `rotate(${rotation})`)
+                    .attr('dx', '-0.5em')
+                    .attr('dy', '-0.25em')
+                    .style('text-anchor', 'end');
+                break;
+            default:
+        }
     }
 
     /**
@@ -84,8 +116,12 @@ class XAxis extends Component {
         this._xAxis.scale().domain([min, max]);
     }
 
-    public transition(time: number = 200) {
-        this.svg.selectAll('.x.axis').transition().duration(time).call(this._xAxis);
+    public transition() {
+        let axis = this.svg.selectAll('.x.axis')
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .call(this._xAxis);
+        this.rotateTicksText(axis.selectAll('text'));
         // Reorder the axis path to appear over the ticks
         this.svg.select('.x.axis path').raise();
     }
@@ -101,7 +137,13 @@ class XAxis extends Component {
      *
      * @memberOf XAxis
      */
-    private initializeXAxis(width: number, height: string | number, xAxisFormat: string, xAxisType: string, xAxisGrid: boolean): void {
+    private initializeXAxis(
+        width: number,
+        height: string | number,
+        xAxisFormat: string,
+        xAxisType: string,
+        xAxisGrid: boolean
+    ): void {
         switch (xAxisType) {
             case 'time':
                 this._xAxis = axisBottom(scaleTime().range([0, width]));
@@ -115,7 +157,8 @@ class XAxis extends Component {
                     .padding(0.1).align(0.5));
                 break;
             default:
-                throw new Error('Not allowed type for XAxis. Only allowed "time",  "linear" or "categorical". Got: ' + xAxisType);
+                throw new Error(`Not allowed type for XAxis. Only allowed time,
+                linear or categorical. Got:${xAxisType}`);
         }
 
         if (xAxisGrid) {
@@ -127,6 +170,11 @@ class XAxis extends Component {
 
     get xAxis() {
         return this._xAxis;
+    }
+
+    public clear() {
+        this.updateDomainByMinMax(0, 1);
+        this.transition();
     }
 }
 

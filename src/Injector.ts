@@ -1,55 +1,71 @@
 export default class Injector {
 
-    private static registery: { [key: string]: any } = {};
+    /**
+     * Maps values by their injectionKey.
+     *
+     * @type {{ string: * }}
+     */
+    private valuesByInjectionKey: { [injectionKey: string]: any } = {};
 
-    static getRegistered(key: string) {
-        let registered = Injector.registery[key];
-        if (registered) {
-            return registered;
-        } else {
-            throw new Error(`Error: ${key} was not registered.`);
-        }
+    /**
+     * Associate an injectionKey with a value so that when Injector#instantiate is
+     * invoked the supplied value will be injected into properties of the target Class
+     * decorated with the `@inject` decorator.
+     *
+     * @param {string} injectionKey
+     * @param {*} value
+     */
+    mapValue(injectionKey: string, value: any): void {
+        this.valuesByInjectionKey[injectionKey] = value;
     }
 
-    static register(key: string, value: any) {
-        let registered = Injector.registery[key];
-        Injector.registery[key] = value;
+    /**
+     * Create a new instance of the supplied Class fulfilling any property injections
+     * which are present in the injectionRules map.
+     *
+     * @param {function} Class
+     * @returns {T}
+     */
+    // instantiate<T extends Injectable>(clazz: { new (...args: any[]): T }): T {
+    instantiate<T>(clazz: { new (...args: any[]): T }): T {
+
+        // Start by creating a new instance of the target clazz.
+        const instance: any = new clazz();
+
+        // Loop through all properties decorated with `@inject()` in this clazz and
+        // try to satisfy them if there is a mapped value.
+        for (let injectionPoint of this.getInjectionPoints(clazz)) {
+            const injectionValue: any = this.valuesByInjectionKey[injectionPoint.injectionKey];
+
+            // Perform the injection if we have a value assigned to this injectionKey.
+            if (injectionValue) {
+                instance[injectionPoint.propertyName] = injectionValue;
+            }
+
+        }
+        return instance;
+    }
+
+    private getInjectionPoints<T>(clazz: { __inject__?: { [prop: string]: string } }): Array<InjectionPoint> {
+        let result: Array<InjectionPoint> = [];
+
+        // Retrieve the `__inject__` hash created by the @inject decorator from the
+        // target Class.
+        if (clazz.hasOwnProperty('__inject__')) {
+            result = Object.keys(clazz.__inject__)
+                .map((propertyName: string) => {
+                    return {
+                        propertyName: propertyName,
+                        injectionKey: clazz.__inject__[propertyName]
+                    };
+                });
+        }
+
+        return result;
     }
 }
 
-function injectMethod(...keys: string[]) {
-    return (target: any, key: string, descriptor: any) => {
-        let originalMethod = descriptor.value;
-        descriptor.value = function (...args: any[]) {
-            let add = keys.map((key: string) => Injector.getRegistered(key));
-            args = args.concat(add);
-
-            let result = originalMethod.apply(this, args);
-            return result;
-        };
-        return descriptor;
-    };
-}
-
-function injectProperty(...keys: string[]) {
-    return (target: any, key: string) => {
-        target[key] = Injector.getRegistered(keys[0]);
-    };
-}
-
-export function inject(...keys: string[]) {
-    return (...args: any[]) => {
-        let params = [];
-        for (let i = 0; i < args.length; i++) {
-            args[i] ? params.push(args[i]) : null
-        }
-        switch (params.length) {
-            case 2:
-                return injectProperty(keys[0]).apply(this, args);
-            case 3:
-                return injectMethod(...keys).apply(this, args);
-            default:
-                throw new Error("Decorators are not valid here!");
-        }
-    };
+interface InjectionPoint {
+    propertyName: string;
+    injectionKey: string;
 }

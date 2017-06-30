@@ -6,17 +6,13 @@ export class SvgContext {
 
     @inject('Strategy')
     public strategy: SvgStrategy;
-
-    public draw(data: [{}]): void {
-        this.strategy.draw(data);
+    
+    public draw(data: [{}], events: Map<string, any>): void {
+        this.strategy.draw(data, events);
     }
 
-    public addLoading() {
-        this.strategy.addLoading();
+    public clear() {
+        this.strategy.clear();
     }
-    public removeLoading() {
-        this.strategy.removeLoading();
-    }
-
 
 }

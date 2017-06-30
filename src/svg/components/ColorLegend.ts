@@ -4,11 +4,13 @@ import Config from '../../Config';
 import Globals from '../../Globals';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { max, min } from "d3-array";
 
 import {
     selection,
-    nest
+    nest,
+    min as d3min,
+    max as d3max,
+    format
 } from 'd3';
 
 
@@ -29,31 +31,52 @@ class ColorLegend extends Component {
 
     public update(data: any) {
         let propertyKey: string = this.config.get('propertyKey');
-        //Exclude those values that do not contain a 'key'.
+        
+        // Exclude those values that do not contain a 'key'.
         let legend = null,
             entries = null,
             legendTitle = this.config.get('legendTitle'),
             propertyZ = this.config.get('propertyZ'),
             colorScale = this.config.get('colorScale'),
             height = this.config.get('height'),
-            width = this.config.get('width');
+            width = this.config.get('width'),
+            legendCells = this.config.get('legendCells'),
+            valuesFormat = this.config.get('valuesFormat');
 
-        if (data.length <= 1) {
+        this.svg.select('.legend').remove();
+        legend = this.svg.append('g').attr('class', 'legend');
 
-            return;
+        let min = d3min(data, (d: any) => +d[propertyZ]),
+            max = d3max(data, (d: any) => +d[propertyZ]);
+
+        if (data.length <= 1 || min == max) {
+            legendCells = 2;
+        } else if (data.length <= legendCells) {
+            legendCells = data.length;
         }
 
-        colorScale.domain([min(data, (d: any) => d[propertyZ]), max(data, (d: any) => d[propertyZ])]);
+        colorScale.domain([min, max]);
 
-        let colorLegend = legendColor()
+        let colorLegend: any = legendColor()
             .title(legendTitle)
             .labelDelimiter('–')
-            .scale(colorScale);
-        legend = this.svg.select('.legend');
-        legend.call(colorLegend); 
+            .labelFormat(format(valuesFormat));
+        if (legendCells) {
+            colorLegend.cells(legendCells);
+        }   
+        colorLegend.scale(colorScale);
         
+        legend.call(colorLegend);
+
         legend.attr('transform', `translate(${width + 10}, 0)`);
     }
+
+    public clear() {
+        throw new Error('Not yet implemented');
+    }
+    
+    public transition() {}
+
 }
 
 export default ColorLegend;

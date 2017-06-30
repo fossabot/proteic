@@ -11,7 +11,8 @@ import {
     nest,
     easeLinear,
     CurveFactory,
-    Line
+    Line,
+    Selection,
 } from 'd3';
 
 class Lineset extends Component {
@@ -19,6 +20,7 @@ class Lineset extends Component {
     private x: XAxis;
     private y: YAxis;
     private lineGenerator: Line<any>;
+    private linesContainer: any;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -31,6 +33,8 @@ class Lineset extends Component {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let curve: CurveFactory = this.config.get('curve');
+        this.linesContainer = this.svg.append('g')
+            .attr('class', 'lineSet');
 
         this.lineGenerator = line()
             .curve(curve)
@@ -38,33 +42,52 @@ class Lineset extends Component {
             .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }
 
-    public update(data: [any]): void {
+    public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
-        let series = this.svg.selectAll('g.lineSeries');
+        let series = this.linesContainer.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
-        //Update new lines
-        let lines = series.data(dataSeries, (d: any) => d[propertyKey])
-            .enter()
+        let lines = series.data(dataSeries, (d: any) => d.key);
+
+        this.elementEnter = lines.enter()
             .append('g')
             .attr('class', 'lineSeries')
-            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .attr('stroke', (d: any) => colorScale(d[propertyKey]))
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
+            .attr('stroke', (d: any) => colorScale(d.key))
             .append('svg:path')
-            .style('stroke', (d: any) => colorScale(d[propertyKey]))
+            .style('stroke', (d: any) => colorScale(d.key))
             .style('stroke-width', 1.9)
             .style('fill', 'none')
             .attr('d', (d: any) => this.lineGenerator(d.values))
             .attr('class', 'line');
 
-        //update existing lines
-        this.svg.selectAll('.line')
-            .data(dataSeries, (d: any) => d[propertyKey])
-            .attr('d', (d: any) => this.lineGenerator(d.values))
+        this.elementExit = lines.exit().remove();
+
+        this.elementUpdate = this.svg.selectAll('.line')
+            .data(dataSeries, (d: any) => d.key)
+            .attr('d', (d: any) => this.lineGenerator(d.values));
+    }
+
+
+    public transition() {
+        this.elementUpdate
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(easeLinear);
+
+        this.elementEnter
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+        this.elementExit
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+    }
+
+
+    public clear() {
+        this.update([]);
     }
 
 }

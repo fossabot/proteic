@@ -29,11 +29,9 @@ class Streamset extends Component {
     }
 
 
-    public render(): void {
-        //Do nothing, since lines render only when new data is received.
-    }
+    public render(): void {}
 
-    public update(data: [any]): void {
+    public update(data: any[]): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -48,26 +46,27 @@ class Streamset extends Component {
             data4stack = simple2stacked(data, propertyX, propertyY, propertyKey),
             stack = this.config.get('stack'),
             dataSeries = stack(data4stack);
-            
+
         this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data[propertyKey]))));
 
         // JOIN series
         let series = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
-        .data(dataSeries);
+            .data(dataSeries);
 
         // UPDATE series
         series.attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-        .attr('d', this.areaGenerator)
-        .style('fill', (d: any, i: number) => colorScale(d[propertyKey]));
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .attr('d', this.areaGenerator)
+            .style('fill', (d: any, i: number) => colorScale(d[propertyKey]));
 
         // ENTER + UPDATE series
         series = series.enter().append('path')
-        .attr('class', Globals.SELECTOR_SERIE)
-        .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-        .attr('d', this.areaGenerator)
-        .style('fill', (d: any, i: number) => colorScale(d[propertyKey]))
-        .merge(series);
+            .attr('class', Globals.SELECTOR_SERIE)
+            .attr('data-proteic-element', 'stream')
+            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .attr('d', this.areaGenerator)
+            .style('fill', (d: any, i: number) => colorScale(d[propertyKey]))
+            .merge(series);
 
         // EXIT series
         series.exit().remove();
@@ -80,6 +79,16 @@ class Streamset extends Component {
             .on('mouseover.user', onHover)
             .on('click.user', onClick);
     }
+
+    public clear() {
+        this.update([]);
+    }
+
+    public transition() {
+        // console.warn('no transition for streamset');
+    }
+
+
 }
 
 export default Streamset;

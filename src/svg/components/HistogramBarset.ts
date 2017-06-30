@@ -22,6 +22,7 @@ class HistogramBarset extends Component {
 
     private x: XAxis;
     private y: YAxis;
+    private bins: any;
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -30,15 +31,14 @@ class HistogramBarset extends Component {
     }
 
     public render() {
-        //Do nothing, since points render only when new data is received.
         this.svg.append('g')
-        .attr('class', 'proteic-bars')
-        .style('fill', '#f1a30d')
-        .style('stroke', '#0c3183')
-        .style('shape-rendering', 'crispEdges');
+            .attr('class', 'proteic-bars')
+            .style('fill', '#f1a30d')
+            .style('stroke', '#0c3183')
+            .style('shape-rendering', 'crispEdges');
     }
 
-    public update(data: [any]) {
+    public update(data: any[]) {
         let propertyKey = this.config.get('propertyKey'),
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
@@ -51,40 +51,40 @@ class HistogramBarset extends Component {
         let histogramData = data.map((d) => d[propertyX]);
 
         let bins = histogram()
-        .domain(x.domain())
-        .thresholds(x.ticks(ticks))
-        (histogramData);
+            .domain(x.domain())
+            .thresholds(x.ticks(ticks))
+            (histogramData);
+
+        this.bins = bins;
 
         this.y.updateDomainByMinMax(0, max(bins, (d) => d.length));
         this.y.transition();
 
-        this.x.updateDomainByMinMax(min(data, (d) => d[propertyX]), max(data, (d) => d[propertyX] + (bins[0].x1 - bins[0].x0)));
+        this.x.updateDomainByMinMax(
+            min(data, (d) => d[propertyX]),
+            max(data, (d) => d[propertyX] + (bins[0].x1 - bins[0].x0))
+        );
+
         this.x.transition();
 
         // JOIN bars
         let bars = this.svg.selectAll('.proteic-bars').selectAll('.' + Globals.SELECTOR_ELEMENT)
-        .data(bins);
+            .data(bins);
 
         // Update bars
-        bars
-        .transition()
-        .duration(Globals.COMPONENT_TRANSITION_TIME)
-        .ease(easeLinear)
-        .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-        .attr('height', (d) => height - y(d.length))
-        .attr('y', (d) => y(d.length))
-        .attr('x', (d) => x(d.x0));
+        this.elementUpdate = bars;
 
         // Enter bars
-        bars
-        .enter().append('rect')
-        .attr('class', Globals.SELECTOR_ELEMENT)
-        .attr('x', (d) => x(d.x0))
-        .attr('y', (d) => y(d.length))
-        .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
-        .attr('height', (d) => height - y(d.length));
+        this.elementEnter = bars
+            .enter().append('rect')
+            .attr('class', Globals.SELECTOR_ELEMENT)
+            .attr('data-proteic-element', 'barHistogram')
+            .attr('x', (d) => x(d.x0))
+            .attr('y', (d) => y(d.length))
+            .attr('width', x(bins[0].x1) - x(bins[0].x0) - 1)
+            .attr('height', (d) => height - y(d.length));
 
-        bars.exit().remove();
+        this.elementExit = bars.exit().remove();
 
         bars
             .on('mousedown.user', this.config.get('onDown'))
@@ -92,6 +92,25 @@ class HistogramBarset extends Component {
             .on('mouseleave.user', this.config.get('onLeave'))
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
+    }
+
+    public clear() {
+        this.update([]);
+    }
+
+    public transition() {
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
+        let height = this.config.get('height');
+
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .ease(easeLinear)
+            .attr('width', x(this.bins[0].x1) - x(this.bins[0].x0) - 1)
+            .attr('height', (d: any) => height - y(d.length))
+            .attr('y', (d: any) => y(d.length))
+            .attr('x', (d: any) => x(d.x0));
     }
 }
 

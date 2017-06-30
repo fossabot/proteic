@@ -6,8 +6,8 @@ import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
-import CanvasPointset from "../components/CanvasPointset";
-import Annotations from "../components/Annotations";
+import CanvasPointset from '../components/CanvasPointset';
+import Annotations from '../components/Annotations';
 
 class SvgStrategyScatterplot extends SvgStrategy {
     /**
@@ -40,17 +40,16 @@ class SvgStrategyScatterplot extends SvgStrategy {
      */
     private canvasMarkers: CanvasPointset;
     private legend: Legend;
-    private annotations: Annotations;
+    private annotations: any;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.markers = new Pointset(this.axes.x, this.axes.y);
         this.canvasMarkers = new CanvasPointset(this.axes.x, this.axes.y);
-        this.annotations = new Annotations(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}]) {
+    public draw(data: [{}], events: Map<string, any>) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
@@ -61,7 +60,7 @@ class SvgStrategyScatterplot extends SvgStrategy {
         convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
         sortByField(data, propertyX);
 
-        this.container.updateComponents(data);
+        this.container.updateComponents(data, events);
     }
 
 
@@ -69,7 +68,7 @@ class SvgStrategyScatterplot extends SvgStrategy {
         super.initialize();
         let legend = this.config.get('legend');
 
-        this.container.add(this.axes).add(this.annotations);
+        this.container.add(this.axes);
 
         if (this.config.get('canvas')) {
             this.container.add(this.canvasMarkers);

@@ -1,6 +1,6 @@
 class Globals {
 
-    public static COMPONENT_TRANSITION_TIME = 100;
+    public static COMPONENT_TRANSITION_TIME = 200;
     public static COMPONENT_ANIMATION_TIME = 800;
     public static COMPONENT_HIDE_SHOW_TRANSITION_TIME = 300;
     public static COMPONENT_HIDE_OPACITY = 0.06;
@@ -12,6 +12,6 @@ class Globals {
     public static SELECTOR_SERIE = 'proteic-serie';
     public static SELECTOR_ELEMENT = 'proteic-element';  
     public static DRAW_INTERVAL = 500;
-};
+}
 
 export default Globals;

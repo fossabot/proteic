@@ -1,8 +1,8 @@
-import Component from "./Component";
-import XAxis from "./XAxis";
-import YAxis from "./YAxis";
-import { max, min } from "d3-array";
-import Globals from "../../Globals";
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
+import { max, min } from 'd3-array';
+import Globals from '../../Globals';
 
 class TileSet extends Component {
     private x: XAxis;
@@ -14,11 +14,9 @@ class TileSet extends Component {
         this.y = y;
     }
 
-    render() {
-        // Do nothing. (a tile set allways needs data)
-    }
+    public render() {}
 
-    public update(data: [any]) {
+    public update(data: any[]) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),
@@ -31,23 +29,23 @@ class TileSet extends Component {
             y = this.y.yAxis.scale(),
             width: number = 0,
             heigth: number = 0,
-            minX = min(data, (d) => d[propertyX]),
-            minY = min(data, (d) => d[propertyY]),
-            maxX = max(data, (d) => d[propertyX]),
-            maxY = max(data, (d) => d[propertyY]);
+            minX = +min(data, (d) => +d[propertyX]),
+            minY = +min(data, (d) => +d[propertyY]),
+            maxX = +max(data, (d) => +d[propertyX]),
+            maxY = +max(data, (d) => +d[propertyY]);
 
-        colorScale.domain([min(data, (d) => d[propertyZ]), max(data, (d) => d[propertyZ])]);
+        colorScale.domain([min(data, (d) => +d[propertyZ]), max(data, (d) => +d[propertyZ])]);
 
         if (xAxisType === 'linear') {
             this.x.updateDomainByMinMax(minX, maxX + xStep);
-            this.x.transition(Globals.COMPONENT_ANIMATION_TIME);
+            this.x.transition();
             width = x(xStep) - x(0);
         } else if (xAxisType === 'categorical') {
             width = x.step();
         }
         if (yAxisType === 'linear') {
             this.y.updateDomainByMinMax(minY, maxY + yStep);
-            this.y.transition(Globals.COMPONENT_ANIMATION_TIME);
+            this.y.transition();
             heigth = y(0) - y(yStep);
         } else if (yAxisType === 'categorical') {
             heigth = y.step();
@@ -59,12 +57,10 @@ class TileSet extends Component {
 
         // Update
         tiles.attr('class', 'tile')
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
-                    return y(d[propertyY] + yStep);
+                    return y(+d[propertyY] + yStep);
                 } else {
                     return y(d[propertyY]);
                 }
@@ -81,7 +77,7 @@ class TileSet extends Component {
             .attr('x', (d) => x(d[propertyX]))
             .attr('y', (d) => {
                 if (yAxisType === 'linear') {
-                    return y(d[propertyY] + yStep);
+                    return y(+d[propertyY] + yStep);
                 } else {
                     return y(d[propertyY]);
                 }
@@ -90,8 +86,6 @@ class TileSet extends Component {
             .attr('height', heigth)
             .style('fill', (d) => colorScale(d[propertyZ]))
             .attr('fill-opacity', 0)
-            .transition()
-            .duration(Globals.COMPONENT_ANIMATION_TIME)
             .attr('fill-opacity', 1);
 
         // Exit
@@ -104,6 +98,13 @@ class TileSet extends Component {
             .on('mouseover.user', this.config.get('onHover'))
             .on('click.user', this.config.get('onClick'));
     }
+
+    public clear() {
+        this.update([]);
+    }
+
+    public transition() {}
+
 }
 
 export default TileSet;

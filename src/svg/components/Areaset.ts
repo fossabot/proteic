@@ -1,8 +1,8 @@
-import Component from "./Component";
-import XAxis from "./XAxis";
-import YAxis from "./YAxis";
-import Globals from "../../Globals";
-import {area, nest, CurveFactory, Area} from "d3";
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
+import Globals from '../../Globals';
+import { area, nest, CurveFactory, Area } from 'd3';
 
 
 class Areaset extends Component {
@@ -45,10 +45,20 @@ class Areaset extends Component {
             .attr('class', Globals.SELECTOR_ELEMENT)
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .append('svg:path')
+            .attr('data-proteic-element', 'area')
             .style('fill', (d: any) => colorScale(d[propertyKey]))
             .style('fill-opacity', areaOpacity)
             .attr('d', (d: any) => this.areaGenerator(d.values));
     }
+
+    public transition() {
+        // console.warn('No transition implementation for areas');
+    }
+
+    public clear() {
+        this.svg.selectAll(`*[data-proteic-element='area']`).remove();
+    }
+
 }
 
 export default Areaset;

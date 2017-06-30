@@ -6,6 +6,7 @@ import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
+import ColorLegend from '../components/ColorLegend';
 
 class SvgStrategySwimlane extends SvgStrategy {
     /**
@@ -18,9 +19,6 @@ class SvgStrategySwimlane extends SvgStrategy {
      */
     private axes: XYAxes;
 
-    private legend: Legend;
-
-
     private boxes: TimeBoxset;
 
     constructor() {
@@ -32,9 +30,12 @@ class SvgStrategySwimlane extends SvgStrategy {
     public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             propertyStart = this.config.get('propertyStart'),
-            propertyEnd = this.config.get('propertyEnd');
-            
-        convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+            propertyEnd = this.config.get('propertyEnd'),
+            xAxisType = this.config.get('xAxisType');
+        
+        if (xAxisType === 'time') {
+            convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
+        }
 
         sortByField(data, propertyStart);
 
@@ -46,13 +47,21 @@ class SvgStrategySwimlane extends SvgStrategy {
         super.initialize();
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend');
+            legend = this.config.get('legend'),
+            colorScaleType = this.config.get('colorScaleType');
 
-        this.container.add(this.axes);
+        this.container.add(this.axes).add(this.boxes);
 
         if (legend) {
-            this.legend = new Legend();
-            this.container.add(this.legend).add(this.boxes);
+            switch (colorScaleType) {
+                case 'categorical': 
+                    this.container.add(new Legend());
+                    break;
+                case 'sequential':
+                    this.container.add(new ColorLegend());
+                    break;
+            }
+            
         }
     }
 }

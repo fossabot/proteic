@@ -25,12 +25,16 @@ class XYAxis extends Component {
         this._y.update(data);
         this._x.update(data);
     }
-    
-    
-    public configure(config: Config, svg: any){
+
+
+    public configure(config: Config, svg: any) {
         super.configure(config, svg);
         this._y.configure(config, svg);
         this._x.configure(config, svg);
+    }
+    public transition() {
+        this._x.transition();
+        this._y.transition();
     }
 
     get x(): XAxis {
@@ -41,6 +45,10 @@ class XYAxis extends Component {
         return this._y;
     }
 
+    public clear() {
+        this._x.clear();
+        this._y.clear();
+    }
 
 }
 

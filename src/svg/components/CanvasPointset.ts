@@ -1,6 +1,6 @@
-import Component from "./Component";
-import YAxis from "./YAxis";
-import XAxis from "./XAxis";
+import Component from './Component';
+import YAxis from './YAxis';
+import XAxis from './XAxis';
 import {
     select,
     symbol,
@@ -12,7 +12,7 @@ import {
     symbolTriangle,
     symbolWye,
     Selection
-} from "d3";
+} from 'd3';
 
 class CanvasPointset extends Component {
 
@@ -114,6 +114,14 @@ class CanvasPointset extends Component {
             .style('transform', `translate(${this.config.get('marginLeft')}px, ${this.config.get('marginTop')}px)`);
 
         this.canvasCtx = this.canvas.node().getContext('2d');
+    }
+
+    public clear() {
+        console.warn('TODO: Not yet implemented');
+    }
+
+    public transition() {
+        // console.warn('No transition effects for canvas pointset');
     }
 }
 

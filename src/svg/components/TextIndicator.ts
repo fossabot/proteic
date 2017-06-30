@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 class TextIndicator extends Component {
 
@@ -44,6 +44,14 @@ class TextIndicator extends Component {
         this.svg
             .select('g.text-indicator')
             .attr('transform', `translate(${x}, ${y})`);
+    }
+
+    public clear() {
+        console.warn('Not yet implemented');
+    }
+
+    public transition() {
+        // console.warn('no transition for sunburst disk');
     }
 
 }

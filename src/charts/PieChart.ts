@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import SvgStrategyPieChart from "../svg/strategies/SvgStrategyPieChart";
-import {defaults} from "../utils/defaults/piechart";
-import {copy} from "../utils/functions";
+import Chart from './Chart';
+import SvgStrategyPieChart from '../svg/strategies/SvgStrategyPieChart';
+import { defaults } from '../utils/defaults/piechart';
+import { copy } from '../utils/functions';
 
 class PieChart extends Chart {
 
@@ -14,7 +14,7 @@ class PieChart extends Chart {
         );
     }
 
-    protected keepDrawing(datum: any) {
+    public keepDrawing(datum: any) {
         let datumType = datum.constructor;
         if (datumType === Array) {
             if (this.data) {
@@ -22,8 +22,7 @@ class PieChart extends Chart {
             } else {
                 this.data = datum;
             }
-        }
-        else {
+        } else {
             this.data.push(datum);
         }
         this.draw(copy(this.data));
@@ -31,3 +30,4 @@ class PieChart extends Chart {
 }
 
 export default PieChart;
+

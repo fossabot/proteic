@@ -4,6 +4,7 @@ import Pointset from '../components/Pointset';
 import Areaset from '../components/Areaset';
 import Legend from '../components/Legend';
 import Annotations from '../components/Annotations';
+import Alerts from '../components/Alerts';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -32,16 +33,17 @@ class SvgStrategyLinechart extends SvgStrategy {
     private markers: Pointset;
     private area: Areaset;
     private legend: Legend;
-    private annotations : Annotations;
+    private annotations: Annotations;
+    private alerts: Alerts;
 
     constructor() {
         super();
         this.axes = new XYAxes();
         this.lines = new Lineset(this.axes.x, this.axes.y);
-        this.annotations = new Annotations(this.axes.x, this.axes.y);
+        this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}]) {
+    public draw(data: [{}], events: Map<string, any>) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
@@ -52,7 +54,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
         sortByField(data, propertyX);
 
-        this.container.updateComponents(data);
+        this.container.updateComponents(data, events);
     }
 
 
@@ -61,10 +63,14 @@ class SvgStrategyLinechart extends SvgStrategy {
         let markerSize = this.config.get('markerSize'),
             areaOpacity = this.config.get('areaOpacity'),
             legend = this.config.get('legend'),
-            annotations = this.config.get('annotations');
+            width = this.config.get('width'),
+            height = this.config.get('height');
 
-        this.container.add(this.axes).add(this.lines).add(this.annotations);
-
+        this.container
+            .add(this.axes)
+            .add(this.lines)
+            .add(this.alerts);
+            
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
             this.container.add(this.area);

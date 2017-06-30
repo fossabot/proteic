@@ -1,8 +1,7 @@
-import Datasource from "./Datasource";
+import Datasource from './Datasource';
 import { unwind } from '../utils/data/transforming';
 import { discardProperties } from '../utils/data/filtering';
 import StorageService from '../services/StorageService';
-import { inject } from '../Injector';
 import Config from '../Config';
 import StreamingStrategy from '../charts/enums/StreamingStrategy';
 import { fitArrayByOldAndNewValue } from '../utils/array/array';
@@ -77,20 +76,27 @@ class WebsocketDatasource extends Datasource {
 
 
     private _subscribeStreams() {
-        this.subscriptionOpenStream = this.openStream.subscribe((e: any) => console.log('Connected Websocket: ', e));
-        this.subscriptionCloseStream = this.closeStream.subscribe((e: any) => console.log('Closed Websocket: ', e));
-        this.subscriptionMessageStream = this.messageStream.subscribe((e: any) => this._wsSubject.next(this._extractDataFromWSEvent(e)));
-        this.subscriptionErrorStream = this.errorStream.subscribe((e: any) => this._wsSubject.error(e));
-        //this.visibilityChangeSourceSubscription = this.visibilityChangeSource.subscribe(
-        //    (e) => this._handleVisibility(e)
-        //);
+        this.subscriptionMessageStream = this.messageStream.subscribe(
+            (e: any) => this._wsSubject.next(this._extractDataFromWSEvent(e))
+        );
+        this.subscriptionErrorStream = this.errorStream.subscribe(
+            (e: any) => this._wsSubject.error(e)
+        );
     }
 
     private _unregisterHandlers() {
-        this.subscriptionOpenStream.unsubscribe();
-        this.subscriptionCloseStream.unsubscribe();
-        this.subscriptionMessageStream.unsubscribe();
-        this.subscriptionErrorStream.unsubscribe();
+        if (this.subscriptionOpenStream) {
+            this.subscriptionOpenStream.unsubscribe();
+        }
+        if (this.subscriptionCloseStream) {
+            this.subscriptionCloseStream.unsubscribe();
+        }
+        if (this.subscriptionMessageStream) {
+            this.subscriptionMessageStream.unsubscribe();
+        }
+        if (this.subscriptionErrorStream) {
+            this.subscriptionErrorStream.unsubscribe();
+        }
     }
 
 

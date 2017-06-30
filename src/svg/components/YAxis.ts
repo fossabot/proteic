@@ -44,17 +44,17 @@ class YAxis extends Component {
         let yAxisG = this.svg
             .append('g')
             .attr('class', 'y axis')
-            .attr("transform", this.orient === 'left'
-                ? "translate( 0, 0 )"
-                : "translate( " + width + ", 0 )"
+            .attr('transform', this.orient === 'left'
+                ? 'translate( 0, 0 )'
+                : 'translate( ' + width + ', 0 )'
             )
             .call(this._yAxis);
 
         this.svg
             .append('text')
             .attr('class', 'yaxis-title')
-            .attr("transform", "rotate(-90)")
-            .attr("text-anchor", "middle")
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
             .attr('x', 0 - height / 2)
             .attr('y', 0 - 55)
             .text(yAxisLabel)
@@ -70,30 +70,51 @@ class YAxis extends Component {
 
         let yAxisType = this.config.get('yAxisType'),
             yAxisShow = this.config.get('yAxisShow'),
-            layoutStacked = this.config.get('stacked');
+            layoutStacked = this.config.get('stacked'),
+            annotations = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
+        let min: string = '0', max: string = '0';
 
         if (yAxisType === 'linear') {
-            if (layoutStacked) { //TODO: Improve
+            if (layoutStacked) {
                 let keys: string[] = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
                 let stackedData = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
-                let min = (d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0])));
-                let max = (d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1])));
-                this.updateDomainByMinMax(min, max);
+                min = (d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0])));
+                max = (d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1])));
             } else {
-                let min = (d3Min(data, (d: any) => d[propertyY])),
-                    max = (d3Max(data, (d: any) => d[propertyY]));
-
-                this.updateDomainByMinMax(min, max);
+                min = (d3Min(data, (d: any) => d[propertyY]));
+                max = (d3Max(data, (d: any) => d[propertyY]));
             }
+
+            let minNumber = +min;
+            let maxNumber = +max;
+
+            // TODO: Refactor and move this piece of code.
+            if (annotations && annotations.length) {
+                let annotation = annotations[0];
+                let variable: string = annotation.variable;
+                let width: string = annotation.width;
+                let annotationArray = data.filter((d: any) => d[propertyKey] == variable);
+                if (annotationArray && annotationArray.length) {
+                    for (let a of annotationArray) {
+                        if (a[propertyY] - a[width] < minNumber) {
+                            minNumber = a[propertyY] - a[width];
+                        }
+                        if (a[propertyY] + a[width] > maxNumber) {
+                            maxNumber = a[propertyY] + a[width];
+                        }
+                    }
+                }
+            }
+            this.updateDomainByMinMax(minNumber, maxNumber);
+
         } else if (yAxisType === 'categorical') {
             // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
             let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
-        }
-        else {
+        } else {
             console.warn('could not recognize y axis type', yAxisType);
         }
 
@@ -104,11 +125,15 @@ class YAxis extends Component {
     }
 
     public updateDomainByMinMax(min: number, max: number) {
-        this._yAxis.scale().domain([min, max]);
+        let margin = (+max - min) * 0.1 || 1;
+        this._yAxis.scale().domain([min, max + margin]);
     }
 
-    public transition(time = 200) {
-        this.selection.transition().duration(Globals.COMPONENT_TRANSITION_TIME).call(this._yAxis);
+    public transition() {
+        this.selection
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME)
+            .call(this._yAxis);
         // Reorder the axis path to appear over the ticks
         this.svg.selectAll('.y.axis path').raise();
     }
@@ -125,7 +150,13 @@ class YAxis extends Component {
      * @memberOf XAxis
      */
 
-    private initializeYAxis(width: string | number, height: number, yAxisFormat: string, yAxisType: string, yAxisGrid: boolean): void {
+    private initializeYAxis(
+        width: string | number,
+        height: number,
+        yAxisFormat: string,
+        yAxisType: string,
+        yAxisGrid: boolean
+    ): void {
         switch (yAxisType) {
             case 'linear':
                 this._yAxis = (this.orient === 'left')
@@ -138,7 +169,8 @@ class YAxis extends Component {
                     : axisRight(scaleBand().rangeRound([height, 0]).padding(0.1).align(0.5));
                 break;
             default:
-                throw new Error('Not allowed type for YAxis. Only allowed "time",  "linear" or "categorical". Got: ' + yAxisType);
+                throw new Error(`Not allowed type for YAxis. Only allowed 'time', 
+                 'linear' or 'categorical'. Got: ` + yAxisType);
         }
 
         if (yAxisGrid && this.orient === 'left') {
@@ -153,6 +185,11 @@ class YAxis extends Component {
 
     get yAxis() {
         return this._yAxis;
+    }
+
+    public clear() {
+        this.updateDomainByMinMax(0, 1);
+        this.transition();
     }
 }
 

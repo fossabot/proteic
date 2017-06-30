@@ -1,7 +1,7 @@
-import Component from "./Component";
-import XRadialAxis from "./XRadialAxis"
-import YRadialAxis from "./YRadialAxis"
-import {arc, stratify, partition} from "d3";
+import Component from './Component';
+import XRadialAxis from './XRadialAxis';
+import YRadialAxis from './YRadialAxis';
+import { arc, stratify, partition } from 'd3';
 
 class SunburstDisk extends Component {
 
@@ -30,7 +30,7 @@ class SunburstDisk extends Component {
      * @returns {Array}
      * @private
      */
-    private getAncestors(node : any) {
+    private getAncestors(node: any) {
         let path = [];
         let current = node;
         while (current.parent) {
@@ -42,10 +42,10 @@ class SunburstDisk extends Component {
 
     update(data: [any]): void {
         let arcGen = arc()
-            .startAngle((d : any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x0))))
-            .endAngle((d : any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x1))))
-            .innerRadius((d : any) => Math.max(0, this.y.yRadialAxis(d.y0)))
-            .outerRadius((d : any) => Math.max(0, this.y.yRadialAxis(d.y1)));
+            .startAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x0))))
+            .endAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x1))))
+            .innerRadius((d: any) => Math.max(0, this.y.yRadialAxis(d.y0)))
+            .outerRadius((d: any) => Math.max(0, this.y.yRadialAxis(d.y1)));
         let colorScale = this.config.get('colorScale');
 
         // Remove all the paths before redrawing
@@ -53,18 +53,18 @@ class SunburstDisk extends Component {
 
         // Create layout partition
         let root = stratify()
-            .id((d : any) => d.id)
-            .parentId((d : any) => d.parent)
+            .id((d: any) => d.id)
+            .parentId((d: any) => d.parent)
             (data);
-        root.sum((d : any) =>  d.value);
+        root.sum((d: any) => d.value);
         partition()(root);
 
         // Draw the paths (arcs)
         let paths = this.svg.selectAll('path')
             .data(root.descendants())
             .enter().append('path')
-            .attr('d', (d : any) => arcGen(d))
-            .style('fill', (d : any) => {
+            .attr('d', (d: any) => arcGen(d))
+            .style('fill', (d: any) => {
                 if (!d.parent) {
                     return 'white';
                 } else {
@@ -76,7 +76,7 @@ class SunburstDisk extends Component {
             .style('shape-rendering', 'crispEdge');
 
         paths // TODO extract events to config?
-            .on('mouseover.default', (d : any) => {
+            .on('mouseover.default', (d: any) => {
                 let ancestors = this.getAncestors(d);
                 // Fade all the arcs
                 if (ancestors.length > 0) {
@@ -107,6 +107,15 @@ class SunburstDisk extends Component {
 
     render(): void {
     }
+
+    public clear() {
+        console.warn('Not yet implemented');
+    }
+
+    public transition() {
+        // console.warn('no transition implemented for sun disk');
+    }
+
 }
 
 export default SunburstDisk;

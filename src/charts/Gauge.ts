@@ -1,6 +1,6 @@
-import Chart from "./Chart";
-import SvgStrategyGauge from "../svg/strategies/SvgStrategyGauge";
-import {defaults} from "../utils/defaults/gauge";
+import Chart from './Chart';
+import SvgStrategyGauge from '../svg/strategies/SvgStrategyGauge';
+import { defaults } from '../utils/defaults/gauge';
 
 class Gauge extends Chart {
 

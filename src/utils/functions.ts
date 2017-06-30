@@ -25,20 +25,20 @@ export function isEven(n: number) {
 
 export function isPercentage(n: any) {
   let split = null;
-  let number = null;
+  let result = null;
   if (!n || typeof n !== 'string') {
     return false;
   }
   split = n.split('%');
-  number = (+split[0]);
+  result = (+split[0]);
   return split.length === 2 &&
-    (number >= 0) &&
-    (number <= 100);
+    (result >= 0) &&
+    (result <= 100);
 }
 
 export function keys(array: Array<any>, field: string): Set<any> {
-  var keys = new Set();
-  var element = null;
+  let keys = new Set();
+  let element = null;
 
   if (!array || !array.length) {
     return new Set();
@@ -51,6 +51,39 @@ export function keys(array: Array<any>, field: string): Set<any> {
     }
   }
   return keys;
+}
+
+/**
+ * Reshapes a datum from wide format to narrow
+ * 
+ * For example:
+ * { id: 1234, name: 'Bob', age: 32, weight: 86 }
+ *    =>
+ * [
+ *    { id: 1234, name: 'Bob', key: age, value: 32 },
+ *    { id: 1234, name: 'Bob', key: weight, value: 86 }
+ * ]
+ * 
+ */
+export function melt(
+  wideDatum: any,
+  vars: Array<string>,
+  id: Array<string>,
+  propertyKey: string,
+  propertyValue: string
+) {
+  let narrow: any = [];
+
+  vars.forEach((v) => {
+    let obs: any = {};
+    let value = wideDatum[v];
+    obs[propertyKey] = v;
+    obs[propertyValue] = value;
+    id.forEach((i: any) => obs[i] = wideDatum[i]);
+    narrow.push(obs);
+  });
+
+  return narrow;
 }
 
 
@@ -79,7 +112,7 @@ export function sortBy(array: Array<any>, o: any) {
 }
 
 export function findElement(arr: Array<any>, propName: string, propValue: any) {
-  for (var i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (arr[i][propName] === propValue) {
       return arr[i];
     }
@@ -106,7 +139,7 @@ export function deg2rad(deg: number) {
 export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>): Function {
   return function (obj: any): boolean {
     return !hasValuesWithKeys(obj, values, keys);
-  }
+  };
 }
 
 export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>) {
@@ -121,16 +154,16 @@ export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>
 
 export function arrayDiff(a: Array<string>, b: Array<string>) {
   return b.filter((i) => a.indexOf(i) < 0);
-};
+}
 
 export function filterKeys(datum: any, keys: any[]) {
-    let anemicDatum: any = {};
+  let anemicDatum: any = {};
 
-    for (let k of keys) {
-        anemicDatum[k] = datum[k];
-    }
+  for (let k of keys) {
+    anemicDatum[k] = datum[k];
+  }
 
-    return anemicDatum;
+  return anemicDatum;
 }
 
 // /** 
@@ -170,7 +203,7 @@ export function getColorScales() {
 
 export function getColorScale(name: string) {
   if (name in colors) {
-    return (<any>colors)[name]
+    return (<any>colors)[name];
   } else {
     throw new Error('Unrecognised color scale.');
   }

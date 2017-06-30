@@ -1,7 +1,7 @@
-import Component from "./Component";
+import Component from './Component';
 import XRadialAxis from './XRadialAxis';
-import YRadialAxis from "./YRadialAxis";
-import Config from "../../Config";
+import YRadialAxis from './YRadialAxis';
+import Config from '../../Config';
 
 class RadialAxes extends Component {
     private _x: XRadialAxis;
@@ -13,7 +13,7 @@ class RadialAxes extends Component {
         this._y = new YRadialAxis();
     }
 
-    public configure(config: Config, svg: any){
+    public configure(config: Config, svg: any) {
         super.configure(config, svg);
         this._x.configure(config, svg);
         this._y.configure(config, svg);
@@ -36,6 +36,15 @@ class RadialAxes extends Component {
 
     get y(): YRadialAxis {
         return this._y;
+    }
+
+    public clear() {
+        console.warn('Not yet implemented');
+    }
+
+    public transition() {
+        this._x.transition();
+        this._y.transition();
     }
 }
 

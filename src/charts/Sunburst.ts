@@ -1,7 +1,7 @@
-import Chart from "./Chart";
-import SvgStrategySunburst from "../svg/strategies/SvgStrategySunburst";
-import {defaults} from "../utils/defaults/sunburst";
-import {copy} from "../utils/functions";
+import Chart from './Chart';
+import SvgStrategySunburst from '../svg/strategies/SvgStrategySunburst';
+import { defaults } from '../utils/defaults/sunburst';
+import { copy } from '../utils/functions';
 
 class Sunburst extends Chart {
 
@@ -14,7 +14,7 @@ class Sunburst extends Chart {
         );
     }
 
-    protected keepDrawing(datum: any) {
+    public keepDrawing(datum: any) {
         let datumType = datum.constructor;
         if (datumType === Array) {
             if (this.data) {
@@ -22,8 +22,7 @@ class Sunburst extends Chart {
             } else {
                 this.data = datum;
             }
-        }
-        else {
+        } else {
             this.data.push(datum);
         }
         this.draw(copy(this.data));
