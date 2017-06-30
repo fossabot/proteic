@@ -2,7 +2,6 @@ import * as charts from '../charts/';
 import * as colors from './colors';
 import * as defaults from './defaults/';
 
-
 export function isArray(d: any) {
     return d && d.constructor === Array && d instanceof Array;
 }
@@ -78,7 +77,6 @@ propertyValue: string) {
 
     return narrow;
 }
-
 
 export function sortBy(array: Array<any>, o: any) {
     let _toString = Object.prototype.toString;

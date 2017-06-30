@@ -629,7 +629,6 @@ const paletteDivergingLightBrownTurquoise = [
     '#00665e'
 ];
 
-
 export function category1() {
     return scaleOrdinal().range(paletteCategory1);
 }

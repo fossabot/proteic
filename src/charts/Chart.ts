@@ -75,7 +75,6 @@ abstract class Chart {
     // TODO: We should remove this property in the future,
     // since the rest of configuration options are specified through the config attr
 
-
     /**
      * A map containing chart subscriptions
      * 
@@ -105,7 +104,6 @@ abstract class Chart {
     private strategy: SvgStrategy;
     // TODO: In the future this should be renamed to 'DrawStrategy',
     // since two different kind of 'strategies' should be allowed (SVG / Canvas)
-
 
     private streamingIntervalIdentifier: number = null;
 

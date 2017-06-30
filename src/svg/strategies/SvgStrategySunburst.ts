@@ -37,4 +37,3 @@ class SvgStrategySunburst extends SvgStrategy {
 }
 
 export default SvgStrategySunburst;
-

@@ -26,7 +26,6 @@ class XYAxis extends Component {
         this._x.update(data);
     }
 
-
     public configure(config: Config, svg: any) {
         super.configure(config, svg);
         this._y.configure(config, svg);

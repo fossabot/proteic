@@ -5,7 +5,6 @@ import YAxis from './YAxis';
 import Config from '../../Config';
 import Globals from '../../Globals';
 
-
 import {
     line,
     nest,
@@ -27,7 +26,6 @@ class Lineset extends Component {
         this.x = x;
         this.y = y;
     }
-
 
     public render(): void {
         let propertyX = this.config.get('propertyX');
@@ -69,7 +67,6 @@ class Lineset extends Component {
             .attr('d', (d: any) => this.lineGenerator(d.values));
     }
 
-
     public transition() {
         this.elementUpdate
             .transition()
@@ -84,7 +81,6 @@ class Lineset extends Component {
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME);
     }
-
 
     public clear() {
         this.update([]);

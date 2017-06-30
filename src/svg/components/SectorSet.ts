@@ -6,9 +6,7 @@ import {
 } from 'd3';
 import { Arc } from 'd3-shape';
 
-
 class SectorSet extends Component {
-
 
     constructor() {
         super();

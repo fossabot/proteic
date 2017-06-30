@@ -26,7 +26,6 @@ class Timeboxset extends Component {
         this.xyAxes = xyAxes;
     }
 
-
     public render(): void {}
 
     public update(data: any[]): void {
@@ -81,7 +80,6 @@ class Timeboxset extends Component {
 
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie');
-            
             
         box = layerMerge.selectAll('.box')
             .data((d: any) => d.values);

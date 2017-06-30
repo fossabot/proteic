@@ -11,7 +11,6 @@ class StorageService {
         this.storage = serviceLevel === 'local' ? window.localStorage : window.sessionStorage;
     }
 
-
     /**
      * Check if localStorage has an Item / exists with the give key
      * @param key the key of the Item
@@ -40,7 +39,6 @@ class StorageService {
         this.storage.setItem(key, JSON.stringify(values));
     }
 
-
     public getArray(key: string) {
         let item = this.storage.getItem(key);
         if (!item) {
@@ -51,4 +49,3 @@ class StorageService {
     }
 }
 export default StorageService;
-

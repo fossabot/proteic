@@ -29,7 +29,6 @@ class RadialAxes extends Component {
         this._y.update(data);
     }
 
-
     get x(): XRadialAxis {
         return this._x;
     }

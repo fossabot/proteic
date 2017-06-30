@@ -17,7 +17,6 @@ import {
     format
 } from 'd3';
 
-
 class HistogramBarset extends Component {
 
     private x: XAxis;

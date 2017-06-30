@@ -36,4 +36,3 @@ class SvgStrategyPieChart extends SvgStrategy {
 }
 
 export default SvgStrategyPieChart;
-

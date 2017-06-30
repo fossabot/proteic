@@ -9,7 +9,6 @@ import {
     event
 } from 'd3';
 
-
 class ZoomComponent extends Component {
 
     private zoom: any;

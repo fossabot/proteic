@@ -22,7 +22,6 @@ class SvgStrategyStreamgraph extends SvgStrategy {
 
     private streams: Streamset;
 
-
     constructor() {
         super();
         this.axes = new XYAxes();

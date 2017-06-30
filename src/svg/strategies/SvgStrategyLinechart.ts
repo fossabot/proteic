@@ -57,7 +57,6 @@ class SvgStrategyLinechart extends SvgStrategy {
         this.container.updateComponents(data, events);
     }
 
-
     public initialize(): void {
         super.initialize();
         let markerSize = this.config.get('markerSize'),

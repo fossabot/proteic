@@ -28,7 +28,6 @@ class Streamset extends Component {
             .y1((d) => this.xyAxes.y.yAxis.scale()(d[1]));
     }
 
-
     public render(): void {}
 
     public update(data: any[]): void {
@@ -87,7 +86,6 @@ class Streamset extends Component {
     public transition() {
         // console.warn('no transition for streamset');
     }
-
 
 }
 

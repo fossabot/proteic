@@ -42,7 +42,6 @@ export function simple2Linked(data: any) {
     return linkedData;
 }
 
-
 export function convertPropretiesToTimeFormat(data: any, properties: Array<any>, format: string) {
     data.forEach((d: any) => {
         properties.map((p) => {

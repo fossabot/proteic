@@ -4,7 +4,6 @@ import YAxis from './YAxis';
 import Globals from '../../Globals';
 import { area, nest, CurveFactory, Area } from 'd3';
 
-
 class Areaset extends Component {
 
     private x: XAxis;

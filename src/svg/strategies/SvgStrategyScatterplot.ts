@@ -63,7 +63,6 @@ class SvgStrategyScatterplot extends SvgStrategy {
         this.container.updateComponents(data, events);
     }
 
-
     public initialize(): void {
         super.initialize();
         let legend = this.config.get('legend');

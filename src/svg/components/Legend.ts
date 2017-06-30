@@ -7,7 +7,6 @@ import {
     nest
 } from 'd3';
 
-
 class Legend extends Component {
 
     constructor() {

@@ -31,7 +31,6 @@ class LinkedNodeset extends Component implements Zoomable {
     private linkedByIndex: any;
     private toggle: number = 0;
 
-
     constructor() {
         super();
     }

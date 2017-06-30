@@ -27,10 +27,7 @@ class SvgStrategyBarchart extends SvgStrategy {
     
      */
     private bars: Barset;
-
-
     private legend: Legend;
-
 
     constructor() {
         super();
@@ -51,7 +48,6 @@ class SvgStrategyBarchart extends SvgStrategy {
 
         this.container.updateComponents(data);
     }
-
 
     public initialize(): void {
         super.initialize();

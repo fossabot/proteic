@@ -29,8 +29,6 @@ class WebsocketDatasource extends Datasource {
      * Websocket endpoint
      */
     private _url: string;
-
-
     private openStream: Observable<any>;
     private closeStream: Observable<any>;
     private errorStream: Observable<any>;
@@ -40,12 +38,8 @@ class WebsocketDatasource extends Datasource {
     private subscriptionCloseStream: Subscription;
     private subscriptionErrorStream: Subscription;
     private subscriptionMessageStream: Subscription;
-
     private stopped: boolean = true;
 
-    /**
-     * Default constructor 
-     */
     constructor(ws: WebSocket) {
         super();
         this.ws = ws;
@@ -74,7 +68,6 @@ class WebsocketDatasource extends Datasource {
         }
     }
 
-
     private _subscribeStreams() {
         this.subscriptionMessageStream = this.messageStream.subscribe(
             (e: any) => this._wsSubject.next(this._extractDataFromWSEvent(e))
@@ -99,14 +92,12 @@ class WebsocketDatasource extends Datasource {
         }
     }
 
-
     private _extractDataFromWSEvent(e: any) {
         if (e.data && e.data.length) {
             return JSON.parse(e.data);
         }
         return null;
     }
-
 
     public subscription(): Subject<any> {
         return this._wsSubject;
@@ -125,10 +116,7 @@ class WebsocketDatasource extends Datasource {
             default:
                 throw Error(`'${event}' is not a valid event. Allowed ones: 'message', 'open', 'error' and 'close'`);
         }
-
     }
-
-
 }
 
 export default WebsocketDatasource;

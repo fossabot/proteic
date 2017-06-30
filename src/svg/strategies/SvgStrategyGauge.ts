@@ -13,7 +13,6 @@ class SvgStrategyGauge extends SvgStrategy {
     private dialNeedle: DialNeedle;
     private textIndicator: TextIndicator;
 
-
     constructor() {
         super();
         this.dial = new Dial();
@@ -24,7 +23,6 @@ class SvgStrategyGauge extends SvgStrategy {
     public draw(data: [{}]) {
         this.container.updateComponents(data);
     }
-
 
     public initialize(): void {
         super.initialize();

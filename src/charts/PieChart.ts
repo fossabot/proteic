@@ -30,4 +30,3 @@ class PieChart extends Chart {
 }
 
 export default PieChart;
-

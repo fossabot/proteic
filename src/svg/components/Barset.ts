@@ -14,7 +14,6 @@ import {
     easeLinear
 } from 'd3';
 
-
 class Barset extends Component {
 
     private x: XAxis;

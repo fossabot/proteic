@@ -36,16 +36,6 @@ class Container {
         this.initializeContainer(selector, width, height, marginLeft, marginTop);
     }
 
-    /**
-     * Add a new component to the current SVG container.
-     * 
-     * @param {Component} component A component to be added
-     * @param {boolean} render If true, the component will be automatically rendered after adding it to the container
-     * @returns {Container}
-     * 
-     * @memberOf Container
-    
-     */
     public add(component: Component): Container {
         this.components.push(component);
         component.configure(this.config, this.svg);
@@ -53,19 +43,6 @@ class Container {
         return this;
     }
 
-    /**
-     * 
-     * Initialize the svg container. 
-     * @private
-     * @param {string} selector Selector where this graph will be included in
-     * @param {((number | string))} width Total width of the graph
-     * @param {((number | string))} height Total height of the graph
-     * @param {number} marginLeft Left margin
-     * @param {number} marginTop Top margin
-     * 
-     * @memberOf Container
-    
-     */
     private initializeContainer(
         selector: string,
         width: (number | string),
@@ -90,14 +67,6 @@ class Container {
             .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')');
     }
 
-    /**
-     * 
-     * Update all the components previously added to this container.
-     * @param {[{}]} data Data necessary to update the componnets
-     * 
-     * @memberOf Container
-    
-     */
     public updateComponents(data: [{}], events?: Map<string, any>): void {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
@@ -119,7 +88,7 @@ class Container {
     public zoom(z: any) {
         this.svg.call(zoom().scaleExtent([1 / 2, 4]).on('zoom', z));
     }
-    
+
     public getComponents(): Component[] {
         return this.components;
     }

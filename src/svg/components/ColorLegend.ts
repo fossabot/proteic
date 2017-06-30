@@ -13,7 +13,6 @@ import {
     format
 } from 'd3';
 
-
 class ColorLegend extends Component {
 
     private x: XAxis;

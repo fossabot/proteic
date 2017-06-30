@@ -28,9 +28,7 @@ class SvgStrategyHistogram extends SvgStrategy {
      */
     private bars: HistogramBarset;
 
-
     private legend: Legend;
-
 
     constructor() {
         super();
@@ -48,7 +46,6 @@ class SvgStrategyHistogram extends SvgStrategy {
 
         this.container.updateComponents(data);
     }
-
 
     public initialize(): void {
         super.initialize();

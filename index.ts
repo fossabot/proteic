@@ -22,4 +22,3 @@ export {
     getColorScales,
     getColorScale
 } from './src/utils/functions';
-

@@ -19,7 +19,6 @@ class YAxis extends Component {
     private _orient: string = 'left';
     private selection: any = null;
 
-
     constructor(orient?: string) {
         super();
         if (orient !== null) {

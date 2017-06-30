@@ -19,7 +19,6 @@ class SvgStrategyNetwork extends SvgStrategy {
         this.container.updateComponents(data);
     }
 
-
     public initialize(): void {
         super.initialize();
         let legend = this.config.get('legend');

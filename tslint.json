@@ -6,6 +6,7 @@
     "valid-jsdoc": [
       true
     ],
+    
     "cyclomatic-complexity": [
       true,
       8
@@ -139,7 +140,7 @@
     "new-parens": true,
     "no-consecutive-blank-lines": [
       true,
-      2
+      1
     ],
     "object-curly-spacing": [
       true,
