@@ -1,25 +1,25 @@
+import Config from '../../Config';
+import Globals from '../../Globals';
+import { simple2Linked } from '../../utils/data/transforming';
 import Component from './Component';
 import Zoomable from './Zoomable';
-import Config from '../../Config';
-import { simple2Linked } from '../../utils/data/transforming';
-import Globals from '../../Globals';
 
 import {
+    D3ZoomEvent,
     drag,
     event,
-    selection,
-    select,
-    nest,
-    forceSimulation,
+    Force,
+    forceCenter,
     forceLink,
     forceManyBody,
-    forceCenter,
-    Simulation,
-    SimulationNodeDatum,
-    SimulationLinkDatum,
-    Force,
+    forceSimulation,
+    nest,
     scaleLinear,
-    D3ZoomEvent
+    select,
+    selection,
+    Simulation,
+    SimulationLinkDatum,
+    SimulationNodeDatum
 } from 'd3';
 
 class LinkedNodeset extends Component implements Zoomable {

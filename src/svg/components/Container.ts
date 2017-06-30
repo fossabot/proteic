@@ -1,10 +1,10 @@
 import { select, Selection, zoom } from 'd3';
 import { Observable } from 'rxjs/Observable';
 
-import Component from './Component';
 import Config from '../../Config';
-import Globals from '../../Globals';
 import GlobalInjector from '../../GlobalInjector';
+import Globals from '../../Globals';
+import Component from './Component';
 
 class Container {
 

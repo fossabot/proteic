@@ -1,6 +1,6 @@
 import SvgStrategy from '../base/SvgStrategy';
-import SectorSet from '../components/SectorSet';
 import Legend from '../components/Legend';
+import SectorSet from '../components/SectorSet';
 
 class SvgStrategyPieChart extends SvgStrategy {
 

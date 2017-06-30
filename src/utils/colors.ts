@@ -1,8 +1,8 @@
 import { 
+    interpolateRgbBasis, 
     scaleOrdinal, 
     scaleQuantize, 
     scaleSequential, 
-    interpolateRgbBasis, 
 } from 'd3';
 
 const paletteCategory1 = [

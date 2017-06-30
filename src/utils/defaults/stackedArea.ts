@@ -1,10 +1,10 @@
-import * as Colors from '../colors';
 import {
-    stackOrderInsideOut,
+    stack as d3Stack,
     stackOffsetNone,
-    stack as d3Stack
+    stackOrderInsideOut
 } from 'd3';
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
+import * as Colors from '../colors';
 
 export const defaults: any = {
     selector: '#chart',

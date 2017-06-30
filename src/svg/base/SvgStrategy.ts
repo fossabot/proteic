@@ -1,9 +1,9 @@
-import Container from '../components/Container';
-import Component from '../components/Component';
-import XYAxes from '../components/XYAxes';
-import Annotations from '../components/Annotations';
 import Config from '../../Config';
 import inject from '../../inject';
+import Annotations from '../components/Annotations';
+import Component from '../components/Component';
+import Container from '../components/Container';
+import XYAxes from '../components/XYAxes';
 
 abstract class SvgStrategy {
 

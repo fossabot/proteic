@@ -1,6 +1,6 @@
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import inject from '../../inject';
+import SvgStrategy from '../base/SvgStrategy';
 
 export class SvgContext {
 

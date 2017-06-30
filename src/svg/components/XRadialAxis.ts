@@ -1,5 +1,5 @@
-import Component from './Component';
 import { scaleLinear } from 'd3';
+import Component from './Component';
 
 class XRadialAxis extends Component {
 

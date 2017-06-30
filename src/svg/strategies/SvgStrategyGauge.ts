@@ -1,8 +1,8 @@
 
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
+import SvgStrategy from '../base/SvgStrategy';
 import Dial from '../components/Dial';
 import DialNeedle from '../components/DialNeedle';
 import TextIndicator from '../components/TextIndicator';

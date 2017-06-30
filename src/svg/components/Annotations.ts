@@ -1,11 +1,11 @@
+import { max, min } from 'd3-array';
+import * as d3Annotation from 'd3-svg-annotation';
+import Annotation from 'd3-svg-annotation';
+import Globals from '../../Globals';
+import { copy, filterKeys, hasValuesWithKeys, isValuesInObjectKeys } from '../../utils/functions';
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { max, min } from 'd3-array';
-import Globals from '../../Globals';
-import * as d3Annotation from 'd3-svg-annotation';
-import Annotation from 'd3-svg-annotation';
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from '../../utils/functions';
 
 class Annotations extends Component {
     private y: YAxis;

@@ -1,14 +1,14 @@
-import XYAxes from '../components/XYAxes';
-import Lineset from '../components/Lineset';
-import Pointset from '../components/Pointset';
-import Areaset from '../components/Areaset';
-import Legend from '../components/Legend';
-import Annotations from '../components/Annotations';
-import Alerts from '../components/Alerts';
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
+import SvgStrategy from '../base/SvgStrategy';
+import Alerts from '../components/Alerts';
+import Annotations from '../components/Annotations';
+import Areaset from '../components/Areaset';
+import Legend from '../components/Legend';
+import Lineset from '../components/Lineset';
+import Pointset from '../components/Pointset';
+import XYAxes from '../components/XYAxes';
 
 class SvgStrategyLinechart extends SvgStrategy {
     /**

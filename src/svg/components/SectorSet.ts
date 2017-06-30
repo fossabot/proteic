@@ -1,10 +1,10 @@
-import Component from './Component';
-import Globals from '../../Globals';
 import {
-    pie,
-    arc
+    Arc,
+    arc,
+    pie
 } from 'd3';
-import { Arc } from 'd3-shape';
+import Globals from '../../Globals';
+import Component from './Component';
 
 class SectorSet extends Component {
 
@@ -12,7 +12,7 @@ class SectorSet extends Component {
         super();
     }
 
-    public render() {}
+    public render() { }
 
     public update(data: [any]) {
         let propertyKey = this.config.get('propertyKey');

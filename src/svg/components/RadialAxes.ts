@@ -1,7 +1,7 @@
+import Config from '../../Config';
 import Component from './Component';
 import XRadialAxis from './XRadialAxis';
 import YRadialAxis from './YRadialAxis';
-import Config from '../../Config';
 
 class RadialAxes extends Component {
     private _x: XRadialAxis;

@@ -1,13 +1,12 @@
-import XYAxes from '../components/XYAxes';
-import Pointset from '../components/Pointset';
-import Legend from '../components/Legend';
-
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
-import CanvasPointset from '../components/CanvasPointset';
+import SvgStrategy from '../base/SvgStrategy';
 import Annotations from '../components/Annotations';
+import CanvasPointset from '../components/CanvasPointset';
+import Legend from '../components/Legend';
+import Pointset from '../components/Pointset';
+import XYAxes from '../components/XYAxes';
 
 class SvgStrategyScatterplot extends SvgStrategy {
     /**

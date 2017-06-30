@@ -1,9 +1,9 @@
-import LinkedNodeset from '../components/LinkedNodeset';
-import Legend from '../components/Legend';
-import ZoomComponent from '../components/ZoomComponent';
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
+import SvgStrategy from '../base/SvgStrategy';
+import Legend from '../components/Legend';
+import LinkedNodeset from '../components/LinkedNodeset';
+import ZoomComponent from '../components/ZoomComponent';
 
 class SvgStrategyNetwork extends SvgStrategy {
 

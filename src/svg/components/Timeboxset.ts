@@ -1,21 +1,20 @@
 
-import Component from './Component';
-import XYAxes from './XYAxes';
-import Config from '../../Config';
-import { simple2nested } from '../../utils/data/transforming';
-import Globals from '../../Globals';
-
 import {
     extent,
+    format,
     line,
-    nest,
-    scaleBand,
-    scaleLinear,
     map,
-    min as d3Min, 
     max as d3Max,
-    format
+    min as d3Min,
+    nest, 
+    scaleBand,
+    scaleLinear
 } from 'd3';
+import Config from '../../Config';
+import Globals from '../../Globals';
+import { simple2nested } from '../../utils/data/transforming';
+import Component from './Component';
+import XYAxes from './XYAxes';
 
 class Timeboxset extends Component {
 

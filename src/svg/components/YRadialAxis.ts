@@ -1,7 +1,5 @@
+import { scaleSqrt } from 'd3';
 import Component from './Component';
-import {
-    scaleSqrt
-} from 'd3';
 
 class YRadialAxis extends Component {
 

@@ -1,5 +1,5 @@
-import * as Colors from '../colors';
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
+import * as Colors from '../colors';
 
 export const defaults: any = {
     selector: '#chart',

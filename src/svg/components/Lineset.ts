@@ -1,16 +1,16 @@
 
+import Config from '../../Config';
+import Globals from '../../Globals';
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import Config from '../../Config';
-import Globals from '../../Globals';
 
 import {
-    line,
-    nest,
-    easeLinear,
     CurveFactory,
+    easeLinear,
+    line,
     Line,
+    nest,
     Selection,
 } from 'd3';
 

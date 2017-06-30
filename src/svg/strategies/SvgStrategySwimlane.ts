@@ -1,12 +1,11 @@
-import XYAxes from '../components/XYAxes';
-import Legend from '../components/Legend';
-import TimeBoxset from '../components/Timeboxset';
-
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
+import SvgStrategy from '../base/SvgStrategy';
 import ColorLegend from '../components/ColorLegend';
+import Legend from '../components/Legend';
+import TimeBoxset from '../components/Timeboxset';
+import XYAxes from '../components/XYAxes';
 
 class SvgStrategySwimlane extends SvgStrategy {
     /**

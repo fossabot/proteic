@@ -1,17 +1,16 @@
+import {
+    format,
+    max as d3max,
+    min as d3min,
+    nest,
+    selection
+} from 'd3';
 import { legendColor } from 'd3-svg-legend';
-import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
+import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-
-import {
-    selection,
-    nest,
-    min as d3min,
-    max as d3max,
-    format
-} from 'd3';
 
 class ColorLegend extends Component {
 

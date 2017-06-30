@@ -1,8 +1,6 @@
-import Component from './Component';
-import YAxis from './YAxis';
-import XAxis from './XAxis';
 import {
     select,
+    Selection,
     symbol,
     symbolCircle,
     symbolCross,
@@ -10,9 +8,11 @@ import {
     symbolSquare,
     symbolStar,
     symbolTriangle,
-    symbolWye,
-    Selection
+    symbolWye
 } from 'd3';
+import Component from './Component';
+import XAxis from './XAxis';
+import YAxis from './YAxis';
 
 class CanvasPointset extends Component {
 

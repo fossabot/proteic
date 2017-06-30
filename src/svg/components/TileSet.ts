@@ -1,8 +1,8 @@
+import { max, min } from 'd3-array';
+import Globals from '../../Globals';
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { max, min } from 'd3-array';
-import Globals from '../../Globals';
 
 class TileSet extends Component {
     private x: XAxis;

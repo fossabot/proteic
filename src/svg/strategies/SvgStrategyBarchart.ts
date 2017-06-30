@@ -1,11 +1,10 @@
-import XYAxes from '../components/XYAxes';
-import Barset from '../components/Barset';
-import Legend from '../components/Legend';
-
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
+import SvgStrategy from '../base/SvgStrategy';
+import Barset from '../components/Barset';
+import Legend from '../components/Legend';
+import XYAxes from '../components/XYAxes';
 
 class SvgStrategyBarchart extends SvgStrategy {
     /**

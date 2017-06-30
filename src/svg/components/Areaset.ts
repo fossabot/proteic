@@ -1,8 +1,13 @@
+import { 
+    area,
+    Area,
+    CurveFactory,
+    nest
+} from 'd3';
+import Globals from '../../Globals';
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import Globals from '../../Globals';
-import { area, nest, CurveFactory, Area } from 'd3';
 
 class Areaset extends Component {
 

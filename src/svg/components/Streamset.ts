@@ -1,18 +1,18 @@
 
-import Component from './Component';
-import XYAxes from './XYAxes';
-import Config from '../../Config';
-import { simple2stacked } from '../../utils/data/transforming';
-import Globals from '../../Globals';
 import {
     area,
     curveCardinal,
-    nest,
     map,
-    stackOrderInsideOut,
+    nest,
+    stack as d3Stack,
     stackOffsetWiggle,
-    stack as d3Stack
+    stackOrderInsideOut
 } from 'd3';
+import Config from '../../Config';
+import Globals from '../../Globals';
+import { simple2stacked } from '../../utils/data/transforming';
+import Component from './Component';
+import XYAxes from './XYAxes';
 
 class Streamset extends Component {
 

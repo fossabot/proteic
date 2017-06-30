@@ -1,7 +1,7 @@
+import { arc, partition, stratify } from 'd3';
 import Component from './Component';
 import XRadialAxis from './XRadialAxis';
 import YRadialAxis from './YRadialAxis';
-import { arc, stratify, partition } from 'd3';
 
 class SunburstDisk extends Component {
 

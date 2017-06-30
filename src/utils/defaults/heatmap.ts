@@ -1,7 +1,7 @@
-import * as Colors from '../colors';
 import { stack as d3stack } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
+import * as Colors from '../colors';
 
 export const defaults: any = {
     selector: '#chart',

@@ -1,11 +1,11 @@
-import Datasource from './Datasource';
-import { unwind } from '../utils/data/transforming';
-import { discardProperties } from '../utils/data/filtering';
-import StorageService from '../services/StorageService';
-import Config from '../Config';
-import StreamingStrategy from '../charts/enums/StreamingStrategy';
-import { fitArrayByOldAndNewValue } from '../utils/array/array';
 import { Observable, Subject, Subscription } from 'rxjs';
+import StreamingStrategy from '../charts/enums/StreamingStrategy';
+import Config from '../Config';
+import StorageService from '../services/StorageService';
+import { fitArrayByOldAndNewValue } from '../utils/array/array';
+import { discardProperties } from '../utils/data/filtering';
+import { unwind } from '../utils/data/transforming';
+import Datasource from './Datasource';
 /**
  *
  * This datasource set up a connection to a websocket server.

@@ -1,16 +1,16 @@
 import {
-    map,
-    scaleTime,
-    scaleLinear,
-    scaleBand,
-    format,
+    Axis,
     axisBottom,
-    min as d3Min,
+    format,
+    map,
     max as d3Max,
-    Axis
+    min as d3Min,
+    scaleBand,
+    scaleLinear,
+    scaleTime
 } from 'd3';
-import Component from './Component';
 import { Globals } from '../../../index';
+import Component from './Component';
 
 class XAxis extends Component {
 

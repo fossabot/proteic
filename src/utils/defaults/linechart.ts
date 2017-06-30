@@ -1,6 +1,6 @@
-import * as Colors from '../colors';
-import Interpolation from '../../svg/Interpolation';
 import StreamingStrategy from '../../charts/enums/StreamingStrategy';
+import Interpolation from '../../svg/Interpolation';
+import * as Colors from '../colors';
 
 export const defaults: any = {
     selector: '#chart',

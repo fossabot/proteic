@@ -1,19 +1,18 @@
-import { SvgContext } from '../svg/base/SvgContext';
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys, melt } from '../utils/functions';
-import { throwError } from '../utils/error';
-import { Subscription, Observable } from 'rxjs';
-import { calculateWidth } from '../utils/screen';
 import { select } from 'd3-selection';
-
-import StreamingStrategy from './enums/StreamingStrategy';
-import Injector from '../Injector';
+import { Observable, Subscription } from 'rxjs';
+import Config from '../Config';
 import Datasource from '../datasources/Datasource';
 import WebsocketDatasource from '../datasources/WebsocketDatasource';
-import Config from '../Config';
-import SvgStrategy from '../svg/base/SvgStrategy';
-import Globals from '../Globals';
-import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
+import Globals from '../Globals';
+import Injector from '../Injector';
+import { SvgContext } from '../svg/base/SvgContext';
+import SvgStrategy from '../svg/base/SvgStrategy';
+import Annotations from '../svg/components/Annotations';
+import { throwError } from '../utils/error';
+import { copy, filterKeys, hasValuesWithKeys, isValuesInObjectKeys, melt } from '../utils/functions';
+import { calculateWidth } from '../utils/screen';
+import StreamingStrategy from './enums/StreamingStrategy';
 
 /**
  * 

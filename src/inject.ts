@@ -20,7 +20,7 @@ export default function inject(injectionKey: string) {
 
         // Get a reference to the Class of the target object which has been
         // decorated.
-        const targetType: { __inject__?: { [ name: string ]: string } } = target.constructor;
+        const targetType: any = target.constructor;
 
         if (!targetType.hasOwnProperty('__inject__')) {
             targetType.__inject__ = {};

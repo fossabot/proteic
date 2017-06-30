@@ -1,7 +1,7 @@
-import Chart from './Chart';
 import SvgStrategyStreamgraph from '../svg/strategies/SvgStrategyStreamgraph';
 import { defaults } from '../utils/defaults/stackedArea';
 import { copy, isValuesInObjectKeys } from '../utils/functions';
+import Chart from './Chart';
 
 class StackedArea extends Chart {
 

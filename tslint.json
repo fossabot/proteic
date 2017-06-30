@@ -3,10 +3,18 @@
     "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
+    "ordered-imports": [
+      true
+    ],
+    "completed-docs": [
+      true,
+      "enums",
+      "functions",
+      "methods"
+    ],
     "valid-jsdoc": [
       true
     ],
-    
     "cyclomatic-complexity": [
       true,
       8

@@ -1,6 +1,6 @@
+import { Selection } from 'd3';
 import { Observable } from 'rxjs';
 import Config from '../../Config';
-import { Selection } from 'd3';
 
 abstract class Component {
 

@@ -1,21 +1,26 @@
-import Component from './Component';
+import {
+    area,
+    easeLinear,
+    format,
+    histogram,
+    map,
+    max,
+    min,
+    nest,
+    scaleBand,
+    selection,
+    stack
+} from 'd3';
 import Config from '../../Config';
+import { 
+    simple2nested,
+    simple2stacked
+} from '../../utils/data/transforming';
+import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { simple2nested, simple2stacked } from '../../utils/data/transforming';
+
 import Globals from '../../Globals';
-import {
-    stack,
-    scaleBand,
-    map,
-    area,
-    selection,
-    nest,
-    easeLinear,
-    histogram,
-    max, min,
-    format
-} from 'd3';
 
 class HistogramBarset extends Component {
 

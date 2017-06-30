@@ -1,12 +1,13 @@
-import Component from './Component';
 import Config from '../../Config';
+import Globals from '../../Globals';
+import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import Globals from '../../Globals';
 
 import {
-    selection,
+    easeLinear,
     nest,
+    selection,
     symbol,
     symbolCircle,
     symbolCross,
@@ -14,8 +15,7 @@ import {
     symbolSquare,
     symbolStar,
     symbolTriangle,
-    symbolWye,
-    easeLinear
+    symbolWye
 } from 'd3';
 
 class Pointset extends Component {

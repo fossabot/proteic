@@ -1,11 +1,10 @@
-import XYAxes from '../components/XYAxes';
-import Legend from '../components/Legend';
-import Streamset from '../components/Streamset';
-
 import Config from '../../Config';
-import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
+import SvgStrategy from '../base/SvgStrategy';
+import Legend from '../components/Legend';
+import Streamset from '../components/Streamset';
+import XYAxes from '../components/XYAxes';
 
 class SvgStrategyStreamgraph extends SvgStrategy {
     /**

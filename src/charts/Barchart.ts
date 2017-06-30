@@ -1,7 +1,7 @@
-import Chart from './Chart';
 import SvgStrategyBarchart from '../svg/strategies/SvgStrategyBarchart';
 import { defaults } from '../utils/defaults/barchart';
 import { copy, isValuesInObjectKeys } from '../utils/functions';
+import Chart from './Chart';
 
 class Barchart extends Chart {
 

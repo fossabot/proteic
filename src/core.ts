@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
+import Chart from './charts/Chart';
 import GlobalInjector from './GlobalInjector';
 import StorageService from './services/StorageService';
-import Chart from './charts/Chart';
 
 let visibilityChangeSource = Observable.fromEvent(window, 'visibilitychange');
 let resizeSource = Observable.fromEvent(window, 'resize');

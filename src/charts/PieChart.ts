@@ -1,7 +1,7 @@
-import Chart from './Chart';
 import SvgStrategyPieChart from '../svg/strategies/SvgStrategyPieChart';
 import { defaults } from '../utils/defaults/piechart';
 import { copy } from '../utils/functions';
+import Chart from './Chart';
 
 class PieChart extends Chart {
 

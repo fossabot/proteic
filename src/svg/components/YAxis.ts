@@ -1,17 +1,17 @@
-import Component from './Component';
-import Globals from '../../Globals';
 import {
-    stack,
-    map,
-    scaleLinear,
-    scaleBand,
-    format,
     axisLeft,
     axisRight,
+    format,
+    map,
+    max as d3Max,
     min as d3Min,
-    max as d3Max
+    scaleBand,
+    scaleLinear,
+    stack
 } from 'd3';
+import Globals from '../../Globals';
 import { simple2stacked } from '../../utils/data/transforming';
+import Component from './Component';
 
 class YAxis extends Component {
 

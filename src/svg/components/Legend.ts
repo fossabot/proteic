@@ -1,10 +1,10 @@
-import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
+import Component from './Component';
 
 import {
-    selection,
-    nest
+    nest,
+    selection
 } from 'd3';
 
 class Legend extends Component {

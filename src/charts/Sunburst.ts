@@ -1,7 +1,7 @@
-import Chart from './Chart';
 import SvgStrategySunburst from '../svg/strategies/SvgStrategySunburst';
 import { defaults } from '../utils/defaults/sunburst';
 import { copy } from '../utils/functions';
+import Chart from './Chart';
 
 class Sunburst extends Chart {
 

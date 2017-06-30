@@ -1,8 +1,8 @@
+import { easeLinear } from 'd3';
+import Globals from '../../Globals';
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import Globals from '../../Globals';
-import { easeLinear } from 'd3';
 
 class Alerts extends Component {
     private x: XAxis;

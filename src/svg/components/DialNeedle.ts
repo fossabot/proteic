@@ -1,6 +1,6 @@
+import { arc as d3arc, range as d3range, scaleLinear } from 'd3';
 import { deg2rad } from '../../utils/functions';
 import Component from './Component';
-import { scaleLinear, arc as d3arc, range as d3range } from 'd3';
 
 class DialNeedle extends Component {
 

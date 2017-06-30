@@ -1,13 +1,12 @@
+import {
+    event,
+    select,
+    selection,
+    zoom
+} from 'd3';
+import Config from '../../Config';
 import Component from './Component';
 import Zoomable from './Zoomable';
-import Config from '../../Config';
-
-import {
-    selection,
-    select,
-    zoom,
-    event
-} from 'd3';
 
 class ZoomComponent extends Component {
 

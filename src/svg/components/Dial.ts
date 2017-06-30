@@ -1,7 +1,7 @@
+import { arc as d3arc, range as d3range, scaleLinear } from 'd3';
+import { Arc } from 'd3-shape';
 import { deg2rad } from '../../utils/functions';
 import Component from './Component';
-import { scaleLinear, arc as d3arc, range as d3range } from 'd3';
-import { Arc } from 'd3-shape';
 
 class Dial extends Component {
 
