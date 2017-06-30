@@ -15,9 +15,15 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
     module: {
+        preLoaders: [
+            { test: /\.ts$/, loader: 'tslint-loader' }
+        ],
         loaders: [
             { test: /\.ts$/, loader: 'ts-loader' }
-        ]
+        ],
+        tslint: {
+            configuration: require('./tslint.json')
+        }
     },
     plugins: [
         new webpack.optimize.DedupePlugin(),
@@ -25,7 +31,7 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            sourceMap : true
+            sourceMap: true
         })
 
     ]

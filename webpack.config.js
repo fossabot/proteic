@@ -23,7 +23,10 @@ module.exports = {
     },
     module: {
         preLoaders: [
-            { test: /\.ts$/, loader: 'tslint' }
+            {
+                test: /\.ts$/,
+                loader: 'tslint-loader'
+            }
         ],
 
         loaders: [
@@ -37,14 +40,12 @@ module.exports = {
             }
         ],
         tslint: {
-            typeCheck: true,
-            failOnHint: true,
             emitErrors: true,
+            failOnError: true,
             configuration: require('./tslint.json')
         }
     },
     plugins: [
         new ExtractTextPlugin("./dist/proteic.css")
-
     ]
 }
