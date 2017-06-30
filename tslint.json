@@ -3,6 +3,13 @@
     "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
+    "valid-jsdoc": [
+      true
+    ],
+    "cyclomatic-complexity": [
+      true,
+      8
+    ],
     "no-multi-spaces": true,
     "no-duplicate-variable": true,
     "ban": [
@@ -25,7 +32,6 @@
       true,
       "check-space"
     ],
-
     "ter-indent": [
       true,
       4,
