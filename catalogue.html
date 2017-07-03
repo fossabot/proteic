@@ -551,6 +551,7 @@
         marginRight: margins.right,
         marginBottom: margins.bottom,
         marginLeft: margins.left,
+        maxNumberOfElements: 20
     }).datasource(dsStreamgraph);
 
     var bars = new proteic.Barchart(dataGrouped, {
@@ -580,7 +581,8 @@
         marginTop: margins.top,
         marginRight: margins.right,
         marginBottom: margins.bottom - 50,
-        marginLeft: margins.left
+        marginLeft: margins.left,
+        maxNumberOfElements: 20
     }).datasource(dsBarchart);
 
     //	var dsBarsStacked = new proteic.WebsocketDatasource({
@@ -638,6 +640,7 @@
         xAxisLabel: 'Categories',
         yAxisLabel: 'Categories',
         xTicksTextRotation: -65,
+        maxNumberOfElements: 20
     }).datasource(dsMatrix);
 
     var lines = new proteic.Linechart(data, {
@@ -777,7 +780,8 @@
         marginBottom: margins.bottom,
         marginLeft: margins.left,
         xAxisLabel: 'Numbers',
-        yAxisLabel: 'Numbers'
+        yAxisLabel: 'Numbers',
+        maxNumberOfElements: 20
     }).datasource(dsScatterplot);
 
     var streamgraph = new proteic.Streamgraph(dataTemporal, {
@@ -798,7 +802,8 @@
         marginBottom: margins.bottom,
         marginLeft: margins.left - 50,
         xTicksTextRotation: -65,
-        legendPosition: 'top'
+        legendPosition: 'top',
+        maxNumberOfElements: 20
     }).datasource(dsStreamgraph);
 
     var sunburst = new proteic.Sunburst(dataHierarchic, {
@@ -813,7 +818,8 @@
     new proteic.Sunburst([], {
         selector: '#sunburst-ws', height: 200, width: '100%',
         marginRight: 100,
-        marginLeft: 50
+        marginLeft: 50,
+        maxNumberOfElements: 20
     }).datasource(dsSunburst);
 
     var swimlane = new proteic.Swimlane(dataLanes, {
@@ -836,6 +842,7 @@
         marginBottom: margins.bottom,
         marginLeft: margins.left,
         xTicksTextRotation: -65,
+        maxNumberOfElements: 20
     }).datasource(dsSwimlane);
 
 </script>
