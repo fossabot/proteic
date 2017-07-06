@@ -2,10 +2,6 @@ import * as charts from '../charts/';
 import * as colors from './colors';
 import * as defaults from './defaults/';
 
-export function isArray(d: any) {
-    return d && d.constructor === Array && d instanceof Array;
-}
-
 export function isObject(d: any) {
     return d && d.constructor === Object && d instanceof Object;
 }
@@ -22,7 +18,7 @@ export function isEven(n: number) {
     return n % 2 === 0;
 }
 
-export function isPercentage(n: any) {
+export function isPercentage(n: any): boolean {
     let split = null;
     let result = null;
     if (!n || typeof n !== 'string') {
@@ -30,6 +26,7 @@ export function isPercentage(n: any) {
     }
     split = n.split('%');
     result = (+split[0]);
+
     return split.length === 2 && (result >= 0) && (result <= 100);
 }
 
@@ -47,6 +44,7 @@ export function keys(array: Array<any>, field: string): Set<any> {
             keys.add(element);
         }
     }
+
     return keys;
 }
 
@@ -62,8 +60,13 @@ export function keys(array: Array<any>, field: string): Set<any> {
  * ]
  * 
  */
-export function melt(wideDatum: any, vars: Array<string>, id: Array<string>, propertyKey: string,
-propertyValue: string) {
+export function melt(
+    wideDatum: any,
+    vars: Array<string>,
+    id: Array<string>,
+    propertyKey: string,
+    propertyValue: string
+) {
     let narrow: any = [];
 
     vars.forEach((v) => {
@@ -95,9 +98,11 @@ export function sortBy(array: Array<any>, o: any) {
         o.parser = _parser;
     }
     o.desc = o.desc ? -1 : 1;
+
     return array.sort((a, b) => {
         a = _getItem.call(o, a);
         b = _getItem.call(o, b);
+        
         return o.desc * (a < b ? -1 : +(a > b));
     });
 }
@@ -108,6 +113,7 @@ export function findElement(arr: Array<any>, propName: string, propValue: any) {
             return arr[i];
         }
     }
+
     return null;
 }
 
@@ -140,6 +146,7 @@ export function hasValuesWithKeys(obj: any, values: Array<any>, keys: Array<any>
             return true;
         }
     }
+
     return false;
 }
 
@@ -147,7 +154,7 @@ export function arrayDiff(a: Array<string>, b: Array<string>) {
     return b.filter((i) => a.indexOf(i) < 0);
 }
 
-export function filterKeys(datum: any, keys: any[]) {
+export function filterKeys(datum: any, keys: Array<any>) {
     let anemicDatum: any = {};
 
     for (let k of keys) {
@@ -160,7 +167,7 @@ export function filterKeys(datum: any, keys: any[]) {
 // /** 
 // 		* Get the list of visualizations available in Proteic.js
 // 		*/
-export function getAvailableVisualizations(): String[] {
+export function getAvailableVisualizations(): Array<String> {
     let visualizations = new Set<String>();
 
     for (let property in charts) {

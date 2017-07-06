@@ -12,7 +12,7 @@ class XRadialAxis extends Component {
     public update(data: any): void { }
 
     public render(): void {
-        this._xRadialAxis = scaleLinear().range([0, 2 * Math.PI]);
+        this._xRadialAxis = scaleLinear().range([0, Math.PI * 2]);
     }
 
     get xRadialAxis(): any {

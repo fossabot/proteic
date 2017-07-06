@@ -37,13 +37,14 @@ class SunburstDisk extends Component {
             path.unshift(current);
             current = current.parent;
         }
+        
         return path;
     }
 
     public update(data: [any]): void {
         let arcGen = arc()
-            .startAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x0))))
-            .endAngle((d: any) => Math.max(0, Math.min(2 * Math.PI, this.x.xRadialAxis(d.x1))))
+            .startAngle((d: any) => Math.max(0, Math.min(Math.PI * 2, this.x.xRadialAxis(d.x0))))
+            .endAngle((d: any) => Math.max(0, Math.min(Math.PI * 2, this.x.xRadialAxis(d.x1))))
             .innerRadius((d: any) => Math.max(0, this.y.yRadialAxis(d.y0)))
             .outerRadius((d: any) => Math.max(0, this.y.yRadialAxis(d.y1)));
         let colorScale = this.config.get('colorScale');

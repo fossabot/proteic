@@ -6,7 +6,7 @@ import {
     map,
     max as d3Max,
     min as d3Min,
-    nest, 
+    nest,
     scaleBand,
     scaleLinear
 } from 'd3';
@@ -25,53 +25,53 @@ class Timeboxset extends Component {
         this.xyAxes = xyAxes;
     }
 
-    public render(): void {}
+    public render(): void { }
 
-    public update(data: any[]): void {
+    public update(data: Array<any>): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
         let propertyEnd = this.config.get('propertyEnd');
         let propertyZ = this.config.get('propertyZ');
-        
+
         data = data.filter((d) => propertyEnd in d || propertyStart in d);
 
-        let colorScale = this.config.get('colorScale'),
-            colorScaleType = this.config.get('colorScaleType'),
-            height = this.config.get('height'),
-            onDown = this.config.get('onDown'),
-            onUp = this.config.get('onUp'),
-            onLeave = this.config.get('onLeave'),
-            onHover = this.config.get('onHover'),
-            onClick = this.config.get('onClick'),
-            displayValues = this.config.get('displayValues'),
-            valuesFormat = this.config.get('valuesFormat'),
-            keys = map(data, (d) => d[propertyKey]).keys(),
-            layer = this.svg.selectAll('.serie').data(data),
-            layerEnter = null,
-            layerMerge = null,
-            box = null,
-            boxEnter = null,
-            boxExit = null,
-            boxMerge = null,
-            extLanes = null,
-            yLanes: any = null,
-            yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys),
-            x = this.xyAxes.x.xAxis.scale(),
-            y = this.xyAxes.y.yAxis.scale();
+        let colorScale = this.config.get('colorScale');
+        let colorScaleType = this.config.get('colorScaleType');
+        let height = this.config.get('height');
+        let onDown = this.config.get('onDown');
+        let onUp = this.config.get('onUp');
+        let onLeave = this.config.get('onLeave');
+        let onHover = this.config.get('onHover');
+        let onClick = this.config.get('onClick');
+        let displayValues = this.config.get('displayValues');
+        let valuesFormat = this.config.get('valuesFormat');
+        let keys = map(data, (d) => d[propertyKey]).keys();
+        let layer = this.svg.selectAll('.serie').data(data);
+        let layerEnter = null;
+        let layerMerge = null;
+        let box = null;
+        let boxEnter = null;
+        let boxExit = null;
+        let boxMerge = null;
+        let extLanes = null;
+        let yLanes: any = null;
+        let yLanesBand = scaleBand().range([0, keys.length + 1]).domain(keys);
+        let x = this.xyAxes.x.xAxis.scale();
+        let y = this.xyAxes.y.yAxis.scale();
 
         if (colorScaleType === 'sequential') {
-            let min = (d3Min(data, (d: any) => +d[propertyZ])),
-                max = (d3Max(data, (d: any) => +d[propertyZ]));
+            let min = (d3Min(data, (d: any) => +d[propertyZ]));
+            let max = (d3Max(data, (d: any) => +d[propertyZ]));
             colorScale.domain([min, max]);
         }
 
         data = simple2nested(data, propertyKey);
-        
+
         extLanes = extent(data, (d, i) => i);
         yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, height]);
 
         layer = this.svg.selectAll('.serie').data(data);
-        
+
         // NOTE: d.key instead of d[propertyKey] because data is d3.Nest
         layerEnter = layer.enter()
             .append('g')
@@ -79,10 +79,10 @@ class Timeboxset extends Component {
 
         layerMerge = layer.merge(layerEnter)
             .attr('class', 'serie');
-            
+
         box = layerMerge.selectAll('.box')
             .data((d: any) => d.values);
-            
+
         boxExit = layer.exit().remove();
 
         boxEnter = box.enter()
@@ -94,7 +94,7 @@ class Timeboxset extends Component {
             .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
-            .attr('height', () => 0.8 * yLanes(1))
+            .attr('height', () => yLanes(1) * 0.8)
             .style('fill', (d: any) => colorScaleType === 'sequential'
                 ? colorScale(d[propertyZ])
                 : colorScale(d[propertyKey])
@@ -103,7 +103,7 @@ class Timeboxset extends Component {
         if (displayValues) {
             boxEnter.append('text')
                 .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
-                .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
+                .attr('y', (d: any) => y(d[propertyKey]) + yLanes(1) * 0.8 / 2)
                 .attr('dy', '3')
                 .attr('text-anchor', 'middle')
                 .attr('dominant-baseline', 'middle')
@@ -116,7 +116,7 @@ class Timeboxset extends Component {
             .attr('width', (d: any) => x(d[propertyEnd]) - x(d[propertyStart]))
             .attr('x', (d: any) => x(d[propertyStart]))
             .attr('y', (d: any) => y(d[propertyKey]))
-            .attr('height', () => 0.8 * yLanes(1))
+            .attr('height', () => yLanes(1) * 0.8)
             .style('fill', (d: any) => colorScaleType === 'sequential'
                 ? colorScale(d[propertyZ])
                 : colorScale(d[propertyKey])
@@ -125,12 +125,12 @@ class Timeboxset extends Component {
         if (displayValues) {
             boxMerge.select('text')
                 .attr('x', (d: any) => x(d[propertyStart]) + (x(d[propertyEnd]) - x(d[propertyStart])) / 2)
-                .attr('y', (d: any) => y(d[propertyKey]) + 0.8 * yLanes(1) / 2)
+                .attr('y', (d: any) => y(d[propertyKey]) + yLanes(1) * 0.8 / 2)
                 .attr('dy', '3')
                 .attr('text-anchor', 'middle')
                 .attr('dominant-baseline', 'middle');
         }
-        
+
         box = this.svg.selectAll('g.serie rect');
 
         box
@@ -145,7 +145,7 @@ class Timeboxset extends Component {
         this.update([]);
     }
 
-    public transition() {}
+    public transition() { }
 }
 
 export default Timeboxset;

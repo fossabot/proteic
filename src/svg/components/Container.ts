@@ -10,7 +10,7 @@ class Container {
 
     private svg: Selection<any, any, any, any>;
     private config: Config;
-    private components: Component[] = [];
+    private components: Array<Component> = new Array<Component>();
     private visibilityObservable: Observable<any>; // TODO: Inject with annotations?
     protected udpateWithTransition: boolean = true;
 
@@ -22,13 +22,13 @@ class Container {
 
         this.config = config;
 
-        let selector: string = this.config.get('selector'),
-            width: number = this.config.get('width'),
-            height: number = this.config.get('height'),
-            marginLeft: number = this.config.get('marginLeft'),
-            marginRight: number = this.config.get('marginRight'),
-            marginTop: number = this.config.get('marginTop'),
-            marginBottom: number = this.config.get('marginBottom');
+        let selector: string = this.config.get('selector');
+        let width: number = this.config.get('width');
+        let height: number = this.config.get('height');
+        let marginLeft: number = this.config.get('marginLeft');
+        let marginRight: number = this.config.get('marginRight');
+        let marginTop: number = this.config.get('marginTop');
+        let marginBottom: number = this.config.get('marginBottom');
 
         width += marginLeft + marginRight;
         height += marginTop + marginBottom;
@@ -40,6 +40,7 @@ class Container {
         this.components.push(component);
         component.configure(this.config, this.svg);
         component.render();
+
         return this;
     }
 
@@ -89,12 +90,13 @@ class Container {
         this.svg.call(zoom().scaleExtent([1 / 2, 4]).on('zoom', z));
     }
 
-    public getComponents(): Component[] {
+    public getComponents(): Array<Component> {
         return this.components;
     }
 
     public getComponent(componentName: string): Component {
-        return this.components.find((c: Component) => componentName === c.constructor.name);
+        // TODO: This fails if we have more than one instance of a given component
+        return this.components.find((c: Component) => componentName === c.constructor.name); 
     }
 }
 

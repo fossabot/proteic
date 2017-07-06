@@ -21,13 +21,13 @@ class XAxis extends Component {
     }
 
     public render(): void {
-        let width = this.config.get('width'),
-            height = this.config.get('height'),
-            xAxisFormat = this.config.get('xAxisFormat'),
-            xAxisType = this.config.get('xAxisType'),
-            xAxisLabel = this.config.get('xAxisLabel'),
-            xAxisGrid = this.config.get('xAxisGrid'),
-            xTicksTextRotation = this.config.get('xTicksTextRotation');
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let xAxisFormat = this.config.get('xAxisFormat');
+        let xAxisType = this.config.get('xAxisType');
+        let xAxisLabel = this.config.get('xAxisLabel');
+        let xAxisGrid = this.config.get('xAxisGrid');
+        let xTicksTextRotation = this.config.get('xTicksTextRotation');
 
         this.initializeXAxis(width, height, xAxisFormat, xAxisType, xAxisGrid);
 
@@ -55,17 +55,17 @@ class XAxis extends Component {
 
         // TODO: Optimize it. Currently we are looping data twice.
         if (xAxisType === 'linear') {
-            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
-                max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
+            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]);
+            let max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
             this.updateDomainByMinMax(min, Math.ceil(max));
 
         } else if (xAxisType === 'time') {
-            let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')])),
-                max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
+            let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')]));
+            let max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
 
         } else {
-            let keys: string[] = map(data, (d) => d[propertyX]).keys();
+            let keys: Array<string> = map(data, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
@@ -109,7 +109,7 @@ class XAxis extends Component {
      * @memberOf XAxis
      * @param keys
      */
-    private updateDomainByKeys(keys: string[]) {
+    private updateDomainByKeys(keys: Array<string>) {
         this._xAxis.scale().domain(keys);
     }
 

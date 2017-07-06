@@ -30,21 +30,21 @@ class Streamset extends Component {
 
     public render(): void {}
 
-    public update(data: any[]): void {
+    public update(data: Array<any>): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        let colorScale = this.config.get('colorScale'),
-            onDown = this.config.get('onDown'),
-            onUp = this.config.get('onUp'),
-            onLeave = this.config.get('onLeave'),
-            onHover = this.config.get('onHover'),
-            onClick = this.config.get('onClick'),
-            keys = map(data, (d) => d[propertyKey]).keys(),
-            data4stack = simple2stacked(data, propertyX, propertyY, propertyKey),
-            stack = this.config.get('stack'),
-            dataSeries = stack(data4stack);
+        let colorScale = this.config.get('colorScale');
+        let onDown = this.config.get('onDown');
+        let onUp = this.config.get('onUp');
+        let onLeave = this.config.get('onLeave');
+        let onHover = this.config.get('onHover');
+        let onClick = this.config.get('onClick');
+        let keys = map(data, (d) => d[propertyKey]).keys();
+        let data4stack = simple2stacked(data, propertyX, propertyY, propertyKey);
+        let stack = this.config.get('stack');
+        let dataSeries = stack(data4stack);
 
         this.areaGenerator.x((d: any) => this.xyAxes.x.xAxis.scale()((new Date(d.data[propertyKey]))));
 

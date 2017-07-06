@@ -3,6 +3,20 @@
     "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
+    "align": [true, "parameters", "statements"],
+    "array-type": [true, "generic"],
+    "binary-expression-operand-order": true,
+    "match-default-export-name": true,
+    "newline-before-return": true,
+    "new-parens": true,
+    "no-angle-bracket-type-assertion": true,
+    "no-boolean-literal-compare": true,
+    "no-unnecessary-initializer": true,
+    "number-literal-format": true,
+    "object-literal-shorthand": true,
+    "one-variable-per-declaration": [true, "ignore-for-loop"],
+    "return-undefined": true,
+    "encoding": true,
     "ordered-imports": [
       true
     ],
@@ -15,6 +29,7 @@
     "valid-jsdoc": [
       true
     ],
+    "jsdoc-format": true,
     "cyclomatic-complexity": [
       true,
       8

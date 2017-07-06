@@ -18,3 +18,7 @@ export function fitArrayByOldAndNewValue(newData: Array<any>, oldData: Array<any
 
     return array.reverse();
 }
+
+export function isArray(d: any) {
+    return d && d.constructor === Array && d instanceof Array;
+}

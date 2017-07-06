@@ -36,8 +36,8 @@ class LinkedNodeset extends Component implements Zoomable {
     }
 
     public render() {
-        let width: number = this.config.get('width'),
-            height: number = this.config.get('height');
+        let width: number = this.config.get('width');
+        let height: number = this.config.get('height');
 
         this.simulation = forceSimulation()
             .force('link', forceLink().id((d: any) => d.id).distance(50))
@@ -64,22 +64,22 @@ class LinkedNodeset extends Component implements Zoomable {
     }
 
     public update(data: any) {
-        let nodeRadius = this.config.get('nodeRadius'),
-            colorScale = this.config.get('colorScale'),
-            linkWeight = this.config.get('linkWeight'),
-            nodeWeight = this.config.get('nodeWeight'),
-            minLinkWeight = this.config.get('minLinkWeight'),
-            maxLinkWeight = this.config.get('maxLinkWeight'),
-            minNodeWeight = this.config.get('minNodeWeight'),
-            maxNodeWeight = this.config.get('maxNodeWeight'),
-            weighted = this.config.get('weighted'),
-            linkScaleRadius = scaleLinear().domain([minLinkWeight, maxLinkWeight]).range([0, 3]),
-            nodeScaleRadius = scaleLinear().domain([minNodeWeight, maxNodeWeight]).range([0, 15]),
-            labelShow = this.config.get('labelShow'),
-            labelField = this.config.get('labelField'),
-            node: any = null,
-            link: any = null,
-            text: any = null;
+        let nodeRadius = this.config.get('nodeRadius');
+        let colorScale = this.config.get('colorScale');
+        let linkWeight = this.config.get('linkWeight');
+        let nodeWeight = this.config.get('nodeWeight');
+        let minLinkWeight = this.config.get('minLinkWeight');
+        let maxLinkWeight = this.config.get('maxLinkWeight');
+        let minNodeWeight = this.config.get('minNodeWeight');
+        let maxNodeWeight = this.config.get('maxNodeWeight');
+        let weighted = this.config.get('weighted');
+        let linkScaleRadius = scaleLinear().domain([minLinkWeight, maxLinkWeight]).range([0, 3]);
+        let nodeScaleRadius = scaleLinear().domain([minNodeWeight, maxNodeWeight]).range([0, 15]);
+        let labelShow = this.config.get('labelShow');
+        let labelField = this.config.get('labelField');
+        let node: any = null;
+        let link: any = null;
+        let text: any = null;
 
         data = simple2Linked(data);
 

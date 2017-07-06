@@ -10,10 +10,10 @@ class YRadialAxis extends Component {
     }
 
     public render() {
-        let width = this.config.get('width'),
-            height = this.config.get('height'),
-            radius = null;
-        radius = (Math.min(width, height) / 2) - 10;
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let radius = (Math.min(width, height) / 2) - 10;
+
         this._yRadialAxis = scaleSqrt().range([0, radius]);
     }
 

@@ -31,12 +31,12 @@ class YAxis extends Component {
     }
 
     public render(): void {
-        let width = this.config.get('width'),
-            height = this.config.get('height'),
-            yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType'),
-            yAxisLabel = this.config.get('yAxisLabel'),
-            yAxisGrid = this.config.get('yAxisGrid');
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let yAxisFormat = this.config.get('yAxisFormat');
+        let yAxisType = this.config.get('yAxisType');
+        let yAxisLabel = this.config.get('yAxisLabel');
+        let yAxisGrid = this.config.get('yAxisGrid');
 
         this.initializeYAxis(width, height, yAxisFormat, yAxisType, yAxisGrid);
 
@@ -67,17 +67,19 @@ class YAxis extends Component {
         let propertyY = this.config.get('propertyY');
         let propertyX = this.config.get('propertyX');
 
-        let yAxisType = this.config.get('yAxisType'),
-            yAxisShow = this.config.get('yAxisShow'),
-            layoutStacked = this.config.get('stacked'),
-            annotations = this.config.get('annotations');
+        let yAxisType = this.config.get('yAxisType');
+        let yAxisShow = this.config.get('yAxisShow');
+        let layoutStacked = this.config.get('stacked');
+        let annotations = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
-        let min: string = '0', max: string = '0';
+        
+        let min: string = '0';
+        let max: string = '0';
 
         if (yAxisType === 'linear') {
             if (layoutStacked) {
-                let keys: string[] = map(data, (d: any) => d[propertyKey]).keys();
+                let keys: Array<string> = map(data, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
                 let stackedData = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
                 min = (d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0])));
@@ -111,7 +113,7 @@ class YAxis extends Component {
 
         } else if (yAxisType === 'categorical') {
             // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
-            let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
+            let keys: Array<string> = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
         } else {
             console.warn('could not recognize y axis type', yAxisType);
