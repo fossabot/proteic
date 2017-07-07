@@ -5,3 +5,4 @@ export function sortByField (array: Array<any>, field: string): void {
         return (a < b) ? -1 : (a > b) ? 1 : 0;   
     });
 }
+

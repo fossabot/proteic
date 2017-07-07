@@ -96,6 +96,7 @@ class WebsocketDatasource extends Datasource {
         if (e.data && e.data.length) {
             return JSON.parse(e.data);
         }
+        
         return null;
     }
 
