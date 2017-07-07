@@ -26,11 +26,11 @@ class Barset extends Component {
         this.y = y;
     }
 
-    public render() {}
+    public render() { }
 
-    public update(data: any[]) {
-        let bars: any = null,
-            stacked = this.config.get('stacked');
+    public update(data: Array<any>) {
+        let bars: any = null;
+        let stacked = this.config.get('stacked');
 
         if (stacked) {
             this.updateStacked(data);
@@ -47,7 +47,7 @@ class Barset extends Component {
             .on('click.user', this.config.get('onClick'));
     }
 
-    private updateStacked(data: any[]) {
+    private updateStacked(data: Array<any>) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -56,11 +56,11 @@ class Barset extends Component {
         let stack = this.config.get('stack');
         data = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
 
-        let colorScale = this.config.get('colorScale'),
-            layer = this.svg.selectAll('.barSeries').data(data),
-            layerEnter = layer.enter().append('g'),
-            x = this.x.xAxis.scale(),
-            y = this.y.yAxis.scale();
+        let colorScale = this.config.get('colorScale');
+        let layer = this.svg.selectAll('.barSeries').data(data);
+        let layerEnter = layer.enter().append('g');
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
 
         layer.exit().remove();
 
@@ -82,7 +82,7 @@ class Barset extends Component {
             .attr('width', x.bandwidth());
     }
 
-    private updateGrouped(data: any[]) {
+    private updateGrouped(data: Array<any>) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -92,14 +92,12 @@ class Barset extends Component {
 
         this.keys = keys;
 
-        let colorScale = this.config.get('colorScale'),
-            layer: any = null,
-            x = this.x.xAxis.scale(),
-            y = this.y.yAxis.scale(),
-            xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]),
-
-            height = this.config.get('height');
-
+        let colorScale = this.config.get('colorScale');
+        let layer: any = null;
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
+        let xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]);
+        let height = this.config.get('height');
         let nestedData = simple2nested(data, propertyKey);
 
         // JOIN series

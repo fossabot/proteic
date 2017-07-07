@@ -23,7 +23,6 @@ class SvgStrategyBarchart extends SvgStrategy {
      * @private
      * @type {Lineset}
      * @memberOf SvgStrategyBarchart
-    
      */
     private bars: Barset;
     private legend: Legend;
@@ -35,12 +34,12 @@ class SvgStrategyBarchart extends SvgStrategy {
     }
 
     public draw(data: [{}]) {
-        let xAxisFormat = this.config.get('xAxisFormat'),
-            xAxisType = this.config.get('xAxisType'),
-            yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType'),
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY');
+        let xAxisFormat = this.config.get('xAxisFormat');
+        let xAxisType = this.config.get('xAxisType');
+        let yAxisFormat = this.config.get('yAxisFormat');
+        let yAxisType = this.config.get('yAxisType');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
 
         convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
         sortByField(data, propertyX);

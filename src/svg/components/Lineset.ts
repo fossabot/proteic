@@ -40,7 +40,7 @@ class Lineset extends Component {
             .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }
 
-    public update(data: any[]): void {
+    public update(data: Array<any>): void {
         let propertyKey = this.config.get('propertyKey');
         let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
         let series = this.linesContainer.selectAll('g.lineSeries');

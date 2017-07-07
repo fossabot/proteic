@@ -42,15 +42,15 @@ class HistogramBarset extends Component {
             .style('shape-rendering', 'crispEdges');
     }
 
-    public update(data: any[]) {
-        let propertyKey = this.config.get('propertyKey'),
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            ticks = this.config.get('bins'),
-            x = this.x.xAxis.scale(),
-            y = this.y.yAxis.scale(),
-            height = this.config.get('height'),
-            width = this.config.get('width');
+    public update(data: Array<any>) {
+        let propertyKey = this.config.get('propertyKey');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let ticks = this.config.get('bins');
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
+        let height = this.config.get('height');
+        let width = this.config.get('width');
 
         let histogramData = data.map((d) => d[propertyX]);
 

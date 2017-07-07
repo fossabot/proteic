@@ -27,7 +27,6 @@ class SvgStrategyLinechart extends SvgStrategy {
      * @private
      * @type {Lineset}
      * @memberOf SvgStrategyLinechart
-    
      */
     private lines: Lineset;
     private markers: Pointset;
@@ -44,12 +43,12 @@ class SvgStrategyLinechart extends SvgStrategy {
     }
 
     public draw(data: [{}], events: Map<string, any>) {
-        let xAxisFormat = this.config.get('xAxisFormat'),
-            xAxisType = this.config.get('xAxisType'),
-            yAxisFormat = this.config.get('yAxisFormat'),
-            yAxisType = this.config.get('yAxisType'),
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY');
+        let xAxisFormat = this.config.get('xAxisFormat');
+        let xAxisType = this.config.get('xAxisType');
+        let yAxisFormat = this.config.get('yAxisFormat');
+        let yAxisType = this.config.get('yAxisType');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
 
         convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
         sortByField(data, propertyX);
@@ -59,11 +58,11 @@ class SvgStrategyLinechart extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let markerSize = this.config.get('markerSize'),
-            areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend'),
-            width = this.config.get('width'),
-            height = this.config.get('height');
+        let markerSize = this.config.get('markerSize');
+        let areaOpacity = this.config.get('areaOpacity');
+        let legend = this.config.get('legend');
+        let width = this.config.get('width');
+        let height = this.config.get('height');
 
         this.container
             .add(this.axes)

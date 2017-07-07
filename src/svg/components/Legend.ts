@@ -20,16 +20,17 @@ class Legend extends Component {
     public update(data: any) {
         let propertyKey: string = this.config.get('propertyKey');
         let dataSeries = nest()
-            .key((d: any) => d[propertyKey]).entries(data),
-            legend = null,
-            entries = null,
-            colorScale = this.config.get('colorScale'),
-            height = this.config.get('height'),
-            width = this.config.get('width'),
-            legendPosition = this.config.get('legendPosition') || 'right';
+            .key((d: any) => d[propertyKey]).entries(data);
+        let legend = null;
+        let entries = null;
+        let colorScale = this.config.get('colorScale');
+        let height = this.config.get('height');
+        let width = this.config.get('width');
+        let legendPosition = this.config.get('legendPosition') || 'right'; // TODO : There should be a default value
 
         if (dataSeries.length === 1 && dataSeries[0].key === 'undefined') {
             console.warn('Not showing legend, since there is a valid key');
+            
             return;
         }
 
@@ -129,9 +130,9 @@ class Legend extends Component {
     }
 
     private toggle(d: any): void {
-        let key: string = d.key,
-            element = this.svg.selectAll(`*[${Globals.COMPONENT_DATA_KEY_ATTRIBUTE}='${key}']`),
-            colorScale = this.config.get('colorScale');
+        let key: string = d.key;
+        let element = this.svg.selectAll(`*[${Globals.COMPONENT_DATA_KEY_ATTRIBUTE}='${key}']`);
+        let colorScale = this.config.get('colorScale');
 
         if (!element.empty()) {
             let opacity: number = parseInt(element.style('opacity'));

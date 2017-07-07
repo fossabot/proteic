@@ -32,14 +32,14 @@ class CanvasPointset extends Component {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        let markerShape = this.config.get('markerShape'),
-            markerSize = this.config.get('markerSize'),
-            colorScale = this.config.get('colorScale'),
-            points = null,
-            series = null,
-            dataContainer = null,
-            width = this.config.get('width'),
-            height = this.config.get('height');
+        let markerShape = this.config.get('markerShape');
+        let markerSize = this.config.get('markerSize');
+        let colorScale = this.config.get('colorScale');
+        let points = null;
+        let series = null;
+        let dataContainer = null;
+        let width = this.config.get('width');
+        let height = this.config.get('height');
 
         let shape = symbol()
             .size(markerSize)

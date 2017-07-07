@@ -22,10 +22,10 @@ class Areaset extends Component {
     }
 
     public render() {
-        let height = this.config.get('height'),
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            curve: CurveFactory = this.config.get('curve');
+        let height = this.config.get('height');
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let curve: CurveFactory = this.config.get('curve');
 
         this.areaGenerator = area()
             .curve(curve)

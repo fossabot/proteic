@@ -20,17 +20,18 @@ class Alerts extends Component {
             .attr('class', 'alerts');
     }
 
-    public update(data: any[], events: Map<string, any>) {
-        let propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            propertyKey = this.config.get('propertyKey'),
-            y = this.y.yAxis.scale(),
-            x = this.x.xAxis.scale(),
-            alertVariable: string = this.config.get('alertVariable'),
-            alertFunction = this.config.get('alertFunction'),
-            alertCallback = this.config.get('alertCallback'),
-            alertEvents = this.config.get('alertEvents');
+    public update(data: Array<any>, events: Map<string, any>) {
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let propertyKey = this.config.get('propertyKey');
+        let y = this.y.yAxis.scale();
+        let x = this.x.xAxis.scale();
+        let alertVariable: string = this.config.get('alertVariable');
+        let alertFunction = this.config.get('alertFunction');
+        let alertCallback = this.config.get('alertCallback');
+        let alertEvents = this.config.get('alertEvents');
 
+        // TODO: safely remove this
         if (!alertVariable) {
             return;
         }

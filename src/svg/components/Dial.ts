@@ -10,31 +10,31 @@ class Dial extends Component {
     }
 
     public render() {
-        let labels = null,
-            invertColorScale = this.config.get('invertColorScale'),
-            colorScale = this.config.get('colorScale'),
-            width = this.config.get('width'),
-            height = this.config.get('height'),
-            ringWidth = this.config.get('ringWidth'),
-            ringMargin = this.config.get('ringMargin'),
-            ticks = this.config.get('ticks'),
-            minAngle = this.config.get('minAngle'),
-            maxAngle = this.config.get('maxAngle'),
-            minLevel = this.config.get('minLevel'),
-            maxLevel = this.config.get('maxLevel'),
-            labelInset = this.config.get('labelInset'),
-            scale = scaleLinear()
+        let labels = null;
+        let invertColorScale = this.config.get('invertColorScale');
+        let colorScale = this.config.get('colorScale');
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let ringWidth = this.config.get('ringWidth');
+        let ringMargin = this.config.get('ringMargin');
+        let ticks = this.config.get('ticks');
+        let minAngle = this.config.get('minAngle');
+        let maxAngle = this.config.get('maxAngle');
+        let minLevel = this.config.get('minLevel');
+        let maxLevel = this.config.get('maxLevel');
+        let labelInset = this.config.get('labelInset');
+        let scale = scaleLinear()
                 .domain([minLevel, maxLevel])
-                .range([0, 1]),
-            scaleMarkers = scale.ticks(ticks),
+                .range([0, 1]);
+        let scaleMarkers = scale.ticks(ticks);
 
-            range = maxAngle - minAngle,
-            r = ((width > height) ?
+        let range = maxAngle - minAngle;
+        let r = ((width > height) ?
                 height : width
-            ) / 2,
-            translation = (() => 'translate(' + r + ',' + r + ')'),
-            tickData = d3range(ticks).map(() => 1 / ticks),
-            arc: Arc<any, any> = d3arc()
+            ) / 2;
+        let translation = (() => 'translate(' + r + ',' + r + ')');
+        let tickData = d3range(ticks).map(() => 1 / ticks);
+        let arc: Arc<any, any> = d3arc()
                 .innerRadius(r - ringWidth - ringMargin)
                 .outerRadius(r - ringMargin)
                 .startAngle((d: any, i) => deg2rad(minAngle + ((d * i) * range)))
@@ -73,6 +73,7 @@ class Dial extends Component {
             .attr('transform', (d) => {
                 let ratio = scale(d);
                 let newAngle = minAngle + (ratio * range);
+
                 return 'rotate(' + newAngle + ') translate(0,' + (labelInset - r) + ')';
             })
             .text((d) => d)

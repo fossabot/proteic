@@ -27,16 +27,16 @@ class Annotations extends Component {
     }
 
     public update(data: [any], events: Map<string, any>) {
-        let propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            propertyZ = this.config.get('propertyZ'),
-            y = this.y.yAxis.scale(),
-            x = this.x.xAxis.scale(),
-            minX = min(data, (d) => d[propertyX]),
-            minY = min(data, (d) => d[propertyY]),
-            maxX = max(data, (d) => d[propertyX]),
-            maxY = max(data, (d) => d[propertyY]),
-            datum = null;
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let propertyZ = this.config.get('propertyZ');
+        let y = this.y.yAxis.scale();
+        let x = this.x.xAxis.scale();
+        let minX = min(data, (d) => d[propertyX]);
+        let minY = min(data, (d) => d[propertyY]);
+        let maxX = max(data, (d) => d[propertyX]);
+        let maxY = max(data, (d) => d[propertyY]);
+        let datum = null;
 
         if (!this.annotations) {
             return;
@@ -77,12 +77,12 @@ class Annotations extends Component {
     }
 
     private makeBandAnnotation(value: number, width: number, text: string, minY: number) {
-        let chartWidth: number = this.config.get('width'),
-            chartHeight: number = this.config.get('height'),
-            annotation = null,
-            y = this.y.yAxis.scale(),
-            annotationHeight = y((value - width)) - y((value + width)),
-            annotationY = y(value) - annotationHeight / 2;
+        let chartWidth: number = this.config.get('width');
+        let chartHeight: number = this.config.get('height');
+        let annotation = null;
+        let y = this.y.yAxis.scale();
+        let annotationHeight = y((value - width)) - y((value + width));
+        let annotationY = y(value) - annotationHeight / 2;
 
         annotation = this.makeAreaAnnotation(
             annotationY,
@@ -95,13 +95,13 @@ class Annotations extends Component {
     }
 
     private makeThresholdAnnotation(annotationData: any) {
-        let propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            width: number = this.config.get('width'),
-            height: number = this.config.get('height'),
-            annotation = null,
-            y = this.y.yAxis.scale(),
-            x = this.x.xAxis.scale();
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let width: number = this.config.get('width');
+        let height: number = this.config.get('height');
+        let annotation = null;
+        let y = this.y.yAxis.scale();
+        let x = this.x.xAxis.scale();
 
         switch (annotationData.axis) {
             case 'y':
@@ -120,13 +120,13 @@ class Annotations extends Component {
     private makeAreaAnnotation(y: number, width: number, height: number, text: string) {
         return {
             x: 0, // Rect X
-            y: y, // Rect Y
+            y, // Rect Y
             type: d3Annotation.annotationCalloutRect,
             dy: 80, // Label Y
             dx: width + 20, // Label X
             subject: {
-                width: width, // Width of the rect
-                height: height // Height of the rect
+                width, // Width of the rect
+                height // Height of the rect
             },
             note: {
                 label: text,
@@ -136,8 +136,8 @@ class Annotations extends Component {
 
     private makeXThresholdAnnotation(x: number, y: number, text: string) {
         return {
-            x: x,
-            y: y,
+            x,
+            y,
             type: d3Annotation.annotationXYThreshold,
             dy: 30,
             dx: 0,
@@ -153,8 +153,8 @@ class Annotations extends Component {
 
     private makeYThresholdAnnotation(x: number, y: number, text: string) {
         return {
-            x: x,
-            y: y,
+            x,
+            y,
             type: d3Annotation.annotationXYThreshold,
             // dy: 120,
             dx: 20,

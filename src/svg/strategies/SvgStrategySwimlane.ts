@@ -27,10 +27,10 @@ class SvgStrategySwimlane extends SvgStrategy {
     }
 
     public draw(data: [{}]) {
-        let xAxisFormat = this.config.get('xAxisFormat'),
-            propertyStart = this.config.get('propertyStart'),
-            propertyEnd = this.config.get('propertyEnd'),
-            xAxisType = this.config.get('xAxisType');
+        let xAxisFormat = this.config.get('xAxisFormat');
+        let propertyStart = this.config.get('propertyStart');
+        let propertyEnd = this.config.get('propertyEnd');
+        let xAxisType = this.config.get('xAxisType');
         
         if (xAxisType === 'time') {
             convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
@@ -43,10 +43,10 @@ class SvgStrategySwimlane extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let markerSize = this.config.get('markerSize'),
-            areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend'),
-            colorScaleType = this.config.get('colorScaleType');
+        let markerSize = this.config.get('markerSize');
+        let areaOpacity = this.config.get('areaOpacity');
+        let legend = this.config.get('legend');
+        let colorScaleType = this.config.get('colorScaleType');
 
         this.container.add(this.axes).add(this.boxes);
 

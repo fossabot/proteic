@@ -16,23 +16,23 @@ class TileSet extends Component {
 
     public render() {}
 
-    public update(data: any[]) {
-        let propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            propertyZ = this.config.get('propertyZ'),
-            colorScale = this.config.get('colorScale'),
-            xStep: number = this.config.get('xStep'),
-            yStep: number = this.config.get('yStep'),
-            yAxisType = this.config.get('yAxisType'),
-            xAxisType = this.config.get('xAxisType'),
-            x = this.x.xAxis.scale(),
-            y = this.y.yAxis.scale(),
-            width: number = 0,
-            heigth: number = 0,
-            minX = +min(data, (d) => +d[propertyX]),
-            minY = +min(data, (d) => +d[propertyY]),
-            maxX = +max(data, (d) => +d[propertyX]),
-            maxY = +max(data, (d) => +d[propertyY]);
+    public update(data: Array<any>) {
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let propertyZ = this.config.get('propertyZ');
+        let colorScale = this.config.get('colorScale');
+        let xStep: number = this.config.get('xStep');
+        let yStep: number = this.config.get('yStep');
+        let yAxisType = this.config.get('yAxisType');
+        let xAxisType = this.config.get('xAxisType');
+        let x = this.x.xAxis.scale();
+        let y = this.y.yAxis.scale();
+        let width: number = 0;
+        let heigth: number = 0;
+        let minX = +min(data, (d) => +d[propertyX]);
+        let minY = +min(data, (d) => +d[propertyY]);
+        let maxX = +max(data, (d) => +d[propertyX]);
+        let maxY = +max(data, (d) => +d[propertyY]);
 
         colorScale.domain([min(data, (d) => +d[propertyZ]), max(data, (d) => +d[propertyZ])]);
 

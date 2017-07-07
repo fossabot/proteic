@@ -1,5 +1,5 @@
 import {
-  isNumeric, isPercentage
+    isNumeric, isPercentage
 } from './functions';
 
 import { select } from 'd3';
@@ -13,12 +13,12 @@ export function calculateWidth(widthConfig: any, selector: any) {
     } else if (isNumeric(widthConfig)) {
         return widthConfig;
     } else if (isPercentage(widthConfig)) {
-        let containerWidth, percentage;
-        containerWidth = select(selector)
+        let containerWidth = select(selector)
             .node()
             .getBoundingClientRect()
             .width;
-        percentage = widthConfig.split('%')[0];
+        let percentage = widthConfig.split('%')[0];
+
         return Math.round(percentage * containerWidth / 100);
     } else {
         throw Error('Unknow config width value: ' + widthConfig);

@@ -9,36 +9,36 @@ class DialNeedle extends Component {
     }
 
     public render() {
-        let invertColorScale = this.config.get('invertColorScale'),
-            colorScale = this.config.get('colorScale'),
-            width = this.config.get('width'),
-            height = this.config.get('height'),
-            ringWidth = this.config.get('ringWidth'),
-            ringMargin = this.config.get('ringMargin'),
-            ticks = this.config.get('ticks'),
-            minAngle = this.config.get('minAngle'),
-            maxAngle = this.config.get('maxAngle'),
-            minLevel = this.config.get('minLevel'),
-            maxLevel = this.config.get('maxLevel'),
-            labelInset = this.config.get('labelInset'),
-            needleNutRadius = this.config.get('needleNutRadius'),
-            needleLenghtRatio = this.config.get('needleLenghtRatio'),
-            scale = scaleLinear()
-                .domain([minLevel, maxLevel])
-                .range([0, 1]),
-            scaleMarkers = scale.ticks(ticks),
+        let invertColorScale = this.config.get('invertColorScale');
+        let colorScale = this.config.get('colorScale');
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let ringWidth = this.config.get('ringWidth');
+        let ringMargin = this.config.get('ringMargin');
+        let ticks = this.config.get('ticks');
+        let minAngle = this.config.get('minAngle');
+        let maxAngle = this.config.get('maxAngle');
+        let minLevel = this.config.get('minLevel');
+        let maxLevel = this.config.get('maxLevel');
+        let labelInset = this.config.get('labelInset');
+        let needleNutRadius = this.config.get('needleNutRadius');
+        let needleLenghtRatio = this.config.get('needleLenghtRatio');
+        let scale = scaleLinear()
+            .domain([minLevel, maxLevel])
+            .range([0, 1]);
+        let scaleMarkers = scale.ticks(ticks);
 
-            range = maxAngle - minAngle,
-            r = ((width > height) ?
-                height : width
-            ) / 2,
-            needleLen = needleLenghtRatio * (r),
+        let range = maxAngle - minAngle;
+        let r = ((width > height) ?
+            height : width
+        ) / 2;
+        let needleLen = needleLenghtRatio * (r);
 
-            translation = (() => 'translate(' + r + ',' + r + ')'),
+        let translation = (() => 'translate(' + r + ',' + r + ')');
 
-            angleScale = scaleLinear()
-                .domain([minLevel, maxLevel])
-                .range([90 + minAngle, 90 + maxAngle]);
+        let angleScale = scaleLinear()
+            .domain([minLevel, maxLevel])
+            .range([minAngle + 90, maxAngle + 90]);
 
         // Update the needle
         this.svg.append('path')
@@ -59,23 +59,23 @@ class DialNeedle extends Component {
     }
 
     public update(data: [any]) {
-        let datum = data[data.length - 1],
-            width = this.config.get('width'),
-            height = this.config.get('height'),
-            needleNutRadius = this.config.get('needleNutRadius'),
-            needleLenghtRatio = this.config.get('needleLenghtRatio'),
-            propertyValue = this.config.get('propertyValue'),
-            minAngle = this.config.get('minAngle'),
-            maxAngle = this.config.get('maxAngle'),
-            minLevel = this.config.get('minLevel'),
-            maxLevel = this.config.get('maxLevel'),
-            r = ((width > height) ?
-                height : width
-            ) / 2,
-            needleLen = needleLenghtRatio * (r),
-            angleScale = scaleLinear()
-                .domain([minLevel, maxLevel])
-                .range([90 + minAngle, 90 + maxAngle]);
+        let datum = data[data.length - 1];
+        let width = this.config.get('width');
+        let height = this.config.get('height');
+        let needleNutRadius = this.config.get('needleNutRadius');
+        let needleLenghtRatio = this.config.get('needleLenghtRatio');
+        let propertyValue = this.config.get('propertyValue');
+        let minAngle = this.config.get('minAngle');
+        let maxAngle = this.config.get('maxAngle');
+        let minLevel = this.config.get('minLevel');
+        let maxLevel = this.config.get('maxLevel');
+        let r = ((width > height) ?
+            height : width
+        ) / 2;
+        let needleLen = needleLenghtRatio * (r);
+        let angleScale = scaleLinear()
+            .domain([minLevel, maxLevel])
+            .range([minAngle + 90, maxAngle + 90]);
 
         this.svg.select('.needle')
             .attr('transform', (d) => `translate(${r}, ${r}) rotate(${angleScale(datum[propertyValue]) - 90})`)

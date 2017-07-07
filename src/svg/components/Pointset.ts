@@ -38,12 +38,12 @@ class Pointset extends Component {
 
         let dataSeries = nest()
             .key((d: any) => d[propertyKey])
-            .entries(data),
-            markers: any = null,
-            markerShape = this.config.get('markerShape'),
-            markerSize = this.config.get('markerSize'),
-            markerOutlineWidth = this.config.get('markerOutlineWidth'),
-            colorScale = this.config.get('colorScale');
+            .entries(data);
+        let markers: any = null;
+        let markerShape = this.config.get('markerShape');
+        let markerSize = this.config.get('markerSize');
+        let markerOutlineWidth = this.config.get('markerOutlineWidth');
+        let colorScale = this.config.get('colorScale');
 
         let shape = symbol().size(markerSize);
 

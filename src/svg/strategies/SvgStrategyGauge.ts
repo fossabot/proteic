@@ -29,8 +29,8 @@ class SvgStrategyGauge extends SvgStrategy {
 
         this.container.add(this.dial).add(this.dialNeedle);
         if (this.config.get('numericIndicator')) {
-            let width = this.config.get('width'),
-                height = this.config.get('height');
+            let width = this.config.get('width');
+            let height = this.config.get('height');
             let r = (
                     (width > height) ? height : width
                 ) / 2;

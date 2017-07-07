@@ -117,7 +117,7 @@ abstract class Chart {
      * @param {*} defaults Default option values for the current chart
      * @memberof Chart
      */
-    constructor(clazz: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
+    constructor(clazz: { new (...args: Array<any>): SvgStrategy }, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
         this.config.put('proteicID', 'proteic-' + Date.now());
         this.injector = new Injector();
@@ -136,7 +136,7 @@ abstract class Chart {
         });
     }
 
-    private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
+    private instantiateInjections(clazz: { new (...args: Array<any>): SvgStrategy }) {
         this.injector.mapValue('Config', this.config);
 
         this.strategy = this.injector.instantiate(clazz);
@@ -151,6 +151,7 @@ abstract class Chart {
         this.config.put('annotations', annotations);
         this.annotationsConfig = annotations;
         this.strategy.addComponent(Annotations, annotations);
+
         return this;
     }
 
@@ -176,6 +177,7 @@ abstract class Chart {
         );
 
         this.subscriptions.set('datasource', subscription);
+
         return this;
     }
 
@@ -184,6 +186,7 @@ abstract class Chart {
         this.config.put('alertFunction', condition);
         this.config.put('alertCallback', callback);
         this.config.put('alertEvents', events);
+
         return this;
     }
 
@@ -195,6 +198,7 @@ abstract class Chart {
      */
     public unpivot(vars: Array<string>) {
         this.config.put('pivotVars', vars);
+
         return this;
     }
 
@@ -227,14 +231,15 @@ abstract class Chart {
         let width = config.get('width');
         width = calculateWidth(width, config.get('selector')) - config.get('marginLeft') - config.get('marginRight');
         config.put('width', width);
+
         return config;
     }
 
     private cleanDatum(datum: any, dataKeys: Array<any>) {
-        let cleanDatum = [],
-            datumType = datum.constructor,
-            nullValues = this.config.get('nullValues'),
-            filteredDatum = filterKeys(datum, dataKeys);
+        let cleanDatum = [];
+        let datumType = datum.constructor;
+        let nullValues = this.config.get('nullValues');
+        let filteredDatum = filterKeys(datum, dataKeys);
 
         if (datumType === Array) {
             cleanDatum = datum.filter(isValuesInObjectKeys(nullValues, dataKeys));
@@ -248,15 +253,15 @@ abstract class Chart {
     }
 
     public keepDrawing(datum: any): void {
-        let streamingStrategy = this.config.get('streamingStrategy'),
-            maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
-            numberOfElements = this.data.length,
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            propertyZ = this.config.get('propertyZ'),
-            propertyKey = this.config.get('propertyKey'),
-            propertyStart = this.config.get('propertyStart'),
-            propertyEnd = this.config.get('propertyEnd');
+        let streamingStrategy = this.config.get('streamingStrategy');
+        let maxNumberOfElements: number = this.config.get('maxNumberOfElements');
+        let numberOfElements = this.data.length;
+        let propertyX = this.config.get('propertyX');
+        let propertyY = this.config.get('propertyY');
+        let propertyZ = this.config.get('propertyZ');
+        let propertyKey = this.config.get('propertyKey');
+        let propertyStart = this.config.get('propertyStart');
+        let propertyEnd = this.config.get('propertyEnd');
 
         let dataKeys = [
             propertyX,
