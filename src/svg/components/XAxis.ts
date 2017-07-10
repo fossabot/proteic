@@ -107,7 +107,8 @@ class XAxis extends Component {
      *
      * @private
      * @memberOf XAxis
-     * @param keys
+     * @param {Array<string>} keys - Values of the new input domain.
+     * @return {void}
      */
     private updateDomainByKeys(keys: Array<string>) {
         this._xAxis.scale().domain(keys);
@@ -129,12 +130,15 @@ class XAxis extends Component {
 
     /**
      *
-     * Initializes a new horizontal axis
+     * Initializes a new horizontal axis.
      *
      * @private
-     * @param {(string | number)} Width Width of the axis
-     * @param {string} xAxisFormat Format of the axis. This parameter is only valid when using a time axis.
-     * @param {string} xAxisType Type of the axis. It can be: time, linear or categorical.
+     * @param {number} width - Width of the axis.
+     * @param {string | number} height - Height of the chart.
+     * @param {string} xAxisFormat - Format of the axis. This parameter is only valid when using a time axis.
+     * @param {string} xAxisType - Type of the axis. It can be: time, linear or categorical.
+     * @param {boolean} xAxisGrid - Wether the gridlines are drawn or not.
+     * @returns {void}
      *
      * @memberOf XAxis
      */

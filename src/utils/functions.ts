@@ -51,14 +51,23 @@ export function keys(array: Array<any>, field: string): Set<any> {
 /**
  * Reshapes a datum from wide format to narrow
  * 
- * For example:
- * { id: 1234, name: 'Bob', age: 32, weight: 86 }
- *				=>
- * [
- *				{ id: 1234, name: 'Bob', key: age, value: 32 },
- *				{ id: 1234, name: 'Bob', key: weight, value: 86 }
- * ]
+ * @example 
  * 
+ * let wide = { id: 1234, name: 'Bob', age: 32, weight: 86 };
+ * let narrow = melt(wide, ['age', 'weight'], ['id', 'name'], 'key', 'value');
+ * 
+ * // narrow contents
+ * // [
+ * //   { id: 1234, name: 'Bob', key: age, value: 32 },
+ * //   { id: 1234, name: 'Bob', key: weight, value: 86 }
+ * // ]
+ * 
+ * @param {*} wideDatum - Datum to be reshaped.
+ * @param {Array<string>} vars - Properties to be melted 
+ * @param {Array<string>} id - Properties used as Key for the datum (won't be changed)
+ * @param {string} propertyKey - Name of the property that contains the key
+ * @param {string} propertyValue - Name of the property that contains the value
+ * @returns {*} Datum in narrow format.
  */
 export function melt(
     wideDatum: any,
@@ -127,11 +136,12 @@ export function deg2rad(deg: number) {
 
 /**
  * This is intended as a test function for a filter. It returns a function that is true when any of the`keys`
- *		of the tested object contains any of the`values`
+ * of the tested object contains any of the`values`.
  *
- * @param values
- * @param keys
- * @returns {(obj:any)=>boolean}
+ * @param {Array<*>} values - Values to search for.
+ * @param {Array<string>} keys - Keys to search into.
+ * @returns {function(obj:any): boolean} Function that is true when any of the`keys`
+ * of the tested object contains any of the`values`.
  */
 export function isValuesInObjectKeys(values: Array<any>, keys: Array<string>): Function {
     return function (obj: any): boolean {

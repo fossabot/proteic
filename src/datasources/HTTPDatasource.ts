@@ -7,6 +7,5 @@ import Datasource from './Datasource';
  * @export
  * @class HTTPDatasource
  * @extends {Datasource}
-
  */
 export default class HTTPDatasource extends Datasource { }

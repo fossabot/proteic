@@ -111,11 +111,13 @@ abstract class Chart {
 
     /**
      * Creates an instance of Chart.
-     * @param {{ new (...args: any[]): SvgStrategy }} Class Reference to a specific strategy
-     * @param {*} data Initial data. It can be [] or a filled array
-     * @param {*} userConfig A customized configuration for the current chart. It overrides the default configuration
-     * @param {*} defaults Default option values for the current chart
+     * 
+     * @param {function} clazz - Reference to a specific strategy
+     * @param {*} data - Initial data. It can be [] or a filled array.
+     * @param {*} userConfig - A customized configuration for the current chart. It overrides the default configuration.
+     * @param {*} defaults - Default option values for the current chart.
      * @memberof Chart
+     * @returns {void}
      */
     constructor(clazz: { new (...args: Array<any>): SvgStrategy }, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
@@ -162,18 +164,16 @@ abstract class Chart {
     }
 
     /**
-     *
      * Configure a datasources for the current instance.
      * Datasources allows data to be catached from many sources, such as websockets endpoints, HTTP urls, etc.
      * @param {Datasource} ds A datasource
-     *
-     * @memberOf Chart
+     * @memberof Chart
+     * @return {Chart} The chart object for which the datasource has been set.
      */
     public datasource(ds: WebsocketDatasource) {
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
             (e: any) => throwError(e),
-            // () => console.log('Completed subject')
         );
 
         this.subscriptions.set('datasource', subscription);
@@ -191,10 +191,22 @@ abstract class Chart {
     }
 
     /**
-     * Incoming data may contain mixed narrow and wide formats that will be treated appropriately.
-     * @param {Array<string>} vars 
-     * @returns 
+     * Reshape each incomming datum from wide format to narrow by unpivotting the specified variables.
+     * @example 
+     * 
+     * chart.unpivot(['age', 'weight']);
+     * 
+     * // Incoming wide datum: { id: 1234, name: 'Bob', age: 32, weight: 86 }
+     * 
+     * // Unpivoted datum:
+     * // [
+     * //   { id: 1234, name: 'Bob', key: age, value: 32 },
+     * //   { id: 1234, name: 'Bob', key: weight, value: 86 }
+     * // ]
+     * 
+     * @param {Array<string>} vars - Variables to be unpivotted.
      * @memberof Chart
+     * @returns {Chart} The chart object for which the pivot variables has been set.
      */
     public unpivot(vars: Array<string>) {
         this.config.put('pivotVars', vars);

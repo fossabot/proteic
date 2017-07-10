@@ -19,16 +19,19 @@ class SunburstDisk extends Component {
      * Removes all the paths (arcs). Doing this before each redraw prevents the
      * transition to mess up the arcs.
      * @private
+     * @returns {void}
      */
     private removePaths() {
         this.svg.selectAll('path').remove();
     }
 
     /**
-     * From: http://bl.ocks.org/kerryrodden/7090426
-     * @param node
-     * @returns {Array}
+     * Given a node in a partition layout, return an array of all of its ancestor
+     * nodes, highest first, but excluding the root.
+     * @see http://bl.ocks.org/kerryrodden/7090426
+     * @param {*} node - A node from a partition layout.
      * @private
+     * @returns {Array} An array of all the ancestors of the node.
      */
     private getAncestors(node: any) {
         let path = [];

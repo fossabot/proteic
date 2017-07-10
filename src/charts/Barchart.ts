@@ -3,8 +3,19 @@ import { defaults } from '../utils/defaults/barchart';
 import { copy, isValuesInObjectKeys } from '../utils/functions';
 import Chart from './Chart';
 
+/**
+ * A Bar chart visualization
+ */
 class Barchart extends Chart {
 
+    /**
+     * 
+     * Create a Bar chart with the given data and configuration defined by the user.
+     * 
+     * @param {*} data - The data to be drawn in the chart.
+     * @param {*} userConfig - The user defined configuration for the chart.
+     * @returns {void}
+     */
     constructor(data: any, userConfig: any = {}) {
         super(
             SvgStrategyBarchart,

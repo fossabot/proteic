@@ -7,10 +7,6 @@ import Config from '../Config';
  * This class defines the common methods for the datasources,
  * such as start() and stop().
  *
- * @export Default export: Datasource class
- *
- * @class Datasource The Datasource class
- *
  */
 class Datasource {
 

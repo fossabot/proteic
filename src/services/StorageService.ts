@@ -13,7 +13,9 @@ class StorageService {
 
     /**
      * Check if localStorage has an Item / exists with the give key
-     * @param key the key of the Item
+     * 
+     * @param {string} key - The key of the Item.
+     * @returns {boolean} Wether the item exists or not.
      */
     public hasItem(key: string): boolean {
         return this.storage.getItem(key) !== null;

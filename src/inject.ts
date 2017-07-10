@@ -1,6 +1,7 @@
 /**
  * Decorates a Class with a PropertyInjection point.
  *
+ * @example
  * <pre>
  *     class MyActor {
  *       @inject('firstName')
@@ -9,8 +10,9 @@
  * </pre>
  *
  * @decorator
- * @param {string} injectionKey
- * @returns {function(Object, string): void}
+ * @param {string} injectionKey - Injection key
+ * @returns {function(Object, string): void} Factory function to be invoked with an 
+ * instance of the decorated Class and the name of the decorated property.
  */
 export default function inject(injectionKey: string) {
 

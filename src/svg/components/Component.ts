@@ -25,9 +25,8 @@ abstract class Component {
      * This method is automatically by the Container.
      * @param {Config} config A configuration object
      * @param {*} svg A D3 selector object
-     *
-     * @memberOf Component
-
+     * @memberof Component
+     * @returns {void}
      */
     public configure(config: Config, svg: any) {
         this.config = config;

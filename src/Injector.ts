@@ -12,8 +12,9 @@ export default class Injector {
      * invoked the supplied value will be injected into properties of the target Class
      * decorated with the `@inject` decorator.
      *
-     * @param {string} injectionKey
-     * @param {*} value
+     * @param {string} injectionKey - Key of the injected value
+     * @param {*} value - Value to be injected
+     * @returns {void}
      */
     public mapValue(injectionKey: string, value: any): void {
         this.valuesByInjectionKey[injectionKey] = value;
@@ -23,8 +24,8 @@ export default class Injector {
      * Create a new instance of the supplied Class fulfilling any property injections
      * which are present in the injectionRules map.
      *
-     * @param {function} Class
-     * @returns {T}
+     * @param {function} clazz - Class to be instanciated
+     * @returns {T} Instance of the Class
      */
     // instantiate<T extends Injectable>(clazz: { new (...args: any[]): T }): T {
     public instantiate<T>(clazz: { new (...args: any[]): T }): T {

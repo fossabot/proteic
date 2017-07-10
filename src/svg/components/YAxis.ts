@@ -141,16 +141,18 @@ class YAxis extends Component {
 
     /**
      *
-     * Initializes a new vertical axis
+     * Initializes a new vertical axis.
      *
      * @private
-     * @param {(string | number)} Width Width of the axis
-     * @param {string} yAxisFormat Format of the axis. This parameter is only valid when using a time axis.
-     * @param {string} yAxisType Type of the axis. It can be: linear or categorical.
+     * @param {(string | number)} width - Width of the chart.
+     * @param {(number)} height - Height of the chart.
+     * @param {string} yAxisFormat - Format of the axis. This parameter is only valid when using a time axis.
+     * @param {string} yAxisType - Type of the axis. It can be: linear or categorical.
+     * @param {boolean} yAxisGrid -  Wether the gridlines are drawn or not.
+     * @returns {void}
      *
      * @memberOf XAxis
      */
-
     private initializeYAxis(
         width: string | number,
         height: number,
