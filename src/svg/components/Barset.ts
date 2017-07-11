@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     area,
     easeLinear,
@@ -28,7 +29,7 @@ class Barset extends Component {
 
     public render() { }
 
-    public update(data: Array<any>) {
+    public update(data: Data) {
         let bars: any = null;
         let stacked = this.config.get('stacked');
 
@@ -47,17 +48,15 @@ class Barset extends Component {
             .on('click.user', this.config.get('onClick'));
     }
 
-    private updateStacked(data: Array<any>) {
+    private updateStacked(data: Data) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
-
-        let keys: any = map(data, (d) => d[propertyKey]).keys();
+        let keys: any = map(data.originalDatum, (d) => d[propertyKey]).keys();
         let stack = this.config.get('stack');
-        data = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
-
+        let layerData = stack.keys(keys)(simple2stacked(data.originalDatum, propertyX, propertyY, propertyKey));
         let colorScale = this.config.get('colorScale');
-        let layer = this.svg.selectAll('.barSeries').data(data);
+        let layer = this.svg.selectAll('.barSeries').data(layerData);
         let layerEnter = layer.enter().append('g');
         let x = this.x.xAxis.scale();
         let y = this.y.yAxis.scale();
@@ -82,13 +81,13 @@ class Barset extends Component {
             .attr('width', x.bandwidth());
     }
 
-    private updateGrouped(data: Array<any>) {
+    private updateGrouped(data: Data) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let width = this.config.get('width');
 
-        let keys = map(data, (d) => d[propertyKey]).keys();
+        let keys = map(data.originalDatum, (d) => d[propertyKey]).keys();
 
         this.keys = keys;
 
@@ -98,7 +97,7 @@ class Barset extends Component {
         let y = this.y.yAxis.scale();
         let xGroup = scaleBand().domain(keys).range([0, x.bandwidth()]);
         let height = this.config.get('height');
-        let nestedData = simple2nested(data, propertyKey);
+        let nestedData = simple2nested(data.originalDatum, propertyKey);
 
         // JOIN series
         let serie = this.svg.selectAll(`.${Globals.SELECTOR_SERIE}`)
@@ -198,7 +197,7 @@ class Barset extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 }
 

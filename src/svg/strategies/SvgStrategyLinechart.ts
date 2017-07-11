@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
@@ -42,7 +43,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}], events: Map<string, any>) {
+    public draw(data: Data, events: Map<string, any>) {
         let xAxisFormat = this.config.get('xAxisFormat');
         let xAxisType = this.config.get('xAxisType');
         let yAxisFormat = this.config.get('yAxisFormat');
@@ -50,8 +51,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
-        sortByField(data, propertyX);
+        sortByField(data.originalDatum, propertyX);
 
         this.container.updateComponents(data, events);
     }

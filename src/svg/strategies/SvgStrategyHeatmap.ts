@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { sortByField } from '../../utils/data/sorting';
 import SvgStrategy from '../base/SvgStrategy';
 import ColorLegend from '../components/ColorLegend';
@@ -16,7 +17,7 @@ class SvgStrategyHeatmap extends SvgStrategy {
         this.tiles = new TileSet(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}]): void {
+    public draw(data: Data): void {
         let xAxisFormat = this.config.get('xAxisFormat');
         let xAxisType = this.config.get('xAxisType');
         let yAxisFormat = this.config.get('yAxisFormat');

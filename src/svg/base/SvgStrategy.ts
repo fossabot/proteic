@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import inject from '../../inject';
 import Annotations from '../components/Annotations';
@@ -20,7 +21,7 @@ abstract class SvgStrategy {
         this.container = new Container(this.config);
     }
 
-    public abstract draw(data: [{}], events: Map<string, any>): void;
+    public abstract draw(data: Data, events: Map<string, any>): void;
 
     public addComponent(component: Function, config: any) {
         switch (component.name) {

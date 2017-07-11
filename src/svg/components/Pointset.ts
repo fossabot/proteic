@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import Globals from '../../Globals';
 import Component from './Component';
@@ -29,16 +30,16 @@ class Pointset extends Component {
         this.y = y;
     }
 
-    public render() {}
+    public render() { }
 
-    public update(data: [any]) {
+    public update(data: Data) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
         let dataSeries = nest()
             .key((d: any) => d[propertyKey])
-            .entries(data);
+            .entries(data.originalDatum);
         let markers: any = null;
         let markerShape = this.config.get('markerShape');
         let markerSize = this.config.get('markerSize');
@@ -91,8 +92,7 @@ class Pointset extends Component {
         series.enter().append('g')
             .attr('class', Globals.SELECTOR_SERIE)
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
-            .merge(series)
-            ;
+            .merge(series);
 
         // JOIN points
         let points = series.selectAll(`.${Globals.SELECTOR_ELEMENT}`)

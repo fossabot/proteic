@@ -8,8 +8,8 @@ export const defaults: any = {
     marginRight: '100',
     marginBottom: 0,
     marginLeft: 70,
-    width: '500', // %, auto, or numeric
-    height: '500',
+    width: 500, // %, auto, or numeric
+    height: 500,
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart
     legend: true,

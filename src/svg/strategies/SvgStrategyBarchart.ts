@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
@@ -33,7 +34,7 @@ class SvgStrategyBarchart extends SvgStrategy {
         this.bars = new Barset(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}]) {
+    public draw(data:Data) {
         let xAxisFormat = this.config.get('xAxisFormat');
         let xAxisType = this.config.get('xAxisType');
         let yAxisFormat = this.config.get('yAxisFormat');
@@ -41,8 +42,8 @@ class SvgStrategyBarchart extends SvgStrategy {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
-        sortByField(data, propertyX);
+        //convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+        sortByField(data.originalDatum, propertyX);
 
         this.container.updateComponents(data);
     }

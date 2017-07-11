@@ -1,4 +1,4 @@
-import { max, min } from 'd3-array';
+import { Data } from './../../data/Data';
 import Globals from '../../Globals';
 import Component from './Component';
 import XAxis from './XAxis';
@@ -14,9 +14,9 @@ class TileSet extends Component {
         this.y = y;
     }
 
-    public render() {}
+    public render() { }
 
-    public update(data: Array<any>) {
+    public update(data: Data) {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let propertyZ = this.config.get('propertyZ');
@@ -29,12 +29,16 @@ class TileSet extends Component {
         let y = this.y.yAxis.scale();
         let width: number = 0;
         let heigth: number = 0;
-        let minX = +min(data, (d) => +d[propertyX]);
-        let minY = +min(data, (d) => +d[propertyY]);
-        let maxX = +max(data, (d) => +d[propertyX]);
-        let maxY = +max(data, (d) => +d[propertyY]);
 
-        colorScale.domain([min(data, (d) => +d[propertyZ]), max(data, (d) => +d[propertyZ])]);
+        let minX = data.getCalculationOnProperty('min', propertyX);
+        let minY = data.getCalculationOnProperty('min', propertyY);
+        let minZ = data.getCalculationOnProperty('min', propertyZ);
+
+        let maxX = data.getCalculationOnProperty('max', propertyX);
+        let maxY = data.getCalculationOnProperty('max', propertyY);
+        let maxZ = data.getCalculationOnProperty('max', propertyZ);
+
+        colorScale.domain([minZ, maxZ]);
 
         if (xAxisType === 'linear') {
             this.x.updateDomainByMinMax(minX, maxX + xStep);
@@ -53,7 +57,7 @@ class TileSet extends Component {
 
         // Data join
         let tiles = this.svg.selectAll('.tile')
-            .data(data);
+            .data(data.originalDatum);
 
         // Update
         tiles.attr('class', 'tile')
@@ -100,10 +104,10 @@ class TileSet extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
-    public transition() {}
+    public transition() { }
 
 }
 

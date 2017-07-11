@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
@@ -20,7 +21,7 @@ class SvgStrategyGauge extends SvgStrategy {
         this.textIndicator = new TextIndicator();
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         this.container.updateComponents(data);
     }
 

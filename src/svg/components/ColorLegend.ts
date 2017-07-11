@@ -1,7 +1,5 @@
 import {
     format,
-    max as d3max,
-    min as d3min,
     nest,
     selection
 } from 'd3';
@@ -29,7 +27,7 @@ class ColorLegend extends Component {
 
     public update(data: any) {
         let propertyKey: string = this.config.get('propertyKey');
-        
+
         // Exclude those values that do not contain a 'key'.
         let legend = null;
         let entries = null;
@@ -44,8 +42,8 @@ class ColorLegend extends Component {
         this.svg.select('.legend').remove();
         legend = this.svg.append('g').attr('class', 'legend');
 
-        let min = d3min(data, (d: any) => +d[propertyZ]);
-        let max = d3max(data, (d: any) => +d[propertyZ]);
+        let min = data.getCalculationOnProperty('min', propertyZ);
+        let max = data.getCalculationOnProperty('max', propertyZ);
 
         if (data.length <= 1 || min === max) {
             legendCells = 2;
@@ -61,19 +59,18 @@ class ColorLegend extends Component {
             .labelFormat(format(valuesFormat));
         if (legendCells) {
             colorLegend.cells(legendCells);
-        }   
+        }
         colorLegend.scale(colorScale);
-        
+
         legend.call(colorLegend);
 
         legend.attr('transform', `translate(${width + 10}, 0)`);
     }
 
     public clear() {
-        throw new Error('Not yet implemented');
     }
-    
-    public transition() {}
+
+    public transition() { }
 
 }
 

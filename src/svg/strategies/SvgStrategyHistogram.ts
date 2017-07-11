@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import { convertByXYFormat } from '../../utils/data/transforming';
@@ -34,7 +35,7 @@ class SvgStrategyHistogram extends SvgStrategy {
         this.bars = new HistogramBarset(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         let xAxisFormat = this.config.get('xAxisFormat');
         let xAxisType = this.config.get('xAxisType');
         let yAxisFormat = this.config.get('yAxisFormat');

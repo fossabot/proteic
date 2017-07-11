@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { easeLinear } from 'd3';
 import Globals from '../../Globals';
 import Component from './Component';
@@ -20,7 +21,7 @@ class Alerts extends Component {
             .attr('class', 'alerts');
     }
 
-    public update(data: Array<any>, events: Map<string, any>) {
+    public update(data: Data, events: Map<string, any>) {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let propertyKey = this.config.get('propertyKey');
@@ -36,7 +37,7 @@ class Alerts extends Component {
             return;
         }
 
-        let alertSerie = data
+        let alertSerie = data.originalDatum
             .filter((d) => {
                 return d[propertyKey] === alertVariable &&
                     alertFunction(d[propertyY], events);

@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { arc as d3arc, range as d3range, scaleLinear } from 'd3';
 import { deg2rad } from '../../utils/functions';
 import Component from './Component';
@@ -58,8 +59,8 @@ class DialNeedle extends Component {
             .style('fill', '#666666');
     }
 
-    public update(data: [any]) {
-        let datum = data[data.length - 1];
+    public update(data: Data) {
+        let datum = data.originalDatum[data.originalDatum.length - 1];
         let width = this.config.get('width');
         let height = this.config.get('height');
         let needleNutRadius = this.config.get('needleNutRadius');

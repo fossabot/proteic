@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 
 import {
     extent,
@@ -27,13 +28,13 @@ class Timeboxset extends Component {
 
     public render(): void { }
 
-    public update(data: Array<any>): void {
+    public update(data: Data): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyStart = this.config.get('propertyStart');
         let propertyEnd = this.config.get('propertyEnd');
         let propertyZ = this.config.get('propertyZ');
 
-        data = data.filter((d) => propertyEnd in d || propertyStart in d);
+        let filteredData = data.originalDatum.filter((d) => propertyEnd in d || propertyStart in d);
 
         let colorScale = this.config.get('colorScale');
         let colorScaleType = this.config.get('colorScaleType');
@@ -45,8 +46,8 @@ class Timeboxset extends Component {
         let onClick = this.config.get('onClick');
         let displayValues = this.config.get('displayValues');
         let valuesFormat = this.config.get('valuesFormat');
-        let keys = map(data, (d) => d[propertyKey]).keys();
-        let layer = this.svg.selectAll('.serie').data(data);
+        let keys = map(filteredData, (d) => d[propertyKey]).keys();
+        let layer = this.svg.selectAll('.serie').data(filteredData);
         let layerEnter = null;
         let layerMerge = null;
         let box = null;
@@ -60,17 +61,17 @@ class Timeboxset extends Component {
         let y = this.xyAxes.y.yAxis.scale();
 
         if (colorScaleType === 'sequential') {
-            let min = (d3Min(data, (d: any) => +d[propertyZ]));
-            let max = (d3Max(data, (d: any) => +d[propertyZ]));
+            let min = (d3Min(filteredData, (d: any) => +d[propertyZ]));
+            let max = (d3Max(filteredData, (d: any) => +d[propertyZ]));
             colorScale.domain([min, max]);
         }
 
-        data = simple2nested(data, propertyKey);
+        filteredData = simple2nested(filteredData, propertyKey);
 
-        extLanes = extent(data, (d, i) => i);
+        extLanes = extent(filteredData, (d, i) => i);
         yLanes = scaleLinear().domain([extLanes[0], extLanes[1] + 1]).range([0, height]);
 
-        layer = this.svg.selectAll('.serie').data(data);
+        layer = this.svg.selectAll('.serie').data(filteredData);
 
         // NOTE: d.key instead of d[propertyKey] because data is d3.Nest
         layerEnter = layer.enter()
@@ -142,7 +143,7 @@ class Timeboxset extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
     public transition() { }

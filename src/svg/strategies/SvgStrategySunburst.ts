@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import SvgStrategy from '../base/SvgStrategy';
 import RadialAxes from '../components/RadialAxes';
 import SunburstDisk from '../components/SunburstDisk';
@@ -18,7 +19,7 @@ class SvgStrategySunburst extends SvgStrategy {
         this.textIndicator = new TextIndicator();
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         this.container.translate(
             this.config.get('width') / 2,
             this.config.get('height') / 2

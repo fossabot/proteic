@@ -9,7 +9,7 @@
   "jsnext:main": "index",
   "scripts": {
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "npm run lint  && karma start -c karma.conf.js",
+    "test": "karma start -c karma.conf.js",
     "prebuild": "rimraf dist/*",
     "build": "webpack --config webpack.production.config.js && node-sass scss/themes/default/proteic.scss dist/proteic.css --output-style compressed && node-sass scss/themes/lighter/lighter.scss dist/lighter.css --output-style compressed",
     "docs": "esdoc -c esdoc.json",

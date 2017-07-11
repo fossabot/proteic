@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import SvgStrategy from '../base/SvgStrategy';
 import Legend from '../components/Legend';
 import SectorSet from '../components/SectorSet';
@@ -12,7 +13,7 @@ class SvgStrategyPieChart extends SvgStrategy {
         this.sectors = new SectorSet();
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         this.container.translate(
             this.config.get('width') / 2,
             this.config.get('height') / 2

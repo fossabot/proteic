@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     Arc,
     arc,
@@ -14,7 +15,7 @@ class SectorSet extends Component {
 
     public render() { }
 
-    public update(data: [any]) {
+    public update(data: Data) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let width = this.config.get('width');
@@ -23,7 +24,7 @@ class SectorSet extends Component {
 
         let colorScale = this.config.get('colorScale');
 
-        let myPie = pie().value((d: any) => d[propertyX])(data);
+        let myPie = pie().value((d: any) => d[propertyX])(data.originalDatum);
         let myArc: Arc<any, any> = arc().innerRadius(0).outerRadius(radius);
 
         let arcs = this.svg.selectAll('g.slice').data(myPie);

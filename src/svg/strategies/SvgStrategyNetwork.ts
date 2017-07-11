@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import SvgStrategy from '../base/SvgStrategy';
@@ -15,7 +16,7 @@ class SvgStrategyNetwork extends SvgStrategy {
         super();
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         this.container.updateComponents(data);
     }
 

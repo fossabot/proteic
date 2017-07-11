@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     event,
     select,
@@ -28,7 +29,7 @@ class ZoomComponent extends Component {
         });
     }
 
-    public update(data: [any]) {
+    public update(data: Data) {
 
     }
 

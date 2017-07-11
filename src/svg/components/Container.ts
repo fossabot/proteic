@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { select, Selection, zoom } from 'd3';
 import { Observable } from 'rxjs/Observable';
 
@@ -68,7 +69,7 @@ class Container {
             .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')');
     }
 
-    public updateComponents(data: [{}], events?: Map<string, any>): void {
+    public updateComponents(data: Data, events?: Map<string, any>): void {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             component.update(data, events);
@@ -96,7 +97,7 @@ class Container {
 
     public getComponent(componentName: string): Component {
         // TODO: This fails if we have more than one instance of a given component
-        return this.components.find((c: Component) => componentName === c.constructor.name); 
+        return this.components.find((c: Component) => componentName === c.constructor.name);
     }
 }
 

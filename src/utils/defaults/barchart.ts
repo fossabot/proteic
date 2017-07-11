@@ -10,7 +10,7 @@ export const defaults: any = {
     xAxisFormat: '',
     xAxisLabel: '',
     xAxisGrid: false,
-    xTicksTextRotation: 0,
+    xTicksTextRotation: -90,
     yAxisType: 'linear',
     yAxisFormat: '',
     yAxisLabel: '',

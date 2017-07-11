@@ -18,10 +18,10 @@
   <div id='chart' style="width: 70%"></div>
 
   <script>
-    var ws = new WebSocket('ws://localhost:3000/matrix');
+    var ws = new WebSocket('wss://proteicws.herokuapp.com/matrix');
 
     var ds = new proteic.WebsocketDatasource(ws);
-    
+
     barchart = new proteic.Histogram([], {
       propertyKey: 'x',
       bins: 11

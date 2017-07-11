@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { arc, partition, stratify } from 'd3';
 import Component from './Component';
 import XRadialAxis from './XRadialAxis';
@@ -40,11 +41,11 @@ class SunburstDisk extends Component {
             path.unshift(current);
             current = current.parent;
         }
-        
+
         return path;
     }
 
-    public update(data: [any]): void {
+    public update(data: Data): void {
         let arcGen = arc()
             .startAngle((d: any) => Math.max(0, Math.min(Math.PI * 2, this.x.xRadialAxis(d.x0))))
             .endAngle((d: any) => Math.max(0, Math.min(Math.PI * 2, this.x.xRadialAxis(d.x1))))
@@ -59,7 +60,7 @@ class SunburstDisk extends Component {
         let root = stratify()
             .id((d: any) => d.id)
             .parentId((d: any) => d.parent)
-            (data);
+            (data.originalDatum);
         root.sum((d: any) => d.value);
         partition()(root);
 

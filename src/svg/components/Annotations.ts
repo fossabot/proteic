@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { max, min } from 'd3-array';
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
@@ -26,16 +27,16 @@ class Annotations extends Component {
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
-    public update(data: [any], events: Map<string, any>) {
+    public update(data: Data, events: Map<string, any>) {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
         let propertyZ = this.config.get('propertyZ');
         let y = this.y.yAxis.scale();
         let x = this.x.xAxis.scale();
-        let minX = min(data, (d) => d[propertyX]);
-        let minY = min(data, (d) => d[propertyY]);
-        let maxX = max(data, (d) => d[propertyX]);
-        let maxY = max(data, (d) => d[propertyY]);
+        let minX = data.getCalculationOnProperty('min','x');
+        let minY = data.getCalculationOnProperty('min','y');
+        let maxX = data.getCalculationOnProperty('max','x');
+        let maxY = data.getCalculationOnProperty('max','y');
         let datum = null;
 
         if (!this.annotations) {

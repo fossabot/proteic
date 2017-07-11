@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 
 import Config from '../../Config';
 import Globals from '../../Globals';
@@ -40,9 +41,9 @@ class Lineset extends Component {
             .y((d) => this.y.yAxis.scale()(d[propertyY]));
     }
 
-    public update(data: Array<any>): void {
+    public update(data: Data): void {
         let propertyKey = this.config.get('propertyKey');
-        let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
+        let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data.originalDatum);
         let series = this.linesContainer.selectAll('g.lineSeries');
         let colorScale = this.config.get('colorScale');
 
@@ -83,7 +84,7 @@ class Lineset extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
 }

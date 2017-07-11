@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { scaleSqrt } from 'd3';
 import Component from './Component';
 
@@ -17,7 +18,7 @@ class YRadialAxis extends Component {
         this._yRadialAxis = scaleSqrt().range([0, radius]);
     }
 
-    public update(data: [any]) { }
+    public update(data: Data) { }
 
     get yRadialAxis(): any {
         return this._yRadialAxis;

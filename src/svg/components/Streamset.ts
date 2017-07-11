@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 
 import {
     area,
@@ -30,7 +31,7 @@ class Streamset extends Component {
 
     public render(): void {}
 
-    public update(data: Array<any>): void {
+    public update(data: Data): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -41,8 +42,8 @@ class Streamset extends Component {
         let onLeave = this.config.get('onLeave');
         let onHover = this.config.get('onHover');
         let onClick = this.config.get('onClick');
-        let keys = map(data, (d) => d[propertyKey]).keys();
-        let data4stack = simple2stacked(data, propertyX, propertyY, propertyKey);
+        let keys = map(data.originalDatum, (d) => d[propertyKey]).keys();
+        let data4stack = simple2stacked(data.originalDatum, propertyX, propertyY, propertyKey);
         let stack = this.config.get('stack');
         let dataSeries = stack(data4stack);
 
@@ -80,7 +81,7 @@ class Streamset extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
     public transition() {

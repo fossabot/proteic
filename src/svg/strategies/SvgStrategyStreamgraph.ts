@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
@@ -27,7 +28,7 @@ class SvgStrategyStreamgraph extends SvgStrategy {
         this.streams = new Streamset(this.axes);
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         let xAxisFormat = this.config.get('xAxisFormat');
         let xAxisType = this.config.get('xAxisType');
         let yAxisFormat = this.config.get('yAxisFormat');
@@ -35,9 +36,7 @@ class SvgStrategyStreamgraph extends SvgStrategy {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
 
-        convertPropretiesToTimeFormat(data, [propertyX], xAxisFormat);
-
-        sortByField(data, propertyX);
+        sortByField(data.originalDatum, propertyX);
 
         this.container.updateComponents(data);
     }

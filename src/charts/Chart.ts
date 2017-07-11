@@ -1,3 +1,4 @@
+import { Data } from './../data/Data';
 import { select } from 'd3-selection';
 import { Observable, Subscription } from 'rxjs';
 import Config from '../Config';
@@ -159,7 +160,11 @@ abstract class Chart {
 
     public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
         // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
-        this.context.draw(copy(data), this.events);
+        let d = new Data(copy(data), this.config);
+        d.performCalculations();
+        this.context.draw(d, this.events);
+
+        //this.context.draw(copy(data), this.events);
         this.data = data;
     }
 

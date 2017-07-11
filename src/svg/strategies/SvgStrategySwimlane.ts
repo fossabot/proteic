@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import { sortByField } from '../../utils/data/sorting';
 import { convertPropretiesToTimeFormat } from '../../utils/data/transforming';
@@ -26,18 +27,13 @@ class SvgStrategySwimlane extends SvgStrategy {
         this.boxes = new TimeBoxset(this.axes);
     }
 
-    public draw(data: [{}]) {
+    public draw(data: Data) {
         let xAxisFormat = this.config.get('xAxisFormat');
         let propertyStart = this.config.get('propertyStart');
         let propertyEnd = this.config.get('propertyEnd');
         let xAxisType = this.config.get('xAxisType');
         
-        if (xAxisType === 'time') {
-            convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
-        }
-
-        sortByField(data, propertyStart);
-
+        sortByField(data.originalDatum, propertyStart);
         this.container.updateComponents(data);
     }
 

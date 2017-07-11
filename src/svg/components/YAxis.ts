@@ -1,3 +1,5 @@
+import Annotation from 'd3-svg-annotation';
+import { Data } from './../../data/Data';
 import {
     axisLeft,
     axisRight,
@@ -21,7 +23,7 @@ class YAxis extends Component {
 
     constructor(orient?: string) {
         super();
-        if (orient !== null) {
+        if (typeof orient !== 'undefined') {
             this._orient = orient;
         }
     }
@@ -62,7 +64,7 @@ class YAxis extends Component {
         this.selection = yAxisG;
     }
 
-    public update(data: any): void {
+    public update(data: Data): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
         let propertyX = this.config.get('propertyX');
@@ -73,53 +75,58 @@ class YAxis extends Component {
         let annotations = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
-        
-        let min: string = '0';
-        let max: string = '0';
+
+        let min: number = Number.MAX_SAFE_INTEGER;
+        let max: number = Number.MIN_SAFE_INTEGER;
 
         if (yAxisType === 'linear') {
             if (layoutStacked) {
-                let keys: Array<string> = map(data, (d: any) => d[propertyKey]).keys();
+                let keys: Array<string> = map(data.originalDatum, (d: any) => d[propertyKey]).keys();
                 let stack = this.config.get('stack');
-                let stackedData = stack.keys(keys)(simple2stacked(data, propertyX, propertyY, propertyKey));
-                min = (d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0])));
-                max = (d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1])));
+                let stackedData = stack
+                    .keys(keys)(simple2stacked(data.originalDatum, propertyX, propertyY, propertyKey));
+                min = +(d3Min(stackedData, (serie: any) => d3Min(serie, (d: any) => d[0])));
+                max = +(d3Max(stackedData, (serie: any) => d3Max(serie, (d: any) => d[1])));
             } else {
-                min = (d3Min(data, (d: any) => d[propertyY]));
-                max = (d3Max(data, (d: any) => d[propertyY]));
+                min = data.getCalculationOnProperty('min', propertyY);
+                max = data.getCalculationOnProperty('max', propertyY);
             }
 
-            let minNumber = +min;
-            let maxNumber = +max;
-
-            // TODO: Refactor and move this piece of code.
+            let minNumber = min;
+            let maxNumber = max;
             if (annotations && annotations.length) {
-                let annotation = annotations[0];
-                let variable: string = annotation.variable;
-                let width: string = annotation.width;
-                let annotationArray = data.filter((d: any) => d[propertyKey] === variable);
-                if (annotationArray && annotationArray.length) {
-                    for (let a of annotationArray) {
-                        if (a[propertyY] - a[width] < minNumber) {
-                            minNumber = a[propertyY] - a[width];
-                        }
-                        if (a[propertyY] + a[width] > maxNumber) {
-                            maxNumber = a[propertyY] + a[width];
+                let bandAnnotations = annotations.filter((a: Annotation) => new String(a.type) === 'band');
+
+                for (let annotation of bandAnnotations) {
+                    let variable: string = annotation.variable;
+                    let width: any = annotation.width;
+                    let annotationArray = data.originalDatum.filter((d: any) => d[propertyKey] === variable);
+
+                    if (annotationArray && annotationArray.length) {
+                        for (let a of annotationArray) {
+                            let widthValue = typeof width === 'string' ? a[width] : width;
+
+                            if (a[propertyY] - widthValue < minNumber) {
+                                minNumber = a[propertyY] - widthValue;
+                            }
+                            if (a[propertyY] + widthValue > maxNumber) {
+                                maxNumber = a[propertyY] + widthValue;
+                            }
                         }
                     }
                 }
             }
+
             this.updateDomainByMinMax(minNumber, maxNumber);
 
         } else if (yAxisType === 'categorical') {
-            // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
-            let keys: Array<string> = map(data, (d: any) => d[propertyY]).keys().sort();
+            let keys: Array<string> = map(data.originalDatum, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
         } else {
             console.warn('could not recognize y axis type', yAxisType);
         }
 
-        if (data !== null && data.length) {
+        if (data !== null && data.originalDatum.length) {
             this.transition();
         }
 

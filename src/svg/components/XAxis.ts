@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     Axis,
     axisBottom,
@@ -49,23 +50,26 @@ class XAxis extends Component {
             .style('font', '0.8em Montserrat, sans-serif');
     }
 
-    public update(data: [any]): void {
+    public update(data: Data): void {
         let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
 
-        // TODO: Optimize it. Currently we are looping data twice.
+        let min =
+            data.getCalculationOnProperty('min', propertyX) ||
+            data.getCalculationOnProperty('min', this.config.get('propertyStart'));
+
+        let max =
+            data.getCalculationOnProperty('max', propertyX) ||
+            data.getCalculationOnProperty('max', this.config.get('propertyEnd'));
+
         if (xAxisType === 'linear') {
-            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]);
-            let max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
             this.updateDomainByMinMax(min, Math.ceil(max));
 
         } else if (xAxisType === 'time') {
-            let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')]));
-            let max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
             this.updateDomainByMinMax(min, max);
 
         } else {
-            let keys: Array<string> = map(data, (d) => d[propertyX]).keys();
+            let keys: Array<string> = map(data.originalDatum, (d) => d[propertyX]).keys();
             this.updateDomainByKeys(keys);
         }
 
@@ -97,8 +101,8 @@ class XAxis extends Component {
                     .attr('dy', '-0.25em')
                     .style('text-anchor', 'end');
                 break;
-            default:
-                throw new Error(`Invalid rotation value (${rotation}). Just allowed: 65,-65,-90`);
+            // default:
+            //    throw new Error(`Invalid rotation value (${rotation}). Just allowed: 65,-65,-90`);
         }
     }
 

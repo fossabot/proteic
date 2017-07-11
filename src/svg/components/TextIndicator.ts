@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Component from './Component';
 
 class TextIndicator extends Component {
@@ -6,8 +7,8 @@ class TextIndicator extends Component {
         super();
     }
 
-    public update(data: [any]): void {
-        let datum = data[data.length - 1];
+    public update(data: Data): void {
+        let datum = data.originalDatum[data.originalDatum.length - 1];
 
         this.svg.select('.value')
             .text(datum.value);

@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { 
     area,
     Area,
@@ -35,9 +36,9 @@ class Areaset extends Component {
             .y1((d: any) => this.y.yAxis.scale()(d[propertyY]));
     }
 
-    public update(data: [any]) {
+    public update(data: Data) {
         let propertyKey = this.config.get('propertyKey');
-        let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
+        let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data.originalDatum);
         let areas = this.svg.selectAll(`.${Globals.SELECTOR_ELEMENT}`);
         let colorScale = this.config.get('colorScale');
         let height = this.config.get('height');

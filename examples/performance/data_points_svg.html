@@ -1,0 +1,48 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+    <title>Simple benchmark - 10k points</title>
+    <script src='../../node_modules/d3/build/d3.min.js'></script>
+    <script src='../../dist/proteic.js'></script>
+    <link rel="stylesheet" href="../../dist/proteic.css">
+</head>
+
+<body>
+    <div id='chart'></div>
+
+    <script>
+        let data = [];
+
+        let series = ['serie1', 'serie2', 'serie3'];
+
+        for (let i = 1000000; i > 0; i--) {
+            data.push({
+                x: i,
+                y: parseInt(Math.random() * 200),
+                key: 'serie1'
+            })
+        }
+
+        console.time('benchmark');
+
+        linechart = new proteic.Linechart(data, {
+            selector: '#chart',
+            areaOpacity: 0,
+            markerSize: 0,
+            markerShape: 'dot',
+            width: '100%',
+            height: 400,
+        });
+
+        linechart.draw();
+        console.timeEnd("benchmark");
+    </script>
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     select,
     Selection,
@@ -27,7 +28,7 @@ class CanvasPointset extends Component {
         this.y = y;
     }
 
-    public update(data: [any]): void {
+    public update(data: Data): void {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -83,7 +84,7 @@ class CanvasPointset extends Component {
         this.canvasCtx.clearRect(0, 0, width, height);
 
         series
-            .data(data, (d) => d[propertyKey])
+            .data(data.originalDatum, (d) => d[propertyKey])
             .enter()
             .call((s) => {
                 let self = this;

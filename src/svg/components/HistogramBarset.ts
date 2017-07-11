@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import {
     area,
     easeLinear,
@@ -42,7 +43,7 @@ class HistogramBarset extends Component {
             .style('shape-rendering', 'crispEdges');
     }
 
-    public update(data: Array<any>) {
+    public update(data: Data) {
         let propertyKey = this.config.get('propertyKey');
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
@@ -51,9 +52,9 @@ class HistogramBarset extends Component {
         let y = this.y.yAxis.scale();
         let height = this.config.get('height');
         let width = this.config.get('width');
-
-        let histogramData = data.map((d) => d[propertyX]);
-
+        let minX = data.getCalculationOnProperty('min', propertyX);
+        let maxX = data.getCalculationOnProperty('max', propertyX);
+        let histogramData = data.originalDatum.map((d) => d[propertyX]);
         let bins = histogram()
             .domain(x.domain())
             .thresholds(x.ticks(ticks))
@@ -65,8 +66,8 @@ class HistogramBarset extends Component {
         this.y.transition();
 
         this.x.updateDomainByMinMax(
-            min(data, (d) => d[propertyX]),
-            max(data, (d) => d[propertyX] + (bins[0].x1 - bins[0].x0))
+            minX,
+            maxX + (bins[0].x1 - bins[0].x0)
         );
 
         this.x.transition();
@@ -99,7 +100,7 @@ class HistogramBarset extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
     public transition() {

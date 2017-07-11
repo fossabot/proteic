@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import { Selection } from 'd3';
 import { Observable } from 'rxjs';
 import Config from '../../Config';
@@ -11,7 +12,7 @@ abstract class Component {
     protected elementExit: any;
     protected elementUpdate: any;
 
-    public abstract update(data: any, events?: Map<string, any>): void;
+    public abstract update(data: Data, events?: Map<string, any>): void;
 
     public abstract transition(): void;
 

@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import Globals from '../../Globals';
 import Component from './Component';
@@ -17,10 +18,10 @@ class Legend extends Component {
         this.svg.append('g').attr('class', 'legend');
     }
 
-    public update(data: any) {
+    public update(data: Data) {
         let propertyKey: string = this.config.get('propertyKey');
         let dataSeries = nest()
-            .key((d: any) => d[propertyKey]).entries(data);
+            .key((d: any) => d[propertyKey]).entries(data.originalDatum);
         let legend = null;
         let entries = null;
         let colorScale = this.config.get('colorScale');
@@ -30,12 +31,12 @@ class Legend extends Component {
 
         if (dataSeries.length === 1 && dataSeries[0].key === 'undefined') {
             console.warn('Not showing legend, since there is a valid key');
-            
+
             return;
         }
 
         legend = this.svg.select('.legend');
-        
+
         entries = legend.selectAll(`.legend-entry`)
             .data(dataSeries, (d: any) => d.key);
 
@@ -82,10 +83,10 @@ class Legend extends Component {
     }
 
     public clear() {
-        this.update([]);
+        this.update(Data.empty(this.config));
     }
 
-    public transition() {}
+    public transition() { }
 
     private drawTopLegendCb(legend: any) {
         legend.selectAll('.legend-cb')

@@ -1,3 +1,4 @@
+import { Data } from './../../data/Data';
 import Config from '../../Config';
 import Globals from '../../Globals';
 import { simple2Linked } from '../../utils/data/transforming';
@@ -63,7 +64,7 @@ class LinkedNodeset extends Component implements Zoomable {
 
     }
 
-    public update(data: any) {
+    public update(data: Data) {
         let nodeRadius = this.config.get('nodeRadius');
         let colorScale = this.config.get('colorScale');
         let linkWeight = this.config.get('linkWeight');
@@ -81,7 +82,7 @@ class LinkedNodeset extends Component implements Zoomable {
         let link: any = null;
         let text: any = null;
 
-        data = simple2Linked(data);
+        let linkedData = simple2Linked(data.originalDatum);
 
         this.svg.selectAll('g.links').remove();
         this.svg.selectAll('g.nodes').remove();
@@ -92,7 +93,7 @@ class LinkedNodeset extends Component implements Zoomable {
             .append('g')
             .attr('class', 'links')
             .selectAll('line')
-            .data(data.links)
+            .data(linkedData.links)
             .enter()
             .append('line')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
@@ -103,7 +104,7 @@ class LinkedNodeset extends Component implements Zoomable {
         node = this.svg.select('g.serie').append('g')
             .attr('class', 'nodes')
             .selectAll('circle')
-            .data(data.nodes)
+            .data(linkedData.nodes)
             .enter()
             .append('circle')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
@@ -128,7 +129,7 @@ class LinkedNodeset extends Component implements Zoomable {
             text = this.svg.select('g.serie').append('g')
                 .attr('class', 'labels')
                 .selectAll('text')
-                .data(data.nodes)
+                .data(linkedData.nodes)
                 .enter()
                 .append('text')
                 .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d.key)
@@ -142,11 +143,11 @@ class LinkedNodeset extends Component implements Zoomable {
                 .on('mouseover.user', this.config.get('onHover'))
                 .on('click.user', this.config.get('onClick'));
         }
-        this.simulation.nodes(data.nodes).on('tick', () => labelShow
+        this.simulation.nodes(linkedData.nodes).on('tick', () => labelShow
             ? this.tickedWithText(link, node, text)
             : this.ticked(link, node));
 
-        this.simulation.force('link').links(data.links);
+        this.simulation.force('link').links(linkedData.links);
 
     }
     private tickedWithText(link: any, node: any, text: any) {
