@@ -41,7 +41,8 @@ class ColorLegend extends Component {
             height = this.config.get('height'),
             width = this.config.get('width'),
             legendCells = this.config.get('legendCells'),
-            valuesFormat = this.config.get('valuesFormat');
+            valuesFormat = this.config.get('valuesFormat'),
+            labelsDelimiter = this.config.get('legendLabelsDelimiter');
 
         this.svg.select('.legend').remove();
         legend = this.svg.append('g').attr('class', 'legend');
@@ -59,7 +60,7 @@ class ColorLegend extends Component {
 
         let colorLegend: any = legendColor()
             .title(legendTitle)
-            .labelDelimiter('–')
+            .labelDelimiter(labelsDelimiter)
             .labelFormat(format(valuesFormat));
         if (legendCells) {
             colorLegend.cells(legendCells);
