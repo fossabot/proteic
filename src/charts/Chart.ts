@@ -149,6 +149,16 @@ abstract class Chart {
         this.context = this.injector.instantiate(SvgContext);
     }
 
+    /**
+     * Set annotations for the chart.
+     * The following annotations are supported:
+     * - Static threshold
+     * - Dynamic threshold
+     * - Dynamic error band
+     * @see {@link https://proteic.js.org/components.html#annotations|Demo}
+     * @param {*} annotations - Array of annotations to be displayed in the chart
+     * @returns {Chart} The chart object that will contain the annotations
+     */
     public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         this.annotationsConfig = annotations;
@@ -157,6 +167,12 @@ abstract class Chart {
         return this;
     }
 
+    /**
+     * Renders the chart with the optional data and events.  
+     * @param {[*]} data - 
+     * @param {Map<string, *>} events -
+     * @returns {void}
+     */
     public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
         // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
         this.context.draw(copy(data), this.events);
@@ -181,6 +197,14 @@ abstract class Chart {
         return this;
     }
 
+    /**
+     * Set an alert condition for a certain variable.
+     * @param {string} variable - Variable that will be watched.
+     * @param {Function} condition - Condition that will trigger the alarm.
+     * @param {Function} callback - Callback function to be called whent the alarm is triggered.
+     * @param {events} events - Events to be set for the alarms, e.g. an onclick event.
+     * @returns {Chart} - The chart with the set alert.
+     */
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {
         this.config.put('alertVariable', variable);
         this.config.put('alertFunction', condition);
@@ -219,15 +243,28 @@ abstract class Chart {
         this.subscriptions.clear();
     }
 
+    /**
+     * Stop the drawing loop of the chart.
+     * @returns {void}
+     */
     public stopDrawing() {
         clearInterval(this.streamingIntervalIdentifier);
     }
 
+    /**
+     * Stop the drawing loop of the chart and remove the chart from the DOM.
+     * This method calls Chart.stopDrawing().
+     * @returns {void}
+     */
     public erase() {
         this.stopDrawing();
         select(this.config.get('selector')).remove();
     }
 
+    /**
+     * Remove all data from the chart.
+     * @returns {void}
+     */
     public clear() {
         this.data = [];
         this.context.clear();
