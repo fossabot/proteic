@@ -18,7 +18,7 @@
 	<div id='chart-temporal'></div>
 
 	<script>
-        var dataArea = [
+        /*var dataArea = [
             {key:'serie1', x:1, y:5},
             {key:'serie1', x:2, y:15},
             {key:'serie1', x:3, y:35},
@@ -35,9 +35,11 @@
             {key:'serie2', x:6, y:9},
             {key:'serie2', x:4, y:12},
             {key:'serie2', x:8, y:13}
-    ];
+    ];*/
+	var dataArea = [];
 
     areaLinechart = new proteic.Linechart(dataArea, {
+		spinner: true,
         selector: '#chart',
         areaOpacity: 0.1,
         markerSize:0,

@@ -29,8 +29,8 @@
     <div id='chart'></div>
     <div id='chartGrouped'></div>
 
-	<script>        
-    var data = [
+	<script>
+    /*var data = [
       {x: 'SP', key: '- 18', y: 30},
       {x: 'SP', key: '+ 18 - 35', y: 25},
       {x: 'SP', key: '+ 35', y: 45},
@@ -42,17 +42,20 @@
       {x: 'BR', key: '- 18', y: 20},
       {x: 'BR', key: '+ 18 - 35', y: 40},
       {x: 'BR', key: '+ 35', y: 40}
-    ];
+  ];*/
+  	var data = [];
 
             //Default config uses #chart selector
     var barchart = new proteic.Barchart(data, {
       stacked: true,
       xAxisLabel: 'Countries',
       yAxisLabel: 'People (%)',
-      colorScale: proteic.Colors.category2()
+      colorScale: proteic.Colors.category2(),
+	  spinner: true
     });
+	//barchart.check();
     barchart.draw();
-    
+
     var barchartGrouped = new proteic.Barchart(data, {
       selector: '#chartGrouped',
       stacked: false,
@@ -60,7 +63,7 @@
       yAxisLabel: 'People (%)'
     });
     barchartGrouped.draw();
-            
+
   </script>
 </body>
 
