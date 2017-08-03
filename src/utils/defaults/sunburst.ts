@@ -23,5 +23,6 @@ export const defaults: any = {
     onClick(d: any) {
     },
     onUp(d: any) {
-    }
+    },
+    spinner: false
 };

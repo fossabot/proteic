@@ -16,10 +16,10 @@ import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
 
 /**
- * 
- * Chart class. This class is a high-level representation for any visualization in this library. Each new visualization 
+ *
+ * Chart class. This class is a high-level representation for any visualization in this library. Each new visualization
  * created should extend this class.
- * 
+ *
  * @abstract
  * @class Chart
  */
@@ -53,9 +53,9 @@ abstract class Chart {
     protected data: any;
 
     /**
-     * 
-     * Annotation config. 
-     * 
+     *
+     * Annotation config.
+     *
      * @private
      * @type {*}
      * @memberof Chart
@@ -66,7 +66,7 @@ abstract class Chart {
 
     /**
      * Events
-     * 
+     *
      * @private
      * @type {Map<string, any>}
      * @memberof Chart
@@ -78,7 +78,7 @@ abstract class Chart {
 
     /**
      * A map containing chart subscriptions
-     * 
+     *
      * @private
      * @type {Map<string, Subscription>}
      * @memberof Chart
@@ -87,7 +87,7 @@ abstract class Chart {
 
     /**
      * An injector that instantiate the SvgContext class and pass it the config and the strategy parameters
-     * 
+     *
      * @private
      * @type {Injector}
      * @memberof Chart
@@ -95,9 +95,9 @@ abstract class Chart {
     private injector: Injector = new Injector();
 
     /**
-     * 
+     *
      * A strategy class that takes responsability for drawing an specific visualization
-     * 
+     *
      * @private
      * @type {SvgStrategy}
      * @memberof Chart
@@ -110,7 +110,7 @@ abstract class Chart {
     private streamingIntervalIdentifier: number = null;
 
     // TODO: Inject with annotations?
-    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange'); 
+    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange');
 
     /**
      * Creates an instance of Chart.
@@ -125,19 +125,61 @@ abstract class Chart {
         this.config.put('proteicID', 'proteic-' + Date.now());
         this.injector = new Injector();
 
-        this.instantiateInjections(clazz);
+        //let spinner = this.createSpinner(data);
 
-        this.data = data;
-        this.events = new Map();
-        this.config.put('pivotVars', []);
+        //if (!spinner) {
+            this.instantiateInjections(clazz);
 
-        this.visibilityObservable.subscribe((event: any) => {
-            this.stopDrawing();
-            if (!event.hidden) {
-                this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
-            }
-        });
+            this.data = data;
+            this.events = new Map();
+            this.config.put('pivotVars', []);
+
+            this.visibilityObservable.subscribe((event: any) => {
+                this.stopDrawing();
+                if (!event.hidden) {
+                    this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+                }
+            });
+        //}
     }
+
+    /*private createSpinner(data: any) : boolean {
+        let spinner: boolean = this.config.get('spinner'),
+            selector: string = this.config.get('selector'),
+            width: number = this.config.get('width'),
+            height: number = this.config.get('height'),
+            marginLeft: number = this.config.get('marginLeft'),
+            marginRight: number = this.config.get('marginRight'),
+            marginTop: number = this.config.get('marginTop'),
+            marginBottom: number = this.config.get('marginBottom');
+
+        width += marginLeft + marginRight;
+        height += marginTop + marginBottom;
+
+        if (spinner) {
+            if (typeof data === undefined || data.length == 0) {
+                select(selector).style('position', 'relative')
+                                .style('width', `${width}px`)
+                                .style('height', `${height}px`)
+                                .append('svg:svg')
+                                .attr('preserveAspectRatio', 'xMinYMin meet')
+                                .attr('viewBox', '0 0 ' + width + ' ' + height)
+                                .attr('width', '100%')
+                                .attr('class', 'proteic')
+                                .attr('width', width)
+                                .attr('height', height)
+                                .style('position', 'absolute')
+                                .append('g')
+                                .attr('class', 'chartContainer')
+                                .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')')
+                                .append("image")
+                                .attr("xlink:href","../images/Spinner.svg")
+                                .style("width", "40%");
+                return true;
+            }
+        }
+        return false;
+    }*/
 
     private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
         this.injector.mapValue('Config', this.config);
@@ -157,8 +199,8 @@ abstract class Chart {
         return this;
     }
 
-    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) { 
-        // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
+    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
+        // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like).
         this.context.draw(copy(data), this.events);
         this.data = data;
     }
@@ -172,14 +214,20 @@ abstract class Chart {
      * @memberOf Chart
      */
     public datasource(ds: WebsocketDatasource) {
+        console.log('datasource');
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
-            (e: any) => throwError(e),
+            (e: any) => this.handleWebSocketError(e)
             // () => console.log('Completed subject')
         );
 
         this.subscriptions.set('datasource', subscription);
         return this;
+    }
+
+    private handleWebSocketError (e: any) {
+        this.keepDrawing([]);
+        throwError(e);
     }
 
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {
@@ -192,8 +240,8 @@ abstract class Chart {
 
     /**
      * Incoming data may contain mixed narrow and wide formats that will be treated appropriately.
-     * @param {Array<string>} vars 
-     * @returns 
+     * @param {Array<string>} vars
+     * @returns
      * @memberof Chart
      */
     public unpivot(vars: Array<string>) {
@@ -249,6 +297,7 @@ abstract class Chart {
     }
 
     public keepDrawing(datum: any): void {
+        console.log('keepDrawing');
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
@@ -269,6 +318,7 @@ abstract class Chart {
         ].filter((p) => p !== undefined);
 
         if (!this.streamingIntervalIdentifier) {
+            console.log('keepdrawing draw');
             this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
 

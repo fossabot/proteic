@@ -20,7 +20,7 @@ export const defaults: any = {
     marginRight: 250,
     marginBottom: 30,
     marginLeft: 70,
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     legend: true,
     legendPosition: 'right',
@@ -44,5 +44,6 @@ export const defaults: any = {
     },
     onUp(d: any) {
 
-    }
+    },
+    spinner: false
 };

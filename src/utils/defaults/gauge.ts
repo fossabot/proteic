@@ -24,5 +24,6 @@ export const defaults: any = {
     height: 250,
     ticks: 10, // ticks for y dial.
     propertyValue: 'value',
-    streamingStrategy: StreamingStrategy.REPLACE
+    streamingStrategy: StreamingStrategy.REPLACE,
+    spinner: false
 };

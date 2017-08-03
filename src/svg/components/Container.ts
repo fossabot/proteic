@@ -38,13 +38,13 @@ class Container {
 
     /**
      * Add a new component to the current SVG container.
-     * 
+     *
      * @param {Component} component A component to be added
      * @param {boolean} render If true, the component will be automatically rendered after adding it to the container
      * @returns {Container}
-     * 
+     *
      * @memberOf Container
-    
+
      */
     public add(component: Component): Container {
         this.components.push(component);
@@ -54,18 +54,19 @@ class Container {
     }
 
     /**
-     * 
-     * Initialize the svg container. 
+     *
+     * Initialize the svg container.
      * @private
      * @param {string} selector Selector where this graph will be included in
      * @param {((number | string))} width Total width of the graph
      * @param {((number | string))} height Total height of the graph
      * @param {number} marginLeft Left margin
      * @param {number} marginTop Top margin
-     * 
+     *
      * @memberOf Container
-    
+
      */
+    // called by constructor
     private initializeContainer(
         selector: string,
         width: (number | string),
@@ -73,6 +74,7 @@ class Container {
         marginLeft: number,
         marginTop: number,
     ): void {
+        //console.log('initialize container');
         this.svg = select(selector)
             .style('position', 'relative')
             .style('width', `${width}px`)
@@ -91,19 +93,38 @@ class Container {
     }
 
     /**
-     * 
+     *
      * Update all the components previously added to this container.
      * @param {[{}]} data Data necessary to update the componnets
-     * 
+     *
      * @memberOf Container
-    
+
      */
     public updateComponents(data: [{}], events?: Map<string, any>): void {
+        console.log('updateComponents');
+        this.createSpinner(data);
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
+            console.log(component);
             component.update(data, events);
             if (this.udpateWithTransition) {
                 component.transition();
+            }
+        }
+    }
+
+    private createSpinner(data: [{}]) {
+        let spinner: boolean = this.config.get('spinner');
+        console.log(this.config.get('selector'));
+        if (spinner) {
+            if (typeof data === undefined || data.length == 0) {
+                console.log('no data');
+                this.svg.selectAll("*").remove();
+                this.svg.append("image")
+                        .attr("xlink:href","../../images/Spinner.svg")
+                        .attr("position", "absolute")
+                        .attr("height","90%")
+                        .style("width", "70%");
             }
         }
     }
@@ -119,7 +140,7 @@ class Container {
     public zoom(z: any) {
         this.svg.call(zoom().scaleExtent([1 / 2, 4]).on('zoom', z));
     }
-    
+
     public getComponents(): Component[] {
         return this.components;
     }
