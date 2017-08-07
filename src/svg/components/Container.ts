@@ -33,6 +33,12 @@ class Container {
         width += marginLeft + marginRight;
         height += marginTop + marginBottom;
 
+        let imageWidth: number = width / 2,
+            imageHeight: number = height / 2;
+            
+        this.config.put('imageWidth', imageWidth);
+        this.config.put('imageHeight', imageHeight);
+
         this.initializeContainer(selector, width, height, marginLeft, marginTop);
     }
 
@@ -102,7 +108,6 @@ class Container {
     public updateComponents(data: [{}], events?: Map<string, any>): void {
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
-            console.log(component);
             component.update(data, events);
             if (this.udpateWithTransition) {
                 component.transition();

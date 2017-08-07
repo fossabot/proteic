@@ -4,6 +4,7 @@ import XYAxes from '../components/XYAxes';
 import Annotations from '../components/Annotations';
 import Config from '../../Config';
 import inject from '../../inject';
+import ErrorSet from '../components/ErrorSet';
 
 abstract class SvgStrategy {
 
@@ -28,8 +29,12 @@ abstract class SvgStrategy {
                 let axes: XYAxes = <XYAxes>this.container.getComponent(XYAxes.name);
                 this.container.add(new Annotations(axes.x, axes.y, config));
                 break;
+            case ErrorSet.name:
+                this.container.add(new ErrorSet());
+                break;
         }
     }
+
 
     public clear() {
         let components = this.container.getComponents();

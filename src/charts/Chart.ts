@@ -14,6 +14,7 @@ import SvgStrategy from '../svg/base/SvgStrategy';
 import Globals from '../Globals';
 import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
+import ErrorSet from '../svg/components/ErrorSet';
 
 /**
  *
@@ -125,9 +126,6 @@ abstract class Chart {
         this.config.put('proteicID', 'proteic-' + Date.now());
         this.injector = new Injector();
 
-        //let spinner = this.createSpinner(data);
-
-        //if (!spinner) {
             this.instantiateInjections(clazz);
 
             this.data = data;
@@ -140,46 +138,7 @@ abstract class Chart {
                     this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
                 }
             });
-        //}
     }
-
-    /*private createSpinner(data: any) : boolean {
-        let spinner: boolean = this.config.get('spinner'),
-            selector: string = this.config.get('selector'),
-            width: number = this.config.get('width'),
-            height: number = this.config.get('height'),
-            marginLeft: number = this.config.get('marginLeft'),
-            marginRight: number = this.config.get('marginRight'),
-            marginTop: number = this.config.get('marginTop'),
-            marginBottom: number = this.config.get('marginBottom');
-
-        width += marginLeft + marginRight;
-        height += marginTop + marginBottom;
-
-        if (spinner) {
-            if (typeof data === undefined || data.length == 0) {
-                select(selector).style('position', 'relative')
-                                .style('width', `${width}px`)
-                                .style('height', `${height}px`)
-                                .append('svg:svg')
-                                .attr('preserveAspectRatio', 'xMinYMin meet')
-                                .attr('viewBox', '0 0 ' + width + ' ' + height)
-                                .attr('width', '100%')
-                                .attr('class', 'proteic')
-                                .attr('width', width)
-                                .attr('height', height)
-                                .style('position', 'absolute')
-                                .append('g')
-                                .attr('class', 'chartContainer')
-                                .attr('transform', 'translate(' + marginLeft + ',' + marginTop + ')')
-                                .append("image")
-                                .attr("xlink:href","../images/Spinner.svg")
-                                .style("width", "40%");
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
         this.injector.mapValue('Config', this.config);
@@ -214,10 +173,9 @@ abstract class Chart {
      * @memberOf Chart
      */
     public datasource(ds: WebsocketDatasource) {
-        console.log('datasource');
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
-            (e: any) => this.handleWebSocketError(e)
+            (e: any) => this.handleWebSocketError(e),
             // () => console.log('Completed subject')
         );
 
@@ -226,7 +184,7 @@ abstract class Chart {
     }
 
     private handleWebSocketError (e: any) {
-        this.keepDrawing([]);
+        this.strategy.addComponent(ErrorSet,this.config);
         throwError(e);
     }
 
@@ -297,7 +255,6 @@ abstract class Chart {
     }
 
     public keepDrawing(datum: any): void {
-        console.log('keepDrawing');
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements = this.data.length,
@@ -318,7 +275,6 @@ abstract class Chart {
         ].filter((p) => p !== undefined);
 
         if (!this.streamingIntervalIdentifier) {
-            console.log('keepdrawing draw');
             this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
 

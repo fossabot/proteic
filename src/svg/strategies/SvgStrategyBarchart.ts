@@ -1,6 +1,7 @@
 import XYAxes from '../components/XYAxes';
 import Barset from '../components/Barset';
 import Legend from '../components/Legend';
+import Spinner from '../components/Spinner';
 
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -9,9 +10,9 @@ import { convertByXYFormat } from '../../utils/data/transforming';
 
 class SvgStrategyBarchart extends SvgStrategy {
     /**
-     * 
+     *
      * XY Axes. Horizontal and vertical references
-     * 
+     *
      * @private
      * @type {XYAxes}
      * @memberOf SvgStrategyBarchart
@@ -19,18 +20,19 @@ class SvgStrategyBarchart extends SvgStrategy {
     private axes: XYAxes;
 
     /**
-     * 
+     *
      * Set of bars. The numbers of bars depends on data. Every draw() call lines are automatically updated.
      * @private
      * @type {Lineset}
      * @memberOf SvgStrategyBarchart
-    
+
      */
     private bars: Barset;
 
 
     private legend: Legend;
 
+    private spinner: Spinner;
 
     constructor() {
         super();
@@ -46,21 +48,27 @@ class SvgStrategyBarchart extends SvgStrategy {
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY');
 
-        convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
-        sortByField(data, propertyX);
+            convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
+            sortByField(data, propertyX);
 
-        this.container.updateComponents(data);
+            this.container.updateComponents(data);
     }
 
-
     public initialize(): void {
-        super.initialize();
-        let legend = this.config.get('legend');
+        super.initialize(); //assign container instance
+        let legend = this.config.get('legend'),
+            spinner = this.config.get('spinner');
+
         this.container.add(this.axes).add(this.bars);
 
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
+        }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
         }
     }
 }
