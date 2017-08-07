@@ -74,7 +74,6 @@ class Container {
         marginLeft: number,
         marginTop: number,
     ): void {
-        //console.log('initialize container');
         this.svg = select(selector)
             .style('position', 'relative')
             .style('width', `${width}px`)
@@ -101,30 +100,12 @@ class Container {
 
      */
     public updateComponents(data: [{}], events?: Map<string, any>): void {
-        console.log('updateComponents');
-        this.createSpinner(data);
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             console.log(component);
             component.update(data, events);
             if (this.udpateWithTransition) {
                 component.transition();
-            }
-        }
-    }
-
-    private createSpinner(data: [{}]) {
-        let spinner: boolean = this.config.get('spinner');
-        console.log(this.config.get('selector'));
-        if (spinner) {
-            if (typeof data === undefined || data.length == 0) {
-                console.log('no data');
-                this.svg.selectAll("*").remove();
-                this.svg.append("image")
-                        .attr("xlink:href","../../images/Spinner.svg")
-                        .attr("position", "absolute")
-                        .attr("height","90%")
-                        .style("width", "70%");
             }
         }
     }
