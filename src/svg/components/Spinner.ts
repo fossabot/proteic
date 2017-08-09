@@ -15,6 +15,8 @@ class Spinner extends Component {
                 .attr('class', 'spinner')
                 .style('opacity', 1)
                 .attr('xlink:href', '../../../images/Spinner.svg')
+                .attr('width', 200)
+                .attr('height', 200)
                 .attr('transform', 'translate(' + (width - marginLeft - 200) + ',' + (height - 200) + ')');
     }
 
