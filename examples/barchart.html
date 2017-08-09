@@ -14,7 +14,6 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="../dist/lighter.css">
   <style>
-
     body {
       background-color: navy;
       display: grid;
@@ -30,30 +29,24 @@
     <div id='chartGrouped'></div>
 
 	<script>
-    /*var data = [
+    var data = [
       {x: 'SP', key: '- 18', y: 30},
       {x: 'SP', key: '+ 18 - 35', y: 25},
       {x: 'SP', key: '+ 35', y: 45},
-
       {x: 'FR', key: '- 18', y: 10},
       {x: 'FR', key: '+ 18 - 35', y: 50},
       {x: 'FR', key: '+ 35', y: 40},
-
       {x: 'BR', key: '- 18', y: 20},
       {x: 'BR', key: '+ 18 - 35', y: 40},
       {x: 'BR', key: '+ 35', y: 40}
-  ];*/
-  	var data = [];
-
+    ];
             //Default config uses #chart selector
     var barchart = new proteic.Barchart(data, {
       stacked: true,
       xAxisLabel: 'Countries',
       yAxisLabel: 'People (%)',
-      colorScale: proteic.Colors.category2(),
-	  spinner: true
+      colorScale: proteic.Colors.category2()
     });
-	//barchart.check();
     barchart.draw();
 
     var barchartGrouped = new proteic.Barchart(data, {
