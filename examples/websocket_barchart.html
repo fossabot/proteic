@@ -18,7 +18,6 @@
   <div id='chart'></div>
 
   <script>
-    //var ws = new WebSocket('ws://192.168.3.32:3000/barchart'); /* test for error icon */
     var ws = new WebSocket('wss://proteicws.herokuapp.com/barchart');
 
     var ds = new proteic.WebsocketDatasource(ws);
