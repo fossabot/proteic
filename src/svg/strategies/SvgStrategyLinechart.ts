@@ -6,6 +6,7 @@ import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
 import Annotations from '../components/Annotations';
 import Alerts from '../components/Alerts';
+import ConfidenceBand from '../components/ConfidenceBand';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -37,6 +38,7 @@ class SvgStrategyLinechart extends SvgStrategy {
     private spinner: Spinner;
     private annotations: Annotations;
     private alerts: Alerts;
+    private confidenceBand: ConfidenceBand;
 
     constructor() {
         super();
@@ -67,7 +69,8 @@ class SvgStrategyLinechart extends SvgStrategy {
             legend = this.config.get('legend'),
             width = this.config.get('width'),
             height = this.config.get('height'),
-            spinner = this.config.get('spinner');
+            spinner = this.config.get('spinner'),
+            confidenceBand = this.config.get('confidenceBand');
 
         this.container
             .add(this.axes)
@@ -75,8 +78,13 @@ class SvgStrategyLinechart extends SvgStrategy {
             .add(this.alerts);
 
         if (areaOpacity > 0) {
-            this.area = new Areaset(this.axes.x, this.axes.y);
-            this.container.add(this.area);
+            if (confidenceBand) {
+                this.confidenceBand = new ConfidenceBand(this.axes.x, this.axes.y);
+                this.container.add(this.confidenceBand);
+            } else {
+                this.area = new Areaset(this.axes.x, this.axes.y);
+                this.container.add(this.area);
+            }
         }
 
         if (markerSize > 0) {
@@ -93,6 +101,7 @@ class SvgStrategyLinechart extends SvgStrategy {
             this.spinner = new Spinner();
             this.container.add(this.spinner);
         }
+
     }
 }
 
