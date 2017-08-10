@@ -15,7 +15,6 @@
 
 <body>
 	<div id='chart'></div>
-	<div id='chart-temporal'></div>
 
 	<script>
         var dataArea = [
@@ -37,9 +36,8 @@
             {key:'serie2', x:8, y:13, error:1}
     ];
     confidenceLinechart = new proteic.Linechart(dataArea, {
-        confidenceBand: true,
+		confidenceBandOpacity: 0.3,
         selector: '#chart',
-        areaOpacity: 0.3,
         markerSize:10,
         markerShape: 'dot',
         width: '90%',

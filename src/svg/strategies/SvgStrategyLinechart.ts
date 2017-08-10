@@ -70,7 +70,8 @@ class SvgStrategyLinechart extends SvgStrategy {
             width = this.config.get('width'),
             height = this.config.get('height'),
             spinner = this.config.get('spinner'),
-            confidenceBand = this.config.get('confidenceBand');
+            confidenceBand = this.config.get('confidenceBand'),
+            confidenceBandOpacity = this.config.get('confidenceBandOpacity');
 
         this.container
             .add(this.axes)
@@ -78,13 +79,14 @@ class SvgStrategyLinechart extends SvgStrategy {
             .add(this.alerts);
 
         if (areaOpacity > 0) {
-            if (confidenceBand) {
-                this.confidenceBand = new ConfidenceBand(this.axes.x, this.axes.y);
-                this.container.add(this.confidenceBand);
-            } else {
-                this.area = new Areaset(this.axes.x, this.axes.y);
-                this.container.add(this.area);
-            }
+            this.area = new Areaset(this.axes.x, this.axes.y);
+            this.container.add(this.area);
+
+        }
+
+        if (confidenceBandOpacity > 0) {
+            this.confidenceBand = new ConfidenceBand(this.axes.x, this.axes.y);
+            this.container.add(this.confidenceBand);
         }
 
         if (markerSize > 0) {
