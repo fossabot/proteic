@@ -55,7 +55,7 @@ class SvgStrategyBarchart extends SvgStrategy {
     }
 
     public initialize(): void {
-        super.initialize(); //assign container instance
+        super.initialize(); 
         let legend = this.config.get('legend'),
             spinner = this.config.get('spinner');
 
