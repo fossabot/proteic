@@ -49,6 +49,6 @@ export const defaults: any = {
     spinner: false,
     confidenceBandOpacity: 0,
     confidenceModifier(confidence: number) {
-        return confidence
+        return confidence;
     }
 };

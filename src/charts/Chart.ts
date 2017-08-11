@@ -184,7 +184,7 @@ abstract class Chart {
     }
 
     private handleWebSocketError (e: any) {
-        this.strategy.addComponent(ErrorSet,this.config);
+        this.strategy.addComponent(ErrorSet, this.config);
         throwError(e);
     }
 
