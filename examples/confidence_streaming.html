@@ -47,7 +47,8 @@
                 xAxisFormat: '%Y-%m-%d %H:%M:%S',
                 maxNumberOfElements: 5855,
                 colorScale: proteic.Colors.category7(),
-                spinner: true
+                spinner: true,
+                confidenceModifier: (confidence) => 0.1 * confidence
             })
             .unpivot(['rain', 'flow'])
             .datasource(ds);

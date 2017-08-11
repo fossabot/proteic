@@ -23,7 +23,8 @@ class ConfidenceBand extends Component {
             propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             curve: CurveFactory = this.config.get('curve'),
-            propertyError = this.config.get('propertyError');
+            propertyError = this.config.get('propertyError'),
+            confidenceModifier = this.config.get('confidenceModifier');
 
         this.confidenceContainer = this.svg.append('g')
             .attr('class', 'confidenceSet');
@@ -31,8 +32,8 @@ class ConfidenceBand extends Component {
         this.areaGenerator = area()
             .curve(curve)
             .x((d: any) => this.x.xAxis.scale()(d[propertyX]))
-            .y0((d: any) => this.y.yAxis.scale()(d[propertyY] - d[propertyError]))
-            .y1((d: any) => this.y.yAxis.scale()(d[propertyY] + d[propertyError]));
+            .y0((d: any) => this.y.yAxis.scale()(d[propertyY] - confidenceModifier(d[propertyError])))
+            .y1((d: any) => this.y.yAxis.scale()(d[propertyY] + confidenceModifier(d[propertyError])));
     }
 
     public update(data: [any]) {
