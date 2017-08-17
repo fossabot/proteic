@@ -19,7 +19,8 @@ class PauseSet extends Component {
     public render() {
         let buttonPosition = this.config.get('buttonPosition') || 'bottom',
             height: number = this.config.get('height'),
-            width: number = this.config.get('width');
+            width: number = this.config.get('width'),
+            selector = this.config.get('selector');
 
         let pause = this.svg.append('g').attr('class', 'pause');
 
@@ -39,7 +40,7 @@ class PauseSet extends Component {
                 break;
         }
 
-        select('.proteic')
+        select(selector)
             .on('mouseover', function() { pause.select('.pause-button').style('opacity', 1); })
             .on('mouseout', function() { pause.select('.pause-button').style('opacity', 0); });
 
