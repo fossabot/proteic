@@ -50,5 +50,7 @@ export const defaults: any = {
     confidenceBandOpacity: 0,
     confidenceModifier(confidence: number) {
         return confidence;
-    }
+    },
+    pauseButton: false,
+    buttonPosition: 'bottom' 
 };

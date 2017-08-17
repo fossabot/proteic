@@ -42,5 +42,7 @@ export const defaults: any = {
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
     streamingStrategy: StreamingStrategy.ADD,
     canvas: false,
-    spinner: false
+    spinner: false,
+    pauseButton: false,
+    buttonPosition: 'bottom' 
 };
