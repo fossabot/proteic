@@ -21,7 +21,7 @@ class PauseSet extends Component {
             height: number = this.config.get('height'),
             width: number = this.config.get('width'),
             selector = this.config.get('selector');
-
+        console.log(height, width, selector);
         let pause = this.svg.append('g').attr('class', 'pause');
 
         pause.append('image')
@@ -55,6 +55,13 @@ class PauseSet extends Component {
     public clear() {}
 
     public transition() {}
+
+    translate(x: Number, y: Number) {
+        this.svg.select('.pause-button')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', `translate(${x}, ${y})`);
+    }
 
     private drawRightPauseButton(thisInstance: any, width: number, height: number) {
         this.svg.select('.pause-button')
