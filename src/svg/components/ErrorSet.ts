@@ -7,19 +7,20 @@ class ErrorSet extends Component {
     }
 
     public render(): void {
-        let width: number = this.config.get('imageWidth'),
-            height: number = this.config.get('imageHeight'),
+        let width: number = this.config.get('width'),
+            height: number = this.config.get('height'),
             marginLeft: number = this.config.get('marginLeft');
 
         this.svg.select('.spinner').style('opacity', 0);
-        
+
         this.svg.append('image')
                 .attr('class', 'warning')
                 .style('opacity', 1)
                 .attr('xlink:href', '../../../images/Warning.svg')
                 .attr('width', 200)
                 .attr('height', 200)
-                .attr('transform', 'translate(' + (width - marginLeft - 200) + ',' + (height - 200) + ')');
+                .attr('x', width / 2 - 100)
+                .attr('y', height / 2 - 100);
     }
 
     public update(data: [{}]) {

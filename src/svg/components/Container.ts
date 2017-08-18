@@ -32,13 +32,7 @@ class Container {
 
         width += marginLeft + marginRight;
         height += marginTop + marginBottom;
-
-        let imageWidth: number = width / 2,
-            imageHeight: number = height / 2;
-            
-        this.config.put('imageWidth', imageWidth);
-        this.config.put('imageHeight', imageHeight);
-
+        
         this.initializeContainer(selector, width, height, marginLeft, marginTop);
     }
 
