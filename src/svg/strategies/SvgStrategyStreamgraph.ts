@@ -1,6 +1,7 @@
 import XYAxes from '../components/XYAxes';
 import Legend from '../components/Legend';
 import Streamset from '../components/Streamset';
+import Spinner from '../components/Spinner';
 import PauseSet from '../components/PauseSet';
 
 import Config from '../../Config';
@@ -22,6 +23,8 @@ class SvgStrategyStreamgraph extends SvgStrategy {
     private legend: Legend;
 
     private streams: Streamset;
+
+    private spinner: Spinner;
 
     private pauseButton: PauseSet;
 
@@ -48,9 +51,8 @@ class SvgStrategyStreamgraph extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let markerSize = this.config.get('markerSize'),
-            areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend'),
+        let legend = this.config.get('legend'),
+            spinner = this.config.get('spinner'),
             pauseButton = this.config.get('pauseButton');
 
         this.container.add(this.axes).add(this.streams);
@@ -58,6 +60,11 @@ class SvgStrategyStreamgraph extends SvgStrategy {
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
+        }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
         }
 
         if (pauseButton) {

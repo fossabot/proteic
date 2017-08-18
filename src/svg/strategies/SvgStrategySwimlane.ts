@@ -1,6 +1,7 @@
 import XYAxes from '../components/XYAxes';
 import Legend from '../components/Legend';
 import TimeBoxset from '../components/Timeboxset';
+import Spinner from '../components/Spinner';
 import PauseSet from '../components/PauseSet';
 
 import Config from '../../Config';
@@ -21,6 +22,8 @@ class SvgStrategySwimlane extends SvgStrategy {
     private axes: XYAxes;
 
     private boxes: TimeBoxset;
+
+    private spinner: Spinner;
 
     private pauseButton: PauseSet;
 
@@ -50,6 +53,7 @@ class SvgStrategySwimlane extends SvgStrategy {
         super.initialize();
         let legend = this.config.get('legend'),
             colorScaleType = this.config.get('colorScaleType'),
+            spinner = this.config.get('spinner'),
             pauseButton = this.config.get('pauseButton');
 
         this.container.add(this.axes).add(this.boxes);
@@ -64,6 +68,11 @@ class SvgStrategySwimlane extends SvgStrategy {
                     break;
             }
 
+        }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
         }
 
         if (pauseButton) {

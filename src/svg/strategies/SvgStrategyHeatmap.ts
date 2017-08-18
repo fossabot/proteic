@@ -3,6 +3,7 @@ import XYAxes from '../components/XYAxes';
 import TileSet from '../components/TileSet';
 import { sortByField } from '../../utils/data/sorting';
 import ColorLegend from '../components/ColorLegend';
+import Spinner from '../components/Spinner';
 import PauseSet from '../components/PauseSet';
 
 class SvgStrategyHeatmap extends SvgStrategy {
@@ -10,6 +11,7 @@ class SvgStrategyHeatmap extends SvgStrategy {
     private axes: XYAxes;
     private tiles: TileSet;
     private legend: ColorLegend;
+    private spinner: Spinner;
     private pauseButton: PauseSet;
 
     constructor() {
@@ -31,6 +33,7 @@ class SvgStrategyHeatmap extends SvgStrategy {
 
     public initialize(): void {
         let legend = this.config.get('legend'),
+        spinner = this.config.get('spinner'),
         pauseButton = this.config.get('pauseButton');
 
         super.initialize();
@@ -39,6 +42,11 @@ class SvgStrategyHeatmap extends SvgStrategy {
         if (legend) {
             this.legend = new ColorLegend();
             this.container.add(this.legend);
+        }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
         }
 
         if (pauseButton) {

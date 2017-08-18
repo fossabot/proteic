@@ -1,6 +1,8 @@
 import XYAxes from '../components/XYAxes';
 import Pointset from '../components/Pointset';
 import Legend from '../components/Legend';
+import Spinner from '../components/Spinner';
+import PauseSet from '../components/PauseSet';
 
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -11,9 +13,9 @@ import Annotations from '../components/Annotations';
 
 class SvgStrategyScatterplot extends SvgStrategy {
     /**
-     * 
+     *
      * XY Axes. Horizontal and vertical references
-     * 
+     *
      * @private
      * @type {XYAxes}
      * @memberOf SvgStrategyScatterplot
@@ -21,9 +23,9 @@ class SvgStrategyScatterplot extends SvgStrategy {
     private axes: XYAxes;
 
     /**
-     * 
+     *
      * Set of points
-     * 
+     *
      * @private
      * @type {Pointset}
      * @memberOf SvgStrategyScatterplot
@@ -41,6 +43,8 @@ class SvgStrategyScatterplot extends SvgStrategy {
     private canvasMarkers: CanvasPointset;
     private legend: Legend;
     private annotations: any;
+    private spinner: Spinner;
+    private pauseButton: PauseSet;
 
     constructor() {
         super();
@@ -66,7 +70,9 @@ class SvgStrategyScatterplot extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let legend = this.config.get('legend');
+        let legend = this.config.get('legend'),
+        spinner = this.config.get('spinner'),
+        pauseButton = this.config.get('pauseButton');
 
         this.container.add(this.axes);
 
@@ -79,6 +85,16 @@ class SvgStrategyScatterplot extends SvgStrategy {
         if (legend) {
             this.legend = new Legend();
             this.container.add(this.legend);
+        }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
+        }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
         }
     }
 }
