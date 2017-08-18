@@ -22,6 +22,7 @@
         <div id='chart2'></div>
         <div id='chart3'></div>
         <div id='chart4'></div>
+        <div id='chart5'></div>
         <script>
     let margins = {
         top: 20,
@@ -34,7 +35,7 @@
             linechart = new proteic.Linechart([], {
                 height: 250,
                 width: '100%',
-                legendPosition: 'bottom',
+                legendPosition: 'right',
                 marginTop: margins.top,
                 marginRight: margins.right + 100,
                 marginBottom: margins.bottom,
@@ -50,7 +51,7 @@
                 colorScale: proteic.Colors.category7(),
                 spinner: true,
                 pauseButton: true,
-                buttonPosition: 'bottom'
+                buttonPosition: 'right'
             })
             .unpivot(['rain', 'flow'])
             .datasource(dsLinechart);
@@ -91,6 +92,19 @@
             }).datasource(dsSunburst);
 
             dsSunburst.start();
+
+            var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
+            var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
+
+            new proteic.Swimlane([], {
+                selector: '#chart5', height: 200, width: '100%',
+                marginRight: 100,
+                marginLeft: 70,
+                pauseButton: true,
+                buttonPosition: 'right'
+            }).datasource(dsSwimlane);
+
+            dsSwimlane.start();
         </script>
     </body>
 
