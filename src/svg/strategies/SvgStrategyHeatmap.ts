@@ -3,12 +3,14 @@ import XYAxes from '../components/XYAxes';
 import TileSet from '../components/TileSet';
 import { sortByField } from '../../utils/data/sorting';
 import ColorLegend from '../components/ColorLegend';
+import PauseSet from '../components/PauseSet';
 
 class SvgStrategyHeatmap extends SvgStrategy {
 
     private axes: XYAxes;
     private tiles: TileSet;
     private legend: ColorLegend;
+    private pauseButton: PauseSet;
 
     constructor() {
         super();
@@ -28,7 +30,8 @@ class SvgStrategyHeatmap extends SvgStrategy {
     }
 
     public initialize(): void {
-        let legend = this.config.get('legend');
+        let legend = this.config.get('legend'),
+        pauseButton = this.config.get('pauseButton');
 
         super.initialize();
         this.container.add(this.axes).add(this.tiles);
@@ -36,6 +39,11 @@ class SvgStrategyHeatmap extends SvgStrategy {
         if (legend) {
             this.legend = new ColorLegend();
             this.container.add(this.legend);
+        }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
         }
     }
 

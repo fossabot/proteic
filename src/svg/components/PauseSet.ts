@@ -17,11 +17,11 @@ class PauseSet extends Component {
     }
 
     public render() {
-        let buttonPosition = this.config.get('buttonPosition') || 'bottom',
+        let buttonPosition = this.config.get('buttonPosition'),
             height: number = this.config.get('height'),
             width: number = this.config.get('width'),
             selector = this.config.get('selector');
-        console.log(height, width, selector);
+
         let pause = this.svg.append('g').attr('class', 'pause');
 
         pause.append('image')
@@ -32,7 +32,7 @@ class PauseSet extends Component {
             .attr('pause', false);
 
         let thisInstance = this; // Assign instance to call instance's method in click event
-
+        
         switch (buttonPosition) {
             case 'right':
                 this.drawRightPauseButton(thisInstance, width, height);
@@ -65,7 +65,8 @@ class PauseSet extends Component {
 
     private drawRightPauseButton(thisInstance: any, width: number, height: number) {
         this.svg.select('.pause-button')
-            .attr('x', width + 20)
+            .attr('x', width + 10)
+            .attr('y', height - 30)
             .on('click', function() { thisInstance.toggle(); });
     }
 

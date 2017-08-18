@@ -1,6 +1,7 @@
 import XYAxes from '../components/XYAxes';
 import Legend from '../components/Legend';
 import TimeBoxset from '../components/Timeboxset';
+import PauseSet from '../components/PauseSet';
 
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -10,9 +11,9 @@ import ColorLegend from '../components/ColorLegend';
 
 class SvgStrategySwimlane extends SvgStrategy {
     /**
-     * 
+     *
      * XY Axes. Horizontal and vertical references
-     * 
+     *
      * @private
      * @type {XYAxes}
      * @memberOf SvgStrategySwimlane
@@ -20,6 +21,8 @@ class SvgStrategySwimlane extends SvgStrategy {
     private axes: XYAxes;
 
     private boxes: TimeBoxset;
+
+    private pauseButton: PauseSet;
 
     constructor() {
         super();
@@ -32,7 +35,7 @@ class SvgStrategySwimlane extends SvgStrategy {
             propertyStart = this.config.get('propertyStart'),
             propertyEnd = this.config.get('propertyEnd'),
             xAxisType = this.config.get('xAxisType');
-        
+
         if (xAxisType === 'time') {
             convertPropretiesToTimeFormat(data, [propertyStart, propertyEnd], xAxisFormat);
         }
@@ -45,23 +48,27 @@ class SvgStrategySwimlane extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let markerSize = this.config.get('markerSize'),
-            areaOpacity = this.config.get('areaOpacity'),
-            legend = this.config.get('legend'),
-            colorScaleType = this.config.get('colorScaleType');
+        let legend = this.config.get('legend'),
+            colorScaleType = this.config.get('colorScaleType'),
+            pauseButton = this.config.get('pauseButton');
 
         this.container.add(this.axes).add(this.boxes);
 
         if (legend) {
             switch (colorScaleType) {
-                case 'categorical': 
+                case 'categorical':
                     this.container.add(new Legend());
                     break;
                 case 'sequential':
                     this.container.add(new ColorLegend());
                     break;
             }
-            
+
+        }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
         }
     }
 }
