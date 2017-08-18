@@ -31,12 +31,14 @@ class PauseSet extends Component {
             .attr('height', 30)
             .attr('pause', false);
 
+        let thisInstance = this; // Assign instance to call instance's method in click event
+
         switch (buttonPosition) {
             case 'right':
-                this.drawRightPauseButton(pause, width, height);
+                this.drawRightPauseButton(thisInstance, width, height);
                 break;
             case 'bottom':
-                this.drawBottomPauseButton(pause, width, height);
+                this.drawBottomPauseButton(thisInstance, width, height);
                 break;
         }
 
@@ -46,48 +48,49 @@ class PauseSet extends Component {
 
     }
 
-    public update(data: any) {}
+    public update(data: any) {
+        // TODO
+    }
 
     public clear() {}
 
     public transition() {}
 
-    private drawRightPauseButton(pauseElement: any, width: number, height: number) {
-        pauseElement.select('.pause-button')
+    private drawRightPauseButton(thisInstance: any, width: number, height: number) {
+        this.svg.select('.pause-button')
             .attr('x', width + 20)
-            .on('click.mine', function() {
-                let pause = (select(this).attr('pause') == 'false') ? false : true;
-
-                if (!pause) {
-                    select(this)
-                        .attr('xlink:href', '../../../images/play-button.svg')
-                        .attr('pause', true);
-                } else {
-                    select(this)
-                        .attr('xlink:href', '../../../images/pause-button.svg')
-                        .attr('pause', false);
-                }
-            });
+            .on('click', function() { thisInstance.toggle(); });
     }
 
-    private drawBottomPauseButton(pauseElement: any, width: number, height: number) {
-        pauseElement.select('.pause-button')
+    private drawBottomPauseButton(thisInstance: any, width: number, height: number) {
+        this.svg.select('.pause-button')
             .attr('x', -50)
             .attr('y', height + 65)
-            .on('click', function() {
-                let pause = (select(this).attr('pause') == 'false') ? false : true;
-
-                if (!pause) {
-                    select(this)
-                        .attr('xlink:href', '../../../images/play-button.svg')
-                        .attr('pause', true);
-                } else {
-                    select(this)
-                        .attr('xlink:href', '../../../images/pause-button.svg')
-                        .attr('pause', false);
-                }
-            });
+            .on('click', function() { thisInstance.toggle(); });
     }
+
+    private toggle(): void {
+        let pause: boolean = (this.svg.select('.pause-button').attr('pause') == 'false') ? false : true;
+
+        if (!pause) {
+            this.pauseStreaming();
+        } else {
+            this.playStreaming();
+        }
+    }
+
+    private pauseStreaming(): void {
+        this.svg.select('.pause-button')
+                .attr('xlink:href', '../../../images/play-button.svg')
+                .attr('pause', true);
+    }
+
+    private playStreaming(): void {
+        this.svg.select('.pause-button')
+                .attr('xlink:href', '../../../images/pause-button.svg')
+                .attr('pause', false);
+    }
+
 }
 
 export default PauseSet;
