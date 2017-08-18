@@ -2,6 +2,7 @@ import XYAxes from '../components/XYAxes';
 import Barset from '../components/Barset';
 import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
+import PauseSet from '../components/PauseSet';
 
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -34,6 +35,8 @@ class SvgStrategyBarchart extends SvgStrategy {
 
     private spinner: Spinner;
 
+    private pauseButton: PauseSet;
+
     constructor() {
         super();
         this.axes = new XYAxes();
@@ -55,9 +58,10 @@ class SvgStrategyBarchart extends SvgStrategy {
     }
 
     public initialize(): void {
-        super.initialize(); 
+        super.initialize();
         let legend = this.config.get('legend'),
-            spinner = this.config.get('spinner');
+            spinner = this.config.get('spinner'),
+            pauseButton = this.config.get('pauseButton');
 
         this.container.add(this.axes).add(this.bars);
 
@@ -70,6 +74,12 @@ class SvgStrategyBarchart extends SvgStrategy {
             this.spinner = new Spinner();
             this.container.add(this.spinner);
         }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
+        }
+
     }
 }
 
