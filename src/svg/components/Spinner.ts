@@ -36,6 +36,13 @@ class Spinner extends Component {
     public transition() {}
 
     public clear() {}
+
+    translate(x: Number, y: Number) {
+        this.svg.select('.spinner')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', `translate(${x}, ${y})`);
+    }
 }
 
 export default Spinner;
