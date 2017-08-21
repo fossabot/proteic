@@ -16,14 +16,26 @@
 
 <body>
   <div id='chart'></div>
+  <div id='chart2'></div>
 
   <script>
     var ws = new WebSocket('ws://192.168.3.32:3000/barchart'); /* test for connection error */
-    //var ws = new WebSocket('wss://proteicws.herokuapp.com/barchart');
+    // var ws = new WebSocket('wss://proteicws.herokuapp.com/barchart');
 
     var ds = new proteic.WebsocketDatasource(ws);
 
     barchart = new proteic.Barchart([], {spinner: true}).datasource(ds);
+    ds.start();
+
+    var ws = new WebSocket('ws://192.168.3.32:3000/gauge');
+
+    var ds = new proteic.WebsocketDatasource(ws);
+    gauge = new proteic.Gauge([{ value: 50 }], {selector: '#chart2'});
+
+    gauge.draw();
+
+    gauge.datasource(ds);
+    //Start streaming
     ds.start();
   </script>
 </body>
