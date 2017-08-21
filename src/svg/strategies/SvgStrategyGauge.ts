@@ -25,7 +25,6 @@ class SvgStrategyGauge extends SvgStrategy {
     }
 
     public draw(data: [{}]) {
-        console.log('draw');
         this.container.updateComponents(data);
     }
 
