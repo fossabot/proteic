@@ -25,6 +25,7 @@ class SvgStrategyGauge extends SvgStrategy {
     }
 
     public draw(data: [{}]) {
+        console.log('draw');
         this.container.updateComponents(data);
     }
 
@@ -40,6 +41,8 @@ class SvgStrategyGauge extends SvgStrategy {
         let r = (
                 (width > height) ? height : width
             ) / 2;
+
+        this.config.put('errorImagePosition', [r - 100, r - 100]); // To config error icon position
 
         this.container.add(this.dial).add(this.dialNeedle);
 
