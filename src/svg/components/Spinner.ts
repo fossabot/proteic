@@ -18,14 +18,13 @@ class Spinner extends Component {
                 .attr('width', 200)
                 .attr('height', 200)
                 .attr('x', width / 2 - 100)
-                .attr('y', height /2 - 100);
+                .attr('y', height / 2 - 100);
     }
 
     public update(data: [{}]) {
         if (typeof data !== undefined && data.length != 0) { // data arrives
             this.svg.select('.spinner').style('opacity', 0);
-        }
-        else {
+        } else {
             if (!parseInt(this.svg.select('.spinner').style('opacity'))) {
                 this.svg.select('.spinner').style('opacity', 1);
             }
