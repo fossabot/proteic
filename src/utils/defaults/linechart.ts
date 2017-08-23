@@ -32,7 +32,7 @@ export const defaults: any = {
     propertyY: 'y',
     propertyKey: 'key',
     propertyError: 'error',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN', undefined],
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     // Events
     onDown(d: any) {
     },
@@ -52,5 +52,5 @@ export const defaults: any = {
         return confidence;
     },
     pauseButton: false,
-    buttonPosition: 'bottom' 
+    buttonPosition: 'bottom'
 };
