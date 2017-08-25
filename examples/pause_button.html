@@ -71,8 +71,9 @@
             var wsGauge = new WebSocket('wss://proteicws.herokuapp.com/gauge');
             var dsGauge = new proteic.WebsocketDatasource(wsGauge);
 
-            gauge = new proteic.Gauge([{ value: 50 }], {
+            gauge = new proteic.Gauge([{}], {
                 selector: '#chart3',
+                spinner: true,
                 pauseButton: true,
                 height: 200
             });
@@ -88,6 +89,7 @@
 
             sunburst = new proteic.Sunburst([], {
                 selector: '#chart4',
+                spinner: true,
                 pauseButton: true,
             }).datasource(dsSunburst);
 
