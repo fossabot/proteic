@@ -108,10 +108,18 @@ abstract class Chart {
     // since two different kind of 'strategies' should be allowed (SVG / Canvas)
 
 
-    private streamingIntervalIdentifier: number = null;
+    protected streamingIntervalIdentifier: number = null;
 
     // TODO: Inject with annotations?
     private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange');
+
+
+    /**
+     * Stored data when pausing
+     * @protected
+     * @memberof Chart
+     */
+    protected storedData: any[];
 
     /**
      * Creates an instance of Chart.
@@ -138,6 +146,8 @@ abstract class Chart {
                     this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
                 }
             });
+
+            this.storedData = [];
     }
 
     private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
@@ -175,8 +185,7 @@ abstract class Chart {
     public datasource(ds: WebsocketDatasource) {
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
-            (e: any) => this.handleWebSocketError(e),
-            // () => console.log('Completed subject')
+            (e: any) => this.handleWebSocketError(e)
         );
 
         this.subscriptions.set('datasource', subscription);
@@ -264,7 +273,8 @@ abstract class Chart {
             propertyKey = this.config.get('propertyKey'),
             propertyStart = this.config.get('propertyStart'),
             propertyEnd = this.config.get('propertyEnd'),
-            propertyError = this.config.get('propertyError');
+            propertyError = this.config.get('propertyError'),
+            pause: boolean = this.config.get('pause');
 
         let dataKeys = [
             propertyX,
@@ -314,9 +324,14 @@ abstract class Chart {
 
         let cleanDatum = this.cleanDatum(datum, dataKeys);
 
+        if (this.storedData.length > 0) {
+            this.data = this.storedData[this.storedData.length -1];
+        }
+
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
                 this.data = this.data.concat(cleanDatum);
+
                 break;
             case StreamingStrategy.REPLACE:
                 this.data = cleanDatum;
@@ -332,7 +347,30 @@ abstract class Chart {
             this.data = this.data.slice(position);
         }
 
+        if (pause) {
+            this.pauseDrawing();
+        } else {
+            if (this.storedData.length > 0) { // resume
+                this.resumeDrawing();
+            }
+        }
+
     }
+
+    public pauseDrawing() {
+        this.stopDrawing();
+        this.streamingIntervalIdentifier = -1;
+        this.storedData.push(this.data);
+    }
+
+    public resumeDrawing() {
+        this.storedData.push(this.data); // Store incoming data
+
+        if (this.streamingIntervalIdentifier == -1) {
+            this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.storedData.shift())), 2 * Globals.DRAW_INTERVAL);
+        }
+    }
+
 }
 
 export default Chart;

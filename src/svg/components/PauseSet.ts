@@ -32,7 +32,7 @@ class PauseSet extends Component {
             .attr('pause', false);
 
         let thisInstance = this; // Assign instance to call instance's method in click event
-        
+
         switch (buttonPosition) {
             case 'right':
                 this.drawRightPauseButton(thisInstance, width, height);
@@ -48,9 +48,7 @@ class PauseSet extends Component {
 
     }
 
-    public update(data: any) {
-        // TODO
-    }
+    public update(data: any) {}
 
     public clear() {}
 
@@ -81,22 +79,26 @@ class PauseSet extends Component {
         let pause: boolean = (this.svg.select('.pause-button').attr('pause') == 'false') ? false : true;
 
         if (!pause) {
-            this.pauseStreaming();
+            this.updatePause();
         } else {
-            this.playStreaming();
+            this.updatePlay();
         }
     }
 
-    private pauseStreaming(): void {
+    private updatePause(): void {
         this.svg.select('.pause-button')
                 .attr('xlink:href', '../../../images/play-button.svg')
                 .attr('pause', true);
+
+        this.config.put('pause', true);
     }
 
-    private playStreaming(): void {
+    private updatePlay(): void {
         this.svg.select('.pause-button')
                 .attr('xlink:href', '../../../images/pause-button.svg')
                 .attr('pause', false);
+
+        this.config.put('pause', false);
     }
 
 }

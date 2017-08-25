@@ -15,14 +15,27 @@ class Network extends Chart {
     }
 
     public keepDrawing(datum: any) {
-        let datumType = datum.constructor;
+        let datumType = datum.constructor,
+            pause: boolean = this.config.get('pause');
+
+        if (this.storedData.length > 0) {
+            this.data = this.storedData[this.storedData.length -1];
+        }
 
         if (datumType === Array) {
             this.data = this.data.concat(datum);
         } else {
             this.data.push(datum);
         }
-        this.draw(copy(this.data));
+
+        if (pause) {
+            this.pauseDrawing();
+        } else {
+            if (this.storedData.length > 0) { // resume
+                this.resumeDrawing();
+            }
+        }
+
     }
 }
 
