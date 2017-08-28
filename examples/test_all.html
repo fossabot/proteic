@@ -432,7 +432,8 @@
         selector: '#areas-ws', height: 200, width: '100%',
         marginRight: 100,
         marginLeft: 50,
-        spinner: true
+        spinner: true,
+        pauseButton: true
     }).datasource(dsStreamgraph);
 
     var bars = new proteic.Barchart(dataGrouped, {
@@ -455,7 +456,8 @@
         width: '100%',
         marginRight: 100,
         marginLeft: 50,
-        spinner: true
+        spinner: true,
+        pauseButton: true
     }).datasource(dsBarchart);
 
     //	var dsBarsStacked = new proteic.WebsocketDatasource({
@@ -470,7 +472,8 @@
         selector: '#gauge-ws', height: 200, width: '100%',
         marginRight: 100,
         marginLeft: 10,
-        spinner: true
+        spinner: true,
+        pauseButton: true
     }).datasource(dsGauge);
 
     var heatmap = new proteic.Heatmap(dataHeatmap, {
@@ -491,7 +494,8 @@
       marginLeft: 50,
       height: 200, width: '100%',
       pauseButton: true,
-      spinner: true
+      spinner: true,
+      pauseButton: true
     }).datasource(dsMatrix);
 
     var lines = new proteic.Linechart(data, {
@@ -514,7 +518,8 @@
         selector: '#lines-ws', height: 200, width: '100%',
         marginRight: 100,
         marginLeft: 50,
-        spinner: true
+        spinner: true,
+        pauseButton: true
     }).datasource(dsLinechart);
 
     new proteic.Linechart([], {
@@ -577,7 +582,8 @@
         selector: '#scatterplot-ws', height: 200, width: '100%',
         marginRight: 100,
         marginLeft: 50,
-        spinner: true
+        spinner: true,
+        pauseButton: true
     }).datasource(dsScatterplot);
 
     new proteic.Scatterplot([], {
@@ -617,7 +623,8 @@
         spinner: true,
         selector: '#sunburst-ws', height: 200, width: '100%',
         marginRight: 100,
-        marginLeft: 50
+        marginLeft: 50,
+        pauseButton: true
     }).datasource(dsSunburst);
 
     var swimlane = new proteic.Swimlane(dataLanes, {
@@ -635,7 +642,9 @@
         marginRight: 100,
         marginLeft: 70,
         pauseButton: true,
-        spinner: true
+        spinner: true,
+        pauseButton: true,
+        buttonPosition: 'right'
     }).datasource(dsSwimlane);
 
 
