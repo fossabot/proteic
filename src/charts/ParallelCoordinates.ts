@@ -1,9 +1,9 @@
 import Chart from './Chart';
 import SvgStrategyParallelCoordinates from '../svg/strategies/SvgStrategyParallelCoordinates';
-import { defaults } from '../utils/defaults/linechart';
+import { defaults } from '../utils/defaults/parallelCoordinates';
 import { copy, isValuesInObjectKeys } from '../utils/functions';
 
-class parallelCoordinates extends Chart {
+class ParallelCoordinates extends Chart {
 
     constructor(data: any, userConfig: any = {}) {
         super(
@@ -15,4 +15,4 @@ class parallelCoordinates extends Chart {
     }
 }
 
-export default parallelCoordinates;
+export default ParallelCoordinates;
