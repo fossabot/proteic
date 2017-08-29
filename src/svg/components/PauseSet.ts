@@ -17,7 +17,7 @@ class PauseSet extends Component {
     }
 
     public render() {
-        let buttonPosition = this.config.get('buttonPosition'),
+        let pauseButtonPosition = this.config.get('pauseButtonPosition'),
             height: number = this.config.get('height'),
             width: number = this.config.get('width'),
             selector = this.config.get('selector');
@@ -33,7 +33,7 @@ class PauseSet extends Component {
 
         let thisInstance = this; // Assign instance to call instance's method in click event
 
-        switch (buttonPosition) {
+        switch (pauseButtonPosition) {
             case 'right':
                 this.drawRightPauseButton(thisInstance, width, height);
                 break;

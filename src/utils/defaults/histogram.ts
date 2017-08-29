@@ -38,5 +38,5 @@ export const defaults: any = {
     },
     spinner: false,
     pauseButton: false,
-    buttonPosition: 'bottom' 
+    pauseButtonPosition: 'bottom'
 };

@@ -52,5 +52,5 @@ export const defaults: any = {
         return confidence;
     },
     pauseButton: false,
-    buttonPosition: 'bottom'
+    pauseButtonPosition: 'bottom'
 };
