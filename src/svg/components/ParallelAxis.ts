@@ -1,6 +1,6 @@
 import Component from './Component';
 
-class parallelAxis extends Component {
+class ParallelAxis extends Component {
 
     constructor() {
         super();
@@ -15,4 +15,4 @@ class parallelAxis extends Component {
     public clear() {}
 }
 
-export default parallelAxis;
+export default ParallelAxis;

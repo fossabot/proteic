@@ -1,11 +1,11 @@
 import Component from './Component';
 import Dimension from './Dimension';
-import parallelAxis from './parallelAxis';
+import ParallelAxis from './ParallelAxis';
 
-class parallelCoordinates extends Component {
+class ParallelCoordinates extends Component {
 
     private dimension: Dimension;
-    private parallelAxis: parallelAxis;
+    private parallelAxis: ParallelAxis;
 
     constructor() {
         super();
@@ -21,4 +21,4 @@ class parallelCoordinates extends Component {
 
 }
 
-export default parallelCoordinates
+export default ParallelCoordinates;
