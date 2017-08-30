@@ -325,7 +325,7 @@ abstract class Chart {
         let cleanDatum = this.cleanDatum(datum, dataKeys);
 
         if (this.storedData.length > 0) {
-            this.data = this.storedData[this.storedData.length -1];
+            this.data = this.storedData[this.storedData.length - 1];
         }
 
         switch (streamingStrategy) {

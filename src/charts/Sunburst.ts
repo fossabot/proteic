@@ -19,7 +19,7 @@ class Sunburst extends Chart {
             pause: boolean = this.config.get('pause');
 
         if (this.storedData.length > 0) {
-            this.data = this.storedData[this.storedData.length -1];
+            this.data = this.storedData[this.storedData.length - 1];
         }
 
         if (datumType === Array) {
@@ -39,7 +39,7 @@ class Sunburst extends Chart {
                 this.resumeDrawing();
             }
         }
-        
+
     }
 }
 
