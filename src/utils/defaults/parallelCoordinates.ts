@@ -10,6 +10,9 @@ export const defaults: any = {
     marginLeft: 70,
     width: '50%', // %, auto, or numeric
     height: 450,
+    legend: false,
+    legendPosition: 'right',
+    propertyKey: 'key',
     tickLabel: '',
     transitionDuration: 300,
     maxNumberOfElements: 5, // used by keepDrawing to reduce the number of elements in the current chart //TODO

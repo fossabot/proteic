@@ -15,7 +15,9 @@ class SvgStrategyParallelCoordinates extends SvgStrategy {
         this.axes = new ParallelCoordinates();
     }
 
-    public draw(data: [{}]) {}
+    public draw(data: [{}]) {
+        this.container.updateComponents(data);
+    }
 
     public initialize(): void {
         super.initialize();
