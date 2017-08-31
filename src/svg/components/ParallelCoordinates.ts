@@ -6,14 +6,18 @@ import {
     axisLeft,
     Axis,
     extent,
-    select
+    select,
+    Line,
+    line
 } from 'd3';
 
 class ParallelCoordinates extends Component {
 
-    private _parallelDimensions: any;
-    private _parallelAxes: any;
-    private _yAxes: any;
+    private _dimensionScale: any;
+    private _yScale: any;
+    private _dimensions: string[];
+    private parallelAxes: any;
+    private lineGenerator: Line<any>;
 
     constructor() {
         super();
@@ -30,48 +34,60 @@ class ParallelCoordinates extends Component {
         let propertyKey = this.config.get('propertyKey'),
             height = this.config.get('height');
 
-        let dimensions: string[] = Object.keys(data[0]).filter((dimension) => dimension != propertyKey);
+        this._dimensions = Object.keys(data[0]).filter((dimension) => dimension != propertyKey);
 
-        this.updateDomainOfDimensions(dimensions);
-        this.updateYaxesByDimensions(dimensions, data, height);
+        this.updateDomainOfDimensions();
+        this.updateYaxesByDimensions(data, height);
 
         let dimensionEntries = this.svg.selectAll('.dimension')
-                                    .data(dimensions)
+                                    .data(this._dimensions)
                                     .enter()
                                     .append('g')
                                     .attr('class', 'dimension')
-                                    .attr('transform', (d) => 'translate(' + this._parallelDimensions(d) + ')');
+                                    .attr('transform', (d) => 'translate(' + this._dimensionScale(d) + ')');
         let thisInstance = this;
         dimensionEntries.append('g')
                     .attr('class', 'axis')
                     .each(function(d) {
                         select(this)
-                            .call(thisInstance._parallelAxes.scale(thisInstance._yAxes[d]));
+                            .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
                     });
 
-                dimensionEntries.append('text')
-                        .style('text-anchor', 'middle')
-                        .style('font-size', '10px')
-                        .attr('y', -9)
-                        .text((d) => d);
+        dimensionEntries.append('text')
+                .style('text-anchor', 'middle')
+                .style('font-size', '10px')
+                .attr('y', -9)
+                .text((d) => d);
     }
 
     private initializeParallelCoordinates(width: number, height: number) {
-        this._parallelDimensions = scalePoint().range([0, width]);
-        this._parallelAxes = axisLeft(scaleLinear().range([height, 0]));
-        this._yAxes = {};
+        this._dimensionScale = scalePoint().range([0, width]);
+        this.parallelAxes = axisLeft(scaleLinear().range([height, 0]));
+        this._yScale = {};
     }
 
-    private updateYaxesByDimensions(dimensions: string[], data: [any], height: number) {
-        dimensions.map((dimension) => {
-            this._yAxes[dimension] = scaleLinear()
+    private updateYaxesByDimensions(data: [any], height: number) {
+        this._dimensions.map((dimension) => {
+            this._yScale[dimension] = scaleLinear()
                                         .domain(extent(data, (d) => +d[dimension]))
-                                        .range([height, 0])
+                                        .range([height, 0]);
         });
     }
 
-    private updateDomainOfDimensions(dimensions: string[]) {
-        this._parallelDimensions.domain(dimensions);
+    private updateDomainOfDimensions() {
+        this._dimensionScale.domain(this._dimensions);
+    }
+
+    get dimensionScale() {
+        return this._dimensionScale;
+    }
+
+    get yScale() {
+        return this._yScale;
+    }
+
+    get dimensions() {
+        return this._dimensions;
     }
 
     public transition() {}
