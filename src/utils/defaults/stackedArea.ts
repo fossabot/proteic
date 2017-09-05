@@ -23,7 +23,7 @@ export const defaults: any = {
     marginRight: 250,
     marginBottom: 130,
     marginLeft: 70,
-    width: '100%', // %, auto, or numeric 
+    width: '100%', // %, auto, or numeric
     height: 250,
     legend: true,
     legendPosition: 'right',
@@ -47,4 +47,7 @@ export const defaults: any = {
     streamingStrategy: StreamingStrategy.ADD,
 
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+    spinner: false,
+    pauseButton: false,
+    pauseButtonPosition: 'bottom'
 };

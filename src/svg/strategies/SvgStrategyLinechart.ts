@@ -3,8 +3,11 @@ import Lineset from '../components/Lineset';
 import Pointset from '../components/Pointset';
 import Areaset from '../components/Areaset';
 import Legend from '../components/Legend';
+import Spinner from '../components/Spinner';
 import Annotations from '../components/Annotations';
 import Alerts from '../components/Alerts';
+import ConfidenceBand from '../components/ConfidenceBand';
+import PauseSet from '../components/PauseSet';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -12,9 +15,9 @@ import { convertByXYFormat } from '../../utils/data/transforming';
 
 class SvgStrategyLinechart extends SvgStrategy {
     /**
-     * 
+     *
      * XY Axes. Horizontal and vertical references
-     * 
+     *
      * @private
      * @type {XYAxes}
      * @memberOf SvgStrategyLinechart
@@ -22,19 +25,22 @@ class SvgStrategyLinechart extends SvgStrategy {
     private axes: XYAxes;
 
     /**
-     * 
+     *
      * Set of lines. The numbers of lines depends on data. Every draw() call lines are automatically updated.
      * @private
      * @type {Lineset}
      * @memberOf SvgStrategyLinechart
-    
+
      */
     private lines: Lineset;
     private markers: Pointset;
     private area: Areaset;
     private legend: Legend;
+    private spinner: Spinner;
     private annotations: Annotations;
     private alerts: Alerts;
+    private confidenceBand: ConfidenceBand;
+    private pauseButton: PauseSet;
 
     constructor() {
         super();
@@ -64,16 +70,26 @@ class SvgStrategyLinechart extends SvgStrategy {
             areaOpacity = this.config.get('areaOpacity'),
             legend = this.config.get('legend'),
             width = this.config.get('width'),
-            height = this.config.get('height');
+            height = this.config.get('height'),
+            spinner = this.config.get('spinner'),
+            confidenceBand = this.config.get('confidenceBand'),
+            confidenceBandOpacity = this.config.get('confidenceBandOpacity'),
+            pauseButton = this.config.get('pauseButton');
 
         this.container
             .add(this.axes)
             .add(this.lines)
             .add(this.alerts);
-            
+
         if (areaOpacity > 0) {
             this.area = new Areaset(this.axes.x, this.axes.y);
             this.container.add(this.area);
+
+        }
+
+        if (confidenceBandOpacity > 0) {
+            this.confidenceBand = new ConfidenceBand(this.axes.x, this.axes.y);
+            this.container.add(this.confidenceBand);
         }
 
         if (markerSize > 0) {
@@ -85,6 +101,17 @@ class SvgStrategyLinechart extends SvgStrategy {
             this.legend = new Legend();
             this.container.add(this.legend);
         }
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
+        }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
+        }
+
     }
 }
 

@@ -1,0 +1,114 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+
+    <head>
+        <title>Test for Pause</title>
+        <script src='../node_modules/d3/build/d3.min.js'></script>
+        <script src='../dist/proteic.js'></script>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="../dist/proteic.css">
+    </head>
+
+    <body>
+        <div id='chart'></div>
+        <div id='chart2'></div>
+        <div id='chart3'></div>
+        <div id='chart4'></div>
+        <div id='chart5'></div>
+        <script>
+    let margins = {
+        top: 20,
+        left: 70,
+        bottom: 100,
+        right: 20
+    };
+            var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/rain');
+            var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
+            linechart = new proteic.Linechart([], {
+                height: 250,
+                width: '100%',
+                legendPosition: 'right',
+                marginTop: margins.top,
+                marginRight: margins.right + 100,
+                marginBottom: margins.bottom,
+                marginLeft: margins.left,
+                yAxisLabel: 'Amount',
+                xTicksTextRotation: -65,
+                propertyX: 'time',
+                propertyY: 'value',
+                propertyKey: 'key',
+                xAxisType: 'time',
+                xAxisFormat: '%Y-%m-%d %H:%M:%S',
+                maxNumberOfElements: 5855,
+                colorScale: proteic.Colors.category7(),
+                spinner: true,
+                pauseButton: true,
+                pauseButtonPosition: 'right'
+            })
+            .unpivot(['rain', 'flow'])
+            .datasource(dsLinechart);
+            dsLinechart.start();
+
+            var wsBarchart = new WebSocket('wss://proteicws.herokuapp.com/barchart');
+            var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
+            barchart = new proteic.Barchart([], {
+                selector: '#chart2',
+                spinner: true,
+                pauseButton: true,
+                legendPosition: 'right',
+            })
+            .datasource(dsBarchart);
+            dsBarchart.start();
+
+            var wsGauge = new WebSocket('wss://proteicws.herokuapp.com/gauge');
+            var dsGauge = new proteic.WebsocketDatasource(wsGauge);
+
+            gauge = new proteic.Gauge([{}], {
+                selector: '#chart3',
+                spinner: true,
+                pauseButton: true,
+                height: 200
+            });
+
+            gauge.draw();
+
+            gauge.datasource(dsGauge);
+            //Start streaming
+            dsGauge.start();
+
+            var wsSunburst = new WebSocket('wss://proteicws.herokuapp.com/sunburst');
+            var dsSunburst = new proteic.WebsocketDatasource(wsSunburst);
+
+            sunburst = new proteic.Sunburst([], {
+                selector: '#chart4',
+                spinner: true,
+                pauseButton: true,
+            }).datasource(dsSunburst);
+
+            dsSunburst.start();
+
+            var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
+            var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
+
+            new proteic.Swimlane([], {
+                spinner: true,
+                selector: '#chart5', height: 200, width: '100%',
+                marginRight: 100,
+                marginLeft: 70,
+                pauseButton: true,
+                pauseButtonPosition: 'right'
+            }).datasource(dsSwimlane);
+
+            dsSwimlane.start();
+        </script>
+    </body>
+
+</html>

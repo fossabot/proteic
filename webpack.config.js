@@ -14,6 +14,9 @@ module.exports = {
         filename: 'dist/proteic.js',
         library: 'proteic'
     },
+    externals:{
+        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+    },
     devServer: {
         contentBase: path.join(__dirname, '.'),
         inline: true

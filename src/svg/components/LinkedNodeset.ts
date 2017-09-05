@@ -169,8 +169,8 @@ class LinkedNodeset extends Component implements Zoomable {
             .attr('cy', (d: any) => d.y);
     }
 
-    public zoom(event: D3ZoomEvent<any, any>) {
-        let transform: any = event.transform;
+    public zoom(zoomEvent: D3ZoomEvent<any, any>) {
+        let transform: any = zoomEvent.transform;
 
         this.svg.selectAll('.nodes circle').attr('transform', transform);
         this.svg.selectAll('.links line').attr('transform', transform);

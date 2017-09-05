@@ -21,7 +21,12 @@ class StackedArea extends Chart {
                 this.config.get('propertyX'),
                 this.config.get('propertyY'),
                 this.config.get('propertyKey')
-            ];
+            ],
+            pause: boolean = this.config.get('pause');
+
+        if (this.storedData.length > 0) {
+            this.data = this.storedData[this.storedData.length - 1];
+        }
 
         if (datumType === Array) {
             let filteredDatum = datum.filter(isValuesInObjectKeys(nullValues, keys));
@@ -29,7 +34,17 @@ class StackedArea extends Chart {
         } else {
             this.data.push(datum);
         }
-        this.draw(copy(this.data));
+
+        if (pause) {
+            this.pauseDrawing();
+        } else {
+            if (this.storedData.length > 0) { // resume
+                this.resumeDrawing();
+            } else {
+                this.draw(copy(this.data));
+            }
+        }
+
     }
 }
 

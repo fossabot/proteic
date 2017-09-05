@@ -31,7 +31,8 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN', undefined],
+    propertyError: 'error',
+    nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     // Events
     onDown(d: any) {
     },
@@ -45,4 +46,11 @@ export const defaults: any = {
     },
     streamingStrategy: StreamingStrategy.ADD,
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
+    spinner: false,
+    confidenceBandOpacity: 0,
+    confidenceModifier(confidence: number) {
+        return confidence;
+    },
+    pauseButton: false,
+    pauseButtonPosition: 'bottom'
 };

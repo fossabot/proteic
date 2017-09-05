@@ -18,14 +18,10 @@
   <div id='chart'></div>
 
   <script>
-    var ds = new proteic.WebsocketDatasource({
-      endpoint: 'ws://192.168.3.32:3000/barchart'
-    });
-
-    var ws = new WebSocket('ws://192.168.3.32:3000/barchart');
+    var ws = new WebSocket('wss://proteicws.herokuapp.com/barchart');
 
     var ds = new proteic.WebsocketDatasource(ws);
-    
+
     barchart = new proteic.Barchart([]).datasource(ds);
     ds.start();
   </script>

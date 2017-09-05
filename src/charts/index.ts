@@ -49,3 +49,7 @@ export {
 export {
     default as PieChart
 } from './PieChart';
+
+export {
+    default as ParallelCoordinates
+} from './ParallelCoordinates';
