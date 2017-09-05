@@ -1,7 +1,7 @@
 import Component from './Component';
 import Globals from '../../Globals';
 import {
-    stack,
+    stack as d3Stack,
     map,
     scaleLinear,
     scaleBand,

@@ -143,7 +143,10 @@ abstract class Chart {
             this.visibilityObservable.subscribe((event: any) => {
                 this.stopDrawing();
                 if (!event.hidden) {
-                    this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+                    this.streamingIntervalIdentifier = setInterval(
+                        () => this.draw(copy(this.data)), 
+                        Globals.DRAW_INTERVAL
+                    );
                 }
             });
 
@@ -367,7 +370,10 @@ abstract class Chart {
         this.storedData.push(this.data); // Store incoming data
 
         if (this.streamingIntervalIdentifier == -1) {
-            this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.storedData.shift())), 2 * Globals.DRAW_INTERVAL);
+            this.streamingIntervalIdentifier = setInterval(
+                () => this.draw(copy(this.storedData.shift())),
+                2 * Globals.DRAW_INTERVAL
+            );
         }
     }
 
