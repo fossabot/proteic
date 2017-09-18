@@ -2,6 +2,7 @@ import SvgStrategy from '../base/SvgStrategy';
 import Config from '../../Config';
 import ParallelCoordinates from '../components/ParallelCoordinates';
 import ParallelLineset from '../components/ParallelLineset';
+import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
 import PauseSet from '../components/PauseSet';
 
@@ -25,6 +26,8 @@ class SvgStrategyParallelCoordinates extends SvgStrategy {
      */
     private lines: ParallelLineset;
 
+    private legend: Legend;
+
     private spinner: Spinner;
     private pauseButton: PauseSet;
 
@@ -40,12 +43,18 @@ class SvgStrategyParallelCoordinates extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
-        let spinner = this.config.get('spinner'),
+        let legend = this.config.get('legend'),
+            spinner = this.config.get('spinner'),
             pauseButton = this.config.get('pauseButton');
 
         this.container
             .add(this.axes)
             .add(this.lines);
+
+        if (legend) {
+            this.legend = new Legend();
+            this.container.add(this.legend);
+        }
 
         if (spinner) {
             this.spinner = new Spinner();

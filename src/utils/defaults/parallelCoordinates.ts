@@ -5,11 +5,11 @@ export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.category8(),
     marginTop: 20,
-    marginRight: 20,
-    marginBottom: 30,
+    marginRight: 250,
+    marginBottom: 130,
     marginLeft: 70,
-    width: '50%', // %, auto, or numeric
-    height: 450,
+    width: '100%', // %, auto, or numeric
+    height: 550,
     legend: false,
     legendPosition: 'right',
     propertyKey: 'key',
