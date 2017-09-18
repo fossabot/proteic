@@ -60,12 +60,6 @@ class ParallelCoordinates extends Component {
                 .style('font-size', '10px')
                 .attr('y', -9)
                 .text((d) => d);
-
-        //Set parallel axis tick font style
-        dimensionEntries.selectAll('.axis text')
-                        .style('font-family','sans-serif')
-                        .style('font-size',10)
-
     }
 
     private initializeParallelCoordinates(width: number, height: number) {

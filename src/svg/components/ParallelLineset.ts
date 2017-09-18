@@ -22,20 +22,30 @@ class ParallelLineset extends Component {
         this.svg.append('g').attr('class', 'parallelLine');
 
         this.lineGenerator = line();
+
     }
 
     public update(data: [any]) {
+        let legend = this.config.get('legend'),
+            propertyKey = this.config.get('propertyKey'),
+            colorScale = this.config.get('colorScale');
+
         let serie = this.svg.select('g.parallelLine').selectAll('g.lineSeries');
         let lines = serie.data(data);
-
+        
         this.elementEnter = lines.enter()
                             .append('g')
                             .attr('class', 'lineSeries')
+                            .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
                             .append('g')
                             .attr('class', 'foreground')
                             .append('svg:path')
                             .attr('fill', 'none')
-                            .attr('stroke', 'steelblue')
+                            .attr('stroke', (d: any, i: number) => legend == true
+                                ? colorScale(d[propertyKey])
+                                : 'steelblue'
+                            )
+                            .style('stroke-width', 1.5)
                             .attr('d', (d: any) => this.path(d))
                             .attr('class', 'line');
 
