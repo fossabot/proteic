@@ -40,10 +40,22 @@ class SvgStrategyParallelCoordinates extends SvgStrategy {
 
     public initialize(): void {
         super.initialize();
+        let spinner = this.config.get('spinner'),
+            pauseButton = this.config.get('pauseButton');
 
         this.container
             .add(this.axes)
             .add(this.lines);
+
+        if (spinner) {
+            this.spinner = new Spinner();
+            this.container.add(this.spinner);
+        }
+
+        if (pauseButton) {
+            this.pauseButton = new PauseSet();
+            this.container.add(this.pauseButton);
+        }
     }
 
 }

@@ -1,9 +1,11 @@
 import Component from './Component';
 import ParallelCoordinates from './ParallelCoordinates';
+import Globals from '../../Globals';
 import {
     map,
     Line,
-    line
+    line,
+    easeLinear
 } from 'd3';
 
 class ParallelLineset extends Component {
@@ -18,21 +20,31 @@ class ParallelLineset extends Component {
 
     public render() {
         this.svg.append('g').attr('class', 'parallelLine');
-        
+
         this.lineGenerator = line();
     }
 
     public update(data: [any]) {
-        this.svg.select('.parallelLine')
-                    .append('g')
-                    .attr('class', 'foreground')
-                    .selectAll('.foreground')
-                    .data(data)
-                    .enter().append('svg:path')
-                    .attr('fill', 'none')
-                    .attr('stroke', 'steelblue')
-                    .attr('d', (d: any) => this.path(d))
-                    .attr('class', 'line');
+        let serie = this.svg.select('g.parallelLine').selectAll('g.lineSeries');
+        let lines = serie.data(data);
+
+        this.elementEnter = lines.enter()
+                            .append('g')
+                            .attr('class', 'lineSeries')
+                            .append('g')
+                            .attr('class', 'foreground')
+                            .append('svg:path')
+                            .attr('fill', 'none')
+                            .attr('stroke', 'steelblue')
+                            .attr('d', (d: any) => this.path(d))
+                            .attr('class', 'line');
+
+        this.elementExit = lines.exit().remove();
+
+        this.elementUpdate = this.svg.selectAll('.line')
+                                    .data(data)
+                                    .attr('d', (d: any) => this.path(d));
+
     }
 
     private path(d: any) {
@@ -45,7 +57,21 @@ class ParallelLineset extends Component {
                     ));
     }
 
-    public transition() {}
+    public transition() {
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear);
+
+        this.elementEnter
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME)
+            .ease(easeLinear);
+
+        this.elementExit
+            .transition()
+            .duration(Globals.COMPONENT_ANIMATION_TIME);
+    }
 
     public clear() {}
 }
