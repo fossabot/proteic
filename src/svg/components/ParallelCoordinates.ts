@@ -58,7 +58,6 @@ class ParallelCoordinates extends Component {
         dimensionEntries.append('text')
                 .attr('class', 'yaxis-title')
                 .style('text-anchor', 'middle')
-                .style('font-size', '10px')
                 .attr('y', -9)
                 .text((d) => d);
     }
