@@ -13,8 +13,7 @@ import {
     line,
     drag,
     event,
-    min,
-    max
+    brushY
 } from 'd3';
 
 class ParallelCoordinates extends Component {
@@ -25,6 +24,7 @@ class ParallelCoordinates extends Component {
     private parallelAxes: any;
     private lineGenerator: Line<any>;
     private dragEventPositions: any;
+    private brushedExtent: any;
 
     constructor() {
         super();
@@ -45,7 +45,9 @@ class ParallelCoordinates extends Component {
 
         this.updateDomainOfDimensions();
         this.updateYaxesByDimensions(data, height);
+
         this.dragEventPositions = {};
+        this.brushedExtent = {};
 
         let thisInstance = this;    // To use instance method in selection event
 
@@ -78,6 +80,20 @@ class ParallelCoordinates extends Component {
                 .style('cursor', 'move')
                 .attr('y', -9)
                 .text((d) => d);
+
+        // TODO we will separate brush configuration later
+
+        dimensionEntries.append('g')
+                .attr('class', 'brush')
+                .each(function(d) {
+                    select(this)
+                        .call(brushY().extent([[-8, 0], [8, height]])
+                            .on('brush', (dimension: any) => thisInstance.brushed(d))
+                        );
+                })
+                .selectAll('rect')
+                .attr('x', -8)
+                .attr('width', 16);
     }
 
     private initializeParallelCoordinates(width: number, height: number) {
@@ -165,6 +181,23 @@ class ParallelCoordinates extends Component {
 
         this.svg.selectAll('.background')
                 .attr('visibility', null);
+    }
+
+    // TODO we will separate brush component later
+
+    private brushed(dimension: any) {
+        this.brushedExtent[dimension] = [this._yScale[dimension].invert(event.selection[1]),
+                                            this._yScale[dimension].invert(event.selection[0])];
+
+        let activeDimension = this._dimensions.filter((d) => (this.brushedExtent[d] == null) ? false : true),
+            thisInstance = this;
+
+        this.svg.selectAll('.foreground')
+            .attr('opacity', (d: any) => activeDimension.every((i: string) =>
+                    (thisInstance.brushedExtent[i][0] <= d[i] && thisInstance.brushedExtent[i][1] >= d[i]))
+                    ? 1
+                    : 0
+            );
     }
 
 }
