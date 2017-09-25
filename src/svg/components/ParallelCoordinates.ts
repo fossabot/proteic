@@ -1,4 +1,6 @@
 import Component from './Component';
+import Globals from '../../Globals';
+import ParallelLineset from '../components/ParallelLineset';
 import {
     map,
     scaleLinear,
@@ -8,7 +10,11 @@ import {
     extent,
     select,
     Line,
-    line
+    line,
+    drag,
+    event,
+    min,
+    max
 } from 'd3';
 
 class ParallelCoordinates extends Component {
@@ -18,6 +24,7 @@ class ParallelCoordinates extends Component {
     private _dimensions: string[];
     private parallelAxes: any;
     private lineGenerator: Line<any>;
+    private dragEventPositions: any;
 
     constructor() {
         super();
@@ -38,24 +45,37 @@ class ParallelCoordinates extends Component {
 
         this.updateDomainOfDimensions();
         this.updateYaxesByDimensions(data, height);
+        this.dragEventPositions = {};
+
+        let thisInstance = this;    // To use instance method in selection event
 
         let dimensionEntries = this.svg.selectAll('.dimension')
                                     .data(this._dimensions)
                                     .enter()
                                     .append('g')
                                     .attr('class', 'dimension')
-                                    .attr('transform', (d) => 'translate(' + this._dimensionScale(d) + ')');
-        let thisInstance = this;
+                                    .attr('transform', (d) => 'translate(' + this._dimensionScale(d) + ')')
+                                    .each(function(d) {
+                                        select(this)
+                                            .call(drag()
+                                                .on('start', (dimension) => thisInstance.startDrag(d))
+                                                .on('drag', (dimension) => thisInstance.dragging(d))
+                                                .on('end', (dimension) => thisInstance.endDrag(d, this))
+                                            );
+                                    });
+
         dimensionEntries.append('g')
                     .attr('class', 'axis')
+                    .attr('transform', 'translate( 0, 0 )')
                     .each(function(d) {
                         select(this)
                             .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
                     });
 
         dimensionEntries.append('text')
+                .attr('class', 'yaxis-title')
                 .style('text-anchor', 'middle')
-                .style('font-size', '10px')
+                .style('cursor', 'move')
                 .attr('y', -9)
                 .text((d) => d);
     }
@@ -90,9 +110,63 @@ class ParallelCoordinates extends Component {
         return this._dimensions;
     }
 
+    get draggedPosition() {
+        return this.dragEventPositions;
+    }
+
     public transition() {}
 
     public clear() {}
+
+    public dimensionPosition(dimension: any) {
+        let position = (this.dragEventPositions[dimension] == null)
+                        ? this._dimensionScale(dimension)
+                        : this.dragEventPositions[dimension];
+
+        return position;
+    }
+
+    private updateParallelLine() {
+        let parallelLineInstance = new ParallelLineset(this);
+
+        this.svg.selectAll('.foreground path')
+                .attr('d', (d: any) => parallelLineInstance.path(d));
+
+        this.svg.selectAll('.background path')
+                .attr('d', (d: any) => parallelLineInstance.path(d));
+    }
+
+    // TODO we will separate drag component later
+
+    private startDrag(dimension: any) {
+        this.svg.selectAll('.background')
+                .attr('visibility', 'hidden');
+    }
+
+    private dragging(dimension: any) {
+        let width = this.config.get('width');
+
+        this.dragEventPositions[dimension] = Math.min(width, Math.max(0, event.x));
+
+        this.updateParallelLine();
+
+        this._dimensions.sort((a, b) => this.dimensionPosition(a) - this.dimensionPosition(b));
+        this.updateDomainOfDimensions();
+        this.svg.selectAll('.dimension')
+                .attr('transform', (d) => 'translate(' + this.dimensionPosition(d) + ')');
+    }
+
+    private endDrag(dimension: any, element: any) {
+        delete this.dragEventPositions[dimension];
+
+        element.setAttribute('transform', 'translate(' + this._dimensionScale(dimension) + ')');
+
+        this.updateParallelLine();
+
+        this.svg.selectAll('.background')
+                .attr('visibility', null);
+    }
+
 }
 
 export default ParallelCoordinates;

@@ -54,6 +54,7 @@
                         <li><a href="#network">Network</a></li>
                         <li><a href="#sunburst">Sunburst</a></li>
                         <li><a href="#swimlane">Swimlane</a></li>
+                        <li><a href="#parallelcoordinates">Parallel Coordinates</a></li>
                     </ul>
                 </div>
             </nav>
@@ -203,6 +204,18 @@
             </div>
             <div class="column">
                 <div id='swimlane-ws'></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="title is-2">Parallel Coordinates</h2>
+        <div class="columns">
+            <div class="column">
+                <div id='parallelcoordinates'></div>
+            </div>
+            <div class="column">
+                <div id='parallelcoordinates-ws'></div>
             </div>
         </div>
     </section>
@@ -384,12 +397,39 @@
     {"class": "link", "source": "Favourite", "target": "Fameuil", "weight": 3},
     {"class": "link", "source": "Favourite", "target": "Blacheville", "weight": 4},
     {"class": "link", "source": "Dahlia", "target": "Tholomyes", "weight": 3},
-    
+
     {"class": "link", "source": "Tholomyes", "target": "Mlle.Baptistine", "weight": 3},
 
     {"class": "link", "source": "Dahlia", "target": "Listolier", "weight": 3},
     {"class": "link", "source": "Dahlia", "target": "Fameuil", "weight": 3},
     {"class": "link", "source": "Dahlia", "target": "Blacheville", "weight": 3}
+    ];
+
+    var dataParallel = [
+        {'name': 'AMC Ambassador Brougham', 'economy (mpg)': 13,
+		'cylinders': 8, 'displacement (cc)': 360, 'power (hp)': 175,
+		'weight (lb)': 3821, '0-60 mph (s)': 11, 'year': 73 },
+		{'name': 'AMC Ambassador DPL', 'economy (mpg)': 15,
+		'cylinders': 8, 'displacement (cc)': 390, 'power (hp)': 190,
+		'weight (lb)': 3850, '0-60 mph (s)': 8.5, 'year': 70 },
+		{'name': 'AMC Ambassador SST', 'economy (mpg)': 17,
+		'cylinders': 8, 'displacement (cc)': 304, 'power (hp)': 150,
+		'weight (lb)': 3672, '0-60 mph (s)': 11.5, 'year': 72 },
+		{'name': 'AMC Concord DL 6', 'economy (mpg)': 20.2,
+		'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+		'weight (lb)': 3265, '0-60 mph (s)': 18.2, 'year': 79 },
+		{'name': 'AMC Concord DL', 'economy (mpg)': 18.1,
+		'cylinders': 6, 'displacement (cc)': 258, 'power (hp)': 120,
+		'weight (lb)': 3410, '0-60 mph (s)': 15.1, 'year': 78 },
+		{'name': 'AMC Concord DL', 'economy (mpg)': 23,
+		'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 100,
+		'weight (lb)': 3035, '0-60 mph (s)': 20.5, 'year': 82 },
+		{'name': 'AMC Concord', 'economy (mpg)': 19.4,
+		'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+		'weight (lb)': 3210, '0-60 mph (s)': 17.2, 'year': 78 },
+		{'name': 'AMC Concord', 'economy (mpg)': 24.3,
+		'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 90,
+		'weight (lb)': 3003, '0-60 mph (s)': 20.1, 'year': 80 }
     ];
 
     var wsBarchart = new WebSocket('wss://proteicws.herokuapp.com/barchart');
@@ -400,7 +440,8 @@
     var wsScatterplot = new WebSocket('wss://proteicws.herokuapp.com/scatterplot');
     var wsSunburst = new WebSocket('wss://proteicws.herokuapp.com/sunburst');
     var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
-
+    var wsParallel = new WebSocket('ws://localhost:3000/parallelcoordinates');
+    // var wsParallel = new WebSoecket('wss://proteicws.herokuapp.com/parallelcoordinates');
     var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
     var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
     var dsMatrix = new proteic.WebsocketDatasource(wsMatrix);
@@ -409,6 +450,7 @@
     var dsScatterplot = new proteic.WebsocketDatasource(wsScatterplot);
     var dsSunburst = new proteic.WebsocketDatasource(wsSunburst);
     var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
+    var dsParallel = new proteic.WebsocketDatasource(wsParallel);
 
     dsBarchart.start();
     dsLinechart.start();
@@ -418,6 +460,7 @@
     dsScatterplot.start();
     dsSunburst.start();
     dsSwimlane.start();
+    dsParallel.start();
 
     var areas = new proteic.StackedArea(dataTemporal, {
         selector: '#areas',
@@ -609,7 +652,7 @@
     var swimlane = new proteic.Swimlane(dataLanes, {
         selector: '#swimlane',
         xAxisFormat: '%Y-%m-%d',
-        height: 200, 
+        height: 200,
         width: '100%',
         marginRight: 100,
         marginLeft: 70
@@ -621,6 +664,27 @@
         marginRight: 100,
         marginLeft: 70
     }).datasource(dsSwimlane);
+
+    var parallelCoordinates = new proteic.ParallelCoordinates(dataParallel, {
+        selector: '#parallelcoordinates',
+		propertyKey: 'name',
+        height: 200,
+        marginRight: 100,
+        marginLeft: 70,
+		legend: true,
+		legendPosition: 'right'
+	});
+    parallelCoordinates.draw();
+
+    new proteic.ParallelCoordinates([], {
+        selector: '#parallelcoordinates-ws',
+        propertyKey: 'name',
+        height: 200,
+        marginRight: 100,
+        marginLeft: 70,
+        spinner: true,
+		legend: true
+    }).datasource(dsParallel);
 
 
 </script>

@@ -13,6 +13,23 @@ class ParallelCoordinates extends Chart {
             defaults
         );
     }
+
+    public keepDrawing(datum: any) {
+        let pause: boolean = this.config.get('pause');
+
+        this.data = datum;
+
+        if (pause) {
+            this.pauseDrawing();
+        } else {
+            if (this.storedData.length > 0) { // resume
+                this.resumeDrawing();
+            } else {
+                this.draw(copy(this.data));
+            }
+        }
+    }
+
 }
 
 export default ParallelCoordinates;
