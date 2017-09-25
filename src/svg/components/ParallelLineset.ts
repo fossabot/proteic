@@ -16,13 +16,12 @@ class ParallelLineset extends Component {
     constructor(parallelCoordinates: ParallelCoordinates) {
         super();
         this.parallelCoordinates = parallelCoordinates;
+
+        this.lineGenerator = line();
     }
 
     public render() {
         this.svg.append('g').attr('class', 'parallelLine');
-
-        this.lineGenerator = line();
-
     }
 
     public update(data: [any]) {
@@ -66,19 +65,19 @@ class ParallelLineset extends Component {
         this.elementUpdate = this.svg.selectAll('.front-line')
                                     .data(data)
                                     .attr('d', (d: any) => this.path(d));
+
         this.elementUpdate = this.svg.selectAll('.back-line')
                                     .data(data)
                                     .attr('d', (d: any) => this.path(d));
 
     }
 
-    private path(d: any) {
+    public path(d: any) {
         let dimensions = this.parallelCoordinates.dimensions,
-            dimensionScale = this.parallelCoordinates.dimensionScale,
             yScale = this.parallelCoordinates.yScale;
 
         return this.lineGenerator(dimensions.map((dimension) =>
-                        [dimensionScale(dimension), yScale[dimension](d[dimension])]
+                        [this.parallelCoordinates.dimensionPosition(dimension), yScale[dimension](d[dimension])]
                     ));
     }
 
