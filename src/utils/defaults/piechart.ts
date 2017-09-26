@@ -27,7 +27,7 @@ export const defaults: any = {
     },
     onUp(d: any) {
     },
-    spinner: false,
+    spinner: true,
     pauseButton: false,
     pauseButtonPosition: 'bottom'
 };
