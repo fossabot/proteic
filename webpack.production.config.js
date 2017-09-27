@@ -11,6 +11,9 @@ module.exports = {
         library: 'proteic',
         libraryTarget: 'umd'
     },
+    externals:{
+        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+    },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
