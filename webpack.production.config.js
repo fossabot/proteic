@@ -9,7 +9,7 @@ module.exports = {
     output: {
         filename: 'dist/proteic.js',
         library: 'proteic',
-        libraryTarget: 'umd'
+        // libraryTarget: 'umd'
     },
     externals:{
         xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
