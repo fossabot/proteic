@@ -143,10 +143,13 @@ abstract class Chart {
             this.visibilityObservable.subscribe((event: any) => {
                 this.stopDrawing();
                 if (!event.hidden) {
-                    this.streamingIntervalIdentifier = setInterval(
-                        () => this.draw(copy(this.data)), 
-                        Globals.DRAW_INTERVAL
-                    );
+                    // Check if this is a streaming chart, so we can set the drawing interval
+                    if (this.streamingIntervalIdentifier) {
+                        this.streamingIntervalIdentifier = setInterval(
+                            () => this.draw(copy(this.data)),
+                            Globals.DRAW_INTERVAL
+                        );
+                    }
                 }
             });
 
@@ -197,7 +200,6 @@ abstract class Chart {
 
     private handleWebSocketError (e: any) {
         this.strategy.addComponent(ErrorSet, this.config);
-        throwError(e);
     }
 
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {
