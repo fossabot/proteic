@@ -25,7 +25,7 @@ export const defaults: any = {
     ticks: 10, // ticks for y dial.
     propertyValue: 'value',
     streamingStrategy: StreamingStrategy.REPLACE,
-    spinner: false,
+    spinner: true,
     pauseButton: false,
     pauseButtonPosition: 'bottom'
 };
