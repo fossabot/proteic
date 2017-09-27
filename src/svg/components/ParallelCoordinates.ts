@@ -9,8 +9,6 @@ import {
     Axis,
     extent,
     select,
-    Line,
-    line,
     drag,
     event,
     brushY
@@ -22,7 +20,6 @@ class ParallelCoordinates extends Component {
     private _yScale: any;
     private _dimensions: string[];
     private parallelAxes: any;
-    private lineGenerator: Line<any>;
     private dragEventPositions: any;
     private brushedExtent: any;
 
