@@ -187,6 +187,14 @@ class YAxis extends Component {
         return this._yAxis;
     }
 
+    get scale() {
+        return this._yAxis.scale();
+    }
+
+    get range(): [number, number] {
+        return this._yAxis.scale().range();
+    }
+
     public clear() {
         this.updateDomainByMinMax(0, 1);
         this.transition();

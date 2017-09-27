@@ -172,6 +172,14 @@ class XAxis extends Component {
         return this._xAxis;
     }
 
+    get scale() {
+        return this._xAxis.scale();
+    }
+
+    get range(): [number, number] {
+        return this._xAxis.scale().range();
+    }
+
     public clear() {
         this.updateDomainByMinMax(0, 1);
         this.transition();

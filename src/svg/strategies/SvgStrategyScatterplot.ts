@@ -3,7 +3,8 @@ import Pointset from '../components/Pointset';
 import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
 import PauseSet from '../components/PauseSet';
-
+import Brush from '../components/Brush';
+import ClipPath from '../components/ClipPath';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
 import { sortByField } from '../../utils/data/sorting';
@@ -72,7 +73,12 @@ class SvgStrategyScatterplot extends SvgStrategy {
         super.initialize();
         let legend = this.config.get('legend'),
         spinner = this.config.get('spinner'),
-        pauseButton = this.config.get('pauseButton');
+        pauseButton = this.config.get('pauseButton'),
+        width = this.config.get('width'),
+        height = this.config.get('height'),
+        marginLeft = this.config.get('marginLeft'),
+        marginRight = this.config.get('marginRight'),
+        brush = this.config.get('brush');
 
         this.container.add(this.axes);
 
@@ -95,6 +101,14 @@ class SvgStrategyScatterplot extends SvgStrategy {
         if (pauseButton) {
             this.pauseButton = new PauseSet();
             this.container.add(this.pauseButton);
+        }
+
+        if (brush) {
+            this.container
+                .add(new Brush(this.axes.x, this.axes.y, () => 
+                    this.container.transitionComponents())
+                )
+                .add(new ClipPath(width, height, 'brush'));
         }
     }
 }

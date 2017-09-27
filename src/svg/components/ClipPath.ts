@@ -8,18 +8,20 @@ class ClipPath extends Component {
 
     private width: number;
     private height: number;
+    private name: string;
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, name: string) {
         super();
         this.width = width;
         this.height = height;
+        this.name = name;
     }
 
     update(data: any): void { }
 
     public render(): void {
         this.svg.append('clipPath')
-            .attr('id', this.config.get('proteicID'))
+            .attr('id', this.config.get('proteicID') + '_' + this.name)
             .append('rect')
             .attr('width', this.width)
             .attr('height', this.height);
