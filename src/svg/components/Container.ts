@@ -109,6 +109,13 @@ class Container {
         }
     }
 
+    public transitionComponents(): void {
+        for (let i = 0; i < this.components.length; i++) {
+            let component = this.components[i];
+            component.transition();
+        }
+    }
+
     public translate(x: Number, y: Number) {
         this.svg.attr('transform', `translate(${x}, ${y})`);
     }

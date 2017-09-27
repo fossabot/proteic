@@ -44,5 +44,6 @@ export const defaults: any = {
     canvas: false,
     spinner: true,
     pauseButton: false,
-    pauseButtonPosition: 'bottom'
+    pauseButtonPosition: 'bottom',
+    brush: true,
 };

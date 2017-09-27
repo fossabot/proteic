@@ -133,11 +133,12 @@ class Pointset extends Component {
     public transition() {
         let propertyX = this.config.get('propertyX');
         let propertyY = this.config.get('propertyY');
-
-        this.elementUpdate
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME)
-            .ease(easeLinear)
+        
+        this.svg.selectAll(`.${Globals.SELECTOR_ELEMENT}`)
+            // TODO: Add transitions again
+            // .transition()
+            // .duration(Globals.COMPONENT_TRANSITION_TIME)
+            // .ease(easeLinear)
             .attr('transform', (d: any) =>
                 `translate(${this.x.xAxis.scale()(d[propertyX])}, ${this.y.yAxis.scale()(d[propertyY])})`
             );
