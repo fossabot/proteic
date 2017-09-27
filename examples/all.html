@@ -506,7 +506,11 @@
     //	dsBarsStacked.start();
 
 
-    var gauge = new proteic.Gauge([{value: 30}], {selector: '#gauge', height: 200, width: '100%'});
+    var gauge = new proteic.Gauge([{value: 30}], {
+        selector: '#gauge', height: 200, width: '100%'
+    });
+    gauge.draw();
+
     new proteic.Gauge([], {
         selector: '#gauge-ws', height: 200, width: '100%',
         marginRight: 100,
@@ -570,7 +574,7 @@
         height: 200,
         linkWeght: 0.4,
         nodeWeight: 5,
-        labelField: 'class',
+        labelField: 'class'
       });
 
       network.draw();
