@@ -440,8 +440,8 @@
     var wsScatterplot = new WebSocket('wss://proteicws.herokuapp.com/scatterplot');
     var wsSunburst = new WebSocket('wss://proteicws.herokuapp.com/sunburst');
     var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
-    var wsParallel = new WebSocket('ws://localhost:3000/parallelcoordinates');
-    // var wsParallel = new WebSoecket('wss://proteicws.herokuapp.com/parallelcoordinates');
+    var wsParallel = new WebSocket('wss://proteicws.herokuapp.com/parallelcoordinates');
+
     var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
     var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
     var dsMatrix = new proteic.WebsocketDatasource(wsMatrix);
