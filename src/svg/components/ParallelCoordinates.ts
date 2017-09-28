@@ -70,7 +70,7 @@ class ParallelCoordinates extends Component {
                         select(this)
                             .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
                     });
-        
+
         dimensionEntries.append('text')
                 .attr('class', 'yaxis-title')
                 .style('text-anchor', 'middle')
@@ -137,7 +137,7 @@ class ParallelCoordinates extends Component {
         this.svg.selectAll('.axis')
                 .transition()
                 .duration(Globals.COMPONENT_TRANSITION_TIME)
-                .each(function(d) {
+                .each(function(d: string) {
                     select(this)
                         .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
                 });
