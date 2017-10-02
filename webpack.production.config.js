@@ -15,21 +15,13 @@ module.exports = {
         xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.svg']
     },
     module: {
         loaders: [
             { test: /\.ts$/, loader: 'ts-loader' },
-            {
-			    test: /\.svg/,
-			    use: {
-			        loader: 'svg-url-loader',
-			        options: {
-					stripdeclarations: true
-				}
-			    }
-			}
-        ]
+            { test: /\.svg$/, loader: 'svg-inline-loader' },
+        ],
     },
     plugins: [
         new webpack.optimize.DedupePlugin(),
