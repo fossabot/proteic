@@ -21,7 +21,7 @@ class SunburstDisk extends Component {
      * @private
      */
     private removePaths() {
-        this.svg.selectAll('path').remove();
+        this.svg.select('.sunburstDisksSet').selectAll('*').remove();
     }
 
     /**
@@ -59,10 +59,13 @@ class SunburstDisk extends Component {
         root.sum((d: any) => d.value);
         partition()(root);
 
+        let serie = this.svg.select('.sunburstDisksSet').selectAll('g.sunburstDisks');
+        
         // Draw the paths (arcs)
-        let paths = this.svg.selectAll('path')
-            .data(root.descendants())
-            .enter().append('path')
+        let paths = serie.data(root.descendants())
+            .enter().append('g')
+            .attr('class', 'sunburstDisks')
+            .append('svg:path')
             .attr('d', (d: any) => arcGen(d))
             .style('fill', (d: any) => {
                 if (!d.parent) {
@@ -106,6 +109,7 @@ class SunburstDisk extends Component {
     }
 
     render(): void {
+        this.svg.append('g').attr('class', 'sunburstDisksSet');
     }
 
     public clear() {
