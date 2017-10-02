@@ -1,5 +1,6 @@
 import Config from '../../Config';
 import Component from './Component';
+import * as warning from '../../assets/warning.svg';
 
 class ErrorSet extends Component {
     constructor() {
@@ -11,13 +12,15 @@ class ErrorSet extends Component {
             height: number = this.config.get('height'),
             marginLeft: number = this.config.get('marginLeft'),
             errorImagePosition: number[] = this.config.get('errorImagePosition');
-            
+
         this.svg.select('.spinner').style('opacity', 0);
 
-        this.svg.append('image')
+        this.svg.append('g')
                 .attr('class', 'warning')
                 .style('opacity', 1)
-                .attr('xlink:href', '../../../images/Warning.svg')
+                .html(warning);
+
+        this.svg.select('.svg-warning')
                 .attr('width', 200)
                 .attr('height', 200)
                 .attr('x', width / 2 - 100)
@@ -38,11 +41,10 @@ class ErrorSet extends Component {
 
     public clear() {}
 
-    translate(x: Number, y: Number) {
-        this.svg.select('.warning')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', `translate(${x}, ${y})`);
+    translate(x: number, y: number) {
+        this.svg.select('.svg-warning')
+            .attr('x', x)
+            .attr('y', y);
     }
 }
 

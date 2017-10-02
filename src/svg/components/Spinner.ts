@@ -1,5 +1,6 @@
 import Config from '../../Config';
 import Component from './Component';
+import * as spinner from '../../assets/spinner.svg';
 
 class Spinner extends Component {
     constructor() {
@@ -11,10 +12,12 @@ class Spinner extends Component {
             height: number = this.config.get('height'),
             marginLeft: number = this.config.get('marginLeft');
 
-        this.svg.append('image')
+        this.svg.append('g')
                 .attr('class', 'spinner')
                 .style('opacity', 1)
-                .attr('xlink:href', '../../../images/Spinner.svg')
+                .html(spinner);
+
+        this.svg.select('.svg-spinner')
                 .attr('width', 200)
                 .attr('height', 200)
                 .attr('x', width / 2 - 100)
@@ -36,11 +39,10 @@ class Spinner extends Component {
 
     public clear() {}
 
-    translate(x: Number, y: Number) {
-        this.svg.select('.spinner')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', `translate(${x}, ${y})`);
+    translate(x: number, y: number) {
+        this.svg.select('.svg-spinner')
+            .attr('x', x)
+            .attr('y', y);
     }
 }
 
