@@ -73,11 +73,11 @@ class ParallelLineset extends Component {
     }
 
     public path(d: any) {
-        let dimensions = this.parallelCoordinates.dimensions,
-            yScale = this.parallelCoordinates.yScale;
+        let dimensions = this.parallelCoordinates.dimensions;
 
         return this.lineGenerator(dimensions.map((dimension) =>
-                        [this.parallelCoordinates.dimensionPosition(dimension), yScale[dimension](d[dimension])]
+                        [this.parallelCoordinates.dimensionPosition(dimension),
+                        this.parallelCoordinates.yPosition(dimension, d)]
                     ));
     }
 
