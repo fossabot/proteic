@@ -110,6 +110,13 @@ abstract class Chart {
 
     protected streamingIntervalIdentifier: number = null;
 
+    /**
+     * Only used to set streaming interval when chart resumes to draw at first
+     * @protected
+     * @memberof Chart
+     */
+    protected resumeIntervalIdentifier: number = null;
+
     // TODO: Inject with annotations?
     private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange');
 
@@ -228,6 +235,7 @@ abstract class Chart {
 
     public stopDrawing() {
         clearInterval(this.streamingIntervalIdentifier);
+        clearInterval(this.resumeIntervalIdentifier);
     }
 
     public erase() {
@@ -364,16 +372,18 @@ abstract class Chart {
 
     public pauseDrawing() {
         this.stopDrawing();
-        this.streamingIntervalIdentifier = -1;
+        this.resumeIntervalIdentifier = null;
         this.storedData.push(this.data);
     }
 
     public resumeDrawing() {
         this.storedData.push(this.data); // Store incoming data
 
-        if (this.streamingIntervalIdentifier == -1) {
-            this.streamingIntervalIdentifier = setInterval(
-                () => this.draw(copy(this.storedData.shift())),
+        if (!this.resumeIntervalIdentifier) {
+            this.resumeIntervalIdentifier = setInterval(
+                () => this.draw(copy((this.storedData.shift() != null)
+                                        ? this.storedData.shift()
+                                        : this.data)),
                 2 * Globals.DRAW_INTERVAL
             );
         }
