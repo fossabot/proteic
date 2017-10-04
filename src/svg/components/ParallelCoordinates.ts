@@ -78,6 +78,10 @@ class ParallelCoordinates extends Component {
                 .attr('y', -9)
                 .text((d) => d);
 
+        if (data !== null && data.length) {
+            this.transition();
+        }
+
         // TODO we will separate brush configuration later
 
         dimensionEntries.append('g')
@@ -127,7 +131,19 @@ class ParallelCoordinates extends Component {
         return this.dragEventPositions;
     }
 
-    public transition() {}
+    public transition() {
+        let thisInstance = this;
+
+        this.svg.selectAll('.axis')
+                .transition()
+                .duration(Globals.COMPONENT_TRANSITION_TIME)
+                .each(function(d: string) {
+                    select(this)
+                        .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
+                });
+
+        this.svg.selectAll('.axis path').raise();
+    }
 
     public clear() {}
 
