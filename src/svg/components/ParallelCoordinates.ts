@@ -16,10 +16,12 @@ import {
 
 class ParallelCoordinates extends Component {
 
+    private _dimensions: string[];
     private _dimensionScale: any;
     private _yScale: any;
-    private _dimensions: string[];
-    private parallelAxes: any;
+    private yAxes: any;
+    private yAxesType: any;
+
     private dragEventPositions: any;
     private brushedExtent: any;
 
@@ -40,6 +42,7 @@ class ParallelCoordinates extends Component {
 
         this._dimensions = Object.keys(data[0]).filter((dimension) => dimension != propertyKey);
 
+        this.updateYaxesType(data[0]);
         this.updateDomainOfDimensions();
         this.updateYaxesByDimensions(data, height);
 
@@ -68,7 +71,7 @@ class ParallelCoordinates extends Component {
                     .attr('transform', 'translate( 0, 0 )')
                     .each(function(d) {
                         select(this)
-                            .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
+                            .call(thisInstance.yAxes.scale(thisInstance._yScale[d]));
                     });
 
         dimensionEntries.append('text')
@@ -99,15 +102,39 @@ class ParallelCoordinates extends Component {
 
     private initializeParallelCoordinates(width: number, height: number) {
         this._dimensionScale = scalePoint().range([0, width]);
-        this.parallelAxes = axisLeft(scaleLinear().range([height, 0]));
+        this.yAxes = axisLeft(scaleLinear().range([height, 0]));
         this._yScale = {};
+        this.yAxesType = {};
+    }
+
+    private updateYaxesType(data: any) {
+        this._dimensions.map((dimension) => {
+            switch (typeof(data[dimension])) {
+                case 'number':
+                    this.yAxesType[dimension] = 'linear';
+                    break;
+                case 'string':
+                    this.yAxesType[dimension] = 'categorical';
+                    break;
+                default:
+                    throw new Error('Not allowed data type for YAxis');
+            }
+        });
     }
 
     private updateYaxesByDimensions(data: [any], height: number) {
         this._dimensions.map((dimension) => {
-            this._yScale[dimension] = scaleLinear()
-                                        .domain(extent(data, (d) => +d[dimension]))
-                                        .range([height, 0]);
+            if (this.yAxesType[dimension] == 'linear') {
+                this._yScale[dimension] = scaleLinear()
+                                            .domain(extent(data, (d) => +d[dimension]))
+                                            .range([height, 0]);
+
+            } else if (this.yAxesType[dimension] == 'categorical') {
+                let keys: string[] = map(data, (d: any) => d[dimension]).keys().sort();
+                this._yScale[dimension] = scalePoint()
+                                            .domain(keys)
+                                            .range([height, 0]);
+            }
         });
     }
 
@@ -139,7 +166,7 @@ class ParallelCoordinates extends Component {
                 .duration(Globals.COMPONENT_TRANSITION_TIME)
                 .each(function(d: string) {
                     select(this)
-                        .call(thisInstance.parallelAxes.scale(thisInstance._yScale[d]));
+                        .call(thisInstance.yAxes.scale(thisInstance._yScale[d]));
                 });
 
         this.svg.selectAll('.axis path').raise();
