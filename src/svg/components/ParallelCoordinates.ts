@@ -6,6 +6,7 @@ import {
     scaleLinear,
     scalePoint,
     axisLeft,
+    axisBottom,
     Axis,
     extent,
     select,
@@ -21,6 +22,7 @@ class ParallelCoordinates extends Component {
     private _yScale: any;
     private yAxes: any;
     private yAxesType: any;
+    private missingAxis: any;
 
     private dragEventPositions: any;
     private brushedExtent: any;
@@ -38,11 +40,26 @@ class ParallelCoordinates extends Component {
 
     public update(data: [any]) {
         let propertyKey = this.config.get('propertyKey'),
-            height = this.config.get('height');
+            height = this.config.get('height'),
+            width = this.config.get('width');
 
-        this._dimensions = Object.keys(data[0]).filter((dimension) => dimension != propertyKey);
+        let missingDimensions: boolean = false;
 
-        this.updateYaxesType(data[0]);
+        // update dimensions of data and check whether data with missing dimensions exists
+        data.map((d, i) => {
+            let dimensions = Object.keys(d).filter((dimension) => dimension != propertyKey);
+            if (dimensions.length > this._dimensions.length) {
+                if (i != 0) {
+                    missingDimensions = true;
+                }
+                this._dimensions = dimensions;
+            }
+        });
+
+        // optimize to avoid looping by getting one valid data
+        let validData = data.find(this.getValidData, this);
+
+        this.updateYaxesType(validData);
         this.updateDomainOfDimensions();
         this.updateYaxesByDimensions(data, height);
 
@@ -50,6 +67,22 @@ class ParallelCoordinates extends Component {
         this.brushedExtent = {};
 
         let thisInstance = this;    // To use instance method in selection event
+
+        if (missingDimensions) {
+            this._yScale['missing'] = height + 100;
+
+            this.svg.append('g')
+                .attr('class', 'missing-axis')
+                .attr('transform', 'translate(0,' + this._yScale['missing'] + ')')
+                .call(thisInstance.missingAxis);
+
+            this.svg.append('text')
+                .attr('class', 'xaxis-title')
+                .attr('x', width + 50)
+                .attr('y', height + 105)
+                .style('text-anchor', 'middle')
+                .text('No Value');
+        }
 
         let dimensionEntries = this.svg.selectAll('.dimension')
                                     .data(this._dimensions)
@@ -101,10 +134,21 @@ class ParallelCoordinates extends Component {
     }
 
     private initializeParallelCoordinates(width: number, height: number) {
+        this._dimensions = [];
         this._dimensionScale = scalePoint().range([0, width]);
         this.yAxes = axisLeft(scaleLinear().range([height, 0]));
         this._yScale = {};
         this.yAxesType = {};
+        this.missingAxis = axisBottom(this._dimensionScale).tickFormat((d) => '');
+    }
+
+    private getValidData(data: any) {
+        let propertyKey = this.config.get('propertyKey'),
+            dimensions = Object.keys(data).filter((dimension) => dimension != propertyKey);
+
+        if (dimensions.length == this._dimensions.length) {
+            return data;
+        }
     }
 
     private updateYaxesType(data: any) {
@@ -130,9 +174,9 @@ class ParallelCoordinates extends Component {
                                             .range([height, 0]);
 
             } else if (this.yAxesType[dimension] == 'categorical') {
-                let keys: string[] = map(data, (d: any) => d[dimension]).keys().sort();
+                let categoricalValue: string[] = map(data, (d: any) => d[dimension]).keys().sort();
                 this._yScale[dimension] = scalePoint()
-                                            .domain(keys)
+                                            .domain(categoricalValue)
                                             .range([height, 0]);
             }
         });
@@ -173,6 +217,16 @@ class ParallelCoordinates extends Component {
     }
 
     public clear() {}
+
+    public yPosition(dimension: any, data: any) {
+        let height = this.config.get('height');
+
+        let position = (data[dimension] == undefined)
+                            ? this._yScale['missing']
+                            : this._yScale[dimension](data[dimension]);
+
+        return position;
+    }
 
     public dimensionPosition(dimension: any) {
         let position = (this.dragEventPositions[dimension] == null)
