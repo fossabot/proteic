@@ -45,8 +45,7 @@ class XAxis extends Component {
             .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height + 40)
-            .text(xAxisLabel)
-            .style('font', '0.8em Montserrat, sans-serif');
+            .text(xAxisLabel);
     }
 
     public update(data: [any]): void {
