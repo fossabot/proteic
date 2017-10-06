@@ -11,9 +11,8 @@
 
 <head>
     <title>Visualization catalogue | Proteic.js</title>
-   <!-- <script src="https://d3js.org/d3.v4.min.js"></script>-->
-    <script src="https://rawgit.com/proteus-h2020/proteic/2d1d70526358dc69fbfa7989f1c4a12ff2043f91/dist/proteic.js"></script>
-    <link rel="stylesheet" href="https://rawgit.com/proteus-h2020/proteic/2d1d70526358dc69fbfa7989f1c4a12ff2043f91/dist/proteic.css">
+    <script src="https://rawgit.com/proteus-h2020/proteic/development/dist/proteic.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/proteus-h2020/proteic/development/dist/proteic.css">
     <script src="https://use.fontawesome.com/4286931dd8.js"></script>
     <script src="https://cdn.rawgit.com/tholman/elevator.js/master/elevator.min.js"></script>
     <script src="./datasets.js"></script>
@@ -111,6 +110,7 @@
                     <li><a href="#network">Network</a></li>
                     <li><a href="#sunburst">Sunburst</a></li>
                     <li><a href="#swimlane">Swimlane</a></li>
+                    <li><a href="#parallelcoordinates">Parallel Coordinates</a></li>
                 </ul>
             </div>
         </nav>
@@ -172,7 +172,7 @@
         </div>
     </div>
 </section>
- 
+
 <section class="section">
     <h2 class="title is-2">Heatmap</h2>
     <div class="columns">
@@ -276,6 +276,18 @@
     </div>
 </section>
 
+<section class="section">
+     <h2 class="title is-2">Parallel Coordinates</h2>
+     <div class="columns">
+         <div class="column">
+            <div id='parallelcoordinates'></div>
+         </div>
+         <div class="column">
+             <div id='parallelcoordinates-ws'></div>
+        </div>
+     </div>
+</section>
+
 <a class="button is-small elevator-button">
     <span class="icon is-small">
         <i class="fa fa-chevron-up"></i>
@@ -357,7 +369,7 @@
     {x: 'BR', key: '+ 18 - 35', y: 40},
     {x: 'BR', key: '+ 35', y: 40}
   ];
-    
+
     var dataHeatmap = [
       { x: 0, y: 'a', z: 0},
       { x: 0, y: 'b', z: 1},
@@ -480,7 +492,34 @@
     {"class": "link", "source": "Dahlia", "target": "Fameuil", "value": 3},
     {"class": "link", "source": "Dahlia", "target": "Blacheville", "value": 3}
   ];
-    
+
+  var dataParallel = [
+    {'name': 'AMC Ambassador Brougham', 'economy (mpg)': 13,
+    'cylinders': 8, 'displacement (cc)': 360, 'power (hp)': 175,
+    'weight (lb)': 3821, '0-60 mph (s)': 11, 'year': 73 },
+    {'name': 'AMC Ambassador DPL', 'economy (mpg)': 15,
+    'cylinders': 8, 'displacement (cc)': 390, 'power (hp)': 190,
+    'weight (lb)': 3850, '0-60 mph (s)': 8.5, 'year': 70 },
+    {'name': 'AMC Ambassador SST', 'economy (mpg)': 17,
+    'cylinders': 8, 'displacement (cc)': 304, 'power (hp)': 150,
+    'weight (lb)': 3672, '0-60 mph (s)': 11.5, 'year': 72 },
+    {'name': 'AMC Concord DL 6', 'economy (mpg)': 20.2,
+    'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+    'weight (lb)': 3265, '0-60 mph (s)': 18.2, 'year': 79 },
+    {'name': 'AMC Concord DL', 'economy (mpg)': 18.1,
+    'cylinders': 6, 'displacement (cc)': 258, 'power (hp)': 120,
+    'weight (lb)': 3410, '0-60 mph (s)': 15.1, 'year': 78 },
+    {'name': 'AMC Concord DL', 'economy (mpg)': 23,
+    'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 100,
+    'weight (lb)': 3035, '0-60 mph (s)': 20.5, 'year': 82 },
+    {'name': 'AMC Concord', 'economy (mpg)': 19.4,
+    'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+    'weight (lb)': 3210, '0-60 mph (s)': 17.2, 'year': 78 },
+    {'name': 'AMC Concord', 'economy (mpg)': 24.3,
+    'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 90,
+    'weight (lb)': 3003, '0-60 mph (s)': 20.1, 'year': 80 }
+];
+
     var wsBarchart = new WebSocket('wss://proteicws.herokuapp.com/barchart');
     var wsLinechart = new WebSocket('wss://proteicws.herokuapp.com/rain');
     var wsMatrix = new WebSocket('wss://proteicws.herokuapp.com/matrix');
@@ -489,6 +528,7 @@
     var wsScatterplot = new WebSocket('wss://proteicws.herokuapp.com/scatterplot');
     var wsSunburst = new WebSocket('wss://proteicws.herokuapp.com/sunburst');
     var wsSwimlane = new WebSocket('wss://proteicws.herokuapp.com/swimlane');
+    var wsParallel = new WebSocket('wss://proteicws.herokuapp.com/parallelcoordinates');
 
     var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
     var dsLinechart = new proteic.WebsocketDatasource(wsLinechart);
@@ -498,6 +538,7 @@
     var dsScatterplot = new proteic.WebsocketDatasource(wsScatterplot);
     var dsSunburst = new proteic.WebsocketDatasource(wsSunburst);
     var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
+    var dsParallel = new proteic.WebsocketDatasource(wsParallel);
 
     dsBarchart.start();
     dsLinechart.start();
@@ -507,7 +548,8 @@
     dsScatterplot.start();
     dsSunburst.start();
     dsSwimlane.start();
-    
+    dsParallel.start();
+
     var annotationsScatterplot = new proteic.Scatterplot(iris,{
         selector: '#annotations-scatterplot',
 		xAxisLabel:'Petal length (cm)',
@@ -542,8 +584,8 @@
     areas.draw();
 
     new proteic.StackedArea([], {
-        selector: '#areas-ws', 
-        height: 200, 
+        selector: '#areas-ws',
+        height: 200,
         width: '100%',
         xTicksTextRotation: -65,
         legendPosition: 'top',
@@ -593,17 +635,19 @@
 
 
     var gauge = new proteic.Gauge([{value: 30}], {
-        selector: '#gauge', 
-        height: 200, 
+        selector: '#gauge',
+        height: 200,
         width: '100%',
         marginTop: margins.top,
         marginRight: margins.right,
         marginBottom: 0,
         marginLeft: margins.left
     });
+    gauge.draw();
+
     new proteic.Gauge([], {
-        selector: '#gauge-ws', 
-        height: 200, 
+        selector: '#gauge-ws',
+        height: 200,
         width: '100%',
         marginTop: margins.top,
         marginRight: margins.right,
@@ -825,7 +869,7 @@
     var swimlane = new proteic.Swimlane(dataLanes, {
         selector: '#swimlane',
         xAxisFormat: '%Y-%m-%d',
-        height: 200, 
+        height: 200,
         width: '100%',
         marginTop: margins.top,
         marginRight: margins.right + 70,
@@ -844,6 +888,26 @@
         xTicksTextRotation: -65,
         maxNumberOfElements: 20
     }).datasource(dsSwimlane);
+
+    var parallelCoordinates = new proteic.ParallelCoordinates(dataParallel, {
+        selector: '#parallelcoordinates',
+        propertyKey: 'name',
+        height: 200,
+        marginRight: 100,
+        marginLeft: 70,
+        legend: true,
+        legendPosition: 'right'
+    });
+    parallelCoordinates.draw();
+
+    new proteic.ParallelCoordinates([], {
+        selector: '#parallelcoordinates-ws',
+        propertyKey: 'name',
+        height: 200,
+        marginRight: 100,
+        marginLeft: 70,
+        legend: true
+    }).datasource(dsParallel);
 
 </script>
 <script>
