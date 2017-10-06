@@ -49,7 +49,6 @@
                 xAxisFormat: '%Y-%m-%d %H:%M:%S',
                 maxNumberOfElements: 5855,
                 colorScale: proteic.Colors.category7(),
-                spinner: true,
                 pauseButton: true,
                 pauseButtonPosition: 'right'
             })
@@ -61,7 +60,6 @@
             var dsBarchart = new proteic.WebsocketDatasource(wsBarchart);
             barchart = new proteic.Barchart([], {
                 selector: '#chart2',
-                spinner: true,
                 pauseButton: true,
                 legendPosition: 'right',
             })
@@ -73,7 +71,6 @@
 
             gauge = new proteic.Gauge([{}], {
                 selector: '#chart3',
-                spinner: true,
                 pauseButton: true,
                 height: 200
             });
@@ -89,7 +86,6 @@
 
             sunburst = new proteic.Sunburst([], {
                 selector: '#chart4',
-                spinner: true,
                 pauseButton: true,
             }).datasource(dsSunburst);
 
@@ -99,7 +95,6 @@
             var dsSwimlane = new proteic.WebsocketDatasource(wsSwimlane);
 
             new proteic.Swimlane([], {
-                spinner: true,
                 selector: '#chart5', height: 200, width: '100%',
                 marginRight: 100,
                 marginLeft: 70,
