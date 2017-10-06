@@ -1,6 +1,7 @@
 import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
+import * as pauseButton from '../../assets/pause-button.svg';
 
 import {
     selection,
@@ -22,16 +23,19 @@ class PauseSet extends Component {
             width: number = this.config.get('width'),
             selector = this.config.get('selector');
 
-        let pause = this.svg.append('g').attr('class', 'pause');
-
-        pause.append('image')
-            .attr('class', 'pause-button')
-            .attr('xlink:href', '../../../images/pause-button.svg')
-            .attr('width', 30)
-            .attr('height', 30)
-            .attr('pause', false);
-
         let thisInstance = this; // Assign instance to call instance's method in click event
+
+        this.svg.append('g')
+            .attr('class', 'pause-button')
+            .on('click', function() { thisInstance.toggle(); })
+            .style('cursor', 'pointer')
+            .html(pauseButton);
+
+        this.svg.selectAll('.svg-pause')
+                .attr('width', 30)
+                .attr('height', 30);
+
+        this.svg.select('#play').style('opacity', 0);
 
         switch (pauseButtonPosition) {
             case 'right':
@@ -43,8 +47,8 @@ class PauseSet extends Component {
         }
 
         select(selector)
-            .on('mouseover', function() { pause.select('.pause-button').style('opacity', 1); })
-            .on('mouseout', function() { pause.select('.pause-button').style('opacity', 0); });
+            .on('mouseover', function() { thisInstance.svg.select('.pause-button').style('opacity', 1); })
+            .on('mouseout', function() { thisInstance.svg.select('.pause-button').style('opacity', 0); });
 
     }
 
@@ -54,51 +58,36 @@ class PauseSet extends Component {
 
     public transition() {}
 
-    translate(x: Number, y: Number) {
-        this.svg.select('.pause-button')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('transform', `translate(${x}, ${y})`);
+    translate(x: number, y: number) {
+        this.svg.selectAll('.svg-pause')
+            .attr('x', x)
+            .attr('y', y);
     }
 
     private drawRightPauseButton(thisInstance: any, width: number, height: number) {
-        this.svg.select('.pause-button')
+        this.svg.selectAll('.svg-pause')
             .attr('x', width + 10)
-            .attr('y', height - 30)
-            .on('click', function() { thisInstance.toggle(); });
+            .attr('y', height - 30);
     }
 
     private drawBottomPauseButton(thisInstance: any, width: number, height: number) {
-        this.svg.select('.pause-button')
+        this.svg.selectAll('.svg-pause')
             .attr('x', -50)
-            .attr('y', height + 65)
-            .on('click', function() { thisInstance.toggle(); });
+            .attr('y', height + 65);
     }
 
     private toggle(): void {
-        let pause: boolean = (this.svg.select('.pause-button').attr('pause') == 'false') ? false : true;
+        let pause: boolean = (this.svg.select('#play').style('opacity') == '0') ? true : false;
 
-        if (!pause) {
-            this.updatePause();
+        this.config.put('pause', pause);
+
+        if (pause) {
+            this.svg.select('#play').style('opacity', 1);
+            this.svg.select('#pause').style('opacity', 0);
         } else {
-            this.updatePlay();
+            this.svg.select('#play').style('opacity', 0);
+            this.svg.select('#pause').style('opacity', 1);
         }
-    }
-
-    private updatePause(): void {
-        this.svg.select('.pause-button')
-                .attr('xlink:href', '../../../images/play-button.svg')
-                .attr('pause', true);
-
-        this.config.put('pause', true);
-    }
-
-    private updatePlay(): void {
-        this.svg.select('.pause-button')
-                .attr('xlink:href', '../../../images/pause-button.svg')
-                .attr('pause', false);
-
-        this.config.put('pause', false);
     }
 
 }
