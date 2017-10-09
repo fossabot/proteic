@@ -1,0 +1,132 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7' lang=''> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8' lang=''> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9' lang=''> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class='no-js' lang=''>
+<!--<![endif]-->
+
+<head>
+	<title>Parallel Coordinates</title>
+	<script src='../node_modules/d3/build/d3.min.js'></script>
+	<script src='../dist/proteic.js'></script>
+  <script src="./datasets.js"></script>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../dist/proteic.css">
+</head>
+
+
+<body>
+    <div id='chart'></div>
+	<div id='chart2'></div>
+	<div id='chart3'></div>
+
+	<script>
+	var data = [
+	{'name': 'AMC Ambassador Brougham', 'economy (mpg)': 13,
+	'cylinders': 8, 'displacement (cc)': 360, 'power (hp)': 175,
+	'weight (lb)': 3821, '0-60 mph (s)': 11, 'year': 73 },
+	{'name': 'AMC Ambassador DPL', 'economy (mpg)': 15,
+	'cylinders': 8, 'displacement (cc)': 390, 'power (hp)': 190,
+	'weight (lb)': 3850, '0-60 mph (s)': 8.5, 'year': 70 },
+	{'name': 'AMC Ambassador SST', 'economy (mpg)': 17,
+	'cylinders': 8, 'displacement (cc)': 304, 'power (hp)': 150,
+	'weight (lb)': 3672, '0-60 mph (s)': 11.5, 'year': 72 },
+	{'name': 'AMC Concord DL 6', 'economy (mpg)': 20.2,
+	'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+	'weight (lb)': 3265, '0-60 mph (s)': 18.2, 'year': 79 },
+	{'name': 'AMC Concord DL', 'economy (mpg)': 18.1,
+	'cylinders': 6, 'displacement (cc)': 258, 'power (hp)': 120,
+	'weight (lb)': 3410, '0-60 mph (s)': 15.1, 'year': 78 },
+	{'name': 'AMC Concord DL', 'economy (mpg)': 23,
+	'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 100,
+	'weight (lb)': 3035, '0-60 mph (s)': 20.5, 'year': 82 },
+	{'name': 'AMC Concord', 'economy (mpg)': 19.4,
+	'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+	'weight (lb)': 3210, '0-60 mph (s)': 17.2, 'year': 78 },
+	{'name': 'AMC Concord', 'economy (mpg)': 24.3,
+	'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 90,
+	'weight (lb)': 3003, '0-60 mph (s)': 20.1, 'year': 80 }
+];
+
+	var categoricalData = [
+	{'name': '1', 'AgeAtTx': 10, 'Ethnicity': 'hispanic', 'Site': 'glottic',
+ 	'Tcategory': 'T4', 'Nodal_Disease': 'N0', 'ecog': 1.1, 'Local_Therapy': 'LP/chemoRT',
+	'Chemotherapy': 'chemoRT',  'Probability of Survival': 0.1 },
+	{'name': '2', 'AgeAtTx': 20, 'Ethnicity': 'african-american', 'Site': 'subglottic',
+ 	'Tcategory': 'T3', 'Nodal_Disease': 'N+', 'ecog': 0.5, 'Local_Therapy': 'PLRT',
+	'Chemotherapy': 'concurrent', 'Probability of Survival': 0.2},
+	{'name': '3', 'AgeAtTx': 34, 'Ethnicity': 'asian', 'Site': 'transglottic',
+ 	'Tcategory': 'T4', 'Nodal_Disease': 'N+', 'ecog': 2.3, 'Local_Therapy': 'LP/RT alone',
+	'Chemotherapy': 'induction', 'Probability of Survival': 0.3 },
+	{'name': '4', 'AgeAtTx': 50, 'Ethnicity': 'other', 'Site': 'supraglottic',
+ 	'Tcategory': 'T3', 'Nodal_Disease': 'N0', 'ecog': 3.0, 'Local_Therapy': 'PLRT',
+	'Chemotherapy': 'no chemo', 'Probability of Survival': 0.5},
+	{'name': '5', 'AgeAtTx': 60, 'Ethnicity': 'hispanic', 'Site': 'supraglottic',
+ 	'Tcategory': 'T4', 'Nodal_Disease': 'N+', 'ecog': 2.8, 'Local_Therapy': 'LP/chemoRT',
+	'Chemotherapy': 'induction', 'Probability of Survival': 0.76},
+	{'name': '6', 'AgeAtTx': 78, 'Ethnicity': 'asian', 'Site': 'subglottic',
+ 	'Tcategory': 'T3', 'Nodal_Disease': 'N0', 'ecog': 2.5, 'Local_Therapy': 'PLRT',
+	'Chemotherapy': 'concurrent', 'Probability of Survival': 0.98},
+	{'name': '7', 'AgeAtTx': 82, 'Ethnicity': 'white', 'Site': 'glottic',
+ 	'Tcategory': 'T4', 'Nodal_Disease': 'N0', 'ecog': 2.2, 'Local_Therapy': 'LP/chemoRT',
+	'Chemotherapy': 'chemoRT', 'Probability of Survival': 0.4},
+	{'name': '8', 'AgeAtTx': 45, 'Ethnicity': 'other', 'Site': 'transglottic',
+ 	'Tcategory': 'T3', 'Nodal_Disease': 'N+', 'ecog': 1.8, 'Local_Therapy': 'LP/RT alone',
+	'Chemotherapy': 'concurrent', 'Probability of Survival': 0.5 },
+	{'name': '9', 'AgeAtTx': 92, 'Ethnicity': 'white', 'Site': 'glottic',
+ 	'Tcategory': 'T4', 'Nodal_Disease': 'N0', 'ecog': 1.4, 'Local_Therapy': 'PLRT',
+	'Chemotherapy': 'no chemo', 'Probability of Survival': 1.0 }
+];
+
+	var faultData = [	// missing some dimensions
+	{'name': 'AMC Ambassador Brougham', 'economy (mpg)': 13,
+	'cylinders': 8, 'power (hp)': 175,	// missing 'displacement (cc)'
+	'weight (lb)': 3821, '0-60 mph (s)': 11, 'year': 73 },
+	{'name': 'AMC Ambassador DPL', 'economy (mpg)': 15,
+	'cylinders': 8, 'displacement (cc)': 390, 'power (hp)': 190,
+	'weight (lb)': 3850, '0-60 mph (s)': 8.5, 'year': 70 },
+	{'name': 'AMC Ambassador SST',	// missing 'economy (mpg)'
+	'cylinders': 8, 'displacement (cc)': 304, 'power (hp)': 150,
+	'weight (lb)': 3672, '0-60 mph (s)': 11.5, 'year': 72 },
+	{'name': 'AMC Concord DL 6', 'economy (mpg)': 20.2,
+	'cylinders': 6, 'displacement (cc)': 232, 'power (hp)': 90,
+	'weight (lb)': 3265, '0-60 mph (s)': 18.2, 'year': 79 },
+	{'name': 'AMC Concord DL', 'economy (mpg)': 18.1,
+	'cylinders': 6, 'displacement (cc)': 258, 'power (hp)': 120,
+	'weight (lb)': 3410, '0-60 mph (s)': 15.1, 'year': 78 },
+	{'name': 'AMC Concord DL', 'economy (mpg)': 23,
+	'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 100,
+	'weight (lb)': 3035, '0-60 mph (s)': 20.5, 'year': 82 },
+	{'name': 'AMC Concord', 'economy (mpg)': 19.4,
+	'cylinders': 6, 'power (hp)': 90,	// missing 'displacement (cc)'
+	'weight (lb)': 3210, '0-60 mph (s)': 17.2, 'year': 78 },
+	{'name': 'AMC Concord', 'economy (mpg)': 24.3,
+	'cylinders': 4, 'displacement (cc)': 151, 'power (hp)': 90,
+	'weight (lb)': 3003, '0-60 mph (s)': 20.1, 'year': 80 }
+];
+
+    var parallelCoordinates = new proteic.ParallelCoordinates(data, {
+		propertyKey: 'name',
+		legend: true,
+		legendPosition: 'right'
+	});
+    parallelCoordinates.draw();
+
+	var categoricalParallel = new proteic.ParallelCoordinates(categoricalData, {
+		selector: '#chart2',
+		propertyKey: 'name'
+	});
+	categoricalParallel.draw();
+
+	new proteic.ParallelCoordinates(faultData, {
+		selector: '#chart3',
+		propertyKey: 'name',
+		legend: true,
+		legendPosition: 'right'
+	}).draw();
+
+  </script>
+</body>
+
+</html>

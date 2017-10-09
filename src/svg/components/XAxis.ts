@@ -45,8 +45,7 @@ class XAxis extends Component {
             .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height + 40)
-            .text(xAxisLabel)
-            .style('font', '0.8em Montserrat, sans-serif');
+            .text(xAxisLabel);
     }
 
     public update(data: [any]): void {
@@ -170,6 +169,14 @@ class XAxis extends Component {
 
     get xAxis() {
         return this._xAxis;
+    }
+
+    get scale() {
+        return this._xAxis.scale();
+    }
+
+    get range(): [number, number] {
+        return this._xAxis.scale().range();
     }
 
     public clear() {

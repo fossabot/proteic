@@ -14,6 +14,9 @@ module.exports = {
         filename: 'dist/proteic.js',
         library: 'proteic'
     },
+    externals:{
+        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+    },
     devServer: {
         contentBase: path.join(__dirname, '.'),
         inline: true
@@ -34,7 +37,11 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract("style", "css!sass")
-            }
+            },
+            { 
+                test: /\.svg$/, 
+                loader: 'svg-inline-loader' 
+            },
         ],
         tslint: {
             typeCheck: true,

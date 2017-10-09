@@ -39,5 +39,8 @@ export const defaults: any = {
     onClick(d: any) {
     },
     onUp(d: any) {
-    }
+    },
+    spinner: true,
+    pauseButton: false,
+    pauseButtonPosition: 'bottom'
 };

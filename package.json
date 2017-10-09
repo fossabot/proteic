@@ -1,6 +1,6 @@
 {
   "name": "proteic",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Streaming and static data visualization for the modern web",
   "homepage": "http://proteic.js.org/",
   "main": "dist/proteic.node.js",
@@ -35,6 +35,10 @@
       "name": "Jorge Yagüe París",
       "email": "jorgeyp@gmail.com",
       "url": "http://www.jorgeyp.com/"
+    },
+    {
+      "name": "Gyeongchan Yun",
+      "email": "rugyoon@gmail.com"
     }
   ],
   "license": "Apache-2.0",
@@ -61,6 +65,7 @@
     "css-loader": "^0.26.1",
     "esdoc": "^0.5.2",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.11.2",
     "jshint": "^2.9.2",
     "karma": "^1.4.0",
     "karma-chai": "^0.1.0",
@@ -78,11 +83,12 @@
     "socket.io": "^1.4.5",
     "strip-loader": "^0.1.2",
     "style-loader": "^0.13.1",
+    "svg-inline-loader": "^0.8.0",
     "ts-loader": "^2.2.1",
     "tslint": "^5.4.3",
     "tslint-eslint-rules": "^4.1.1",
     "tslint-loader": "^3.5.3",
-    "typescript": "^2.1.6",
+    "typescript": "2.1.6",
     "uglify-js": "^2.7.4",
     "watch": "^1.0.1",
     "webpack": "^1.14.0",

@@ -9,15 +9,19 @@ module.exports = {
     output: {
         filename: 'dist/proteic.js',
         library: 'proteic',
-        libraryTarget: 'umd'
+        // libraryTarget: 'umd'
+    },
+    externals:{
+        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.svg']
     },
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts-loader' }
-        ]
+            { test: /\.ts$/, loader: 'ts-loader' },
+            { test: /\.svg$/, loader: 'svg-inline-loader' },
+        ],
     },
     plugins: [
         new webpack.optimize.DedupePlugin(),

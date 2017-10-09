@@ -14,12 +14,13 @@ import SvgStrategy from '../svg/base/SvgStrategy';
 import Globals from '../Globals';
 import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
+import ErrorSet from '../svg/components/ErrorSet';
 
 /**
- * 
- * Chart class. This class is a high-level representation for any visualization in this library. Each new visualization 
+ *
+ * Chart class. This class is a high-level representation for any visualization in this library. Each new visualization
  * created should extend this class.
- * 
+ *
  * @abstract
  * @class Chart
  */
@@ -53,9 +54,9 @@ abstract class Chart {
     protected data: any;
 
     /**
-     * 
-     * Annotation config. 
-     * 
+     *
+     * Annotation config.
+     *
      * @private
      * @type {*}
      * @memberof Chart
@@ -66,7 +67,7 @@ abstract class Chart {
 
     /**
      * Events
-     * 
+     *
      * @private
      * @type {Map<string, any>}
      * @memberof Chart
@@ -78,7 +79,7 @@ abstract class Chart {
 
     /**
      * A map containing chart subscriptions
-     * 
+     *
      * @private
      * @type {Map<string, Subscription>}
      * @memberof Chart
@@ -87,7 +88,7 @@ abstract class Chart {
 
     /**
      * An injector that instantiate the SvgContext class and pass it the config and the strategy parameters
-     * 
+     *
      * @private
      * @type {Injector}
      * @memberof Chart
@@ -95,9 +96,9 @@ abstract class Chart {
     private injector: Injector = new Injector();
 
     /**
-     * 
+     *
      * A strategy class that takes responsability for drawing an specific visualization
-     * 
+     *
      * @private
      * @type {SvgStrategy}
      * @memberof Chart
@@ -107,10 +108,25 @@ abstract class Chart {
     // since two different kind of 'strategies' should be allowed (SVG / Canvas)
 
 
-    private streamingIntervalIdentifier: number = null;
+    protected streamingIntervalIdentifier: number = null;
+
+    /**
+     * Only used to set streaming interval when chart resumes to draw at first
+     * @protected
+     * @memberof Chart
+     */
+    protected resumeIntervalIdentifier: number = null;
 
     // TODO: Inject with annotations?
-    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange'); 
+    private visibilityObservable: Observable<any> = GlobalInjector.getRegistered('onVisibilityChange');
+
+
+    /**
+     * Stored data when pausing
+     * @protected
+     * @memberof Chart
+     */
+    protected storedData: any[];
 
     /**
      * Creates an instance of Chart.
@@ -125,18 +141,26 @@ abstract class Chart {
         this.config.put('proteicID', 'proteic-' + Date.now());
         this.injector = new Injector();
 
-        this.instantiateInjections(clazz);
+            this.instantiateInjections(clazz);
 
-        this.data = data;
-        this.events = new Map();
-        this.config.put('pivotVars', []);
+            this.data = data;
+            this.events = new Map();
+            this.config.put('pivotVars', []);
 
-        this.visibilityObservable.subscribe((event: any) => {
-            this.stopDrawing();
-            if (!event.hidden) {
-                this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
-            }
-        });
+            this.visibilityObservable.subscribe((event: any) => {
+                this.stopDrawing();
+                if (!event.hidden) {
+                    // Check if this is a streaming chart, so we can set the drawing interval
+                    if (this.streamingIntervalIdentifier) {
+                        this.streamingIntervalIdentifier = setInterval(
+                            () => this.draw(copy(this.data)),
+                            Globals.DRAW_INTERVAL
+                        );
+                    }
+                }
+            });
+
+            this.storedData = [];
     }
 
     private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
@@ -157,8 +181,8 @@ abstract class Chart {
         return this;
     }
 
-    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) { 
-        // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like). 
+    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
+        // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like).
         this.context.draw(copy(data), this.events);
         this.data = data;
     }
@@ -174,12 +198,15 @@ abstract class Chart {
     public datasource(ds: WebsocketDatasource) {
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
-            (e: any) => throwError(e),
-            // () => console.log('Completed subject')
+            (e: any) => this.handleWebSocketError(e)
         );
 
         this.subscriptions.set('datasource', subscription);
         return this;
+    }
+
+    private handleWebSocketError (e: any) {
+        this.strategy.addComponent(ErrorSet, this.config);
     }
 
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {
@@ -192,8 +219,8 @@ abstract class Chart {
 
     /**
      * Incoming data may contain mixed narrow and wide formats that will be treated appropriately.
-     * @param {Array<string>} vars 
-     * @returns 
+     * @param {Array<string>} vars
+     * @returns
      * @memberof Chart
      */
     public unpivot(vars: Array<string>) {
@@ -208,6 +235,7 @@ abstract class Chart {
 
     public stopDrawing() {
         clearInterval(this.streamingIntervalIdentifier);
+        clearInterval(this.resumeIntervalIdentifier);
     }
 
     public erase() {
@@ -257,7 +285,9 @@ abstract class Chart {
             propertyZ = this.config.get('propertyZ'),
             propertyKey = this.config.get('propertyKey'),
             propertyStart = this.config.get('propertyStart'),
-            propertyEnd = this.config.get('propertyEnd');
+            propertyEnd = this.config.get('propertyEnd'),
+            propertyError = this.config.get('propertyError'),
+            pause: boolean = this.config.get('pause');
 
         let dataKeys = [
             propertyX,
@@ -265,7 +295,8 @@ abstract class Chart {
             propertyZ,
             propertyKey,
             propertyStart,
-            propertyEnd
+            propertyEnd,
+            propertyError
         ].filter((p) => p !== undefined);
 
         if (!this.streamingIntervalIdentifier) {
@@ -306,9 +337,14 @@ abstract class Chart {
 
         let cleanDatum = this.cleanDatum(datum, dataKeys);
 
+        if (this.storedData.length > 0) {
+            this.data = this.storedData[this.storedData.length - 1];
+        }
+
         switch (streamingStrategy) {
             case StreamingStrategy.ADD:
                 this.data = this.data.concat(cleanDatum);
+
                 break;
             case StreamingStrategy.REPLACE:
                 this.data = cleanDatum;
@@ -324,7 +360,35 @@ abstract class Chart {
             this.data = this.data.slice(position);
         }
 
+        if (pause) {
+            this.pauseDrawing();
+        } else {
+            if (this.storedData.length > 0) { // resume
+                this.resumeDrawing();
+            }
+        }
+
     }
+
+    public pauseDrawing() {
+        this.stopDrawing();
+        this.resumeIntervalIdentifier = null;
+        this.storedData.push(this.data);
+    }
+
+    public resumeDrawing() {
+        this.storedData.push(this.data); // Store incoming data
+
+        if (!this.resumeIntervalIdentifier) {
+            this.resumeIntervalIdentifier = setInterval(
+                () => this.draw(copy((this.storedData.shift() != null)
+                                        ? this.storedData.shift()
+                                        : this.data)),
+                2 * Globals.DRAW_INTERVAL
+            );
+        }
+    }
+
 }
 
 export default Chart;

@@ -42,3 +42,7 @@ export {
 export {
     defaults as swimlane
 } from './swimlane';
+
+export {
+    defaults as parallelCoordinates
+} from './parallelCoordinates';

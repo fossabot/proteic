@@ -5,7 +5,7 @@ import YAxis from './YAxis';
 import { simple2nested, simple2stacked } from '../../utils/data/transforming';
 import Globals from '../../Globals';
 import {
-    stack,
+    stack as d3Stack,
     scaleBand,
     map,
     area,

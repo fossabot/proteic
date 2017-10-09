@@ -1,7 +1,7 @@
 import Component from './Component';
 import Globals from '../../Globals';
 import {
-    stack,
+    stack as d3Stack,
     map,
     scaleLinear,
     scaleBand,
@@ -57,8 +57,7 @@ class YAxis extends Component {
             .attr('text-anchor', 'middle')
             .attr('x', 0 - height / 2)
             .attr('y', 0 - 55)
-            .text(yAxisLabel)
-            .style('font', '0.8em Montserrat, sans-serif');
+            .text(yAxisLabel);
 
         this.selection = yAxisG;
     }
@@ -185,6 +184,14 @@ class YAxis extends Component {
 
     get yAxis() {
         return this._yAxis;
+    }
+
+    get scale() {
+        return this._yAxis.scale();
+    }
+
+    get range(): [number, number] {
+        return this._yAxis.scale().range();
     }
 
     public clear() {

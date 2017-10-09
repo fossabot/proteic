@@ -27,6 +27,11 @@ class Annotations extends Component {
     }
 
     public update(data: [any], events: Map<string, any>) {
+        if (typeof data === undefined || data.length == 0) {
+            this.clear();
+            return;
+        }
+
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyZ = this.config.get('propertyZ'),

@@ -36,7 +36,6 @@
             {key:'serie2', x:4, y:12},
             {key:'serie2', x:8, y:13}
     ];
-
     areaLinechart = new proteic.Linechart(dataArea, {
         selector: '#chart',
         areaOpacity: 0.1,
@@ -55,7 +54,6 @@
         { type: 'threshold', axis: 'x', value: 3.1, text: 'Something could happen at this point' }
     ]);
     areaLinechart.draw();
-
     var temporalData = [
         {key:'serie1', x: '01/01/16', y: 3},
         {key:'serie1', x: '01/02/16', y: 5},
@@ -81,7 +79,6 @@
         {key:'serie2', x: '01/10/16', y: 8},
         {key:'serie2', x: '01/14/16', y: 5}
     ];
-
     temporalLinechart = new proteic.Linechart(temporalData, {
         xAxisType: 'time',
         xAxisFormat: '%m/%d/%y',
@@ -93,7 +90,6 @@
         yAxisLabel: 'Y Axis'
     });
     temporalLinechart.draw();
-
   </script>
 </body>
 

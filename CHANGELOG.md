@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.27] - 2017-10-09
+### Added
+-  - ⭐ **New visualization: Parallel Coordinates**
+- New pause / resume button for streaming visualizations
+- New error component that shows an error sign if something went wrong
+- New brush + zoom interaction
+- Streaming visualizations now show a throbber while waiting for data to start coming
+- Confidence band component for line charts
+
 ## [0.0.26] - 2017-06-30
 ### Added
 - New annotated events

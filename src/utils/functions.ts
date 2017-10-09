@@ -36,22 +36,22 @@ export function isPercentage(n: any) {
     (result <= 100);
 }
 
-export function keys(array: Array<any>, field: string): Set<any> {
-  let keys = new Set();
-  let element = null;
+// export function keys(array: Array<any>, field: string): Set<any> {
+//   let keys = new Set();
+//   let element = null;
 
-  if (!array || !array.length) {
-    return new Set();
-  }
+//   if (!array || !array.length) {
+//     return new Set();
+//   }
 
-  for (let i = 0; i < array.length; i++) {
-    element = field ? array[i][field] : array[i];
-    if (element) {
-      keys.add(element);
-    }
-  }
-  return keys;
-}
+//   for (let i = 0; i < array.length; i++) {
+//     element = field ? array[i][field] : array[i];
+//     if (element) {
+//       keys.add(element);
+//     }
+//   }
+//   return keys;
+// }
 
 /**
  * Reshapes a datum from wide format to narrow
