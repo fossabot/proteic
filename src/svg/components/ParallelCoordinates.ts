@@ -17,12 +17,24 @@ import {
 
 class ParallelCoordinates extends Component {
 
-    private _dimensions: string[];
+    /**
+     * An Array of dimensions extracted from the data of parallel coordinates
+     * @private
+     * @memberof ParallelCoordinates
+     */
+    private _dimensions: string[] = [];
     private _dimensionScale: any;
     private _yScale: any;
     private yAxes: any;
-    private yAxesType: any;
-    private missingAxis: any;
+    private yAxesType: { [dimension: string]: string } = {};
+
+    /**
+     * A set of no-value line
+     * @private
+     * @type {NoValueLineset}
+     * @memberof ParallelCoordinates
+     */
+    private noValueLine: NoValueLineset;
 
     private dragEventPositions: any;
     private brushedExtent: any;
@@ -69,18 +81,20 @@ class ParallelCoordinates extends Component {
         let thisInstance = this;    // To use instance method in selection event
 
         if (missingDimensions) {
-            this._yScale['missing'] = height + 100;
+            this.noValueLine = {
+                axis: axisBottom(this._dimensionScale).tickFormat((d) => ''),
+                height: height + 100
+            };
 
             this.svg.append('g')
-                .attr('class', 'missing-axis')
-                .attr('transform', 'translate(0,' + this._yScale['missing'] + ')')
-                .call(thisInstance.missingAxis);
+                .attr('class', 'novalue-axis')
+                .attr('transform', 'translate(0,' + this.noValueLine.height + ')')
+                .call(thisInstance.noValueLine.axis);
 
             this.svg.append('text')
                 .attr('class', 'xaxis-title')
-                .attr('x', width + 50)
+                .attr('x', width + 10)
                 .attr('y', height + 105)
-                .style('text-anchor', 'middle')
                 .text('No Value');
         }
 
@@ -134,12 +148,9 @@ class ParallelCoordinates extends Component {
     }
 
     private initializeParallelCoordinates(width: number, height: number) {
-        this._dimensions = [];
         this._dimensionScale = scalePoint().range([0, width]);
         this.yAxes = axisLeft(scaleLinear().range([height, 0]));
         this._yScale = {};
-        this.yAxesType = {};
-        this.missingAxis = axisBottom(this._dimensionScale).tickFormat((d) => '');
     }
 
     private getValidData(data: any) {
@@ -219,10 +230,8 @@ class ParallelCoordinates extends Component {
     public clear() {}
 
     public yPosition(dimension: any, data: any) {
-        let height = this.config.get('height');
-
         let position = (data[dimension] == undefined)
-                            ? this._yScale['missing']
+                            ? this.noValueLine.height
                             : this._yScale[dimension](data[dimension]);
 
         return position;
@@ -293,7 +302,11 @@ class ParallelCoordinates extends Component {
                     : 0
             );
     }
+}
 
+interface NoValueLineset {
+    axis: any;
+    height: number;
 }
 
 export default ParallelCoordinates;
