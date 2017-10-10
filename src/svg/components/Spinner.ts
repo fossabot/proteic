@@ -9,8 +9,7 @@ class Spinner extends Component {
 
     public render(): void {
         let width: number = this.config.get('width'),
-            height: number = this.config.get('height'),
-            marginLeft: number = this.config.get('marginLeft');
+            height: number = this.config.get('height');
 
         this.svg.append('g')
                 .attr('class', 'spinner')
