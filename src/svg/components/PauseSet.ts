@@ -1,7 +1,7 @@
 import Component from './Component';
 import Config from '../../Config';
 import Globals from '../../Globals';
-import * as pauseButton from '../../assets/pause-button.svg';
+import Assets from '../../utils/assets';
 
 import {
     selection,
@@ -29,7 +29,7 @@ class PauseSet extends Component {
             .attr('class', 'pause-button')
             .on('click', function() { thisInstance.toggle(); })
             .style('cursor', 'pointer')
-            .html(pauseButton);
+            .html(Assets.PAUSE);
 
         this.svg.selectAll('.svg-pause')
                 .attr('width', 30)

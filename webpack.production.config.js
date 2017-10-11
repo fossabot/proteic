@@ -15,12 +15,11 @@ module.exports = {
         xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.svg']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
     module: {
         loaders: [
             { test: /\.ts$/, loader: 'ts-loader' },
-            { test: /\.svg$/, loader: 'svg-inline-loader' },
         ],
     },
     plugins: [
