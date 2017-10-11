@@ -57,8 +57,7 @@ class YAxis extends Component {
             .attr('text-anchor', 'middle')
             .attr('x', 0 - height / 2)
             .attr('y', 0 - 55)
-            .text(yAxisLabel)
-            .style('font', '0.8em Montserrat, sans-serif');
+            .text(yAxisLabel);
 
         this.selection = yAxisG;
     }
