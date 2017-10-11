@@ -38,10 +38,6 @@ module.exports = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract("style", "css!sass")
             },
-            { 
-                test: /\.svg$/, 
-                loader: 'svg-inline-loader' 
-            },
         ],
         tslint: {
             typeCheck: true,
