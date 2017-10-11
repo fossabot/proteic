@@ -17,12 +17,41 @@ import {
 
 class ParallelCoordinates extends Component {
 
-    private _dimensions: string[];
+    /**
+     * An Array of dimensions extracted from the data of parallel coordinates
+     * @private
+     * @memberof ParallelCoordinates
+     */
+    private _dimensions: string[] = [];
+
+    /**
+     * A scale of dimensions. Determine dimension-position(x position) of parallel coordinates
+     * @private
+     * @memberof ParallelCoordinates
+     */
     private _dimensionScale: any;
-    private _yScale: any;
-    private yAxes: any;
-    private yAxesType: any;
-    private missingAxis: any;
+
+    /**
+     * Parallel y-axes divided by dimension
+     * @private
+     * @memberof ParallelCoordinates
+     */
+    private _yAxes: { [dimension: string]: any } = {};
+
+    /**
+     * Type of parallel y-axes extracted from the data. (number or string)
+     * @private
+     * @memberof ParallelCoordinates
+     */
+    private yAxesType: { [dimension: string]: string } = {};
+
+    /**
+     * A set of no-value line
+     * @private
+     * @type {NoValueLineset}
+     * @memberof ParallelCoordinates
+     */
+    private noValueLine: NoValueLineset;
 
     private dragEventPositions: any;
     private brushedExtent: any;
@@ -69,18 +98,20 @@ class ParallelCoordinates extends Component {
         let thisInstance = this;    // To use instance method in selection event
 
         if (missingDimensions) {
-            this._yScale['missing'] = height + 100;
+            this.noValueLine = {
+                axis: axisBottom(this._dimensionScale).tickFormat((d) => ''),
+                height: height + 100
+            };
 
             this.svg.append('g')
-                .attr('class', 'missing-axis')
-                .attr('transform', 'translate(0,' + this._yScale['missing'] + ')')
-                .call(thisInstance.missingAxis);
+                .attr('class', 'novalue-axis')
+                .attr('transform', 'translate(0,' + this.noValueLine.height + ')')
+                .call(thisInstance.noValueLine.axis);
 
             this.svg.append('text')
                 .attr('class', 'xaxis-title')
-                .attr('x', width + 50)
+                .attr('x', width + 10)
                 .attr('y', height + 105)
-                .style('text-anchor', 'middle')
                 .text('No Value');
         }
 
@@ -104,7 +135,7 @@ class ParallelCoordinates extends Component {
                     .attr('transform', 'translate( 0, 0 )')
                     .each(function(d) {
                         select(this)
-                            .call(thisInstance.yAxes.scale(thisInstance._yScale[d]));
+                            .call(thisInstance._yAxes[d]);
                     });
 
         dimensionEntries.append('text')
@@ -134,12 +165,7 @@ class ParallelCoordinates extends Component {
     }
 
     private initializeParallelCoordinates(width: number, height: number) {
-        this._dimensions = [];
         this._dimensionScale = scalePoint().range([0, width]);
-        this.yAxes = axisLeft(scaleLinear().range([height, 0]));
-        this._yScale = {};
-        this.yAxesType = {};
-        this.missingAxis = axisBottom(this._dimensionScale).tickFormat((d) => '');
     }
 
     private getValidData(data: any) {
@@ -169,37 +195,21 @@ class ParallelCoordinates extends Component {
     private updateYaxesByDimensions(data: [any], height: number) {
         this._dimensions.map((dimension) => {
             if (this.yAxesType[dimension] == 'linear') {
-                this._yScale[dimension] = scaleLinear()
-                                            .domain(extent(data, (d) => +d[dimension]))
-                                            .range([height, 0]);
+                this._yAxes[dimension] = axisLeft(scaleLinear()
+                                                    .domain(extent(data, (d) => +d[dimension]))
+                                                    .range([height, 0]));
 
             } else if (this.yAxesType[dimension] == 'categorical') {
                 let categoricalValue: string[] = map(data, (d: any) => d[dimension]).keys().sort();
-                this._yScale[dimension] = scalePoint()
-                                            .domain(categoricalValue)
-                                            .range([height, 0]);
+                this._yAxes[dimension] = axisLeft(scalePoint()
+                                                    .domain(categoricalValue)
+                                                    .range([height, 0]));
             }
         });
     }
 
     private updateDomainOfDimensions() {
         this._dimensionScale.domain(this._dimensions);
-    }
-
-    get dimensionScale() {
-        return this._dimensionScale;
-    }
-
-    get yScale() {
-        return this._yScale;
-    }
-
-    get dimensions() {
-        return this._dimensions;
-    }
-
-    get draggedPosition() {
-        return this.dragEventPositions;
     }
 
     public transition() {
@@ -210,7 +220,7 @@ class ParallelCoordinates extends Component {
                 .duration(Globals.COMPONENT_TRANSITION_TIME)
                 .each(function(d: string) {
                     select(this)
-                        .call(thisInstance.yAxes.scale(thisInstance._yScale[d]));
+                        .call(thisInstance._yAxes[d]);
                 });
 
         this.svg.selectAll('.axis path').raise();
@@ -219,11 +229,9 @@ class ParallelCoordinates extends Component {
     public clear() {}
 
     public yPosition(dimension: any, data: any) {
-        let height = this.config.get('height');
-
         let position = (data[dimension] == undefined)
-                            ? this._yScale['missing']
-                            : this._yScale[dimension](data[dimension]);
+                            ? this.noValueLine.height
+                            : this._yAxes[dimension].scale()(data[dimension]);
 
         return position;
     }
@@ -280,8 +288,8 @@ class ParallelCoordinates extends Component {
     // TODO we will separate brush component later
 
     private brushed(dimension: any) {
-        this.brushedExtent[dimension] = [this._yScale[dimension].invert(event.selection[1]),
-                                            this._yScale[dimension].invert(event.selection[0])];
+        this.brushedExtent[dimension] = [this._yAxes[dimension].scale().invert(event.selection[1]),
+                                            this._yAxes[dimension].scale().invert(event.selection[0])];
 
         let activeDimension = this._dimensions.filter((d) => (this.brushedExtent[d] == null) ? false : true),
             thisInstance = this;
@@ -294,6 +302,22 @@ class ParallelCoordinates extends Component {
             );
     }
 
+    get dimensionScale() {
+        return this._dimensionScale;
+    }
+
+    get yAxes() {
+        return this._yAxes;
+    }
+
+    get dimensions() {
+        return this._dimensions;
+    }
+}
+
+interface NoValueLineset {
+    axis: any;
+    height: number;
 }
 
 export default ParallelCoordinates;
