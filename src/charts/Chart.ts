@@ -111,7 +111,7 @@ abstract class Chart {
     protected streamingIntervalIdentifier: number = null;
 
     /**
-     * Only used to set streaming interval when chart resumes to draw at first
+     * An identifier Only used to set streaming interval when chart initially changes the state from pause to resume
      * @protected
      * @memberof Chart
      */
@@ -122,11 +122,11 @@ abstract class Chart {
 
 
     /**
-     * Stored data when pausing
+     * An array of data stored when pausing
      * @protected
      * @memberof Chart
      */
-    protected storedData: any[];
+    protected storedData: any[] = [];
 
     /**
      * Creates an instance of Chart.
@@ -159,8 +159,6 @@ abstract class Chart {
                     }
                 }
             });
-
-            this.storedData = [];
     }
 
     private instantiateInjections(clazz: { new (...args: any[]): SvgStrategy }) {
