@@ -538,7 +538,7 @@ chart.draw();
         xAxisFormat: '%Y-%m-%d %H:%M:%S',
         maxNumberOfElements: 5855,
         confidenceBandOpacity: 0.3,
-        confidenceModifier: (confidence) => 0.5 * confidence,
+        confidenceModifier: (confidence) => 0.1 * confidence,
         propertyError: 'flowError'
     })
     .unpivot(['rain', 'flow'])
