@@ -1,5 +1,3 @@
-
-
 import { assert } from 'chai';
 import { } from 'mocha';
 import {
@@ -31,7 +29,4 @@ describe('Array transformation functions', () => {
         let oldData = [4, 5, 6];
         assert.deepEqual(fitArrayByOldAndNewValue(newData, oldData, 0), []);
     });
-
-
-
 });
