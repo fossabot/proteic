@@ -6,48 +6,47 @@ module.exports = {
     devtool: 'source-map',
     watch: false,
     entry: {
-        js: ['./src/core.ts', './index.ts'],
+        js: ['./index.ts'],
         css: './scss/themes/default/proteic.scss'
     },
-    id: 'proteic',
     output: {
-        filename: 'dist/proteic.js',
-        library: 'proteic'
-    },
-    externals:{
-        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+        library: 'proteic',
+        filename: 'dist/[name].js',
     },
     devServer: {
         contentBase: path.join(__dirname, '.'),
         inline: true
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
+        extensions: ['.webpack.js', '.web.js', '.ts', '.js', '.scss'],
     },
     module: {
-        preLoaders: [
-            { test: /\.ts$/, loader: 'tslint' }
-        ],
-
-        loaders: [
+        rules: [
+            { 
+                test: /\.ts$/, 
+                enforce: 'pre',
+                loader: 'tslint-loader',
+                options: {
+                    typeCheck: true,
+                    failOnHint: true,
+                    emitErrors: true,
+                    configuration: require('./tslint.json')
+                }
+            },
             {
                 test: /\.ts$/,
                 loader: 'ts-loader'
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract("style", "css!sass")
-            },
+                use: [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "sass-loader" // compiles Sass to CSS
+                }]
+            }
         ],
-        tslint: {
-            typeCheck: true,
-            failOnHint: true,
-            emitErrors: true,
-            configuration: require('./tslint.json')
-        }
     },
-    plugins: [
-        new ExtractTextPlugin("./dist/proteic.css")
-
-    ]
 }
