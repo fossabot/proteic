@@ -26,7 +26,7 @@ abstract class SvgStrategy {
     public addComponent(component: Function, config: any) {
         switch (component.name) {
             case Annotations.name:
-                let axes: XYAxes = <XYAxes>this.container.getComponent(XYAxes.name);
+                let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
                 this.container.add(new Annotations(axes.x, axes.y, config));
                 break;
             case ErrorSet.name:
