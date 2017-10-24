@@ -1,3 +1,6 @@
+/* tslint:disable */ 
+
+
 import { assert } from 'chai';
 import { } from 'mocha';
 import {
