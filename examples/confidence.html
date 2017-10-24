@@ -37,7 +37,7 @@
             {key:'serie2', x:8, y:13, error:1}
     ];
     confidenceLinechart = new proteic.Linechart(dataArea, {
-		confidenceBandOpacity: 0.7,
+		confidenceBandOpacity: 0.3, // default is 0.5
     	selector: '#chart',
         markerSize:10,
         markerShape: 'dot',
@@ -48,12 +48,17 @@
         onHover: (d) => console.log('hovering', d),
         onDown: (d) => console.log('downing', d),
         onLeave: (d) => console.log('leaving', d),
-		confidenceModifier: (confidence) => 2 * confidence
     }).annotations([
         { type: 'threshold', axis: 'y', value: 15.2, text: 'Everything is fine below this line' },
         { type: 'threshold', axis: 'y', value: 6.8, text: 'We\'re on trouble over this line' },
         { type: 'threshold', axis: 'x', value: 3.1, text: 'Something could happen at this point' }
-    ]);
+    ])
+	.statistics([
+		{type: 'confidenceBand', variable: 'serie2', confidence: 'error',
+		 modifier: (confidence) => 2 * confidence},
+		{type: 'confidenceBand', variable: 'serie1', confidence: 'error',
+		 modifier: (confidence) => 2 * confidence},
+	]);
     confidenceLinechart.draw();
 
 	var temporalData = [
@@ -89,7 +94,11 @@
         markerSize: 0, // No markers,
         xAxisLabel: 'Numbers',
         yAxisLabel: 'Y Axis',
-    });
+    })
+	.statistics([
+		{type: 'confidenceBand', variable: 'serie1', confidence: 'error',
+		 modifier: (confidence) => 2 * confidence}
+	]);
     temporalLinechart.draw();
 
     </script>
