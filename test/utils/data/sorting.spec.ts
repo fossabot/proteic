@@ -1,3 +1,4 @@
+/* tslint:disable */ 
 import {
     sortByField
 } from '../../../src/utils/data/sorting';
