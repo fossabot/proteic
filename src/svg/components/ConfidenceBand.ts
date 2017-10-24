@@ -10,52 +10,59 @@ class ConfidenceBand extends Component {
     private x: XAxis;
     private y: YAxis;
     private areaGenerator: Area<any>;
-    private confidenceContainer: any;
+    private confidenceBandConfig: ConfidenceBandConfig;
+    private id: number;
 
     constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
         this.y = y;
+        this.confidenceBandConfig = new ConfidenceBandConfig();
+        this.id = 0;
     }
 
     public render() {
-        let height = this.config.get('height'),
-            propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            curve: CurveFactory = this.config.get('curve'),
-            propertyError = this.config.get('propertyError'),
-            confidenceModifier = this.config.get('confidenceModifier');
+        this.svg.select('g.statistics')
+                .append('g')
+                .attr('class', 'confidenceSet');
+    }
 
-        this.confidenceContainer = this.svg.append('g')
-            .attr('class', 'confidenceSet');
+    public update(data: [any]) {
+        this.confidenceBandConfig.put(this.config.get('confidenceBandConfig'));
+        let confidenceModifier: Function = this.confidenceBandConfig.modifier,
+            confidence = this.confidenceBandConfig.confidence,
+            variable: string = this.confidenceBandConfig.variable;
+
+        let propertyX = this.config.get('propertyX'),
+            propertyY = this.config.get('propertyY'),
+            curve: CurveFactory = this.config.get('curve');
 
         this.areaGenerator = area()
             .curve(curve)
             .x((d: any) => this.x.xAxis.scale()(d[propertyX]))
-            .y0((d: any) => this.y.yAxis.scale()(d[propertyY] - confidenceModifier(d[propertyError])))
-            .y1((d: any) => this.y.yAxis.scale()(d[propertyY] + confidenceModifier(d[propertyError])));
-    }
+            .y0((d: any) => this.y.yAxis.scale()(d[propertyY] - confidenceModifier(d[confidence])))
+            .y1((d: any) => this.y.yAxis.scale()(d[propertyY] + confidenceModifier(d[confidence])));
 
-    public update(data: [any]) {
+
         let propertyKey = this.config.get('propertyKey'),
             colorScale = this.config.get('colorScale'),
             confidenceBandOpacity = this.config.get('confidenceBandOpacity');
 
-        let dataSeries = nest().key((d: any) => d[propertyKey]).entries(data);
+        let eventData = data.filter((d: any) => d[propertyKey] == variable || d[variable] !== undefined);
 
-        let series = this.confidenceContainer.selectAll('g.confidenceSeries');
-        let confidences = series.data(dataSeries, (d: any) => d[propertyKey]);
+        let dataSeries = nest().key((d: any) => d[propertyKey] ).entries(eventData),
+            series = this.svg.select('g.confidenceSet').selectAll('.confidenceSeries'),
+            confidences = series.data(dataSeries, (d: any) => d[propertyKey]);
 
         this.elementEnter = confidences.enter()
             .append('g')
             .attr('class', 'confidenceSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
             .append('svg:path')
-            .attr('data-proteic-element', 'confidence')
+            .attr('class', 'confidence')
             .style('fill', (d: any) => colorScale(d[propertyKey]))
             .style('fill-opacity', confidenceBandOpacity)
-            .attr('d', (d: any) => this.areaGenerator(d.values))
-            .attr('class', 'confidence');
+            .attr('d', (d: any) => this.areaGenerator(d.values));
 
         this.elementExit = confidences.exit().remove();
 
@@ -83,6 +90,25 @@ class ConfidenceBand extends Component {
         this.svg.selectAll(`*[data-proteic-element='confidence']`).remove();
     }
 
+}
+
+class ConfidenceBandConfig {
+    variable: string;
+    confidence: string | number;
+    modifier: Function;
+
+    constructor() {
+        this.modifier = (confidence: number) => confidence;
+    }
+
+    public put(config: any) {
+        this.variable = config.variable;
+        this.confidence = config.confidence;
+
+        if ('modifier' in config) {
+            this.modifier = config.modifier;
+        }
+    }
 }
 
 export default ConfidenceBand;
