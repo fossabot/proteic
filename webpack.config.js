@@ -5,13 +5,10 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
     devtool: 'source-map',
     watch: false,
-    entry: {
-        js: ['./index.ts'],
-        css: './scss/themes/default/proteic.scss'
-    },
+    entry: ['./src/core.ts', './index.ts'],
     output: {
         library: 'proteic',
-        filename: 'dist/[name].js',
+        filename: 'dist/proteic.js',
     },
     devServer: {
         contentBase: path.join(__dirname, '.'),
@@ -22,12 +19,12 @@ module.exports = {
     },
     module: {
         rules: [
-            { 
-                test: /\.ts$/, 
+            {
+                test: /\.ts$/,
                 enforce: 'pre',
                 loader: 'tslint-loader',
                 options: {
-                    typeCheck: true,
+                    // typeCheck: true,
                     failOnHint: true,
                     emitErrors: true,
                     configuration: require('./tslint.json')
@@ -37,16 +34,6 @@ module.exports = {
                 test: /\.ts$/,
                 loader: 'ts-loader'
             },
-            {
-                test: /\.scss$/,
-                use: [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "sass-loader" // compiles Sass to CSS
-                }]
-            }
         ],
     },
 }
