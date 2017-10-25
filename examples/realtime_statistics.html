@@ -55,7 +55,7 @@
             ])
             .statistics([
                 { type: 'confidenceBand', variable: 'flow', confidence: 'flowError',
-                  modifier: (confidence) => 1 * confidence }
+                  modifier: (confidence) => 0.1 * confidence }
             ])
             .datasource(ds);
             ds.start();
