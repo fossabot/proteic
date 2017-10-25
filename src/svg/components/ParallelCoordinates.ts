@@ -25,7 +25,7 @@ class ParallelCoordinates extends Component {
     private _dimensions: string[] = [];
 
     /**
-     * A scale of dimensions. Determine dimension-position(x position) of parallel coordinates
+     * A scale of dimensions. Determine dimension-position of parallel coordinates
      * @private
      * @memberof ParallelCoordinates
      */
@@ -39,7 +39,8 @@ class ParallelCoordinates extends Component {
     private _yAxes: { [dimension: string]: any } = {};
 
     /**
-     * Type of parallel y-axes extracted from the data. (number or string)
+     * Type of parallel y-axes extracted from the data.
+     * (number, string) -> ('linear', 'categorical')
      * @private
      * @memberof ParallelCoordinates
      */
@@ -61,10 +62,9 @@ class ParallelCoordinates extends Component {
     }
 
     public render() {
-        let width = this.config.get('width'),
-            height = this.config.get('height');
+        let width = this.config.get('width');
 
-        this.initializeParallelCoordinates(width, height);
+        this.initializeParallelCoordinates(width);
     }
 
     public update(data: [any]) {
@@ -74,33 +74,34 @@ class ParallelCoordinates extends Component {
 
         let missingDimensions: boolean = false;
 
-        // update dimensions of data and check whether data with missing dimensions exists
+        // extract dimensions of each data and check if data with missing dimensions exists
         data.map((d, i) => {
             let dimensions = Object.keys(d).filter((dimension) => dimension != propertyKey);
-            if (dimensions.length > this._dimensions.length) {
-                if (i != 0) {
+            if (dimensions.length != this._dimensions.length) {
+                if (i != 0 && !missingDimensions) {
                     missingDimensions = true;
                 }
-                this._dimensions = dimensions;
+                if (dimensions.length > this._dimensions.length) {
+                    this._dimensions = dimensions;
+                }
             }
         });
 
-        // optimize to avoid looping by getting one valid data
+        // optimize to avoid looping by getting one of valid data
         let validData = data.find(this.getValidData, this);
 
         this.updateYaxesType(validData);
         this.updateDomainOfDimensions();
         this.updateYaxesByDimensions(data, height);
 
-        this.dragEventPositions = {};
-        this.brushedExtent = {};
+        this.initializeEvent(); // TODO separate event to each component
 
         let thisInstance = this;    // To use instance method in selection event
 
         if (missingDimensions) {
             this.noValueLine = {
                 axis: axisBottom(this._dimensionScale).tickFormat((d) => ''),
-                height: height + 100
+                height: height * 1.1
             };
 
             this.svg.append('g')
@@ -164,7 +165,7 @@ class ParallelCoordinates extends Component {
                 .attr('width', 16);
     }
 
-    private initializeParallelCoordinates(width: number, height: number) {
+    private initializeParallelCoordinates(width: number) {
         this._dimensionScale = scalePoint().range([0, width]);
     }
 
@@ -255,6 +256,11 @@ class ParallelCoordinates extends Component {
     }
 
     // TODO we will separate drag component later
+
+    private initializeEvent() {
+        this.dragEventPositions = {};
+        this.brushedExtent = {};
+    }
 
     private startDrag(dimension: any) {
         this.svg.selectAll('.background')
