@@ -15,6 +15,7 @@ import Globals from '../Globals';
 import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
 import ErrorSet from '../svg/components/ErrorSet';
+import Statistics from '../svg/components/Statistics';
 
 /**
  *
@@ -176,6 +177,17 @@ abstract class Chart {
         this.config.put('annotations', annotations);
         this.annotationsConfig = annotations;
         this.strategy.addComponent(Annotations, annotations);
+        return this;
+    }
+
+    /**
+     *Configure statistics component for current instance
+     *@public
+     *@memberof Chart
+     */
+    public statistics(statistics: [{}]) {
+        this.config.put('statistics', statistics);
+        this.strategy.addComponent(Statistics, this.config);
         return this;
     }
 
