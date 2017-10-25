@@ -6,7 +6,6 @@ import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
 import Annotations from '../components/Annotations';
 import Alerts from '../components/Alerts';
-import ConfidenceBand from '../components/ConfidenceBand';
 import PauseSet from '../components/PauseSet';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -39,7 +38,6 @@ class SvgStrategyLinechart extends SvgStrategy {
     private spinner: Spinner;
     private annotations: Annotations;
     private alerts: Alerts;
-    private confidenceBand: ConfidenceBand;
     private pauseButton: PauseSet;
 
     constructor() {
@@ -72,8 +70,6 @@ class SvgStrategyLinechart extends SvgStrategy {
             width = this.config.get('width'),
             height = this.config.get('height'),
             spinner = this.config.get('spinner'),
-            confidenceBand = this.config.get('confidenceBand'),
-            confidenceBandOpacity = this.config.get('confidenceBandOpacity'),
             pauseButton = this.config.get('pauseButton');
 
         this.container
@@ -85,11 +81,6 @@ class SvgStrategyLinechart extends SvgStrategy {
             this.area = new Areaset(this.axes.x, this.axes.y);
             this.container.add(this.area);
 
-        }
-
-        if (confidenceBandOpacity > 0) {
-            this.confidenceBand = new ConfidenceBand(this.axes.x, this.axes.y);
-            this.container.add(this.confidenceBand);
         }
 
         if (markerSize > 0) {
