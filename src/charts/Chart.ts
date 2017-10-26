@@ -296,7 +296,6 @@ abstract class Chart {
             propertyKey = this.config.get('propertyKey'),
             propertyStart = this.config.get('propertyStart'),
             propertyEnd = this.config.get('propertyEnd'),
-            propertyError = this.config.get('propertyError'),
             pause: boolean = this.config.get('pause');
 
         let dataKeys = [
@@ -306,7 +305,6 @@ abstract class Chart {
             propertyKey,
             propertyStart,
             propertyEnd,
-            propertyError
         ].filter((p) => p !== undefined);
 
         if (!this.streamingIntervalIdentifier) {

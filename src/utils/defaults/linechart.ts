@@ -31,7 +31,6 @@ export const defaults: any = {
     propertyX: 'x',
     propertyY: 'y',
     propertyKey: 'key',
-    propertyError: 'error',
     nullValues: ['NULL', 'NUL', '\\N', NaN, null, 'NaN'],
     // Events
     onDown(d: any) {
