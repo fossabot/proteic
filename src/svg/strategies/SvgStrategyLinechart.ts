@@ -6,6 +6,8 @@ import Legend from '../components/Legend';
 import Spinner from '../components/Spinner';
 import Annotations from '../components/Annotations';
 import Alerts from '../components/Alerts';
+import Brush from '../components/Brush';
+import ClipPath from '../components/ClipPath';
 import PauseSet from '../components/PauseSet';
 import Config from '../../Config';
 import SvgStrategy from '../base/SvgStrategy';
@@ -70,7 +72,8 @@ class SvgStrategyLinechart extends SvgStrategy {
             width = this.config.get('width'),
             height = this.config.get('height'),
             spinner = this.config.get('spinner'),
-            pauseButton = this.config.get('pauseButton');
+            pauseButton = this.config.get('pauseButton'),
+            brush = this.config.get('brush');
 
         this.container
             .add(this.axes)
@@ -103,6 +106,13 @@ class SvgStrategyLinechart extends SvgStrategy {
             this.container.add(this.pauseButton);
         }
 
+        if (brush) {
+            this.container
+                .add(new Brush(this.axes.x, this.axes.y, () => 
+                    this.container.transitionComponents())
+                )
+                .add(new ClipPath(width, height, 'brush'));
+        }
     }
 }
 
