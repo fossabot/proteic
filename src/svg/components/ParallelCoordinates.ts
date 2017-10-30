@@ -101,7 +101,7 @@ class ParallelCoordinates extends Component {
         if (missingDimensions) {
             this.noValueLine = {
                 axis: axisBottom(this._dimensionScale).tickFormat((d) => ''),
-                height: height * 1.1
+                height: height * 1.2
             };
 
             this.svg.append('g')
@@ -112,7 +112,7 @@ class ParallelCoordinates extends Component {
             this.svg.append('text')
                 .attr('class', 'xaxis-title')
                 .attr('x', width + 10)
-                .attr('y', height + 105)
+                .attr('y', height * 1.21)
                 .text('No Value');
         }
 
