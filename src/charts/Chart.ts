@@ -185,7 +185,7 @@ abstract class Chart {
      *@public
      *@memberof Chart
      */
-    public statistics(statistics: [{}]) {
+    public statistics(statistics: any) {
         this.config.put('statistics', statistics);
         this.strategy.addComponent(Statistics, this.config);
         return this;
