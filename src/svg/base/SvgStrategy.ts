@@ -5,6 +5,7 @@ import Annotations from '../components/Annotations';
 import Config from '../../Config';
 import inject from '../../inject';
 import ErrorSet from '../components/ErrorSet';
+import Statistics from '../components/Statistics';
 
 abstract class SvgStrategy {
 
@@ -24,13 +25,16 @@ abstract class SvgStrategy {
     abstract draw(data: [{}], events: Map<string, any>): void;
 
     public addComponent(component: Function, config: any) {
+        let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
         switch (component.name) {
             case Annotations.name:
-                let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
                 this.container.add(new Annotations(axes.x, axes.y, config));
                 break;
             case ErrorSet.name:
                 this.container.add(new ErrorSet());
+                break;
+            case Statistics.name:
+                this.container.add(new Statistics(axes.x, axes.y));
                 break;
         }
     }

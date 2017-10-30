@@ -15,6 +15,7 @@ import Globals from '../Globals';
 import Annotations from '../svg/components/Annotations';
 import GlobalInjector from '../GlobalInjector';
 import ErrorSet from '../svg/components/ErrorSet';
+import Statistics from '../svg/components/Statistics';
 
 /**
  *
@@ -179,6 +180,17 @@ abstract class Chart {
         return this;
     }
 
+    /**
+     *Configure statistics component for current instance
+     *@public
+     *@memberof Chart
+     */
+    public statistics(statistics: any) {
+        this.config.put('statistics', statistics);
+        this.strategy.addComponent(Statistics, this.config);
+        return this;
+    }
+
     public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
         // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like).
         this.context.draw(copy(data), this.events);
@@ -284,7 +296,6 @@ abstract class Chart {
             propertyKey = this.config.get('propertyKey'),
             propertyStart = this.config.get('propertyStart'),
             propertyEnd = this.config.get('propertyEnd'),
-            propertyError = this.config.get('propertyError'),
             pause: boolean = this.config.get('pause');
 
         let dataKeys = [
@@ -294,7 +305,6 @@ abstract class Chart {
             propertyKey,
             propertyStart,
             propertyEnd,
-            propertyError
         ].filter((p) => p !== undefined);
 
         if (!this.streamingIntervalIdentifier) {
