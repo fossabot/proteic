@@ -25,7 +25,7 @@ abstract class SvgStrategy {
     abstract draw(data: [{}], events: Map<string, any>): void;
 
     public addComponent(component: Function, config: any) {
-        let axes: XYAxes = <XYAxes>this.container.getComponent(XYAxes.name);
+        let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
         switch (component.name) {
             case Annotations.name:
                 this.container.add(new Annotations(axes.x, axes.y, config));
