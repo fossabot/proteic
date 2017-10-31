@@ -46,7 +46,7 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
-        if (!this.annotations) {
+        if (!this.annotations || !Array.isArray(this.annotations)) {
             return;
         }
 
