@@ -176,7 +176,7 @@ abstract class Chart {
     public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         this.annotationsConfig = annotations;
-        this.strategy.addComponent(Annotations, annotations);
+        this.strategy.addComponent('Annotations', annotations);
         return this;
     }
 
@@ -187,7 +187,7 @@ abstract class Chart {
      */
     public statistics(statistics: any) {
         this.config.put('statistics', statistics);
-        this.strategy.addComponent(Statistics, this.config);
+        this.strategy.addComponent('Statistics', this.config);
         return this;
     }
 
@@ -216,7 +216,7 @@ abstract class Chart {
     }
 
     private handleWebSocketError (e: any) {
-        this.strategy.addComponent(ErrorSet, this.config);
+        this.strategy.addComponent('ErrorSet', this.config);
     }
 
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {

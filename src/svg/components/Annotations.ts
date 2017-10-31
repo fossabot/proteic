@@ -1,11 +1,14 @@
 import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
-import { max, min } from 'd3-array';
+import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from '../../utils/functions';
 import Globals from '../../Globals';
+import { max, min } from 'd3-array';
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
-import { copy, isValuesInObjectKeys, hasValuesWithKeys, filterKeys } from '../../utils/functions';
+import {
+    map
+} from 'd3';
 
 class Annotations extends Component {
     private y: YAxis;
@@ -43,7 +46,7 @@ class Annotations extends Component {
             maxY = max(data, (d) => d[propertyY]),
             datum = null;
 
-        if (!this.annotations) {
+        if (!this.annotations || !Array.isArray(this.annotations)) {
             return;
         }
 
