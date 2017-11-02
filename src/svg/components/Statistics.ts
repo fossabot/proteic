@@ -90,7 +90,7 @@ class Statistics extends Component {
     }
 
     public transition() {
-
+        this.confidenceBand.transition();
     }
 
     public clear() {

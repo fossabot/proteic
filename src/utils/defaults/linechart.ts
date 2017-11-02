@@ -48,5 +48,6 @@ export const defaults: any = {
     spinner: true,
     confidenceBandOpacity: 0.5,
     pauseButton: false,
-    pauseButtonPosition: 'bottom'
+    pauseButtonPosition: 'bottom',
+    brush: true
 };
