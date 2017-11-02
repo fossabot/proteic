@@ -47,7 +47,7 @@ export const defaults: any = {
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
     spinner: true,
     confidenceBandOpacity: 0.5,
-    pauseButton: true,
+    pauseButton: false,
     pauseButtonPosition: 'bottom',
     brush: true
 };
