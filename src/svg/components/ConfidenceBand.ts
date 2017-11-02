@@ -58,6 +58,7 @@ class ConfidenceBand extends Component {
             .append('g')
             .attr('class', 'confidenceSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
+            .attr('clip-path', 'url(#' + this.config.get('proteicID') + '_brush)')                        
             .each(function(bindingData: any) {
                 // mapping all of confidence band configure to each data and draw it
                 thisInstance.confidenceBandConfig.map((config) => {
@@ -75,15 +76,7 @@ class ConfidenceBand extends Component {
         this.elementExit = confidenceBandEntries.exit().remove();
 
         this.elementUpdate = this.svg.selectAll('.confidence')
-            .data(dataSeries, (d: any) => d[propertyKey])
-            .each(function(bindingData: any) {
-                thisInstance.confidenceBandConfig.map((config) => {
-                    if (config.variable == bindingData[propertyKey]) {
-                        select(this)
-                            .attr('d', (d: any) => thisInstance.path(d));
-                    }
-                });
-            });
+            .data(dataSeries, (d: any) => d[propertyKey]);
     }
 
     private path(data: any) {
@@ -107,7 +100,18 @@ class ConfidenceBand extends Component {
     }
 
     public transition() {
+        let propertyKey = this.config.get('propertyKey'),
+            thisInstance = this;
+        console.log('transition confidence');
         this.elementUpdate
+            .each(function(bindingData: any) {
+                thisInstance.confidenceBandConfig.map((config: any) => {
+                    if (config.variable == bindingData[propertyKey]) {
+                        select(this)
+                            .attr('d', (d: any) => thisInstance.path(d));
+                    }
+                });
+            })
             .transition()
             .duration(Globals.COMPONENT_TRANSITION_TIME)
             .ease(easeLinear);
