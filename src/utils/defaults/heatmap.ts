@@ -6,7 +6,6 @@ import StreamingStrategy from '../../charts/enums/StreamingStrategy';
 export const defaults: any = {
     selector: '#chart',
     colorScale: Colors.sequentialPurpleInterpolated(), // TODO fix error and use proteic colours
-    legendCells: 13,
     xStep: 1,
     yStep: 1,
     xAxisType: 'categorical',
@@ -27,6 +26,7 @@ export const defaults: any = {
     height: 250,
     legend: true,
     legendPosition: 'right',
+    legendCells: 13,
     legendTitle: '',
     propertyX: 'x',
     propertyY: 'y',

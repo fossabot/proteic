@@ -24,16 +24,16 @@ abstract class SvgStrategy {
 
     abstract draw(data: [{}], events: Map<string, any>): void;
 
-    public addComponent(component: Function, config: any) {
-        let axes: XYAxes = <XYAxes>this.container.getComponent(XYAxes.name);
-        switch (component.name) {
-            case Annotations.name:
+    public addComponent(component: string, config: any) {
+        let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
+        switch (component) {
+            case 'Annotations':
                 this.container.add(new Annotations(axes.x, axes.y, config));
                 break;
-            case ErrorSet.name:
+            case 'ErrorSet':
                 this.container.add(new ErrorSet());
                 break;
-            case Statistics.name:
+            case 'Statistics':
                 this.container.add(new Statistics(axes.x, axes.y));
                 break;
         }

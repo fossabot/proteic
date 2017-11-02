@@ -4,11 +4,7 @@ import YAxis from './YAxis';
 import Globals from '../../Globals';
 import ConfidenceBand from './ConfidenceBand';
 import {
-    area,
-    nest,
-    CurveFactory,
-    Area,
-    easeLinear
+    map
 } from 'd3';
 
 class Statistics extends Component {
