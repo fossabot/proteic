@@ -102,7 +102,7 @@ class ConfidenceBand extends Component {
     public transition() {
         let propertyKey = this.config.get('propertyKey'),
             thisInstance = this;
-        console.log('transition confidence');
+        
         this.elementUpdate
             .each(function(bindingData: any) {
                 thisInstance.confidenceBandConfig.map((config: any) => {
