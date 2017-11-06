@@ -59,7 +59,7 @@ class ConfidenceBand extends Component {
             .append('g')
             .attr('class', 'confidenceSeries')
             .attr(Globals.COMPONENT_DATA_KEY_ATTRIBUTE, (d: any) => d[propertyKey])
-            .attr('clip-path', 'url(#' + this.config.get('proteicID') + '_brush)')                        
+            .attr('clip-path', 'url(#' + this.config.get('proteicID') + '_brush)')
             .each(function(bindingData: any) {
                 // mapping all of confidence band configure to each data and draw it
                 thisInstance.confidenceBandConfig.map((config) => {
@@ -103,7 +103,7 @@ class ConfidenceBand extends Component {
             if (d[propertyY] + confidenceModifier(d[confidence]) > max) {
                 max = d[propertyY] + confidenceModifier(d[confidence]);
             }
-        })
+        });
         this.yExtent = [min, max];
 
         this.areaGenerator = area()
@@ -118,7 +118,7 @@ class ConfidenceBand extends Component {
     public transition() {
         let propertyKey = this.config.get('propertyKey'),
             thisInstance = this;
-        
+
         this.elementUpdate
             .each(function(bindingData: any) {
                 thisInstance.confidenceBandConfig.map((config: any) => {
