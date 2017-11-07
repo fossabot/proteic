@@ -88,13 +88,14 @@ class ConfidenceBand extends Component {
             propertyY = this.config.get('propertyY'),
             curve: CurveFactory = this.config.get('curve');
 
-        let confidenceConfig = this.confidenceBandConfig.filter((config) => config.variable == data[propertyKey])[0];
+        let confidenceConfig = this.confidenceBandConfig.find((config) => config.variable == data[propertyKey]);
 
         let confidenceModifier: Function = confidenceConfig.modifier,
             confidence = confidenceConfig.confidence;
 
-        let min = this.y.extent[0],
-            max = this.y.extent[1];
+        // if no y-extent adjusted by confidence-vaule exists, get y-extent from original y-axis  
+        let min = this.yExtent ? this.yExtent[0] : this.y.extent[0],
+            max = this.yExtent ? this.yExtent[1] : this.y.extent[1];
 
         data.values.map((d: any) => {
             if (d[propertyY] - confidenceModifier(d[confidence]) < min) {
