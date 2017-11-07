@@ -94,6 +94,7 @@ class ConfidenceBand extends Component {
                 this.yExtent = null;
             } else {
                 this.y.updateDomainByMinMax(this.yExtent[0], this.yExtent[1]);
+                this.yExtent = null;
             }
 
         }
