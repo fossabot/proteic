@@ -21,6 +21,15 @@ class ConfidenceBand extends Component {
     private areaGenerator: Area<any>;
 
     /**
+    * A boolean variable to notice there are binding-data in svg element
+    * ConfidenceBand transition() must be called after binding data with svg element
+    * @private
+    * @type {boolean}
+    * @memberof confidenceBand
+    */
+    private bindingData: boolean = false;
+
+    /**
     * An array of all configuration of confidence band
     * It is gathered from 'confidenceBand' type parameter of statistics component
     * @private
@@ -73,6 +82,7 @@ class ConfidenceBand extends Component {
                     }
                 });
             });
+        this.bindingData = true;
 
         this.elementExit = confidenceBandEntries.exit().remove();
 
@@ -117,6 +127,9 @@ class ConfidenceBand extends Component {
     }
 
     public transition() {
+        if (!this.bindingData) {
+            return;
+        }
         let propertyKey = this.config.get('propertyKey'),
             thisInstance = this;
 
