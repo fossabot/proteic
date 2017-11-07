@@ -46,7 +46,7 @@ export const defaults: any = {
     streamingStrategy: StreamingStrategy.ADD,
     maxNumberOfElements: 100, // used by keepDrawing method to reduce the number of elements in the current chart
     spinner: true,
-    confidenceBandOpacity: 0.5,
+    confidenceBandOpacity: 0.3,
     pauseButton: false,
     pauseButtonPosition: 'bottom',
     brush: true
