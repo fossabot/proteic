@@ -23,10 +23,6 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            mangle: {
-                except: ['$super', '$', 'exports', 'require'],
-                keep_fnames: true
-            },
             sourceMap : true
         })
 
