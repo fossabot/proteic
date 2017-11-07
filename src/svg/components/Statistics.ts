@@ -69,7 +69,6 @@ class Statistics extends Component {
 
     public update(data: [any]) {
         if (typeof data === undefined || data.length == 0 || !this.statisticsConfig) {
-            this.clear();
             return;
         }
 
@@ -99,7 +98,6 @@ class Statistics extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('.statistics').remove();
     }
 }
 
