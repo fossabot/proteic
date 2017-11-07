@@ -89,7 +89,14 @@ class ConfidenceBand extends Component {
         this.elementUpdate = this.svg.selectAll('.confidence')
             .data(dataSeries, (d: any) => d[propertyKey]);
 
-        this.y.updateDomainByMinMax(this.yExtent[0], this.yExtent[1]);
+        if (this.yExtent) {
+            if (data.length == 0) {
+                this.yExtent = null;
+            } else {
+                this.y.updateDomainByMinMax(this.yExtent[0], this.yExtent[1]);
+            }
+
+        }
     }
 
     private path(data: any) {

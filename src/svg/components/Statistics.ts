@@ -67,8 +67,8 @@ class Statistics extends Component {
         });
     }
 
-    public update(data: [any]) {
-        if (typeof data === undefined || data.length == 0 || !this.statisticsConfig) {
+    public update(data: any[]) {
+        if (!this.statisticsConfig) {
             return;
         }
 
@@ -86,7 +86,7 @@ class Statistics extends Component {
         component.render();
     }
 
-    private updateComponent(component: Component, data: [any]) {
+    private updateComponent(component: Component, data: any[]) {
         component.update(data);
         this.statisticsCallback();
     }
@@ -98,6 +98,7 @@ class Statistics extends Component {
     }
 
     public clear() {
+        this.update([]);
     }
 }
 
