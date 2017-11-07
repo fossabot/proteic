@@ -7,7 +7,7 @@
 <!--<![endif]-->
 
 <head>
-	<title>Simple ConfidenceLinechart</title>
+	<title>Simple ConfidenceBand on LineChart</title>
 	<script src='../node_modules/d3/build/d3.min.js'></script>
 	<script src='../dist/proteic.js'></script>
 	<link rel="stylesheet" href="../dist/proteic.css">
@@ -27,7 +27,7 @@
             {key:'serie1', x:6, y:0, error:1},
             {key:'serie1', x:7, y:21, error:1},
             {key:'serie1', x:8, y:0, error:1},
-            {key:'serie2', x:1, y:4, error:1},
+            {key:'serie2', x:1, y:-1, error:1},
             {key:'serie2', x:2, y:4, error:1},
             {key:'serie2', x:3, y:20, error:1},
             {key:'serie2', x:7, y:12, error:1},
@@ -37,7 +37,7 @@
             {key:'serie2', x:8, y:13, error:1}
     ];
     confidenceLinechart = new proteic.Linechart(dataArea, {
-		confidenceBandOpacity: 0.3, // default is 0.5
+		confidenceBandOpacity: 0.3,
     	selector: '#chart',
         markerSize:10,
         markerShape: 'dot',
@@ -84,8 +84,8 @@
         {key:'serie1', x: '01/20/16', y: 3, error: 0.5}
     ];
     temporalLinechart = new proteic.Linechart(temporalData, {
-		confidenceBandOpacity: 0.7,
-		areaOpacity: 0.3,
+		confidenceBandOpacity: 0.4,
+		areaOpacity: 0.2,
     	xAxisType: 'time',
         xAxisFormat: '%m/%d/%y',
         selector: '#chart-temporal',

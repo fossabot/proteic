@@ -34,10 +34,13 @@ class Statistics extends Component {
     */
     private confidenceBand: ConfidenceBand;
 
-    constructor(x: XAxis, y: YAxis) {
+    private statisticsCallback: Function; // call transition() in all components added to container
+
+    constructor(x: XAxis, y: YAxis, statisticsCallback: Function) {
         super();
         this.x = x;
         this.y = y;
+        this.statisticsCallback = statisticsCallback;
     }
 
     public render() {
@@ -64,9 +67,8 @@ class Statistics extends Component {
         });
     }
 
-    public update(data: [any]) {
-        if (typeof data === undefined || data.length == 0 || !this.statisticsConfig) {
-            this.clear();
+    public update(data: any[]) {
+        if (!this.statisticsConfig) {
             return;
         }
 
@@ -84,17 +86,19 @@ class Statistics extends Component {
         component.render();
     }
 
-    private updateComponent(component: Component, data: [any]) {
+    private updateComponent(component: Component, data: any[]) {
         component.update(data);
-        component.transition();
+        this.statisticsCallback();
     }
 
     public transition() {
-        this.confidenceBand.transition();
+        if (this.confidenceBand) {
+            this.confidenceBand.transition();
+        }
     }
 
     public clear() {
-        this.svg.selectAll('.statistics').remove();
+        this.update([]);
     }
 }
 
