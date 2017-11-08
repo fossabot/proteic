@@ -71,7 +71,7 @@ class YAxis extends Component {
         let yAxisType = this.config.get('yAxisType'),
             yAxisShow = this.config.get('yAxisShow'),
             layoutStacked = this.config.get('stacked'),
-            annotations = this.config.get('annotations');
+            annotationsConfig = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
         let min: string = '0', max: string = '0';
@@ -92,10 +92,10 @@ class YAxis extends Component {
             let maxNumber = +max;
 
             // TODO: Refactor and move this piece of code.
-            if (annotations && annotations.length) {
-                let annotation = annotations.filter((a: any) => a.type == 'band');
-                if (annotation) {
-                    annotation.map((annotation: any) => {
+            if (annotationsConfig && annotationsConfig.length) {
+                let annotations = annotationsConfig.filter((a: any) => a.type == 'band');
+                if (annotations) {
+                    annotations.map((annotation: any) => {
                         let variable: string = annotation.variable,
                             width: string | number = annotation.width;
 
