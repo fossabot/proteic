@@ -117,7 +117,9 @@ class YAxis extends Component {
                 }
             }
             this.yExtent = [minNumber, maxNumber];
-            this.updateDomainByMinMax(minNumber, maxNumber);
+            if (!this.checkUpdateDomainByOhterComponent()) {
+                this.updateDomainByMinMax(minNumber, maxNumber);
+            }
 
         } else if (yAxisType === 'categorical') {
             // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
@@ -131,6 +133,26 @@ class YAxis extends Component {
             this.transition();
         }
 
+    }
+
+    /**
+    * Check the components calling 'updateDomainByMinMax' is configured
+    * It can prevent updating y-domain frequently
+    * @returns {boolean}
+    * @private
+    * @memberof YAxis
+    * @todo If new components with updateDomainByMinMax is updated, scale it out to this method
+    */
+    private checkUpdateDomainByOhterComponent(): boolean {
+        // TODO add annotations config condition
+        let statisticsConfig = this.config.get('statistics');
+        if (statisticsConfig) {
+            if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public updateDomainByMinMax(min: number, max: number) {
