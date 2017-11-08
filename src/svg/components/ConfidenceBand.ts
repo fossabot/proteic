@@ -90,13 +90,11 @@ class ConfidenceBand extends Component {
             .data(dataSeries, (d: any) => d[propertyKey]);
 
         if (this.yExtent) {
-            if (data.length == 0) {
-                this.yExtent = null;
-            } else {
+            if (data && data.length != 0) {
                 this.y.updateDomainByMinMax(this.yExtent[0], this.yExtent[1]);
-                this.yExtent = null;
             }
-
+            // initialize when update finished because of getting the latest y-domain extent in next update
+            this.yExtent = null;
         }
     }
 
@@ -111,7 +109,7 @@ class ConfidenceBand extends Component {
         let confidenceModifier: Function = confidenceConfig.modifier,
             confidence = confidenceConfig.confidence;
 
-        // if no y-extent adjusted by confidence-vaule exists, get y-extent from original y-axis  
+        // if no y-extent adjusted by confidence-vaule exists, get y-extent from original y-axis
         let min = this.yExtent ? this.yExtent[0] : this.y.extent[0],
             max = this.yExtent ? this.yExtent[1] : this.y.extent[1];
 

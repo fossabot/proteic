@@ -71,7 +71,7 @@ class YAxis extends Component {
         let yAxisType = this.config.get('yAxisType'),
             yAxisShow = this.config.get('yAxisShow'),
             layoutStacked = this.config.get('stacked'),
-            annotations = this.config.get('annotations');
+            annotationsConfig = this.config.get('annotations');
 
         this.selection.attr('opacity', yAxisShow ? 1 : 0);
         let min: string = '0', max: string = '0';
@@ -92,24 +92,34 @@ class YAxis extends Component {
             let maxNumber = +max;
 
             // TODO: Refactor and move this piece of code.
-            if (annotations && annotations.length) {
-                let annotation = annotations[0];
-                let variable: string = annotation.variable;
-                let width: string = annotation.width;
-                let annotationArray = data.filter((d: any) => d[propertyKey] == variable);
-                if (annotationArray && annotationArray.length) {
-                    for (let a of annotationArray) {
-                        if (a[propertyY] - a[width] < minNumber) {
-                            minNumber = a[propertyY] - a[width];
+            if (annotationsConfig && annotationsConfig.length) {
+                let annotations = annotationsConfig.filter((a: any) => a.type == 'band');
+                if (annotations) {
+                    annotations.map((annotation: any) => {
+                        let variable: string = annotation.variable,
+                            width: string | number = annotation.width;
+
+                        let annotationData = data.filter((d: any) => d[propertyKey] == variable);
+                        if (annotationData && annotationData.length) {
+                            for (let a of annotationData) {
+                                if (typeof width == 'number') {
+                                    a[width] = width;
+                                }
+                                if (a[propertyY] - a[width] < minNumber) {
+                                    minNumber = a[propertyY] - a[width];
+                                }
+                                if (a[propertyY] + a[width] > maxNumber) {
+                                    maxNumber = a[propertyY] + a[width];
+                                }
+                            }
                         }
-                        if (a[propertyY] + a[width] > maxNumber) {
-                            maxNumber = a[propertyY] + a[width];
-                        }
-                    }
+                    });
                 }
             }
             this.yExtent = [minNumber, maxNumber];
-            this.updateDomainByMinMax(minNumber, maxNumber);
+            if (!this.checkUpdateDomainByOhterComponent()) {
+                this.updateDomainByMinMax(minNumber, maxNumber);
+            }
 
         } else if (yAxisType === 'categorical') {
             // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
@@ -123,6 +133,26 @@ class YAxis extends Component {
             this.transition();
         }
 
+    }
+
+    /**
+    * Check the components calling 'updateDomainByMinMax' is configured
+    * It can prevent updating y-domain frequently
+    * @returns {boolean}
+    * @private
+    * @memberof YAxis
+    * @todo If new components with updateDomainByMinMax is updated, scale it out to this method
+    */
+    private checkUpdateDomainByOhterComponent(): boolean {
+        // TODO add annotations config condition
+        let statisticsConfig = this.config.get('statistics');
+        if (statisticsConfig) {
+            if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public updateDomainByMinMax(min: number, max: number) {

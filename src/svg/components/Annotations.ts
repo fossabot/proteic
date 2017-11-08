@@ -15,6 +15,8 @@ class Annotations extends Component {
     private x: XAxis;
     private thresholdConfig: any;
     private annotations: any;
+    private events: Map<string, any>;
+    private annotation: any;
 
     constructor(x: XAxis, y: YAxis, annotations: any) {
         super();
@@ -23,53 +25,48 @@ class Annotations extends Component {
         this.annotations = annotations;
     }
 
-    render() {
+    public render() {
         let annotations = this.svg.append('g')
             .attr('class', 'annotations')
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
     public update(data: [any], events: Map<string, any>) {
-        if (typeof data === undefined || data.length == 0) {
+        if (typeof data === undefined || data.length == 0 ||
+            !this.annotations || !Array.isArray(this.annotations)
+        ) {
             this.clear();
             return;
         }
+        this.events = events;
+        this.makeAnnotation();
 
-        let propertyX = this.config.get('propertyX'),
-            propertyY = this.config.get('propertyY'),
-            propertyZ = this.config.get('propertyZ'),
-            y = this.y.yAxis.scale(),
-            x = this.x.xAxis.scale(),
-            minX = min(data, (d) => d[propertyX]),
-            minY = min(data, (d) => d[propertyY]),
-            maxX = max(data, (d) => d[propertyX]),
-            maxY = max(data, (d) => d[propertyY]),
-            datum = null;
+        this.svg.select('.annotations')
+            .call(this.annotation)
+            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+    }
 
-        if (!this.annotations || !Array.isArray(this.annotations)) {
-            return;
-        }
-
+    private makeAnnotation() {
         let annotation: any = d3Annotation.annotation()
             .annotations(this.annotations.map((a: any) => {
                 switch (a.type) {
                     case 'threshold':
                         if (a.variable) {
-                            a.value = events.get(a.variable);
+                            a.value = this.events.get(a.variable);
                         }
                         if (a.value) {
                             return this.makeThresholdAnnotation(a);
                         }
                         break;
                     case 'band':
-                        a.value = events.get(a.variable);
+                        a.value = this.events.get(a.variable);
                         if (a.value && a.width) {
                             let width = a.width;
                             if (typeof a.width == 'string') {
-                                width = events.get(a.width);
+                                width = this.events.get(a.width);
                             }
                             if (width !== 0) {
-                                return this.makeBandAnnotation(a.value, width, a.text, minY);
+                                return this.makeBandAnnotation(a.value, width, a.text);
                             }
                         }
                         break;
@@ -78,13 +75,10 @@ class Annotations extends Component {
                 }
                 return annotation;
             }).filter((a: any) => a)); // Filter nulls
-
-        this.svg.select('.annotations')
-            .call(annotation)
-            .on('dblclick', () => annotation.editMode(!annotation.editMode()).update());
+            this.annotation = annotation;
     }
 
-    private makeBandAnnotation(value: number, width: number, text: string, minY: number) {
+    private makeBandAnnotation(value: number, width: number, text: string) {
         let chartWidth: number = this.config.get('width'),
             chartHeight: number = this.config.get('height'),
             annotation = null,
@@ -180,7 +174,12 @@ class Annotations extends Component {
         this.svg.selectAll('.annotation').remove();
     }
 
-    public transition() { }
+    public transition() {
+        this.makeAnnotation();
+        this.svg.select('.annotations')
+            .call(this.annotation)
+            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+    }
 }
 
 export default Annotations;
