@@ -7,16 +7,30 @@ import { max, min } from 'd3-array';
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
 import {
-    map
+    map,
+    nest
 } from 'd3';
+
+class EventKeys {
+    variable: string[] = new Array<string>();
+    width: string[] = new Array<string>();
+}
 
 class Annotations extends Component {
     private y: YAxis;
     private x: XAxis;
     private thresholdConfig: any;
     private annotationsConfig: any;
-    private events: Map<string, any>;
     private annotations: any;
+
+    /**
+    * Data for annotations
+    * It is Only updated by the latest data @see makeEvents()
+    * @private
+    * @type {Map<string, any>}
+    * @memberof Annotations
+    */
+    private events: Map<string, any> = new Map();
 
     constructor(x: XAxis, y: YAxis, annotations: any) {
         super();
@@ -38,7 +52,8 @@ class Annotations extends Component {
             this.clear();
             return;
         }
-        this.events = events;
+        this.makeEvents(data);
+
         this.makeAnnotation();
 
         this.svg.select('.annotations')
@@ -46,6 +61,45 @@ class Annotations extends Component {
             .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
     }
 
+    private makeEvents(data: [any]) {
+        let propertyKey = this.config.get('propertyKey'),
+            propertyY = this.config.get('propertyY');
+
+        let eventKeys: EventKeys = new EventKeys();
+
+        this.annotationsConfig.map((a: any) => {
+            if (a.variable) {
+                eventKeys.variable.push(a.variable);
+            }
+            if (typeof a.width == 'string') {
+                 eventKeys.width.push(a.width);
+            }
+        });
+
+        let nestedData = nest().key((d: any) => d[propertyKey]).entries(data);
+        // optimize by using key-nested data to loop only number of key times
+        nestedData.map((d) => {
+            let latestData = d.values[d.values.length - 1];
+
+            eventKeys.variable.map((v) => {
+                if (v == latestData[propertyKey]) {
+                    this.events.set(v, latestData[propertyY]);
+                }
+            });
+            eventKeys.width.map((w) => {
+                if (latestData[w]) {
+                    this.events.set(w, latestData[w]);
+                }
+            });
+        });
+    }
+
+    /**
+    * @function It makes Annotation using d3-annotation and events
+    * This function is also called in transition(). @see transition()
+    * @private
+    * @memberof Annotations
+    */
     private makeAnnotation() {
         let annotations: any = d3Annotation.annotation()
             .annotations(this.annotationsConfig.map((a: any) => {
