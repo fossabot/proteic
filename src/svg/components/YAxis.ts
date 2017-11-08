@@ -93,19 +93,27 @@ class YAxis extends Component {
 
             // TODO: Refactor and move this piece of code.
             if (annotations && annotations.length) {
-                let annotation = annotations[0];
-                let variable: string = annotation.variable;
-                let width: string = annotation.width;
-                let annotationArray = data.filter((d: any) => d[propertyKey] == variable);
-                if (annotationArray && annotationArray.length) {
-                    for (let a of annotationArray) {
-                        if (a[propertyY] - a[width] < minNumber) {
-                            minNumber = a[propertyY] - a[width];
+                let annotation = annotations.filter((a: any) => a.type == 'band');
+                if (annotation) {
+                    annotation.map((annotation: any) => {
+                        let variable: string = annotation.variable,
+                            width: string | number = annotation.width;
+
+                        let annotationData = data.filter((d: any) => d[propertyKey] == variable);
+                        if (annotationData && annotationData.length) {
+                            for (let a of annotationData) {
+                                if (typeof width == 'number') {
+                                    a[width] = width;
+                                }
+                                if (a[propertyY] - a[width] < minNumber) {
+                                    minNumber = a[propertyY] - a[width];
+                                }
+                                if (a[propertyY] + a[width] > maxNumber) {
+                                    maxNumber = a[propertyY] + a[width];
+                                }
+                            }
                         }
-                        if (a[propertyY] + a[width] > maxNumber) {
-                            maxNumber = a[propertyY] + a[width];
-                        }
-                    }
+                    });
                 }
             }
             this.yExtent = [minNumber, maxNumber];
