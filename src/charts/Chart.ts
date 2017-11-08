@@ -198,7 +198,7 @@ abstract class Chart {
         this.strategy.addComponent('Statistics', this.config);
         statistics.forEach((s: any) => {
             this.eventKeys.add(s.variable);
-            this.eventKeys.add(s.width);
+            this.eventKeys.add(s.confidence);
         });
         return this;
     }
