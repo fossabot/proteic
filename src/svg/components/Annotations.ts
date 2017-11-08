@@ -14,15 +14,15 @@ class Annotations extends Component {
     private y: YAxis;
     private x: XAxis;
     private thresholdConfig: any;
-    private annotations: any;
+    private annotationsConfig: any;
     private events: Map<string, any>;
-    private annotation: any;
+    private annotations: any;
 
     constructor(x: XAxis, y: YAxis, annotations: any) {
         super();
         this.x = x;
         this.y = y;
-        this.annotations = annotations;
+        this.annotationsConfig = annotations;
     }
 
     public render() {
@@ -33,7 +33,7 @@ class Annotations extends Component {
 
     public update(data: [any], events: Map<string, any>) {
         if (typeof data === undefined || data.length == 0 ||
-            !this.annotations || !Array.isArray(this.annotations)
+            !this.annotationsConfig || !Array.isArray(this.annotationsConfig)
         ) {
             this.clear();
             return;
@@ -42,13 +42,13 @@ class Annotations extends Component {
         this.makeAnnotation();
 
         this.svg.select('.annotations')
-            .call(this.annotation)
-            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+            .call(this.annotations)
+            .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
     }
 
     private makeAnnotation() {
-        let annotation: any = d3Annotation.annotation()
-            .annotations(this.annotations.map((a: any) => {
+        let annotations: any = d3Annotation.annotation()
+            .annotations(this.annotationsConfig.map((a: any) => {
                 switch (a.type) {
                     case 'threshold':
                         if (a.variable) {
@@ -73,9 +73,9 @@ class Annotations extends Component {
                     default:
                         throw new Error(`Unknown annotation type: ${a.type}`);
                 }
-                return annotation;
+                return annotations;
             }).filter((a: any) => a)); // Filter nulls
-            this.annotation = annotation;
+            this.annotations = annotations;
     }
 
     private makeBandAnnotation(value: number, width: number, text: string) {
@@ -177,8 +177,8 @@ class Annotations extends Component {
     public transition() {
         this.makeAnnotation();
         this.svg.select('.annotations')
-            .call(this.annotation)
-            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+            .call(this.annotations)
+            .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
     }
 }
 
