@@ -49,7 +49,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         this.alerts = new Alerts(this.axes.x, this.axes.y);
     }
 
-    public draw(data: [{}], events: Map<string, any>) {
+    public draw(data: [{}]) {
         let xAxisFormat = this.config.get('xAxisFormat'),
             xAxisType = this.config.get('xAxisType'),
             yAxisFormat = this.config.get('yAxisFormat'),
@@ -60,7 +60,7 @@ class SvgStrategyLinechart extends SvgStrategy {
         convertByXYFormat(data, xAxisFormat, xAxisType, yAxisFormat, yAxisType, propertyX, propertyY);
         sortByField(data, propertyX);
 
-        this.container.updateComponents(data, events);
+        this.container.updateComponents(data);
     }
 
 
