@@ -47,16 +47,8 @@ class Alerts extends Component {
             let alerts = this.alertsContainer.selectAll(`.alert`)
             .data(alertSerie);
 
-            // EXIT
-            alerts.exit().remove();
-
-            // Update old data
-            alerts
-                .attr('cx', (d: any) => x(d[propertyX]))
-                .attr('cy', (d: any) => y(d[propertyY]));
-
             // ENTER
-            alerts = alerts.enter().append('circle')
+            this.elementEnter = alerts.enter().append('circle')
             .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
@@ -71,6 +63,14 @@ class Alerts extends Component {
                 }
             });
 
+            // EXIT
+            this.elementExit = alerts.exit().remove();
+
+            // Update old data
+            this.elementUpdate = alerts
+                .attr('cx', (d: any) => x(d[propertyX]))
+                .attr('cy', (d: any) => y(d[propertyY]));
+
             if (alertEvents) {
                 for (let e of Object.keys(alertEvents)) {
                     alerts.on(e, alertEvents[e]);
@@ -82,7 +82,19 @@ class Alerts extends Component {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition() {}
+    public transition() {
+        this.elementEnter
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+        this.elementExit
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+        this.elementUpdate
+            .transition()
+            .duration(Globals.COMPONENT_TRANSITION_TIME);
+    }
 }
 
 export default Alerts;
