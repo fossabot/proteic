@@ -45,7 +45,7 @@ class Annotations extends Component {
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
-    public update(data: [any], events: Map<string, any>) {
+    public update(data: [any]) {
         if (typeof data === undefined || data.length == 0 ||
             !this.annotationsConfig || !Array.isArray(this.annotationsConfig)
         ) {
