@@ -45,7 +45,6 @@
                 xAxisFormat: '%Y-%m-%d %H:%M:%S',
                 maxNumberOfElements: 5855,
                 colorScale: proteic.Colors.category7(),
-                pauseButton: true
             })
             .unpivot(['flow', 'flowMean'])
             .alert('flow', (value, events) => {
