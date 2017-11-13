@@ -179,7 +179,7 @@ abstract class Chart {
     public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         this.annotationsConfig = annotations;
-        this.strategy.addComponent('Annotations', annotations);
+        this.strategy.addComponent('Annotations', this.config);
         annotations.forEach((a: any) => {
             this.eventKeys.add(a.variable);
             this.eventKeys.add(a.width);

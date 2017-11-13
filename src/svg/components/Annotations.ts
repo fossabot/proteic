@@ -32,11 +32,10 @@ class Annotations extends Component {
     */
     private events: Map<string, any> = new Map();
 
-    constructor(x: XAxis, y: YAxis, annotations: any) {
+    constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
         this.y = y;
-        this.annotationsConfig = annotations;
     }
 
     public render() {
@@ -46,6 +45,8 @@ class Annotations extends Component {
     }
 
     public update(data: [any]) {
+        this.annotationsConfig = this.config.get('annotations');
+
         if (typeof data === undefined || data.length == 0 ||
             !this.annotationsConfig || !Array.isArray(this.annotationsConfig)
         ) {
@@ -95,7 +96,7 @@ class Annotations extends Component {
     }
 
     /**
-    * @function It makes Annotation using d3-annotation and events
+    * @method It makes Annotation using d3-annotation and events
     * This function is also called in transition(). @see transition()
     * @private
     * @memberof Annotations
