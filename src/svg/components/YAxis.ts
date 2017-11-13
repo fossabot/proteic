@@ -91,38 +91,13 @@ class YAxis extends Component {
             let minNumber = +min;
             let maxNumber = +max;
 
-            // TODO: Refactor and move this piece of code.
-            if (annotationsConfig && annotationsConfig.length) {
-                let annotations = annotationsConfig.filter((a: any) => a.type == 'band');
-                if (annotations) {
-                    annotations.map((annotation: any) => {
-                        let variable: string = annotation.variable,
-                            width: string | number = annotation.width;
-
-                        let annotationData = data.filter((d: any) => d[propertyKey] == variable);
-                        if (annotationData && annotationData.length) {
-                            for (let a of annotationData) {
-                                if (typeof width == 'number') {
-                                    a[width] = width;
-                                }
-                                if (a[propertyY] - a[width] < minNumber) {
-                                    minNumber = a[propertyY] - a[width];
-                                }
-                                if (a[propertyY] + a[width] > maxNumber) {
-                                    maxNumber = a[propertyY] + a[width];
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-            this.yExtent = [minNumber, maxNumber];
             if (!this.checkUpdateDomainByOhterComponent()) {
                 this.updateDomainByMinMax(minNumber, maxNumber);
+            } else {
+                this.yExtent = [minNumber, maxNumber];
             }
 
         } else if (yAxisType === 'categorical') {
-            // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
             let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
         } else {
@@ -136,7 +111,7 @@ class YAxis extends Component {
     }
 
     /**
-    * Check the components calling 'updateDomainByMinMax' is configured
+    * @method Check the components calling 'updateDomainByMinMax' is configured
     * It can prevent updating y-domain frequently
     * @returns {boolean}
     * @private
@@ -144,10 +119,16 @@ class YAxis extends Component {
     * @todo If new components with updateDomainByMinMax is updated, scale it out to this method
     */
     private checkUpdateDomainByOhterComponent(): boolean {
-        // TODO add annotations config condition
-        let statisticsConfig = this.config.get('statistics');
+        let statisticsConfig = this.config.get('statistics'),
+            annotationsConfig = this.config.get('annotations');
+
         if (statisticsConfig) {
             if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
+                return true;
+            }
+        }
+        if (annotationsConfig) {
+            if (annotationsConfig.find((statistics: any) => statistics.type == 'band')) {
                 return true;
             }
         }

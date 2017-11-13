@@ -53,6 +53,8 @@ class Annotations extends Component {
             this.clear();
             return;
         }
+        this.updateYDomainByAnnotations(data);
+
         this.makeEvents(data);
 
         this.makeAnnotation();
@@ -60,6 +62,39 @@ class Annotations extends Component {
         this.svg.select('.annotations')
             .call(this.annotations)
             .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
+    }
+
+    private updateYDomainByAnnotations(data: [any]) {
+        let propertyKey = this.config.get('propertyKey'),
+            propertyY = this.config.get('propertyY');
+
+        let minNumber = this.y.extent[0],
+            maxNumber = this.y.extent[1];
+
+        let annotations = this.annotationsConfig.filter((a: any) => a.type == 'band');
+        if (annotations) {
+            annotations.map((annotation: any) => {
+                let variable: string = annotation.variable,
+                    width: string | number = annotation.width;
+
+                let annotationData = data.filter((d: any) => d[propertyKey] == variable);
+                if (annotationData && annotationData.length) {
+                    for (let a of annotationData) {
+                        if (typeof width == 'number') {
+                            a[width] = width;
+                        }
+                        if (a[propertyY] - a[width] < minNumber) {
+                            minNumber = a[propertyY] - a[width];
+                        }
+                        if (a[propertyY] + a[width] > maxNumber) {
+                            maxNumber = a[propertyY] + a[width];
+                        }
+                    }
+                }
+            });
+        }
+
+        this.y.updateDomainByMinMax(minNumber, maxNumber);
     }
 
     private makeEvents(data: [any]) {
