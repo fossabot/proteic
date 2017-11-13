@@ -46,6 +46,6 @@ export const defaults: any = {
 
     },
     spinner: true,
-    pauseButton: false,
+    pauseButton: true,
     pauseButtonPosition: 'bottom'
 };

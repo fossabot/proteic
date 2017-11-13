@@ -21,7 +21,8 @@ class PauseSet extends Component {
         let pauseButtonPosition = this.config.get('pauseButtonPosition'),
             height: number = this.config.get('height'),
             width: number = this.config.get('width'),
-            selector = this.config.get('selector');
+            selector = this.config.get('selector'),
+            pauseButtonTranslate: [number, number] = this.config.get('pauseButtonTranslate');
 
         let thisInstance = this; // Assign instance to call instance's method in click event
 
@@ -37,13 +38,17 @@ class PauseSet extends Component {
 
         this.svg.select('#play').style('opacity', 0);
 
-        switch (pauseButtonPosition) {
-            case 'right':
-                this.drawRightPauseButton(thisInstance, width, height);
-                break;
-            case 'bottom':
-                this.drawBottomPauseButton(thisInstance, width, height);
-                break;
+        if (pauseButtonTranslate) {
+            this.translate(pauseButtonTranslate[0], pauseButtonTranslate[1]);
+        } else {
+            switch (pauseButtonPosition) {
+                case 'right':
+                    this.drawRightPauseButton(thisInstance, width, height);
+                    break;
+                case 'bottom':
+                    this.drawBottomPauseButton(thisInstance, width, height);
+                    break;
+            }
         }
 
         select(selector)

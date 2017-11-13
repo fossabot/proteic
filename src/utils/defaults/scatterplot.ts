@@ -43,7 +43,7 @@ export const defaults: any = {
     streamingStrategy: StreamingStrategy.ADD,
     canvas: false,
     spinner: true,
-    pauseButton: false,
+    pauseButton: true,
     pauseButtonPosition: 'bottom',
     brush: true,
 };
