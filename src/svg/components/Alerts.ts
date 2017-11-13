@@ -15,12 +15,12 @@ class Alerts extends Component {
         this.y = y;
     }
 
-    render() {
+    public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
     }
 
-    public update(data: any[], events: Map<string, any>) {
+    public update(data: any[]) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyKey = this.config.get('propertyKey'),
@@ -31,15 +31,17 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
+        let events = this.config.get('events');
+
             if (!alertVariable) {
                 return;
             }
 
             let alertSerie = data
                 .filter((d) => {
-                    return d[propertyKey] === alertVariable && 
+                    return d[propertyKey] === alertVariable &&
                         alertFunction(d[propertyY], events);
-                });        
+                });
 
             // JOIN new and old data
             let alerts = this.alertsContainer.selectAll(`.alert`)
