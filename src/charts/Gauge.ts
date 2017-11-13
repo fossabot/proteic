@@ -24,7 +24,7 @@ class Gauge extends Chart {
             if (this.storedData.length > 0) { // resume
                 this.resumeDrawing();
             } else {
-                super.draw();
+                this.streamDrawing();
             }
         }
 

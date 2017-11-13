@@ -6,6 +6,7 @@ import Config from '../../Config';
 import inject from '../../inject';
 import ErrorSet from '../components/ErrorSet';
 import Statistics from '../components/Statistics';
+import PauseSet from '../components/PauseSet';
 
 abstract class SvgStrategy {
 
@@ -36,6 +37,10 @@ abstract class SvgStrategy {
             case 'Statistics':
                 this.container.add(new Statistics(axes.x, axes.y, () => this.container.transitionComponents()));
                 break;
+            case 'Pause':
+                if (config) {
+                    this.container.add(new PauseSet());
+                }
         }
     }
 

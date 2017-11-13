@@ -38,7 +38,7 @@ class Sunburst extends Chart {
             if (this.storedData.length > 0) { // resume
                 this.resumeDrawing();
             } else {
-                this.draw(copy(this.data));
+                this.streamDrawing();
             }
         }
 

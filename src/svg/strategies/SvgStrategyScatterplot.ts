@@ -99,13 +99,12 @@ class SvgStrategyScatterplot extends SvgStrategy {
         }
 
         if (pauseButton) {
-            this.pauseButton = new PauseSet();
-            this.container.add(this.pauseButton);
+            // If its position needs to translate, then configure here @see SvgStrategyGauge
         }
 
         if (brush) {
             this.container
-                .add(new Brush(this.axes.x, this.axes.y, () => 
+                .add(new Brush(this.axes.x, this.axes.y, () =>
                     this.container.transitionComponents())
                 )
                 .add(new ClipPath(width, height, 'brush'));

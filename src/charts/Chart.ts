@@ -110,7 +110,13 @@ abstract class Chart {
     // TODO: In the future this should be renamed to 'DrawStrategy',
     // since two different kind of 'strategies' should be allowed (SVG / Canvas)
 
-
+    /**
+     * An identifier used to set streaming interval when chart initially call keepDrawing()
+     * @see keepDrawing() streamDrawing()
+     * If this is not null at once, it implicits this instance is drawn for streaming chart
+     * @protected
+     * @memberof Chart
+     */
     protected streamingIntervalIdentifier: number = null;
 
     /**
@@ -319,9 +325,7 @@ abstract class Chart {
             propertyEnd,
         ].filter((p) => p !== undefined);
 
-        if (!this.streamingIntervalIdentifier) {
-            this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
-        }
+        this.streamDrawing();
 
         // Event detection
         this.eventKeys.forEach((e) => {
@@ -379,6 +383,20 @@ abstract class Chart {
             }
         }
 
+    }
+
+    /**
+    * @method It can draw for streaming chart and can add components only for streaming chart (ex. pause-button)
+    * @private
+    * @memberof Chart
+    * @todo If new components only for streaming chart, it can be added here.
+    */
+    public streamDrawing() {
+        if (!this.streamingIntervalIdentifier) {
+            this.strategy.addComponent('Pause', this.config.get('pauseButton'));
+            
+            this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
+        }
     }
 
     public pauseDrawing() {

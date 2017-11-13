@@ -28,6 +28,6 @@ export const defaults: any = {
     onUp(d: any) {
     },
     spinner: true,
-    pauseButton: false,
+    pauseButton: true,
     pauseButtonPosition: 'bottom'
 };
