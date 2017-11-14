@@ -157,7 +157,7 @@ class YAxis extends Component {
                 return true;
             }
         }
-        if (propertyZ) {
+        if (propertyZ) { // this property is only used to Heatmap, Histogram chart
             return true;
         }
 

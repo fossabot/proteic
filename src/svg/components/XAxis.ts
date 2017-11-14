@@ -16,6 +16,16 @@ class XAxis extends Component {
 
     private _xAxis: any;
 
+    /**
+    * Boolean variable whether check XAxis components can update x-domain or not
+    * It is assigned by @see checkUpdateDomainByOhterComponent()
+    * It can be updated only one-time when update() initially called (optimized)
+    * @private
+    * @type {boolean}
+    * @memberof XAxis
+    */
+    private updateXDomain: boolean;
+
     constructor() {
         super();
     }
@@ -49,26 +59,48 @@ class XAxis extends Component {
     }
 
     public update(data: [any]): void {
+        if (this.updateXDomain === undefined) {
+            this.updateXDomain = this.checkUpdateDomainByOhterComponent();
+        }
         let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
+        if (!this.updateXDomain) {
+            // TODO: Optimize it. Currently we are looping data twice.
+            if (xAxisType === 'linear') {
+                let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
+                    max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
+                this.updateDomainByMinMax(min, Math.ceil(max));
 
-        // TODO: Optimize it. Currently we are looping data twice.
-        if (xAxisType === 'linear') {
-            let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
-                max = d3Max(data, (d) => d[propertyX] || d[this.config.get('propertyEnd')]);
-            this.updateDomainByMinMax(min, Math.ceil(max));
+            } else if (xAxisType === 'time') {
+                let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')])),
+                    max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
+                this.updateDomainByMinMax(min, max);
 
-        } else if (xAxisType === 'time') {
-            let min = d3Min(data, (d) => (d[propertyX] || d[this.config.get('propertyStart')])),
-                max = d3Max(data, (d) => (d[propertyX] || d[this.config.get('propertyEnd')]));
-            this.updateDomainByMinMax(min, max);
-
-        } else {
-            let keys: string[] = map(data, (d) => d[propertyX]).keys();
-            this.updateDomainByKeys(keys);
+            } else {
+                let keys: string[] = map(data, (d) => d[propertyX]).keys();
+                this.updateDomainByKeys(keys);
+            }
         }
 
         this.transition();
+    }
+
+    /**
+    * @method
+    * Check the other components calling 'updateDomainByMinMax' is configured
+    * It can prevent updating x-domain frequently
+    * @returns {boolean}
+    * @private
+    * @memberof XAxis
+    * @todo If new components with updateDomainByMinMax is added, scale it out to this method
+    */
+    private checkUpdateDomainByOhterComponent(): boolean {
+        let propertyZ = this.config.get('propertyZ');
+        if (propertyZ) { // this property is only used to Heatmap, Histogram chart
+            return true;
+        }
+
+        return false;
     }
 
     private rotateTicksText(ticksText: any) {
