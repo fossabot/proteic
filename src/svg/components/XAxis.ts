@@ -17,14 +17,13 @@ class XAxis extends Component {
     private _xAxis: any;
 
     /**
-    * Boolean variable whether check XAxis components can update x-domain or not
-    * It is assigned by @see checkUpdateDomainByOhterComponent()
-    * It can be updated only one-time when update() initially called (optimized)
+    * Boolean variable whether check other components update x-domain or not
+    * It is set by @see setUpdateDomainByOhterComponent()
     * @private
     * @type {boolean}
     * @memberof XAxis
     */
-    private updateXDomain: boolean;
+    private updateXDomainByOhterComponents: boolean = false;
 
     constructor() {
         super();
@@ -59,12 +58,9 @@ class XAxis extends Component {
     }
 
     public update(data: [any]): void {
-        if (this.updateXDomain === undefined) {
-            this.updateXDomain = this.checkUpdateDomainByOhterComponent();
-        }
         let propertyX = this.config.get('propertyX');
         let xAxisType = this.config.get('xAxisType');
-        if (!this.updateXDomain) {
+        if (!this.updateXDomainByOhterComponents) {
             // TODO: Optimize it. Currently we are looping data twice.
             if (xAxisType === 'linear') {
                 let min = d3Min(data, (d) => d[propertyX] || d[this.config.get('propertyStart')]),
@@ -88,19 +84,16 @@ class XAxis extends Component {
     /**
     * @method
     * Check the other components calling 'updateDomainByMinMax' is configured
-    * It can prevent updating x-domain frequently
-    * @returns {boolean}
+    * It can prevent from updating x-domain frequently
     * @private
     * @memberof XAxis
-    * @todo If new components with updateDomainByMinMax is added, scale it out to this method
+    * @todo If new components with updateDomainByMinMax is added, it is called in render() of the components
+    * @see TileSet.ts @see HistogramBarset.ts .. 
     */
-    private checkUpdateDomainByOhterComponent(): boolean {
-        let propertyZ = this.config.get('propertyZ');
-        if (propertyZ) { // this property is only used to Heatmap, Histogram chart
-            return true;
+    public setUpdateDomainByOhterComponent(): void {
+        if (this.updateXDomainByOhterComponents == false) {
+            this.updateXDomainByOhterComponents = true;
         }
-
-        return false;
     }
 
     private rotateTicksText(ticksText: any) {

@@ -48,6 +48,8 @@ class ConfidenceBand extends Component {
     }
 
     public render() {
+        this.y.setUpdateDomainByOhterComponent();
+
         this.svg.select('g.statistics')
                 .append('g')
                 .attr('class', 'confidenceSet');
