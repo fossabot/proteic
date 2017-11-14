@@ -20,7 +20,7 @@ class YAxis extends Component {
     private selection: any = null;
 
     /**
-    * Max and Min value of incoming original data
+    * Current Max and Min y-value of data including one changed from other components
     * It can be used as role of standard y-domain in components updating new y-domain
     * (ex) Annotations, ConfidenceBand
     * Warning: It is different values from _yAxis.scale().domain() @see updateDomainByMinMax()
@@ -31,14 +31,13 @@ class YAxis extends Component {
     private yExtent: [number, number];
 
     /**
-    * Boolean variable whether check YAxis components can update y-domain or not
-    * It is assigned by @see checkUpdateDomainByOhterComponent()
-    * It can be updated only one-time when update() initially called (optimized)
+    * Boolean variable whether check other components update y-domain or not
+    * It is set by @see setUpdateDomainByOhterComponent()
     * @private
     * @type {boolean}
     * @memberof YAxis
     */
-    private updateYDomain: boolean;
+    private updateYDomainByOhterComponents: boolean = false;
 
 
     constructor(orient?: string) {
@@ -84,9 +83,6 @@ class YAxis extends Component {
     }
 
     public update(data: any): void {
-        if (this.updateYDomain === undefined) {
-            this.updateYDomain = this.checkUpdateDomainByOhterComponent();
-        }
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
         let propertyX = this.config.get('propertyX');
@@ -115,7 +111,7 @@ class YAxis extends Component {
             let maxNumber = +max;
 
             this.yExtent = [minNumber, maxNumber];
-            if (!this.updateYDomain) {
+            if (!this.updateYDomainByOhterComponents) {
                 this.updateDomainByMinMax(minNumber, maxNumber);
             }
 
@@ -135,35 +131,21 @@ class YAxis extends Component {
     /**
     * @method
     * Check the other components calling 'updateDomainByMinMax' is configured
-    * It can prevent updating y-domain frequently
-    * @returns {boolean}
+    * It can prevent from updating y-domain frequently
     * @private
     * @memberof YAxis
-    * @todo If new components with updateDomainByMinMax is added, scale it out to this method
+    * @todo If new components with updateDomainByMinMax is added, it is called in render() of the components
+    * @see TileSet.ts @see Annotations.ts @see ConfidenceBand.ts ..
     */
-    private checkUpdateDomainByOhterComponent(): boolean {
-        let statisticsConfig = this.config.get('statistics'),
-            annotationsConfig = this.config.get('annotations'),
-            propertyZ = this.config.get('propertyZ');
-
-        if (statisticsConfig) {
-            if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
-                return true;
-            }
+    public setUpdateDomainByOhterComponent(): void {
+        if (this.updateYDomainByOhterComponents == false) {
+            this.updateYDomainByOhterComponents = true;
         }
-        if (annotationsConfig) {
-            if (annotationsConfig.find((statistics: any) => statistics.type == 'band')) {
-                return true;
-            }
-        }
-        if (propertyZ) { // this property is only used to Heatmap, Histogram chart
-            return true;
-        }
-
-        return false;
     }
 
     public updateDomainByMinMax(min: number, max: number) {
+        this.yExtent = [min, max];
+
         let margin = (+max - min) * 0.1 || 1;
         this._yAxis.scale().domain([min, max + margin]);
     }

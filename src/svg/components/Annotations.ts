@@ -39,6 +39,8 @@ class Annotations extends Component {
     }
 
     public render() {
+        this.y.setUpdateDomainByOhterComponent();
+
         let annotations = this.svg.append('g')
             .attr('class', 'annotations')
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
