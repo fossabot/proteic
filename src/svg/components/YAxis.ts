@@ -30,6 +30,16 @@ class YAxis extends Component {
     */
     private yExtent: [number, number];
 
+    /**
+    * Boolean variable whether check YAxis components can update y-domain or not
+    * It is assigned by @see checkUpdateDomainByOhterComponent()
+    * It can be updated only one-time when update() initially called (optimized)
+    * @private
+    * @type {boolean}
+    * @memberof YAxis
+    */
+    private updateYDomain: boolean;
+
 
     constructor(orient?: string) {
         super();
@@ -74,6 +84,9 @@ class YAxis extends Component {
     }
 
     public update(data: any): void {
+        if (this.updateYDomain === undefined) {
+            this.updateYDomain = this.checkUpdateDomainByOhterComponent();
+        }
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
         let propertyX = this.config.get('propertyX');
@@ -101,7 +114,7 @@ class YAxis extends Component {
             let minNumber = +min;
             let maxNumber = +max;
 
-            if (!this.checkUpdateDomainByOhterComponent()) {
+            if (!this.updateYDomain) {
                 this.updateDomainByMinMax(minNumber, maxNumber);
             } else {
                 this.yExtent = [minNumber, maxNumber];
