@@ -82,19 +82,7 @@ class Alerts extends Component {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition() {
-        this.elementEnter
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME);
-
-        this.elementExit
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME);
-
-        this.elementUpdate
-            .transition()
-            .duration(Globals.COMPONENT_TRANSITION_TIME);
-    }
+    public transition() { }
 }
 
 export default Alerts;
