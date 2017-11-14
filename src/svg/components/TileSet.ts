@@ -39,7 +39,9 @@ class TileSet extends Component {
         if (xAxisType === 'linear') {
             let currentXDomain = this.x.xAxis.scale().domain();
             this.x.updateDomainByMinMax(minX, maxX + xStep);
+            // console.log('X current & updated', currentXDomain, this.x.xAxis.scale().domain());
             if (this.x.xAxis.scale().domain() != currentXDomain) {
+                // console.log('x transition!');
                 this.x.transition();
             }
             width = x(xStep) - x(0);
@@ -49,7 +51,9 @@ class TileSet extends Component {
         if (yAxisType === 'linear') {
             let currentYDomain = this.y.yAxis.scale().domain();
             this.y.updateDomainByMinMax(minY, maxY + yStep);
+            // console.log('Y current & updated', currentYDomain, this.y.yAxis.scale().domain());
             if (this.y.yAxis.scale().domain() != currentYDomain) {
+                // console.log('y transition!');
                 this.y.transition();
             }
             heigth = y(0) - y(yStep);
