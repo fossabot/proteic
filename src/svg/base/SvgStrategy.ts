@@ -23,13 +23,13 @@ abstract class SvgStrategy {
         this.container = new Container(this.config);
     }
 
-    abstract draw(data: [{}], events: Map<string, any>): void;
+    abstract draw(data: [{}]): void;
 
     public addComponent(component: string, config: any) {
         let axes: XYAxes = this.container.getComponent(XYAxes.name) as XYAxes;
         switch (component) {
             case 'Annotations':
-                this.container.add(new Annotations(axes.x, axes.y, config));
+                this.container.add(new Annotations(axes.x, axes.y));
                 break;
             case 'ErrorSet':
                 this.container.add(new ErrorSet());

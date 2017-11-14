@@ -15,12 +15,12 @@ class Alerts extends Component {
         this.y = y;
     }
 
-    render() {
+    public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
     }
 
-    public update(data: any[], events: Map<string, any>) {
+    public update(data: any[]) {
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyKey = this.config.get('propertyKey'),
@@ -31,30 +31,24 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
+        let events = this.config.get('events');
+
             if (!alertVariable) {
                 return;
             }
 
             let alertSerie = data
                 .filter((d) => {
-                    return d[propertyKey] === alertVariable && 
+                    return d[propertyKey] === alertVariable &&
                         alertFunction(d[propertyY], events);
-                });        
+                });
 
             // JOIN new and old data
             let alerts = this.alertsContainer.selectAll(`.alert`)
             .data(alertSerie);
 
-            // EXIT
-            alerts.exit().remove();
-
-            // Update old data
-            alerts
-                .attr('cx', (d: any) => x(d[propertyX]))
-                .attr('cy', (d: any) => y(d[propertyY]));
-
             // ENTER
-            alerts = alerts.enter().append('circle')
+            this.elementEnter = alerts.enter().append('circle')
             .attr('class', 'alert')
             .attr('cx', (d: any) => x(d[propertyX]))
             .attr('cy', (d: any) => y(d[propertyY]))
@@ -69,6 +63,14 @@ class Alerts extends Component {
                 }
             });
 
+            // EXIT
+            this.elementExit = alerts.exit().remove();
+
+            // Update old data
+            this.elementUpdate = alerts
+                .attr('cx', (d: any) => x(d[propertyX]))
+                .attr('cy', (d: any) => y(d[propertyY]));
+
             if (alertEvents) {
                 for (let e of Object.keys(alertEvents)) {
                     alerts.on(e, alertEvents[e]);
@@ -80,7 +82,7 @@ class Alerts extends Component {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition() {}
+    public transition() { }
 }
 
 export default Alerts;

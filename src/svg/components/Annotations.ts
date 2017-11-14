@@ -7,22 +7,35 @@ import { max, min } from 'd3-array';
 import * as d3Annotation from 'd3-svg-annotation';
 import Annotation from 'd3-svg-annotation';
 import {
-    map
+    map,
+    nest
 } from 'd3';
+
+class EventKeys {
+    variable: string[] = new Array<string>();
+    width: string[] = new Array<string>();
+}
 
 class Annotations extends Component {
     private y: YAxis;
     private x: XAxis;
     private thresholdConfig: any;
+    private annotationsConfig: any;
     private annotations: any;
-    private events: Map<string, any>;
-    private annotation: any;
 
-    constructor(x: XAxis, y: YAxis, annotations: any) {
+    /**
+    * Data for annotations
+    * It is Only updated by the latest data @see makeEvents()
+    * @private
+    * @type {Map<string, any>}
+    * @memberof Annotations
+    */
+    private events: Map<string, any> = new Map();
+
+    constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
         this.y = y;
-        this.annotations = annotations;
     }
 
     public render() {
@@ -31,24 +44,102 @@ class Annotations extends Component {
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
-    public update(data: [any], events: Map<string, any>) {
+    public update(data: [any]) {
+        this.annotationsConfig = this.config.get('annotations');
+
         if (typeof data === undefined || data.length == 0 ||
-            !this.annotations || !Array.isArray(this.annotations)
+            !this.annotationsConfig || !Array.isArray(this.annotationsConfig)
         ) {
             this.clear();
             return;
         }
-        this.events = events;
+        this.updateYDomainByAnnotations(data);
+
+        this.makeEvents(data);
+
         this.makeAnnotation();
 
         this.svg.select('.annotations')
-            .call(this.annotation)
-            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+            .call(this.annotations)
+            .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
     }
 
+    private updateYDomainByAnnotations(data: [any]) {
+        let propertyKey = this.config.get('propertyKey'),
+            propertyY = this.config.get('propertyY');
+
+        let minNumber = this.y.extent[0],
+            maxNumber = this.y.extent[1];
+
+        let annotations = this.annotationsConfig.filter((a: any) => a.type == 'band');
+        if (annotations) {
+            annotations.map((annotation: any) => {
+                let variable: string = annotation.variable,
+                    width: string | number = annotation.width;
+
+                let annotationData = data.filter((d: any) => d[propertyKey] == variable);
+                if (annotationData && annotationData.length) {
+                    for (let a of annotationData) {
+                        if (typeof width == 'number') {
+                            a[width] = width;
+                        }
+                        if (a[propertyY] - a[width] < minNumber) {
+                            minNumber = a[propertyY] - a[width];
+                        }
+                        if (a[propertyY] + a[width] > maxNumber) {
+                            maxNumber = a[propertyY] + a[width];
+                        }
+                    }
+                }
+            });
+        }
+
+        this.y.updateDomainByMinMax(minNumber, maxNumber);
+    }
+
+    private makeEvents(data: [any]) {
+        let propertyKey = this.config.get('propertyKey'),
+            propertyY = this.config.get('propertyY');
+
+        let eventKeys: EventKeys = new EventKeys();
+
+        this.annotationsConfig.map((a: any) => {
+            if (a.variable) {
+                eventKeys.variable.push(a.variable);
+            }
+            if (typeof a.width == 'string') {
+                 eventKeys.width.push(a.width);
+            }
+        });
+
+        let nestedData = nest().key((d: any) => d[propertyKey]).entries(data);
+        // optimize by using key-nested data to loop only number of key times
+        nestedData.map((d) => {
+            let latestData = d.values[d.values.length - 1];
+
+            eventKeys.variable.map((v) => {
+                if (v == latestData[propertyKey]) {
+                    this.events.set(v, latestData[propertyY]);
+                }
+            });
+            eventKeys.width.map((w) => {
+                if (latestData[w]) {
+                    this.events.set(w, latestData[w]);
+                }
+            });
+        });
+    }
+
+    /**
+    * @method
+    * It makes Annotation using d3-annotation and events
+    * This function is also called in transition(). @see transition()
+    * @private
+    * @memberof Annotations
+    */
     private makeAnnotation() {
-        let annotation: any = d3Annotation.annotation()
-            .annotations(this.annotations.map((a: any) => {
+        let annotations: any = d3Annotation.annotation()
+            .annotations(this.annotationsConfig.map((a: any) => {
                 switch (a.type) {
                     case 'threshold':
                         if (a.variable) {
@@ -73,9 +164,9 @@ class Annotations extends Component {
                     default:
                         throw new Error(`Unknown annotation type: ${a.type}`);
                 }
-                return annotation;
+                return annotations;
             }).filter((a: any) => a)); // Filter nulls
-            this.annotation = annotation;
+            this.annotations = annotations;
     }
 
     private makeBandAnnotation(value: number, width: number, text: string) {
@@ -177,8 +268,8 @@ class Annotations extends Component {
     public transition() {
         this.makeAnnotation();
         this.svg.select('.annotations')
-            .call(this.annotation)
-            .on('dblclick', () => this.annotation.editMode(!this.annotation.editMode()).update());
+            .call(this.annotations)
+            .on('dblclick', () => this.annotations.editMode(!this.annotations.editMode()).update());
     }
 }
 
