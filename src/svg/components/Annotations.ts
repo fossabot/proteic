@@ -131,7 +131,8 @@ class Annotations extends Component {
     }
 
     /**
-    * @method It makes Annotation using d3-annotation and events
+    * @method
+    * It makes Annotation using d3-annotation and events
     * This function is also called in transition(). @see transition()
     * @private
     * @memberof Annotations

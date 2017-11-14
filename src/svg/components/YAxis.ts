@@ -18,6 +18,16 @@ class YAxis extends Component {
     private _yAxis: any;
     private _orient: string = 'left';
     private selection: any = null;
+
+    /**
+    * Max and Min value of incoming original data
+    * It can be used as role of standard y-domain in components updating new y-domain
+    * (ex) Annotations, ConfidenceBand
+    * Warning: It is different values from _yAxis.scale().domain() @see updateDomainByMinMax()
+    * @private
+    * @type {[number, number]}
+    * @memberof YAxis
+    */
     private yExtent: [number, number];
 
 
@@ -111,12 +121,13 @@ class YAxis extends Component {
     }
 
     /**
-    * @method Check the components calling 'updateDomainByMinMax' is configured
+    * @method
+    * Check the other components calling 'updateDomainByMinMax' is configured
     * It can prevent updating y-domain frequently
     * @returns {boolean}
     * @private
     * @memberof YAxis
-    * @todo If new components with updateDomainByMinMax is updated, scale it out to this method
+    * @todo If new components with updateDomainByMinMax is added, scale it out to this method
     */
     private checkUpdateDomainByOhterComponent(): boolean {
         let statisticsConfig = this.config.get('statistics'),
@@ -159,7 +170,7 @@ class YAxis extends Component {
      * @param {string} yAxisFormat Format of the axis. This parameter is only valid when using a time axis.
      * @param {string} yAxisType Type of the axis. It can be: linear or categorical.
      *
-     * @memberOf XAxis
+     * @memberof XAxis
      */
 
     private initializeYAxis(
@@ -191,8 +202,6 @@ class YAxis extends Component {
                 .tickSizeOuter(0)
                 .tickPadding(20);
         }
-
-        //
     }
 
     get yAxis() {

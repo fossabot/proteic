@@ -94,7 +94,7 @@ abstract class Chart {
 
     /**
      * An identifier used to set streaming interval when chart initially call keepDrawing()
-     * @see keepDrawing() streamDrawing()
+     * @see keepDrawing() @see streamDrawing()
      * If this is not null at once, it implicits this instance is drawn for streaming chart
      * @protected
      * @memberof Chart
@@ -377,7 +377,7 @@ abstract class Chart {
     public streamDrawing() {
         if (!this.streamingIntervalIdentifier) {
             this.strategy.addComponent('Pause', this.config.get('pauseButton'));
-            
+
             this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
     }
