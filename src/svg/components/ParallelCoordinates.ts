@@ -68,6 +68,9 @@ class ParallelCoordinates extends Component {
     }
 
     public update(data: [any]) {
+        if (typeof data === undefined || data.length == 0) {
+            return;
+        }
         let propertyKey = this.config.get('propertyKey'),
             height = this.config.get('height'),
             width = this.config.get('width');
