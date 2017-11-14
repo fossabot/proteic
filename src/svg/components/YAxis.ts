@@ -20,7 +20,7 @@ class YAxis extends Component {
     private selection: any = null;
 
     /**
-    * Max and Min value of incoming original data
+    * Current Max and Min y-value of data including one changed from other components
     * It can be used as role of standard y-domain in components updating new y-domain
     * (ex) Annotations, ConfidenceBand
     * Warning: It is different values from _yAxis.scale().domain() @see updateDomainByMinMax()
@@ -135,7 +135,7 @@ class YAxis extends Component {
     * @private
     * @memberof YAxis
     * @todo If new components with updateDomainByMinMax is added, it is called in render() of the components
-    * @see TileSet.ts @see Annotations.ts @see ConfidenceBand.ts .. 
+    * @see TileSet.ts @see Annotations.ts @see ConfidenceBand.ts ..
     */
     public setUpdateDomainByOhterComponent(): void {
         if (this.updateYDomainByOhterComponents == false) {
@@ -144,6 +144,8 @@ class YAxis extends Component {
     }
 
     public updateDomainByMinMax(min: number, max: number) {
+        this.yExtent = [min, max];
+
         let margin = (+max - min) * 0.1 || 1;
         this._yAxis.scale().domain([min, max + margin]);
     }
