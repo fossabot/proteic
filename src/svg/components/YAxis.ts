@@ -143,7 +143,8 @@ class YAxis extends Component {
     */
     private checkUpdateDomainByOhterComponent(): boolean {
         let statisticsConfig = this.config.get('statistics'),
-            annotationsConfig = this.config.get('annotations');
+            annotationsConfig = this.config.get('annotations'),
+            propertyZ = this.config.get('propertyZ');
 
         if (statisticsConfig) {
             if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
@@ -154,6 +155,9 @@ class YAxis extends Component {
             if (annotationsConfig.find((statistics: any) => statistics.type == 'band')) {
                 return true;
             }
+        }
+        if (propertyZ) { // this property is only used to Heatmap, Histogram chart
+            return true;
         }
 
         return false;
