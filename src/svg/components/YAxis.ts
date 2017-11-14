@@ -114,10 +114,9 @@ class YAxis extends Component {
             let minNumber = +min;
             let maxNumber = +max;
 
+            this.yExtent = [minNumber, maxNumber];
             if (!this.updateYDomain) {
                 this.updateDomainByMinMax(minNumber, maxNumber);
-            } else {
-                this.yExtent = [minNumber, maxNumber];
             }
 
         } else if (yAxisType === 'categorical') {
