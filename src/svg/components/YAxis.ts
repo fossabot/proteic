@@ -18,7 +18,27 @@ class YAxis extends Component {
     private _yAxis: any;
     private _orient: string = 'left';
     private selection: any = null;
+
+    /**
+    * Max and Min value of incoming original data
+    * It can be used as role of standard y-domain in components updating new y-domain
+    * (ex) Annotations, ConfidenceBand
+    * Warning: It is different values from _yAxis.scale().domain() @see updateDomainByMinMax()
+    * @private
+    * @type {[number, number]}
+    * @memberof YAxis
+    */
     private yExtent: [number, number];
+
+    /**
+    * Boolean variable whether check YAxis components can update y-domain or not
+    * It is assigned by @see checkUpdateDomainByOhterComponent()
+    * It can be updated only one-time when update() initially called (optimized)
+    * @private
+    * @type {boolean}
+    * @memberof YAxis
+    */
+    private updateYDomain: boolean;
 
 
     constructor(orient?: string) {
@@ -64,6 +84,9 @@ class YAxis extends Component {
     }
 
     public update(data: any): void {
+        if (this.updateYDomain === undefined) {
+            this.updateYDomain = this.checkUpdateDomainByOhterComponent();
+        }
         let propertyKey = this.config.get('propertyKey');
         let propertyY = this.config.get('propertyY');
         let propertyX = this.config.get('propertyX');
@@ -91,38 +114,13 @@ class YAxis extends Component {
             let minNumber = +min;
             let maxNumber = +max;
 
-            // TODO: Refactor and move this piece of code.
-            if (annotationsConfig && annotationsConfig.length) {
-                let annotations = annotationsConfig.filter((a: any) => a.type == 'band');
-                if (annotations) {
-                    annotations.map((annotation: any) => {
-                        let variable: string = annotation.variable,
-                            width: string | number = annotation.width;
-
-                        let annotationData = data.filter((d: any) => d[propertyKey] == variable);
-                        if (annotationData && annotationData.length) {
-                            for (let a of annotationData) {
-                                if (typeof width == 'number') {
-                                    a[width] = width;
-                                }
-                                if (a[propertyY] - a[width] < minNumber) {
-                                    minNumber = a[propertyY] - a[width];
-                                }
-                                if (a[propertyY] + a[width] > maxNumber) {
-                                    maxNumber = a[propertyY] + a[width];
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-            this.yExtent = [minNumber, maxNumber];
-            if (!this.checkUpdateDomainByOhterComponent()) {
+            if (!this.updateYDomain) {
                 this.updateDomainByMinMax(minNumber, maxNumber);
+            } else {
+                this.yExtent = [minNumber, maxNumber];
             }
 
         } else if (yAxisType === 'categorical') {
-            // let keys = map(data, (d: any) => d[propertyKey]).keys().sort();
             let keys: string[] = map(data, (d: any) => d[propertyY]).keys().sort();
             this._yAxis.scale().domain(keys);
         } else {
@@ -136,18 +134,25 @@ class YAxis extends Component {
     }
 
     /**
-    * Check the components calling 'updateDomainByMinMax' is configured
+    * @method
+    * Check the other components calling 'updateDomainByMinMax' is configured
     * It can prevent updating y-domain frequently
     * @returns {boolean}
     * @private
     * @memberof YAxis
-    * @todo If new components with updateDomainByMinMax is updated, scale it out to this method
+    * @todo If new components with updateDomainByMinMax is added, scale it out to this method
     */
     private checkUpdateDomainByOhterComponent(): boolean {
-        // TODO add annotations config condition
-        let statisticsConfig = this.config.get('statistics');
+        let statisticsConfig = this.config.get('statistics'),
+            annotationsConfig = this.config.get('annotations');
+
         if (statisticsConfig) {
             if (statisticsConfig.find((statistics: any) => statistics.type == 'confidenceBand')) {
+                return true;
+            }
+        }
+        if (annotationsConfig) {
+            if (annotationsConfig.find((statistics: any) => statistics.type == 'band')) {
                 return true;
             }
         }
@@ -178,7 +183,7 @@ class YAxis extends Component {
      * @param {string} yAxisFormat Format of the axis. This parameter is only valid when using a time axis.
      * @param {string} yAxisType Type of the axis. It can be: linear or categorical.
      *
-     * @memberOf XAxis
+     * @memberof XAxis
      */
 
     private initializeYAxis(
@@ -210,8 +215,6 @@ class YAxis extends Component {
                 .tickSizeOuter(0)
                 .tickPadding(20);
         }
-
-        //
     }
 
     get yAxis() {

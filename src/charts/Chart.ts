@@ -55,28 +55,12 @@ abstract class Chart {
     protected data: any;
 
     /**
-     *
-     * Annotation config.
-     *
-     * @private
-     * @type {*}
-     * @memberof Chart
-     */
-    private annotationsConfig: any; // TODO: We should remove this property in the future,
-    // since the rest of configuration options are specified through the config attr
-    // TODO: We should create a type for annotations
-
-    /**
-     * Events
-     *
-     * @private
-     * @type {Map<string, any>}
-     * @memberof Chart
-     */
-    private events: Map<string, any>;
-    // TODO: We should remove this property in the future,
-    // since the rest of configuration options are specified through the config attr
-
+    * Data keys for events (alerts)
+    * @private
+    * @type {Set<string>}
+    * @memberof Chart
+    */
+    private eventKeys: Set<string> = new Set<string>();
 
     /**
      * A map containing chart subscriptions
@@ -110,7 +94,7 @@ abstract class Chart {
 
     /**
      * An identifier used to set streaming interval when chart initially call keepDrawing()
-     * @see keepDrawing() streamDrawing()
+     * @see keepDrawing() @see streamDrawing()
      * If this is not null at once, it implicits this instance is drawn for streaming chart
      * @protected
      * @memberof Chart
@@ -146,12 +130,10 @@ abstract class Chart {
     constructor(clazz: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
         this.config.put('proteicID', 'proteic-' + Date.now());
-        this.injector = new Injector();
 
             this.instantiateInjections(clazz);
 
             this.data = data;
-            this.events = new Map();
             this.config.put('pivotVars', []);
 
             this.visibilityObservable.subscribe((event: any) => {
@@ -181,8 +163,12 @@ abstract class Chart {
 
     public annotations(annotations: any) {
         this.config.put('annotations', annotations);
-        this.annotationsConfig = annotations;
-        this.strategy.addComponent('Annotations', annotations);
+        this.strategy.addComponent('Annotations', this.config);
+        annotations.forEach((a: any) => {
+            this.eventKeys.add(a.variable);
+            this.eventKeys.add(a.width);
+        });
+
         return this;
     }
 
@@ -194,12 +180,16 @@ abstract class Chart {
     public statistics(statistics: any) {
         this.config.put('statistics', statistics);
         this.strategy.addComponent('Statistics', this.config);
+        statistics.forEach((s: any) => {
+            this.eventKeys.add(s.variable);
+            this.eventKeys.add(s.confidence);
+        });
         return this;
     }
 
-    public draw(data: [{}] = this.data, events: Map<string, any> = this.events) {
+    public draw(data: [{}] = this.data) {
         // TODO: SPLIT DATA INTO SMALL CHUNKS (stream-like).
-        this.context.draw(copy(data), this.events);
+        this.context.draw(copy(data));
         this.data = data;
     }
 
@@ -315,21 +305,17 @@ abstract class Chart {
 
         this.streamDrawing();
 
-        let eventKeys: Set<string> = new Set<string>();
-
-        if (this.annotationsConfig) {
-            this.annotationsConfig.forEach((a: any) => {
-                eventKeys.add(a.variable);
-                eventKeys.add(a.width);
-            });
-        }
-
         // Event detection
-        eventKeys.forEach((e) => {
+        let events: Map<string, any> = new Map();
+        this.eventKeys.forEach((e) => {
             if (e in datum) {
-                this.events.set(e, datum[e]);
+                events.set(e, datum[e]);
             }
         });
+
+        if (events.size > 0) {
+            this.config.put('events', events);
+        }
 
         // Wide data to narrow and draw
         let pivotVars = this.config.get('pivotVars');
@@ -391,7 +377,7 @@ abstract class Chart {
     public streamDrawing() {
         if (!this.streamingIntervalIdentifier) {
             this.strategy.addComponent('Pause', this.config.get('pauseButton'));
-            
+
             this.streamingIntervalIdentifier = setInterval(() => this.draw(copy(this.data)), Globals.DRAW_INTERVAL);
         }
     }
