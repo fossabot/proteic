@@ -95,7 +95,7 @@ class ConfidenceBand extends Component {
             if (data && data.length != 0) {
                 // compare with current y-extent and confidence adjusted y-extent
                 let min = (this.yExtent[0] < this.y.extent[0]) ? this.yExtent[0] : this.y.extent[0],
-                    max = (this.yExtent[1] > this.y.extent[1]) ? this.yExtent[1] : this.y.extent[1]
+                    max = (this.yExtent[1] > this.y.extent[1]) ? this.yExtent[1] : this.y.extent[1];
 
                 this.y.updateDomainByMinMax(min, max);
             }
