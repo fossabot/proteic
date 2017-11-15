@@ -40,8 +40,8 @@ class Annotations extends Component {
 
     public render() {
         this.annotationsConfig = this.config.get('annotations');
-        let BandAnnotation = this.annotationsConfig.find((a: any) => a.type == 'band');
-        if (BandAnnotation) {
+        let bandAnnotation = this.annotationsConfig.find((a: any) => a.type == 'band');
+        if (bandAnnotation) {
             this.y.setUpdateDomainByOhterComponent();
         }
 
