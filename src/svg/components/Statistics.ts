@@ -45,6 +45,9 @@ class Statistics extends Component {
 
     public render() {
         let statistics = this.config.get('statistics');
+        if (!statistics) {
+            return;
+        }
         this.svg.append('g').attr('class', 'statistics');
 
         statistics.map((s: any) => {
@@ -68,7 +71,7 @@ class Statistics extends Component {
     }
 
     public update(data: any[]) {
-        if (!this.statisticsConfig) {
+        if (!this.statisticsConfig || !this.statisticsType) {
             return;
         }
 
