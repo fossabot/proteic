@@ -33,56 +33,74 @@ class Alerts extends Component {
 
         let events = this.config.get('events');
 
-            if (!alertVariable) {
-                return;
-            }
+        if (!alertVariable) {
+            return;
+        }
 
-            let alertSerie = data
-                .filter((d) => {
-                    return d[propertyKey] === alertVariable &&
-                        alertFunction(d[propertyY], events);
-                });
-
-            // JOIN new and old data
-            let alerts = this.alertsContainer.selectAll(`.alert`)
-            .data(alertSerie);
-
-            // ENTER
-            this.elementEnter = alerts.enter().append('circle')
-            .attr('class', 'alert')
-            .attr('cx', (d: any) => x(d[propertyX]))
-            .attr('cy', (d: any) => y(d[propertyY]))
-            // .attr('r', 20)
-            // .transition(Globals.COMPONENT_ANIMATION_TIME)
-            .attr('r', 5)
-            .call((s: any) => {
-                if (alertCallback) {
-                    return s.each((d: any) => {
-                        alertCallback(d);
-                    });
-                }
+        let alertSerie = data
+            .filter((d) => {
+                return d[propertyKey] === alertVariable &&
+                    alertFunction(d[propertyY], events);
             });
 
-            // EXIT
-            this.elementExit = alerts.exit().remove();
+        // JOIN new and old data
+        let alerts = this.alertsContainer.selectAll(`.alert`)
+        .data(alertSerie);
 
-            // Update old data
-            this.elementUpdate = alerts
-                .attr('cx', (d: any) => x(d[propertyX]))
-                .attr('cy', (d: any) => y(d[propertyY]));
-
-            if (alertEvents) {
-                for (let e of Object.keys(alertEvents)) {
-                    alerts.on(e, alertEvents[e]);
-                }
+        // ENTER
+        this.elementEnter = alerts.enter().append('circle')
+        .attr('class', 'alert')
+        .attr('cx', (d: any) => x(d[propertyX]))
+        .attr('cy', (d: any) => y(d[propertyY]))
+        .attr('r', 5)
+        .call((s: any) => {
+            if (alertCallback) {
+                return s.each((d: any) => {
+                    alertCallback(d);
+                });
             }
+        });
+
+        // EXIT
+        this.elementExit = alerts.exit().remove();
+
+        // Update old data
+        this.elementUpdate = this.svg.selectAll('.alert')
+            .data(alertSerie);
+
+        if (alertEvents) {
+            for (let e of Object.keys(alertEvents)) {
+                alerts.on(e, alertEvents[e]);
+            }
+        }
     }
 
     public clear() {
         this.svg.selectAll('.alert').remove();
     }
 
-    public transition() { }
+    public transition() {
+        if (this.elementUpdate && this.elementEnter && this.elementExit) {
+            let propertyX = this.config.get('propertyX'),
+                propertyY = this.config.get('propertyY'),
+                y = this.y.yAxis.scale(),
+                x = this.x.xAxis.scale();
+
+            this.elementUpdate
+                .attr('cx', (d: any) => x(d[propertyX]))
+                .attr('cy', (d: any) => y(d[propertyY]))
+                .transition()
+                .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+            this.elementEnter
+                .transition()
+                .duration(Globals.COMPONENT_TRANSITION_TIME);
+
+            this.elementExit
+                .transition()
+                .duration(Globals.COMPONENT_TRANSITION_TIME);
+        }
+    }
 }
 
 export default Alerts;
