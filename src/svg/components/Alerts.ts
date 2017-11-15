@@ -9,6 +9,22 @@ class Alerts extends Component {
     private y: YAxis;
     private alertsContainer: any;
 
+    /**
+    * The last index of current data
+    * Now, alerts is only used to Linechart, and its data is concated.
+    * If data is concated, get the latest data by slicing incoming data from this index
+    * @private
+    * @memberof Alerts
+    */
+    private currentDataIndex: number = 0;
+
+    /**
+    * An array of the data which makes alert (the value is over than confidence-interval)
+    * @private
+    * @memberof Alerts
+    */
+    private alertsData: any[] = [];
+
     constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
@@ -20,7 +36,16 @@ class Alerts extends Component {
             .attr('class', 'alerts');
     }
 
+    /**
+    * Alerts only takes confidence-band into account
+    */
     public update(data: any[]) {
+        let latestData = data;
+        if (data.length > this.currentDataIndex) {
+            latestData = data.slice(this.currentDataIndex);
+            this.currentDataIndex = data.length;
+        }
+
         let propertyX = this.config.get('propertyX'),
             propertyY = this.config.get('propertyY'),
             propertyKey = this.config.get('propertyKey'),
@@ -33,19 +58,23 @@ class Alerts extends Component {
 
         let events = this.config.get('events');
 
-        if (!alertVariable) {
+        if (!alertVariable || !events) {
             return;
         }
 
-        let alertSerie = data
+        let alertSerie = latestData
             .filter((d) => {
                 return d[propertyKey] === alertVariable &&
                     alertFunction(d[propertyY], events);
             });
 
+        if (alertSerie.length > 0) {
+            this.alertsData = this.alertsData.concat(alertSerie);
+        }
+
         // JOIN new and old data
         let alerts = this.alertsContainer.selectAll(`.alert`)
-        .data(alertSerie);
+        .data(this.alertsData);
 
         // ENTER
         this.elementEnter = alerts.enter().append('circle')
@@ -66,7 +95,7 @@ class Alerts extends Component {
 
         // Update old data
         this.elementUpdate = this.svg.selectAll('.alert')
-            .data(alertSerie);
+            .data(this.alertsData);
 
         if (alertEvents) {
             for (let e of Object.keys(alertEvents)) {
