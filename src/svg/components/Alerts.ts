@@ -25,6 +25,12 @@ class Alerts extends Component {
     */
     private alertsData: any[] = [];
 
+    private sliceAlrertSerieIndex: number = -1;
+
+    private alertSeries: AlertsDataSet[] = new Array<AlertsDataSet>();
+
+    private latestData: LatestData = new LatestData();
+
     constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
@@ -40,10 +46,17 @@ class Alerts extends Component {
     * Alerts only takes confidence-band into account
     */
     public update(data: any[]) {
-        let latestData = data;
+        this.latestData.data = data;
+        let maxNumberOfElements: number = this.config.get('maxNumberOfElements');
+
         if (data.length > this.currentDataIndex) {
-            latestData = data.slice(this.currentDataIndex);
-            this.currentDataIndex = data.length;
+            this.latestData.id++;
+            this.latestData.data = data.slice(this.currentDataIndex);
+            if (data.length < maxNumberOfElements) {
+                this.currentDataIndex = data.length;
+            } else {
+                this.sliceAlrertSerieIndex++;
+            }
         }
 
         let propertyX = this.config.get('propertyX'),
@@ -62,14 +75,23 @@ class Alerts extends Component {
             return;
         }
 
-        let alertSerie = latestData
+        let alertSerie = this.latestData.data
             .filter((d) => {
                 return d[propertyKey] === alertVariable &&
                     alertFunction(d[propertyY], events);
             });
 
         if (alertSerie.length > 0) {
-            this.alertsData = this.alertsData.concat(alertSerie);
+            this.alertSeries.push(new AlertsDataSet(this.latestData.id, alertSerie));
+            let alertDatum = this.alertSeries[this.alertSeries.length - 1].alertData;
+            this.alertsData = this.alertsData.concat(alertDatum);
+        }
+
+        if (this.sliceAlrertSerieIndex > -1) {
+            let sliceAlertedChunk = this.alertSeries.find((alert) => alert.chunkId == this.sliceAlrertSerieIndex);
+            if (sliceAlertedChunk) {
+                this.alertsData = this.alertsData.slice(sliceAlertedChunk.alertData.length);
+            }
         }
 
         // JOIN new and old data
@@ -77,7 +99,8 @@ class Alerts extends Component {
         .data(this.alertsData);
 
         // ENTER
-        this.elementEnter = alerts.enter().append('circle')
+        this.elementEnter = alerts.enter()
+        .append('circle')
         .attr('class', 'alert')
         .attr('cx', (d: any) => x(d[propertyX]))
         .attr('cy', (d: any) => y(d[propertyY]))
@@ -130,6 +153,19 @@ class Alerts extends Component {
                 .duration(Globals.COMPONENT_TRANSITION_TIME);
         }
     }
+}
+
+class LatestData {
+    public id: number = 0;
+    public data: any[];
+}
+
+class AlertsDataSet {
+
+    constructor(
+        public chunkId: number,
+        public alertData: any[],
+    ) { }
 }
 
 export default Alerts;
