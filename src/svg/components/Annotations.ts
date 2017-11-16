@@ -39,18 +39,23 @@ class Annotations extends Component {
     }
 
     public render() {
-        this.y.setUpdateDomainByOhterComponent();
+        this.annotationsConfig = this.config.get('annotations');
+        let bandAnnotation = this.annotationsConfig.find((a: any) => a.type == 'band');
+        if (bandAnnotation) {
+            this.y.setUpdateDomainByOhterComponent();
+        }
 
-        let annotations = this.svg.append('g')
+        this.svg.append('g')
             .attr('class', 'annotations')
             .attr('clip-path', 'url(#' + this.config.get('proteicID') + ')');
     }
 
     public update(data: [any]) {
-        this.annotationsConfig = this.config.get('annotations');
-
-        if (typeof data === undefined || data.length == 0 ||
-            !this.annotationsConfig || !Array.isArray(this.annotationsConfig)
+        if (typeof data === undefined ||
+            data.length == 0 ||
+            !this.annotationsConfig ||
+            !Array.isArray(this.annotationsConfig) ||
+            this.annotationsConfig.length == 0
         ) {
             this.clear();
             return;
@@ -74,7 +79,7 @@ class Annotations extends Component {
             maxNumber = this.y.extent[1];
 
         let annotations = this.annotationsConfig.filter((a: any) => a.type == 'band');
-        if (annotations) {
+        if (annotations.length > 0) {
             annotations.map((annotation: any) => {
                 let variable: string = annotation.variable,
                     width: string | number = annotation.width;
@@ -94,9 +99,8 @@ class Annotations extends Component {
                     }
                 }
             });
+            this.y.updateDomainByMinMax(minNumber, maxNumber);
         }
-
-        this.y.updateDomainByMinMax(minNumber, maxNumber);
     }
 
     private makeEvents(data: [any]) {
