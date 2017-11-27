@@ -30,7 +30,7 @@ class Alerts extends Component {
 
     /**
     * The set of alertSerie (data for alerts)
-    * It even contains data that should be exited -> @see exitAlrertSerieId
+    * It even contains data that should be exited -> @see exitDataId
     * @private
     * @type {AlertsDataSet[]}
     * @memberof Alerts
@@ -43,7 +43,7 @@ class Alerts extends Component {
     * @private
     * @memberof Alerts
     */
-    private exitAlrertSerieId: number;
+    private exitDataId: number;
 
     /**
     * An array of the data which makes alert (the value is over than confidence-interval)
@@ -80,7 +80,7 @@ class Alerts extends Component {
             if (numberOfElements < maxNumberOfElements) {
                 this.numberOfCurrentData = numberOfElements;
             } else {
-                this.exitAlrertSerieId++;
+                this.exitDataId++;
             }
         }
 
@@ -112,8 +112,8 @@ class Alerts extends Component {
             this.alertsData = this.alertsData.concat(alertDatum);
         }
 
-        if (this.exitAlrertSerieId > -1) {
-            let exitAlertSerie = this.alertSeries.find((alert) => alert.dataId == this.exitAlrertSerieId);
+        if (this.exitDataId > 0) {
+            let exitAlertSerie = this.alertSeries.find((alert) => alert.dataId == this.exitDataId);
             if (exitAlertSerie) {
                 let numberOfExitElements = exitAlertSerie.alertData.length;
                 this.alertsData = this.alertsData.slice(numberOfExitElements);
@@ -185,7 +185,7 @@ class Alerts extends Component {
         this.numberOfCurrentData = 0;
         this.latestData = new LatestData();
         this.alertSeries = new Array<AlertsDataSet>();
-        this.exitAlrertSerieId = -1;
+        this.exitDataId = -1;
         this.alertsData = [];
     }
 }
