@@ -127,7 +127,12 @@ abstract class Chart {
      * @param {*} defaults Default option values for the current chart
      * @memberof Chart
      */
-    constructor(clazz: { new (...args: any[]): SvgStrategy }, data: any, userConfig: any, defaults: any) {
+    constructor(
+      clazz: { new (...args: any[]): SvgStrategy },
+      data: any,
+      userConfig: any,
+      defaults: any
+    ) {
         this.config = this.loadConfigFromUser(userConfig, defaults);
         this.config.put('proteicID', 'proteic-' + Date.now());
 
@@ -201,7 +206,7 @@ abstract class Chart {
      *
      * @memberOf Chart
      */
-    public datasource(ds: WebsocketDatasource) {
+    public datasource(ds: Datasource) {
         let subscription: Subscription = ds.subscription().subscribe(
             (data: any) => this.keepDrawing(data),
             (e: any) => this.handleWebSocketError(e)

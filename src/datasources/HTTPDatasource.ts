@@ -1,5 +1,6 @@
 import Datasource from './Datasource';
 import { request } from 'd3';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 /**
  *
@@ -9,4 +10,8 @@ import { request } from 'd3';
  * @extends {Datasource}
 
  */
-export default class HTTPDatasource extends Datasource { }
+export default class HTTPDatasource extends Datasource {
+  public subscription(): Subject<any> {
+      return null;
+  }
+}

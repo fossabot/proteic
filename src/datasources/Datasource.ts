@@ -1,4 +1,4 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import Config from '../Config';
 
 /**
@@ -12,10 +12,11 @@ import Config from '../Config';
  * @class Datasource The Datasource class
  *
  */
-class Datasource {
+abstract class Datasource {
 
     constructor() {}
-    
+
+    abstract subscription(): Observable<any>;
 }
 
 export default Datasource;

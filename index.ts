@@ -2,12 +2,16 @@ export * from './src/charts/index';
 import * as Colors from './src/utils/colors';
 
 export {
-    default as WebsocketDatasource
+  default as WebsocketDatasource
 } from './src/datasources/WebsocketDatasource';
 
 export {
-    default as HTTPDatasource
+  default as HTTPDatasource
 } from './src/datasources/HTTPDatasource';
+
+export {
+  default as GeneratorDatasource
+} from './src/datasources/GeneratorDatasource';
 
 export {
     default as Globals
@@ -22,4 +26,3 @@ export {
     getColorScales,
     getColorScale
 } from './src/utils/functions';
-
