@@ -154,8 +154,9 @@ class Alerts extends Component {
     }
 
     public clear() {
-        this.svg.selectAll('.alert').remove();
+        // this.svg.selectAll('.alert').remove();
         this.initialize();
+        this.update([]);
     }
 
     public transition() {
