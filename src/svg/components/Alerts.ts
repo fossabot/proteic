@@ -10,26 +10,47 @@ class Alerts extends Component {
     private alertsContainer: any;
 
     /**
-    * The last index of current data
+    * The number of current data elements
     * Now, alerts is only used to Linechart, and its data is concated.
-    * If data is concated, get the latest data by slicing incoming data from this index
+    * Get the latest data by slicing the number of current data from incoming data
     * @private
     * @memberof Alerts
     */
-    private currentDataIndex: number = 0;
+    private numberOfCurrentData: number;
+
+    /**
+    * The latest data sliced from concated incoming data
+    * Alerts happens for latest data over than confidence-interval
+    * Important: It assigns unique id for data-exit
+    * @private
+    * @type {LatestData}
+    * @memberof Alerts
+    */
+    private latestData: LatestData;
+
+    /**
+    * The set of alertSerie (data for alerts)
+    * It even contains data that should be exited -> @see exitAlrertSerieId
+    * @private
+    * @type {AlertsDataSet[]}
+    * @memberof Alerts
+    */
+    private alertSeries: AlertsDataSet[];
+
+    /**
+    * If data has more number of elements than max number of its,
+    * It has important role to find out-dated data
+    * @private
+    * @memberof Alerts
+    */
+    private exitAlrertSerieId: number;
 
     /**
     * An array of the data which makes alert (the value is over than confidence-interval)
     * @private
     * @memberof Alerts
     */
-    private alertsData: any[] = [];
-
-    private sliceAlrertSerieIndex: number = -1;
-
-    private alertSeries: AlertsDataSet[] = new Array<AlertsDataSet>();
-
-    private latestData: LatestData = new LatestData();
+    private alertsData: any[];
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -40,22 +61,26 @@ class Alerts extends Component {
     public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
+
+        this.initialize();
     }
 
     /**
     * Alerts only takes confidence-band into account
     */
     public update(data: any[]) {
-        this.latestData.data = data;
-        let maxNumberOfElements: number = this.config.get('maxNumberOfElements');
+        let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
+            numberOfElements: number = data.length;
 
-        if (data.length > this.currentDataIndex) {
+        this.latestData.data = data;
+
+        if (numberOfElements > this.numberOfCurrentData) {
             this.latestData.id++;
-            this.latestData.data = data.slice(this.currentDataIndex);
-            if (data.length < maxNumberOfElements) {
-                this.currentDataIndex = data.length;
+            this.latestData.data = data.slice(this.numberOfCurrentData);
+            if (numberOfElements < maxNumberOfElements) {
+                this.numberOfCurrentData = numberOfElements;
             } else {
-                this.sliceAlrertSerieIndex++;
+                this.exitAlrertSerieId++;
             }
         }
 
@@ -87,10 +112,11 @@ class Alerts extends Component {
             this.alertsData = this.alertsData.concat(alertDatum);
         }
 
-        if (this.sliceAlrertSerieIndex > -1) {
-            let sliceAlertedChunk = this.alertSeries.find((alert) => alert.chunkId == this.sliceAlrertSerieIndex);
-            if (sliceAlertedChunk) {
-                this.alertsData = this.alertsData.slice(sliceAlertedChunk.alertData.length);
+        if (this.exitAlrertSerieId > -1) {
+            let exitAlertSerie = this.alertSeries.find((alert) => alert.dataId == this.exitAlrertSerieId);
+            if (exitAlertSerie) {
+                let numberOfExitElements = exitAlertSerie.alertData.length;
+                this.alertsData = this.alertsData.slice(numberOfExitElements);
             }
         }
 
@@ -129,6 +155,7 @@ class Alerts extends Component {
 
     public clear() {
         this.svg.selectAll('.alert').remove();
+        this.initialize();
     }
 
     public transition() {
@@ -153,6 +180,14 @@ class Alerts extends Component {
                 .duration(Globals.COMPONENT_TRANSITION_TIME);
         }
     }
+
+    private initialize() {
+        this.numberOfCurrentData = 0;
+        this.latestData = new LatestData();
+        this.alertSeries = new Array<AlertsDataSet>();
+        this.exitAlrertSerieId = -1;
+        this.alertsData = [];
+    }
 }
 
 class LatestData {
@@ -163,7 +198,7 @@ class LatestData {
 class AlertsDataSet {
 
     constructor(
-        public chunkId: number,
+        public dataId: number,
         public alertData: any[],
     ) { }
 }
