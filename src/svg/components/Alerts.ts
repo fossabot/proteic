@@ -56,6 +56,8 @@ class Alerts extends Component {
     */
     private alertsData: any[];
 
+    private enterNewDataTick: number;
+
     constructor(x: XAxis, y: YAxis) {
         super();
         this.x = x;
@@ -73,6 +75,9 @@ class Alerts extends Component {
     * Alerts only takes confidence-band into account
     */
     public update(data: any[]) {
+        let enterNewDataTick = this.config.get('enterNewDataTick'),
+            detectNewData = false;
+
         let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements: number = data.length;
 
@@ -83,8 +88,11 @@ class Alerts extends Component {
             this.latestData.data = data.slice(this.numberOfCurrentData);
             if (numberOfElements < maxNumberOfElements) {
                 this.numberOfCurrentData = numberOfElements;
-            } else {
+            // The number of elements is more than max-number of its and new data arrives (need to exit old data)
+            } else if (enterNewDataTick > this.enterNewDataTick) {
+                this.enterNewDataTick = enterNewDataTick;
                 this.exitDataId++;
+                detectNewData = true;
             }
         }
 
@@ -115,7 +123,7 @@ class Alerts extends Component {
             this.alertSeries.push(new AlertsDataSet(this.latestData.id, alertSerie));
         }
 
-        if (this.exitDataId > 0) {
+        if (this.exitDataId > 0 && detectNewData == true) {
             let exitAlertSerie = this.alertSeries.find((alert) => alert.dataId == this.exitDataId);
             if (exitAlertSerie) {
                 let numberOfExitElements = exitAlertSerie.alertData.length;
@@ -228,6 +236,7 @@ class Alerts extends Component {
         this.alertSeries = new Array<AlertsDataSet>();
         this.exitDataId = -1;
         this.alertsData = [];
+        this.enterNewDataTick = 0;
     }
 }
 

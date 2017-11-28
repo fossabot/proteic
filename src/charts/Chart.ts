@@ -112,6 +112,16 @@ abstract class Chart {
     protected storedData: any[] = [];
 
     /**
+     * The tick for dectection to enter new data in streaming
+     * Now it is used for alerts, initializing in alerts method @see alert()
+     * @todo It can be used for recognizing component only relative to streaming 
+     * Updated by @see keepDrawing()
+     * @private
+     * @memberof Chart
+     */
+    private enterNewDataTick: number = null;
+
+    /**
      * Creates an instance of Chart.
      * @param {{ new (...args: any[]): SvgStrategy }} Class Reference to a specific strategy
      * @param {*} data Initial data. It can be [] or a filled array
@@ -201,6 +211,7 @@ abstract class Chart {
     }
 
     public alert(variable: string, condition: Function, callback?: Function, events?: any) {
+        this.enterNewDataTick = 0;
         this.config.put('alertVariable', variable);
         this.config.put('alertFunction', condition);
         this.config.put('alertCallback', callback);
@@ -235,6 +246,7 @@ abstract class Chart {
     }
 
     public clear() {
+        this.enterNewDataTick = 0;
         this.data = [];
         this.context.clear();
     }
@@ -268,6 +280,10 @@ abstract class Chart {
     }
 
     public keepDrawing(datum: any): void {
+        if (this.enterNewDataTick) {
+            this.config.put('enterNewDataTick', this.enterNewDataTick++);
+        }
+
         let streamingStrategy = this.config.get('streamingStrategy'),
             maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             propertyX = this.config.get('propertyX'),
