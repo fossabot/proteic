@@ -114,7 +114,7 @@ abstract class Chart {
     /**
      * The tick for dectection to enter new data in streaming
      * Now it is used for alerts, initializing in alerts method @see alert()
-     * @todo It can be used for recognizing component only relative to streaming 
+     * @todo It can be used for recognizing component only relative to streaming
      * Updated by @see keepDrawing()
      * @private
      * @memberof Chart
@@ -280,8 +280,8 @@ abstract class Chart {
     }
 
     public keepDrawing(datum: any): void {
-        if (this.enterNewDataTick) {
-            this.config.put('enterNewDataTick', this.enterNewDataTick++);
+        if (this.enterNewDataTick > -1) {
+            this.config.put('enterNewDataTick', ++this.enterNewDataTick);
         }
 
         let streamingStrategy = this.config.get('streamingStrategy'),
