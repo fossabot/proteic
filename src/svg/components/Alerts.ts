@@ -111,9 +111,8 @@ class Alerts extends Component {
             });
 
         if (alertSerie.length > 0) {
+            this.alertsData = this.alertsData.concat(alertSerie);
             this.alertSeries.push(new AlertsDataSet(this.latestData.id, alertSerie));
-            let alertDatum = this.alertSeries[this.alertSeries.length - 1].alertData;
-            this.alertsData = this.alertsData.concat(alertDatum);
         }
 
         if (this.exitDataId > 0) {
