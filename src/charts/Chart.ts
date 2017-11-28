@@ -55,14 +55,6 @@ abstract class Chart {
     protected data: any;
 
     /**
-    * Data keys for events (alerts)
-    * @private
-    * @type {Set<string>}
-    * @memberof Chart
-    */
-    private eventKeys: Set<string> = new Set<string>();
-
-    /**
      * A map containing chart subscriptions
      *
      * @private
@@ -164,10 +156,6 @@ abstract class Chart {
     public annotations(annotations: any) {
         this.config.put('annotations', annotations);
         this.strategy.addComponent('Annotations', this.config);
-        annotations.forEach((a: any) => {
-            this.eventKeys.add(a.variable);
-            this.eventKeys.add(a.width);
-        });
 
         return this;
     }
@@ -180,10 +168,7 @@ abstract class Chart {
     public statistics(statistics: any) {
         this.config.put('statistics', statistics);
         this.strategy.addComponent('Statistics', this.config);
-        statistics.forEach((s: any) => {
-            this.eventKeys.add(s.variable);
-            this.eventKeys.add(s.confidence);
-        });
+
         return this;
     }
 
@@ -303,18 +288,6 @@ abstract class Chart {
         ].filter((p) => p !== undefined);
 
         this.streamDrawing();
-
-        // Event detection
-        let events: Map<string, any> = new Map();
-        this.eventKeys.forEach((e) => {
-            if (e in datum) {
-                events.set(e, datum[e]);
-            }
-        });
-
-        if (events.size > 0) {
-            this.config.put('events', events);
-        }
 
         // Wide data to narrow and draw
         let pivotVars = this.config.get('pivotVars');
