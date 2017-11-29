@@ -22,7 +22,6 @@ class Annotations extends Component {
     private thresholdConfig: any;
     private annotationsConfig: any;
     private annotations: any;
-    private yExtent: [number, number];
 
     /**
     * Data for annotations
@@ -76,8 +75,8 @@ class Annotations extends Component {
         let propertyKey = this.config.get('propertyKey'),
             propertyY = this.config.get('propertyY');
 
-        let minNumber = this.yExtent ? this.yExtent[0] : this.y.extent[0],
-            maxNumber = this.yExtent ? this.yExtent[1] : this.y.extent[1];
+        let minNumber = this.y.extent[0],
+            maxNumber = this.y.extent[1];
 
         let annotations = this.annotationsConfig.filter((a: any) => a.type == 'band');
         if (annotations.length > 0) {
@@ -100,7 +99,6 @@ class Annotations extends Component {
                     }
                 }
             });
-            this.yExtent = [minNumber, maxNumber];
             this.y.updateDomainByMinMax(minNumber, maxNumber);
         }
     }
