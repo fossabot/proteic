@@ -73,7 +73,7 @@ class Alerts extends Component {
 
     /**
     * Alerts only takes confidence-band into account
-    * The latest data should be updated new-incoming data (not the same data) 
+    * The latest data should be updated new-incoming data (not the same data)
     */
     public update(data: any[]) {
         let enterNewDataTick = this.config.get('enterNewDataTick'),
@@ -210,9 +210,8 @@ class Alerts extends Component {
     }
 
     public clear() {
-        // this.svg.selectAll('.alert').remove();
+        this.svg.selectAll('.alert').remove();
         this.initialize();
-        this.update([]);
     }
 
     public transition() {
