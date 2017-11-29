@@ -73,6 +73,7 @@ class Alerts extends Component {
 
     /**
     * Alerts only takes confidence-band into account
+    * The latest data should be updated new-incoming data (not the same data) 
     */
     public update(data: any[]) {
         let enterNewDataTick = this.config.get('enterNewDataTick'),
@@ -81,19 +82,26 @@ class Alerts extends Component {
         let maxNumberOfElements: number = this.config.get('maxNumberOfElements'),
             numberOfElements: number = data.length;
 
-        this.latestData.data = data;
-
         if (numberOfElements > this.numberOfCurrentData) {
-            this.latestData.id++;
-            this.latestData.data = data.slice(this.numberOfCurrentData);
             if (numberOfElements < maxNumberOfElements) {
+                this.latestData.id++;
+                this.latestData.data = data.slice(this.numberOfCurrentData);
                 this.numberOfCurrentData = numberOfElements;
-            // The number of elements is more than max-number of its and new data arrives (need to exit old data)
-            } else if (enterNewDataTick > this.enterNewDataTick) {
-                this.enterNewDataTick = enterNewDataTick;
-                this.exitDataId++;
-                detectNewData = true;
+            // The number of elements is more than max-number of its
+            } else {
+                if (enterNewDataTick > this.enterNewDataTick) { // new data arrives (need to exit old data)
+                    this.latestData.id++;
+                    this.latestData.data = data.slice(this.numberOfCurrentData);
+
+                    this.enterNewDataTick = enterNewDataTick;
+                    this.exitDataId++;
+                    detectNewData = true;
+                } else {
+                    return;
+                }
             }
+        } else {
+            return;
         }
 
         let propertyX = this.config.get('propertyX'),
