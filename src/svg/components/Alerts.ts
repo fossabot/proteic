@@ -16,14 +16,14 @@ class Alerts extends Component {
     * @private
     * @memberof Alerts
     */
-    private currentDataIndex: number = 0;
+    private currentDataIndex: number;
 
     /**
     * An array of the data which makes alert (the value is over than confidence-interval)
     * @private
     * @memberof Alerts
     */
-    private alertsData: any[] = [];
+    private alertsData: any[];
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -31,9 +31,16 @@ class Alerts extends Component {
         this.y = y;
     }
 
+    private initialize() {
+        this.currentDataIndex = 0;
+        this.alertsData = [];
+    }
+
     public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
+
+        this.initialize();
     }
 
     /**
@@ -105,6 +112,7 @@ class Alerts extends Component {
     }
 
     public clear() {
+        this.initialize();
         this.svg.selectAll('.alert').remove();
     }
 
