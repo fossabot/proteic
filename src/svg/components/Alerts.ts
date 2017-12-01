@@ -2,7 +2,11 @@ import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
 import Globals from '../../Globals';
-import { easeLinear } from 'd3';
+import {
+    easeLinear,
+    map,
+    nest
+} from 'd3';
 
 class Alerts extends Component {
     private x: XAxis;
@@ -16,14 +20,14 @@ class Alerts extends Component {
     * @private
     * @memberof Alerts
     */
-    private currentDataIndex: number = 0;
+    private currentDataIndex: number;
 
     /**
     * An array of the data which makes alert (the value is over than confidence-interval)
     * @private
     * @memberof Alerts
     */
-    private alertsData: any[] = [];
+    private alertsData: any[];
 
     constructor(x: XAxis, y: YAxis) {
         super();
@@ -31,9 +35,16 @@ class Alerts extends Component {
         this.y = y;
     }
 
+    private initialize() {
+        this.currentDataIndex = 0;
+        this.alertsData = [];
+    }
+
     public render() {
         this.alertsContainer = this.svg.append('g')
             .attr('class', 'alerts');
+
+        this.initialize();
     }
 
     /**
@@ -56,7 +67,7 @@ class Alerts extends Component {
             alertCallback = this.config.get('alertCallback'),
             alertEvents = this.config.get('alertEvents');
 
-        let events = this.config.get('events');
+        let events = this.makeEvents(data);
 
         if (!alertVariable || !events) {
             return;
@@ -104,8 +115,47 @@ class Alerts extends Component {
         }
     }
 
+    private makeEvents(data: any[]): Map<string, any> {
+        let statisticsConfig = this.config.get('statistics');
+        let events: Map<string, any> = new Map(),
+            eventKeys: EventKeys = new EventKeys();
+        let propertyKey = this.config.get('propertyKey'),
+            propertyY = this.config.get('propertyY');
+
+        if (statisticsConfig) {
+            statisticsConfig.forEach((s: any) => {
+                if (s.variable) {
+                    eventKeys.variable.push(s.variable);
+                }
+                if (s.confidence) {
+                    eventKeys.confidence.push(s.confidence);
+                }
+            });
+
+            let nestedData = nest().key((d: any) => d[propertyKey]).entries(data);
+            // optimize by using key-nested data to loop only number of key times
+            nestedData.map((d) => {
+                let latestData = d.values[d.values.length - 1];
+
+                eventKeys.variable.map((v) => {
+                    if (v == latestData[propertyKey]) {
+                        events.set(v, latestData[propertyY]);
+                    }
+                });
+                eventKeys.confidence.map((c) => {
+                    if (latestData[c]) {
+                        events.set(c, latestData[c]);
+                    }
+                });
+            });
+        }
+        return events;
+    }
+
     public clear() {
         this.svg.selectAll('.alert').remove();
+
+        this.initialize();
     }
 
     public transition() {
@@ -131,5 +181,11 @@ class Alerts extends Component {
         }
     }
 }
+
+class EventKeys {
+    variable: string[] = new Array<string>();
+    confidence: string[] = new Array<string>();
+}
+
 
 export default Alerts;
