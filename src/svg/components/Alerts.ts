@@ -55,6 +55,8 @@ class Alerts extends Component {
         if (data.length > this.currentDataIndex) {
             latestData = data.slice(this.currentDataIndex);
             this.currentDataIndex = data.length;
+        } else {
+            return;
         }
 
         let propertyX = this.config.get('propertyX'),
