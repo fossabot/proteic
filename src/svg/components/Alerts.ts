@@ -2,7 +2,6 @@ import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
 import Globals from '../../Globals';
-// import onlyUnique from '../../utils/array/array';
 import {
     easeLinear,
     map,
@@ -99,6 +98,7 @@ class Alerts extends Component {
         // ENTER
         this.elementEnter = alerts.enter().append('circle')
         .attr('class', 'alert')
+        .attr('data', (d: any) => d[propertyX])
         .attr('cx', (d: any) => x(d[propertyX]))
         .attr('cy', (d: any) => y(d[propertyY]))
         .attr('r', 5)
