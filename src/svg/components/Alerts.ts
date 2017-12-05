@@ -98,8 +98,8 @@ class Alerts extends Component {
         // ENTER
         this.elementEnter = alerts.enter().append('circle')
         .attr('class', 'alert')
-        .attr('data x', (d: any) => d[propertyX])
-        .attr('data y', (d: any) => d[propertyY])
+        .attr('datax', (d: any) => d[propertyX])
+        .attr('datay', (d: any) => d[propertyY])
         .attr('cx', (d: any) => x(d[propertyX]))
         .attr('cy', (d: any) => y(d[propertyY]))
         .attr('r', 5)
