@@ -82,7 +82,7 @@ class Alerts extends Component {
         if (alertSerie.length > 0) {
             let filterAlerts: any[] = [];
             alertSerie.map((alert) => {
-                let duplicatedAlert = this.alertsData.find((datum) => alert[propertyX] == datum[propertyX]);
+                let duplicatedAlert = this.alertsData.find((datum) => alert[propertyX] <= datum[propertyX]);
                 if (!duplicatedAlert) {
                     filterAlerts.push(alert);
                 }
@@ -98,7 +98,8 @@ class Alerts extends Component {
         // ENTER
         this.elementEnter = alerts.enter().append('circle')
         .attr('class', 'alert')
-        .attr('data', (d: any) => d[propertyX])
+        .attr('data x', (d: any) => d[propertyX])
+        .attr('data y', (d: any) => d[propertyY])
         .attr('cx', (d: any) => x(d[propertyX]))
         .attr('cy', (d: any) => y(d[propertyY]))
         .attr('r', 5)
