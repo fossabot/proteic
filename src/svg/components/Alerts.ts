@@ -2,7 +2,6 @@ import Component from './Component';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
 import Globals from '../../Globals';
-// import onlyUnique from '../../utils/array/array';
 import {
     easeLinear,
     map,
@@ -81,15 +80,15 @@ class Alerts extends Component {
             });
 
         if (alertSerie.length > 0) {
-            let filterAlerts: any[] = [];
+            let validAlerts: any[] = [];
             alertSerie.map((alert) => {
                 let duplicatedAlert = this.alertsData.find((datum) => alert[propertyX] == datum[propertyX]);
                 if (!duplicatedAlert) {
-                    filterAlerts.push(alert);
+                    validAlerts.push(alert);
                 }
             });
 
-            this.alertsData = this.alertsData.concat(filterAlerts);
+            this.alertsData = this.alertsData.concat(validAlerts);
         }
 
         // JOIN new and old data
